@@ -1,6 +1,7 @@
 # Contributing
 
-> NOTE: this section was destined for AGENTS.md (issue #1) but agent writes to
+> NOTE: this section was destined for CLAUDE.md (formerly AGENTS.md, now a
+> symlink to CLAUDE.md; issue #1) but agent writes to
 > that file are policy-blocked; a human should fold it in.
 
 ## Quality gates (mandatory)
