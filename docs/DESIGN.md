@@ -14,15 +14,15 @@ colors:
   surface: "#FFFFFF"
   surfaceTwo: "#F3F1EA"
   line: "#E7E3D8"
-  accent: "#1F7A48"
-  accentSoft: "#E7F1E9"
-  energy: "#D9792C"
+  accent: "#3E63E8"
+  accentSoft: "#E9EEFC"
+  energy: "#F08A2E"
   energySoft: "#F6E8D8"
   over: "#C0483F"
   low: "#8A5514"
-  protein: "#C85A55"
-  carbs: "#D98B2B"
-  fat: "#5E8E82"
+  protein: "#6C5CE7"
+  carbs: "#F0A63C"
+  fat: "#0FA6A0"
 typography:
   display:
     fontFamily: Nunito Sans
@@ -120,20 +120,54 @@ renderer should follow.
 ## Colors
 
 - **ink (#20231E)** — warm near-black for primary text and numerals.
-- **accent (#2E8C58)** — the *single* action/on-track color. Confirm buttons,
-  "Looks right", streak, high-confidence tags, on-track ring fill.
-- **energy (#D9792C)** — calories. Headline kcal numbers, the ring when you're
-  nearing goal, the "verify" affordance.
-- **over (#C0483F)** — only when eaten exceeds goal.
-- **Macro colors** — protein rose (#C85A55), carbs amber (#D98B2B), fat sage
-  (#5E8E82). These are the only colors beyond the green/amber system.
+- **accent (#3E63E8)** — the *interaction* accent: **cobalt blue**. Confirm
+  buttons, active nav, streak, high-confidence tags; slider thumbs and
+  focus states. It is **not** a chart color and is deliberately **not green**.
+- **energy (#F08A2E)** — calories. Headline kcal numbers and the "verify"
+  affordance; the ring's near/over gradient uses this copper-amber family.
+- **over (#C0483F)** — text only when eaten exceeds goal.
+- **Macro colors (gradients)** — protein violet (#6C5CE7), carbs amber
+  (#F0A63C), fat teal (#0FA6A0), used as gradient fills (`gradProtein` /
+  `gradCarbs` / `gradFat`). No generic green/red.
 - **Neutrals** — bg (#FBFAF6), surface (#FFFFFF), surfaceTwo (#F3F1EA), line
-  (#E7E3D8), inkTwo/inkThree for muted and faint text. Hairlines, not shadows,
-  carry separation.
+  (#E7E3D8), inkTwo/inkThree for muted and faint text.
 
-Color is discipline: one accent, one calorie color, one danger state. If a new
-color is needed for a new meaning, that meaning belongs in the token table
-first, never as an ad-hoc hex in a component.
+Color is discipline: one interaction accent, a calorie color, and a cool→warm
+**status ramp** (see Charts & gradients). Charts use gradients, not flat fills.
+Add a color to the token table first, never an ad-hoc hex in a component.
+
+## Charts & gradients
+
+Charts never use flat fills. Every data element is a **gradient**:
+
+- **Macro bars** — `gradProtein` (violet), `gradCarbs` (amber), `gradFat`
+  (teal), `linear-gradient(180deg,…)`, rounded caps, ~6px tall on a surfaceTwo
+  track. The macro dot uses the same gradient.
+- **Calorie ring** — SVG `linearGradient` stroke (3-stop for richness). On target
+  `gradOn` (teal-emerald); `gradNear` (amber→copper) as you approach (>85%);
+  `gradOver` (copper-rose) when over. A soft radial glow lifts it.
+- **History bars + over/under** — a **cool→warm temperature ramp** instead of
+  generic green/red: `gradUnder` (cyan, below target) → `gradOn` (teal-emerald,
+  in the ±50 kcal zone) → `gradOver` (copper-rose, above). The dashed goal line
+  and signed delta text carry the precise value; the gradient carries the *feel*.
+- **Cards** — a faint `gradCard` (#FFFFFF → #FBF9F2) on the gauge/history
+  readout surfaces for a soft modern lift.
+
+Gradient values are defined once — in the prototype CSS and a SwiftUI
+`LinearGradient` extension — **not** in the DESIGN.md `colors:` block, which only
+takes single CSS colors. Never hard-code them per component:
+
+```css
+--grad-protein: linear-gradient(180deg,#9C8BF5,#6C5CE7);
+--grad-carbs:   linear-gradient(180deg,#FFC24B,#F0A63C);
+--grad-fat:     linear-gradient(180deg,#37D5C2,#0FA6A0);
+--grad-under:   linear-gradient(180deg,#5BD8E6,#1FA3C4);
+--grad-on:      linear-gradient(180deg,#3BC8A8,#12A98E);
+--grad-over:    linear-gradient(180deg,#F7A98C,#E0765F);
+```
+
+On native, map them to SwiftUI `LinearGradient` / `HueRotation` / `Charts`
+`LinearGradient` styling.
 
 ## Typography
 
@@ -185,6 +219,12 @@ banner. Depth is earned through tint and border, not shadow.
   (Mifflin-St Jeor → TDEE → diet goal; see `TARGETS.md`), not a manual number. The
   Targets screen shows the computed value and lets the user **confirm or adjust**;
   adjusting flips `goals.source` to `manual`.
+- **Targets screen** — a short profile form (sex, age, height, weight, activity,
+  diet goal: mono upper-case labels + number inputs + segmented toggles) above a
+  computed readout (big `t-kcal` number, `BMR … · TDEE … · <goal>` meta line, mono
+  macro line, `source: computed` tag). Actions: **Looks right** (confirm → lock,
+  `source: computed`) and **Adjust** (reveals the manual kcal/macro sliders →
+  `source: manual`); a `Use computed` ghost returns to the computed value.
 - **Tag** — monospace, 5px radius, surface bg + hairline border, inkTwo text.
   `tag-conf-high` (accent on accentSoft), `tag-conf-low` (low on energySoft).
 - **btn-confirm** (accent, white text) and **btn-ghost** (surfaceTwo, inkTwo) —
@@ -194,7 +234,20 @@ banner. Depth is earned through tint and border, not shadow.
   must always carry a `verify` tag so the tint is never the only signal.
 - **Review card** — `// agent: <reason>` note in mono plus editable kcal/P/C/F
   fields (mono inputs on surfaceTwo) with `Keep guess` (ghost) and `Looks right`
-  (confirm). Confirming flips the confidence tag to `1.00` high.
+  `(confirm)`. Confirming flips the confidence tag to `1.00` high.
+- **History screen** — a `calories vs goal` bar chart with a **7 / 30 day**
+  range toggle (bars scaled to the range's max, dashed goal line at the computed
+  target, red = over / green = at-or-under, outlined bar = today), a summary
+  strip (avg kcal, days over, day streak), and a **Days vs goal** list where each
+  day shows kcal vs goal and a signed mono **delta** with a state word
+  (**under / on target / over**) — the over/under framing, not "over/under eat".
+  **Tap a day to open it** (drill-down: that day's kcal, macro split, and items
+  for today; past-day macros derive from the total via the 30/45/25 split).
+- **Liquid-glass tab bar** — the bottom nav is a floating, translucent frosted
+  pill (`rgba(255,255,255,.55)` + `backdrop-filter: blur(22px) saturate(1.6)`,
+  rounded 22px, hairline border, soft shadow) pinned to the bottom of the app
+  column; content scrolls behind it. This is the native-iOS "liquid glass" tab
+  bar (see Native implementation below).
 
 ## Do's and Don'ts
 
@@ -202,8 +255,11 @@ banner. Depth is earned through tint and border, not shadow.
 - Show exactly what the agent wrote: source, confidence, unit, per-item macros.
 - Make the trust affordance (needs-review / verify) a first-class element.
 - Use mono only for data vocabulary; use tabular numerals for all numbers.
-- Keep ONE accent (green) and ONE calorie color (amber); red only for over-goal.
+- Keep ONE interaction accent and ONE calorie color; encode over/under with the
+  cool→warm ramp, not generic green/red.
 - Separate with hairlines and tints, not shadows and decorations.
+- Charts use gradient fills; encode over/under as a cool→warm ramp, never
+  generic green/red.
 
 **Don't**
 - Don't build a chat UI, a feed, or any in-app AI surface — out of scope by design.
@@ -212,3 +268,38 @@ banner. Depth is earned through tint and border, not shadow.
 - Don't invent colors ad-hoc — add the token, then use it.
 - Don't decorate low-confidence with an accent rail or an icon; a tint + `verify`
   tag + the reason is the honest treatment.
+
+## Native implementation (SwiftUI)
+
+This prototype is a **web reference**, not the shipped UI. The real Morsel
+dashboard is a **SwiftUI** native app (`app/`) and must use **SwiftUI + Apple
+native components** so it reads as a platform app — not a ported web mockup.
+Map each design element to its native equivalent:
+
+| Design (this doc) | SwiftUI implementation |
+|---|---|
+| Liquid-glass tab bar | `TabView` with a glass `toolbarBackground`, or a custom `.regularMaterial` capsule overlay; SF Symbols for icons (`chart.bar`, `list.bullet`, `checkmark.seal`, `slider.horizontal.3`) |
+| Calorie gauge / ring | `Circle` stroke with `trim(to:)` progress arc + `Text` center |
+| Macro split | `HStack` of label/value rows, or a `Gauge`/`ProgressView` per macro |
+| Meals log | `List` / `ScrollView` + `LazyVStack` with `Divider` hairlines |
+| Confidence tag | small `Text` capsule (`.caption` mono) — use `monospaced()` for data |
+| Item row | `HStack` (name + portion, macro `Text`, kcal) |
+| Needs-review / verify | coloured row tint + `Button` ("Looks right") |
+| Profile / Targets | `Form` or `ScrollView`: segmented `Picker` for sex & diet goal, `TextField` (`.numberPad`) for age/height/weight, `Picker` for activity, live confirm/adjust `Button`s |
+| Range toggle 7/30 | segmented `Picker` |
+| Day drill-down | a `Sheet`/`NavigationLink` per day, or an expandable row |
+
+Keep the **design tokens** in this file as the single source; expose them to
+SwiftUI via an asset catalog / `Color`+`Font` extension so the native app and the
+web reference stay in lockstep. The app is **read-only** (no chat, no AI) — it
+renders the store the agent wrote.
+
+## Server snapshot renderer (Tier 1)
+
+`get_dashboard_summary` (and `get_day`) should emit this same chart as the
+`image` content block (`{ type:"image", data:<base64 png>, mimeType:"image/png" }`)
+per `IN_CHAT_RENDER.md`, so the in-chat chart and the app agree. The renderer
+output should match the **History chart** here: bars scaled to the range's max,
+a dashed goal line at the computed target, red = over / green = at-or-under,
+with a `markdown` `text` block fallback (summary + delta list) for clients that
+can't render images. One dataset, many views.
