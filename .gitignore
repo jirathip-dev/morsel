@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Node / Bun
+node_modules
+dist
+*.local
+bun.lockb.orig
+
+# Environment — keep the committed template only
+.env*
+!.env.example
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?
+
+# Xcode user/build state (per-machine, not project config)
+xcuserdata/
+.swiftpm/
+DerivedData/
+*.xcuserstate
+# SwiftPM build output
+.build/
+
+# Supabase local state
+supabase/.temp/
+supabase/.branches/
+
+# Agent process artifacts (never committed)
+HANDOFF.md
+BRIEF.md
+REVIEW.md
+.worktrees/
+.agent-runs/

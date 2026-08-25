@@ -43,10 +43,12 @@ morsel/
 - [TARGETS](docs/TARGETS.md) — computed calorie/macro goal from body metrics
 - [IN_CHAT_RENDER](docs/IN_CHAT_RENDER.md) — Tier-1 snapshot rendering inside Claude/GPT
 - [ROADMAP](docs/ROADMAP.md) — milestones
-- [AGENTS.md](AGENTS.md) — context for any agent working in this repo
+- [CLAUDE.md](CLAUDE.md) — context for any agent working in this repo (`AGENTS.md` is a symlink to it)
 
 ## Status
-Design scaffold. Working name `morsel` (rename freely — it's a folder + a README).
+Design scaffold with quality guardrails in place (strict TypeScript, anti-slop
+ESLint + SwiftLint, CI on every PR). Working name `morsel` (rename freely —
+it's a folder + a README).
 
 ## License
-MIT (proposed). Starting scaffold, not yet published.
+MIT — see [LICENSE](LICENSE).
