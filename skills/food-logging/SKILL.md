@@ -190,8 +190,9 @@ Output:
 }
 ```
 
-`goal` and `remaining_kcal` are omitted until a profile exists. A negative
-`remaining_kcal` means the calorie target has been exceeded.
+`goal` and `remaining_kcal` are omitted only when there is neither a profile nor
+a complete manual goal. A complete manual goal works without a profile. A
+negative `remaining_kcal` means the calorie target has been exceeded.
 
 ### `get_dashboard_summary`
 
@@ -235,9 +236,11 @@ so the field may be empty.
 `set_profile` takes that same object as input and requires every field except
 `goal_weight_kg`. It returns `{ ok: true, saved: true }`.
 
-If no profile exists, `get_profile` errors with `not_found`, while
-`compute_targets` and `get_goals` error with `profile_required`. `get_day` is
-the graceful read: it omits `goal` and `remaining_kcal` instead.
+If no profile exists, `get_profile` errors with `not_found` and
+`compute_targets` errors with `profile_required`. `get_goals` returns a complete
+manual goal without a profile; otherwise it errors with `profile_required` when
+no profile exists. `get_day` omits `goal` and `remaining_kcal` only when there
+is neither a profile nor a complete manual goal.
 
 `compute_targets` returns:
 
@@ -254,7 +257,8 @@ the graceful read: it omits `goal` and `remaining_kcal` instead.
 
 `get_goals` takes `{}` and returns the effective target with the same four
 target fields plus `source: "computed" | "manual"`. Use this when a standalone
-target is needed; `get_day` includes the same effective goal when a profile
+target is needed; it returns a complete manual goal without a profile. `get_day`
+includes the same effective goal whenever a profile or complete manual goal
 exists. This is the target that the dashboard gauge and "did I hit today's
 target?" should display.
 
@@ -310,15 +314,17 @@ not create a second log for the same sitting.
 - "Did I hit today's target?": call `get_day` first for today's UTC calendar
   date; use its `goal` and `remaining_kcal` when present, and report consumed
   versus the effective target, remaining or overage, and macro totals. If the
-  goal is omitted, there is no profile; offer `set_profile` rather than calling
-  a target tool without the required profile. "Today" means UTC here; if a
-  user's late-evening or early-morning local day looks empty, check the
+  goal is omitted, there is neither a profile nor a complete manual goal; offer
+  `set_profile` or provide all four values to `set_goals`. A complete manual goal
+  can also be read with `get_goals` without a profile. "Today" means UTC here;
+  if a user's late-evening or early-morning local day looks empty, check the
   adjacent UTC date too.
 - "Am I on track this week?": call `get_dashboard_summary({ days: 7 })` and
   summarize average calories, streak, and macro grams; include `weight_trend`
   only if it is non-empty.
-- "What should I eat?": call `get_day` and use `get_goals` only when a profile
-  exists, then use `search_food` for concrete options that fit the remaining
+- "What should I eat?": call `get_day` and use `get_goals` when a standalone
+  target is needed; it works without a profile when a complete manual goal
+  exists. Then use `search_food` for concrete options that fit the remaining
   values. Never present unknown macros as exact or as medical advice.
 - Wrong item: call `update_meal_item` with its `item_id` and at least one
   supported correction field. Wrong whole meal: call `delete_meal_log` with its
