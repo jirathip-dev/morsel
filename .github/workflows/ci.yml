@@ -1,0 +1,54 @@
+# Quality gate — lint, typecheck, tests, build. ubuntu-latest ONLY (free
+# pool; no Blacksmith/macOS until app/ has a real Xcode build to gate).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Tests
+        run: npm test
+
+      # No bundler yet — build proves the TS program compiles (tsc --noEmit).
+      - name: Build
+        run: npm run build
+
+  swiftlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SwiftLint (skips cleanly while app/ has no Swift sources)
+        run: |
+          if ! find app -name '*.swift' -print -quit | grep -q .; then
+            echo "No Swift sources under app/ yet — skipping SwiftLint."
+            exit 0
+          fi
+          docker run --rm -v "$PWD":/work -w /work \
+            ghcr.io/realm/swiftlint:latest swiftlint lint --strict

@@ -44,7 +44,9 @@ morsel/
 - [AGENTS.md](AGENTS.md) — context for any agent working in this repo
 
 ## Status
-Design scaffold. Working name `morsel` (rename freely — it's a folder + a README).
+Design scaffold with quality guardrails in place (strict TypeScript, anti-slop
+ESLint + SwiftLint, CI on every PR). Working name `morsel` (rename freely —
+it's a folder + a README).
 
 ## License
-MIT (proposed). Starting scaffold, not yet published.
+MIT — see [LICENSE](LICENSE).
