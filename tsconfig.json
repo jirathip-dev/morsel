@@ -14,5 +14,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["packages", "server"]
+  "include": ["packages", "server", "db"]
 }

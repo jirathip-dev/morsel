@@ -22,15 +22,19 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 | `compute_targets` | read | BMR/TDEE + kcal + macro split derived from profile. |
 | `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
 | `set_goals` | write | Manual override (marks `source='manual'`). |
-| `log_water` / `log_weight` | write | v1.1 extras. |
+| `log_water` / `log_weight` | write | v1.1 extras; not registered by the v0.1 server. |
 
 ## Tool schemas
 
 ### `log_meal`
 
 **Purpose:** record a meal. When the user uploads a food photo, the agent does
-vision → fills `items[]` → calls this. `source` is set internally by the server
-from what the agent passed (allow `photo_vision`).
+vision → fills `items[]` → calls this. `source` is set internally by the server:
+`photo_vision` when `image_url` is present, `barcode` when an item has a barcode
+but no image, and `manual` otherwise.
+
+The server writes the meal log and every item through one database transaction;
+an RPC failure leaves no partial meal rows.
 
 **Input**
 ```json
@@ -55,14 +59,14 @@ from what the agent passed (allow `photo_vision`).
           "fiber_g":     { "type": "number" },
           "sugar_g":     { "type": "number" },
           "barcode":     { "type": "string" },
-          "food_ref_id": { "type": "string", "description": "Link to food_catalog/OpenNutrition id for exact macros" },
+          "food_ref_id": { "type": "string", "format": "uuid", "description": "Link to a food_catalog row for exact macros" },
           "confidence":  { "type": "number", "minimum": 0, "maximum": 1, "description": "0..1 how sure the agent is. Low = user should review." },
           "notes":       { "type": "string", "description": "Agent reasoning, e.g. 'approx, shared plate'" }
         }
       }
     },
     "notes":     { "type": "string" },
-    "image_url": { "type": "string", "description": "Public URL of the uploaded food photo, if any" }
+    "image_url": { "type": "string", "format": "uri", "description": "Public HTTPS URL of the food photo, if any" }
   },
   "required": ["meal_type", "items"]
 }
@@ -105,6 +109,8 @@ log_meal({
 **Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string" }`
 **Output** `{ "ok": true, "updated": true }`
 
+At least one optional field must be supplied with `item_id`.
+
 ### `delete_meal_log`
 
 **Input** `{ "meal_log_id": "uuid" }`
@@ -113,12 +119,20 @@ log_meal({
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD" }`
-**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ ... ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", ... }, "remaining_kcal": number }`
+**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number }`
+
+`goal` and `remaining_kcal` are omitted only when there is neither a profile nor
+a complete manual goal. A complete manual goal can be used without a profile.
+The v0.1 server interprets `date` as a UTC calendar day.
 
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
 **Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ] }`
+
+`avg_calories_kcal` is averaged across the requested calendar range;
+`macro_split` is the summed gram total for that range, and `streak_days` counts
+consecutive days ending today that contain at least one meal.
 
 ### `get_profile`
 
@@ -139,9 +153,16 @@ Formula (Mifflin-St Jeor → activity factor → diet goal) in [`TARGETS.md`](TA
 the computed default unless the user set a manual override.
 **Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual" }`
 
+A complete manual goal is readable even when no profile has been set. A profile
+is required when the stored goal is computed or incomplete.
+
 ### `set_goals`
 
 **Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
+
+Omitted values retain the current effective values. Without a profile, provide
+all four values to create a complete manual goal; a profile is required for
+computed or fallback values.
 
 ## Principles for the agent
 
@@ -152,3 +173,11 @@ the computed default unless the user set a manual override.
   `log_meal` net-new items.
 - **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
   add a `notes` string. The human corrects it later in the dashboard.
+
+## v0.1 image limitation
+
+The contract calls the field `image_url`, while the existing database column is
+`meal_logs.image_path`. The v0.1 server stores the HTTPS URL string in that
+column as a reference. It does not fetch or upload the image and does not claim
+that the URL is durable; the Supabase Storage upload policy in the data model
+remains a later implementation step.

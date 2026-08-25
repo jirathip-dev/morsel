@@ -37,7 +37,7 @@ Defaults live in `db/migrations/0002_targets.sql` (`public.compute_targets()`).
 |---|---|
 | `get_profile` | read the body metrics |
 | `set_profile` | upsert body metrics |
-| `get_targets` | computed BMR/TDEE/kcal + macros (via `compute_targets`) |
+| `compute_targets` | computed BMR/TDEE/kcal + macros (via `public.compute_targets()`) |
 | `get_goals` | **effective** targets (computed default, or manual override) + `source` |
 | `set_goals` | manual override (sets `source='manual'`) |
 
