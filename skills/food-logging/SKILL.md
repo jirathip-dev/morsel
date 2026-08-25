@@ -55,7 +55,9 @@ Never create a new log to "fix" an old one — that double-counts.
 ## Answering the user's questions
 
 **Did I hit today's target?**
-1. `get_goals` → targets; `get_day` (today) → consumed totals.
+1. `get_goals` → **effective** targets (computed from the profile, or a manual override);
+   `get_day` (today) → consumed totals.
+   - If no profile is set yet, offer to add one (`set_profile`) so the target is computed, not guessed.
 2. Reply with: consumed vs target, remaining (or over), plus protein/carbs/fat
    split if asked. Keep it to a few lines.
 3. If nothing is logged today, say so plainly, then offer to log a meal.

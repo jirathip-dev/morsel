@@ -8,7 +8,8 @@ This doc is the narrative version.
 | Table | Purpose | Key link |
 |---|---|---|
 | `users` | one row per account | — |
-| `goals` | current calorie/macro targets (1 per user) | `user_id` |
+| `profiles` | body metrics driving a **computed** target (age, sex, height, weight, activity, diet goal) | `user_id` |
+| `goals` | **effective** calorie/macro targets; computed from profile unless overridden (`source`) | `user_id` |
 | `meal_logs` | a meal session; **one photo = one log** | `user_id` |
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
 | `water_logs` | optional, v1.1 | `user_id` |
@@ -24,6 +25,13 @@ users 1 ──▶ N meal_logs 1 ──▶ N meal_items
 This matches the agent's mental model: an uploaded photo of a bowl of rice,
 chicken, and vegetables is ONE `meal_log` with THREE `meal_items`. The `log_meal`
 tool takes an `items[]` array for exactly this reason.
+
+## Targets are computed
+
+The calorie/macro goal is **derived from the profile**, not a blank manual number.
+`profiles` holds body metrics; `goals` holds the *effective* target plus a
+`source` (`computed` | `manual`). See [`TARGETS.md`](TARGETS.md) for the formula
+(Mifflin-St Jeor → activity factor → diet goal) and the review-and-adjust flow.
 
 ## Enums (CHECK constraints)
 

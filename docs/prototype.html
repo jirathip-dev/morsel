@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morsel — Today</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     MORSEL — readout, not showcase.
+     It is a data store + read-only dashboard + agent skill (no chat).
+     This UI renders what the agent wrote, honestly: source, confidence,
+     unit, per-item macros, and a needs-review affordance for low conf.
+     Surface: Monitor (today) / Operate (review) / Configure (goals).
+     ============================================================ */
+  :root{
+    --bg:#FBFAF6;            /* warm neutral ground */
+    --surface:#FFFFFF;
+    --surface-2:#F3F1EA;
+    --ink:#20231E;           /* warm near-black */
+    --ink-2:#666A60;
+    --ink-3:#9BA095;
+    --line:#E7E3D8;          /* hairline */
+    --accent:#1F7A48;        /* green — on track / confirm (single accent) */
+    --accent-soft:#E7F1E9;
+    --energy:#D9792C;        /* amber — calories */
+    --energy-soft:#F6E8D8;
+    --over:#C0483F;          /* over goal / danger */
+    --low:#8A5514;           /* low-confidence / review */
+    --protein:#C85A55;
+    --carbs:#D98B2B;
+    --fat:#5E8E82;
+    --r:12px;
+    --ui:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:var(--bg)}
+  body{font-family:var(--ui);color:var(--ink);min-height:100vh}
+  .num{font-variant-numeric:tabular-nums}
+  .mono{font-family:var(--mono);font-size:11px;color:var(--ink-3);letter-spacing:.01em}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  .app{max-width:430px;margin:0 auto;padding:24px 18px 108px}
+  @media (max-width:460px){.app{padding:20px 16px 104px}}
+
+  /* ---- top ---- */
+  .top{display:flex;align-items:baseline;justify-content:space-between;margin:4px 2px 18px}
+  .brand{font-size:15px;font-weight:800;letter-spacing:.02em}
+  .top .meta{display:flex;align-items:baseline;gap:10px}
+  .date{font-size:13px;color:var(--ink-2);font-weight:600}
+  .streak{font-size:11.5px;color:var(--accent);font-weight:700}
+  .title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 2px 4px}
+  .sub{color:var(--ink-2);font-size:13px;margin:0 0 16px 2px;line-height:1.4}
+
+  /* ---- goal gauge ---- */
+  .gauge{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    padding:16px;display:flex;gap:16px;align-items:center;
+  }
+  .g-ring{position:relative;width:118px;height:118px;flex:none}
+  .g-ring svg{transform:rotate(-90deg)}
+  .g-track{stroke:var(--surface-2)}
+  .g-fill{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1),stroke .3s}
+  .g-ring.near .g-fill{stroke:var(--energy)}
+  .g-ring.over .g-fill{stroke:var(--over)}
+  .g-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .g-center .num{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .g-center .u{font-size:10.5px;color:var(--ink-3);font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:.03em}
+  .g-copy{flex:1;min-width:0}
+  .g-tot{font-size:12.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .g-tot b{color:var(--ink);font-weight:800}
+  .g-tot .rem{color:var(--accent)}
+  .g-tot .rem.over{color:var(--over)}
+  .macros{margin-top:12px;display:grid;gap:8px}
+  .macro{display:grid;grid-template-columns:14px 40px 1fr;align-items:center;gap:8px}
+  .macro .dot{width:9px;height:9px;border-radius:2px}
+  .macro .lab{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);font-weight:500}
+  .macro .track{height:4px;border-radius:2px;background:var(--surface-2);overflow:hidden}
+  .macro .track i{display:block;height:100%;border-radius:2px;width:0;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+  .macro .vals{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);text-align:right;white-space:nowrap}
+
+  /* ---- section heads ---- */
+  .shead{display:flex;justify-content:space-between;align-items:baseline;margin:24px 2px 10px}
+  .shead h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);margin:0}
+  .shead span{font-size:12px;color:var(--ink-2)}
+
+  /* ---- meal group (the log) ---- */
+  .meal{border-top:1px solid var(--line)}
+  .m-head{display:flex;align-items:baseline;gap:8px;padding:12px 2px 8px}
+  .m-head .t{font-size:14px;font-weight:800;text-transform:capitalize}
+  .m-head .time{font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
+  .m-head .kcal{margin-left:auto;font-size:14px;font-weight:800;color:var(--energy)}
+  .m-head .kcal small{font-size:10px;color:var(--ink-3);font-weight:600}
+  .row{display:flex;align-items:flex-start;gap:10px;padding:9px 2px;border-top:1px solid #F0EDE3}
+  .row:first-child{border-top:none}
+  .row.low{background:linear-gradient(to right,var(--energy-soft),transparent 72%);border-radius:6px;padding:9px 8px}
+  .row .r-l{flex:1;min-width:0}
+  .row .name{font-size:14.5px;font-weight:700;line-height:1.25}
+  .row .name em{font-style:normal;font-size:12px;color:var(--ink-2);font-weight:600;margin-left:6px}
+  .row .meta{margin-top:3px}
+  .row .flags{margin-top:5px;display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:2px 6px;border-radius:5px;border:1px solid var(--line);color:var(--ink-2);background:#fff}
+  .tag.conf{color:var(--ink-2)}
+  .tag.conf.hi{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-soft)}
+  .tag.conf.lo{color:var(--low);border-color:var(--energy-soft);background:var(--energy-soft)}
+  .tag.src{font-family:var(--mono)}
+  .row .kcal{font-size:14px;font-weight:800;letter-spacing:-.01em;flex:none;padding-top:1px}
+  .row .kcal small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-3);font-weight:400;text-align:right;margin-top:1px}
+
+  /* ---- needs review ---- */
+  .review-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+  .review-card .rc{display:flex;gap:14px;align-items:center}
+  .review-card .r-l{flex:1;min-width:0}
+  .review-card .name{font-size:14.5px;font-weight:800}
+  .review-card .note{font-size:12px;color:var(--low);margin-top:2px;line-height:1.4}
+  .review-card .note .m{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+  .review-card .btns{display:flex;gap:8px;flex:none}
+  .btn{height:40px;padding:0 14px;border-radius:8px;border:none;font-family:var(--ui);font-size:13px;font-weight:700;cursor:pointer;transition:transform .1s,background .2s}
+  .btn:active{transform:scale(.98)}
+  .btn.ghost{background:var(--surface-2);color:var(--ink-2)}
+  .btn.confirm{background:var(--accent);color:#fff}
+  .btn.confirm:hover{background:#27784a}
+  .btn.ghost:hover{background:#EBE8DF}
+
+  /* ---- water ---- */
+  .water{display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
+  .water .wl{font-size:14px;font-weight:700}
+  .water .wn{font-size:12px;color:var(--ink-2);margin-left:auto;font-family:var(--mono)}
+  .glasses{display:flex;gap:5px;margin-top:10px}
+  .glass{flex:1;height:26px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);position:relative;overflow:hidden}
+  .glass i{display:block;position:absolute;left:0;right:0;bottom:0;background:#6FA7C6;height:0;transition:height .5s ease}
+  .glass.full i{height:100%}
+
+  /* ---- review / goals screens ---- */
+  .rx-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+  .rx-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .rx-head .nm{font-size:16px;font-weight:800}
+  .rx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .rx-f{background:var(--surface-2);border-radius:8px;padding:8px 10px}
+  .rx-f label{display:block;font-family:var(--mono);font-size:9.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.04em}
+  .rx-f input{width:100%;border:none;background:transparent;font-family:var(--mono);font-size:15px;font-weight:500;color:var(--ink);padding:2px 0 0;margin:0;outline:none;font-variant-numeric:tabular-nums}
+  .rx-note{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-bottom:12px;line-height:1.4}
+  .rx-actions{display:flex;gap:8px}
+  .rx-actions .btn{flex:1}
+
+  .goal-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px}
+  .goal-card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .goal-card .name{font-size:14px;font-weight:700}
+  .goal-card .val{font-size:20px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .goal-card .unit{font-size:12px;color:var(--ink-2);font-weight:600}
+  input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--surface-2);margin-top:14px;outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2.5px solid var(--accent);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+  .fineprint{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:10px}
+
+  /* ---- nav ---- */
+  .nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 0 16px;max-width:430px;margin:0 auto}
+  .nav-item{background:none;border:none;font-family:var(--ui);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--ink-3);cursor:pointer;width:76px;padding:0}
+  .nav-item svg{stroke:currentColor;fill:none;stroke-width:1.7}
+  .nav-item.active{color:var(--accent)}
+  @media (min-width:430px){.nav{left:50%;transform:translateX(-50%);width:430px}}
+
+  /* ---- screen switching ---- */
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .2s ease-out}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<main class="app">
+  <!-- ===== TODAY ===== -->
+  <section class="screen active" id="screen-today">
+    <div class="top"><span class="brand">morsel</span><span class="meta"><span class="date">Tue, Aug 25</span><span class="streak">6-day streak</span></span></div>
+
+    <div class="gauge">
+      <div class="g-ring" id="ring">
+        <svg width="118" height="118" viewBox="0 0 118 118">
+          <circle class="g-track" cx="59" cy="59" r="50" fill="none" stroke-width="10"></circle>
+          <circle class="g-fill" id="ringFill" cx="59" cy="59" r="50" fill="none" stroke-width="10" stroke-dasharray="314.2" stroke-dashoffset="314.2"></circle>
+        </svg>
+        <div class="g-center"><div class="num" id="remaining">1,130</div><div class="u">left</div></div>
+      </div>
+      <div class="g-copy">
+        <div class="g-tot">Eaten <b id="eaten">970</b> · Goal <b>2,100</b><span class="rem" id="rem">· 1,130 left</span></div>
+        <div class="macros">
+          <div class="macro"><span class="dot" style="background:var(--protein)"></span><span class="lab">PROTEIN</span><span class="track"><i style="background:var(--protein)" id="bP"></i></span><span class="vals" id="vP">69 / 140g</span></div>
+          <div class="macro"><span class="dot" style="background:var(--carbs)"></span><span class="lab">CARBS</span><span class="track"><i style="background:var(--carbs)" id="bC"></i></span><span class="vals" id="vC">98 / 230g</span></div>
+          <div class="macro"><span class="dot" style="background:var(--fat)"></span><span class="lab">FAT</span><span class="track"><i style="background:var(--fat)" id="bF"></i></span><span class="vals" id="vF">35 / 70g</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="shead"><h2>Today's log</h2><span>3 meals · 970 kcal</span></div>
+
+    <section class="meals">
+      <div class="meal">
+        <div class="m-head"><span class="t">Breakfast</span><span class="time">8:12</span><span class="kcal">290 <small>kcal</small></span></div>
+        <div class="row">
+          <div class="r-l"><div class="name">Greek yogurt &amp; granola <em>1 bowl</em></div>
+            <div class="meta mono">P24 C30 F9</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf hi">0.90</span></div></div>
+          <div class="kcal">250<small>kcal</small></div>
+        </div>
+        <div class="row">
+          <div class="r-l"><div class="name">Coffee with oat milk <em>1 cup</em></div>
+            <div class="meta mono">P1 C4 F2</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf hi">0.92</span></div></div>
+          <div class="kcal">40<small>kcal</small></div>
+        </div>
+      </div>
+
+      <div class="meal">
+        <div class="m-head"><span class="t">Lunch</span><span class="time">12:36</span><span class="kcal">510 <small>kcal</small></span></div>
+        <div class="row">
+          <div class="r-l"><div class="name">Jasmine rice <em>1 serving</em></div>
+            <div class="meta mono">C48</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf hi">0.90</span></div></div>
+          <div class="kcal">220<small>kcal</small></div>
+        </div>
+        <div class="row">
+          <div class="r-l"><div class="name">Grilled chicken <em>120 g</em></div>
+            <div class="meta mono">P38 F5</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf hi">0.85</span></div></div>
+          <div class="kcal">200<small>kcal</small></div>
+        </div>
+        <div class="row low">
+          <div class="r-l"><div class="name">Stir-fried veg <em>1 serving</em></div>
+            <div class="meta mono">C10 F4</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf lo">0.70</span><span class="tag" style="color:var(--low);border-color:var(--energy-soft);background:var(--energy-soft)">verify</span></div></div>
+          <div class="kcal">90<small>kcal</small></div>
+        </div>
+      </div>
+
+      <div class="meal">
+        <div class="m-head"><span class="t">Snack</span><span class="time">15:44</span><span class="kcal">170 <small>kcal</small></span></div>
+        <div class="row">
+          <div class="r-l"><div class="name">Almonds <em>30 g</em></div>
+            <div class="meta mono">P6 C6 F15</div><div class="flags"><span class="tag src">manual</span><span class="tag conf hi">1.00</span></div></div>
+          <div class="kcal">170<small>kcal</small></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="shead"><h2>Needs review</h2></div>
+    <div class="review-card" data-action-card>
+      <div class="rc">
+        <div class="r-l"><div class="name">Stir-fried veg</div>
+          <div class="note">0.70 confidence — <span class="m">approx, shared plate</span></div></div>
+        <div class="btns"><button class="btn ghost" data-open="review">Edit</button><button class="btn confirm" data-confirm>Looks right</button></div>
+      </div>
+    </div>
+
+    <div class="shead"><h2>Hydration</h2></div>
+    <section class="water">
+      <span class="wl">Water</span><span class="wn">4 / 8 glasses</span>
+    </section>
+    <div class="glasses">
+      <div class="glass full"><i></i></div><div class="glass full"><i></i></div><div class="glass full"><i></i></div><div class="glass full"><i></i></div>
+      <div class="glass"><i></i></div><div class="glass"><i></i></div><div class="glass"><i></i></div><div class="glass"><i></i></div>
+    </div>
+  </section>
+
+  <!-- ===== REVIEW ===== -->
+  <section class="screen" id="screen-review">
+    <div class="top"><span class="brand">morsel</span><span class="meta"><span class="date">Confidence check</span></span></div>
+    <div class="title">Verify estimates</div>
+    <p class="sub">Items the agent logged at low confidence. Confirm or correct — the fix writes back to your store.</p>
+
+    <div class="rx-card">
+      <div class="rx-head"><div class="nm">Stir-fried veg</div><span class="tag conf lo">0.70</span></div>
+      <div class="rx-grid">
+        <div class="rx-f"><label>kcal</label><input type="number" value="90"></div>
+        <div class="rx-f"><label>protein</label><input type="number" value="2"></div>
+        <div class="rx-f"><label>carbs</label><input type="number" value="10"></div>
+        <div class="rx-f"><label>fat</label><input type="number" value="4"></div>
+      </div>
+      <div class="rx-note">// agent: approx, shared plate. verify.</div>
+      <div class="rx-actions"><button class="btn ghost" data-keep>Keep guess</button><button class="btn confirm" data-confirm>Looks right</button></div>
+    </div>
+
+    <div class="rx-card">
+      <div class="rx-head"><div class="nm">Almonds</div><span class="tag conf hi">0.95</span></div>
+      <div class="rx-grid">
+        <div class="rx-f"><label>kcal</label><input type="number" value="170"></div>
+        <div class="rx-f"><label>protein</label><input type="number" value="6"></div>
+        <div class="rx-f"><label>carbs</label><input type="number" value="6"></div>
+        <div class="rx-f"><label>fat</label><input type="number" value="15"></div>
+      </div>
+      <div class="rx-note">// agent: weighed portion. high confidence.</div>
+      <div class="rx-actions"><button class="btn ghost" data-keep>Keep</button><button class="btn confirm" data-confirm>Looks right</button></div>
+    </div>
+  </section>
+
+  <!-- ===== GOALS ===== -->
+  <section class="screen" id="screen-goals">
+    <div class="top"><span class="brand">morsel</span><span class="meta"><span class="date">Diet targets</span></span></div>
+    <div class="title">Goals</div>
+    <p class="sub">Daily calorie and macro targets read by <span class="mono">get_goals</span>. Demo values — writing to Supabase is out of scope for this prototype.</p>
+
+    <div class="goal-card"><div class="top"><span class="name">Calories</span><span class="val" data-val="kcal">2,100<span class="unit"> kcal</span></span></div><input type="range" min="1200" max="3500" step="50" value="2100" data-target="kcal"></div>
+    <div class="goal-card"><div class="top"><span class="name">Protein</span><span class="val" data-val="protein">140<span class="unit"> g</span></span></div><input type="range" min="40" max="250" step="5" value="140" data-target="protein"></div>
+    <div class="goal-card"><div class="top"><span class="name">Carbs</span><span class="val" data-val="carbs">230<span class="unit"> g</span></span></div><input type="range" min="50" max="400" step="5" value="230" data-target="carbs"></div>
+    <div class="goal-card"><div class="top"><span class="name">Fat</span><span class="val" data-val="fat">70<span class="unit"> g</span></span></div><input type="range" min="20" max="150" step="5" value="70" data-target="fat"></div>
+    <p class="fineprint">Targets are sample — the visual sets the pattern for <span class="mono">set_goals</span>.</p>
+  </section>
+</main>
+
+<!-- nav -->
+<nav class="nav">
+  <button class="nav-item active" data-screen="today">
+    <svg width="21" height="21" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Today</button>
+  <button class="nav-item" data-screen="review">
+    <svg width="21" height="21" viewBox="0 0 24 24"><path d="M12 2v8M4.9 6a9 9 0 1 0 14.2 0"/><circle cx="12" cy="17" r="1.4" fill="currentColor"/></svg>Review</button>
+  <button class="nav-item" data-screen="goals">
+    <svg width="21" height="21" viewBox="0 0 24 24"><path d="M4 21h16M6 21V10M12 21V4M18 21v-6"/></svg>Goals</button>
+</nav>
+
+<script>
+  // ---- tabs ----
+  const screens={today:'screen-today',review:'screen-review',goals:'screen-goals'};
+  document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(screens[b.dataset.screen]).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.toggle('active',x.dataset.screen===b.dataset.screen));
+  }));
+  document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen-review').classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(x=>x.classList.toggle('active',x.dataset.screen==='review'));
+  }));
+
+  // ---- gauge ----
+  const GOAL=2100,EATEN=970,CIRC=314.2;
+  function pct(g,goal){return g>goal?1:g/goal}
+  const ring=document.getElementById('ring'),fill=document.getElementById('ringFill');
+  let mode='under';
+  function setRing(e,goal){
+    fill.setAttribute('stroke-dashoffset',(CIRC*(1-pct(e,goal))).toFixed(1));
+    ring.classList.toggle('over',e>goal);
+    ring.classList.toggle('near',e>goal*0.85&&e<=goal);
+    document.getElementById('remaining').textContent=Math.max(goal-e,0).toLocaleString('en-US');
+    document.getElementById('eaten').textContent=e.toLocaleString('en-US');
+    const rem=document.getElementById('rem');
+    rem.textContent=e>goal?'· over by '+(e-goal).toLocaleString('en-US'):'· '+(goal-e).toLocaleString('en-US')+' left';
+    rem.classList.toggle('over',e>goal);
+  }
+  setRing(EATEN,GOAL);
+  // macro bars
+  const M=[['bP','vP',69,140],['bC','vC',98,230],['bF','vF',35,70]];
+  M.forEach(m=>{document.getElementById(m[0]).style.width=(Math.min(m[2]/m[3],1)*100).toFixed(1)+'%';document.getElementById(m[1]).textContent=m[2]+' / '+m[3]+'g';});
+
+  // ---- review confirm / keep ----
+  document.querySelectorAll('[data-action-card]').forEach(card=>{
+    card.querySelector('[data-confirm]').addEventListener('click',()=>{
+      const pill=card.querySelector('.note');pill.textContent='verified · 1.00';pill.style.color='var(--accent)';
+      card.style.opacity='.5';card.style.pointerEvents='none';
+    });
+    card.querySelector('[data-open]').addEventListener('click',()=>{});
+  });
+  document.querySelectorAll('.rx-card').forEach(card=>{
+    card.querySelectorAll('.btn').forEach(btn=>btn.addEventListener('click',()=>{
+      const tag=card.querySelector('.tag');
+      if(btn.dataset.confirm){tag.textContent='1.00';tag.className='tag conf hi';}
+      card.style.transition='opacity .3s';card.style.opacity='0';
+      setTimeout(()=>card.remove(),320);
+    }));
+  });
+
+  // ---- goals sliders ----
+  document.querySelectorAll('input[type=range]').forEach(r=>r.addEventListener('input',()=>{
+    const card=r.closest('.goal-card'),val=card.querySelector('.val'),n=r.value;
+    const unit=val.querySelector('.unit').textContent;
+    val.childNodes[0].textContent=(r.dataset.target==='kcal'?n.toLocaleString('en-US'):n)+' ';
+  }));
+</script>
+</body>
+</html>

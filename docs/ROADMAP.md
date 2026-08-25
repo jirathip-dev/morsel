@@ -7,7 +7,8 @@ roadmap; issues track live work.
 
 ## v0.1 — Prove the contract (MCP server + store)
 - [ ] Supabase project + `db/migrations/0001_init.sql` applied.
-- [ ] Thin Bun/Hono MCP server exposing `log_meal`, `search_food`, `get_day`.
+- [ ] `db/migrations/0002_targets.sql` applied; thin Bun/Hono MCP server exposes
+  `log_meal`, `search_food`, `get_day`, `get_profile`, `set_profile`, `compute_targets`, `get_goals`.
 - [ ] OAuth for Claude.ai custom connector / ChatGPT connector.
 - [ ] Agent skill attached; a human can log a meal from a photo end-to-end.
 - **Acceptance:** upload a photo in Claude.ai → `log_meal` → row visible in a Supabase table.

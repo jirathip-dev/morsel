@@ -6,6 +6,29 @@ export type MealType = "breakfast" | "lunch" | "dinner" | "snack";
 export type Source = "manual" | "photo_vision" | "barcode" | "import" | "voice";
 export type Unit = "g" | "ml" | "serving" | "piece" | "cup";
 
+export type ActivityLevel = "sedentary" | "light" | "moderate" | "active" | "very_active";
+export type DietGoal = "lose" | "maintain" | "gain";
+
+export interface Profile {
+  sex: "male" | "female";
+  age_years: number;
+  height_cm: number;
+  weight_kg: number;
+  activity_level: ActivityLevel;
+  diet_goal: DietGoal;
+  goal_weight_kg?: number;
+}
+
+export interface Targets {
+  bmr_kcal: number;
+  tdee_kcal: number;
+  calorie_target_kcal: number;
+  protein_g: number;
+  carbs_g: number;
+  fat_g: number;
+  source: "computed" | "manual";
+}
+
 export interface MealItem {
   name: string;
   quantity?: number;

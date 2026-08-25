@@ -17,7 +17,11 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 | `delete_meal_log` | write | Remove a whole meal. |
 | `get_day` | read | One day's meals + totals + remaining vs goal. |
 | `get_dashboard_summary` | read | Range totals, streak, macro split, weight trend. |
-| `get_goals` / `set_goals` | read/write | Current diet targets. |
+| `get_profile` | read | Body metrics (sex, age, height, weight, activity, diet goal). |
+| `set_profile` | write | Upsert body metrics. |
+| `compute_targets` | read | BMR/TDEE + kcal + macro split derived from profile. |
+| `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
+| `set_goals` | write | Manual override (marks `source='manual'`). |
 | `log_water` / `log_weight` | write | v1.1 extras. |
 
 ## Tool schemas
@@ -115,6 +119,29 @@ log_meal({
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
 **Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ] }`
+
+### `get_profile`
+
+**Input** `{}` — **Output** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }`
+
+### `set_profile`
+
+**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }` — **Output** `{ "ok": true, "saved": true }`
+
+### `compute_targets`
+
+**Input** `{}` (uses the profile) — **Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g" }`
+Formula (Mifflin-St Jeor → activity factor → diet goal) in [`TARGETS.md`](TARGETS.md).
+
+### `get_goals`
+
+**Purpose:** the **effective** target the gauge and "did I hit today's target?" use —
+the computed default unless the user set a manual override.
+**Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual" }`
+
+### `set_goals`
+
+**Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
 
 ## Principles for the agent
 
