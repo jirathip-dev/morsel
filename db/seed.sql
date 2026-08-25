@@ -6,6 +6,8 @@
 --
 -- Values are practical curated defaults for common foods, not a comprehensive
 -- nutrition database. The external OpenNutrition reference is a v0.3 plan.
+-- The stable IDs below are seed-owned: rerunning this file intentionally
+-- restores their canonical values, including clearing an unseeded barcode.
 
 insert into public.food_catalog (
   id,

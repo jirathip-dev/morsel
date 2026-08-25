@@ -1,8 +1,8 @@
 # Data model
 
-Canonical SQL lives in the numbered files under [`db/migrations/`](../db/migrations/):
-the initial schema, target computation, and security/transaction follow-up
-migrations. This doc is the narrative version.
+Canonical schema SQL lives in the numbered files under [`db/migrations/`](../db/migrations/),
+starting with [`0001_init.sql`](../db/migrations/0001_init.sql); deployment seed
+data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version.
 
 ## Entities
 
@@ -63,6 +63,8 @@ an exception: it has no `user_id`, so policies join through the parent
 hot path, add a denormalized `user_id` to `meal_items` and key on it directly.
 The `users` table is guarded by owner policies using `auth.uid() = id` for
 select, insert, and update.
+`food_catalog` is shared reference data: authenticated clients can select it,
+while its seed-owned rows have no client write policies.
 
 ## Why one store for two clients
 
@@ -74,7 +76,7 @@ rows. Because both authenticate to the same store and RLS scopes by the same
 
 The intended storage location is the private Supabase Storage bucket
 `food-images`, object path `{user_id}/{meal_log_id}.jpg`. Migration
-`0003_store_assets.sql` provisions the bucket and allows authenticated users to
+`0004_store_assets.sql` provisions the bucket and allows authenticated users to
 insert, read, update, and delete objects only when the first path segment is
 their own user ID. Until the upload flow exists, the MCP server stores a
 caller-provided HTTPS URL reference in `meal_logs.image_path` and does not

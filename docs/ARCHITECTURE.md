@@ -21,7 +21,7 @@ and the dashboard (reader), so it cannot live only on-device. → **Always-hoste
                                      │  Supabase                         │
                                      │  · Postgres (meals, items, goals) │
                                      │  · Auth (OAuth + app sign-in)    │
-                                     │  · Storage (private bucket)       │
+                                     │  · Storage (private food-images) │
                                      │  · RLS (user-scoped rows)        │
                                      └──────────────────▲───────────────┘
                                                         │ reads same store
