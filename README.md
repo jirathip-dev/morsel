@@ -40,6 +40,7 @@ morsel/
 - [ARCHITECTURE](docs/ARCHITECTURE.md) — components, data flow, auth, backend decision
 - [DATA_MODEL](docs/DATA_MODEL.md) — tables, enums, RLS
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
+- [IN_CHAT_RENDER](docs/IN_CHAT_RENDER.md) — Tier-1 snapshot rendering inside Claude/GPT
 - [ROADMAP](docs/ROADMAP.md) — milestones
 - [AGENTS.md](AGENTS.md) — context for any agent working in this repo
 

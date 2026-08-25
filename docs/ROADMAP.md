@@ -16,7 +16,10 @@ roadmap; issues track live work.
 - [ ] Camera/photo upload path; image lands in `food-images` storage bucket.
 - [ ] iOS (SwiftUI) dashboard: today's meals, totals, remaining vs goal, low-confidence review.
 - [ ] `get_dashboard_summary` + streak/macro-split API for the UI.
-- **Acceptance:** a logged meal appears on the phone dashboard without touching the DB.
+- [ ] **Tier-1 in-chat render:** `get_dashboard_summary` returns an image + markdown table so
+  the result renders inside Claude.ai / ChatGPT (see [IN_CHAT_RENDER](IN_CHAT_RENDER.md)).
+- **Acceptance:** a logged meal appears on the phone dashboard without touching the DB;
+  `get_dashboard_summary` renders a snapshot inside the chat.
 
 ## v0.3 — Correctness & trust
 - [ ] `update_meal_item` / `delete_meal_log` wired into the dashboard (edit + delete).
