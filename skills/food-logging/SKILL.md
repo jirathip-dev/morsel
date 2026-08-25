@@ -1,7 +1,7 @@
 ---
 name: food-logging
 description: Log a meal to Morsel from a photo or text via MCP tools.
-version: 0.1.0
+version: 0.2.0
 author: Guy (jirathip-k), Hermes Agent
 license: MIT
 platforms: [linux, macos, windows]
@@ -21,11 +21,12 @@ is: user uploads a photo → you identify the food and portion → you call the 
 
 ## When to use
 - The user sends a food photo and says "log this" / "track my lunch" / "what does this cost" (calories).
-- The user asks what they ate on a date, or how today's totals look.
+- The user asks **what they ate** or **how their day/week is tracking** (reads).
+- The user asks **"did I hit today's target?"** / **"what should I eat to fit my macros?"** (read + recommend).
 - The user asks to fix a wrong entry.
 
-Don't use for: general diet advice, meal planning, or anything not about
-recording/reading Morsel's log.
+Don't use for: clinical/medical diet advice, medical meal prescriptions, or
+anything not about recording, reading, or recommending within Morsel's log.
 
 ## Prerequisites
 - The Morsel MCP server is connected and you can call its tools
@@ -50,6 +51,30 @@ against the goal.
 
 **4. Correct an entry.** `update_meal_item` (one item) or `delete_meal_log` (whole meal).
 Never create a new log to "fix" an old one — that double-counts.
+
+## Answering the user's questions
+
+**Did I hit today's target?**
+1. `get_goals` → targets; `get_day` (today) → consumed totals.
+2. Reply with: consumed vs target, remaining (or over), plus protein/carbs/fat
+   split if asked. Keep it to a few lines.
+3. If nothing is logged today, say so plainly, then offer to log a meal.
+
+**Am I on track this week?**
+- `get_dashboard_summary({ days: 7 })` → avg calories, streak, macro split, weight trend.
+- Round numbers; only flag what's clearly off target. Don't overwhelm with stats.
+
+**What should I eat?**
+1. `get_day` (today) + `get_goals` → remaining macros.
+2. `search_food` for a few **real** foods that fit (name + macros). Prefer concrete items.
+3. Suggest 2–3 options that fit the remaining macros; note the rough calorie/protein fit.
+- This is **practical** guidance from the user's own data — not medical prescription.
+  Never diagnose, prescribe, or make medical claims.
+- Don't fabricate macros you don't have. If `search_food` can't find it, say so and
+  give an honest estimate with a note.
+
+**What did I eat on <date>?**
+- `get_day` (that date) → meals + items + totals vs goal for that day.
 
 ## Pitfalls
 - **Never re-log the same meal.** If you already logged today's lunch and the
