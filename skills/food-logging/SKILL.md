@@ -40,7 +40,8 @@ Always follow these rules:
   macros by them. `search_food` values are per its `serving_size` and
   `serving_unit`, so scale them yourself before logging (for example, 250 g at
   130 kcal per 100 g becomes `quantity: 250`, `unit: "g"`,
-  `calories_kcal: 325`).
+  `calories_kcal: 325`). If either serving field is absent, treat returned
+  values as one serving and lower confidence rather than scaling them.
 - One uploaded photo is one `log_meal` call containing one or more `items[]`.
 - Never log twice. To reread or correct existing data, use `get_day`,
   `update_meal_item`, or `delete_meal_log`. v0.1 has no tool that adds a new
@@ -289,13 +290,12 @@ For text-only logging, follow the same item/search/estimate rules without
 logged, read the day first. v0.1 cannot add an item to an existing meal: with
 the user's confirmation, preserve the original `eaten_at`, `image_url`, and
 meal-level `notes`, then delete that meal and re-log the complete item list
-once. `get_day` does not return the image reference or meal notes; if the
-original `image_url` is unavailable, tell the user the link will be lost and
-meal notes cannot be recovered. If the original `image_url` is unavailable,
-the new log's source will be `barcode` if any preserved item has a barcode,
-otherwise `manual`; tell the user if the photo link will be lost. If the food
-was a genuinely separate meal, log it as its own log. Do not create a second
-log for the same sitting.
+once. `get_day` does not return the image reference or meal notes, so before
+deleting: warn separately if the original meal notes are unavailable and will
+be lost; if the original `image_url` is unavailable, warn that the photo link
+will be lost and the new log's source will be `barcode` if any preserved item
+has a barcode, otherwise `manual`. If the food was a genuinely separate meal,
+log it as its own log. Do not create a second log for the same sitting.
 
 ## Common read and correction flows
 
