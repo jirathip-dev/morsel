@@ -184,5 +184,5 @@ The contract calls the field `image_url`, while the existing database column is
 `meal_logs.image_path`. The v0.1 server stores the HTTPS URL string in that
 column as a reference. It does not fetch or upload the image and does not claim
 that the URL is durable. The private `food-images` bucket and its owner-scoped
-Storage policies are provisioned by `db/migrations/0003_store_assets.sql`; a
+Storage policies are provisioned by `db/migrations/0004_store_assets.sql`; a
 future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.

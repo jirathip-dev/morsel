@@ -27,6 +27,7 @@ const migrationFiles = [
   'db/migrations/0001_init.sql',
   'db/migrations/0002_targets.sql',
   'db/migrations/0003_atomic_meals_and_users_rls.sql',
+  'db/migrations/0004_store_assets.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -221,17 +222,116 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         $function$;
         grant usage on schema auth to public;
         grant execute on function auth.uid() to public;
+        create schema storage;
+        create table storage.buckets (
+          id text primary key,
+          name text not null unique,
+          public boolean not null default false,
+          file_size_limit bigint,
+          allowed_mime_types text[]
+        );
+        create table storage.objects (
+          id uuid primary key default gen_random_uuid(),
+          bucket_id text not null,
+          name text not null
+        );
+        alter table storage.objects enable row level security;
+        create function storage.foldername(object_name text)
+        returns text[]
+        language sql
+        immutable
+        as $function$
+          select case
+            when object_name is null or strpos(object_name, '/') = 0 then array[]::text[]
+            else (string_to_array(object_name, '/'))[1:cardinality(string_to_array(object_name, '/')) - 1]
+          end;
+        $function$;
+        grant usage on schema storage to authenticated;
+        grant execute on function storage.foldername(text) to authenticated;
       `), 'Supabase-like bootstrap')
 
       for (const migration of migrationFiles) {
         requireSuccess(postgres.execute(migrationSql(migration)), migration)
       }
+      requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'food catalog seed')
+      requireSuccess(postgres.execute(migrationSql('db/migrations/0004_store_assets.sql')), 'rerunnable store assets migration')
+      requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'rerunnable food catalog seed')
 
       requireSuccess(postgres.execute(`
         grant usage on schema public to anon, authenticated;
         grant select, insert, update on public.users to authenticated;
         grant select, insert on public.meal_logs, public.meal_items to authenticated;
+        grant select, insert, update, delete on public.food_catalog to authenticated;
+        grant select on storage.buckets to authenticated;
+        grant select, insert, update, delete on storage.objects to authenticated;
       `), 'API role grants')
+
+      requireSuccess(postgres.execute(`
+        insert into storage.objects (bucket_id, name) values
+          ('food-images', '${userOne}/meal.jpg'),
+          ('food-images', '${userTwo}/meal.jpg'),
+          ('other-bucket', '${userOne}/other.jpg');
+      `), 'storage fixture')
+
+      const assetRead = requireSuccess(postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        select count(*) from public.food_catalog;
+        select count(*) from storage.buckets
+          where id = 'food-images' and public = false
+            and file_size_limit = 10485760
+            and allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp']::text[];
+        select count(*) from storage.objects;
+        commit;
+      `), 'catalog and storage reads')
+      expect(queryValues(assetRead)).toEqual(['8', '1', '1'])
+
+      const catalogWrite = requireSuccess(postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        savepoint before_catalog_write;
+        update public.food_catalog set name = 'cross-user-write'
+          where id = 'f0000000-0000-4000-8000-000000000001';
+        rollback to savepoint before_catalog_write;
+        select count(*) from public.food_catalog where name = 'cross-user-write';
+        commit;
+      `), 'catalog write isolation')
+      expect(queryValues(catalogWrite)).toEqual(['0'])
+
+      requireSuccess(postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        insert into storage.objects (bucket_id, name)
+          values ('food-images', '${userOne}/new.jpg');
+        commit;
+      `), 'owner storage insert')
+
+      const crossStorageInsert = postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        savepoint before_cross_storage_insert;
+        insert into storage.objects (bucket_id, name)
+          values ('food-images', '${userTwo}/forbidden.jpg');
+        rollback to savepoint before_cross_storage_insert;
+        commit;
+      `, false)
+      expect(crossStorageInsert.stderr).toMatch(/row-level security policy/i)
+
+      const crossStorageRename = postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        savepoint before_cross_storage_rename;
+        update storage.objects set name = '${userTwo}/moved.jpg'
+          where bucket_id = 'food-images' and name = '${userOne}/meal.jpg';
+        rollback to savepoint before_cross_storage_rename;
+        commit;
+      `, false)
+      expect(crossStorageRename.stderr).toMatch(/row-level security policy/i)
 
       requireSuccess(postgres.execute(`
         begin;
