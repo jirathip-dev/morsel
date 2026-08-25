@@ -104,6 +104,10 @@ log_meal({
 **Input** `{ "query": "string", "limit": { "type": "integer", "default": 8 } }`
 **Output** `{ "results": [ { "id", "name", "brand", "barcode", "serving_size", "serving_unit", "calories_kcal", "protein_g", "carbs_g", "fat_g" } ] }`
 
+The v0.1 store reads this catalog from `food_catalog`, with a small deterministic
+curated set in `db/seed.sql`. A broader external OpenNutrition reference is
+planned for v0.3.
+
 ### `update_meal_item`
 
 **Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string" }`
@@ -179,5 +183,6 @@ computed or fallback values.
 The contract calls the field `image_url`, while the existing database column is
 `meal_logs.image_path`. The v0.1 server stores the HTTPS URL string in that
 column as a reference. It does not fetch or upload the image and does not claim
-that the URL is durable; the Supabase Storage upload policy in the data model
-remains a later implementation step.
+that the URL is durable. The private `food-images` bucket and its owner-scoped
+Storage policies are provisioned by `db/migrations/0003_store_assets.sql`; a
+future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.

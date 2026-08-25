@@ -21,7 +21,7 @@ and the dashboard (reader), so it cannot live only on-device. → **Always-hoste
                                      │  Supabase                         │
                                      │  · Postgres (meals, items, goals) │
                                      │  · Auth (OAuth + app sign-in)    │
-                                     │  · Storage (food-images bucket)  │
+                                     │  · Storage (private bucket)       │
                                      │  · RLS (user-scoped rows)        │
                                      └──────────────────▲───────────────┘
                                                         │ reads same store
@@ -38,8 +38,10 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
 2. The agent's vision model identifies components + estimates portion/macros.
 3. Agent calls `log_meal` with the structured `items[]` (see `docs/MCP_TOOLS.md`),
    tagging `source=photo_vision` and a per-item `confidence`.
-4. Server validates the payload (MCP input schema), stamps `user_id`, inserts
-   into `meal_logs` + `meal_items`, writes the image to `food-images`.
+4. Server validates the payload (MCP input schema), stamps `user_id`, and
+   inserts into `meal_logs` + `meal_items`. The future upload flow writes the
+   image to the private `food-images` bucket; the v0.1 adapter stores the HTTPS
+   URL reference only.
 5. Dashboard renders it live.
 
 ## Auth
