@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   LogMealInputSchema,
   LogMealOutputSchema,
+  SearchFoodOutputSchema,
 } from './food-types'
 
 describe('Morsel tool schemas', () => {
@@ -36,5 +37,14 @@ describe('Morsel tool schemas', () => {
       meal_type: 'lunch',
       items: [{ name: 'rice', food_ref_id: '00000000-0000-4000-8000-000000000010' }],
     }).success).toBe(true)
+  })
+
+  it('requires v0.1 search result IDs to be UUIDs', () => {
+    expect(SearchFoodOutputSchema.safeParse({
+      results: [{ id: 'f0000000-0000-4000-8000-000000000001', name: 'rice' }],
+    }).success).toBe(true)
+    expect(SearchFoodOutputSchema.safeParse({
+      results: [{ id: 'open-nutrition-123', name: 'rice' }],
+    }).success).toBe(false)
   })
 })

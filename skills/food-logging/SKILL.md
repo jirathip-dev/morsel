@@ -116,7 +116,7 @@ Output:
 ```text
 {
   results: [{
-    id: string,                             // required; v0.1 catalog IDs are UUIDs
+    id: UUID,                               // required in v0.1
     name: string,                           // required
     brand?: string,
     barcode?: string,
@@ -207,8 +207,9 @@ Output:
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range; `streak_days` counts
 consecutive UTC days ending on the server's UTC today that contain at least one
-meal. In v0.1, `weight_trend` is always empty because no registered tool writes
-weight logs; omit it from user summaries unless a future contract adds one.
+meal. In v0.1, `weight_trend` is normally empty because no registered tool
+writes weight logs; omit it from user summaries unless a future contract adds
+one.
 
 ### Profile and target tools
 
@@ -229,9 +230,9 @@ weight logs; omit it from user summaries unless a future contract adds one.
 `set_profile` takes that same object as input and requires every field except
 `goal_weight_kg`. It returns `{ ok: true, saved: true }`.
 
-If no profile exists, `get_profile` returns `not_found`, while
-`compute_targets` and `get_goals` return `profile_required`. `get_day` is the
-graceful read: it omits `goal` and `remaining_kcal` instead.
+If no profile exists, `get_profile` errors with `not_found`, while
+`compute_targets` and `get_goals` error with `profile_required`. `get_day` is
+the graceful read: it omits `goal` and `remaining_kcal` instead.
 
 `compute_targets` returns:
 
@@ -247,8 +248,10 @@ graceful read: it omits `goal` and `remaining_kcal` instead.
 ```
 
 `get_goals` takes `{}` and returns the effective target with the same four
-target fields plus `source: "computed" | "manual"`. Use this for the target
-that the dashboard gauge and "did I hit today's target?" should display.
+target fields plus `source: "computed" | "manual"`. Use this when a standalone
+target is needed; `get_day` includes the same effective goal when a profile
+exists. This is the target that the dashboard gauge and "did I hit today's
+target?" should display.
 
 `set_goals` takes an object where every field is optional:
 `calorie_target_kcal?`, `protein_g?`, `carbs_g?`, and `fat_g?` (all
@@ -284,9 +287,12 @@ manual target. Confirm before calling it, and prefer `set_profile` plus
 For text-only logging, follow the same item/search/estimate rules without
 `image_url`. If the user asks to add a component after the meal is already
 logged, read the day first. v0.1 cannot add an item to an existing meal: with
-the user's confirmation, delete that meal and re-log the complete item list
-once, or log a genuinely separate meal as its own log. Do not create a second
-log for the same sitting.
+the user's confirmation, preserve the original `eaten_at`, `image_url`, and
+meal-level `notes`, then delete that meal and re-log the complete item list
+once. `get_day` does not return the image reference or meal notes; if the
+original `image_url` is unavailable, tell the user the link will be lost and
+the new log's source will be `manual`. If the food was a genuinely separate
+meal, log it as its own log. Do not create a second log for the same sitting.
 
 ## Common read and correction flows
 

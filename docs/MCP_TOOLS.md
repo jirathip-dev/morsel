@@ -110,8 +110,9 @@ log_meal({
 **Output** `{ "results": [ { "id", "name", "brand", "barcode", "serving_size", "serving_unit", "calories_kcal", "protein_g", "carbs_g", "fat_g" } ] }`
 
 The v0.1 store reads this catalog from `food_catalog`, with a small deterministic
-curated set in `db/seed.sql`. A broader external OpenNutrition reference is
-planned for v0.3.
+curated set in `db/seed.sql`; v0.1 result IDs are UUIDs and are the only valid
+`food_ref_id` values. A broader external OpenNutrition reference is planned for
+v0.3 and will require an explicit ID mapping or contract change.
 
 ### `update_meal_item`
 
@@ -142,7 +143,7 @@ The v0.1 server interprets `date` as a UTC calendar day.
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
 consecutive UTC days ending today that contain at least one meal. In v0.1,
-`weight_trend` is empty because no registered tool writes `weight_logs`.
+`weight_trend` is normally empty because no registered tool writes `weight_logs`.
 
 ### `get_profile`
 
