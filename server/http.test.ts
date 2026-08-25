@@ -50,6 +50,10 @@ describe('MCP HTTP server', () => {
       'update_meal_item',
     ])
 
+    const defaultSummary = await client.callTool({ name: 'get_dashboard_summary' })
+    expect(defaultSummary.isError).not.toBe(true)
+    expect(defaultSummary.structuredContent).toMatchObject({ avg_calories_kcal: 0 })
+
     const result = await client.callTool({
       name: 'log_meal',
       arguments: {

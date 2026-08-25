@@ -1,4 +1,5 @@
 import type {
+  ComputeTargetsOutput,
   GoalSummary,
   MealRecord,
   ParsedMealItem,
@@ -36,6 +37,7 @@ export interface MorselRepository {
   getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]>
   searchFood(userId: string, query: string, limit: number): Promise<SearchFoodItem[]>
   getProfile(userId: string): Promise<Profile | undefined>
+  computeTargets(userId: string, profile: Profile): Promise<ComputeTargetsOutput>
   setProfile(userId: string, profile: Profile): Promise<Profile>
   getGoals(userId: string): Promise<StoredGoals | undefined>
   setGoals(userId: string, goals: SetGoalsInput & { source: 'manual' }): Promise<StoredGoals>

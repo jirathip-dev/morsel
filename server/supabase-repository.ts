@@ -3,6 +3,7 @@ import { z } from 'zod'
 import {
   ActivityLevelSchema,
   CalendarDateSchema,
+  ComputeTargetsOutputSchema,
   DietGoalSchema,
   IsoDateTimeSchema,
   MealItemRecordSchema,
@@ -15,6 +16,7 @@ import {
 } from '../packages/schema/food-types.js'
 import { InvalidStoredDataError, RepositoryError, TransactionError } from './errors.js'
 import type {
+  ComputeTargetsOutput,
   GoalSummary,
   MealItemRecord,
   MealRecord,
@@ -25,7 +27,7 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.js'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
-import type { Database } from './supabase-types.js'
+import type { ComputeTargetsFunctionInput, Database } from './supabase-types.js'
 
 const databaseNumber = z.union([
   z.number(),
@@ -43,7 +45,7 @@ const mealLogRowSchema = z.object({
 const mealItemRowSchema = z.object({
   id: z.uuid(),
   meal_log_id: z.uuid(),
-  name: z.string().trim().min(1),
+  name: z.string(),
   quantity: databaseNumber,
   unit: UnitSchema,
   calories_kcal: databaseNumber.nullable(),
@@ -66,6 +68,20 @@ const profileRowSchema = z.object({
   activity_level: ActivityLevelSchema,
   diet_goal: DietGoalSchema,
   goal_weight_kg: databaseNumber.nullable(),
+}).strict()
+
+const profileRpcRowSchema = profileRowSchema.extend({
+  user_id: z.uuid(),
+  updated_at: IsoDateTimeSchema,
+}).strict()
+
+const targetRowSchema = z.object({
+  bmr_kcal: databaseNumber,
+  tdee_kcal: databaseNumber,
+  calorie_target_kcal: databaseNumber,
+  protein_g: databaseNumber,
+  carbs_g: databaseNumber,
+  fat_g: databaseNumber,
 }).strict()
 
 const goalsRowSchema = z.object({
@@ -266,8 +282,12 @@ export class SupabaseRepository implements MorselRepository {
       .delete()
       .eq('id', mealLogId)
       .eq('user_id', userId)
+      .select('id')
     if (response.error !== null) {
       throw new RepositoryError('meal rollback failed', response.error)
+    }
+    if (response.data.length !== 1) {
+      throw new RepositoryError('meal rollback did not remove the inserted log')
     }
   }
 
@@ -344,6 +364,43 @@ export class SupabaseRepository implements MorselRepository {
       throw new RepositoryError('profile read failed', response.error)
     }
     return response.data === null ? undefined : toProfile(response.data)
+  }
+
+  async computeTargets(userId: string, _profile: Profile): Promise<ComputeTargetsOutput> {
+    void _profile
+    const profileResponse = await this.client
+      .from('profiles')
+      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at')
+      .eq('user_id', userId)
+      .maybeSingle()
+    if (profileResponse.error !== null) {
+      throw new RepositoryError('profile read failed', profileResponse.error)
+    }
+    if (profileResponse.data === null) {
+      throw new RepositoryError('profile is not set')
+    }
+    const profile = parseStored(profileRpcRowSchema, profileResponse.data, 'profile')
+    const functionInput: ComputeTargetsFunctionInput = {
+      user_id: profile.user_id,
+      sex: profile.sex,
+      age_years: profile.age_years,
+      height_cm: profile.height_cm,
+      weight_kg: profile.weight_kg,
+      activity_level: profile.activity_level,
+      diet_goal: profile.diet_goal,
+      goal_weight_kg: profile.goal_weight_kg,
+      updated_at: profile.updated_at,
+    }
+    const response = await this.client.rpc('compute_targets', { p: functionInput })
+    const rows = parseStored(z.array(targetRowSchema), requireData(response.data, response.error, 'target computation'), 'computed targets')
+    if (rows.length !== 1) {
+      throw new RepositoryError('target computation returned an unexpected number of rows')
+    }
+    const row = rows[0]
+    if (row === undefined) {
+      throw new RepositoryError('target computation returned no row')
+    }
+    return parseStored(ComputeTargetsOutputSchema, row, 'computed targets')
   }
 
   async setProfile(userId: string, profile: Profile): Promise<Profile> {

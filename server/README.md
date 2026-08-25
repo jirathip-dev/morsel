@@ -26,6 +26,9 @@ check. `npm run dev` starts Bun's file-watching development server.
   TypeScript contract types.
 - `MorselService` contains validation, target calculation, totals, and
   user-scoped orchestration.
+- `compute_targets` delegates to the existing `public.compute_targets()` SQL
+  function through Supabase RPC in production. The in-memory adapter uses the
+  same Mifflin-St Jeor calculation for credential-free tests.
 - `MorselRepository` is the storage seam. `InMemoryRepository` is used by unit
   tests; `SupabaseRepository` uses the caller token and explicit user filters
   wherever the table has a `user_id` column. `meal_items` relies on its parent

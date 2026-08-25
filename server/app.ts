@@ -10,7 +10,11 @@ import { createSupabaseRepository } from './supabase-repository.js'
 interface McpSession {
   userId: string
   transport: WebStandardStreamableHTTPServerTransport
+  lastUsedAt: number
 }
+
+const MAX_MCP_SESSIONS = 1_000
+const MCP_SESSION_IDLE_TTL_MS = 24 * 60 * 60 * 1_000
 
 export interface MorselAppOptions {
   authenticate?: Authenticate
@@ -66,10 +70,41 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const sessions = new Map<string, McpSession>()
   const app = new Hono()
 
+  const closeSession = (sessionId: string): void => {
+    const session = sessions.get(sessionId)
+    sessions.delete(sessionId)
+    if (session !== undefined) {
+      void session.transport.close().catch(() => undefined)
+    }
+  }
+
+  const pruneSessions = (now: number): void => {
+    for (const [sessionId, session] of sessions.entries()) {
+      if (now - session.lastUsedAt > MCP_SESSION_IDLE_TTL_MS) {
+        closeSession(sessionId)
+      }
+    }
+    while (sessions.size >= MAX_MCP_SESSIONS) {
+      let oldestId: string | undefined
+      let oldestTimestamp = Number.POSITIVE_INFINITY
+      for (const [sessionId, session] of sessions.entries()) {
+        if (session.lastUsedAt < oldestTimestamp) {
+          oldestId = sessionId
+          oldestTimestamp = session.lastUsedAt
+        }
+      }
+      if (oldestId === undefined) {
+        return
+      }
+      closeSession(oldestId)
+    }
+  }
+
   app.get('/health', (context) => context.json({ ok: true }))
 
   app.all('/mcp', async (context) => {
     try {
+      pruneSessions(Date.now())
       const token = bearerToken(context.req.header('authorization'))
       const user = await authenticate(token)
       const sessionId = context.req.header('mcp-session-id')
@@ -87,6 +122,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
             headers: { 'content-type': 'application/json' },
           })
         }
+        session.lastUsedAt = Date.now()
         return await session.transport.handleRequest(context.req.raw, { authInfo: user.authInfo })
       }
 
@@ -104,13 +140,15 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
         sessionIdGenerator: () => crypto.randomUUID(),
         enableJsonResponse: options.enableJsonResponse ?? false,
         onsessioninitialized: (initializedSessionId) => {
+          pruneSessions(Date.now())
+          session.lastUsedAt = Date.now()
           sessions.set(initializedSessionId, session)
         },
         onsessionclosed: (closedSessionId) => {
           sessions.delete(closedSessionId)
         },
       })
-      const session: McpSession = { userId: user.userId, transport }
+      const session: McpSession = { userId: user.userId, transport, lastUsedAt: Date.now() }
       await server.connect(transport)
       return await transport.handleRequest(context.req.raw, { authInfo: user.authInfo })
     } catch (error) {

@@ -1,3 +1,24 @@
+export interface ComputeTargetsFunctionInput {
+  user_id: string
+  sex: string
+  age_years: number
+  height_cm: number
+  weight_kg: number
+  activity_level: string
+  diet_goal: string
+  goal_weight_kg: number | null
+  updated_at: string
+}
+
+export interface ComputeTargetsFunctionRow {
+  bmr_kcal: number
+  tdee_kcal: number
+  calorie_target_kcal: number
+  protein_g: number
+  carbs_g: number
+  fat_g: number
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -83,6 +104,7 @@ export interface Database {
           activity_level: string
           diet_goal: string
           goal_weight_kg: number | null
+          updated_at: string
         }
         Insert: {
           user_id: string
@@ -193,7 +215,11 @@ export interface Database {
       }
     }
     Views: Record<string, never>
-    Functions: Record<string, never>
+    Functions: {
+      compute_targets: {
+        Args: { p: ComputeTargetsFunctionInput }
+        Returns: ComputeTargetsFunctionRow[]
+      }
+    }
   }
 }
-

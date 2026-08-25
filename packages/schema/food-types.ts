@@ -71,10 +71,10 @@ export const SearchFoodItemSchema = z.object({
   barcode: z.string().optional(),
   serving_size: z.string().optional(),
   serving_unit: z.string().optional(),
-  calories_kcal: nonNegativeNumber.optional(),
-  protein_g: nonNegativeNumber.optional(),
-  carbs_g: nonNegativeNumber.optional(),
-  fat_g: nonNegativeNumber.optional(),
+  calories_kcal: finiteNumber.optional(),
+  protein_g: finiteNumber.optional(),
+  carbs_g: finiteNumber.optional(),
+  fat_g: finiteNumber.optional(),
 }).strict()
 
 export const SearchFoodOutputSchema = z.object({
@@ -107,8 +107,21 @@ export const DeleteMealLogOutputSchema = z.object({
   deleted: z.literal(true),
 }).strict()
 
-export const MealItemRecordSchema = MealItemSchema.extend({
+export const MealItemRecordSchema = z.object({
   item_id: z.uuid(),
+  name: z.string(),
+  quantity: finiteNumber,
+  unit: UnitSchema,
+  calories_kcal: finiteNumber.optional(),
+  protein_g: finiteNumber.optional(),
+  carbs_g: finiteNumber.optional(),
+  fat_g: finiteNumber.optional(),
+  fiber_g: finiteNumber.optional(),
+  sugar_g: finiteNumber.optional(),
+  barcode: z.string().optional(),
+  food_ref_id: z.string().optional(),
+  confidence: finiteNumber.optional(),
+  notes: z.string().optional(),
 }).strict()
 
 export const MealRecordSchema = z.object({
@@ -119,17 +132,17 @@ export const MealRecordSchema = z.object({
 }).strict()
 
 export const TotalsSchema = z.object({
-  calories_kcal: nonNegativeNumber,
-  protein_g: nonNegativeNumber,
-  carbs_g: nonNegativeNumber,
-  fat_g: nonNegativeNumber,
+  calories_kcal: finiteNumber,
+  protein_g: finiteNumber,
+  carbs_g: finiteNumber,
+  fat_g: finiteNumber,
 }).strict()
 
 export const GoalSummarySchema = z.object({
-  calorie_target_kcal: nonNegativeNumber,
-  protein_g: nonNegativeNumber,
-  carbs_g: nonNegativeNumber,
-  fat_g: nonNegativeNumber,
+  calorie_target_kcal: finiteNumber,
+  protein_g: finiteNumber,
+  carbs_g: finiteNumber,
+  fat_g: finiteNumber,
   source: z.enum(['computed', 'manual']),
 }).strict()
 
@@ -147,21 +160,21 @@ export const GetDayOutputSchema = z.object({
 
 export const GetDashboardSummaryInputSchema = z.object({
   days: z.number().int().positive().max(366).optional().default(7),
-}).strict()
+}).strict().optional().default({ days: 7 })
 
 export const WeightTrendPointSchema = z.object({
   date: CalendarDateSchema,
-  kg: positiveNumber,
+  kg: finiteNumber,
 }).strict()
 
 export const MacroSplitSchema = z.object({
-  protein_g: nonNegativeNumber,
-  carbs_g: nonNegativeNumber,
-  fat_g: nonNegativeNumber,
+  protein_g: finiteNumber,
+  carbs_g: finiteNumber,
+  fat_g: finiteNumber,
 }).strict()
 
 export const GetDashboardSummaryOutputSchema = z.object({
-  avg_calories_kcal: nonNegativeNumber,
+  avg_calories_kcal: finiteNumber,
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
@@ -177,7 +190,7 @@ export const ProfileSchema = z.object({
   goal_weight_kg: positiveNumber.optional(),
 }).strict()
 
-export const EmptyInputSchema = z.object({}).strict()
+export const EmptyInputSchema = z.object({}).strict().optional().default({})
 
 export const SetProfileInputSchema = ProfileSchema
 export const GetProfileOutputSchema = ProfileSchema

@@ -84,6 +84,29 @@ describe('MorselService', () => {
     })
   })
 
+  it('retains the current computed target when a stale computed goal row is partially overridden', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedProfile(userId, profile)
+    repository.seedGoals(userId, {
+      source: 'computed',
+      calorie_target_kcal: 2000,
+      protein_g: 100,
+      carbs_g: 100,
+      fat_g: 100,
+    })
+    const service = createService(repository)
+
+    await service.setGoals({ protein_g: 180 })
+
+    await expect(service.getGoals({})).resolves.toMatchObject({
+      calorie_target_kcal: 2759,
+      protein_g: 180,
+      carbs_g: 310,
+      fat_g: 77,
+      source: 'manual',
+    })
+  })
+
   it('supports search, correction, and deletion through the repository boundary', async () => {
     const food: SearchFoodItem = {
       id: '00000000-0000-4000-8000-000000000010',
@@ -136,4 +159,3 @@ describe('MorselService', () => {
     await expect(service.getProfile({})).rejects.toMatchObject({ code: 'not_found' })
   })
 })
-

@@ -1,5 +1,7 @@
 import { InvalidStoredDataError, TransactionError } from './errors.js'
+import { calculateTargets } from './targets.js'
 import type {
+  ComputeTargetsOutput,
   GoalSummary,
   MealRecord,
   ParsedMealItem,
@@ -78,11 +80,6 @@ export class InMemoryRepository implements MorselRepository {
       item_id: crypto.randomUUID(),
     }))
 
-    if (this.failNextMealItemWrite) {
-      this.failNextMealItemWrite = false
-      throw new TransactionError('meal and item rows were not written')
-    }
-
     const record: MealRecord = {
       meal_log_id: mealLogId,
       meal_type: meal.meal_type,
@@ -90,9 +87,19 @@ export class InMemoryRepository implements MorselRepository {
       items,
     }
     const userMeals = this.meals.get(userId) ?? new Map<string, MealRecord>()
-    userMeals.set(mealLogId, cloneMeal(record))
+    userMeals.set(mealLogId, cloneMeal({ ...record, items: [] }))
     this.meals.set(userId, userMeals)
-    return cloneMeal(record)
+    try {
+      if (this.failNextMealItemWrite) {
+        this.failNextMealItemWrite = false
+        throw new TransactionError('meal and item rows were not written')
+      }
+      userMeals.set(mealLogId, cloneMeal(record))
+      return cloneMeal(record)
+    } catch (error) {
+      userMeals.delete(mealLogId)
+      throw error
+    }
   }
 
   async getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]> {
@@ -124,6 +131,11 @@ export class InMemoryRepository implements MorselRepository {
     await Promise.resolve()
     const profile = this.profiles.get(userId)
     return profile === undefined ? undefined : { ...profile }
+  }
+
+  async computeTargets(_userId: string, profile: Profile): Promise<ComputeTargetsOutput> {
+    await Promise.resolve()
+    return calculateTargets(profile)
   }
 
   async setProfile(userId: string, profile: Profile): Promise<Profile> {

@@ -42,7 +42,11 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
 ## Key columns
 
 - `meal_logs.eaten_at` — when the meal happened (agent passes it, not timestamp of upload).
-- `meal_logs.image_path` — `food-images/{user_id}/{meal_log_id}.jpg` in Supabase Storage.
+- `meal_logs.image_path` — normally `food-images/{user_id}/{meal_log_id}.jpg` in
+  Supabase Storage. Until the v0.1 upload flow exists, the MCP adapter stores a
+  caller-provided `image_url` verbatim in this text column as an external
+  reference; consumers must render `http(s)` values directly and only send
+  storage-shaped values through the Storage client.
 - `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
   should surface in the dashboard as "review me" items.
 - `meal_items.source_notes` — the agent's own reasoning ("approx, shared plate").

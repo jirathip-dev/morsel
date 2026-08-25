@@ -41,7 +41,6 @@ import type {
   UpdateMealItemOutput,
 } from '../packages/schema/food-types.js'
 import { MorselError } from './errors.js'
-import { calculateTargets } from './targets.js'
 import type { MorselRepository, StoredGoals } from './repository.js'
 
 function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
@@ -191,7 +190,7 @@ export class MorselService {
   async computeTargets(input: unknown): Promise<ComputeTargetsOutput> {
     parseInput(EmptyInputSchema, input, 'compute_targets')
     const profile = await this.requireProfile()
-    return parseInput(ComputeTargetsOutputSchema, calculateTargets(profile), 'compute_targets output')
+    return parseInput(ComputeTargetsOutputSchema, await this.repository.computeTargets(this.userId, profile), 'compute_targets output')
   }
 
   async getGoals(input: unknown): Promise<GetGoalsOutput> {
@@ -204,12 +203,15 @@ export class MorselService {
     const parsed = parseInput(SetGoalsInputSchema, input, 'set_goals')
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
-    const computed = profile === undefined ? undefined : calculateTargets(profile)
+    const computed = profile === undefined ? undefined : await this.repository.computeTargets(this.userId, profile)
+    const effective = profile === undefined || computed === undefined
+      ? undefined
+      : toGoalSummary(computed, stored)
     const values: SetGoalsInput = {
-      calorie_target_kcal: parsed.calorie_target_kcal ?? stored?.calorie_target_kcal ?? computed?.calorie_target_kcal,
-      protein_g: parsed.protein_g ?? stored?.protein_g ?? computed?.protein_g,
-      carbs_g: parsed.carbs_g ?? stored?.carbs_g ?? computed?.carbs_g,
-      fat_g: parsed.fat_g ?? stored?.fat_g ?? computed?.fat_g,
+      calorie_target_kcal: parsed.calorie_target_kcal ?? effective?.calorie_target_kcal ?? (profile === undefined && stored?.source === 'manual' ? stored.calorie_target_kcal : undefined),
+      protein_g: parsed.protein_g ?? effective?.protein_g ?? (profile === undefined && stored?.source === 'manual' ? stored.protein_g : undefined),
+      carbs_g: parsed.carbs_g ?? effective?.carbs_g ?? (profile === undefined && stored?.source === 'manual' ? stored.carbs_g : undefined),
+      fat_g: parsed.fat_g ?? effective?.fat_g ?? (profile === undefined && stored?.source === 'manual' ? stored.fat_g : undefined),
     }
     if (values.calorie_target_kcal === undefined || values.protein_g === undefined || values.carbs_g === undefined || values.fat_g === undefined) {
       throw new MorselError('profile_required', 'set a profile or provide all four goal values')
@@ -267,7 +269,7 @@ export class MorselService {
   }
 
   private async getEffectiveGoals(profile: Profile): Promise<GoalSummary> {
-    const computed = calculateTargets(profile)
+    const computed = await this.repository.computeTargets(this.userId, profile)
     const stored = await this.repository.getGoals(this.userId)
     return parseInput(GoalSummarySchema, toGoalSummary(computed, stored), 'goal')
   }
