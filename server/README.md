@@ -29,6 +29,10 @@ check. `npm run dev` starts Bun's file-watching development server.
 - `compute_targets` delegates to the existing `public.compute_targets()` SQL
   function through Supabase RPC in production. The in-memory adapter uses the
   same Mifflin-St Jeor calculation for credential-free tests.
+- `log_meal` delegates to `public.log_meal_with_items()`, a security-invoker
+  Postgres function that inserts the log and all items in one transaction. The
+  RPC is evaluated with the caller's bearer token, so meal RLS policies apply
+  to both inserts.
 - `MorselRepository` is the storage seam. `InMemoryRepository` is used by unit
   tests; `SupabaseRepository` uses the caller token and explicit user filters
   wherever the table has a `user_id` column. `meal_items` relies on its parent
@@ -38,18 +42,14 @@ check. `npm run dev` starts Bun's file-watching development server.
   but no auth-user trigger. The account id is taken from the validated bearer
   token and the email is taken from Supabase Auth.
 - `log_meal` is one repository operation. The in-memory implementation commits
-  both sides together. The current migrations do not provide an RPC, so the
-  Supabase adapter uses a compensating delete if the item insert fails and
-  reports a transaction error if rollback cannot be confirmed. A future
-  migration can replace this with a database RPC without changing the MCP
-  contract.
+  both sides together, and the Supabase adapter calls the atomic meal RPC.
 - `image_url` is stored verbatim in `meal_logs.image_path`. This v0.1 server
   does not download, verify, or upload media to Supabase Storage; the value is
   only a reference until the storage upload flow is implemented. The URL must
   use HTTPS.
-- OAuth discovery and shared-table RLS hardening are intentionally outside
-  issue #3; the existing schema permissions and follow-up store migration work
-  remain deployment prerequisites.
+- OAuth discovery remains outside issue #3. Migration `0003` adds the
+  owner-only `public.users` policies and the atomic meal RPC; it still must be
+  applied in each deployment before the server is used.
 - The v0.1 day boundary is UTC because the MCP contract supplies a date but not
   a timezone. The user's stored timezone can be incorporated with a later
   contract/store change.

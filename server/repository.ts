@@ -29,6 +29,8 @@ export interface StoredGoals {
 }
 
 export interface MorselRepository {
+  /** Refresh the bearer credential used by a long-lived MCP session. */
+  setAccessToken(accessToken: string): void
   /** Ensure the authenticated account exists in the app's public user table. */
   ensureUser(userId: string, email: string): Promise<void>
   /**

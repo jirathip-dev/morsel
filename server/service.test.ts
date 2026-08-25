@@ -84,6 +84,38 @@ describe('MorselService', () => {
     })
   })
 
+  it('uses a complete manual goal without requiring a profile', async () => {
+    const service = createService()
+
+    await expect(service.setGoals({
+      calorie_target_kcal: 2_000,
+      protein_g: 150,
+      carbs_g: 200,
+      fat_g: 70,
+    })).resolves.toEqual({ ok: true, source: 'manual' })
+
+    await expect(service.getGoals({})).resolves.toEqual({
+      calorie_target_kcal: 2_000,
+      protein_g: 150,
+      carbs_g: 200,
+      fat_g: 70,
+      source: 'manual',
+    })
+
+    await service.logMeal({
+      meal_type: 'lunch',
+      eaten_at: '2026-08-25T12:30:00Z',
+      items: [{ name: 'rice', calories_kcal: 220 }],
+    })
+    await expect(service.getDay({ date: '2026-08-25' })).resolves.toMatchObject({
+      goal: {
+        calorie_target_kcal: 2_000,
+        source: 'manual',
+      },
+      remaining_kcal: 1_780,
+    })
+  })
+
   it('retains the current computed target when a stale computed goal row is partially overridden', async () => {
     const repository = new InMemoryRepository()
     repository.seedProfile(userId, profile)

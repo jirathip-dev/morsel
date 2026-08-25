@@ -27,7 +27,7 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.js'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
-import type { ComputeTargetsFunctionInput, Database } from './supabase-types.js'
+import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.js'
 
 const databaseNumber = z.union([
   z.number(),
@@ -82,6 +82,30 @@ const targetRowSchema = z.object({
   protein_g: databaseNumber,
   carbs_g: databaseNumber,
   fat_g: databaseNumber,
+}).strict()
+
+const mealRpcItemSchema = z.object({
+  item_id: z.uuid(),
+  name: z.string(),
+  quantity: databaseNumber,
+  unit: UnitSchema,
+  calories_kcal: databaseNumber.nullable(),
+  protein_g: databaseNumber.nullable(),
+  carbs_g: databaseNumber.nullable(),
+  fat_g: databaseNumber.nullable(),
+  fiber_g: databaseNumber.nullable(),
+  sugar_g: databaseNumber.nullable(),
+  barcode: z.string().nullable(),
+  food_ref_id: z.string().nullable(),
+  confidence: databaseNumber.nullable(),
+  notes: z.string().nullable(),
+}).strict()
+
+const mealRpcRowSchema = z.object({
+  meal_log_id: z.uuid(),
+  eaten_at: IsoDateTimeSchema,
+  meal_type: MealTypeSchema,
+  items: z.array(mealRpcItemSchema).min(1),
 }).strict()
 
 const goalsRowSchema = z.object({
@@ -170,6 +194,32 @@ function toMealRecord(value: unknown, items: MealItemRecord[]): MealRecord {
   }, 'meal log')
 }
 
+function toRpcMealRecord(value: unknown): MealRecord {
+  const row = parseStored(mealRpcRowSchema, value, 'meal write')
+  const items = row.items.map((item) => parseStored(MealItemRecordSchema, {
+    item_id: item.item_id,
+    name: item.name,
+    quantity: item.quantity,
+    unit: item.unit,
+    ...(item.calories_kcal === null ? {} : { calories_kcal: item.calories_kcal }),
+    ...(item.protein_g === null ? {} : { protein_g: item.protein_g }),
+    ...(item.carbs_g === null ? {} : { carbs_g: item.carbs_g }),
+    ...(item.fat_g === null ? {} : { fat_g: item.fat_g }),
+    ...(item.fiber_g === null ? {} : { fiber_g: item.fiber_g }),
+    ...(item.sugar_g === null ? {} : { sugar_g: item.sugar_g }),
+    ...(item.barcode === null ? {} : { barcode: item.barcode }),
+    ...(item.food_ref_id === null ? {} : { food_ref_id: item.food_ref_id }),
+    ...(item.confidence === null ? {} : { confidence: item.confidence }),
+    ...(item.notes === null ? {} : { notes: item.notes }),
+  }, 'meal item'))
+  return parseStored(MealRecordSchema, {
+    meal_log_id: row.meal_log_id,
+    meal_type: row.meal_type,
+    eaten_at: row.eaten_at,
+    items,
+  }, 'meal write')
+}
+
 function toProfile(value: unknown): Profile {
   const profile = parseStored(profileRowSchema, value, 'profile')
   return parseStored(ProfileSchema, {
@@ -212,13 +262,23 @@ function toFood(value: unknown): SearchFoodItem {
 
 export interface SupabaseRepositoryOptions {
   client: SupabaseClient<Database>
+  accessTokenSetter?: (accessToken: string) => void
 }
 
 export class SupabaseRepository implements MorselRepository {
   private readonly client: SupabaseClient<Database>
+  private readonly accessTokenSetter: ((accessToken: string) => void) | undefined
 
   constructor(options: SupabaseRepositoryOptions) {
     this.client = options.client
+    this.accessTokenSetter = options.accessTokenSetter
+  }
+
+  setAccessToken(accessToken: string): void {
+    if (this.accessTokenSetter === undefined) {
+      throw new RepositoryError('Supabase repository token refresh is not configured')
+    }
+    this.accessTokenSetter(accessToken)
   }
 
   async ensureUser(userId: string, email: string): Promise<void> {
@@ -234,22 +294,7 @@ export class SupabaseRepository implements MorselRepository {
   }
 
   async createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord> {
-    const logResponse = await this.client
-      .from('meal_logs')
-      .insert({
-        user_id: userId,
-        eaten_at: meal.eaten_at,
-        meal_type: meal.meal_type,
-        source: meal.source,
-        image_path: meal.image_path ?? null,
-        notes: meal.notes ?? null,
-      })
-      .select(mealLogColumns)
-      .single()
-    const log = parseStored(mealLogRowSchema, requireData(logResponse.data, logResponse.error, 'meal log insert'), 'meal log')
-
-    const itemRows: Database['public']['Tables']['meal_items']['Insert'][] = meal.items.map((item) => ({
-      meal_log_id: log.id,
+    const items: LogMealFunctionItem[] = meal.items.map((item) => ({
       name: item.name,
       quantity: item.quantity,
       unit: item.unit,
@@ -265,46 +310,27 @@ export class SupabaseRepository implements MorselRepository {
       source_notes: item.notes ?? null,
     }))
 
-    try {
-      const itemsResponse = await this.client
-        .from('meal_items')
-        .insert(itemRows)
-        .select(mealItemColumns)
-      if (itemsResponse.error !== null) {
-        throw new RepositoryError('meal item insert failed', itemsResponse.error)
-      }
-      const rows = itemsResponse.data
-      if (rows.length !== itemRows.length) {
-        throw new RepositoryError('meal item insert returned an incomplete result')
-      }
-      const items = rows.map((row) => toMealItem(row))
-      return toMealRecord(log, items)
-    } catch (error) {
-      try {
-        await this.rollbackMeal(userId, log.id)
-      } catch (rollbackError) {
-        throw new TransactionError('meal write failed and rollback could not be confirmed', rollbackError)
-      }
-      if (error instanceof TransactionError) {
-        throw error
-      }
-      throw new TransactionError('meal and item rows were not written', error)
-    }
-  }
-
-  private async rollbackMeal(userId: string, mealLogId: string): Promise<void> {
-    const response = await this.client
-      .from('meal_logs')
-      .delete()
-      .eq('id', mealLogId)
-      .eq('user_id', userId)
-      .select('id')
+    const response = await this.client.rpc('log_meal_with_items', {
+      p_user_id: userId,
+      p_eaten_at: meal.eaten_at,
+      p_meal_type: meal.meal_type,
+      p_source: meal.source,
+      p_image_path: meal.image_path ?? null,
+      p_notes: meal.notes ?? null,
+      p_items: items,
+    })
     if (response.error !== null) {
-      throw new RepositoryError('meal rollback failed', response.error)
+      throw new TransactionError('meal and item rows were not written', response.error)
     }
-    if (response.data.length !== 1) {
-      throw new RepositoryError('meal rollback did not remove the inserted log')
+    const rows = parseStored(z.array(mealRpcRowSchema), response.data, 'meal write')
+    if (rows.length !== 1) {
+      throw new RepositoryError('meal write returned an unexpected number of rows')
     }
+    const row = rows[0]
+    if (row === undefined) {
+      throw new RepositoryError('meal write returned no row')
+    }
+    return toRpcMealRecord(row)
   }
 
   async getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]> {
@@ -536,18 +562,38 @@ export class SupabaseRepository implements MorselRepository {
   }
 }
 
-export function createSupabaseRepository(supabaseUrl: string, accessToken: string, anonKey: string): SupabaseRepository {
+export interface SupabaseRepositoryFactoryOptions {
+  fetch?: typeof fetch
+}
+
+export function createSupabaseRepository(
+  supabaseUrl: string,
+  accessToken: string,
+  anonKey: string,
+  options: SupabaseRepositoryFactoryOptions = {},
+): SupabaseRepository {
+  let currentAccessToken = accessToken
+  const downstreamFetch = options.fetch ?? fetch
+  const authenticatedFetch = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+    const headers = new Headers(input instanceof Request ? input.headers : undefined)
+    const initHeaders = new Headers(init?.headers)
+    initHeaders.forEach((value, name) => {
+      headers.set(name, value)
+    })
+    headers.set('authorization', `Bearer ${currentAccessToken}`)
+    const requestInit = { ...init, headers }
+    return input instanceof Request
+      ? downstreamFetch(input, requestInit)
+      : downstreamFetch(input.toString(), requestInit)
+  }
+  authenticatedFetch.preconnect = (): void => undefined
   const client = createClient<Database>(supabaseUrl, anonKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
       detectSessionInUrl: false,
     },
-    global: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
+    global: { fetch: authenticatedFetch },
   })
-  return new SupabaseRepository({ client })
+  return new SupabaseRepository({ client, accessTokenSetter: (nextToken) => { currentAccessToken = nextToken } })
 }

@@ -109,6 +109,23 @@ function toGoalSummary(computed: ComputeTargetsOutput, stored: StoredGoals | und
   }
 }
 
+function toCompleteManualGoal(stored: StoredGoals | undefined): GoalSummary | undefined {
+  if (stored?.source !== 'manual'
+    || stored.calorie_target_kcal === undefined
+    || stored.protein_g === undefined
+    || stored.carbs_g === undefined
+    || stored.fat_g === undefined) {
+    return undefined
+  }
+  return {
+    calorie_target_kcal: stored.calorie_target_kcal,
+    protein_g: stored.protein_g,
+    carbs_g: stored.carbs_g,
+    fat_g: stored.fat_g,
+    source: 'manual',
+  }
+}
+
 export interface MorselServiceOptions {
   repository: MorselRepository
   userId: string
@@ -160,7 +177,10 @@ export class MorselService {
     }, { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 })
 
     const profile = await this.repository.getProfile(this.userId)
-    const goal = profile === undefined ? undefined : await this.getEffectiveGoals(profile)
+    const stored = await this.repository.getGoals(this.userId)
+    const goal = profile === undefined
+      ? toCompleteManualGoal(stored)
+      : await this.getEffectiveGoals(profile, stored)
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
       meals,
@@ -199,8 +219,13 @@ export class MorselService {
 
   async getGoals(input: unknown): Promise<GetGoalsOutput> {
     parseInput(EmptyInputSchema, omittedInputAsObject(input), 'get_goals')
+    const stored = await this.repository.getGoals(this.userId)
+    const manualGoal = toCompleteManualGoal(stored)
+    if (manualGoal !== undefined) {
+      return parseInput(GetGoalsOutputSchema, manualGoal, 'get_goals output')
+    }
     const profile = await this.requireProfile()
-    return parseInput(GetGoalsOutputSchema, await this.getEffectiveGoals(profile), 'get_goals output')
+    return parseInput(GetGoalsOutputSchema, await this.getEffectiveGoals(profile, stored), 'get_goals output')
   }
 
   async setGoals(input: unknown): Promise<SetGoalsOutput> {
@@ -272,9 +297,9 @@ export class MorselService {
     return profile
   }
 
-  private async getEffectiveGoals(profile: Profile): Promise<GoalSummary> {
+  private async getEffectiveGoals(profile: Profile, stored?: StoredGoals): Promise<GoalSummary> {
     const computed = await this.repository.computeTargets(this.userId, profile)
-    const stored = await this.repository.getGoals(this.userId)
-    return parseInput(GoalSummarySchema, toGoalSummary(computed, stored), 'goal')
+    const goals = stored ?? await this.repository.getGoals(this.userId)
+    return parseInput(GoalSummarySchema, toGoalSummary(computed, goals), 'goal')
   }
 }

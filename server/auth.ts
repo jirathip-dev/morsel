@@ -25,6 +25,7 @@ export function bearerToken(authorization: string | undefined): string {
 export interface SupabaseAuthenticatorOptions {
   supabaseUrl: string
   anonKey: string
+  fetch?: typeof fetch
 }
 
 export function createSupabaseAuthenticator(options: SupabaseAuthenticatorOptions): Authenticate {
@@ -39,6 +40,7 @@ export function createSupabaseAuthenticator(options: SupabaseAuthenticatorOption
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        fetch: options.fetch,
       },
     })
     const result = await client.auth.getUser(token)

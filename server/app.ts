@@ -9,6 +9,7 @@ import { createSupabaseRepository } from './supabase-repository.js'
 
 interface McpSession {
   userId: string
+  repository: MorselRepository
   transport: WebStandardStreamableHTTPServerTransport
   lastUsedAt: number
 }
@@ -176,6 +177,8 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
             headers: { 'content-type': 'application/json' },
           })
         }
+        session.repository.setAccessToken(user.token)
+        await session.repository.ensureUser(user.userId, user.email)
         session.lastUsedAt = Date.now()
         return await session.transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
       }
@@ -188,6 +191,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       }
 
       const repository = await repositoryFactory(user)
+      repository.setAccessToken(user.token)
       await repository.ensureUser(user.userId, user.email)
       const service = new MorselService({ repository, userId: user.userId, now: options.now })
       const server = createMcpServer(service)
@@ -203,7 +207,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
           sessions.delete(closedSessionId)
         },
       })
-      const session: McpSession = { userId: user.userId, transport, lastUsedAt: Date.now() }
+      const session: McpSession = { userId: user.userId, repository, transport, lastUsedAt: Date.now() }
       await server.connect(transport)
       return await transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
     } catch (error) {

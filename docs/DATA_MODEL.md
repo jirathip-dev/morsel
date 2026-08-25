@@ -1,7 +1,8 @@
 # Data model
 
-Canonical SQL lives in [`db/migrations/0001_init.sql`](../db/migrations/0001_init.sql).
-This doc is the narrative version.
+Canonical SQL lives in the numbered files under [`db/migrations/`](../db/migrations/):
+the initial schema, target computation, and security/transaction follow-up
+migrations. This doc is the narrative version.
 
 ## Entities
 
@@ -58,6 +59,8 @@ Every user-scoped table is guarded by `auth.uid() = user_id`. `meal_items` is
 an exception: it has no `user_id`, so policies join through the parent
 `meal_logs`. That subquery works but is heavier per-row; if it ever becomes a
 hot path, add a denormalized `user_id` to `meal_items` and key on it directly.
+The `users` table is guarded by owner policies using `auth.uid() = id` for
+select, insert, and update.
 
 ## Why one store for two clients
 

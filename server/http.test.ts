@@ -12,6 +12,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+class TokenTrackingRepository extends InMemoryRepository {
+  readonly accessTokens: string[] = []
+  readonly operationTokens: string[] = []
+  private currentAccessToken = ''
+
+  override setAccessToken(accessToken: string): void {
+    this.currentAccessToken = accessToken
+    this.accessTokens.push(accessToken)
+  }
+
+  override async getMealsInRange(userId: string, start: string, end: string) {
+    this.operationTokens.push(this.currentAccessToken)
+    return super.getMealsInRange(userId, start, end)
+  }
+}
+
 describe('MCP HTTP server', () => {
   it('registers all tools and routes log_meal through the repository without Supabase', async () => {
     const repository = new InMemoryRepository()
@@ -95,6 +111,57 @@ describe('MCP HTTP server', () => {
     const meals = await repository.getMealsInRange(userId, '2026-08-25T00:00:00.000Z', '2026-08-26T00:00:00.000Z')
     expect(meals).toHaveLength(1)
     expect(meals[0]?.items[0]?.name).toBe('rice')
+    await client.close()
+  })
+
+  it('refreshes the session repository token before a post-rotation tool call', async () => {
+    const repository = new TokenTrackingRepository()
+    const authenticatedTokens: string[] = []
+    const authenticate: Authenticate = (receivedToken) => {
+      authenticatedTokens.push(receivedToken)
+      return Promise.resolve({
+        userId,
+        email: 'test@example.com',
+        token: receivedToken,
+        authInfo: {
+          token: receivedToken,
+          clientId: 'test-client',
+          scopes: [],
+          extra: { userId },
+        },
+      })
+    }
+    const app = createMorselApp({
+      authenticate,
+      repositoryFactory: () => repository,
+      now: () => new Date('2026-08-25T12:00:00.000Z'),
+      enableJsonResponse: true,
+    })
+    let requestNumber = 0
+    const fetchLike = async (url: string | URL, init?: RequestInit): Promise<Response> => {
+      const request = new Request(url.toString(), init)
+      const headers = new Headers(request.headers)
+      headers.set('authorization', `Bearer ${requestNumber++ === 0 ? 'token-one' : 'token-two'}`)
+      return app.fetch(new Request(request, { headers }))
+    }
+    const client = new Client({ name: 'morsel-rotation-test-client', version: '1.0.0' })
+    const transport = new StreamableHTTPClientTransport(new URL('https://morsel.test/mcp'), {
+      fetch: fetchLike,
+      requestInit: { headers: { Authorization: 'Bearer token-one' } },
+    })
+
+    await client.connect(transport)
+    const result = await client.callTool({
+      name: 'get_dashboard_summary',
+      arguments: { days: 1 },
+    })
+
+    expect(result.isError).not.toBe(true)
+    expect(authenticatedTokens).toContain('token-one')
+    expect(authenticatedTokens).toContain('token-two')
+    expect(repository.accessTokens).toContain('token-one')
+    expect(repository.accessTokens).toContain('token-two')
+    expect(repository.operationTokens[repository.operationTokens.length - 1]).toBe('token-two')
     await client.close()
   })
 })

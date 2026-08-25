@@ -19,6 +19,29 @@ export interface ComputeTargetsFunctionRow {
   fat_g: number
 }
 
+export interface LogMealFunctionItem {
+  name: string
+  quantity: number
+  unit: string
+  calories_kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
+  fiber_g: number | null
+  sugar_g: number | null
+  barcode: string | null
+  food_ref_id: string | null
+  confidence: number | null
+  source_notes: string | null
+}
+
+export interface LogMealFunctionRow {
+  meal_log_id: string
+  eaten_at: string
+  meal_type: string
+  items: LogMealFunctionItem[]
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -241,6 +264,18 @@ export interface Database {
       compute_targets: {
         Args: { p: ComputeTargetsFunctionInput }
         Returns: ComputeTargetsFunctionRow[]
+      }
+      log_meal_with_items: {
+        Args: {
+          p_user_id: string
+          p_eaten_at: string
+          p_meal_type: string
+          p_source: string
+          p_image_path: string | null
+          p_notes: string | null
+          p_items: LogMealFunctionItem[]
+        }
+        Returns: LogMealFunctionRow[]
       }
     }
   }

@@ -33,6 +33,9 @@ vision → fills `items[]` → calls this. `source` is set internally by the ser
 `photo_vision` when `image_url` is present, `barcode` when an item has a barcode
 but no image, and `manual` otherwise.
 
+The server writes the meal log and every item through one database transaction;
+an RPC failure leaves no partial meal rows.
+
 **Input**
 ```json
 {
@@ -118,8 +121,9 @@ At least one optional field must be supplied with `item_id`.
 **Input** `{ "date": "YYYY-MM-DD" }`
 **Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number }`
 
-`goal` and `remaining_kcal` are omitted until a profile exists. The v0.1
-server interprets `date` as a UTC calendar day.
+`goal` and `remaining_kcal` are omitted only when there is neither a profile nor
+a complete manual goal. A complete manual goal can be used without a profile.
+The v0.1 server interprets `date` as a UTC calendar day.
 
 ### `get_dashboard_summary`
 
@@ -149,12 +153,16 @@ Formula (Mifflin-St Jeor → activity factor → diet goal) in [`TARGETS.md`](TA
 the computed default unless the user set a manual override.
 **Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual" }`
 
+A complete manual goal is readable even when no profile has been set. A profile
+is required when the stored goal is computed or incomplete.
+
 ### `set_goals`
 
 **Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
 
-Omitted values retain the current effective values. If no profile or existing
-goal can supply them, provide all four values.
+Omitted values retain the current effective values. Without a profile, provide
+all four values to create a complete manual goal; a profile is required for
+computed or fallback values.
 
 ## Principles for the agent
 
