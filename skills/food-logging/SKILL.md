@@ -207,9 +207,9 @@ Output:
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range; `streak_days` counts
 consecutive UTC days ending on the server's UTC today that contain at least one
-meal. In v0.1, `weight_trend` is normally empty because no registered tool
-writes weight logs; omit it from user summaries unless a future contract adds
-one.
+meal, within the requested `days` window (so it is at most `days`). In v0.1,
+`weight_trend` is normally empty because no registered tool writes weight logs;
+omit it from user summaries unless a future contract adds one.
 
 ### Profile and target tools
 
@@ -291,8 +291,11 @@ the user's confirmation, preserve the original `eaten_at`, `image_url`, and
 meal-level `notes`, then delete that meal and re-log the complete item list
 once. `get_day` does not return the image reference or meal notes; if the
 original `image_url` is unavailable, tell the user the link will be lost and
-the new log's source will be `manual`. If the food was a genuinely separate
-meal, log it as its own log. Do not create a second log for the same sitting.
+meal notes cannot be recovered. If the original `image_url` is unavailable,
+the new log's source will be `barcode` if any preserved item has a barcode,
+otherwise `manual`; tell the user if the photo link will be lost. If the food
+was a genuinely separate meal, log it as its own log. Do not create a second
+log for the same sitting.
 
 ## Common read and correction flows
 

@@ -142,8 +142,9 @@ The v0.1 server interprets `date` as a UTC calendar day.
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
-consecutive UTC days ending today that contain at least one meal. In v0.1,
-`weight_trend` is normally empty because no registered tool writes `weight_logs`.
+consecutive UTC days ending today that contain at least one meal within the
+requested `days` window, so it is at most `days`. In v0.1, `weight_trend` is
+normally empty because no registered tool writes `weight_logs`.
 
 ### `get_profile`
 
