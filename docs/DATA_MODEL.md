@@ -44,8 +44,8 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
 - `meal_logs.eaten_at` — when the meal happened (agent passes it, not timestamp of upload).
 - `meal_logs.image_path` — normally `food-images/{user_id}/{meal_log_id}.jpg` in
   Supabase Storage. Until the v0.1 upload flow exists, the MCP adapter stores a
-  caller-provided `image_url` verbatim in this text column as an external
-  reference; consumers must render `http(s)` values directly and only send
+  caller-provided HTTPS `image_url` verbatim in this text column as an external
+  reference; consumers must render HTTPS values directly and only send
   storage-shaped values through the Storage client.
 - `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
   should surface in the dashboard as "review me" items.
@@ -67,6 +67,8 @@ rows. Because both authenticate to the same store and RLS scopes by the same
 
 ## Images
 
-Stored in a Supabase Storage bucket `food-images`, path `{user_id}/{meal_log_id}.jpg`.
-Bucket policy: authenticated users can read/write only their own prefix. The
-MCP server uploads on behalf of the user using the user's token so the policy applies.
+The intended storage location is the Supabase Storage bucket `food-images`, path
+`{user_id}/{meal_log_id}.jpg`. Until the upload flow exists, the MCP server
+stores a caller-provided HTTPS URL reference in `meal_logs.image_path` and does
+not upload bytes. When upload is implemented, the bucket policy must allow
+authenticated users to read/write only their own prefix.

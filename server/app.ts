@@ -50,6 +50,56 @@ function httpError(error: unknown): Response {
   })
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+interface NormalizedMessage {
+  value: unknown
+  changed: boolean
+}
+
+function normalizeToolCallArguments(value: unknown): NormalizedMessage {
+  if (Array.isArray(value)) {
+    let changed = false
+    const normalized = value.map((entry) => {
+      const result = normalizeToolCallArguments(entry)
+      changed = changed || result.changed
+      return result.value
+    })
+    return { value: normalized, changed }
+  }
+  if (!isRecord(value) || value.method !== 'tools/call' || !isRecord(value.params) || Object.hasOwn(value.params, 'arguments')) {
+    return { value, changed: false }
+  }
+  return {
+    value: { ...value, params: { ...value.params, arguments: {} } },
+    changed: true,
+  }
+}
+
+async function requestWithDefaultToolArguments(request: Request): Promise<Request> {
+  if (request.method !== 'POST' || !(request.headers.get('content-type') ?? '').toLowerCase().includes('application/json')) {
+    return request
+  }
+  const body = await request.clone().text()
+  if (body.trim() === '') {
+    return request
+  }
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(body)
+  } catch {
+    return request
+  }
+  const normalized = normalizeToolCallArguments(parsed)
+  if (!normalized.changed) {
+    return request
+  }
+  const normalizedBody = JSON.stringify(normalized.value)
+  return new Request(request, { body: normalizedBody })
+}
+
 function defaultOptions(): Required<Pick<MorselAppOptions, 'authenticate' | 'repositoryFactory'>> {
   const supabaseUrl = environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL'])
   const anonKey = environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'])
@@ -123,7 +173,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
           })
         }
         session.lastUsedAt = Date.now()
-        return await session.transport.handleRequest(context.req.raw, { authInfo: user.authInfo })
+        return await session.transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
       }
 
       if (context.req.method !== 'POST') {
@@ -134,6 +184,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       }
 
       const repository = await repositoryFactory(user)
+      await repository.ensureUser(user.userId, user.email)
       const service = new MorselService({ repository, userId: user.userId, now: options.now })
       const server = createMcpServer(service)
       const transport = new WebStandardStreamableHTTPServerTransport({
@@ -150,7 +201,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       })
       const session: McpSession = { userId: user.userId, transport, lastUsedAt: Date.now() }
       await server.connect(transport)
-      return await transport.handleRequest(context.req.raw, { authInfo: user.authInfo })
+      return await transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
     } catch (error) {
       return httpError(error)
     }

@@ -4,6 +4,7 @@ import { MorselError } from './errors.js'
 
 export interface AuthenticatedUser {
   userId: string
+  email: string
   token: string
   authInfo: AuthInfo
 }
@@ -45,11 +46,16 @@ export function createSupabaseAuthenticator(options: SupabaseAuthenticatorOption
       throw new MorselError('authentication_failed', 'bearer token could not be validated', result.error)
     }
     const userId = result.data.user.id
-    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(userId)) {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(userId)) {
       throw new MorselError('authentication_failed', 'validated user id is not a UUID')
+    }
+    const email = result.data.user.email
+    if (typeof email !== 'string' || email.trim() === '') {
+      throw new MorselError('authentication_failed', 'validated user has no email')
     }
     return {
       userId,
+      email: email.trim(),
       token,
       authInfo: {
         token,

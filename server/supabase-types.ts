@@ -22,6 +22,28 @@ export interface ComputeTargetsFunctionRow {
 export interface Database {
   public: {
     Tables: {
+      users: {
+        Row: {
+          id: string
+          email: string
+          display_name: string | null
+          timezone: string
+          created_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          display_name?: string | null
+          timezone?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          display_name?: string | null
+          timezone?: string
+        }
+        Relationships: []
+      }
       meal_logs: {
         Row: {
           id: string

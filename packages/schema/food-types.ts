@@ -51,7 +51,13 @@ export const LogMealInputSchema = z.object({
   meal_type: MealTypeSchema,
   items: z.array(MealItemSchema).min(1),
   notes: z.string().trim().min(1).optional(),
-  image_url: z.string().trim().url().optional(),
+  image_url: z.string().trim().url().refine((value) => {
+    try {
+      return new URL(value).protocol === 'https:'
+    } catch {
+      return false
+    }
+  }, 'must use an https URL').optional(),
 }).strict()
 
 export const LogMealOutputSchema = z.object({
@@ -160,7 +166,7 @@ export const GetDayOutputSchema = z.object({
 
 export const GetDashboardSummaryInputSchema = z.object({
   days: z.number().int().positive().max(366).optional().default(7),
-}).strict().optional().default({ days: 7 })
+}).strict()
 
 export const WeightTrendPointSchema = z.object({
   date: CalendarDateSchema,
@@ -190,7 +196,7 @@ export const ProfileSchema = z.object({
   goal_weight_kg: positiveNumber.optional(),
 }).strict()
 
-export const EmptyInputSchema = z.object({}).strict().optional().default({})
+export const EmptyInputSchema = z.object({}).strict()
 
 export const SetProfileInputSchema = ProfileSchema
 export const GetProfileOutputSchema = ProfileSchema

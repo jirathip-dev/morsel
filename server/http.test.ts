@@ -8,11 +8,16 @@ import { InMemoryRepository } from './in-memory-repository.js'
 const userId = '00000000-0000-4000-8000-000000000002'
 const token = 'test-bearer-token'
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
 describe('MCP HTTP server', () => {
   it('registers all tools and routes log_meal through the repository without Supabase', async () => {
     const repository = new InMemoryRepository()
     const authenticate: Authenticate = (receivedToken) => Promise.resolve({
       userId,
+      email: 'test@example.com',
       token: receivedToken,
       authInfo: {
         token: receivedToken,
@@ -27,7 +32,25 @@ describe('MCP HTTP server', () => {
       now: () => new Date('2026-08-25T12:00:00.000Z'),
       enableJsonResponse: true,
     })
-    const fetchLike = async (url: string | URL, init?: RequestInit): Promise<Response> => app.fetch(new Request(url.toString(), init))
+    const fetchLike = async (url: string | URL, init?: RequestInit): Promise<Response> => {
+      const request = new Request(url.toString(), init)
+      if (request.method !== 'POST') {
+        return app.fetch(request)
+      }
+      const body = await request.clone().text()
+      let parsed: unknown
+      try {
+        parsed = JSON.parse(body)
+      } catch {
+        return app.fetch(request)
+      }
+      if (!isRecord(parsed) || parsed.method !== 'tools/call' || !isRecord(parsed.params) || parsed.params.name !== 'get_dashboard_summary') {
+        return app.fetch(request)
+      }
+      const params = { ...parsed.params }
+      delete params.arguments
+      return app.fetch(new Request(request, { body: JSON.stringify({ ...parsed, params }) }))
+    }
     const client = new Client({ name: 'morsel-test-client', version: '1.0.0' })
     const transport = new StreamableHTTPClientTransport(new URL('https://morsel.test/mcp'), {
       fetch: fetchLike,
@@ -49,6 +72,10 @@ describe('MCP HTTP server', () => {
       'set_profile',
       'update_meal_item',
     ])
+    const dashboardTool = listed.tools.find((tool) => tool.name === 'get_dashboard_summary')
+    expect(dashboardTool?.inputSchema).toMatchObject({
+      properties: { days: { type: 'integer' } },
+    })
 
     const defaultSummary = await client.callTool({ name: 'get_dashboard_summary' })
     expect(defaultSummary.isError).not.toBe(true)

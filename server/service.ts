@@ -51,6 +51,10 @@ function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
   return parsed.data
 }
 
+function omittedInputAsObject(input: unknown): unknown {
+  return input === undefined ? {} : input
+}
+
 function dayStart(date: string): string {
   return `${date}T00:00:00.000Z`
 }
@@ -172,7 +176,7 @@ export class MorselService {
   }
 
   async getProfile(input: unknown): Promise<GetProfileOutput> {
-    parseInput(EmptyInputSchema, input, 'get_profile')
+    parseInput(EmptyInputSchema, omittedInputAsObject(input), 'get_profile')
     const profile = await this.repository.getProfile(this.userId)
     if (profile === undefined) {
       throw new MorselError('not_found', 'profile is not set')
@@ -188,13 +192,13 @@ export class MorselService {
   }
 
   async computeTargets(input: unknown): Promise<ComputeTargetsOutput> {
-    parseInput(EmptyInputSchema, input, 'compute_targets')
+    parseInput(EmptyInputSchema, omittedInputAsObject(input), 'compute_targets')
     const profile = await this.requireProfile()
     return parseInput(ComputeTargetsOutputSchema, await this.repository.computeTargets(this.userId, profile), 'compute_targets output')
   }
 
   async getGoals(input: unknown): Promise<GetGoalsOutput> {
-    parseInput(EmptyInputSchema, input, 'get_goals')
+    parseInput(EmptyInputSchema, omittedInputAsObject(input), 'get_goals')
     const profile = await this.requireProfile()
     return parseInput(GetGoalsOutputSchema, await this.getEffectiveGoals(profile), 'get_goals output')
   }
@@ -239,7 +243,7 @@ export class MorselService {
   }
 
   async getDashboardSummary(input: unknown): Promise<GetDashboardSummaryOutput> {
-    const parsed: ParsedGetDashboardSummaryInput = parseInput(GetDashboardSummaryInputSchema, input, 'get_dashboard_summary')
+    const parsed: ParsedGetDashboardSummaryInput = parseInput(GetDashboardSummaryInputSchema, omittedInputAsObject(input), 'get_dashboard_summary')
     const today = this.now().toISOString().slice(0, 10)
     const startDate = addDays(today, 1 - parsed.days)
     const meals = await this.repository.getMealsInRange(this.userId, dayStart(startDate), nextDayStart(today))

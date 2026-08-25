@@ -60,6 +60,12 @@ export class InMemoryRepository implements MorselRepository {
     this.failNextMealItemWrite = true
   }
 
+  async ensureUser(userId: string, email: string): Promise<void> {
+    void userId
+    void email
+    await Promise.resolve()
+  }
+
   seedProfile(userId: string, profile: Profile): void {
     this.profiles.set(userId, { ...profile })
   }

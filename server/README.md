@@ -33,6 +33,10 @@ check. `npm run dev` starts Bun's file-watching development server.
   tests; `SupabaseRepository` uses the caller token and explicit user filters
   wherever the table has a `user_id` column. `meal_items` relies on its parent
   meal log's RLS policy and performs an ownership check before updates.
+- The server upserts the authenticated account into `public.users` before
+  opening an MCP session because the existing schema has app-table foreign keys
+  but no auth-user trigger. The account id is taken from the validated bearer
+  token and the email is taken from Supabase Auth.
 - `log_meal` is one repository operation. The in-memory implementation commits
   both sides together. The current migrations do not provide an RPC, so the
   Supabase adapter uses a compensating delete if the item insert fails and
@@ -41,7 +45,11 @@ check. `npm run dev` starts Bun's file-watching development server.
   contract.
 - `image_url` is stored verbatim in `meal_logs.image_path`. This v0.1 server
   does not download, verify, or upload media to Supabase Storage; the value is
-  only a reference until the storage upload flow is implemented.
+  only a reference until the storage upload flow is implemented. The URL must
+  use HTTPS.
+- OAuth discovery and shared-table RLS hardening are intentionally outside
+  issue #3; the existing schema permissions and follow-up store migration work
+  remain deployment prerequisites.
 - The v0.1 day boundary is UTC because the MCP contract supplies a date but not
   a timezone. The user's stored timezone can be incorporated with a later
   contract/store change.

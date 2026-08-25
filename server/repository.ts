@@ -29,6 +29,8 @@ export interface StoredGoals {
 }
 
 export interface MorselRepository {
+  /** Ensure the authenticated account exists in the app's public user table. */
+  ensureUser(userId: string, email: string): Promise<void>
   /**
    * The repository owns the meal write boundary. Implementations must either
    * commit the log and every item or leave no new rows behind.

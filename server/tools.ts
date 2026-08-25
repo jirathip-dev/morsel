@@ -114,7 +114,7 @@ export function createMcpServer(service: MorselService): McpServer {
   }, (input) => runTool(() => service.setGoals(input)))
 
   server.registerTool('update_meal_item', {
-    description: 'Correct the name, quantity, or macros for one meal item owned by the caller.',
+    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.',
     inputSchema: UpdateMealItemInputSchema,
     outputSchema: UpdateMealItemOutputSchema,
   }, (input) => runTool(() => service.updateMealItem(input)))

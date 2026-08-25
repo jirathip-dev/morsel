@@ -105,6 +105,10 @@ const foodRowSchema = z.object({
   fat_g: databaseNumber.nullable(),
 }).strict()
 
+const userRowSchema = z.object({
+  id: z.uuid(),
+}).strict()
+
 const weightRowSchema = z.object({
   logged_at: IsoDateTimeSchema,
   kg: databaseNumber.refine((value) => value > 0, 'must be positive'),
@@ -133,7 +137,7 @@ function requireData<T>(data: T | null, error: { message: string } | null, opera
 }
 
 function escapeIlikePattern(value: string): string {
-  return value.replaceAll('\\', '\\\\').replaceAll('%', '\\%').replaceAll('_', '\\_')
+  return value.replaceAll('\\', '\\\\').replaceAll('%', '\\%').replaceAll('_', '\\_').replaceAll('*', '\\*')
 }
 
 function toMealItem(value: unknown): MealItemRecord {
@@ -215,6 +219,18 @@ export class SupabaseRepository implements MorselRepository {
 
   constructor(options: SupabaseRepositoryOptions) {
     this.client = options.client
+  }
+
+  async ensureUser(userId: string, email: string): Promise<void> {
+    const response = await this.client
+      .from('users')
+      .upsert({ id: userId, email }, { onConflict: 'id' })
+      .select('id')
+      .single()
+    const row = parseStored(userRowSchema, requireData(response.data, response.error, 'user bootstrap'), 'user bootstrap')
+    if (row.id !== userId) {
+      throw new RepositoryError('user bootstrap returned an unexpected user')
+    }
   }
 
   async createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord> {

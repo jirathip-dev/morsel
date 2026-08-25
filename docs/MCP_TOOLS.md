@@ -63,7 +63,7 @@ but no image, and `manual` otherwise.
       }
     },
     "notes":     { "type": "string" },
-    "image_url": { "type": "string", "description": "Public URL of the uploaded food photo, if any" }
+    "image_url": { "type": "string", "format": "uri", "description": "Public HTTPS URL of the food photo, if any" }
   },
   "required": ["meal_type", "items"]
 }
@@ -169,7 +169,7 @@ goal can supply them, provide all four values.
 ## v0.1 image limitation
 
 The contract calls the field `image_url`, while the existing database column is
-`meal_logs.image_path`. The v0.1 server stores the URL string in that column as
-a reference. It does not fetch or upload the image and does not claim that the
-URL is durable or public; the Supabase Storage upload policy in the data model
+`meal_logs.image_path`. The v0.1 server stores the HTTPS URL string in that
+column as a reference. It does not fetch or upload the image and does not claim
+that the URL is durable; the Supabase Storage upload policy in the data model
 remains a later implementation step.
