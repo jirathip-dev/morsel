@@ -1,0 +1,24 @@
+# Swift anti-slop for app/ (SwiftUI dashboard). Strict but scaffold-realistic:
+# default rules plus the opt-ins below. Analyzer rules (unused_import,
+# capture_variable) need a compiled build — adopt once app/ has an Xcode
+# project and a build job.
+included:
+  - app
+
+opt_in_rules:
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - empty_count
+  - first_where
+  - contains_over_first_not_nil
+
+force_unwrapping:
+  severity: error
+force_cast: error
+force_try: error
+implicitly_unwrapped_optional:
+  severity: error
+
+line_length:
+  warning: 120
+  error: 160

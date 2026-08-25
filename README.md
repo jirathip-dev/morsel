@@ -41,10 +41,12 @@ morsel/
 - [DATA_MODEL](docs/DATA_MODEL.md) — tables, enums, RLS
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
 - [ROADMAP](docs/ROADMAP.md) — milestones
-- [AGENTS.md](AGENTS.md) — context for any agent working in this repo
+- [CLAUDE.md](CLAUDE.md) — context for any agent working in this repo (`AGENTS.md` is a symlink to it)
 
 ## Status
-Design scaffold. Working name `morsel` (rename freely — it's a folder + a README).
+Design scaffold with quality guardrails in place (strict TypeScript, anti-slop
+ESLint + SwiftLint, CI on every PR). Working name `morsel` (rename freely —
+it's a folder + a README).
 
 ## License
-MIT (proposed). Starting scaffold, not yet published.
+MIT — see [LICENSE](LICENSE).
