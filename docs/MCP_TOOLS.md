@@ -87,7 +87,9 @@ an RPC failure leaves no partial meal rows.
 Macro fields are totals for the whole item as eaten. The server stores them as
 provided and never multiplies them by `quantity` or `unit`; scale values from a
 `search_food` result's `serving_size` and `serving_unit` before calling
-`log_meal`.
+`log_meal`. If either serving field is absent, the serving basis is unknown: do
+not treat the returned macros as one serving; seek clarification or use an
+explicitly noted lower-confidence estimate.
 
 **Example call (photo → log):**
 ```
@@ -143,8 +145,10 @@ The v0.1 server interprets `date` as a UTC calendar day.
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
 consecutive UTC days ending today that contain at least one meal within the
-requested `days` window, so it is at most `days`. In v0.1, `weight_trend` is
-normally empty because no registered tool writes `weight_logs`.
+requested `days` window, so it is at most `days`. `weight_trend` is a supported
+v0.1 output: include it when non-empty and treat an empty array as no weight
+entries in the requested range. No registered v0.1 tool writes `weight_logs`,
+so it may be empty.
 
 ### `get_profile`
 
@@ -184,8 +188,11 @@ computed target.
   lower `confidence` for honest estimates.
 - **One uploaded photo = one `log_meal`** with one or more `items[]`.
 - **Never log twice.** If a same-sitting item was omitted, v0.1 has no
-  add-item operation: with confirmation, delete the meal and re-log the full
-  item list once, or log a genuinely separate meal separately.
+  add-item operation: with confirmation, call `delete_meal_log` once, then call
+  `get_day` for the original UTC date and re-log the full item list only after
+  its original `meal_log_id` is absent. If the meal remains or state is
+  unknown, stop without retrying or creating a replacement. Log a genuinely
+  separate meal separately.
 - **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
   add a `notes` string. The human corrects it later in the dashboard.
 

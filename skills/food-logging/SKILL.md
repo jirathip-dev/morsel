@@ -40,8 +40,9 @@ Always follow these rules:
   macros by them. `search_food` values are per its `serving_size` and
   `serving_unit`, so scale them yourself before logging (for example, 250 g at
   130 kcal per 100 g becomes `quantity: 250`, `unit: "g"`,
-  `calories_kcal: 325`). If either serving field is absent, treat returned
-  values as one serving and lower confidence rather than scaling them.
+  `calories_kcal: 325`). If either serving field is absent, the serving basis is
+  unknown: seek clarification or, if proceeding, use an explicitly noted
+  lower-confidence estimate; never treat the returned macros as one serving.
 - One uploaded photo is one `log_meal` call containing one or more `items[]`.
 - Never log twice. To reread or correct existing data, use `get_day`,
   `update_meal_item`, or `delete_meal_log`. v0.1 has no tool that adds a new
@@ -105,7 +106,9 @@ each visible food as its own item in the single meal.
 
 Macro fields are the total for the item as eaten. The server does not scale them
 from `quantity`, so scale catalog values from their `serving_size` and
-`serving_unit` before sending the call.
+`serving_unit` before sending the call. If either field is absent, the serving
+basis is unknown: seek clarification or use an explicitly noted lower-confidence
+estimate, never treating the returned macros as one serving.
 
 ### `search_food`
 
@@ -209,8 +212,9 @@ Output:
 `macro_split` is the summed gram total for that range; `streak_days` counts
 consecutive UTC days ending on the server's UTC today that contain at least one
 meal, within the requested `days` window (so it is at most `days`). In v0.1,
-`weight_trend` is normally empty because no registered tool writes weight logs;
-omit it from user summaries unless a future contract adds one.
+`weight_trend` is a supported output: include it in user summaries when it is
+non-empty and omit it when empty. No registered v0.1 tool writes weight logs,
+so the field may be empty.
 
 ### Profile and target tools
 
@@ -289,13 +293,17 @@ For text-only logging, follow the same item/search/estimate rules without
 `image_url`. If the user asks to add a component after the meal is already
 logged, read the day first. v0.1 cannot add an item to an existing meal: with
 the user's confirmation, preserve the original `eaten_at`, `image_url`, and
-meal-level `notes`, then delete that meal and re-log the complete item list
-once. `get_day` does not return the image reference or meal notes, so before
-deleting: warn separately if the original meal notes are unavailable and will
-be lost; if the original `image_url` is unavailable, warn that the photo link
-will be lost and the new log's source will be `barcode` if any preserved item
-has a barcode, otherwise `manual`. If the food was a genuinely separate meal,
-log it as its own log. Do not create a second log for the same sitting.
+meal-level `notes`, then call `delete_meal_log` once. Call `get_day` for the
+original meal's UTC date and check that its `meal_log_id` is absent; re-log the
+complete item list only when that absence is established. If the meal remains,
+or the delete/read result leaves state unknown, stop without retrying the
+delete or creating a replacement and report the state. `get_day` does not
+return the image reference or meal notes, so before deleting: warn separately
+if the original meal notes are unavailable and will be lost; if the original
+`image_url` is unavailable, warn that the photo link will be lost and the new
+log's source will be `barcode` if any preserved item has a barcode, otherwise
+`manual`. If the food was a genuinely separate meal, log it as its own log. Do
+not create a second log for the same sitting.
 
 ## Common read and correction flows
 
