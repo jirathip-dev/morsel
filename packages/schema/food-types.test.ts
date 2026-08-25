@@ -26,4 +26,15 @@ describe('Morsel tool schemas', () => {
       recorded: true,
     }).success).toBe(true)
   })
+
+  it('requires food_ref_id to be a UUID at the meal input boundary', () => {
+    expect(LogMealInputSchema.safeParse({
+      meal_type: 'lunch',
+      items: [{ name: 'rice', food_ref_id: 'not-a-uuid' }],
+    }).success).toBe(false)
+    expect(LogMealInputSchema.safeParse({
+      meal_type: 'lunch',
+      items: [{ name: 'rice', food_ref_id: '00000000-0000-4000-8000-000000000010' }],
+    }).success).toBe(true)
+  })
 })

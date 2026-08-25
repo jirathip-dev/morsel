@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install PostgreSQL migration-test dependencies
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y postgresql
+
       - name: Lint
         run: npm run lint
 
@@ -33,6 +36,8 @@ jobs:
         run: npm run typecheck
 
       - name: Tests
+        # npm test includes db/postgres-integration.test.ts; it starts its own
+        # ephemeral cluster and never needs Supabase credentials.
         run: npm test
 
       # No bundler yet — build proves the TS program compiles (tsc --noEmit).

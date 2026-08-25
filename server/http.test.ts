@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from 'node:async_hooks'
 import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
 import { describe, expect, it } from 'vitest'
@@ -15,15 +16,58 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 class TokenTrackingRepository extends InMemoryRepository {
   readonly accessTokens: string[] = []
   readonly operationTokens: string[] = []
-  private currentAccessToken = ''
+  private readonly accessTokenContext = new AsyncLocalStorage<string>()
 
-  override setAccessToken(accessToken: string): void {
-    this.currentAccessToken = accessToken
+  override withAccessToken<T>(accessToken: string, action: () => Promise<T>): Promise<T> {
     this.accessTokens.push(accessToken)
+    return this.accessTokenContext.run(accessToken, action)
+  }
+
+  protected requestAccessToken(): string {
+    return this.accessTokenContext.getStore() ?? 'missing-token-context'
   }
 
   override async getMealsInRange(userId: string, start: string, end: string) {
-    this.operationTokens.push(this.currentAccessToken)
+    this.operationTokens.push(this.requestAccessToken())
+    return super.getMealsInRange(userId, start, end)
+  }
+}
+
+interface TokenObservation {
+  start: string
+  end: string
+}
+
+class OverlappingTokenRepository extends TokenTrackingRepository {
+  readonly firstOperationStarted: Promise<void>
+  readonly observations: TokenObservation[] = []
+  private readonly releaseFirstOperationSignal: Promise<void>
+  private resolveFirstOperationStarted: (() => void) | undefined
+  private resolveReleaseFirstOperation: (() => void) | undefined
+  private blockFirstOperation = true
+
+  constructor() {
+    super()
+    this.firstOperationStarted = new Promise((resolve) => {
+      this.resolveFirstOperationStarted = resolve
+    })
+    this.releaseFirstOperationSignal = new Promise((resolve) => {
+      this.resolveReleaseFirstOperation = resolve
+    })
+  }
+
+  releaseFirstOperation(): void {
+    this.resolveReleaseFirstOperation?.()
+  }
+
+  override async getMealsInRange(userId: string, start: string, end: string) {
+    const startToken = this.requestAccessToken()
+    if (this.blockFirstOperation) {
+      this.blockFirstOperation = false
+      this.resolveFirstOperationStarted?.()
+      await this.releaseFirstOperationSignal
+    }
+    this.observations.push({ start: startToken, end: this.requestAccessToken() })
     return super.getMealsInRange(userId, start, end)
   }
 }
@@ -162,6 +206,74 @@ describe('MCP HTTP server', () => {
     expect(repository.accessTokens).toContain('token-one')
     expect(repository.accessTokens).toContain('token-two')
     expect(repository.operationTokens[repository.operationTokens.length - 1]).toBe('token-two')
+    await client.close()
+  })
+
+  it('keeps overlapping requests in one session on their own bearer contexts', async () => {
+    const repository = new OverlappingTokenRepository()
+    const authenticatedTokens: string[] = []
+    let resolveTokenB: (() => void) | undefined
+    const tokenBSeen = new Promise<void>((resolve) => {
+      resolveTokenB = resolve
+    })
+    const authenticate: Authenticate = (receivedToken) => {
+      authenticatedTokens.push(receivedToken)
+      if (receivedToken === 'token-b') {
+        resolveTokenB?.()
+      }
+      return Promise.resolve({
+        userId,
+        email: 'test@example.com',
+        token: receivedToken,
+        authInfo: {
+          token: receivedToken,
+          clientId: 'test-client',
+          scopes: [],
+          extra: { userId },
+        },
+      })
+    }
+    const app = createMorselApp({
+      authenticate,
+      repositoryFactory: () => repository,
+      now: () => new Date('2026-08-25T12:00:00.000Z'),
+      enableJsonResponse: true,
+    })
+    let toolRequestNumber = 0
+    const fetchLike = async (url: string | URL, init?: RequestInit): Promise<Response> => {
+      const request = new Request(url.toString(), init)
+      const body = request.method === 'POST' ? await request.clone().text() : ''
+      const isToolCall = body.includes('"method":"tools/call"')
+      const tokenForRequest = isToolCall
+        ? toolRequestNumber++ === 0 ? 'token-a' : 'token-b'
+        : 'token-initial'
+      const headers = new Headers(request.headers)
+      headers.set('authorization', `Bearer ${tokenForRequest}`)
+      return app.fetch(new Request(request, { headers }))
+    }
+    const client = new Client({ name: 'morsel-overlap-test-client', version: '1.0.0' })
+    const transport = new StreamableHTTPClientTransport(new URL('https://morsel.test/mcp'), {
+      fetch: fetchLike,
+      requestInit: { headers: { Authorization: 'Bearer token-initial' } },
+    })
+
+    await client.connect(transport)
+    const firstCall = client.callTool({ name: 'get_dashboard_summary', arguments: { days: 1 } })
+    await repository.firstOperationStarted
+    const secondCall = client.callTool({ name: 'get_dashboard_summary', arguments: { days: 1 } })
+    await tokenBSeen
+    repository.releaseFirstOperation()
+    const [firstResult, secondResult] = await Promise.all([firstCall, secondCall])
+
+    expect(firstResult.isError).not.toBe(true)
+    expect(secondResult.isError).not.toBe(true)
+    expect(authenticatedTokens[0]).toBe('token-initial')
+    expect(authenticatedTokens.filter((receivedToken) => receivedToken === 'token-a')).toHaveLength(1)
+    expect(authenticatedTokens.filter((receivedToken) => receivedToken === 'token-b')).toHaveLength(1)
+    expect(repository.observations).toEqual([
+      { start: 'token-a', end: 'token-a' },
+      { start: 'token-b', end: 'token-b' },
+    ])
     await client.close()
   })
 })

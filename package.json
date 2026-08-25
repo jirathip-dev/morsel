@@ -11,6 +11,7 @@
     "server": "bun run server/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:postgres": "vitest run db/postgres-integration.test.ts",
     "build": "tsc --noEmit"
   },
   "devDependencies": {

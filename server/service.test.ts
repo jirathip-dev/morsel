@@ -59,6 +59,17 @@ describe('MorselService', () => {
     expect(day.meals).toHaveLength(0)
   })
 
+  it('rejects an invalid food reference before reaching the meal transaction', async () => {
+    const repository = new InMemoryRepository()
+    const service = createService(repository)
+
+    await expect(service.logMeal({
+      meal_type: 'lunch',
+      items: [{ name: 'rice', food_ref_id: 'not-a-uuid' }],
+    })).rejects.toMatchObject({ code: 'invalid_input' })
+    await expect(repository.getMealsInRange(userId, '2026-08-25T00:00:00.000Z', '2026-08-26T00:00:00.000Z')).resolves.toEqual([])
+  })
+
   it('computes targets and preserves manual goal overrides', async () => {
     const service = createService()
     await service.setProfile(profile)

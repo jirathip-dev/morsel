@@ -59,7 +59,7 @@ an RPC failure leaves no partial meal rows.
           "fiber_g":     { "type": "number" },
           "sugar_g":     { "type": "number" },
           "barcode":     { "type": "string" },
-          "food_ref_id": { "type": "string", "description": "Link to food_catalog/OpenNutrition id for exact macros" },
+          "food_ref_id": { "type": "string", "format": "uuid", "description": "Link to a food_catalog row for exact macros" },
           "confidence":  { "type": "number", "minimum": 0, "maximum": 1, "description": "0..1 how sure the agent is. Low = user should review." },
           "notes":       { "type": "string", "description": "Agent reasoning, e.g. 'approx, shared plate'" }
         }

@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from 'node:async_hooks'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import {
@@ -5,6 +6,7 @@ import {
   CalendarDateSchema,
   ComputeTargetsOutputSchema,
   DietGoalSchema,
+  FoodRefIdSchema,
   IsoDateTimeSchema,
   MealItemRecordSchema,
   MealTypeSchema,
@@ -55,7 +57,7 @@ const mealItemRowSchema = z.object({
   fiber_g: databaseNumber.nullable(),
   sugar_g: databaseNumber.nullable(),
   barcode: z.string().nullable(),
-  food_ref_id: z.string().nullable(),
+  food_ref_id: FoodRefIdSchema.nullable(),
   confidence: databaseNumber.nullable(),
   source_notes: z.string().nullable(),
 }).strict()
@@ -96,7 +98,7 @@ const mealRpcItemSchema = z.object({
   fiber_g: databaseNumber.nullable(),
   sugar_g: databaseNumber.nullable(),
   barcode: z.string().nullable(),
-  food_ref_id: z.string().nullable(),
+  food_ref_id: FoodRefIdSchema.nullable(),
   confidence: databaseNumber.nullable(),
   notes: z.string().nullable(),
 }).strict()
@@ -262,23 +264,20 @@ function toFood(value: unknown): SearchFoodItem {
 
 export interface SupabaseRepositoryOptions {
   client: SupabaseClient<Database>
-  accessTokenSetter?: (accessToken: string) => void
+  accessTokenContext: AsyncLocalStorage<string>
 }
 
 export class SupabaseRepository implements MorselRepository {
   private readonly client: SupabaseClient<Database>
-  private readonly accessTokenSetter: ((accessToken: string) => void) | undefined
+  private readonly accessTokenContext: AsyncLocalStorage<string>
 
   constructor(options: SupabaseRepositoryOptions) {
     this.client = options.client
-    this.accessTokenSetter = options.accessTokenSetter
+    this.accessTokenContext = options.accessTokenContext
   }
 
-  setAccessToken(accessToken: string): void {
-    if (this.accessTokenSetter === undefined) {
-      throw new RepositoryError('Supabase repository token refresh is not configured')
-    }
-    this.accessTokenSetter(accessToken)
+  withAccessToken<T>(accessToken: string, action: () => Promise<T>): Promise<T> {
+    return this.accessTokenContext.run(accessToken, action)
   }
 
   async ensureUser(userId: string, email: string): Promise<void> {
@@ -568,19 +567,22 @@ export interface SupabaseRepositoryFactoryOptions {
 
 export function createSupabaseRepository(
   supabaseUrl: string,
-  accessToken: string,
   anonKey: string,
   options: SupabaseRepositoryFactoryOptions = {},
 ): SupabaseRepository {
-  let currentAccessToken = accessToken
+  const accessTokenContext = new AsyncLocalStorage<string>()
   const downstreamFetch = options.fetch ?? fetch
   const authenticatedFetch = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+    const accessToken = accessTokenContext.getStore()
+    if (accessToken === undefined) {
+      throw new RepositoryError('Supabase request bearer credential is missing')
+    }
     const headers = new Headers(input instanceof Request ? input.headers : undefined)
     const initHeaders = new Headers(init?.headers)
     initHeaders.forEach((value, name) => {
       headers.set(name, value)
     })
-    headers.set('authorization', `Bearer ${currentAccessToken}`)
+    headers.set('authorization', `Bearer ${accessToken}`)
     const requestInit = { ...init, headers }
     return input instanceof Request
       ? downstreamFetch(input, requestInit)
@@ -595,5 +597,5 @@ export function createSupabaseRepository(
     },
     global: { fetch: authenticatedFetch },
   })
-  return new SupabaseRepository({ client, accessTokenSetter: (nextToken) => { currentAccessToken = nextToken } })
+  return new SupabaseRepository({ client, accessTokenContext })
 }

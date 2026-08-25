@@ -140,18 +140,21 @@ function createRepository(mode: MealRpcMode = 'success'): { repository: Supabase
   fetchMock.preconnect = (): void => undefined
 
   return {
-    repository: createSupabaseRepository('https://morsel.test', 'token-one', 'test-anon-key', { fetch: fetchMock }),
+    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock }),
     requests,
   }
 }
 
+function withTestToken<T>(repository: SupabaseRepository, action: () => Promise<T>): Promise<T> {
+  return repository.withAccessToken('token-one', action)
+}
+
 describe('SupabaseRepository', () => {
-  it('preserves the current bearer token after a session token refresh', async () => {
+  it('binds each repository operation to its request bearer token', async () => {
     const { repository, requests } = createRepository()
 
-    await repository.ensureUser(userId, 'test@example.com')
-    repository.setAccessToken('token-two')
-    await repository.ensureUser(userId, 'test@example.com')
+    await repository.withAccessToken('token-one', () => repository.ensureUser(userId, 'test@example.com'))
+    await repository.withAccessToken('token-two', () => repository.ensureUser(userId, 'test@example.com'))
 
     const userRequests = requests.filter((request) => request.url.includes('/rest/v1/users'))
     expect(userRequests.map((request) => request.authorization)).toEqual([
@@ -171,13 +174,15 @@ describe('SupabaseRepository', () => {
       diet_goal: 'maintain',
     }
 
-    await expect(repository.computeTargets(userId, profile)).resolves.toEqual({
-      bmr_kcal: 1_234,
-      tdee_kcal: 2_345,
-      calorie_target_kcal: 2_222,
-      protein_g: 111,
-      carbs_g: 222,
-      fat_g: 55,
+    await withTestToken(repository, async () => {
+      await expect(repository.computeTargets(userId, profile)).resolves.toEqual({
+        bmr_kcal: 1_234,
+        tdee_kcal: 2_345,
+        calorie_target_kcal: 2_222,
+        protein_g: 111,
+        carbs_g: 222,
+        fat_g: 55,
+      })
     })
 
     const request = requests.find((candidate) => candidate.url.includes('/rest/v1/rpc/compute_targets'))
@@ -188,9 +193,11 @@ describe('SupabaseRepository', () => {
   it('creates the meal and items through one atomic RPC', async () => {
     const { repository, requests } = createRepository()
 
-    await expect(repository.createMealWithItems(userId, mealWrite())).resolves.toMatchObject({
-      meal_log_id: mealId,
-      items: [{ item_id: itemId, name: 'rice' }],
+    await withTestToken(repository, async () => {
+      await expect(repository.createMealWithItems(userId, mealWrite())).resolves.toMatchObject({
+        meal_log_id: mealId,
+        items: [{ item_id: itemId, name: 'rice' }],
+      })
     })
 
     const rpcRequests = requests.filter((request) => request.url.includes('/rest/v1/rpc/log_meal_with_items'))
@@ -205,8 +212,10 @@ describe('SupabaseRepository', () => {
   it('surfaces an RPC failure without attempting a partial-row rollback', async () => {
     const { repository, requests } = createRepository('failure')
 
-    await expect(repository.createMealWithItems(userId, mealWrite())).rejects.toMatchObject({
-      code: 'transaction_failed',
+    await withTestToken(repository, async () => {
+      await expect(repository.createMealWithItems(userId, mealWrite())).rejects.toMatchObject({
+        code: 'transaction_failed',
+      })
     })
     expect(requests.filter((request) => request.url.includes('/rest/v1/rpc/log_meal_with_items'))).toHaveLength(1)
     expect(requests.some((request) => request.url.includes('/rest/v1/meal_logs') || request.url.includes('/rest/v1/meal_items'))).toBe(false)
@@ -215,9 +224,11 @@ describe('SupabaseRepository', () => {
   it('keeps user scoping on reads, ownership checks, and deletes', async () => {
     const { repository, requests } = createRepository()
 
-    await repository.getMealsInRange(userId, '2026-08-25T00:00:00.000Z', '2026-08-26T00:00:00.000Z')
-    await repository.updateMealItem(userId, { item_id: itemId, calories_kcal: 300 })
-    await repository.deleteMealLog(userId, mealId)
+    await withTestToken(repository, async () => {
+      await repository.getMealsInRange(userId, '2026-08-25T00:00:00.000Z', '2026-08-26T00:00:00.000Z')
+      await repository.updateMealItem(userId, { item_id: itemId, calories_kcal: 300 })
+      await repository.deleteMealLog(userId, mealId)
+    })
 
     const mealRead = requests.find((request) => request.url.includes('/rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type'))
     expect(mealRead?.url).toContain(`user_id=eq.${userId}`)

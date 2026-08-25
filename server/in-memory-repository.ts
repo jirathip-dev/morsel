@@ -66,9 +66,9 @@ export class InMemoryRepository implements MorselRepository {
     await Promise.resolve()
   }
 
-  setAccessToken(accessToken: string): void {
-    // The in-memory adapter has no external credential to refresh.
-    void accessToken
+  withAccessToken<T>(_accessToken: string, action: () => Promise<T>): Promise<T> {
+    // The in-memory adapter has no external credential to bind.
+    return action()
   }
 
   seedProfile(userId: string, profile: Profile): void {

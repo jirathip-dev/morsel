@@ -8,8 +8,9 @@ session.
 ## Run locally
 
 The server validates the caller's Supabase bearer token with `auth.getUser()`
-and sends that same token on every PostgREST request. This is what makes
-Supabase RLS see the caller rather than a service role.
+and binds that token to the current request's PostgREST context. This is what
+makes Supabase RLS see the caller rather than a service role, including when
+requests overlap within one MCP session.
 
 ```sh
 SUPABASE_URL=https://your-project.supabase.co \
@@ -59,3 +60,7 @@ Run the full verification gate from the repository root:
 ```sh
 npm run typecheck && npm run lint && npm test && npm run build
 ```
+
+`npm test` includes the local PostgreSQL migration integration test when
+`initdb`, `pg_ctl`, and `psql` are installed; `npm run test:postgres` runs only
+that test. It creates an ephemeral cluster and does not use Supabase credentials.

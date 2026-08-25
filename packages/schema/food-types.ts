@@ -29,6 +29,7 @@ export const ActivityLevelSchema = z.enum([
 ])
 export const DietGoalSchema = z.enum(['lose', 'maintain', 'gain'])
 export const SexSchema = z.enum(['male', 'female'])
+export const FoodRefIdSchema = z.uuid()
 
 export const MealItemSchema = z.object({
   name: z.string().trim().min(1),
@@ -41,7 +42,7 @@ export const MealItemSchema = z.object({
   fiber_g: nonNegativeNumber.optional(),
   sugar_g: nonNegativeNumber.optional(),
   barcode: z.string().trim().min(1).optional(),
-  food_ref_id: z.string().trim().min(1).optional(),
+  food_ref_id: FoodRefIdSchema.optional(),
   confidence: finiteNumber.min(0).max(1).optional(),
   notes: z.string().trim().min(1).optional(),
 }).strict()
@@ -125,7 +126,7 @@ export const MealItemRecordSchema = z.object({
   fiber_g: finiteNumber.optional(),
   sugar_g: finiteNumber.optional(),
   barcode: z.string().optional(),
-  food_ref_id: z.string().optional(),
+  food_ref_id: FoodRefIdSchema.optional(),
   confidence: finiteNumber.optional(),
   notes: z.string().optional(),
 }).strict()

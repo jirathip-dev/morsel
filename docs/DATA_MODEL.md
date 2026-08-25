@@ -50,6 +50,8 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
   storage-shaped values through the Storage client.
 - `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
   should surface in the dashboard as "review me" items.
+- `meal_items.food_ref_id` — an optional UUID linking to `food_catalog`; the MCP
+  schema rejects non-UUID values before the database transaction begins.
 - `meal_items.source_notes` — the agent's own reasoning ("approx, shared plate").
   Note that wrong-ish estimates, if honest, should be kept (human can correct later).
 

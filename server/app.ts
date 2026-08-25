@@ -110,7 +110,7 @@ function defaultOptions(): Required<Pick<MorselAppOptions, 'authenticate' | 'rep
   const anonKey = environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'])
   return {
     authenticate: createSupabaseAuthenticator({ supabaseUrl, anonKey }),
-    repositoryFactory: (user) => createSupabaseRepository(supabaseUrl, user.token, anonKey),
+    repositoryFactory: () => createSupabaseRepository(supabaseUrl, anonKey),
   }
 }
 
@@ -177,10 +177,11 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
             headers: { 'content-type': 'application/json' },
           })
         }
-        session.repository.setAccessToken(user.token)
-        await session.repository.ensureUser(user.userId, user.email)
-        session.lastUsedAt = Date.now()
-        return await session.transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
+        return await session.repository.withAccessToken(user.token, async () => {
+          await session.repository.ensureUser(user.userId, user.email)
+          session.lastUsedAt = Date.now()
+          return session.transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
+        })
       }
 
       if (context.req.method !== 'POST') {
@@ -191,8 +192,6 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       }
 
       const repository = await repositoryFactory(user)
-      repository.setAccessToken(user.token)
-      await repository.ensureUser(user.userId, user.email)
       const service = new MorselService({ repository, userId: user.userId, now: options.now })
       const server = createMcpServer(service)
       const transport = new WebStandardStreamableHTTPServerTransport({
@@ -209,7 +208,10 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       })
       const session: McpSession = { userId: user.userId, repository, transport, lastUsedAt: Date.now() }
       await server.connect(transport)
-      return await transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
+      return await repository.withAccessToken(user.token, async () => {
+        await repository.ensureUser(user.userId, user.email)
+        return transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
+      })
     } catch (error) {
       return httpError(error)
     }
