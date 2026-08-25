@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { accessSync, constants, existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { accessSync, constants, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
@@ -99,9 +99,24 @@ async function freePort(): Promise<number> {
   })
 }
 
-function requireSuccess(result: CommandResult, description: string): string {
+function readDiagnosticLog(path: string): string {
+  try {
+    return readFileSync(path, 'utf8')
+  } catch (error) {
+    return `could not read postgres.log: ${error instanceof Error ? error.message : String(error)}`
+  }
+}
+
+function shellQuote(value: string): string {
+  return `'${value.replaceAll("'", "'\\''")}'`
+}
+
+function requireSuccess(result: CommandResult, description: string, diagnosticLogPath?: string): string {
   if (result.error !== undefined || result.status !== 0) {
-    throw new Error(`${description} failed\n${result.stderr}\n${result.error?.message ?? ''}`)
+    const diagnosticLog = diagnosticLogPath === undefined
+      ? ''
+      : `\npostgres.log:\n${readDiagnosticLog(diagnosticLogPath)}`
+    throw new Error(`${description} failed\n${result.stderr}\n${result.error?.message ?? ''}${diagnosticLog}`)
   }
   return result.stdout
 }
@@ -109,10 +124,12 @@ function requireSuccess(result: CommandResult, description: string): string {
 async function startLocalPostgres(tools: PostgresTools): Promise<LocalPostgres> {
   const root = mkdtempSync(join(tmpdir(), 'morsel-pg-'))
   const dataDirectory = join(root, 'data')
+  const socketDirectory = join(root, 'socket')
   const logPath = join(root, 'postgres.log')
   let started = false
 
   try {
+    mkdirSync(socketDirectory)
     const port = await freePort()
     requireSuccess(runCommand(tools.initdb, [
       '--no-locale',
@@ -123,11 +140,11 @@ async function startLocalPostgres(tools: PostgresTools): Promise<LocalPostgres> 
     ]), 'initdb')
     requireSuccess(runCommand(tools.pgCtl, [
       '-D', dataDirectory,
-      '-o', `-p ${port} -h 127.0.0.1`,
+      '-o', `-p ${port} -h 127.0.0.1 -k ${shellQuote(socketDirectory)}`,
       '-l', logPath,
       '-w',
       'start',
-    ]), 'pg_ctl start')
+    ]), 'pg_ctl start', logPath)
     started = true
 
     const execute = (sql: string, stopOnError = true): CommandResult => {
