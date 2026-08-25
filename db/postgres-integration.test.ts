@@ -206,6 +206,9 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
     const userOne = '00000000-0000-4000-8000-000000000101'
     const userTwo = '00000000-0000-4000-8000-000000000102'
     const userThree = '00000000-0000-4000-8000-000000000103'
+    const catalogInsertId = 'f0000000-0000-4000-8000-000000000009'
+    const catalogUpdateId = 'f0000000-0000-4000-8000-000000000001'
+    const catalogDeleteId = 'f0000000-0000-4000-8000-000000000002'
 
     try {
       requireSuccess(postgres.execute(`
@@ -287,51 +290,185 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       `), 'catalog and storage reads')
       expect(queryValues(assetRead)).toEqual(['8', '1', '1'])
 
-      const catalogWrite = requireSuccess(postgres.execute(`
-        begin;
+      const catalogInsert = postgres.execute(`
         set role authenticated;
-        set local "request.jwt.claim.sub" = '${userOne}';
-        savepoint before_catalog_write;
-        update public.food_catalog set name = 'cross-user-write'
-          where id = 'f0000000-0000-4000-8000-000000000001';
-        rollback to savepoint before_catalog_write;
-        select count(*) from public.food_catalog where name = 'cross-user-write';
-        commit;
-      `), 'catalog write isolation')
-      expect(queryValues(catalogWrite)).toEqual(['0'])
+        set "request.jwt.claim.sub" = '${userOne}';
+        with inserted as (
+          insert into public.food_catalog (id, name, source)
+          values ('${catalogInsertId}', 'Unauthorized catalog insert', 'curated')
+          returning id
+        )
+        select count(*) from inserted;
+      `, false)
+      if (/row-level security policy/i.test(catalogInsert.stderr)) {
+        expect(queryValues(catalogInsert.stdout)).toEqual([])
+      } else {
+        expect(catalogInsert.stderr).toBe('')
+        expect(queryValues(catalogInsert.stdout)).toEqual(['0'])
+      }
+      const catalogInsertState = requireSuccess(postgres.execute(`
+        select count(*) from public.food_catalog where id = '${catalogInsertId}';
+      `), 'catalog insert state')
+      expect(queryValues(catalogInsertState)).toEqual(['0'])
 
-      requireSuccess(postgres.execute(`
-        begin;
+      const catalogUpdate = postgres.execute(`
         set role authenticated;
-        set local "request.jwt.claim.sub" = '${userOne}';
-        insert into storage.objects (bucket_id, name)
-          values ('food-images', '${userOne}/new.jpg');
-        commit;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with updated as (
+          update public.food_catalog
+          set name = 'Unauthorized catalog update'
+          where id = '${catalogUpdateId}'
+          returning id
+        )
+        select count(*) from updated;
+      `, false)
+      if (/row-level security policy/i.test(catalogUpdate.stderr)) {
+        expect(queryValues(catalogUpdate.stdout)).toEqual([])
+      } else {
+        expect(catalogUpdate.stderr).toBe('')
+        expect(queryValues(catalogUpdate.stdout)).toEqual(['0'])
+      }
+      const catalogUpdateState = requireSuccess(postgres.execute(`
+        select count(*) from public.food_catalog
+        where id = '${catalogUpdateId}' and name = 'Jasmine rice, cooked';
+      `), 'catalog update state')
+      expect(queryValues(catalogUpdateState)).toEqual(['1'])
+
+      const catalogDelete = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with deleted as (
+          delete from public.food_catalog
+          where id = '${catalogDeleteId}'
+          returning id
+        )
+        select count(*) from deleted;
+      `, false)
+      if (/row-level security policy/i.test(catalogDelete.stderr)) {
+        expect(queryValues(catalogDelete.stdout)).toEqual([])
+      } else {
+        expect(catalogDelete.stderr).toBe('')
+        expect(queryValues(catalogDelete.stdout)).toEqual(['0'])
+      }
+      const catalogDeleteState = requireSuccess(postgres.execute(`
+        select count(*) from public.food_catalog
+        where id = '${catalogDeleteId}' and name = 'Chicken breast, roasted, skinless';
+      `), 'catalog delete state')
+      expect(queryValues(catalogDeleteState)).toEqual(['1'])
+
+      const ownerStorageInsert = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with inserted as (
+          insert into storage.objects (bucket_id, name)
+          values ('food-images', '${userOne}/new.jpg')
+          returning id
+        )
+        select count(*) from inserted;
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userOne}/new.jpg';
       `), 'owner storage insert')
+      expect(queryValues(ownerStorageInsert)).toEqual(['1', '1'])
+
+      const ownerStorageUpdate = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with updated as (
+          update storage.objects
+          set name = '${userOne}/meal-renamed.jpg'
+          where bucket_id = 'food-images' and name = '${userOne}/meal.jpg'
+          returning id
+        )
+        select count(*) from updated;
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userOne}/meal-renamed.jpg';
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userOne}/meal.jpg';
+      `), 'owner storage update')
+      expect(queryValues(ownerStorageUpdate)).toEqual(['1', '1', '0'])
 
       const crossStorageInsert = postgres.execute(`
-        begin;
         set role authenticated;
-        set local "request.jwt.claim.sub" = '${userOne}';
-        savepoint before_cross_storage_insert;
-        insert into storage.objects (bucket_id, name)
-          values ('food-images', '${userTwo}/forbidden.jpg');
-        rollback to savepoint before_cross_storage_insert;
-        commit;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with inserted as (
+          insert into storage.objects (bucket_id, name)
+          values ('food-images', '${userTwo}/forbidden.jpg')
+          returning id
+        )
+        select count(*) from inserted;
       `, false)
-      expect(crossStorageInsert.stderr).toMatch(/row-level security policy/i)
+      if (/row-level security policy/i.test(crossStorageInsert.stderr)) {
+        expect(queryValues(crossStorageInsert.stdout)).toEqual([])
+      } else {
+        expect(crossStorageInsert.stderr).toBe('')
+        expect(queryValues(crossStorageInsert.stdout)).toEqual(['0'])
+      }
+      const crossStorageInsertState = requireSuccess(postgres.execute(`
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userTwo}/forbidden.jpg';
+      `), 'cross-user storage insert state')
+      expect(queryValues(crossStorageInsertState)).toEqual(['0'])
 
-      const crossStorageRename = postgres.execute(`
-        begin;
+      const crossStorageUpdate = postgres.execute(`
         set role authenticated;
-        set local "request.jwt.claim.sub" = '${userOne}';
-        savepoint before_cross_storage_rename;
-        update storage.objects set name = '${userTwo}/moved.jpg'
-          where bucket_id = 'food-images' and name = '${userOne}/meal.jpg';
-        rollback to savepoint before_cross_storage_rename;
-        commit;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with updated as (
+          update storage.objects
+          set name = '${userTwo}/moved.jpg'
+          where bucket_id = 'food-images' and name = '${userTwo}/meal.jpg'
+          returning id
+        )
+        select count(*) from updated;
       `, false)
-      expect(crossStorageRename.stderr).toMatch(/row-level security policy/i)
+      if (/row-level security policy/i.test(crossStorageUpdate.stderr)) {
+        expect(queryValues(crossStorageUpdate.stdout)).toEqual([])
+      } else {
+        expect(crossStorageUpdate.stderr).toBe('')
+        expect(queryValues(crossStorageUpdate.stdout)).toEqual(['0'])
+      }
+      const crossStorageUpdateState = requireSuccess(postgres.execute(`
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userTwo}/meal.jpg';
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userTwo}/moved.jpg';
+      `), 'cross-user storage update state')
+      expect(queryValues(crossStorageUpdateState)).toEqual(['1', '0'])
+
+      const crossStorageDelete = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with deleted as (
+          delete from storage.objects
+          where bucket_id = 'food-images' and name = '${userTwo}/meal.jpg'
+          returning id
+        )
+        select count(*) from deleted;
+      `, false)
+      if (/row-level security policy/i.test(crossStorageDelete.stderr)) {
+        expect(queryValues(crossStorageDelete.stdout)).toEqual([])
+      } else {
+        expect(crossStorageDelete.stderr).toBe('')
+        expect(queryValues(crossStorageDelete.stdout)).toEqual(['0'])
+      }
+      const crossStorageDeleteState = requireSuccess(postgres.execute(`
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userTwo}/meal.jpg';
+      `), 'cross-user storage delete state')
+      expect(queryValues(crossStorageDeleteState)).toEqual(['1'])
+
+      const ownerStorageDelete = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        with deleted as (
+          delete from storage.objects
+          where bucket_id = 'food-images' and name = '${userOne}/meal-renamed.jpg'
+          returning id
+        )
+        select count(*) from deleted;
+        select count(*) from storage.objects
+        where bucket_id = 'food-images' and name = '${userOne}/meal-renamed.jpg';
+      `), 'owner storage delete')
+      expect(queryValues(ownerStorageDelete)).toEqual(['1', '0'])
 
       requireSuccess(postgres.execute(`
         begin;
