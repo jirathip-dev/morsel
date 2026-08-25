@@ -22,15 +22,16 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 | `compute_targets` | read | BMR/TDEE + kcal + macro split derived from profile. |
 | `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
 | `set_goals` | write | Manual override (marks `source='manual'`). |
-| `log_water` / `log_weight` | write | v1.1 extras. |
+| `log_water` / `log_weight` | write | v1.1 extras; not registered by the v0.1 server. |
 
 ## Tool schemas
 
 ### `log_meal`
 
 **Purpose:** record a meal. When the user uploads a food photo, the agent does
-vision → fills `items[]` → calls this. `source` is set internally by the server
-from what the agent passed (allow `photo_vision`).
+vision → fills `items[]` → calls this. `source` is set internally by the server:
+`photo_vision` when `image_url` is present, `barcode` when an item has a barcode
+but no image, and `manual` otherwise.
 
 **Input**
 ```json
@@ -105,6 +106,8 @@ log_meal({
 **Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string" }`
 **Output** `{ "ok": true, "updated": true }`
 
+At least one optional field must be supplied with `item_id`.
+
 ### `delete_meal_log`
 
 **Input** `{ "meal_log_id": "uuid" }`
@@ -113,12 +116,19 @@ log_meal({
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD" }`
-**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ ... ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", ... }, "remaining_kcal": number }`
+**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number }`
+
+`goal` and `remaining_kcal` are omitted until a profile exists. The v0.1
+server interprets `date` as a UTC calendar day.
 
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
 **Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ] }`
+
+`avg_calories_kcal` is averaged across the requested calendar range;
+`macro_split` is the summed gram total for that range, and `streak_days` counts
+consecutive days ending today that contain at least one meal.
 
 ### `get_profile`
 
@@ -143,6 +153,9 @@ the computed default unless the user set a manual override.
 
 **Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
 
+Omitted values retain the current effective values. If no profile or existing
+goal can supply them, provide all four values.
+
 ## Principles for the agent
 
 - **Don't invent precise macros you can't get.** Use `search_food` to pull exact
@@ -152,3 +165,11 @@ the computed default unless the user set a manual override.
   `log_meal` net-new items.
 - **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
   add a `notes` string. The human corrects it later in the dashboard.
+
+## v0.1 image limitation
+
+The contract calls the field `image_url`, while the existing database column is
+`meal_logs.image_path`. The v0.1 server stores the URL string in that column as
+a reference. It does not fetch or upload the image and does not claim that the
+URL is durable or public; the Supabase Storage upload policy in the data model
+remains a later implementation step.
