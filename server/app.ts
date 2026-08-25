@@ -79,6 +79,8 @@ function normalizeToolCallArguments(value: unknown): NormalizedMessage {
 }
 
 async function requestWithDefaultToolArguments(request: Request): Promise<Request> {
+  // The SDK validates object schemas before invoking tool callbacks. MCP makes
+  // `arguments` optional, so fill the protocol default at this HTTP boundary.
   if (request.method !== 'POST' || !(request.headers.get('content-type') ?? '').toLowerCase().includes('application/json')) {
     return request
   }
@@ -97,7 +99,9 @@ async function requestWithDefaultToolArguments(request: Request): Promise<Reques
     return request
   }
   const normalizedBody = JSON.stringify(normalized.value)
-  return new Request(request, { body: normalizedBody })
+  const headers = new Headers(request.headers)
+  headers.delete('content-length')
+  return new Request(request, { body: normalizedBody, headers })
 }
 
 function defaultOptions(): Required<Pick<MorselAppOptions, 'authenticate' | 'repositoryFactory'>> {
