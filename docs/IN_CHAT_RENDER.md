@@ -17,7 +17,7 @@ returns content the host can render inline:
 
 | Emitted content | Renders where | Notes |
 |---|---|---|
-| `image` content block (`{ type:"image", data:<base64>, mimeType:"image/png" }`) | Claude.ai, Claude Desktop, many clients | a server-generated chart: calorie ring, macro split, 7-day trend |
+| `image` content block (`{ type:"image", data:<base64 SVG>, mimeType:"image/svg+xml" }`) | Claude.ai, Claude Desktop, many clients | a server-generated chart: calorie ring, macro split, 7-day trend |
 | `text` markdown (`type:"text"`) | **everywhere** | the monthly view / day totals / macro table — the fallback |
 | `resource` link (`morsel://daily-summary`) | Claude Desktop best | an MCP Resource the client can open for a fuller view |
 
@@ -34,12 +34,12 @@ get_dashboard_summary({ days: 7 })
 => tool result content:
    [
      { type:"text",  text:"# This week\nCalories avg 1872 / target 2000\n…" },
-     { type:"image", data:"<base64 png>", mimeType:"image/png" }
+     { type:"image", data:"<base64 SVG>", mimeType:"image/svg+xml" }
    ]
 ```
 - `search_food` / `log_meal` / totals all flow through the same Supabase store.
-- The image is generated server-side (SVG → PNG, or a tiny chart lib) from the
-  same summary the iOS dashboard renders — one dataset, many views.
+- The image is generated server-side as SVG (without native rasterization) from
+  the same summary the iOS dashboard renders — one dataset, many views.
 
 ## MCP Resource
 Register a read-only resource for proactive pulls and "open the full picture":

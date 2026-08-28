@@ -153,6 +153,11 @@ export const GoalSummarySchema = z.object({
   source: z.enum(['computed', 'manual']),
 }).strict()
 
+export const RenderPayloadSchema = z.object({
+  markdown: z.string(),
+  svg: z.string(),
+}).strict()
+
 export const GetDayInputSchema = z.object({
   date: CalendarDateSchema,
 }).strict()
@@ -163,6 +168,7 @@ export const GetDayOutputSchema = z.object({
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
   remaining_kcal: finiteNumber.optional(),
+  render: RenderPayloadSchema,
 }).strict()
 
 export const GetDashboardSummaryInputSchema = z.object({
@@ -185,6 +191,7 @@ export const GetDashboardSummaryOutputSchema = z.object({
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
+  render: RenderPayloadSchema,
 }).strict()
 
 export const ProfileSchema = z.object({
@@ -264,6 +271,7 @@ export type MealItemRecord = z.infer<typeof MealItemRecordSchema>
 export type MealRecord = z.infer<typeof MealRecordSchema>
 export type Totals = z.infer<typeof TotalsSchema>
 export type GoalSummary = z.infer<typeof GoalSummarySchema>
+export type RenderPayload = z.infer<typeof RenderPayloadSchema>
 export type GetDayInput = z.infer<typeof GetDayInputSchema>
 export type GetDayOutput = z.infer<typeof GetDayOutputSchema>
 export type GetDashboardSummaryInput = z.input<typeof GetDashboardSummaryInputSchema>

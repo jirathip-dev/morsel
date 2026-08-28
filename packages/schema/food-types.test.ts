@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
+  GetDashboardSummaryOutputSchema,
+  GetDayOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
+  RenderPayloadSchema,
   SearchFoodOutputSchema,
 } from './food-types'
 
@@ -37,6 +40,35 @@ describe('Morsel tool schemas', () => {
       meal_type: 'lunch',
       items: [{ name: 'rice', food_ref_id: '00000000-0000-4000-8000-000000000010' }],
     }).success).toBe(true)
+  })
+
+  it('requires render payloads on read tool outputs', () => {
+    const render = { markdown: '# Today', svg: '<svg xmlns="http://www.w3.org/2000/svg" />' }
+    expect(RenderPayloadSchema.parse(render)).toEqual(render)
+    expect(GetDayOutputSchema.parse({
+      date: '2026-08-25',
+      meals: [],
+      totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
+      render,
+    })).toMatchObject({ render })
+    expect(GetDashboardSummaryOutputSchema.parse({
+      avg_calories_kcal: 0,
+      streak_days: 0,
+      macro_split: { protein_g: 0, carbs_g: 0, fat_g: 0 },
+      weight_trend: [],
+      render,
+    })).toMatchObject({ render })
+    expect(GetDayOutputSchema.safeParse({
+      date: '2026-08-25',
+      meals: [],
+      totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
+    }).success).toBe(false)
+    expect(GetDashboardSummaryOutputSchema.safeParse({
+      avg_calories_kcal: 0,
+      streak_days: 0,
+      macro_split: { protein_g: 0, carbs_g: 0, fat_g: 0 },
+      weight_trend: [],
+    }).success).toBe(false)
   })
 
   it('requires v0.1 search result IDs to be UUIDs', () => {

@@ -185,7 +185,7 @@ describe('MorselService', () => {
     await service.logMeal({ meal_type: 'dinner', eaten_at: '2026-08-24T18:00:00Z', items: [{ name: 'soup', calories_kcal: 400, protein_g: 20 }] })
     await service.logMeal({ meal_type: 'breakfast', eaten_at: '2026-08-25T08:00:00Z', items: [{ name: 'eggs', calories_kcal: 300, protein_g: 25 }] })
 
-    await expect(service.getDashboardSummary({ days: 2 })).resolves.toEqual({
+    await expect(service.getDashboardSummary({ days: 2 })).resolves.toMatchObject({
       avg_calories_kcal: 350,
       streak_days: 2,
       macro_split: { protein_g: 45, carbs_g: 0, fat_g: 0 },
@@ -194,6 +194,39 @@ describe('MorselService', () => {
         { date: '2026-08-25', kg: 80.2 },
       ],
     })
+  })
+
+  it('shares the rendered summary across day and dashboard reads', async () => {
+    const service = createService()
+    await service.setGoals({
+      calorie_target_kcal: 2_000,
+      protein_g: 150,
+      carbs_g: 200,
+      fat_g: 70,
+    })
+    await service.logMeal({
+      meal_type: 'lunch',
+      eaten_at: '2026-08-25T12:30:00Z',
+      items: [{ name: 'rice', calories_kcal: 220, confidence: 0.6 }],
+    })
+
+    const day = await service.getDay({ date: '2026-08-25' })
+    const dashboard = await service.getDashboardSummary({ days: 1 })
+
+    expect(day.render.markdown).toContain('220 / 2,000 kcal')
+    expect(day.render.markdown).toContain('needs-review')
+    expect(dashboard.render.markdown).toContain('220 / 2,000 kcal')
+    expect(dashboard.render.markdown).toContain('needs-review')
+    expect(day.render.svg).toContain('needs-review')
+    expect(dashboard.render.svg).toContain('needs-review')
+  })
+
+  it('renders an explicit empty dashboard when no meals or goal exist', async () => {
+    const summary = await createService().getDashboardSummary({ days: 1 })
+
+    expect(summary.render.markdown).toContain('No meals logged')
+    expect(summary.render.markdown).toContain('Goal: not set')
+    expect(summary.render.svg).toContain('No meals logged')
   })
 
   it('reports missing profiles as a clear domain error', async () => {
