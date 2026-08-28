@@ -85,6 +85,7 @@ enum FoodImageError: LocalizedError, Equatable {
 
 enum FoodImageStore {
     static let bucket = "food-images"
+    static let allowedMimeTypes: Set<String> = ["image/jpeg", "image/png", "image/webp"]
     static let maxBytes = 10 * 1024 * 1024
     static let targetMaxBytes = 5 * 1024 * 1024
 
@@ -104,6 +105,13 @@ enum FoodImageStore {
     }
 
     static func validateMimeType(_ mimeType: String) throws {
+        let normalized = mimeType.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        guard allowedMimeTypes.contains(normalized) else {
+            throw FoodImageError.unsupportedMimeType
+        }
+    }
+
+    static func validateSourceMimeType(_ mimeType: String) throws {
         let normalized = mimeType.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         guard normalized.hasPrefix("image/"), normalized.count > "image/".count else {
             throw FoodImageError.unsupportedMimeType
@@ -127,7 +135,7 @@ enum FoodImageStore {
 
 enum FoodImageCompressor {
     static func prepare(data: Data, mimeType: String) throws -> FoodImageUpload {
-        try FoodImageStore.validateMimeType(mimeType)
+        try FoodImageStore.validateSourceMimeType(mimeType)
         guard let image = UIImage(data: data) else {
             throw FoodImageError.invalidImage
         }

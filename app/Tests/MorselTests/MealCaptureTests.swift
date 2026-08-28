@@ -75,6 +75,22 @@ final class MealCaptureTests: XCTestCase {
         XCTAssertTrue(repository.uploadedImagePaths.isEmpty)
     }
 
+    @MainActor
+    func testMockRejectsUnsupportedImageSubtypeBeforeUpload() async throws {
+        let repository = MockDashboardRepository(snapshot: emptySnapshot())
+        let userID = UUID()
+        let path = FoodImageStore.bucketPath(userID: userID, imageID: UUID())
+        let upload = FoodImageUpload(data: Data([0x01]), mimeType: "image/gif")
+
+        do {
+            _ = try await repository.uploadImage(userID: userID, path: path, upload: upload)
+            XCTFail("An image subtype outside the Storage allowlist must be rejected.")
+        } catch let error as FoodImageError {
+            XCTAssertEqual(error, .unsupportedMimeType)
+        }
+        XCTAssertTrue(repository.uploadedImagePaths.isEmpty)
+    }
+
     func testCompressorProducesJPEGWellBelowBucketLimit() throws {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 64, height: 64))
         let image = renderer.image { _ in
