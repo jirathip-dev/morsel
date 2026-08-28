@@ -52,13 +52,32 @@ function disables the platform JWT check so the app can validate the per-request
 bearer token required by `/mcp`. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
 from the function environment at request time. Supabase exposes these routes as
 `/functions/v1/mcp/health` and `/functions/v1/mcp/mcp` because `mcp` is the
-function name.
+function name. OAuth discovery and provider routes use the same function prefix:
+`/.well-known/oauth-authorization-server`, `/authorize`, `/token`, and `/register`
+are available below `/functions/v1/mcp/`.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use
-  OAuth 2.0. The MCP server runs the OAuth provider; the user signs in once and
-  the connector gets a per-user access token. The server uses it as `auth.uid()`
-  → RLS applies. (Same pattern as `nutrition-mcp`'s Claude.ai connector.)
+  OAuth 2.0. The MCP server runs the OAuth provider; the user signs in once with
+  Supabase Auth email/password and the connector gets a per-user Supabase access
+  token. The server validates that token with `auth.getUser()` before returning it,
+  so it becomes `auth.uid()` for every existing RLS policy. (Same pattern as
+  `nutrition-mcp`'s Claude.ai connector.)
+- **OAuth storage:** dynamic RFC 7591 registration is stateless. The returned
+  public client ID contains its registered redirect URIs and an HMAC signature.
+  `/authorize` stores a short-lived, user-owned grant in
+  `oauth_authorization_grants`; only a SHA-256 code hash, client, redirect URI,
+  PKCE challenge, scopes, expiry, user, and server-side refresh credential are
+  persisted. The client-facing authorization code is an encrypted/signed
+  envelope containing no Supabase token. `/token` atomically deletes and
+  returns the grant through the `claim_oauth_authorization_grant` RPC before
+  refreshing and returning a Supabase access token, so replay fails across
+  concurrent Edge Function isolates. The refresh-token wrapper remains
+  encrypted and signed with `MORSEL_OAUTH_SIGNING_KEY`.
+- **OAuth discovery:** protected-resource metadata is served at both
+  `/.well-known/oauth-protected-resource` and
+  `/.well-known/oauth-protected-resource/mcp` (and the corresponding function
+  prefixed paths). The MCP 401 response points clients at the path-specific URL.
 - **App side:** Supabase Auth (Apple / Google / email OTP). Same `user_id` as the
   agent, so both clients share one store.
 

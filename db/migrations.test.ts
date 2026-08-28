@@ -3,9 +3,14 @@ import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const migrationPath = resolve(process.cwd(), 'db/migrations/0003_atomic_meals_and_users_rls.sql')
+const oauthMigrationPath = resolve(process.cwd(), 'db/migrations/0005_oauth_authorization_grants.sql')
 
 function migrationSql(): string {
   return readFileSync(migrationPath, 'utf8')
+}
+
+function oauthMigrationSql(): string {
+  return readFileSync(oauthMigrationPath, 'utf8')
 }
 
 describe('migration 0003 security and transaction contract', () => {
@@ -31,5 +36,31 @@ describe('migration 0003 security and transaction contract', () => {
     expect(functionSql).toContain('insert into public.meal_items')
     expect(functionSql).toContain('jsonb_to_recordset(p_items)')
     expect(functionSql).toMatch(/grant execute on function public\.log_meal_with_items\([\s\S]*\) to authenticated;/i)
+  })
+})
+
+describe('migration 0005 OAuth grant claim contract', () => {
+  it('stores grants behind owner-scoped RLS policies', () => {
+    const sql = oauthMigrationSql()
+
+    expect(sql).toContain('create table public.oauth_authorization_grants')
+    expect(sql).toContain('alter table public.oauth_authorization_grants enable row level security;')
+    expect(sql).toMatch(/create policy "oauth authorization grants are readable by their owner"[\s\S]*?using \(\(select auth\.uid\(\)\) = user_id\);/i)
+    expect(sql).toMatch(/create policy "oauth authorization grants are insertable by their owner"[\s\S]*?with check \(\(select auth\.uid\(\)\) = user_id\);/i)
+    expect(sql).toContain('grant insert on table public.oauth_authorization_grants to authenticated;')
+  })
+
+  it('defines the public claim RPC as an atomic security-definer delete', () => {
+    const sql = oauthMigrationSql()
+    const functionStart = sql.indexOf('create or replace function public.claim_oauth_authorization_grant')
+    expect(functionStart).toBeGreaterThanOrEqual(0)
+    const functionSql = sql.slice(functionStart)
+
+    expect(functionSql).toMatch(/\(\s*p_code_hash text,\s*p_client_id text\s*\)/i)
+    expect(functionSql).toMatch(/returns table[\s\S]*?code_hash text[\s\S]*?refresh_token text/i)
+    expect(functionSql).toMatch(/language sql\s+security definer\s+set search_path = public, pg_temp/i)
+    expect(functionSql).toMatch(/delete from public\.oauth_authorization_grants[\s\S]*?expires_at > now\(\)[\s\S]*?returning/i)
+    expect(functionSql).toMatch(/revoke execute on function public\.claim_oauth_authorization_grant\(text, text\) from public;/i)
+    expect(functionSql).toMatch(/grant execute on function public\.claim_oauth_authorization_grant\(text, text\) to anon, authenticated;/i)
   })
 })

@@ -204,3 +204,25 @@ column as a reference. It does not fetch or upload the image and does not claim
 that the URL is durable. The private `food-images` bucket and its owner-scoped
 Storage policies are provisioned by `db/migrations/0004_store_assets.sql`; a
 future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
+
+## Remote authentication
+
+The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
+access token issued by the provider in the same Edge Function. OAuth clients
+discover the provider through `/.well-known/oauth-protected-resource` (the
+path-specific `/.well-known/oauth-protected-resource/mcp` is also served) and
+`/.well-known/oauth-authorization-server`.
+
+The provider supports dynamic RFC 7591 registration, the authorization-code
+grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password
+sign-in page; `/token` requires PKCE with `code_challenge_method=S256` and rejects
+`plain`. Access tokens are the real Supabase Auth session access tokens, validated
+with `auth.getUser()` before issuance, so existing RLS policies continue to scope
+every tool call to the signed-in user. Client registration remains stateless,
+but `/authorize` stores a short-lived user-owned grant in the RLS-protected
+`oauth_authorization_grants` table. The client-facing code is an
+encrypted/signed envelope containing no Supabase token. `/token` atomically
+claims the grant through `claim_oauth_authorization_grant` before minting a
+Supabase access token, so replay fails across concurrent Edge Function
+isolates. Refresh-token wrappers remain encrypted/signed; no long-lived
+server-side OAuth sessions are used.
