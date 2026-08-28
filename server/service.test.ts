@@ -213,20 +213,20 @@ describe('MorselService', () => {
     const day = await service.getDay({ date: '2026-08-25' })
     const dashboard = await service.getDashboardSummary({ days: 1 })
 
-    expect(day.render?.markdown).toContain('220 / 2,000 kcal')
-    expect(day.render?.markdown).toContain('needs-review')
-    expect(dashboard.render?.markdown).toContain('220 / 2,000 kcal')
-    expect(dashboard.render?.markdown).toContain('needs-review')
-    expect(day.render?.svg).toContain('needs-review')
-    expect(dashboard.render?.svg).toContain('needs-review')
+    expect(day.render.markdown).toContain('220 / 2,000 kcal')
+    expect(day.render.markdown).toContain('needs-review')
+    expect(dashboard.render.markdown).toContain('220 / 2,000 kcal')
+    expect(dashboard.render.markdown).toContain('needs-review')
+    expect(day.render.svg).toContain('needs-review')
+    expect(dashboard.render.svg).toContain('needs-review')
   })
 
   it('renders an explicit empty dashboard when no meals or goal exist', async () => {
     const summary = await createService().getDashboardSummary({ days: 1 })
 
-    expect(summary.render?.markdown).toContain('No meals logged')
-    expect(summary.render?.markdown).toContain('Goal: not set')
-    expect(summary.render?.svg).toContain('No meals logged')
+    expect(summary.render.markdown).toContain('No meals logged')
+    expect(summary.render.markdown).toContain('Goal: not set')
+    expect(summary.render.svg).toContain('No meals logged')
   })
 
   it('reports missing profiles as a clear domain error', async () => {
