@@ -18,6 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Check Supabase Edge Function
+        run: deno check supabase/functions/mcp/index.ts
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22

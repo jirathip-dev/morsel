@@ -1,8 +1,9 @@
 # Architecture
 
 ## Decision
-**Supabase + a thin remote MCP server.** We host the MCP endpoint and the store;
-we do not build a chat app, a feed, or an AI.
+**Supabase Edge Function + Supabase store.** We host the MCP endpoint as a
+Deno Edge Function and host the store on Supabase; we do not build a chat app,
+a feed, or an AI.
 
 ## Why hosted (not self-hosted)
 The user's agent runs in Claude/ChatGPT's cloud, so the MCP server must be an
@@ -12,7 +13,7 @@ and the dashboard (reader), so it cannot live only on-device. → **Always-hoste
 ## Components
 ```
 ┌──────────────┐   upload photo + vision   ┌──────────────────────────────┐
-│  Claude.ai / │ ────────────────────────▶ │  MORSEL MCP server (Bun/Hono) │
+│  Claude.ai / │ ────────────────────────▶ │  MORSEL MCP server (Edge/Deno) │
 │  ChatGPT /    │   agent calls log_meal   │  · exposes tools (log_meal…)   │
 │  any MCP host │                          │  · authenticates user token    │
 └──────────────┘                          └──────────────┬───────────────┘
@@ -44,6 +45,13 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
    URL reference only.
 5. Dashboard renders it live.
 
+## Deployment
+The production entrypoint is `supabase/functions/mcp/index.ts`, a Supabase Edge
+Function running Hono and the MCP SDK on Deno. `GET /health` is public; the
+function disables the platform JWT check so the app can validate the per-request
+bearer token required by `/mcp`. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
+from the function environment at request time.
+
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use
   OAuth 2.0. The MCP server runs the OAuth provider; the user signs in once and
@@ -61,5 +69,7 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
    `nutrition-mcp` proved.
 2. **Supabase + auto-generated MCP tools from schema** — least code, less control
    over tool naming/semantics. Look at `supabase-mcp-server` if we go this way.
-3. **Cloudflare Workers + D1** — cheapest ops / serverless. Revisit if hosting
+3. **Fly.io + managed Postgres** — more control over the long-running server,
+   with more deployment and operations work.
+4. **Cloudflare Workers + D1** — cheapest ops / serverless. Revisit if hosting
    cost or always-uptime becomes a concern.

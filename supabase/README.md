@@ -1,7 +1,8 @@
 # Supabase
 
-The canonical database SQL currently lives in `db/migrations/`, because this
-repository does not yet include a Supabase CLI project configuration.
+The canonical database SQL currently lives in `db/migrations/`. The
+`supabase/config.toml` file configures the Edge Function only; it does not
+configure a local database, storage, or Studio project.
 
 Apply the migrations in numeric order:
 
