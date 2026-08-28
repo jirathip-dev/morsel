@@ -37,7 +37,7 @@ struct MorselConfiguration {
         supabaseURL = urlString.flatMap(URL.init(string:))
         anonKey = (bundle.object(forInfoDictionaryKey: "MorselSupabaseAnonKey") as? String)?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        mcpEndpoint = (bundle.object(forInfoDictionaryKey: "MorselMCPURL") as? String)?
+        mcpEndpoint = (bundle.object(forInfoDictionaryKey: "MORSEL_MCP_URL") as? String)?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     }
 
@@ -73,15 +73,22 @@ private struct MorselRootView: View {
     let auth: any SupabaseAuthenticating
     let repository: any DashboardRepository
     let mcpEndpoint: String
+    @State private var pendingSession: AuthenticatedSession?
 
     var body: some View {
         Group {
             if let session = sessionStore.session {
                 AuthenticatedDashboardView(repository: repository, userID: session.userID, mcpEndpoint: mcpEndpoint)
             } else {
-                SignInView(auth: auth) { session in
-                    sessionStore.authenticate(session)
-                }
+                OnboardingView(
+                    userID: pendingSession?.userID ?? UUID(),
+                    endpoint: mcpEndpoint,
+                    auth: auth,
+                    onAuthenticated: { pendingSession = $0 },
+                    onFinished: {
+                        if let pendingSession { sessionStore.authenticate(pendingSession) }
+                    }
+                )
             }
         }
         .task {
@@ -126,13 +133,14 @@ private struct AuthenticatedDashboardView: View {
             }
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
-            OnboardingView(userID: viewModel.userID, endpoint: mcpEndpoint) {
+            OnboardingView(userID: viewModel.userID, endpoint: mcpEndpoint, onFinished: {
                 OnboardingStore().markCompleted(for: viewModel.userID)
                 showingOnboarding = false
-            } onSkip: {
+                },
+                onSkip: {
                 OnboardingStore().markCompleted(for: viewModel.userID)
                 showingOnboarding = false
-            }
+            })
         }
     }
 }

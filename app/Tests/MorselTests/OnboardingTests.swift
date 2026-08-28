@@ -10,6 +10,48 @@ final class OnboardingTests: XCTestCase {
         XCTAssertFalse(prompt.contains("{{MCP_URL}}"))
         XCTAssertTrue(prompt.contains("get_profile"))
         XCTAssertTrue(prompt.contains("one photo = one"))
+        XCTAssertEqual(OnboardingContent.signedInMarker, "Signed in ✓")
+    }
+
+    func testEndpointConfigurationRejectsEmptyAndNonHTTPSValues() {
+        XCTAssertNil(OnboardingEndpoint(configuredValue: ""))
+        XCTAssertNil(OnboardingEndpoint(configuredValue: "http://mcp.example.test/mcp"))
+        XCTAssertEqual(
+            OnboardingEndpoint(configuredValue: " https://mcp.example.test/mcp ")?.value,
+            "https://mcp.example.test/mcp"
+        )
+    }
+
+    func testCopyPayloadRequiresValidConfiguredEndpoint() {
+        let endpoint = OnboardingEndpoint(configuredValue: "https://mcp.example.test/mcp")
+        guard let endpoint else {
+            return XCTFail("Expected a valid endpoint")
+        }
+        XCTAssertTrue(
+            OnboardingContent.prompt(OnboardingContent.chatPrompt, endpoint: endpoint.value)
+                .contains(endpoint.value)
+        )
+        XCTAssertNil(OnboardingEndpoint(configuredValue: ""))
+    }
+
+    func testEachPlatformHasDistinctInstructions() {
+        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Customize → Connectors"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Claude Desktop").contains("Claude Desktop"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Settings → Apps → Create"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Claude Code").contains("Claude Code"))
+    }
+
+    func testDoneRequiresExplicitConfirmationAction() {
+        var state = OnboardingState()
+        state.step = .coach
+
+        XCTAssertFalse(state.confirmed)
+        XCTAssertNotEqual(state.step, .done)
+
+        state.confirmConnection()
+
+        XCTAssertTrue(state.confirmed)
+        XCTAssertEqual(state.step, .done)
     }
 
     func testClaudeCodePromptKeepsFullTemplateAndEndpoint() {
@@ -25,33 +67,11 @@ final class OnboardingTests: XCTestCase {
         XCTAssertTrue(prompt.contains("Complete the OAuth browser sign-in"))
     }
 
-    func testDoneDetectionUsesUserWriteAfterOnboardingStarted() {
-        let started = Date(timeIntervalSince1970: 100)
-
-        XCTAssertFalse(OnboardingDetection(
-            updatedAt: nil, manualConfirmation: false, startedAt: started
-        ).isConnected)
-        XCTAssertFalse(OnboardingDetection(
-            updatedAt: started, manualConfirmation: false, startedAt: started
-        ).isConnected)
-        XCTAssertTrue(OnboardingDetection(
-            updatedAt: Date(timeIntervalSince1970: 101), manualConfirmation: false, startedAt: started
-        ).isConnected)
-    }
-
-    func testDoneDetectionDegradesToManualConfirmation() {
-        let detection = OnboardingDetection(
-            updatedAt: nil,
-            manualConfirmation: true,
-            startedAt: Date()
-        )
-
-        XCTAssertTrue(detection.isConnected)
-    }
-
     func testOnboardingStoreShowsOnceAndCanBeReplayed() {
         let suiteName = "OnboardingTests.\(UUID().uuidString)"
-        let defaults = UserDefaults(suiteName: suiteName)!
+        guard let defaults = UserDefaults(suiteName: suiteName) else {
+            return XCTFail("Expected isolated defaults")
+        }
         let store = OnboardingStore(defaults: defaults)
         let userID = UUID()
         defer { defaults.removePersistentDomain(forName: suiteName) }

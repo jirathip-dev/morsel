@@ -12,8 +12,8 @@
 		23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A12A89F0EF310480905F84 /* DashboardMathTests.swift */; };
 		37161EEB054B0EC5322B63C6 /* MealCorrections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E934A83609248C24192AB339 /* MealCorrections.swift */; };
 		474515288390A81C4A1198B2 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B945E15B916830A85CE5BA3 /* AuthView.swift */; };
-		5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8B5270DDA7AA045CA6901 /* Onboarding.swift */; };
 		5B8E82996339A8A7FC5594CB /* MealItemEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */; };
+		5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8B5270DDA7AA045CA6901 /* Onboarding.swift */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
 		9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C1C0258B7A800F46DCEDFB /* Views.swift */; };
 		9F6D52083092B0942326E0E1 /* MealThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2B2FD6DB00BB811705B9BC /* MealThumbnail.swift */; };
@@ -150,8 +150,8 @@
 			children = (
 				37A12A89F0EF310480905F84 /* DashboardMathTests.swift */,
 				83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */,
-				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
 				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
+				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
 			);
 			path = MorselTests;
 			sourceTree = "<group>";
@@ -263,12 +263,8 @@
 			files = (
 				23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */,
 				E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */,
-<<<<<<< HEAD
-				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,
-||||||| 6bce725
-=======
 				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,
->>>>>>> origin/main
+				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +361,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
-				INFOPLIST_KEY_MorselMCPURL = "";
+				INFOPLIST_KEY_MORSEL_MCP_URL = "";
 				INFOPLIST_KEY_MorselSupabaseAnonKey = "";
 				INFOPLIST_KEY_MorselSupabaseURL = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Morsel uses the camera to attach a photo to your meal log.";
@@ -410,7 +406,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
-				INFOPLIST_KEY_MorselMCPURL = "";
+				INFOPLIST_KEY_MORSEL_MCP_URL = "";
 				INFOPLIST_KEY_MorselSupabaseAnonKey = "";
 				INFOPLIST_KEY_MorselSupabaseURL = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Morsel uses the camera to attach a photo to your meal log.";
