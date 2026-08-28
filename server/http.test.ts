@@ -13,6 +13,15 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+function isRecordArray(value: unknown): value is Record<string, unknown>[] {
+  return Array.isArray(value) && value.every(isRecord)
+}
+
+function decodeBase64(value: string): string {
+  const binary = atob(value)
+  return new TextDecoder().decode(Uint8Array.from(binary, (character) => character.charCodeAt(0)))
+}
+
 class TokenTrackingRepository extends InMemoryRepository {
   readonly accessTokens: string[] = []
   readonly operationTokens: string[] = []
@@ -140,6 +149,19 @@ describe('MCP HTTP server', () => {
     const defaultSummary = await client.callTool({ name: 'get_dashboard_summary' })
     expect(defaultSummary.isError).not.toBe(true)
     expect(defaultSummary.structuredContent).toMatchObject({ avg_calories_kcal: 0 })
+    expect(defaultSummary.content).toHaveLength(2)
+    expect(defaultSummary.content).toMatchObject([
+      { type: 'text' },
+      { type: 'image', mimeType: 'image/svg+xml' },
+    ])
+    if (!isRecordArray(defaultSummary.content)) {
+      throw new Error('dashboard content was not an array')
+    }
+    const image = defaultSummary.content[1]
+    if (!isRecord(image) || typeof image.data !== 'string') {
+      throw new Error('dashboard image content was malformed')
+    }
+    expect(decodeBase64(image.data)).toMatch(/^<svg\b/)
 
     const result = await client.callTool({
       name: 'log_meal',

@@ -14,6 +14,7 @@ import {
   LogMealOutputSchema,
   SearchFoodInputSchema,
   SearchFoodOutputSchema,
+  RenderPayloadSchema,
   SetGoalsInputSchema,
   SetGoalsOutputSchema,
   SetProfileInputSchema,
@@ -24,13 +25,32 @@ import {
 import { MorselError } from './errors.ts'
 import type { MorselService } from './service.ts'
 
+type ToolContent =
+  | { type: 'text'; text: string }
+  | { type: 'image'; data: string; mimeType: 'image/svg+xml' }
+
+function encodeBase64(value: string): string {
+  const bytes = new TextEncoder().encode(value)
+  let binary = ''
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte)
+  }
+  return btoa(binary)
+}
+
 function success(output: Record<string, unknown>): {
   structuredContent: Record<string, unknown>
-  content: Array<{ type: 'text'; text: string }>
+  content: ToolContent[]
 } {
+  const render = RenderPayloadSchema.safeParse(output.render)
   return {
     structuredContent: output,
-    content: [{ type: 'text', text: JSON.stringify(output) }],
+    content: render.success
+      ? [
+          { type: 'text', text: render.data.markdown },
+          { type: 'image', data: encodeBase64(render.data.svg), mimeType: 'image/svg+xml' },
+        ]
+      : [{ type: 'text', text: JSON.stringify(output) }],
   }
 }
 

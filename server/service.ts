@@ -41,6 +41,7 @@ import type {
   UpdateMealItemOutput,
 } from '../packages/schema/food-types.ts'
 import { MorselError } from './errors.ts'
+import { LOW_CONFIDENCE_THRESHOLD, renderDashboardSummary, type DashboardRenderSummary } from './render.ts'
 import type { MorselRepository, StoredGoals } from './repository.ts'
 
 function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
@@ -71,23 +72,82 @@ function addDays(date: string, amount: number): string {
   return new Date(Date.parse(dayStart(date)) + amount * 86_400_000).toISOString().slice(0, 10)
 }
 
-function sumMealCalories(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): number {
-  return meals.reduce((total, meal) => total + meal.items.reduce((mealTotal, item) => mealTotal + (item.calories_kcal ?? 0), 0), 0)
-}
-
-function sumMealMacros(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): {
+function sumMealTotals(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): {
+  calories_kcal: number
   protein_g: number
   carbs_g: number
   fat_g: number
 } {
   return meals.reduce((totals, meal) => {
     for (const item of meal.items) {
+      totals.calories_kcal += item.calories_kcal ?? 0
       totals.protein_g += item.protein_g ?? 0
       totals.carbs_g += item.carbs_g ?? 0
       totals.fat_g += item.fat_g ?? 0
     }
     return totals
-  }, { protein_g: 0, carbs_g: 0, fat_g: 0 })
+  }, { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 })
+}
+
+function countStreak(
+  meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
+  endDate: string,
+  maximumDays: number,
+): number {
+  const mealDates = new Set(meals.map((meal) => meal.eaten_at.slice(0, 10)))
+  let streakDays = 0
+  let streakDate = endDate
+  while (streakDays < maximumDays && mealDates.has(streakDate)) {
+    streakDays += 1
+    streakDate = previousDate(streakDate)
+  }
+  return streakDays
+}
+
+function dailyCalories(
+  meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
+  startDate: string,
+  days: number,
+): { date: string; calories_kcal: number }[] {
+  const totalsByDate = new Map<string, number>()
+  for (let offset = 0; offset < days; offset += 1) {
+    totalsByDate.set(addDays(startDate, offset), 0)
+  }
+  for (const meal of meals) {
+    const date = meal.eaten_at.slice(0, 10)
+    const mealCalories = meal.items.reduce((total, item) => total + (item.calories_kcal ?? 0), 0)
+    if (totalsByDate.has(date)) {
+      totalsByDate.set(date, (totalsByDate.get(date) ?? 0) + mealCalories)
+    }
+  }
+  return [...totalsByDate.entries()].map(([date, calories_kcal]) => ({ date, calories_kcal }))
+}
+
+function lowConfidenceItemCount(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): number {
+  return meals.reduce((count, meal) => count + meal.items.filter((item) => (
+    item.confidence !== undefined && item.confidence < LOW_CONFIDENCE_THRESHOLD
+  )).length, 0)
+}
+
+function createRenderSummary(
+  meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
+  startDate: string,
+  endDate: string,
+  days: number,
+  goal: GoalSummary | undefined,
+): DashboardRenderSummary {
+  const totals = sumMealTotals(meals)
+  return {
+    startDate,
+    endDate,
+    days,
+    totals,
+    ...(goal === undefined ? {} : { goal }),
+    streakDays: countStreak(meals, endDate, days),
+    mealCount: meals.length,
+    dailyCalories: dailyCalories(meals, startDate, days),
+    lowConfidenceItemCount: lowConfidenceItemCount(meals),
+  }
 }
 
 function toGoalSummary(computed: ComputeTargetsOutput, stored: StoredGoals | undefined): GoalSummary {
@@ -166,26 +226,20 @@ export class MorselService {
   async getDay(input: unknown): Promise<GetDayOutput> {
     const parsed = parseInput(GetDayInputSchema, input, 'get_day')
     const meals = await this.repository.getMealsInRange(this.userId, dayStart(parsed.date), nextDayStart(parsed.date))
-    const totals = meals.reduce((result, meal) => {
-      for (const item of meal.items) {
-        result.calories_kcal += item.calories_kcal ?? 0
-        result.protein_g += item.protein_g ?? 0
-        result.carbs_g += item.carbs_g ?? 0
-        result.fat_g += item.fat_g ?? 0
-      }
-      return result
-    }, { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 })
+    const totals = sumMealTotals(meals)
 
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
       : await this.getEffectiveGoals(profile, stored)
+    const render = renderDashboardSummary(createRenderSummary(meals, parsed.date, parsed.date, 1, goal))
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
       meals,
       totals,
       ...(goal === undefined ? {} : { goal, remaining_kcal: goal.calorie_target_kcal - totals.calories_kcal }),
+      render,
     }, 'get_day output')
   }
 
@@ -273,19 +327,22 @@ export class MorselService {
     const startDate = addDays(today, 1 - parsed.days)
     const meals = await this.repository.getMealsInRange(this.userId, dayStart(startDate), nextDayStart(today))
     const weightTrend = await this.repository.getWeightTrend(this.userId, dayStart(startDate), nextDayStart(today))
-    const macroSplit = sumMealMacros(meals)
-    const mealDates = new Set(meals.map((meal) => meal.eaten_at.slice(0, 10)))
-    let streakDays = 0
-    let streakDate = today
-    while (mealDates.has(streakDate)) {
-      streakDays += 1
-      streakDate = previousDate(streakDate)
-    }
+    const profile = await this.repository.getProfile(this.userId)
+    const stored = await this.repository.getGoals(this.userId)
+    const goal = profile === undefined
+      ? toCompleteManualGoal(stored)
+      : await this.getEffectiveGoals(profile, stored)
+    const summary = createRenderSummary(meals, startDate, today, parsed.days, goal)
     return parseInput(GetDashboardSummaryOutputSchema, {
-      avg_calories_kcal: sumMealCalories(meals) / parsed.days,
-      streak_days: streakDays,
-      macro_split: macroSplit,
+      avg_calories_kcal: summary.totals.calories_kcal / parsed.days,
+      streak_days: summary.streakDays,
+      macro_split: {
+        protein_g: summary.totals.protein_g,
+        carbs_g: summary.totals.carbs_g,
+        fat_g: summary.totals.fat_g,
+      },
       weight_trend: weightTrend,
+      render: renderDashboardSummary(summary),
     }, 'get_dashboard_summary output')
   }
 
