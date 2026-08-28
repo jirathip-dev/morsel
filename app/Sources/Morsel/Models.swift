@@ -13,8 +13,51 @@ struct MealItem: Identifiable, Equatable, Sendable {
     let sugarG: Double?
     let confidence: Double?
     let notes: String?
+    let source: MealSource
+
+    init(
+        itemID: UUID,
+        name: String,
+        quantity: Double,
+        unit: FoodUnit,
+        caloriesKcal: Double?,
+        proteinG: Double?,
+        carbsG: Double?,
+        fatG: Double?,
+        fiberG: Double?,
+        sugarG: Double?,
+        confidence: Double?,
+        notes: String?,
+        source: MealSource = .manual
+    ) {
+        self.itemID = itemID
+        self.name = name
+        self.quantity = quantity
+        self.unit = unit
+        self.caloriesKcal = caloriesKcal
+        self.proteinG = proteinG
+        self.carbsG = carbsG
+        self.fatG = fatG
+        self.fiberG = fiberG
+        self.sugarG = sugarG
+        self.confidence = confidence
+        self.notes = notes
+        self.source = source
+    }
 
     var id: UUID { itemID }
+
+    var isManualEdit: Bool {
+        notes == MealSource.manualEdit.rawValue
+    }
+
+    var provenance: MealSource {
+        isManualEdit ? .manualEdit : source
+    }
+
+    var needsReview: Bool {
+        !isManualEdit && DashboardMath.confidenceBadge(for: confidence).needsReview
+    }
 }
 
 enum FoodUnit: String, CaseIterable, Sendable {
@@ -27,6 +70,7 @@ enum FoodUnit: String, CaseIterable, Sendable {
 
 enum MealSource: String, CaseIterable, Sendable {
     case manual
+    case manualEdit = "manual_edit"
     case photoVision = "photo_vision"
     case barcode
     case imported = "import"
