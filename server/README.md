@@ -63,19 +63,21 @@ available at the same local root (`/.well-known/oauth-authorization-server`,
   only a reference until the storage upload flow is implemented. The URL must
   use HTTPS.
 - OAuth uses stateless dynamic client registration. Client IDs carry their
-  redirect URI allowlist in an HMAC-signed value; authorization codes and
-  refresh-token wrappers are encrypted/signed and expire without server-side
-  sessions. Authorization codes are single-use within each running Edge
-  Function isolate via a TTL consumption map; isolates and restarts do not
-  share that map, so globally shared replay protection requires a future
-  RLS-backed consumption table. `/authorize` signs the user in with Supabase
-  Auth email/password, validates the returned access token with `auth.getUser()`,
-  and `/token` returns that real Supabase token. `MORSEL_OAUTH_SIGNING_KEY` is
-  required for registration and token exchange; set it as an Edge Function
-  secret and never commit it.
+  redirect URI allowlist in an HMAC-signed value. `/authorize` signs the user
+  in with Supabase Auth email/password, validates the returned access token
+  with `auth.getUser()`, and stores a short-lived grant in the RLS-protected
+  `oauth_authorization_grants` table. The client-facing authorization code is
+  encrypted/signed but contains no Supabase token. `/token` atomically claims
+  the grant through `claim_oauth_authorization_grant` before refreshing and
+  returning a real Supabase access token; a replay therefore fails across
+  concurrent Edge Function isolates. Refresh-token wrappers remain
+  encrypted/signed. `MORSEL_OAUTH_SIGNING_KEY` is required for registration
+  and token exchange; set it as an Edge Function secret and never commit it.
 - Deployments must apply the ordered SQL in `db/migrations/` and then
   `db/seed.sql`; migration `0004_store_assets.sql` provisions the private
-  `food-images` bucket and its owner-scoped Storage policies.
+  `food-images` bucket and its owner-scoped Storage policies, and migration
+  `0005_oauth_authorization_grants.sql` provisions the OAuth grant table and
+  atomic claim RPC.
 - The v0.1 day boundary is UTC because the MCP contract supplies a date but not
   a timezone. The user's stored timezone can be incorporated with a later
   contract/store change.

@@ -64,13 +64,16 @@ are available below `/functions/v1/mcp/`.
   so it becomes `auth.uid()` for every existing RLS policy. (Same pattern as
   `nutrition-mcp`'s Claude.ai connector.)
 - **OAuth storage:** dynamic RFC 7591 registration is stateless. The returned
-  public client ID contains its registered redirect URIs and an HMAC signature;
-  authorization codes and refresh-token wrappers are encrypted and signed with
-  `MORSEL_OAUTH_SIGNING_KEY`, and expire without server-side sessions.
-  Authorization codes are single-use within each running Edge Function isolate
-  through a TTL consumption map; isolates and restarts do not share consumed
-  codes. A future RLS-backed consumption table is required for global replay
-  protection.
+  public client ID contains its registered redirect URIs and an HMAC signature.
+  `/authorize` stores a short-lived, user-owned grant in
+  `oauth_authorization_grants`; only a SHA-256 code hash, client, redirect URI,
+  PKCE challenge, scopes, expiry, user, and server-side refresh credential are
+  persisted. The client-facing authorization code is an encrypted/signed
+  envelope containing no Supabase token. `/token` atomically deletes and
+  returns the grant through the `claim_oauth_authorization_grant` RPC before
+  refreshing and returning a Supabase access token, so replay fails across
+  concurrent Edge Function isolates. The refresh-token wrapper remains
+  encrypted and signed with `MORSEL_OAUTH_SIGNING_KEY`.
 - **OAuth discovery:** protected-resource metadata is served at both
   `/.well-known/oauth-protected-resource` and
   `/.well-known/oauth-protected-resource/mcp` (and the corresponding function

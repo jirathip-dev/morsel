@@ -65,6 +65,12 @@ The `users` table is guarded by owner policies using `auth.uid() = id` for
 select, insert, and update.
 `food_catalog` is shared reference data: authenticated clients can select it,
 while its seed-owned rows have no client write policies.
+`oauth_authorization_grants` is a short-lived user-scoped table provisioned by
+`0005_oauth_authorization_grants.sql`. Authenticated users may insert only rows
+where `auth.uid() = user_id`; the public `claim_oauth_authorization_grant` RPC
+deletes and returns a matching unexpired row atomically, making an OAuth code
+single-use across Edge Function isolates. Its server-side refresh credential is
+never embedded in the client-facing authorization code.
 
 ## Why one store for two clients
 

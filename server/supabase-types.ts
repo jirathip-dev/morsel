@@ -42,6 +42,18 @@ export interface LogMealFunctionRow {
   items: LogMealFunctionItem[]
 }
 
+export interface ClaimOAuthAuthorizationGrantFunctionRow {
+  code_hash: string
+  client_id: string
+  redirect_uri: string
+  code_challenge: string
+  scopes: string[]
+  resource: string | null
+  user_id: string
+  refresh_token: string
+  expires_at: string
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -64,6 +76,45 @@ export interface Database {
           email?: string
           display_name?: string | null
           timezone?: string
+        }
+        Relationships: []
+      }
+      oauth_authorization_grants: {
+        Row: {
+          code_hash: string
+          client_id: string
+          redirect_uri: string
+          code_challenge: string
+          scopes: string[]
+          resource: string | null
+          user_id: string
+          refresh_token: string
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          code_hash: string
+          client_id: string
+          redirect_uri: string
+          code_challenge: string
+          scopes?: string[]
+          resource?: string | null
+          user_id: string
+          refresh_token: string
+          expires_at: string
+          created_at?: string
+        }
+        Update: {
+          code_hash?: string
+          client_id?: string
+          redirect_uri?: string
+          code_challenge?: string
+          scopes?: string[]
+          resource?: string | null
+          user_id?: string
+          refresh_token?: string
+          expires_at?: string
+          created_at?: string
         }
         Relationships: []
       }
@@ -276,6 +327,13 @@ export interface Database {
           p_items: LogMealFunctionItem[]
         }
         Returns: LogMealFunctionRow[]
+      }
+      claim_oauth_authorization_grant: {
+        Args: {
+          p_code_hash: string
+          p_client_id: string
+        }
+        Returns: ClaimOAuthAuthorizationGrantFunctionRow[]
       }
     }
   }

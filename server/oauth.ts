@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Hono } from 'hono'
+import type { Database } from './supabase-types.ts'
 
 export type OAuthConfigValue = string | (() => string)
 
@@ -16,15 +17,34 @@ export interface OAuthIdentityService {
   refresh(refreshToken: string): Promise<OAuthUserSession>
 }
 
+export interface OAuthAuthorizationGrant {
+  codeHash: string
+  clientId: string
+  redirectUri: string
+  codeChallenge: string
+  userId: string
+  refreshToken: string
+  scopes: string[]
+  resource?: string
+  expiresAt: number
+}
+
+export interface OAuthGrantStore {
+  create(grant: OAuthAuthorizationGrant, accessToken: string): Promise<void>
+  claim(codeHash: string, clientId: string): Promise<OAuthAuthorizationGrant | undefined>
+}
+
 export interface MorselOAuthOptions {
   signingKey?: OAuthConfigValue
   service?: OAuthIdentityService
+  grantStore?: OAuthGrantStore
   supabaseUrl?: OAuthConfigValue
   anonKey?: OAuthConfigValue
 }
 
 interface OAuthRouteOptions {
   basePath?: string
+  grantStore: OAuthGrantStore
   signingKey: OAuthConfigValue
   service: OAuthIdentityService
 }
@@ -41,14 +61,6 @@ interface ClientRegistrationPayload {
 interface AuthorizationCodePayload {
   typ: 'authorization_code'
   clientId: string
-  redirectUri: string
-  codeChallenge: string
-  userId: string
-  accessToken: string
-  refreshToken?: string
-  expiresIn: number
-  scopes: string[]
-  resource?: string
   expiresAt: number
 }
 
@@ -145,6 +157,11 @@ async function signPayload(secret: string, payload: Record<string, unknown>): Pr
     throw new Error('HMAC signing failed')
   }
   return `${encoded}.${encodeBase64Url(signature)}`
+}
+
+async function hashValue(value: string): Promise<string> {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value))
+  return encodeBase64Url(new Uint8Array(digest))
 }
 
 async function verifyPayload(secret: string, value: string): Promise<Record<string, unknown>> {
@@ -514,24 +531,6 @@ function ensureUnexpired(payload: Record<string, unknown>): void {
   }
 }
 
-function createAuthorizationCodeConsumer(): (code: string, expiresAt: number) => boolean {
-  // ponytail: this per-isolate TTL map is minimal; use an RLS table for shared replay protection.
-  const consumedCodes = new Map<string, number>()
-  return (code, expiresAt) => {
-    const now = Math.floor(Date.now() / 1000)
-    for (const [consumedCode, consumedExpiresAt] of consumedCodes) {
-      if (consumedExpiresAt <= now) {
-        consumedCodes.delete(consumedCode)
-      }
-    }
-    if (consumedCodes.has(code)) {
-      return false
-    }
-    consumedCodes.set(code, expiresAt)
-    return true
-  }
-}
-
 function resourceMatches(requested: string | undefined, original: string | undefined): boolean {
   if (requested === undefined || original === undefined) {
     return requested === original
@@ -625,31 +624,34 @@ async function handleAuthorization(
     })
   }
   const fields = sessionFields(session)
+  if (fields.refreshToken === undefined || fields.refreshToken.trim() === '') {
+    throw new OAuthProtocolError('server_error', 'identity provider did not return a refresh token', 500)
+  }
   const scopes = (params.get('scope') ?? '').split(' ').filter((scope) => scope !== '')
+  const expiresAt = Math.floor(Date.now() / 1000) + 5 * 60
   const code = await sealPayload(secret, {
     typ: 'authorization_code',
+    clientId,
+    expiresAt,
+  } satisfies AuthorizationCodePayload)
+  await options.grantStore.create({
+    codeHash: await hashValue(code),
     clientId,
     redirectUri,
     codeChallenge,
     userId: fields.userId,
-    accessToken: fields.accessToken,
     refreshToken: fields.refreshToken,
-    expiresIn: fields.expiresIn,
     scopes,
-    resource,
-    expiresAt: Math.floor(Date.now() / 1000) + 5 * 60,
-  } satisfies AuthorizationCodePayload)
+    ...(resource === undefined ? {} : { resource }),
+    expiresAt,
+  }, fields.accessToken)
   return redirectResponse(redirectUri, {
     code,
     ...(params.get('state') === null ? {} : { state: params.get('state') ?? '' }),
   })
 }
 
-async function handleToken(
-  request: Request,
-  options: OAuthRouteOptions,
-  consumeAuthorizationCode: (code: string, expiresAt: number) => boolean,
-): Promise<Response> {
+async function handleToken(request: Request, options: OAuthRouteOptions): Promise<Response> {
   const secret = resolveConfigValue(options.signingKey, 'MORSEL_OAUTH_SIGNING_KEY')
   const params = await requestParameters(request)
   const clientId = params.get('client_id')
@@ -675,32 +677,27 @@ async function handleToken(
       if (payload.typ !== 'authorization_code' || payload.clientId !== clientId) {
         throw new OAuthProtocolError('invalid_grant', 'authorization code is invalid')
       }
-      const challenge = stringPayloadField(payload, 'codeChallenge')
+      const grant = await options.grantStore.claim(await hashValue(code), clientId)
+      if (grant === undefined) {
+        throw new OAuthProtocolError('invalid_grant', 'authorization code is invalid or already used')
+      }
       const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
-      if (encodeBase64Url(new Uint8Array(digest)) !== challenge) {
+      if (encodeBase64Url(new Uint8Array(digest)) !== grant.codeChallenge) {
         throw new OAuthProtocolError('invalid_grant', 'code_verifier does not match code_challenge')
       }
-      const redirectUri = stringPayloadField(payload, 'redirectUri')
-      if (params.get('redirect_uri') !== redirectUri) {
+      const redirectUri = params.get('redirect_uri')
+      if (redirectUri === null || redirectUri !== grant.redirectUri) {
         throw new OAuthProtocolError('invalid_grant', 'redirect_uri does not match authorization request')
       }
       const resource = params.get('resource') ?? undefined
-      if (!resourceMatches(resource, typeof payload.resource === 'string' ? payload.resource : undefined)) {
+      if (!resourceMatches(resource, grant.resource)) {
         throw new OAuthProtocolError('invalid_grant', 'resource does not match authorization request')
       }
-      const session: OAuthUserSession = {
-        userId: stringPayloadField(payload, 'userId'),
-        email: '',
-        accessToken: stringPayloadField(payload, 'accessToken'),
-        refreshToken: typeof payload.refreshToken === 'string' ? payload.refreshToken : undefined,
-        expiresIn: typeof payload.expiresIn === 'number' ? payload.expiresIn : 0,
+      const session = await options.service.refresh(grant.refreshToken)
+      if (session.userId !== grant.userId) {
+        throw new OAuthProtocolError('invalid_grant', 'authorization code user does not match')
       }
-      const scopes = stringArrayPayloadField(payload, 'scopes')
-      const expiresAt = payload.expiresAt
-      if (typeof expiresAt !== 'number' || !consumeAuthorizationCode(code, expiresAt)) {
-        throw new OAuthProtocolError('invalid_grant', 'authorization code has already been used')
-      }
-      return await tokenResponse(secret, session, clientId, scopes, resource)
+      return await tokenResponse(secret, session, clientId, grant.scopes, resource)
     } catch (error) {
       return oauthErrorResponse(error)
     }
@@ -782,6 +779,97 @@ async function handleRegistration(request: Request, options: OAuthRouteOptions):
   }, 201, corsHeaders())
 }
 
+interface SupabaseOAuthGrantStoreOptions {
+  supabaseUrl: OAuthConfigValue
+  anonKey: OAuthConfigValue
+  fetch?: typeof fetch
+}
+
+function parsedOAuthGrant(value: unknown): OAuthAuthorizationGrant | undefined {
+  if (!isRecord(value)
+    || typeof value.code_hash !== 'string'
+    || typeof value.client_id !== 'string'
+    || typeof value.redirect_uri !== 'string'
+    || typeof value.code_challenge !== 'string'
+    || typeof value.user_id !== 'string'
+    || typeof value.refresh_token !== 'string'
+    || !isStringArray(value.scopes)) {
+    return undefined
+  }
+  const expiresAt = typeof value.expires_at === 'string'
+    ? Date.parse(value.expires_at) / 1_000
+    : typeof value.expires_at === 'number'
+      ? value.expires_at
+      : Number.NaN
+  if (value.code_hash === '' || value.client_id === '' || value.redirect_uri === ''
+    || value.code_challenge === '' || value.user_id === '' || value.refresh_token === ''
+    || !Number.isFinite(expiresAt)) {
+    return undefined
+  }
+  return {
+    codeHash: value.code_hash,
+    clientId: value.client_id,
+    redirectUri: value.redirect_uri,
+    codeChallenge: value.code_challenge,
+    userId: value.user_id,
+    refreshToken: value.refresh_token,
+    scopes: value.scopes,
+    ...(typeof value.resource === 'string' ? { resource: value.resource } : {}),
+    expiresAt,
+  }
+}
+
+export function createSupabaseOAuthGrantStore(options: SupabaseOAuthGrantStoreOptions): OAuthGrantStore {
+  function client(accessToken?: string) {
+    const headers = accessToken === undefined ? {} : { headers: { Authorization: `Bearer ${accessToken}` } }
+    return createClient<Database>(
+      resolveConfigValue(options.supabaseUrl, 'SUPABASE_URL'),
+      resolveConfigValue(options.anonKey, 'SUPABASE_ANON_KEY'),
+      {
+        auth: { autoRefreshToken: false, detectSessionInUrl: false, persistSession: false },
+        global: { ...headers, fetch: options.fetch },
+      },
+    )
+  }
+
+  return {
+    async create(grant: OAuthAuthorizationGrant, accessToken: string): Promise<void> {
+      const result = await client(accessToken).from('oauth_authorization_grants').insert({
+        code_hash: grant.codeHash,
+        client_id: grant.clientId,
+        redirect_uri: grant.redirectUri,
+        code_challenge: grant.codeChallenge,
+        scopes: grant.scopes,
+        resource: grant.resource ?? null,
+        user_id: grant.userId,
+        refresh_token: grant.refreshToken,
+        expires_at: new Date(grant.expiresAt * 1_000).toISOString(),
+      })
+      if (result.error !== null) {
+        throw new OAuthProtocolError('server_error', 'could not store authorization grant', 500)
+      }
+    },
+    async claim(codeHash: string, clientId: string): Promise<OAuthAuthorizationGrant | undefined> {
+      const result = await client().rpc('claim_oauth_authorization_grant', {
+        p_code_hash: codeHash,
+        p_client_id: clientId,
+      })
+      if (result.error !== null) {
+        throw new OAuthProtocolError('server_error', 'could not claim authorization grant', 500)
+      }
+      const row = result.data[0]
+      if (row === undefined) {
+        return undefined
+      }
+      const grant = parsedOAuthGrant(row)
+      if (grant === undefined) {
+        throw new OAuthProtocolError('server_error', 'authorization grant is invalid', 500)
+      }
+      return grant
+    },
+  }
+}
+
 export function createSupabaseOAuthService(options: {
   supabaseUrl: OAuthConfigValue
   anonKey: OAuthConfigValue
@@ -851,7 +939,6 @@ export function createSupabaseOAuthService(options: {
 }
 
 export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void {
-  const consumeAuthorizationCode = createAuthorizationCodeConsumer()
   app.get('/.well-known/oauth-authorization-server', (context) => oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath)))
   app.get('/.well-known/oauth-protected-resource', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
   app.get('/.well-known/oauth-protected-resource/mcp', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
@@ -873,7 +960,7 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   app.options('/token', () => new Response(null, { status: 204, headers: corsHeaders() }))
   app.post('/token', async (context) => {
     try {
-      return await handleToken(context.req.raw, options, consumeAuthorizationCode)
+      return await handleToken(context.req.raw, options)
     } catch (error) {
       return oauthErrorResponse(error)
     }

@@ -218,8 +218,11 @@ grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password
 sign-in page; `/token` requires PKCE with `code_challenge_method=S256` and rejects
 `plain`. Access tokens are the real Supabase Auth session access tokens, validated
 with `auth.getUser()` before issuance, so existing RLS policies continue to scope
-every tool call to the signed-in user. Registration, codes, and refresh wrappers
-are stateless signed/encrypted values; authorization codes are single-use within
-one running Edge Function isolate. The in-memory TTL consumption record is not
-shared across isolates or restarts; global replay protection would require an
-RLS-backed consumption table. No server-side OAuth sessions are used.
+every tool call to the signed-in user. Client registration remains stateless,
+but `/authorize` stores a short-lived user-owned grant in the RLS-protected
+`oauth_authorization_grants` table. The client-facing code is an
+encrypted/signed envelope containing no Supabase token. `/token` atomically
+claims the grant through `claim_oauth_authorization_grant` before minting a
+Supabase access token, so replay fails across concurrent Edge Function
+isolates. Refresh-token wrappers remain encrypted/signed; no long-lived
+server-side OAuth sessions are used.

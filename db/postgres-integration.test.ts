@@ -28,6 +28,7 @@ const migrationFiles = [
   'db/migrations/0002_targets.sql',
   'db/migrations/0003_atomic_meals_and_users_rls.sql',
   'db/migrations/0004_store_assets.sql',
+  'db/migrations/0005_oauth_authorization_grants.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -268,6 +269,84 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         grant select on storage.buckets to authenticated;
         grant select, insert, update, delete on storage.objects to authenticated;
       `), 'API role grants')
+
+      const oauthRpcCatalog = requireSuccess(postgres.execute(`
+        select count(*) from pg_proc
+        where oid = to_regprocedure('public.claim_oauth_authorization_grant(text,text)');
+        select prosecdef from pg_proc
+        where oid = to_regprocedure('public.claim_oauth_authorization_grant(text,text)');
+      `), 'OAuth claim RPC catalog contract')
+      expect(queryValues(oauthRpcCatalog)).toEqual(['1', 't'])
+
+      requireSuccess(postgres.execute(`
+        begin;
+        set role authenticated;
+        set local "request.jwt.claim.sub" = '${userOne}';
+        insert into public.oauth_authorization_grants (
+          code_hash,
+          client_id,
+          redirect_uri,
+          code_challenge,
+          scopes,
+          resource,
+          user_id,
+          refresh_token,
+          expires_at
+        ) values (
+          'oauth-code-hash-one',
+          'oauth-client-one',
+          'https://client.example/callback',
+          'oauth-code-challenge',
+          array['mcp']::text[],
+          'https://morsel.example/mcp',
+          '${userOne}',
+          'oauth-refresh-token',
+          now() + interval '5 minutes'
+        );
+        commit;
+      `), 'owner OAuth grant insert')
+
+      const crossOAuthInsert = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userTwo}';
+        insert into public.oauth_authorization_grants (
+          code_hash,
+          client_id,
+          redirect_uri,
+          code_challenge,
+          user_id,
+          refresh_token,
+          expires_at
+        ) values (
+          'oauth-code-hash-cross-user',
+          'oauth-client-one',
+          'https://client.example/callback',
+          'oauth-code-challenge',
+          '${userOne}',
+          'oauth-refresh-token-cross-user',
+          now() + interval '5 minutes'
+        );
+      `, false)
+      expect(crossOAuthInsert.stderr).toMatch(/row-level security policy/i)
+
+      const oauthClaim = requireSuccess(postgres.execute(`
+        begin;
+        set role anon;
+        select code_hash || '|' || client_id || '|' || user_id::text || '|' || refresh_token
+        from public.claim_oauth_authorization_grant(
+          p_code_hash => 'oauth-code-hash-one',
+          p_client_id => 'oauth-client-one'
+        );
+        select count(*) from public.claim_oauth_authorization_grant(
+          p_code_hash => 'oauth-code-hash-one',
+          p_client_id => 'oauth-client-one'
+        );
+        commit;
+      `), 'atomic OAuth grant claim')
+      expect(queryValues(oauthClaim)).toEqual([
+        `oauth-code-hash-one|oauth-client-one|${userOne}|oauth-refresh-token`,
+        '0',
+      ])
 
       requireSuccess(postgres.execute(`
         insert into storage.objects (bucket_id, name) values

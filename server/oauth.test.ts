@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { createMorselApp } from './app.js'
 import { InMemoryRepository } from './in-memory-repository.js'
-import { createSupabaseOAuthService } from './oauth.js'
+import type { OAuthAuthorizationGrant, OAuthGrantStore } from './oauth.js'
+import { createSupabaseOAuthGrantStore, createSupabaseOAuthService } from './oauth.js'
 
 const oauthService = {
   authenticate: () => Promise.resolve({
@@ -31,12 +32,31 @@ function stringProperty(value: unknown, name: string): string {
   return value[name]
 }
 
-function createTestApp(basePath?: string) {
+function createTestGrantStore(): OAuthGrantStore {
+  const grants = new Map<string, OAuthAuthorizationGrant>()
+  return {
+    create: (grant, accessToken) => {
+      void accessToken
+      grants.set(grant.codeHash, grant)
+      return Promise.resolve()
+    },
+    claim: (codeHash, clientId) => {
+      const grant = grants.get(codeHash)
+      if (grant === undefined || grant.clientId !== clientId || grant.expiresAt <= Math.floor(Date.now() / 1000)) {
+        return Promise.resolve(undefined)
+      }
+      grants.delete(codeHash)
+      return Promise.resolve(grant)
+    },
+  }
+}
+
+function createTestApp(basePath?: string, grantStore = createTestGrantStore()) {
   return createMorselApp({
     basePath,
     authenticate: () => Promise.reject(new Error('not reached')),
     repositoryFactory: () => new InMemoryRepository(),
-    oauth: { signingKey: 'oauth-test-signing-key', service: oauthService },
+    oauth: { grantStore, signingKey: 'oauth-test-signing-key', service: oauthService },
   })
 }
 
@@ -127,8 +147,9 @@ describe('OAuth discovery and MCP authentication', () => {
     )
   })
 
-  it('runs a PKCE authorization-code flow and refreshes the Supabase session token', async () => {
-    const app = createTestApp()
+  it('runs a PKCE authorization-code flow and rejects cross-instance code replay', async () => {
+    const grantStore = createTestGrantStore()
+    const app = createTestApp(undefined, grantStore)
     const redirectUri = 'https://client.example/callback'
     const verifier = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-._~'
     const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
@@ -175,14 +196,16 @@ describe('OAuth discovery and MCP authentication', () => {
     const callback = new URL(authorizationResponse.headers.get('location') ?? '')
     expect(callback.origin + callback.pathname).toBe(redirectUri)
     expect(callback.searchParams.get('state')).toBe('state-123')
-    expect(callback.searchParams.get('code')).toEqual(expect.any(String))
+    const code = callback.searchParams.get('code') ?? ''
+    expect(code).toEqual(expect.any(String))
+    expect(code).not.toContain('supabase-access-token')
 
     const tokenResponse = await app.fetch(new Request('https://morsel.test/token', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         client_id: clientId,
-        code: callback.searchParams.get('code') ?? '',
+        code,
         code_verifier: verifier,
         grant_type: 'authorization_code',
         redirect_uri: redirectUri,
@@ -192,17 +215,18 @@ describe('OAuth discovery and MCP authentication', () => {
     const tokens = await tokenResponse.json()
     const refreshToken = stringProperty(tokens, 'refresh_token')
     expect(tokens).toMatchObject({
-      access_token: 'supabase-access-token',
+      access_token: 'supabase-access-token-rotated',
       token_type: 'Bearer',
     })
     expect(refreshToken).toEqual(expect.any(String))
 
-    const replayResponse = await app.fetch(new Request('https://morsel.test/token', {
+    const secondAppInstance = createTestApp(undefined, grantStore)
+    const replayResponse = await secondAppInstance.fetch(new Request('https://morsel.test/token', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
         client_id: clientId,
-        code: callback.searchParams.get('code') ?? '',
+        code,
         code_verifier: verifier,
         grant_type: 'authorization_code',
         redirect_uri: redirectUri,
@@ -356,5 +380,56 @@ describe('Supabase OAuth service', () => {
       userId: '00000000-0000-4000-8000-000000000002',
     })
     expect(requests.some((request) => request.url.endsWith('/auth/v1/user') && request.headers.get('authorization') === 'Bearer issued-access-token')).toBe(true)
+  })
+})
+
+describe('Supabase OAuth grant store', () => {
+  it('inserts grants with the user token and claims through the RPC', async () => {
+    const requests: Request[] = []
+    const expiresAt = Math.floor(Date.now() / 1000) + 300
+    const grant: OAuthAuthorizationGrant = {
+      codeHash: 'code-hash',
+      clientId: 'client-id',
+      redirectUri: 'https://client.example/callback',
+      codeChallenge: 'code-challenge',
+      userId: '00000000-0000-4000-8000-000000000002',
+      refreshToken: 'server-refresh-token',
+      scopes: ['mcp'],
+      resource: 'https://morsel.test/mcp',
+      expiresAt,
+    }
+    const fetchMock = (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+      const request = input instanceof Request
+        ? new Request(input, init)
+        : new Request(input.toString(), init)
+      requests.push(request)
+      if (request.url.endsWith('/rest/v1/oauth_authorization_grants')) {
+        return Promise.resolve(new Response(null, { status: 201 }))
+      }
+      return Promise.resolve(new Response(JSON.stringify([{
+        code_hash: grant.codeHash,
+        client_id: grant.clientId,
+        redirect_uri: grant.redirectUri,
+        code_challenge: grant.codeChallenge,
+        scopes: grant.scopes,
+        resource: grant.resource,
+        user_id: grant.userId,
+        refresh_token: grant.refreshToken,
+        expires_at: new Date(expiresAt * 1000).toISOString(),
+      }]), { headers: { 'content-type': 'application/json' } }))
+    }
+    fetchMock.preconnect = (): void => undefined
+    const store = createSupabaseOAuthGrantStore({
+      anonKey: 'test-anon-key',
+      fetch: fetchMock,
+      supabaseUrl: 'https://morsel.test',
+    })
+
+    await store.create(grant, 'issued-access-token')
+    await expect(store.claim(grant.codeHash, grant.clientId)).resolves.toEqual(grant)
+    expect(requests).toHaveLength(2)
+    expect(requests[0]?.headers.get('authorization')).toBe('Bearer issued-access-token')
+    expect(requests[1]?.url).toContain('/rest/v1/rpc/claim_oauth_authorization_grant')
+    expect(requests[1]?.headers.get('authorization')).toBe('Bearer test-anon-key')
   })
 })

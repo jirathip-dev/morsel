@@ -7,6 +7,7 @@ import { createMcpServer } from './tools.ts'
 import type { MorselRepository } from './repository.ts'
 import { createSupabaseRepository } from './supabase-repository.ts'
 import {
+  createSupabaseOAuthGrantStore,
   createSupabaseOAuthService,
   protectedResourceMetadataUrl,
   registerOAuthRoutes,
@@ -138,12 +139,13 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const app = new Hono()
   const routes = options.basePath === undefined ? app : app.basePath(options.basePath)
   const oauthOptions = options.oauth ?? {}
-  const oauthService = oauthOptions.service ?? createSupabaseOAuthService({
-    anonKey: oauthOptions.anonKey ?? (() => environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'])),
-    supabaseUrl: oauthOptions.supabaseUrl ?? (() => environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL'])),
-  })
+  const oauthAnonKey = oauthOptions.anonKey ?? (() => environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY']))
+  const oauthSupabaseUrl = oauthOptions.supabaseUrl ?? (() => environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL']))
+  const oauthService = oauthOptions.service ?? createSupabaseOAuthService({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
+  const oauthGrantStore = oauthOptions.grantStore ?? createSupabaseOAuthGrantStore({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
   registerOAuthRoutes(routes, {
     basePath: options.basePath,
+    grantStore: oauthGrantStore,
     service: oauthService,
     signingKey: oauthOptions.signingKey ?? (() => environmentValue(['MORSEL_OAUTH_SIGNING_KEY'])),
   })
