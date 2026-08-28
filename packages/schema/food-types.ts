@@ -72,7 +72,7 @@ export const SearchFoodInputSchema = z.object({
 }).strict()
 
 export const SearchFoodItemSchema = z.object({
-  id: z.string().trim().min(1),
+  id: z.uuid(),
   name: z.string(),
   brand: z.string().optional(),
   barcode: z.string().optional(),

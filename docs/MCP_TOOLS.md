@@ -59,7 +59,7 @@ an RPC failure leaves no partial meal rows.
           "fiber_g":     { "type": "number" },
           "sugar_g":     { "type": "number" },
           "barcode":     { "type": "string" },
-          "food_ref_id": { "type": "string", "format": "uuid", "description": "Link to a food_catalog row for exact macros" },
+          "food_ref_id": { "type": "string", "format": "uuid", "description": "UUID id returned by search_food for exact macros" },
           "confidence":  { "type": "number", "minimum": 0, "maximum": 1, "description": "0..1 how sure the agent is. Low = user should review." },
           "notes":       { "type": "string", "description": "Agent reasoning, e.g. 'approx, shared plate'" }
         }
@@ -84,6 +84,13 @@ an RPC failure leaves no partial meal rows.
 }
 ```
 
+Macro fields are totals for the whole item as eaten. The server stores them as
+provided and never multiplies them by `quantity` or `unit`; scale values from a
+`search_food` result's `serving_size` and `serving_unit` before calling
+`log_meal`. If either serving field is absent, the serving basis is unknown: do
+not treat the returned macros as one serving; seek clarification or use an
+explicitly noted lower-confidence estimate.
+
 **Example call (photo → log):**
 ```
 log_meal({
@@ -105,8 +112,9 @@ log_meal({
 **Output** `{ "results": [ { "id", "name", "brand", "barcode", "serving_size", "serving_unit", "calories_kcal", "protein_g", "carbs_g", "fat_g" } ] }`
 
 The v0.1 store reads this catalog from `food_catalog`, with a small deterministic
-curated set in `db/seed.sql`. A broader external OpenNutrition reference is
-planned for v0.3.
+curated set in `db/seed.sql`; v0.1 result IDs are UUIDs and are the only valid
+`food_ref_id` values. A broader external OpenNutrition reference is planned for
+v0.3 and will require an explicit ID mapping or contract change.
 
 ### `update_meal_item`
 
@@ -136,7 +144,11 @@ The v0.1 server interprets `date` as a UTC calendar day.
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
-consecutive days ending today that contain at least one meal.
+consecutive UTC days ending today that contain at least one meal within the
+requested `days` window, so it is at most `days`. `weight_trend` is a supported
+v0.1 output: include it when non-empty and treat an empty array as no weight
+entries in the requested range. No registered v0.1 tool writes `weight_logs`,
+so it may be empty.
 
 ### `get_profile`
 
@@ -164,17 +176,23 @@ is required when the stored goal is computed or incomplete.
 
 **Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
 
-Omitted values retain the current effective values. Without a profile, provide
-all four values to create a complete manual goal; a profile is required for
-computed or fallback values.
+Omitted values retain the current effective values. If no profile or existing
+goal can supply them, provide all four values. Calling `set_goals` permanently
+sets `source='manual'` in v0.1; there is no registered tool to revert it to a
+computed target.
 
 ## Principles for the agent
 
 - **Don't invent precise macros you can't get.** Use `search_food` to pull exact
-  values when you have a name; otherwise estimate and set a lower `confidence`.
+  values when you have a name, scale them to the full eaten portion, and set a
+  lower `confidence` for honest estimates.
 - **One uploaded photo = one `log_meal`** with one or more `items[]`.
-- **Never log twice.** If you're re-reading a day, use `get_day` and only
-  `log_meal` net-new items.
+- **Never log twice.** If a same-sitting item was omitted, v0.1 has no
+  add-item operation: with confirmation, call `delete_meal_log` once, then call
+  `get_day` for the original UTC date and re-log the full item list only after
+  its original `meal_log_id` is absent. If the meal remains or state is
+  unknown, stop without retrying or creating a replacement. Log a genuinely
+  separate meal separately.
 - **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
   add a `notes` string. The human corrects it later in the dashboard.
 

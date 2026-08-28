@@ -1,6 +1,6 @@
 ---
 name: food-logging
-description: Log a meal to Morsel from a photo or text via MCP tools.
+description: Log meals and answer food-log, dashboard, target, or correction questions in Morsel from a photo or text via MCP tools.
 version: 0.2.0
 author: Guy (jirathip-k), Hermes Agent
 license: MIT
@@ -13,81 +13,325 @@ metadata:
 
 # Food logging (Morsel)
 
-When the user wants to record what they ate, use the Morsel MCP server to read
-and write a structured nutrition log. Morsel has **no chat UI** — the whole
-point is that the logging happens here, in this assistant, and the data lands in
-a store the Morsel iOS dashboard reads. Because you have vision, the normal flow
-is: user uploads a photo → you identify the food and portion → you call the tool.
+Use Morsel's MCP tools to record food, read the dashboard data, and correct
+entries. The current assistant analyzes an uploaded image; Morsel stores the
+structured result. There is no in-app chat or in-app AI.
 
-## When to use
-- The user sends a food photo and says "log this" / "track my lunch" / "what does this cost" (calories).
-- The user asks **what they ate** or **how their day/week is tracking** (reads).
-- The user asks **"did I hit today's target?"** / **"what should I eat to fit my macros?"** (read + recommend).
-- The user asks to fix a wrong entry.
+The Morsel MCP server must be connected and the user authenticated before
+calling tools; writes are scoped to that account.
 
-Don't use for: clinical/medical diet advice, medical meal prescriptions, or
-anything not about recording, reading, or recommending within Morsel's log.
+## Scope and invariants
 
-## Prerequisites
-- The Morsel MCP server is connected and you can call its tools
-  (`log_meal`, `search_food`, `get_day`, `get_goals`, `set_goals`, `update_meal_item`, `delete_meal_log`).
-- User is authenticated (OAuth) so writes are scoped to their account.
+Use this skill for meal logging, food-history readback, profile and goal setup,
+nutrition recommendations based on the user's data, and corrections. Do not use
+it for clinical or medical diet advice.
 
-## Procedure
+Use it when the user sends a food photo or meal description, asks what they ate
+or how a day/week is tracking, asks whether they hit a target or what to eat to
+fit it, or asks to fix an entry.
 
-**1. Photo → log (the common case).**
-1. Look at the image and identify each component and an approximate portion.
-2. For any item with a clear name, call `search_food` first to get exact macros;
-   otherwise estimate.
-3. Call `log_meal` with one `items[]` array. One photo = one call.
-4. Set `confidence` per item: high if you are sure of both the food and portion,
-   low for guesses. Add a `notes` string when you guessed.
-5. Say what you logged in one line and flag any low-confidence item.
+Always follow these rules:
 
-**2. Text → log.** Same, except no photo: build `items[]` from the description.
+- Do not invent precise macros. Call `search_food` for exact catalog values when
+  possible; otherwise make an honest estimate, use a lower `confidence`, and
+  explain the uncertainty in the item's `notes`.
+- Macro fields sent to `log_meal` are totals for the whole item as eaten, not
+  per unit. `quantity` and `unit` are descriptive; the server never multiplies
+  macros by them. `search_food` values are per its `serving_size` and
+  `serving_unit`, so scale them yourself before logging (for example, 250 g at
+  130 kcal per 100 g becomes `quantity: 250`, `unit: "g"`,
+  `calories_kcal: 325`). If either serving field is absent, the serving basis is
+  unknown: seek clarification or, if proceeding, use an explicitly noted
+  lower-confidence estimate; never treat the returned macros as one serving.
+- One uploaded photo is one `log_meal` call containing one or more `items[]`.
+- Never log twice. To reread or correct existing data, use `get_day`,
+  `update_meal_item`, or `delete_meal_log`. v0.1 has no tool that adds a new
+  item to an existing meal: if a forgotten food was part of the same sitting,
+  confirm before deleting that meal and re-logging its complete item list once;
+  if it was a separate meal, log it separately. Never create a second log for
+  the same sitting.
+- Choose the unit honestly: `g` for weighed food, `ml` for measured liquid,
+  `serving` for a plate or portion, `piece` for countable food, and `cup` for a
+  cup measure. `unit` cannot be changed by `update_meal_item`, so get it right
+  on the first call.
+- `source` is assigned by the server; never send it. A photo URL makes the
+  server use `photo_vision`, a barcode without a photo makes it use `barcode`,
+  and otherwise it uses `manual`.
+- `eaten_at` means when the meal happened, not when the photo was uploaded. If
+  it is unknown, omit it and let the server use now.
+- Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
+  not upload or fetch image bytes. Never fabricate a URL.
 
-**3. Read a day.** Call `get_day` with the date and summarize totals + remaining
-against the goal.
+The v0.1 server registers exactly these tools: `log_meal`, `search_food`,
+`update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
+`get_profile`, `set_profile`, `compute_targets`, `get_goals`, and `set_goals`.
+`log_water` and `log_weight` are v1.1 ideas and are not callable.
 
-**4. Correct an entry.** `update_meal_item` (one item) or `delete_meal_log` (whole meal).
-Never create a new log to "fix" an old one — that double-counts.
+## Exact tool contract
 
-## Answering the user's questions
+UUID means a UUID string. Numbers described as non-negative or positive must
+also be finite. Unknown fields are rejected by the strict input schemas.
 
-**Did I hit today's target?**
-1. `get_goals` → **effective** targets (computed from the profile, or a manual override);
-   `get_day` (today) → consumed totals.
-   - If no profile is set yet, offer to add one (`set_profile`) so the target is computed, not guessed.
-2. Reply with: consumed vs target, remaining (or over), plus protein/carbs/fat
-   split if asked. Keep it to a few lines.
-3. If nothing is logged today, say so plainly, then offer to log a meal.
+### `log_meal`
 
-**Am I on track this week?**
-- `get_dashboard_summary({ days: 7 })` → avg calories, streak, macro split, weight trend.
-- Round numbers; only flag what's clearly off target. Don't overwhelm with stats.
+Required input fields are `meal_type` and `items` (at least one item).
 
-**What should I eat?**
-1. `get_day` (today) + `get_goals` → remaining macros.
-2. `search_food` for a few **real** foods that fit (name + macros). Prefer concrete items.
-3. Suggest 2–3 options that fit the remaining macros; note the rough calorie/protein fit.
-- This is **practical** guidance from the user's own data — not medical prescription.
-  Never diagnose, prescribe, or make medical claims.
-- Don't fabricate macros you don't have. If `search_food` can't find it, say so and
-  give an honest estimate with a note.
+```text
+log_meal({
+  eaten_at?: ISO date-time with an offset,
+  meal_type: "breakfast" | "lunch" | "dinner" | "snack",
+  items: [{
+    name: string,                         // required, non-empty
+    quantity?: positive number,            // default 1
+    unit?: "g" | "ml" | "serving" | "piece" | "cup", // default "serving"
+    calories_kcal?: non-negative number,
+    protein_g?: non-negative number,
+    carbs_g?: non-negative number,
+    fat_g?: non-negative number,
+    fiber_g?: non-negative number,
+    sugar_g?: non-negative number,
+    barcode?: non-empty string,
+    food_ref_id?: UUID returned by `search_food`,
+    confidence?: number from 0 through 1,
+    notes?: non-empty string
+  }],
+  notes?: non-empty string,
+  image_url?: HTTPS URL
+})
+```
 
-**What did I eat on <date>?**
-- `get_day` (that date) → meals + items + totals vs goal for that day.
+The output is `{ meal_log_id: UUID, recorded: true }`. `food_ref_id` must be a
+UUID `id` returned by `search_food`; the v0.1 database column is a UUID. Keep
+each visible food as its own item in the single meal.
 
-## Pitfalls
-- **Never re-log the same meal.** If you already logged today's lunch and the
-  user says "and the noodles too", call `get_day` and edit, don't create a second log.
-- **Don't invent precise macros.** If you can't be sure, estimate, set a low
-  `confidence`, and say so. The user reviews low-confidence items in the dashboard.
-- **Keep units honest.** `g` for weighed food, `serving` for a plate, `piece` for countable.
-- **One meal, one log; many items.** A bowl of rice + chicken + veg is ONE
-  `log_meal` with THREE `items[]`.
+Macro fields are the total for the item as eaten. The server does not scale them
+from `quantity`, so scale catalog values from their `serving_size` and
+`serving_unit` before sending the call. If either field is absent, the serving
+basis is unknown: seek clarification or use an explicitly noted lower-confidence
+estimate, never treating the returned macros as one serving.
 
-## Verification
-- `log_meal` returns a `meal_log_id` and `recorded: true` → succeed.
-- If a tool errors, report the exact error and the shape you tried, don't retry
-  blindly in a loop.
+### `search_food`
+
+Input: `{ query: non-empty string, limit?: positive integer <= 100 }`. The
+default limit is `8`.
+
+Output:
+
+```text
+{
+  results: [{
+    id: UUID,                               // required in v0.1
+    name: string,                           // required
+    brand?: string,
+    barcode?: string,
+    serving_size?: string,
+    serving_unit?: string,
+    calories_kcal?: finite number,
+    protein_g?: finite number,
+    carbs_g?: finite number,
+    fat_g?: finite number
+  }]
+}
+```
+
+An empty `results` array means the catalog did not find a match. Do not turn a
+missing result into made-up exact values.
+
+### `update_meal_item`
+
+Input requires `item_id: UUID` and at least one of these optional fields:
+`name` (non-empty string), `quantity` (positive number), `calories_kcal`,
+`protein_g`, `carbs_g`, or `fat_g` (each a non-negative number). `unit`, fiber,
+sugar, confidence, and notes are not update fields in v0.1.
+
+Output: `{ ok: true, updated: true }`.
+
+### `delete_meal_log`
+
+Input: `{ meal_log_id: UUID }`.
+
+Output: `{ ok: true, deleted: true }`.
+
+### `get_day`
+
+Input: `{ date: valid YYYY-MM-DD }`. The server interprets the date as a UTC
+calendar day.
+
+Output:
+
+```text
+{
+  date: valid YYYY-MM-DD,
+  meals: [{
+    meal_log_id: UUID,
+    meal_type: "breakfast" | "lunch" | "dinner" | "snack",
+    eaten_at: ISO date-time with an offset,
+    items: [{
+      item_id: UUID,
+      name: string,
+      quantity: finite number,
+      unit: "g" | "ml" | "serving" | "piece" | "cup",
+      calories_kcal?: finite number,
+      protein_g?: finite number,
+      carbs_g?: finite number,
+      fat_g?: finite number,
+      fiber_g?: finite number,
+      sugar_g?: finite number,
+      barcode?: string,
+      food_ref_id?: UUID,
+      confidence?: finite number,
+      notes?: string
+    }]
+  }],
+  totals: { calories_kcal: finite number, protein_g: finite number, carbs_g: finite number, fat_g: finite number },
+  goal?: { calorie_target_kcal: finite number, protein_g: finite number, carbs_g: finite number, fat_g: finite number,
+           source: "computed" | "manual" },
+  remaining_kcal?: finite number
+}
+```
+
+`goal` and `remaining_kcal` are omitted only when there is neither a profile nor
+a complete manual goal. A complete manual goal works without a profile. A
+negative `remaining_kcal` means the calorie target has been exceeded.
+
+### `get_dashboard_summary`
+
+Input: `{ days?: positive integer <= 366 }`; default `days` is `7`.
+
+Output:
+
+```text
+{
+  avg_calories_kcal: finite number,
+  streak_days: non-negative integer,
+  macro_split: { protein_g: finite number, carbs_g: finite number, fat_g: finite number },
+  weight_trend: [{ date: valid YYYY-MM-DD, kg: finite number }]
+}
+```
+
+`avg_calories_kcal` is averaged across the requested calendar range;
+`macro_split` is the summed gram total for that range; `streak_days` counts
+consecutive UTC days ending on the server's UTC today that contain at least one
+meal, within the requested `days` window (so it is at most `days`). In v0.1,
+`weight_trend` is a supported output: include it in user summaries when it is
+non-empty and omit it when empty. No registered v0.1 tool writes weight logs,
+so the field may be empty.
+
+### Profile and target tools
+
+`get_profile` and `compute_targets` take `{}`. `get_profile` returns:
+
+```text
+{
+  sex: "male" | "female",
+  age_years: integer 10..100,
+  height_cm: positive number 100..250,
+  weight_kg: positive number 30..300,
+  activity_level: "sedentary" | "light" | "moderate" | "active" | "very_active",
+  diet_goal: "lose" | "maintain" | "gain",
+  goal_weight_kg?: positive number
+}
+```
+
+`set_profile` takes that same object as input and requires every field except
+`goal_weight_kg`. It returns `{ ok: true, saved: true }`.
+
+If no profile exists, `get_profile` errors with `not_found` and
+`compute_targets` errors with `profile_required`. `get_goals` returns a complete
+manual goal without a profile; otherwise it errors with `profile_required` when
+no profile exists. `get_day` omits `goal` and `remaining_kcal` only when there
+is neither a profile nor a complete manual goal.
+
+`compute_targets` returns:
+
+```text
+{
+  bmr_kcal: non-negative number,
+  tdee_kcal: non-negative number,
+  calorie_target_kcal: non-negative number,
+  protein_g: non-negative number,
+  carbs_g: non-negative number,
+  fat_g: non-negative number
+}
+```
+
+`get_goals` takes `{}` and returns the effective target with the same four
+target fields plus `source: "computed" | "manual"`. Use this when a standalone
+target is needed; it returns a complete manual goal without a profile. `get_day`
+includes the same effective goal whenever a profile or complete manual goal
+exists. This is the target that the dashboard gauge and "did I hit today's
+target?" should display.
+
+`set_goals` takes an object where every field is optional:
+`calorie_target_kcal?`, `protein_g?`, `carbs_g?`, and `fat_g?` (all
+non-negative numbers). Omitted values retain the current effective values. If
+there is no profile or existing goal to fill them, provide all four values. It
+returns `{ ok: true, source: "manual" }`. Calling `set_goals` permanently
+switches the effective target to `source: "manual"` in v0.1; there is no tool
+to revert it to computed, and later `set_profile` calls will not move that
+manual target. Confirm before calling it, and prefer `set_profile` plus
+`compute_targets` when the user wants targets to track body metrics.
+
+## End-to-end photo workflow
+
+1. Inspect the photo. Identify each food and an honest portion estimate; do not
+   collapse a mixed plate into a falsely precise single food.
+2. For each clearly named food, call `search_food` (use a barcode when one is
+   available). Prefer returned catalog macros and `id` over guessing, but scale
+   those per-serving values to the full portion before sending them. For an
+   unmatched or uncertain item, estimate only what is defensible, set a lower
+   `confidence` between 0 and 1, and add an explanatory `notes` value such as
+   `approx portion` or `shared plate`.
+3. Make exactly one `log_meal` call with the required `meal_type` and one or
+   more `items[]`. Include the user's meal time when known and the user's
+   supplied HTTPS photo URL when available. Never send `source`.
+4. Confirm success only when the response contains `recorded: true`; retain
+   the returned `meal_log_id` and tell the user what was recorded, including
+   low-confidence items.
+5. Read back the stored result with `get_day` for the meal's UTC date. Use the
+   returned totals, goal, remaining calories, and item rows—not a re-analysis of
+   the photo—as the confirmation. For a range/dashboard view, also call
+   `get_dashboard_summary` (for example `{ days: 7 }`).
+
+For text-only logging, follow the same item/search/estimate rules without
+`image_url`. If the user asks to add a component after the meal is already
+logged, read the day first. v0.1 cannot add an item to an existing meal: with
+the user's confirmation, preserve the original `eaten_at`, `image_url`, and
+meal-level `notes`, then call `delete_meal_log` once. Call `get_day` for the
+original meal's UTC date and check that its `meal_log_id` is absent; re-log the
+complete item list only when that absence is established. If the meal remains,
+or the delete/read result leaves state unknown, stop without retrying the
+delete or creating a replacement and report the state. `get_day` does not
+return the image reference or meal notes, so before deleting: warn separately
+if the original meal notes are unavailable and will be lost; if the original
+`image_url` is unavailable, warn that the photo link will be lost and the new
+log's source will be `barcode` if any preserved item has a barcode, otherwise
+`manual`. If the food was a genuinely separate meal, log it as its own log. Do
+not create a second log for the same sitting.
+
+## Common read and correction flows
+
+- "Did I hit today's target?": call `get_day` first for today's UTC calendar
+  date; use its `goal` and `remaining_kcal` when present, and report consumed
+  versus the effective target, remaining or overage, and macro totals. If the
+  goal is omitted, there is neither a profile nor a complete manual goal; offer
+  `set_profile` or provide all four values to `set_goals`. A complete manual goal
+  can also be read with `get_goals` without a profile. "Today" means UTC here;
+  if a user's late-evening or early-morning local day looks empty, check the
+  adjacent UTC date too.
+- "Am I on track this week?": call `get_dashboard_summary({ days: 7 })` and
+  summarize average calories, streak, and macro grams; include `weight_trend`
+  only if it is non-empty.
+- "What should I eat?": call `get_day` and use `get_goals` when a standalone
+  target is needed; it works without a profile when a complete manual goal
+  exists. Then use `search_food` for concrete options that fit the remaining
+  values. Never present unknown macros as exact or as medical advice.
+- Wrong item: call `update_meal_item` with its `item_id` and at least one
+  supported correction field. Wrong whole meal: call `delete_meal_log` with its
+  `meal_log_id` only when deletion is what the user requested.
+
+If a tool errors, report the exact error and the input shape attempted. If
+`log_meal` fails or times out without a clear rejection, call `get_day` for the
+meal's UTC date before retrying because the write may have committed; only
+re-log if the meal is absent. For a clear validation error, correct the input
+once rather than retrying blindly in a loop.
