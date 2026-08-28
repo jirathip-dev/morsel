@@ -42,7 +42,7 @@ describe('Morsel tool schemas', () => {
     }).success).toBe(true)
   })
 
-  it('supports optional render payloads on read tool outputs', () => {
+  it('requires render payloads on read tool outputs', () => {
     const render = { markdown: '# Today', svg: '<svg xmlns="http://www.w3.org/2000/svg" />' }
     expect(RenderPayloadSchema.parse(render)).toEqual(render)
     expect(GetDayOutputSchema.parse({
@@ -58,6 +58,17 @@ describe('Morsel tool schemas', () => {
       weight_trend: [],
       render,
     })).toMatchObject({ render })
+    expect(GetDayOutputSchema.safeParse({
+      date: '2026-08-25',
+      meals: [],
+      totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
+    }).success).toBe(false)
+    expect(GetDashboardSummaryOutputSchema.safeParse({
+      avg_calories_kcal: 0,
+      streak_days: 0,
+      macro_split: { protein_g: 0, carbs_g: 0, fat_g: 0 },
+      weight_trend: [],
+    }).success).toBe(false)
   })
 
   it('requires v0.1 search result IDs to be UUIDs', () => {

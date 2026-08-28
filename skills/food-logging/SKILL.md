@@ -187,7 +187,7 @@ Output:
   goal?: { calorie_target_kcal: finite number, protein_g: finite number, carbs_g: finite number, fat_g: finite number,
            source: "computed" | "manual" },
   remaining_kcal?: finite number,
-  render?: { markdown: string, svg: string }
+  render: { markdown: string, svg: string }
 }
 ```
 
@@ -207,7 +207,7 @@ Output:
   streak_days: non-negative integer,
   macro_split: { protein_g: finite number, carbs_g: finite number, fat_g: finite number },
   weight_trend: [{ date: valid YYYY-MM-DD, kg: finite number }],
-  render?: { markdown: string, svg: string }
+  render: { markdown: string, svg: string }
 }
 ```
 

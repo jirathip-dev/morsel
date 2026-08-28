@@ -168,7 +168,7 @@ export const GetDayOutputSchema = z.object({
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
   remaining_kcal: finiteNumber.optional(),
-  render: RenderPayloadSchema.optional(),
+  render: RenderPayloadSchema,
 }).strict()
 
 export const GetDashboardSummaryInputSchema = z.object({
@@ -191,7 +191,7 @@ export const GetDashboardSummaryOutputSchema = z.object({
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
-  render: RenderPayloadSchema.optional(),
+  render: RenderPayloadSchema,
 }).strict()
 
 export const ProfileSchema = z.object({
