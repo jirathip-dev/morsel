@@ -3,6 +3,7 @@ import SwiftUI
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
     @State private var reviewItem: MealItem?
+    @State private var isShowingAddMeal = false
 
     var body: some View {
         NavigationStack {
@@ -34,6 +35,16 @@ struct TodayView: View {
             .background(Color.morselBackground.ignoresSafeArea())
             .toolbarBackground(.visible, for: .tabBar)
             .toolbarBackground(.regularMaterial, for: .tabBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isShowingAddMeal = true
+                    } label: {
+                        Label("Add meal", systemImage: "plus")
+                    }
+                    .buttonStyle(MorselGhostButtonStyle())
+                }
+            }
         }
         .task {
             await viewModel.load()
@@ -44,6 +55,9 @@ struct TodayView: View {
                     reviewItem = nil
                 }
             }
+        }
+        .sheet(isPresented: $isShowingAddMeal) {
+            AddMealView(viewModel: viewModel)
         }
     }
 }
@@ -114,7 +128,11 @@ private struct TodayLogSection: View {
                     .padding(.vertical, 8)
             } else {
                 ForEach(viewModel.mealGroups) { group in
-                    MealGroupView(group: group)
+                    MealGroupView(
+                        group: group,
+                        repository: viewModel.repository,
+                        userID: viewModel.userID
+                    )
                 }
             }
         }
@@ -146,22 +164,29 @@ private struct SectionHeading: View {
 
 private struct MealGroupView: View {
     let group: MealGroup
+    let repository: any DashboardRepository
+    let userID: UUID
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(group.type.title)
-                    .font(.morselBodyStrong)
-                    .foregroundStyle(Color.morselInk)
-                if let firstMealTime = group.firstMealTime {
-                    Text(firstMealTime.formatted(date: .omitted, time: .shortened))
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselInkThree)
+            HStack(alignment: .center, spacing: 12) {
+                if let imagePath = group.meals.compactMap({ $0.imagePath }).first {
+                    MealThumbnailView(repository: repository, userID: userID, path: imagePath)
                 }
-                Spacer()
-                Text("\(MorselFormat.number(group.totalCalories)) kcal")
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselEnergy)
+                HStack(alignment: .firstTextBaseline) {
+                    Text(group.type.title)
+                        .font(.morselBodyStrong)
+                        .foregroundStyle(Color.morselInk)
+                    if let firstMealTime = group.firstMealTime {
+                        Text(firstMealTime.formatted(date: .omitted, time: .shortened))
+                            .font(.morselData)
+                            .foregroundStyle(Color.morselInkThree)
+                    }
+                    Spacer()
+                    Text("\(MorselFormat.number(group.totalCalories)) kcal")
+                        .font(.morselData)
+                        .foregroundStyle(Color.morselEnergy)
+                }
             }
             .padding(.bottom, 4)
 

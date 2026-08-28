@@ -9,58 +9,8 @@ private let mealItemColumns = [
 protocol DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
     func confirmMealItem(userID: UUID, itemID: UUID) async throws
-}
-
-final class MockDashboardRepository: DashboardRepository {
-    private var currentSnapshot: DashboardSnapshot
-
-    init(snapshot: DashboardSnapshot) {
-        currentSnapshot = snapshot
-    }
-
-    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
-        _ = userID
-        _ = date
-        return currentSnapshot
-    }
-
-    func confirmMealItem(userID: UUID, itemID: UUID) async throws {
-        _ = userID
-        var found = false
-        let meals = currentSnapshot.meals.map { meal in
-            let items = meal.items.map { item in
-                guard item.itemID == itemID else {
-                    return item
-                }
-                found = true
-                return MealItem(
-                    itemID: item.itemID,
-                    name: item.name,
-                    quantity: item.quantity,
-                    unit: item.unit,
-                    caloriesKcal: item.caloriesKcal,
-                    proteinG: item.proteinG,
-                    carbsG: item.carbsG,
-                    fatG: item.fatG,
-                    fiberG: item.fiberG,
-                    sugarG: item.sugarG,
-                    confidence: 1.0,
-                    notes: item.notes
-                )
-            }
-            return MealRecord(
-                mealLogID: meal.mealLogID,
-                mealType: meal.mealType,
-                eatenAt: meal.eatenAt,
-                source: meal.source,
-                items: items
-            )
-        }
-        guard found else {
-            throw MorselError.invalidData("The meal item could not be reviewed.")
-        }
-        currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
-    }
+    func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID
+    func loadMealImage(userID: UUID, path: String) async throws -> Data
 }
 
 struct SupabaseDashboardRepository: DashboardRepository {
@@ -70,7 +20,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         guard let client else {
             throw MorselError.configurationMissing
         }
-        try await requireSession(client, userID: userID)
+        let authenticatedUserID = try await requireSession(client, userID: userID)
 
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
@@ -79,10 +29,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
-        let logs = try await loadMealLogs(client, userID: userID, start: start, end: end)
+        let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
         let items = try await loadMealItems(client, logs: logs)
-        let goalRows = try await loadGoals(client, userID: userID)
-        let profileRows = try await loadProfiles(client, userID: userID)
+        let goalRows = try await loadGoals(client, userID: authenticatedUserID)
+        let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
 
         var itemsByMealID: [String: [MealItem]] = [:]
         for item in items {
@@ -101,7 +51,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         guard let client else {
             throw MorselError.configurationMissing
         }
-        try await requireSession(client, userID: userID)
+        _ = try await requireSession(client, userID: userID)
         let updated: [MealItemResponse] = try await client
             .from("meal_items")
             .update(MealItemReviewUpdate(confidence: 1.0))
@@ -115,11 +65,12 @@ struct SupabaseDashboardRepository: DashboardRepository {
         _ = try parseItem(item)
     }
 
-    private func requireSession(_ client: SupabaseClient, userID: UUID) async throws {
+    func requireSession(_ client: SupabaseClient, userID: UUID) async throws -> UUID {
         let session = try await client.auth.session
         guard session.user.id == userID else {
             throw MorselError.invalidInput("The Supabase session does not match this user.")
         }
+        return session.user.id
     }
 
     private func loadMealLogs(
@@ -130,7 +81,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
     ) async throws -> [MealLogResponse] {
         try await client
             .from("meal_logs")
-            .select("id,eaten_at,meal_type,source")
+            .select("id,eaten_at,meal_type,source,image_path")
             .eq("user_id", value: userID.uuidString)
             .gte("eaten_at", value: MorselDate.iso8601(start))
             .lt("eaten_at", value: MorselDate.iso8601(end))
@@ -188,6 +139,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             mealType: mealType,
             eatenAt: eatenAt,
             source: source,
+            imagePath: response.imagePath,
             items: items
         )
     }
@@ -285,7 +237,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
     }
 }
 
-private enum MorselDate {
+enum MorselDate {
     static func iso8601(_ date: Date) -> String {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
@@ -304,12 +256,22 @@ private struct MealLogResponse: Decodable {
     let eatenAt: String
     let mealType: String
     let source: String
+    let imagePath: String?
 
     enum CodingKeys: String, CodingKey {
         case id
         case eatenAt = "eaten_at"
         case mealType = "meal_type"
         case source
+        case imagePath = "image_path"
+    }
+}
+
+private struct LogMealResponse: Decodable {
+    let mealLogID: String
+
+    enum CodingKeys: String, CodingKey {
+        case mealLogID = "meal_log_id"
     }
 }
 

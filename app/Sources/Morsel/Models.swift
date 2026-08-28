@@ -78,7 +78,24 @@ struct MealRecord: Identifiable, Equatable, Sendable {
     let mealType: MealType
     let eatenAt: Date
     let source: MealSource
+    let imagePath: String?
     let items: [MealItem]
+
+    init(
+        mealLogID: UUID,
+        mealType: MealType,
+        eatenAt: Date,
+        source: MealSource,
+        imagePath: String? = nil,
+        items: [MealItem]
+    ) {
+        self.mealLogID = mealLogID
+        self.mealType = mealType
+        self.eatenAt = eatenAt
+        self.source = source
+        self.imagePath = imagePath
+        self.items = items
+    }
 
     var id: UUID { mealLogID }
 }
