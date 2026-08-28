@@ -186,7 +186,8 @@ Output:
   totals: { calories_kcal: finite number, protein_g: finite number, carbs_g: finite number, fat_g: finite number },
   goal?: { calorie_target_kcal: finite number, protein_g: finite number, carbs_g: finite number, fat_g: finite number,
            source: "computed" | "manual" },
-  remaining_kcal?: finite number
+  remaining_kcal?: finite number,
+  render?: { markdown: string, svg: string }
 }
 ```
 
@@ -205,7 +206,8 @@ Output:
   avg_calories_kcal: finite number,
   streak_days: non-negative integer,
   macro_split: { protein_g: finite number, carbs_g: finite number, fat_g: finite number },
-  weight_trend: [{ date: valid YYYY-MM-DD, kg: finite number }]
+  weight_trend: [{ date: valid YYYY-MM-DD, kg: finite number }],
+  render?: { markdown: string, svg: string }
 }
 ```
 
@@ -216,6 +218,14 @@ meal, within the requested `days` window (so it is at most `days`). In v0.1,
 `weight_trend` is a supported output: include it in user summaries when it is
 non-empty and omit it when empty. No registered v0.1 tool writes weight logs,
 so the field may be empty.
+
+`get_day` and `get_dashboard_summary` also return a Tier-1 `render` payload.
+The server exposes its `markdown` as the first content block and its SVG as a
+base64 `image` content block with `mimeType: "image/svg+xml"`. The markdown is
+the safe fallback for clients without SVG image support. If any item in the
+range has confidence below `0.8`, both render surfaces include a
+`needs-review` marker; an empty range explicitly says that no meals were
+logged.
 
 ### Profile and target tools
 
@@ -321,7 +331,8 @@ not create a second log for the same sitting.
   adjacent UTC date too.
 - "Am I on track this week?": call `get_dashboard_summary({ days: 7 })` and
   summarize average calories, streak, and macro grams; include `weight_trend`
-  only if it is non-empty.
+  only if it is non-empty. Pass through the returned markdown/image render when
+  the client supports it; do not replace its honest empty or needs-review state.
 - "What should I eat?": call `get_day` and use `get_goals` when a standalone
   target is needed; it works without a profile when a complete manual goal
   exists. Then use `search_food` for concrete options that fit the remaining
