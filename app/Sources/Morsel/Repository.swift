@@ -1,7 +1,7 @@
 import Foundation
 import Supabase
 
-private let mealItemColumns = [
+let mealItemColumns = [
     "id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g",
     "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes"
 ].joined(separator: ",")
@@ -9,6 +9,8 @@ private let mealItemColumns = [
 protocol DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
     func confirmMealItem(userID: UUID, itemID: UUID) async throws
+    func updateMealItem(userID: UUID, update: MealItemUpdate) async throws
+    func deleteMealLog(userID: UUID, mealLogID: UUID) async throws
     func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID
     func loadMealImage(userID: UUID, path: String) async throws -> Data
 }
@@ -35,8 +37,18 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
 
         var itemsByMealID: [String: [MealItem]] = [:]
+        var sourcesByMealID: [String: MealSource] = [:]
+        for log in logs {
+            guard let source = MealSource(rawValue: log.source) else {
+                throw MorselError.invalidData("Supabase returned an invalid meal log.")
+            }
+            sourcesByMealID[log.id] = source
+        }
         for item in items {
-            itemsByMealID[item.mealLogID, default: []].append(try parseItem(item))
+            guard let source = sourcesByMealID[item.mealLogID] else {
+                throw MorselError.invalidData("Supabase returned an item for an unknown meal.")
+            }
+            itemsByMealID[item.mealLogID, default: []].append(try parseItem(item, source: source))
         }
         let meals = try logs.map { log in
             try parseMeal(log, items: itemsByMealID[log.id] ?? [])
@@ -45,32 +57,6 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let profile = try profileRows.first.map(parseProfile)
         let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
         return DashboardSnapshot(date: start, meals: meals, goal: goal)
-    }
-
-    func confirmMealItem(userID: UUID, itemID: UUID) async throws {
-        guard let client else {
-            throw MorselError.configurationMissing
-        }
-        _ = try await requireSession(client, userID: userID)
-        let updated: [MealItemResponse] = try await client
-            .from("meal_items")
-            .update(MealItemReviewUpdate(confidence: 1.0))
-            .eq("id", value: itemID.uuidString)
-            .select(mealItemColumns)
-            .execute()
-            .value
-        guard updated.count == 1, let item = updated.first else {
-            throw MorselError.invalidData("The meal item could not be reviewed.")
-        }
-        _ = try parseItem(item)
-    }
-
-    func requireSession(_ client: SupabaseClient, userID: UUID) async throws -> UUID {
-        let session = try await client.auth.session
-        guard session.user.id == userID else {
-            throw MorselError.invalidInput("The Supabase session does not match this user.")
-        }
-        return session.user.id
     }
 
     private func loadMealLogs(
@@ -144,7 +130,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func parseItem(_ response: MealItemResponse) throws -> MealItem {
+    func parseItem(_ response: MealItemResponse, source: MealSource) throws -> MealItem {
         guard let itemID = UUID(uuidString: response.id),
               UUID(uuidString: response.mealLogID) != nil,
               let unit = FoodUnit(rawValue: response.unit),
@@ -166,7 +152,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
             fiberG: try nonNegative(response.fiberG, field: "fiber_g"),
             sugarG: try nonNegative(response.sugarG, field: "sugar_g"),
             confidence: confidence,
-            notes: response.sourceNotes
+            notes: response.sourceNotes,
+            source: source
         )
     }
 
@@ -275,7 +262,7 @@ private struct LogMealResponse: Decodable {
     }
 }
 
-private struct MealItemResponse: Decodable {
+struct MealItemResponse: Decodable {
     let id: String
     let mealLogID: String
     let name: String
@@ -305,10 +292,6 @@ private struct MealItemResponse: Decodable {
         case confidence
         case sourceNotes = "source_notes"
     }
-}
-
-private struct MealItemReviewUpdate: Encodable {
-    let confidence: Double
 }
 
 private struct GoalResponse: Decodable {

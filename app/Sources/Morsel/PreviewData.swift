@@ -26,7 +26,8 @@ private enum PreviewData {
                         fiberG: nil,
                         sugarG: nil,
                         confidence: 0.90,
-                        notes: nil
+                        notes: nil,
+                        source: .photoVision
                     )
                 ]
             ),
@@ -48,7 +49,8 @@ private enum PreviewData {
                         fiberG: nil,
                         sugarG: nil,
                         confidence: 0.90,
-                        notes: nil
+                        notes: nil,
+                        source: .photoVision
                     ),
                     MealItem(
                         itemID: UUID(),
@@ -62,7 +64,8 @@ private enum PreviewData {
                         fiberG: 4,
                         sugarG: nil,
                         confidence: 0.70,
-                        notes: "approx portion"
+                        notes: "approx portion",
+                        source: .photoVision
                     )
                 ]
             )
