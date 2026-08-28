@@ -1,4 +1,5 @@
 import Foundation
+import Supabase
 
 private let mealItemColumns = [
     "id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g",
@@ -6,40 +7,70 @@ private let mealItemColumns = [
 ].joined(separator: ",")
 
 protocol DashboardRepository {
-    func loadToday(userID: UUID, accessToken: String, date: Date) async throws -> DashboardSnapshot
+    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
+    func confirmMealItem(userID: UUID, itemID: UUID) async throws
 }
 
-struct MockDashboardRepository: DashboardRepository {
-    let snapshot: DashboardSnapshot
+final class MockDashboardRepository: DashboardRepository {
+    private var currentSnapshot: DashboardSnapshot
 
-    func loadToday(userID: UUID, accessToken: String, date: Date) async throws -> DashboardSnapshot {
+    init(snapshot: DashboardSnapshot) {
+        currentSnapshot = snapshot
+    }
+
+    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
         _ = userID
         _ = date
-        guard !accessToken.isEmpty else {
-            throw MorselError.invalidInput("An access token is required.")
+        return currentSnapshot
+    }
+
+    func confirmMealItem(userID: UUID, itemID: UUID) async throws {
+        _ = userID
+        var found = false
+        let meals = currentSnapshot.meals.map { meal in
+            let items = meal.items.map { item in
+                guard item.itemID == itemID else {
+                    return item
+                }
+                found = true
+                return MealItem(
+                    itemID: item.itemID,
+                    name: item.name,
+                    quantity: item.quantity,
+                    unit: item.unit,
+                    caloriesKcal: item.caloriesKcal,
+                    proteinG: item.proteinG,
+                    carbsG: item.carbsG,
+                    fatG: item.fatG,
+                    fiberG: item.fiberG,
+                    sugarG: item.sugarG,
+                    confidence: 1.0,
+                    notes: item.notes
+                )
+            }
+            return MealRecord(
+                mealLogID: meal.mealLogID,
+                mealType: meal.mealType,
+                eatenAt: meal.eatenAt,
+                source: meal.source,
+                items: items
+            )
         }
-        return snapshot
+        guard found else {
+            throw MorselError.invalidData("The meal item could not be reviewed.")
+        }
+        currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
     }
 }
 
 struct SupabaseDashboardRepository: DashboardRepository {
-    let baseURL: URL?
-    let anonKey: String
-    let urlSession: URLSession
+    let client: SupabaseClient?
 
-    init(baseURL: URL?, anonKey: String, urlSession: URLSession = .shared) {
-        self.baseURL = baseURL
-        self.anonKey = anonKey
-        self.urlSession = urlSession
-    }
-
-    func loadToday(userID: UUID, accessToken: String, date: Date) async throws -> DashboardSnapshot {
-        guard baseURL != nil, !anonKey.isEmpty else {
+    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
+        guard let client else {
             throw MorselError.configurationMissing
         }
-        guard !accessToken.isEmpty else {
-            throw MorselError.invalidInput("An access token is required.")
-        }
+        try await requireSession(client, userID: userID)
 
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
@@ -48,14 +79,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
-        let logs = try await loadMealLogs(
-            userID: userID,
-            start: start,
-            end: end,
-            accessToken: accessToken
-        )
-        let items = try await loadMealItems(logs: logs, accessToken: accessToken)
-        let goalRows = try await loadGoals(userID: userID, accessToken: accessToken)
+        let logs = try await loadMealLogs(client, userID: userID, start: start, end: end)
+        let items = try await loadMealItems(client, logs: logs)
+        let goalRows = try await loadGoals(client, userID: userID)
+        let profileRows = try await loadProfiles(client, userID: userID)
 
         var itemsByMealID: [String: [MealItem]] = [:]
         for item in items {
@@ -64,102 +91,89 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let meals = try logs.map { log in
             try parseMeal(log, items: itemsByMealID[log.id] ?? [])
         }
-        let goal = try goalRows.first.map(parseGoal)
+        let storedGoal = try goalRows.first.map(parseStoredGoal)
+        let profile = try profileRows.first.map(parseProfile)
+        let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
         return DashboardSnapshot(date: start, meals: meals, goal: goal)
     }
 
+    func confirmMealItem(userID: UUID, itemID: UUID) async throws {
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        try await requireSession(client, userID: userID)
+        let updated: [MealItemResponse] = try await client
+            .from("meal_items")
+            .update(MealItemReviewUpdate(confidence: 1.0))
+            .eq("id", value: itemID.uuidString)
+            .select(mealItemColumns)
+            .execute()
+            .value
+        guard updated.count == 1, let item = updated.first else {
+            throw MorselError.invalidData("The meal item could not be reviewed.")
+        }
+        _ = try parseItem(item)
+    }
+
+    private func requireSession(_ client: SupabaseClient, userID: UUID) async throws {
+        let session = try await client.auth.session
+        guard session.user.id == userID else {
+            throw MorselError.invalidInput("The Supabase session does not match this user.")
+        }
+    }
+
     private func loadMealLogs(
+        _ client: SupabaseClient,
         userID: UUID,
         start: Date,
-        end: Date,
-        accessToken: String
+        end: Date
     ) async throws -> [MealLogResponse] {
-        try await request(
-            MealLogResponse.self,
-            path: ["rest", "v1", "meal_logs"],
-            query: [
-                URLQueryItem(name: "select", value: "id,eaten_at,meal_type,source"),
-                URLQueryItem(name: "user_id", value: "eq.\(userID.uuidString)"),
-                URLQueryItem(name: "eaten_at", value: "gte.\(MorselDate.iso8601(start))"),
-                URLQueryItem(name: "eaten_at", value: "lt.\(MorselDate.iso8601(end))"),
-                URLQueryItem(name: "order", value: "eaten_at.asc")
-            ],
-            accessToken: accessToken
-        )
+        try await client
+            .from("meal_logs")
+            .select("id,eaten_at,meal_type,source")
+            .eq("user_id", value: userID.uuidString)
+            .gte("eaten_at", value: MorselDate.iso8601(start))
+            .lt("eaten_at", value: MorselDate.iso8601(end))
+            .order("eaten_at", ascending: true)
+            .execute()
+            .value
     }
 
     private func loadMealItems(
-        logs: [MealLogResponse],
-        accessToken: String
+        _ client: SupabaseClient,
+        logs: [MealLogResponse]
     ) async throws -> [MealItemResponse] {
         guard !logs.isEmpty else {
             return []
         }
-        let mealIDs = logs.map { $0.id }.joined(separator: ",")
-        return try await request(
-            MealItemResponse.self,
-            path: ["rest", "v1", "meal_items"],
-            query: [
-                URLQueryItem(name: "select", value: mealItemColumns),
-                URLQueryItem(name: "meal_log_id", value: "in.(\(mealIDs))"),
-                URLQueryItem(name: "order", value: "created_at.asc")
-            ],
-            accessToken: accessToken
-        )
+        let mealIDs = logs.map(\.id)
+        return try await client
+            .from("meal_items")
+            .select(mealItemColumns)
+            .in("meal_log_id", values: mealIDs)
+            .order("created_at", ascending: true)
+            .execute()
+            .value
     }
 
-    private func loadGoals(userID: UUID, accessToken: String) async throws -> [GoalResponse] {
-        try await request(
-            GoalResponse.self,
-            path: ["rest", "v1", "goals"],
-            query: [
-                URLQueryItem(name: "select", value: "calorie_target_kcal,protein_g,carbs_g,fat_g,source"),
-                URLQueryItem(name: "user_id", value: "eq.\(userID.uuidString)"),
-                URLQueryItem(name: "limit", value: "1")
-            ],
-            accessToken: accessToken
-        )
+    private func loadGoals(_ client: SupabaseClient, userID: UUID) async throws -> [GoalResponse] {
+        try await client
+            .from("goals")
+            .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source")
+            .eq("user_id", value: userID.uuidString)
+            .limit(1)
+            .execute()
+            .value
     }
 
-    private func request<Response: Decodable>(
-        _: Response.Type,
-        path: [String],
-        query: [URLQueryItem],
-        accessToken: String
-    ) async throws -> [Response] {
-        guard let baseURL else {
-            throw MorselError.configurationMissing
-        }
-        let pathURL = path.reduce(baseURL) { partialURL, component in
-            partialURL.appendingPathComponent(component)
-        }
-        guard var components = URLComponents(url: pathURL, resolvingAgainstBaseURL: false) else {
-            throw MorselError.invalidData("The Supabase URL is invalid.")
-        }
-        components.queryItems = query
-        guard let resolvedURL = components.url else {
-            throw MorselError.invalidData("The Supabase request URL is invalid.")
-        }
-
-        var request = URLRequest(url: resolvedURL)
-        request.httpMethod = "GET"
-        request.setValue(anonKey, forHTTPHeaderField: "apikey")
-        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-
-        let (data, response) = try await urlSession.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw MorselError.invalidData("Supabase returned an invalid response.")
-        }
-        guard (200..<300).contains(httpResponse.statusCode) else {
-            let message = String(data: data, encoding: .utf8) ?? "Unknown error"
-            throw MorselError.requestFailed(httpResponse.statusCode, message)
-        }
-        do {
-            return try JSONDecoder().decode([Response].self, from: data)
-        } catch {
-            throw MorselError.decodingFailed
-        }
+    private func loadProfiles(_ client: SupabaseClient, userID: UUID) async throws -> [ProfileResponse] {
+        try await client
+            .from("profiles")
+            .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg")
+            .eq("user_id", value: userID.uuidString)
+            .limit(1)
+            .execute()
+            .value
     }
 
     private func parseMeal(_ response: MealLogResponse, items: [MealItem]) throws -> MealRecord {
@@ -180,6 +194,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
 
     private func parseItem(_ response: MealItemResponse) throws -> MealItem {
         guard let itemID = UUID(uuidString: response.id),
+              UUID(uuidString: response.mealLogID) != nil,
               let unit = FoodUnit(rawValue: response.unit),
               !response.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
               response.quantity.isFinite,
@@ -203,22 +218,47 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func parseGoal(_ response: GoalResponse) throws -> DashboardGoal {
-        guard let source = GoalSource(rawValue: response.source),
-              response.calorieTargetKcal.isFinite,
-              response.calorieTargetKcal > 0,
-              let proteinG = try nonNegative(response.proteinG, field: "protein_g"),
-              let carbsG = try nonNegative(response.carbsG, field: "carbs_g"),
-              let fatG = try nonNegative(response.fatG, field: "fat_g") else {
-            throw MorselError.invalidData("Supabase returned an incomplete calorie goal.")
+    private func parseStoredGoal(_ response: GoalResponse) throws -> StoredDashboardGoal {
+        guard let source = GoalSource(rawValue: response.source) else {
+            throw MorselError.invalidData("Supabase returned an invalid calorie goal source.")
         }
-        return DashboardGoal(
-            calorieTargetKcal: response.calorieTargetKcal,
-            proteinG: proteinG,
-            carbsG: carbsG,
-            fatG: fatG,
+        return StoredDashboardGoal(
+            calorieTargetKcal: try positive(response.calorieTargetKcal, field: "calorie_target_kcal"),
+            proteinG: try nonNegative(response.proteinG, field: "protein_g"),
+            carbsG: try nonNegative(response.carbsG, field: "carbs_g"),
+            fatG: try nonNegative(response.fatG, field: "fat_g"),
             source: source
         )
+    }
+
+    private func parseProfile(_ response: ProfileResponse) throws -> DashboardProfile {
+        guard let sex = ProfileSex(rawValue: response.sex),
+              let activityLevel = ProfileActivityLevel(rawValue: response.activityLevel),
+              let dietGoal = ProfileDietGoal(rawValue: response.dietGoal),
+              (10...100).contains(response.ageYears),
+              response.heightCm.isFinite,
+              (100...250).contains(response.heightCm),
+              response.weightKg.isFinite,
+              (30...300).contains(response.weightKg),
+              validGoalWeight(response.goalWeightKg) else {
+            throw MorselError.invalidData("Supabase returned an invalid profile.")
+        }
+        return DashboardProfile(
+            sex: sex,
+            ageYears: response.ageYears,
+            heightCm: response.heightCm,
+            weightKg: response.weightKg,
+            activityLevel: activityLevel,
+            dietGoal: dietGoal,
+            goalWeightKg: response.goalWeightKg
+        )
+    }
+
+    private func validGoalWeight(_ value: Double?) -> Bool {
+        guard let value else {
+            return true
+        }
+        return value.isFinite && value > 0
     }
 
     private func nonNegative(_ value: Double?, field: String, maximum: Double? = nil) throws -> Double? {
@@ -229,6 +269,16 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("Supabase returned an invalid \(field) value.")
         }
         if let maximum, value > maximum {
+            throw MorselError.invalidData("Supabase returned an invalid \(field) value.")
+        }
+        return value
+    }
+
+    private func positive(_ value: Double?, field: String) throws -> Double? {
+        guard let value else {
+            return nil
+        }
+        guard value.isFinite, value > 0 else {
             throw MorselError.invalidData("Supabase returned an invalid \(field) value.")
         }
         return value
@@ -295,8 +345,12 @@ private struct MealItemResponse: Decodable {
     }
 }
 
+private struct MealItemReviewUpdate: Encodable {
+    let confidence: Double
+}
+
 private struct GoalResponse: Decodable {
-    let calorieTargetKcal: Double
+    let calorieTargetKcal: Double?
     let proteinG: Double?
     let carbsG: Double?
     let fatG: Double?
@@ -308,5 +362,25 @@ private struct GoalResponse: Decodable {
         case carbsG = "carbs_g"
         case fatG = "fat_g"
         case source
+    }
+}
+
+private struct ProfileResponse: Decodable {
+    let sex: String
+    let ageYears: Int
+    let heightCm: Double
+    let weightKg: Double
+    let activityLevel: String
+    let dietGoal: String
+    let goalWeightKg: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case sex
+        case ageYears = "age_years"
+        case heightCm = "height_cm"
+        case weightKg = "weight_kg"
+        case activityLevel = "activity_level"
+        case dietGoal = "diet_goal"
+        case goalWeightKg = "goal_weight_kg"
     }
 }

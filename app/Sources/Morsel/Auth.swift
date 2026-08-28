@@ -1,26 +1,36 @@
+import CryptoKit
 import Foundation
+import Supabase
 
 struct AuthenticatedSession: Equatable, Sendable {
     let userID: UUID
-    let accessToken: String
     let email: String?
+
+    init(session: Session) {
+        userID = session.user.id
+        email = session.user.email
+    }
 }
 
 protocol SupabaseAuthenticating {
+    func restoreSession() async throws -> AuthenticatedSession?
     func requestEmailOTP(email: String) async throws
     func verifyEmailOTP(email: String, code: String) async throws -> AuthenticatedSession
     func signInWithApple(identityToken: String, nonce: String?) async throws -> AuthenticatedSession
 }
 
 struct SupabaseAuthClient: SupabaseAuthenticating {
-    let baseURL: URL?
-    let anonKey: String
-    let urlSession: URLSession
+    let client: SupabaseClient?
 
-    init(baseURL: URL?, anonKey: String, urlSession: URLSession = .shared) {
-        self.baseURL = baseURL
-        self.anonKey = anonKey
-        self.urlSession = urlSession
+    func restoreSession() async throws -> AuthenticatedSession? {
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        do {
+            return AuthenticatedSession(session: try await client.auth.session)
+        } catch AuthError.sessionMissing {
+            return nil
+        }
     }
 
     func requestEmailOTP(email: String) async throws {
@@ -28,11 +38,10 @@ struct SupabaseAuthClient: SupabaseAuthenticating {
         guard normalizedEmail.contains("@"), normalizedEmail.contains(".") else {
             throw MorselError.invalidInput("Enter a valid email address.")
         }
-        _ = try await perform(
-            path: ["auth", "v1", "otp"],
-            query: [],
-            body: EmailOTPRequest(email: normalizedEmail, createUser: true)
-        )
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        try await client.auth.signInWithOTP(email: normalizedEmail, shouldCreateUser: true)
     }
 
     func verifyEmailOTP(email: String, code: String) async throws -> AuthenticatedSession {
@@ -42,123 +51,52 @@ struct SupabaseAuthClient: SupabaseAuthenticating {
               normalizedCode.allSatisfy(\.isNumber) else {
             throw MorselError.invalidInput("Enter the six-digit code from your email.")
         }
-        let data = try await perform(
-            path: ["auth", "v1", "token"],
-            query: [URLQueryItem(name: "grant_type", value: "otp")],
-            body: EmailTokenRequest(email: normalizedEmail, token: normalizedCode, type: "email")
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        let response = try await client.auth.verifyOTP(
+            email: normalizedEmail,
+            token: normalizedCode,
+            type: .email
         )
-        return try parseSession(data, fallbackEmail: normalizedEmail)
+        guard let session = response.session else {
+            throw MorselError.invalidData("Supabase did not return an authenticated session.")
+        }
+        return AuthenticatedSession(session: session)
     }
 
     func signInWithApple(identityToken: String, nonce: String?) async throws -> AuthenticatedSession {
         guard !identityToken.isEmpty else {
             throw MorselError.invalidInput("Apple sign-in did not return an identity token.")
         }
-        let data = try await perform(
-            path: ["auth", "v1", "token"],
-            query: [URLQueryItem(name: "grant_type", value: "id_token")],
-            body: AppleTokenRequest(provider: "apple", identityToken: identityToken, nonce: nonce)
-        )
-        return try parseSession(data, fallbackEmail: nil)
-    }
-
-    private func perform<Body: Encodable>(
-        path: [String],
-        query: [URLQueryItem],
-        body: Body
-    ) async throws -> Data {
-        guard let baseURL, !anonKey.isEmpty else {
+        guard let client else {
             throw MorselError.configurationMissing
         }
-        let pathURL = path.reduce(baseURL) { partialURL, component in
-            partialURL.appendingPathComponent(component)
-        }
-        guard var components = URLComponents(url: pathURL, resolvingAgainstBaseURL: false) else {
-            throw MorselError.invalidData("The Supabase URL is invalid.")
-        }
-        components.queryItems = query
-        guard let url = components.url else {
-            throw MorselError.invalidData("The Supabase auth URL is invalid.")
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue(anonKey, forHTTPHeaderField: "apikey")
-        request.setValue("Bearer \(anonKey)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpBody = try JSONEncoder().encode(body)
-
-        let (data, response) = try await urlSession.data(for: request)
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw MorselError.invalidData("Supabase returned an invalid response.")
-        }
-        guard (200..<300).contains(httpResponse.statusCode) else {
-            let message = String(data: data, encoding: .utf8) ?? "Unknown error"
-            throw MorselError.requestFailed(httpResponse.statusCode, message)
-        }
-        return data
-    }
-
-    private func parseSession(_ data: Data, fallbackEmail: String?) throws -> AuthenticatedSession {
-        do {
-            let response = try JSONDecoder().decode(AuthResponse.self, from: data)
-            guard !response.accessToken.isEmpty,
-                  let userID = UUID(uuidString: response.user.id) else {
-                throw MorselError.invalidData("Supabase returned an invalid auth session.")
-            }
-            return AuthenticatedSession(
-                userID: userID,
-                accessToken: response.accessToken,
-                email: response.user.email ?? fallbackEmail
+        let session = try await client.auth.signInWithIdToken(
+            credentials: OpenIDConnectCredentials(
+                provider: .apple,
+                idToken: identityToken,
+                nonce: nonce
             )
-        } catch let error as MorselError {
-            throw error
-        } catch {
-            throw MorselError.decodingFailed
-        }
+        )
+        return AuthenticatedSession(session: session)
     }
 }
 
-private struct EmailOTPRequest: Encodable {
-    let email: String
-    let createUser: Bool
+enum AppleNonce {
+    private static let alphabet = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
 
-    enum CodingKeys: String, CodingKey {
-        case email
-        case createUser = "create_user"
+    static func random() -> String {
+        var generator = SystemRandomNumberGenerator()
+        return String((0..<32).map { _ in
+            alphabet[Int.random(in: alphabet.indices, using: &generator)]
+        })
     }
-}
 
-private struct EmailTokenRequest: Encodable {
-    let email: String
-    let token: String
-    let type: String
-}
-
-private struct AppleTokenRequest: Encodable {
-    let provider: String
-    let identityToken: String
-    let nonce: String?
-
-    enum CodingKeys: String, CodingKey {
-        case provider
-        case identityToken = "id_token"
-        case nonce
+    static func sha256(_ value: String) -> String {
+        SHA256.hash(data: Data(value.utf8)).map { byte in
+            let hex = String(byte, radix: 16)
+            return hex.count == 1 ? "0\(hex)" : hex
+        }.joined()
     }
-}
-
-private struct AuthResponse: Decodable {
-    let accessToken: String
-    let user: AuthUserResponse
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case user
-    }
-}
-
-private struct AuthUserResponse: Decodable {
-    let id: String
-    let email: String?
 }

@@ -1,27 +1,23 @@
 import Combine
+import Supabase
 import SwiftUI
 
 @main
 struct MorselApp: App {
     @StateObject private var sessionStore = SessionStore()
-    private let configuration: MorselConfiguration
+    private let supabaseClient: SupabaseClient?
 
     init() {
-        configuration = MorselConfiguration(bundle: .main)
+        let configuration = MorselConfiguration(bundle: .main)
+        supabaseClient = configuration.makeClient()
     }
 
     var body: some Scene {
         WindowGroup {
             MorselRootView(
                 sessionStore: sessionStore,
-                auth: SupabaseAuthClient(
-                    baseURL: configuration.supabaseURL,
-                    anonKey: configuration.anonKey
-                ),
-                repository: SupabaseDashboardRepository(
-                    baseURL: configuration.supabaseURL,
-                    anonKey: configuration.anonKey
-                )
+                auth: SupabaseAuthClient(client: supabaseClient),
+                repository: SupabaseDashboardRepository(client: supabaseClient)
             )
         }
     }
@@ -38,6 +34,16 @@ struct MorselConfiguration {
         anonKey = (bundle.object(forInfoDictionaryKey: "MorselSupabaseAnonKey") as? String)?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     }
+
+    func makeClient() -> SupabaseClient? {
+        guard let supabaseURL, !anonKey.isEmpty else {
+            return nil
+        }
+        let options = SupabaseClientOptions(
+            auth: .init(autoRefreshToken: true)
+        )
+        return SupabaseClient(supabaseURL: supabaseURL, supabaseKey: anonKey, options: options)
+    }
 }
 
 @MainActor
@@ -47,6 +53,13 @@ final class SessionStore: ObservableObject {
     func authenticate(_ session: AuthenticatedSession) {
         self.session = session
     }
+
+    func restore(using auth: any SupabaseAuthenticating) async {
+        guard session == nil else {
+            return
+        }
+        session = try? await auth.restoreSession()
+    }
 }
 
 private struct MorselRootView: View {
@@ -55,12 +68,17 @@ private struct MorselRootView: View {
     let repository: any DashboardRepository
 
     var body: some View {
-        if let session = sessionStore.session {
-            AuthenticatedDashboardView(repository: repository, session: session)
-        } else {
-            SignInView(auth: auth) { session in
-                sessionStore.authenticate(session)
+        Group {
+            if let session = sessionStore.session {
+                AuthenticatedDashboardView(repository: repository, userID: session.userID)
+            } else {
+                SignInView(auth: auth) { session in
+                    sessionStore.authenticate(session)
+                }
             }
+        }
+        .task {
+            await sessionStore.restore(using: auth)
         }
     }
 }
@@ -68,12 +86,11 @@ private struct MorselRootView: View {
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
 
-    init(repository: any DashboardRepository, session: AuthenticatedSession) {
+    init(repository: any DashboardRepository, userID: UUID) {
         _viewModel = StateObject(
             wrappedValue: DashboardViewModel(
                 repository: repository,
-                userID: session.userID,
-                accessToken: session.accessToken
+                userID: userID
             )
         )
     }

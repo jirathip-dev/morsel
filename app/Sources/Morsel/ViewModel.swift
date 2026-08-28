@@ -21,22 +21,18 @@ final class DashboardViewModel: ObservableObject {
     @Published private(set) var snapshot: DashboardSnapshot?
     @Published private(set) var isLoading = false
     @Published private(set) var errorMessage: String?
-    @Published private(set) var reviewedItemIDs: Set<UUID> = []
 
     private let repository: any DashboardRepository
     private let userID: UUID
-    private let accessToken: String
     private let dateProvider: () -> Date
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
-        accessToken: String,
         dateProvider: @escaping () -> Date = { Date() }
     ) {
         self.repository = repository
         self.userID = userID
-        self.accessToken = accessToken
         self.dateProvider = dateProvider
     }
 
@@ -58,8 +54,7 @@ final class DashboardViewModel: ObservableObject {
         snapshot?.meals
             .flatMap(\.items)
             .filter { item in
-                !reviewedItemIDs.contains(item.itemID)
-                    && DashboardMath.confidenceBadge(for: item.confidence).needsReview
+                DashboardMath.confidenceBadge(for: item.confidence).needsReview
             } ?? []
     }
 
@@ -70,7 +65,6 @@ final class DashboardViewModel: ObservableObject {
         do {
             snapshot = try await repository.loadToday(
                 userID: userID,
-                accessToken: accessToken,
                 date: dateProvider()
             )
         } catch is CancellationError {
@@ -80,7 +74,16 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    func markReviewed(_ itemID: UUID) {
-        reviewedItemIDs.insert(itemID)
+    func markReviewed(_ itemID: UUID) async -> Bool {
+        do {
+            try await repository.confirmMealItem(userID: userID, itemID: itemID)
+            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
     }
 }

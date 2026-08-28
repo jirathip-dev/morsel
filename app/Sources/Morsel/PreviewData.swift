@@ -80,8 +80,7 @@ private enum PreviewData {
 #Preview("Today") {
     let viewModel = DashboardViewModel(
         repository: MockDashboardRepository(snapshot: PreviewData.snapshot),
-        userID: PreviewData.userID,
-        accessToken: "preview"
+        userID: PreviewData.userID
     )
     TodayView(viewModel: viewModel)
 }

@@ -10,6 +10,7 @@ struct SignInView: View {
     @State private var step = AuthStep.email
     @State private var isWorking = false
     @State private var message: String?
+    @State private var appleNonce: String?
 
     var body: some View {
         NavigationStack {
@@ -97,6 +98,9 @@ struct SignInView: View {
 
     private func configureApple(_ request: ASAuthorizationAppleIDRequest) {
         request.requestedScopes = [.email, .fullName]
+        let nonce = AppleNonce.random()
+        appleNonce = nonce
+        request.nonce = AppleNonce.sha256(nonce)
     }
 
     private func completeApple(_ result: Result<ASAuthorization, Error>) {
@@ -104,14 +108,15 @@ struct SignInView: View {
         case let .success(authorization):
             guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
                   let identityToken = credential.identityToken,
-                  let token = String(data: identityToken, encoding: .utf8) else {
+                  let token = String(data: identityToken, encoding: .utf8),
+                  let nonce = appleNonce else {
                 message = "Apple sign-in did not return an identity token."
                 return
             }
             isWorking = true
             message = nil
             Task {
-                await finishAppleSignIn(token: token)
+                await finishAppleSignIn(token: token, nonce: nonce)
             }
         case let .failure(error):
             message = error.localizedDescription
@@ -147,9 +152,9 @@ struct SignInView: View {
         }
     }
 
-    private func finishAppleSignIn(token: String) async {
+    private func finishAppleSignIn(token: String, nonce: String) async {
         do {
-            let session = try await auth.signInWithApple(identityToken: token, nonce: nil)
+            let session = try await auth.signInWithApple(identityToken: token, nonce: nonce)
             onAuthenticated(session)
         } catch {
             message = error.localizedDescription

@@ -40,8 +40,9 @@ struct TodayView: View {
         }
         .sheet(item: $reviewItem) { item in
             ReviewSheet(item: item) {
-                viewModel.markReviewed(item.itemID)
-                reviewItem = nil
+                if await viewModel.markReviewed(item.itemID) {
+                    reviewItem = nil
+                }
             }
         }
     }
@@ -291,7 +292,7 @@ private struct NeedsReviewSection: View {
 private struct ReviewSheet: View {
     @Environment(\.dismiss) private var dismiss
     let item: MealItem
-    let onConfirm: () -> Void
+    let onConfirm: () async -> Void
 
     var body: some View {
         NavigationStack {
@@ -311,7 +312,9 @@ private struct ReviewSheet: View {
                         .foregroundStyle(Color.morselInkTwo)
                 }
                 Spacer()
-                Button("Looks right", action: onConfirm)
+                Button("Looks right") {
+                    Task { await onConfirm() }
+                }
                     .buttonStyle(MorselPrimaryButtonStyle())
                     .frame(maxWidth: .infinity)
             }

@@ -34,11 +34,37 @@ final class DashboardMathTests: XCTestCase {
 
         let actual = try await repository.loadToday(
             userID: UUID(),
-            accessToken: "test-token",
             date: expected.date
         )
 
         XCTAssertEqual(actual, expected)
+    }
+
+    @MainActor
+    func testMockRepositoryPersistsReviewAcrossReload() async throws {
+        let reviewedItem = item(
+            name: "Shared plate",
+            calories: 300,
+            protein: 12,
+            carbs: 30,
+            fat: 14,
+            confidence: 0.7
+        )
+        let snapshot = DashboardSnapshot(
+            date: Date(timeIntervalSince1970: 0),
+            meals: [meal(source: .photoVision, items: [reviewedItem])],
+            goal: nil
+        )
+        let repository = MockDashboardRepository(snapshot: snapshot)
+        let userID = UUID()
+
+        let before = try await repository.loadToday(userID: userID, date: snapshot.date)
+        XCTAssertEqual(before.meals[0].items[0].confidence, 0.7)
+
+        try await repository.confirmMealItem(userID: userID, itemID: reviewedItem.itemID)
+
+        let after = try await repository.loadToday(userID: userID, date: snapshot.date)
+        XCTAssertEqual(after.meals[0].items[0].confidence, 1.0)
     }
 
     func testConfidenceBadgeMarksMissingAndBelowThresholdForReview() {
@@ -58,6 +84,53 @@ final class DashboardMathTests: XCTestCase {
         XCTAssertEqual(DashboardMath.goalStatus(eaten: 1_000, goal: nil), .unavailable)
     }
 
+    func testEffectiveGoalPrefersCompleteManualOverride() {
+        let manual = StoredDashboardGoal(
+            calorieTargetKcal: 2_000,
+            proteinG: 150,
+            carbsG: 200,
+            fatG: 70,
+            source: .manual
+        )
+
+        let goal = DashboardMath.effectiveGoal(stored: manual, profile: nil)
+
+        XCTAssertEqual(
+            goal,
+            DashboardGoal(calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .manual)
+        )
+    }
+
+    func testEffectiveGoalComputesFromProfileWhenStoredGoalIsMissing() {
+        let profile = DashboardProfile(
+            sex: .male,
+            ageYears: 30,
+            heightCm: 180,
+            weightKg: 80,
+            activityLevel: .moderate,
+            dietGoal: .maintain,
+            goalWeightKg: nil
+        )
+
+        let goal = DashboardMath.effectiveGoal(stored: nil, profile: profile)
+
+        XCTAssertEqual(
+            goal,
+            DashboardGoal(calorieTargetKcal: 2_759, proteinG: 207, carbsG: 310, fatG: 77, source: .computed)
+        )
+    }
+
+    func testEffectiveGoalIsUnavailableWithoutStoredGoalOrProfile() {
+        XCTAssertNil(DashboardMath.effectiveGoal(stored: nil, profile: nil))
+    }
+
+    func testAppleNonceHashMatchesSupabaseAppleSignInRequirement() {
+        XCTAssertEqual(
+            AppleNonce.sha256("abc"),
+            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        )
+    }
+
     private func meal(source: MealSource, items: [MealItem]) -> MealRecord {
         MealRecord(
             mealLogID: UUID(),
@@ -73,7 +146,8 @@ final class DashboardMathTests: XCTestCase {
         calories: Double?,
         protein: Double?,
         carbs: Double?,
-        fat: Double?
+        fat: Double?,
+        confidence: Double? = 0.9
     ) -> MealItem {
         MealItem(
             itemID: UUID(),
@@ -86,7 +160,7 @@ final class DashboardMathTests: XCTestCase {
             fatG: fat,
             fiberG: nil,
             sugarG: nil,
-            confidence: 0.9,
+            confidence: confidence,
             notes: nil
         )
     }
