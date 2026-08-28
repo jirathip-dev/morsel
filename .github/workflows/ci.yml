@@ -27,45 +27,90 @@ jobs:
 
       - name: Bundle and probe Supabase Edge Function
         run: |
-          log_file="$(mktemp)"
+          start_log="$(mktemp)"
+          serve_log="$(mktemp)"
+          health_file="$(mktemp)"
           response_file="$(mktemp)"
-          npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt >"$log_file" 2>&1 &
-          serve_pid=$!
+          function_config="supabase/functions/mcp/deno.json"
+          function_config_created=0
           cleanup() {
-            kill "$serve_pid" 2>/dev/null || true
-            wait "$serve_pid" 2>/dev/null || true
-            rm -f "$log_file" "$response_file"
+            if [ -n "${serve_pid:-}" ]; then
+              kill "$serve_pid" 2>/dev/null || true
+              wait "$serve_pid" 2>/dev/null || true
+            fi
+            /usr/bin/timeout 60s npx --yes supabase@2.116.0 stop --project-id morsel --no-backup >/dev/null 2>&1 || true
+            if [ "$function_config_created" -eq 1 ]; then
+              rm -f "$function_config"
+            fi
+            rm -f "$start_log" "$serve_log" "$health_file" "$response_file"
           }
           trap cleanup EXIT
 
+          if [ -e "$function_config" ]; then
+            printf 'Unexpected committed function config: %s\n' "$function_config"
+            exit 1
+          fi
+          cp deno.json "$function_config"
+          function_config_created=1
+
+          if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
+            --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
+            --ignore-health-check >"$start_log" 2>&1; then
+            cat "$start_log"
+            exit 1
+          fi
+
+          npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt \
+            >"$serve_log" 2>&1 &
+          serve_pid=$!
+
+          fail_bundle_probe() {
+            printf '%s\n' 'Supabase start log:'
+            cat "$start_log"
+            printf '%s\n' 'Functions serve log:'
+            cat "$serve_log"
+            exit 1
+          }
+
           for attempt in $(seq 1 180); do
             if ! kill -0 "$serve_pid" 2>/dev/null; then
-              cat "$log_file"
-              exit 1
+              fail_bundle_probe
             fi
-            if curl --fail --silent --show-error \
-              http://127.0.0.1:54321/functions/v1/mcp/health > /dev/null; then
-              break
+            if health_status="$(curl --silent --show-error --output "$health_file" --write-out '%{http_code}' \
+              http://127.0.0.1:54321/functions/v1/mcp/health)"; then
+              if [ "$health_status" = 200 ]; then
+                break
+              fi
             fi
             if [ "$attempt" -eq 180 ]; then
-              cat "$log_file"
-              exit 1
+              fail_bundle_probe
             fi
             sleep 1
           done
 
-          curl --fail --silent --show-error \
-            http://127.0.0.1:54321/functions/v1/mcp/health
+          if ! health_status="$(curl --silent --show-error --output "$health_file" --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/health)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted health status: %s\n' "$health_status"
+          cat "$health_file"
           printf '\n'
-          mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
+          if [ "$health_status" != 200 ]; then
+            fail_bundle_probe
+          fi
+          if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"; then
+            fail_bundle_probe
+          fi
           printf 'Hosted MCP status: %s\n' "$mcp_status"
           cat "$response_file"
           printf '\n'
-          test "$mcp_status" = 401
+          if [ "$mcp_status" != 401 ]; then
+            fail_bundle_probe
+          fi
 
       - uses: actions/setup-node@v4
         with:
