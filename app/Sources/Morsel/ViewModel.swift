@@ -103,4 +103,36 @@ final class DashboardViewModel: ObservableObject {
             return false
         }
     }
+
+    func updateMealItem(_ update: MealItemUpdate) async -> Bool {
+        isSaving = true
+        errorMessage = nil
+        defer { isSaving = false }
+        do {
+            try await repository.updateMealItem(userID: userID, update: update)
+            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
+
+    func deleteMeal(_ mealLogID: UUID) async -> Bool {
+        isSaving = true
+        errorMessage = nil
+        defer { isSaving = false }
+        do {
+            try await repository.deleteMealLog(userID: userID, mealLogID: mealLogID)
+            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
+        }
+    }
 }

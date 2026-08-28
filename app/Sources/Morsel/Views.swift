@@ -2,7 +2,8 @@ import SwiftUI
 
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
-    @State private var reviewItem: MealItem?
+    @State private var editingItem: MealItem?
+    @State private var mealToDelete: MealRecord?
     @State private var isShowingAddMeal = false
 
     var body: some View {
@@ -18,11 +19,20 @@ struct TodayView: View {
                     } else if viewModel.isLoading && viewModel.snapshot == nil {
                         LoadingNotice()
                     } else {
+                        if let errorMessage = viewModel.errorMessage {
+                            Text(errorMessage)
+                                .font(.morselBody)
+                                .foregroundStyle(Color.morselOver)
+                        }
                         GaugeCard(totals: viewModel.totals, goal: viewModel.snapshot?.goal)
-                        TodayLogSection(viewModel: viewModel)
+                        TodayLogSection(
+                            viewModel: viewModel,
+                            onEdit: { editingItem = $0 },
+                            onDelete: { mealToDelete = $0 }
+                        )
                         if !viewModel.reviewItems.isEmpty {
                             NeedsReviewSection(items: viewModel.reviewItems) { item in
-                                reviewItem = item
+                                editingItem = item
                             }
                         }
                     }
@@ -49,11 +59,37 @@ struct TodayView: View {
         .task {
             await viewModel.load()
         }
-        .sheet(item: $reviewItem) { item in
-            ReviewSheet(item: item) {
-                if await viewModel.markReviewed(item.itemID) {
-                    reviewItem = nil
+        .sheet(item: $editingItem) { item in
+            MealItemEditSheet(item: item) { update in
+                let didUpdate = await viewModel.updateMealItem(update)
+                if didUpdate {
+                    editingItem = nil
                 }
+                return didUpdate
+            }
+        }
+        .confirmationDialog(
+            "Delete this meal?",
+            isPresented: Binding(
+                get: { mealToDelete != nil },
+                set: { isPresented in
+                    if !isPresented {
+                        mealToDelete = nil
+                    }
+                }
+            ),
+            titleVisibility: .visible
+        ) {
+            if let meal = mealToDelete {
+                Button("Delete \(meal.mealType.title)", role: .destructive) {
+                    mealToDelete = nil
+                    Task { _ = await viewModel.deleteMeal(meal.mealLogID) }
+                }
+            }
+            Button("Cancel", role: .cancel) { mealToDelete = nil }
+        } message: {
+            if let meal = mealToDelete {
+                Text("This removes \(meal.items.count) items and recalculates today's totals.")
             }
         }
         .sheet(isPresented: $isShowingAddMeal) {
@@ -113,6 +149,8 @@ private struct ErrorNotice: View {
 
 private struct TodayLogSection: View {
     @ObservedObject var viewModel: DashboardViewModel
+    let onEdit: (MealItem) -> Void
+    let onDelete: (MealRecord) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -131,7 +169,9 @@ private struct TodayLogSection: View {
                     MealGroupView(
                         group: group,
                         repository: viewModel.repository,
-                        userID: viewModel.userID
+                        userID: viewModel.userID,
+                        onEdit: onEdit,
+                        onDelete: onDelete
                     )
                 }
             }
@@ -166,6 +206,8 @@ private struct MealGroupView: View {
     let group: MealGroup
     let repository: any DashboardRepository
     let userID: UUID
+    let onEdit: (MealItem) -> Void
+    let onDelete: (MealRecord) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -187,12 +229,40 @@ private struct MealGroupView: View {
                         .font(.morselData)
                         .foregroundStyle(Color.morselEnergy)
                 }
+                if group.meals.count == 1, let meal = group.meals.first {
+                    Button {
+                        onDelete(meal)
+                    } label: {
+                        Image(systemName: "trash")
+                            .frame(width: 40, height: 40)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(Color.morselInkTwo)
+                    .accessibilityLabel("Delete \(meal.mealType.title) meal")
+                }
             }
             .padding(.bottom, 4)
 
             ForEach(group.meals) { meal in
+                if group.meals.count > 1 {
+                    HStack {
+                        Text(meal.eatenAt.formatted(date: .omitted, time: .shortened))
+                            .font(.morselData)
+                            .foregroundStyle(Color.morselInkTwo)
+                        Spacer()
+                        Button {
+                            onDelete(meal)
+                        } label: {
+                            Image(systemName: "trash")
+                                .frame(width: 40, height: 40)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(Color.morselInkTwo)
+                        .accessibilityLabel("Delete \(meal.mealType.title) meal")
+                    }
+                }
                 ForEach(meal.items) { item in
-                    MealItemRow(item: item, source: meal.source)
+                    MealItemRow(item: item, onEdit: onEdit)
                     if item.id != meal.items.last?.id {
                         Divider()
                             .overlay(Color.morselLine)
@@ -205,7 +275,7 @@ private struct MealGroupView: View {
 
 private struct MealItemRow: View {
     let item: MealItem
-    let source: MealSource
+    let onEdit: (MealItem) -> Void
 
     private var badge: ConfidenceBadge {
         DashboardMath.confidenceBadge(for: item.confidence)
@@ -228,12 +298,18 @@ private struct MealItemRow: View {
                     .font(.morselData)
                     .foregroundStyle(Color.morselInkTwo)
                 HStack(spacing: 6) {
-                    Text(source.rawValue)
+                    Text(item.provenance.rawValue)
                         .morselTag(foreground: Color.morselInkTwo, background: Color.morselSurface)
                     ConfidenceTag(badge: badge, value: item.confidence)
                     if needsReview {
-                        Text("verify")
-                            .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)
+                        Button {
+                            onEdit(item)
+                        } label: {
+                            Text("verify")
+                                .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Correct \(item.name)")
                     }
                 }
             }
@@ -245,6 +321,13 @@ private struct MealItemRow: View {
                 Text("kcal")
                     .font(.morselData)
                     .foregroundStyle(Color.morselInkTwo)
+                Button {
+                    onEdit(item)
+                } label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+                .buttonStyle(MorselGhostButtonStyle())
+                .accessibilityLabel("Edit \(item.name)")
             }
         }
         .padding(.vertical, 10)
@@ -297,7 +380,7 @@ private struct NeedsReviewSection: View {
                             }
                         }
                         Spacer(minLength: 4)
-                        Button("Review") {
+                        Button("Correct") {
                             onReview(item)
                         }
                         .buttonStyle(MorselGhostButtonStyle())
@@ -314,44 +397,142 @@ private struct NeedsReviewSection: View {
     }
 }
 
-private struct ReviewSheet: View {
+private struct MealItemEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     let item: MealItem
-    let onConfirm: () async -> Void
+    let onSave: (MealItemUpdate) async -> Bool
+
+    @State private var name: String
+    @State private var quantity: String
+    @State private var calories: String
+    @State private var protein: String
+    @State private var carbs: String
+    @State private var fat: String
+    @State private var isSaving = false
+    @State private var message: String?
+
+    init(item: MealItem, onSave: @escaping (MealItemUpdate) async -> Bool) {
+        self.item = item
+        self.onSave = onSave
+        _name = State(initialValue: item.name)
+        _quantity = State(initialValue: String(item.quantity))
+        _calories = State(initialValue: Self.text(for: item.caloriesKcal))
+        _protein = State(initialValue: Self.text(for: item.proteinG))
+        _carbs = State(initialValue: Self.text(for: item.carbsG))
+        _fat = State(initialValue: Self.text(for: item.fatG))
+    }
 
     var body: some View {
         NavigationStack {
-            VStack(alignment: .leading, spacing: 18) {
-                Text(item.name)
-                    .font(.morselDisplay)
-                    .foregroundStyle(Color.morselInk)
-                Text(MorselFormat.portion(quantity: item.quantity, unit: item.unit))
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-                Text(MorselFormat.macroLine(for: item))
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-                if let notes = item.notes, !notes.isEmpty {
-                    Text("// agent: \(notes)")
+            Form {
+                Section("Food") {
+                    TextField("Food name", text: $name)
+                    HStack {
+                        TextField("Quantity", text: $quantity)
+                            .keyboardType(.decimalPad)
+                        Text("\(item.unit.rawValue)")
+                            .font(.morselData)
+                            .foregroundStyle(Color.morselInkTwo)
+                    }
+                }
+
+                Section("Nutrition") {
+                    TextField("Calories (optional)", text: $calories)
+                        .keyboardType(.decimalPad)
+                    TextField("Protein grams (optional)", text: $protein)
+                        .keyboardType(.decimalPad)
+                    TextField("Carbs grams (optional)", text: $carbs)
+                        .keyboardType(.decimalPad)
+                    TextField("Fat grams (optional)", text: $fat)
+                        .keyboardType(.decimalPad)
+                }
+
+                Section("Provenance") {
+                    Text("source: \(item.provenance.rawValue)")
                         .font(.morselData)
                         .foregroundStyle(Color.morselInkTwo)
                 }
-                Spacer()
-                Button("Looks right") {
-                    Task { await onConfirm() }
+
+                if let message {
+                    Section {
+                        Text(message)
+                            .font(.morselBody)
+                            .foregroundStyle(Color.morselOver)
+                    }
                 }
-                    .buttonStyle(MorselPrimaryButtonStyle())
-                    .frame(maxWidth: .infinity)
             }
-            .padding(24)
-            .background(Color.morselBackground.ignoresSafeArea())
+            .scrollContentBackground(.hidden)
+            .background(Color.morselBackground)
+            .navigationTitle("Edit item")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { dismiss() }
-                        .foregroundStyle(Color.morselInkTwo)
+                    Button("Cancel") { dismiss() }
+                        .disabled(isSaving)
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(isSaving ? "Saving…" : "Save") {
+                        save()
+                    }
+                    .disabled(isSaving)
                 }
             }
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.large])
+    }
+
+    private func save() {
+        isSaving = true
+        message = nil
+        Task { @MainActor in
+            do {
+                let update = try makeUpdate()
+                if await onSave(update) {
+                    dismiss()
+                } else {
+                    message = "The item could not be updated."
+                }
+            } catch {
+                message = error.localizedDescription
+            }
+            isSaving = false
+        }
+    }
+
+    private func makeUpdate() throws -> MealItemUpdate {
+        let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else {
+            throw MorselError.invalidInput("Food name cannot be empty.")
+        }
+        guard let quantityValue = Double(quantity), quantityValue.isFinite, quantityValue > 0 else {
+            throw MorselError.invalidInput("Quantity must be a positive number.")
+        }
+        return MealItemUpdate(
+            itemID: item.itemID,
+            name: trimmedName,
+            quantity: quantityValue,
+            caloriesKcal: try optionalValue(calories, label: "Calories"),
+            proteinG: try optionalValue(protein, label: "Protein"),
+            carbsG: try optionalValue(carbs, label: "Carbs"),
+            fatG: try optionalValue(fat, label: "Fat"),
+            source: .manualEdit
+        )
+    }
+
+    private func optionalValue(_ text: String, label: String) throws -> Double? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            return nil
+        }
+        guard let value = Double(trimmed), value.isFinite, value >= 0 else {
+            throw MorselError.invalidInput("\(label) must be zero or greater.")
+        }
+        return value
+    }
+
+    private static func text(for value: Double?) -> String {
+        guard let value else {
+            return ""
+        }
+        return String(value)
     }
 }

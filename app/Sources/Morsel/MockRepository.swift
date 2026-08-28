@@ -37,7 +37,8 @@ final class MockDashboardRepository: DashboardRepository {
                     fiberG: item.fiberG,
                     sugarG: item.sugarG,
                     confidence: 1.0,
-                    notes: item.notes
+                    notes: item.notes,
+                    source: .manualEdit
                 )
             }
             return MealRecord(
@@ -52,6 +53,56 @@ final class MockDashboardRepository: DashboardRepository {
         guard found else {
             throw MorselError.invalidData("The meal item could not be reviewed.")
         }
+        currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
+    }
+
+    func updateMealItem(userID: UUID, update: MealItemUpdate) async throws {
+        _ = userID
+        try MealItemUpdateValidation.validate(update)
+        var found = false
+        let meals = currentSnapshot.meals.map { meal in
+            let items = meal.items.map { item in
+                guard item.itemID == update.itemID else {
+                    return item
+                }
+                found = true
+                return MealItem(
+                    itemID: item.itemID,
+                    name: update.name ?? item.name,
+                    quantity: update.quantity ?? item.quantity,
+                    unit: item.unit,
+                    caloriesKcal: update.caloriesKcal ?? item.caloriesKcal,
+                    proteinG: update.proteinG ?? item.proteinG,
+                    carbsG: update.carbsG ?? item.carbsG,
+                    fatG: update.fatG ?? item.fatG,
+                    fiberG: item.fiberG,
+                    sugarG: item.sugarG,
+                    confidence: update.source == .manualEdit ? 1.0 : item.confidence,
+                    notes: item.notes,
+                    source: update.source
+                )
+            }
+            return MealRecord(
+                mealLogID: meal.mealLogID,
+                mealType: meal.mealType,
+                eatenAt: meal.eatenAt,
+                source: meal.source,
+                imagePath: meal.imagePath,
+                items: items
+            )
+        }
+        guard found else {
+            throw MorselError.invalidData("The meal item could not be updated.")
+        }
+        currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
+    }
+
+    func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {
+        _ = userID
+        guard currentSnapshot.meals.contains(where: { $0.mealLogID == mealLogID }) else {
+            throw MorselError.invalidData("The meal could not be deleted.")
+        }
+        let meals = currentSnapshot.meals.filter { $0.mealLogID != mealLogID }
         currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
     }
 
@@ -94,7 +145,8 @@ final class MockDashboardRepository: DashboardRepository {
                     fiberG: item.fiberG,
                     sugarG: item.sugarG,
                     confidence: item.confidence,
-                    notes: item.notes
+                    notes: item.notes,
+                    source: photo == nil ? .manual : .photoVision
                 )
             }
         )

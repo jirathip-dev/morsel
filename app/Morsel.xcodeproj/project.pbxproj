@@ -19,6 +19,7 @@
 		D121DAF0E6F33EA00DD41209 /* GaugeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD07E30D9C16AEF92DA647 /* GaugeViews.swift */; };
 		DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300178E9A1C65132F9460803 /* MorselApp.swift */; };
 		E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */; };
+		EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */; };
 		EFADB9757DE22C7C88F697FB /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9507E44AD8780775C30E2891 /* PreviewData.swift */; };
 		F3D1EFBDE1A88B506D2B405C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17842C63698FF267F75039CA /* ViewModel.swift */; };
 		F7C5F8D5F24ADC69D8A2C091 /* MealCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */; };
@@ -50,6 +51,7 @@
 		37A12A89F0EF310480905F84 /* DashboardMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMathTests.swift; sourceTree = "<group>"; };
 		4F9E6261C91086065F01D569 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		56DD07E30D9C16AEF92DA647 /* GaugeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViews.swift; sourceTree = "<group>"; };
+		7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCorrectionsTests.swift; sourceTree = "<group>"; };
 		7A0DDA5C9C79E66C218B00C8 /* Morsel.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A85C2813FC9527332F6200F /* MorselTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MorselTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureTests.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 			children = (
 				37A12A89F0EF310480905F84 /* DashboardMathTests.swift */,
 				83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */,
+				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
 			);
 			path = MorselTests;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 			files = (
 				23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */,
 				E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */,
+				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

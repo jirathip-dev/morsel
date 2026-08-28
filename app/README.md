@@ -1,10 +1,13 @@
 # Morsel iOS dashboard
 
 The native dashboard is a SwiftUI app generated from `project.yml` for iOS 17
-and newer. It reads `meal_logs`, `meal_items`, `goals`, and `profiles` through
-`supabase-swift` 2.55.1. The SDK owns the authenticated session, persisted
-refresh token, and automatic refresh lifecycle; Supabase RLS remains the
-ownership boundary. There is no app chat or AI surface.
+and newer. It reads and corrects `meal_logs`, `meal_items`, `goals`, and `profiles`
+through `supabase-swift` 2.55.1. The SDK owns the authenticated session, persisted
+refresh token, and automatic refresh lifecycle; Supabase RLS remains the ownership
+boundary. There is no app chat or AI surface. Item edits use only the fields
+supported by `update_meal_item`; a manual correction records confidence `1.00` and
+is rendered as `manual_edit` provenance. Meal deletion uses the `delete_meal_log`
+repository path with confirmation.
 
 ## Generate and test
 
