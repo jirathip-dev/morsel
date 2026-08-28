@@ -226,20 +226,19 @@ export class MorselService {
   async getDay(input: unknown): Promise<GetDayOutput> {
     const parsed = parseInput(GetDayInputSchema, input, 'get_day')
     const meals = await this.repository.getMealsInRange(this.userId, dayStart(parsed.date), nextDayStart(parsed.date))
-    const totals = sumMealTotals(meals)
 
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
       : await this.getEffectiveGoals(profile, stored)
-    const render = renderDashboardSummary(createRenderSummary(meals, parsed.date, parsed.date, 1, goal))
+    const summary = createRenderSummary(meals, parsed.date, parsed.date, 1, goal)
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
       meals,
-      totals,
-      ...(goal === undefined ? {} : { goal, remaining_kcal: goal.calorie_target_kcal - totals.calories_kcal }),
-      render,
+      totals: summary.totals,
+      ...(goal === undefined ? {} : { goal, remaining_kcal: goal.calorie_target_kcal - summary.totals.calories_kcal }),
+      render: renderDashboardSummary(summary),
     }, 'get_day output')
   }
 
