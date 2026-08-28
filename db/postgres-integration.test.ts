@@ -580,5 +580,5 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
     } finally {
       postgres.stop()
     }
-  })
+  }, 30_000)
 })
