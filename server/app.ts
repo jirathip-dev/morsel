@@ -6,6 +6,12 @@ import { MorselService } from './service.ts'
 import { createMcpServer } from './tools.ts'
 import type { MorselRepository } from './repository.ts'
 import { createSupabaseRepository } from './supabase-repository.ts'
+import {
+  createSupabaseOAuthService,
+  protectedResourceMetadataUrl,
+  registerOAuthRoutes,
+  type MorselOAuthOptions,
+} from './oauth.ts'
 
 interface McpSession {
   userId: string
@@ -23,6 +29,7 @@ export interface MorselAppOptions {
   now?: () => Date
   enableJsonResponse?: boolean
   basePath?: string
+  oauth?: MorselOAuthOptions
 }
 
 function environmentValue(names: string[]): string {
@@ -35,7 +42,7 @@ function environmentValue(names: string[]): string {
   throw new MorselError('internal_error', `missing server configuration: ${names[0] ?? 'environment variable'}`)
 }
 
-function httpError(error: unknown): Response {
+function httpError(error: unknown, request?: Request, basePath?: string): Response {
   const morselError = error instanceof MorselError
     ? error
     : new MorselError('internal_error', 'request failed')
@@ -46,9 +53,13 @@ function httpError(error: unknown): Response {
       : morselError.code === 'invalid_input'
         ? 400
         : 500
+  const headers = new Headers({ 'content-type': 'application/json' })
+  if (morselError.code === 'authentication_failed' && request !== undefined) {
+    headers.set('www-authenticate', `Bearer resource_metadata="${protectedResourceMetadataUrl(request, basePath)}"`)
+  }
   return new Response(JSON.stringify({ error: morselError.publicMessage }), {
     status,
-    headers: { 'content-type': 'application/json' },
+    headers,
   })
 }
 
@@ -126,6 +137,16 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const sessions = new Map<string, McpSession>()
   const app = new Hono()
   const routes = options.basePath === undefined ? app : app.basePath(options.basePath)
+  const oauthOptions = options.oauth ?? {}
+  const oauthService = oauthOptions.service ?? createSupabaseOAuthService({
+    anonKey: oauthOptions.anonKey ?? (() => environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'])),
+    supabaseUrl: oauthOptions.supabaseUrl ?? (() => environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL'])),
+  })
+  registerOAuthRoutes(routes, {
+    basePath: options.basePath,
+    service: oauthService,
+    signingKey: oauthOptions.signingKey ?? (() => environmentValue(['MORSEL_OAUTH_SIGNING_KEY'])),
+  })
 
   const closeSession = (sessionId: string): void => {
     const session = sessions.get(sessionId)
@@ -215,7 +236,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
         return transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
       })
     } catch (error) {
-      return httpError(error)
+      return httpError(error, context.req.raw, options.basePath)
     }
   })
 

@@ -31,6 +31,10 @@ jobs:
           serve_log="$(mktemp)"
           health_file="$(mktemp)"
           response_file="$(mktemp)"
+          oauth_metadata_file="$(mktemp)"
+          protected_metadata_file="$(mktemp)"
+          registration_file="$(mktemp)"
+          oauth_env_file="$(mktemp)"
           function_config="supabase/functions/mcp/deno.json"
           function_config_created=0
           cleanup() {
@@ -42,7 +46,8 @@ jobs:
             if [ "$function_config_created" -eq 1 ]; then
               rm -f "$function_config"
             fi
-            rm -f "$start_log" "$serve_log" "$health_file" "$response_file"
+            rm -f "$start_log" "$serve_log" "$health_file" "$response_file" \
+              "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file"
           }
           trap cleanup EXIT
 
@@ -52,6 +57,7 @@ jobs:
           fi
           cp deno.json "$function_config"
           function_config_created=1
+          printf 'MORSEL_OAUTH_SIGNING_KEY=ci-bundle-test-key\n' >"$oauth_env_file"
 
           if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
             --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
@@ -61,6 +67,7 @@ jobs:
           fi
 
           npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt \
+            --env-file "$oauth_env_file" \
             >"$serve_log" 2>&1 &
           serve_pid=$!
 
@@ -98,6 +105,43 @@ jobs:
           if [ "$health_status" != 200 ]; then
             fail_bundle_probe
           fi
+
+          if ! oauth_status="$(curl --silent --show-error --output "$oauth_metadata_file" --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-authorization-server)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted OAuth metadata status: %s\n' "$oauth_status"
+          cat "$oauth_metadata_file"
+          printf '\n'
+          if [ "$oauth_status" != 200 ]; then
+            fail_bundle_probe
+          fi
+
+          if ! protected_status="$(curl --silent --show-error --output "$protected_metadata_file" --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted protected-resource metadata status: %s\n' "$protected_status"
+          cat "$protected_metadata_file"
+          printf '\n'
+          if [ "$protected_status" != 200 ]; then
+            fail_bundle_probe
+          fi
+
+          if ! registration_status="$(curl --silent --show-error --output "$registration_file" --write-out '%{http_code}' \
+            --request POST \
+            --header 'content-type: application/json' \
+            --data '{"redirect_uris":["https://ci.example/callback"]}' \
+            http://127.0.0.1:54321/functions/v1/mcp/register)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted OAuth registration status: %s\n' "$registration_status"
+          cat "$registration_file"
+          printf '\n'
+          if [ "$registration_status" != 201 ]; then
+            fail_bundle_probe
+          fi
+
           if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \

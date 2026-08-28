@@ -204,3 +204,19 @@ column as a reference. It does not fetch or upload the image and does not claim
 that the URL is durable. The private `food-images` bucket and its owner-scoped
 Storage policies are provisioned by `db/migrations/0004_store_assets.sql`; a
 future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
+
+## Remote authentication
+
+The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
+access token issued by the provider in the same Edge Function. OAuth clients
+discover the provider through `/.well-known/oauth-protected-resource` (the
+path-specific `/.well-known/oauth-protected-resource/mcp` is also served) and
+`/.well-known/oauth-authorization-server`.
+
+The provider supports dynamic RFC 7591 registration, the authorization-code
+grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password
+sign-in page; `/token` requires PKCE with `code_challenge_method=S256` and rejects
+`plain`. Access tokens are the real Supabase Auth session access tokens, validated
+with `auth.getUser()` before issuance, so existing RLS policies continue to scope
+every tool call to the signed-in user. Registration, codes, and refresh wrappers
+are stateless signed/encrypted values; no server-side OAuth sessions are used.

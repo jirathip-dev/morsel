@@ -20,6 +20,23 @@ object paths whose first segment is their own user ID. The MCP server does not
 upload image bytes yet; it keeps HTTPS image references in
 `meal_logs.image_path` until that flow is implemented.
 
+## OAuth connector configuration
+
+The Edge Function reads these values at request time:
+
+- `SUPABASE_URL` — the project URL.
+- `SUPABASE_ANON_KEY` — the publishable/anonymous key used for Supabase Auth
+  password sign-in, refresh, and `auth.getUser()` validation.
+- `MORSEL_OAUTH_SIGNING_KEY` — a long random secret used to sign and encrypt
+  stateless OAuth client IDs, authorization codes, and refresh-token wrappers.
+
+The provider supports dynamic RFC 7591 registration, authorization-code OAuth
+with S256 PKCE, and refresh tokens. `/authorize` displays a Supabase Auth
+email/password form. It returns the real Supabase access token only after
+`auth.getUser()` validates the session, so MCP requests retain normal RLS
+behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do not put
+its value in this repository.
+
 ## Edge Function bundle and route check
 
 The Supabase CLI's Edge Runtime uses Docker locally, and `functions serve`
@@ -42,6 +59,10 @@ npx --yes supabase@2.116.0 start \
   --ignore-health-check
 npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt
 ```
+
+For local OAuth registration/token probes, pass an env file containing
+`MORSEL_OAUTH_SIGNING_KEY=...` with `--env-file`; the CI gate uses this form
+because the Edge Runtime does not inherit arbitrary shell variables.
 
 In another terminal, expect `200` and `{"ok":true}` from the public health
 route, then expect `401` from the unauthenticated MCP route:
