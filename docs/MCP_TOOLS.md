@@ -219,4 +219,7 @@ sign-in page; `/token` requires PKCE with `code_challenge_method=S256` and rejec
 `plain`. Access tokens are the real Supabase Auth session access tokens, validated
 with `auth.getUser()` before issuance, so existing RLS policies continue to scope
 every tool call to the signed-in user. Registration, codes, and refresh wrappers
-are stateless signed/encrypted values; no server-side OAuth sessions are used.
+are stateless signed/encrypted values; authorization codes are single-use within
+one running Edge Function isolate. The in-memory TTL consumption record is not
+shared across isolates or restarts; global replay protection would require an
+RLS-backed consumption table. No server-side OAuth sessions are used.

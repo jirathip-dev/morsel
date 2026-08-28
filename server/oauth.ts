@@ -509,8 +509,26 @@ function stringArrayPayloadField(payload: Record<string, unknown>, name: string)
 
 function ensureUnexpired(payload: Record<string, unknown>): void {
   const expiresAt = payload.expiresAt
-  if (typeof expiresAt !== 'number' || expiresAt <= Math.floor(Date.now() / 1000)) {
+  if (typeof expiresAt !== 'number' || !Number.isFinite(expiresAt) || expiresAt <= Math.floor(Date.now() / 1000)) {
     throw new OAuthProtocolError('invalid_grant', 'token has expired')
+  }
+}
+
+function createAuthorizationCodeConsumer(): (code: string, expiresAt: number) => boolean {
+  // ponytail: this per-isolate TTL map is minimal; use an RLS table for shared replay protection.
+  const consumedCodes = new Map<string, number>()
+  return (code, expiresAt) => {
+    const now = Math.floor(Date.now() / 1000)
+    for (const [consumedCode, consumedExpiresAt] of consumedCodes) {
+      if (consumedExpiresAt <= now) {
+        consumedCodes.delete(consumedCode)
+      }
+    }
+    if (consumedCodes.has(code)) {
+      return false
+    }
+    consumedCodes.set(code, expiresAt)
+    return true
   }
 }
 
@@ -627,7 +645,11 @@ async function handleAuthorization(
   })
 }
 
-async function handleToken(request: Request, options: OAuthRouteOptions): Promise<Response> {
+async function handleToken(
+  request: Request,
+  options: OAuthRouteOptions,
+  consumeAuthorizationCode: (code: string, expiresAt: number) => boolean,
+): Promise<Response> {
   const secret = resolveConfigValue(options.signingKey, 'MORSEL_OAUTH_SIGNING_KEY')
   const params = await requestParameters(request)
   const clientId = params.get('client_id')
@@ -658,8 +680,8 @@ async function handleToken(request: Request, options: OAuthRouteOptions): Promis
       if (encodeBase64Url(new Uint8Array(digest)) !== challenge) {
         throw new OAuthProtocolError('invalid_grant', 'code_verifier does not match code_challenge')
       }
-      const redirectUri = params.get('redirect_uri') ?? undefined
-      if (redirectUri !== undefined && redirectUri !== payload.redirectUri) {
+      const redirectUri = stringPayloadField(payload, 'redirectUri')
+      if (params.get('redirect_uri') !== redirectUri) {
         throw new OAuthProtocolError('invalid_grant', 'redirect_uri does not match authorization request')
       }
       const resource = params.get('resource') ?? undefined
@@ -673,7 +695,12 @@ async function handleToken(request: Request, options: OAuthRouteOptions): Promis
         refreshToken: typeof payload.refreshToken === 'string' ? payload.refreshToken : undefined,
         expiresIn: typeof payload.expiresIn === 'number' ? payload.expiresIn : 0,
       }
-      return await tokenResponse(secret, session, clientId, stringArrayPayloadField(payload, 'scopes'), resource)
+      const scopes = stringArrayPayloadField(payload, 'scopes')
+      const expiresAt = payload.expiresAt
+      if (typeof expiresAt !== 'number' || !consumeAuthorizationCode(code, expiresAt)) {
+        throw new OAuthProtocolError('invalid_grant', 'authorization code has already been used')
+      }
+      return await tokenResponse(secret, session, clientId, scopes, resource)
     } catch (error) {
       return oauthErrorResponse(error)
     }
@@ -824,6 +851,7 @@ export function createSupabaseOAuthService(options: {
 }
 
 export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void {
+  const consumeAuthorizationCode = createAuthorizationCodeConsumer()
   app.get('/.well-known/oauth-authorization-server', (context) => oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath)))
   app.get('/.well-known/oauth-protected-resource', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
   app.get('/.well-known/oauth-protected-resource/mcp', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
@@ -845,7 +873,7 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   app.options('/token', () => new Response(null, { status: 204, headers: corsHeaders() }))
   app.post('/token', async (context) => {
     try {
-      return await handleToken(context.req.raw, options)
+      return await handleToken(context.req.raw, options, consumeAuthorizationCode)
     } catch (error) {
       return oauthErrorResponse(error)
     }

@@ -197,6 +197,20 @@ describe('OAuth discovery and MCP authentication', () => {
     })
     expect(refreshToken).toEqual(expect.any(String))
 
+    const replayResponse = await app.fetch(new Request('https://morsel.test/token', {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId,
+        code: callback.searchParams.get('code') ?? '',
+        code_verifier: verifier,
+        grant_type: 'authorization_code',
+        redirect_uri: redirectUri,
+      }),
+    }))
+    expect(replayResponse.status).toBe(400)
+    expect(await replayResponse.json()).toMatchObject({ error: 'invalid_grant' })
+
     const refreshResponse = await app.fetch(new Request('https://morsel.test/token', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -211,6 +225,48 @@ describe('OAuth discovery and MCP authentication', () => {
       access_token: 'supabase-access-token-rotated',
       token_type: 'Bearer',
     })
+  })
+
+  it('requires redirect_uri when the authorization request included one', async () => {
+    const app = createTestApp()
+    const redirectUri = 'https://client.example/callback'
+    const verifier = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-._~'
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
+    const challenge = btoa(String.fromCharCode(...new Uint8Array(digest)))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
+    const registrationResponse = await app.fetch(new Request('https://morsel.test/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: [redirectUri] }),
+    }))
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+    const authorizationResponse = await app.fetch(new Request('https://morsel.test/authorize', {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId,
+        code_challenge: challenge,
+        code_challenge_method: 'S256',
+        email: 'test@example.com',
+        password: 'correct-password',
+        redirect_uri: redirectUri,
+        response_type: 'code',
+      }),
+    }))
+    const callback = new URL(authorizationResponse.headers.get('location') ?? '')
+    const tokenResponse = await app.fetch(new Request('https://morsel.test/token', {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: clientId,
+        code: callback.searchParams.get('code') ?? '',
+        code_verifier: verifier,
+        grant_type: 'authorization_code',
+      }),
+    }))
+
+    expect(tokenResponse.status).toBe(400)
+    expect(await tokenResponse.json()).toMatchObject({ error: 'invalid_grant' })
   })
 
   it('rejects plain PKCE and a mismatched verifier', async () => {
