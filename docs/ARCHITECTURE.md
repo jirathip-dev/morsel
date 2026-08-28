@@ -50,7 +50,9 @@ The production entrypoint is `supabase/functions/mcp/index.ts`, a Supabase Edge
 Function running Hono and the MCP SDK on Deno. `GET /health` is public; the
 function disables the platform JWT check so the app can validate the per-request
 bearer token required by `/mcp`. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
-from the function environment at request time.
+from the function environment at request time. Supabase exposes these routes as
+`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp` because `mcp` is the
+function name.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use

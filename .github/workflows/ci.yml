@@ -25,6 +25,48 @@ jobs:
       - name: Check Supabase Edge Function
         run: deno check supabase/functions/mcp/index.ts
 
+      - name: Bundle and probe Supabase Edge Function
+        run: |
+          log_file="$(mktemp)"
+          response_file="$(mktemp)"
+          npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt >"$log_file" 2>&1 &
+          serve_pid=$!
+          cleanup() {
+            kill "$serve_pid" 2>/dev/null || true
+            wait "$serve_pid" 2>/dev/null || true
+            rm -f "$log_file" "$response_file"
+          }
+          trap cleanup EXIT
+
+          for attempt in $(seq 1 180); do
+            if ! kill -0 "$serve_pid" 2>/dev/null; then
+              cat "$log_file"
+              exit 1
+            fi
+            if curl --fail --silent --show-error \
+              http://127.0.0.1:54321/functions/v1/mcp/health > /dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 180 ]; then
+              cat "$log_file"
+              exit 1
+            fi
+            sleep 1
+          done
+
+          curl --fail --silent --show-error \
+            http://127.0.0.1:54321/functions/v1/mcp/health
+          printf '\n'
+          mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
+            --request POST \
+            --header 'content-type: application/json' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+          printf 'Hosted MCP status: %s\n' "$mcp_status"
+          cat "$response_file"
+          printf '\n'
+          test "$mcp_status" = 401
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -47,7 +89,6 @@ jobs:
         # ephemeral cluster and never needs Supabase credentials.
         run: npm test
 
-      # No bundler yet — build proves the TS program compiles (tsc --noEmit).
       - name: Build
         run: npm run build
 

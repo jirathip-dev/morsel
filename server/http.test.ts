@@ -158,6 +158,26 @@ describe('MCP HTTP server', () => {
     await client.close()
   })
 
+  it('serves health and MCP routes below the configured function prefix', async () => {
+    const app = createMorselApp({
+      basePath: '/mcp',
+      authenticate: () => Promise.reject(new Error('authentication should not be reached')),
+      repositoryFactory: () => new InMemoryRepository(),
+      enableJsonResponse: true,
+    })
+
+    const healthResponse = await app.fetch(new Request('https://morsel.test/mcp/health'))
+    expect(healthResponse.status).toBe(200)
+    expect(await healthResponse.json()).toEqual({ ok: true })
+
+    const mcpResponse = await app.fetch(new Request('https://morsel.test/mcp/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(mcpResponse.status).toBe(401)
+  })
+
   it('refreshes the session repository token before a post-rotation tool call', async () => {
     const repository = new TokenTrackingRepository()
     const authenticatedTokens: string[] = []

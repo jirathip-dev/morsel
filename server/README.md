@@ -29,6 +29,9 @@ authentication for the streamable `POST /mcp` endpoint. Supabase's gateway JWT
 verification is disabled for this function so the app can validate each MCP
 request itself. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read from the Edge
 Function environment when requests create the authenticated boundaries.
+Supabase prefixes requests with the function name, so the hosted URLs are
+`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp`; the local Bun entrypoint
+continues to use `/health` and `/mcp`.
 
 ## Design notes
 

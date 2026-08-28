@@ -15,6 +15,7 @@ function environmentValue(name: SupabaseEnvironmentVariable): string {
 }
 
 const app = createMorselApp({
+  basePath: "/mcp",
   authenticate: (token) =>
     createSupabaseAuthenticator({
       supabaseUrl: environmentValue("SUPABASE_URL"),

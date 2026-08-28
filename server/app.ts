@@ -1,11 +1,11 @@
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
 import { Hono } from 'hono'
-import { MorselError } from './errors.js'
-import { bearerToken, createSupabaseAuthenticator, type Authenticate, type AuthenticatedUser } from './auth.js'
-import { MorselService } from './service.js'
-import { createMcpServer } from './tools.js'
-import type { MorselRepository } from './repository.js'
-import { createSupabaseRepository } from './supabase-repository.js'
+import { MorselError } from './errors.ts'
+import { bearerToken, createSupabaseAuthenticator, type Authenticate, type AuthenticatedUser } from './auth.ts'
+import { MorselService } from './service.ts'
+import { createMcpServer } from './tools.ts'
+import type { MorselRepository } from './repository.ts'
+import { createSupabaseRepository } from './supabase-repository.ts'
 
 interface McpSession {
   userId: string
@@ -22,6 +22,7 @@ export interface MorselAppOptions {
   repositoryFactory?: (user: AuthenticatedUser) => MorselRepository | Promise<MorselRepository>
   now?: () => Date
   enableJsonResponse?: boolean
+  basePath?: string
 }
 
 function environmentValue(names: string[]): string {
@@ -124,6 +125,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
 
   const sessions = new Map<string, McpSession>()
   const app = new Hono()
+  const routes = options.basePath === undefined ? app : app.basePath(options.basePath)
 
   const closeSession = (sessionId: string): void => {
     const session = sessions.get(sessionId)
@@ -155,9 +157,9 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     }
   }
 
-  app.get('/health', (context) => context.json({ ok: true }))
+  routes.get('/health', (context) => context.json({ ok: true }))
 
-  app.all('/mcp', async (context) => {
+  routes.all('/mcp', async (context) => {
     try {
       pruneSessions(Date.now())
       const token = bearerToken(context.req.header('authorization'))
@@ -217,5 +219,5 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     }
   })
 
-  return app
+  return routes
 }

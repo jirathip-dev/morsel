@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import type { AuthInfo } from '@modelcontextprotocol/sdk/server/auth/types.js'
-import { MorselError } from './errors.js'
+import { MorselError } from './errors.ts'
 
 export interface AuthenticatedUser {
   userId: string
