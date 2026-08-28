@@ -20,10 +20,11 @@ struct MealGroup: Identifiable, Equatable {
 final class DashboardViewModel: ObservableObject {
     @Published private(set) var snapshot: DashboardSnapshot?
     @Published private(set) var isLoading = false
+    @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
 
-    private let repository: any DashboardRepository
-    private let userID: UUID
+    let repository: any DashboardRepository
+    let userID: UUID
     private let dateProvider: () -> Date
 
     init(
@@ -71,6 +72,22 @@ final class DashboardViewModel: ObservableObject {
             return
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    func addMeal(draft: MealDraft, photo: FoodImageUpload?) async -> Bool {
+        isSaving = true
+        errorMessage = nil
+        defer { isSaving = false }
+        do {
+            _ = try await repository.logMeal(userID: userID, draft: draft, photo: photo)
+            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            errorMessage = error.localizedDescription
+            return false
         }
     }
 
