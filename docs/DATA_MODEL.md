@@ -1,8 +1,8 @@
 # Data model
 
-Canonical SQL lives in the numbered files under [`db/migrations/`](../db/migrations/):
-the initial schema, target computation, and security/transaction follow-up
-migrations. This doc is the narrative version.
+Canonical schema SQL lives in the numbered files under [`db/migrations/`](../db/migrations/),
+starting with [`0001_init.sql`](../db/migrations/0001_init.sql); deployment seed
+data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version.
 
 ## Entities
 
@@ -15,7 +15,7 @@ migrations. This doc is the narrative version.
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
 | `water_logs` | optional, v1.1 | `user_id` |
 | `weight_logs` | optional, v1.1 | `user_id` |
-| `food_catalog` | optional curated food reference for search | `barcode` |
+| `food_catalog` | deterministic v0.1 curated food reference for search; external OpenNutrition is planned for v0.3 | `barcode` |
 
 ## The core shape: a meal is a log, a log has many items
 
@@ -43,11 +43,11 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
 ## Key columns
 
 - `meal_logs.eaten_at` — when the meal happened (agent passes it, not timestamp of upload).
-- `meal_logs.image_path` — normally `food-images/{user_id}/{meal_log_id}.jpg` in
-  Supabase Storage. Until the v0.1 upload flow exists, the MCP adapter stores a
-  caller-provided HTTPS `image_url` verbatim in this text column as an external
-  reference; consumers must render HTTPS values directly and only send
-  storage-shaped values through the Storage client.
+- `meal_logs.image_path` — normally the `food-images` bucket with object path
+  `{user_id}/{meal_log_id}.jpg` in Supabase Storage. Until the v0.1 upload flow
+  exists, the MCP adapter stores a caller-provided HTTPS `image_url` verbatim in
+  this text column as an external reference; consumers must render HTTPS values
+  directly and only send storage-shaped values through the Storage client.
 - `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
   should surface in the dashboard as "review me" items.
 - `meal_items.food_ref_id` — an optional UUID linking to `food_catalog`; the MCP
@@ -63,6 +63,8 @@ an exception: it has no `user_id`, so policies join through the parent
 hot path, add a denormalized `user_id` to `meal_items` and key on it directly.
 The `users` table is guarded by owner policies using `auth.uid() = id` for
 select, insert, and update.
+`food_catalog` is shared reference data: authenticated clients can select it,
+while its seed-owned rows have no client write policies.
 
 ## Why one store for two clients
 
@@ -72,8 +74,14 @@ rows. Because both authenticate to the same store and RLS scopes by the same
 
 ## Images
 
-The intended storage location is the Supabase Storage bucket `food-images`, path
-`{user_id}/{meal_log_id}.jpg`. Until the upload flow exists, the MCP server
-stores a caller-provided HTTPS URL reference in `meal_logs.image_path` and does
-not upload bytes. When upload is implemented, the bucket policy must allow
-authenticated users to read/write only their own prefix.
+The intended storage location is the private Supabase Storage bucket
+`food-images`, object path `{user_id}/{meal_log_id}.jpg`. Migration
+`0004_store_assets.sql` provisions the bucket and allows authenticated users to
+insert, read, update, and delete objects only when the first path segment is
+their own user ID. Until the upload flow exists, the MCP server stores a
+caller-provided HTTPS URL reference in `meal_logs.image_path` and does not
+upload bytes.
+
+The v0.1 catalog is a small deterministic seed in `db/seed.sql`. It is intended
+to make `search_food` useful without pretending to be a comprehensive nutrition
+database; an external OpenNutrition-backed reference remains a v0.3 plan.

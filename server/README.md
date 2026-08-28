@@ -51,6 +51,9 @@ check. `npm run dev` starts Bun's file-watching development server.
 - OAuth discovery remains outside issue #3. Migration `0003` adds the
   owner-only `public.users` policies and the atomic meal RPC; it still must be
   applied in each deployment before the server is used.
+- Deployments must apply the ordered SQL in `db/migrations/` and then
+  `db/seed.sql`; migration `0004_store_assets.sql` provisions the private
+  `food-images` bucket and its owner-scoped Storage policies.
 - The v0.1 day boundary is UTC because the MCP contract supplies a date but not
   a timezone. The user's stored timezone can be incorporated with a later
   contract/store change.
