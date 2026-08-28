@@ -54,9 +54,7 @@ final class DashboardViewModel: ObservableObject {
     var reviewItems: [MealItem] {
         snapshot?.meals
             .flatMap(\.items)
-            .filter { item in
-                DashboardMath.confidenceBadge(for: item.confidence).needsReview
-            } ?? []
+            .filter(\.needsReview) ?? []
     }
 
     func load() async {

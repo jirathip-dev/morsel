@@ -38,7 +38,7 @@ final class MockDashboardRepository: DashboardRepository {
                     sugarG: item.sugarG,
                     confidence: 1.0,
                     notes: item.notes,
-                    source: .manualEdit
+                    source: item.source
                 )
             }
             return MealRecord(
@@ -77,9 +77,9 @@ final class MockDashboardRepository: DashboardRepository {
                     fatG: update.fatG ?? item.fatG,
                     fiberG: item.fiberG,
                     sugarG: item.sugarG,
-                    confidence: update.source == .manualEdit ? 1.0 : item.confidence,
-                    notes: item.notes,
-                    source: update.source
+                    confidence: item.confidence,
+                    notes: update.source == .manualEdit ? MealSource.manualEdit.rawValue : item.notes,
+                    source: item.source
                 )
             }
             return MealRecord(

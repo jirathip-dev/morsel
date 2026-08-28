@@ -47,8 +47,16 @@ struct MealItem: Identifiable, Equatable, Sendable {
 
     var id: UUID { itemID }
 
+    var isManualEdit: Bool {
+        notes == MealSource.manualEdit.rawValue
+    }
+
     var provenance: MealSource {
-        source == .manualEdit || confidence == 1.0 ? .manualEdit : source
+        isManualEdit ? .manualEdit : source
+    }
+
+    var needsReview: Bool {
+        !isManualEdit && DashboardMath.confidenceBadge(for: confidence).needsReview
     }
 }
 

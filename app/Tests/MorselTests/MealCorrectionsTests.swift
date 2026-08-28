@@ -28,7 +28,35 @@ final class MealCorrectionsTests: XCTestCase {
         XCTAssertEqual(item.proteinG, 8)
         XCTAssertEqual(item.carbsG, 96)
         XCTAssertEqual(item.fatG, 2)
+        XCTAssertEqual(item.confidence, 0.7)
+        XCTAssertEqual(item.notes, MealSource.manualEdit.rawValue)
         XCTAssertEqual(item.provenance, .manualEdit)
+        XCTAssertTrue(DashboardMath.confidenceBadge(for: item.confidence).needsReview)
+        XCTAssertFalse(item.needsReview)
+    }
+
+    func testManualEditPayloadUsesSourceNotesWithoutConfidenceWrite() throws {
+        let update = MealItemUpdate(itemID: UUID(), caloriesKcal: 300)
+        let data = try JSONEncoder().encode(MealItemUpdatePayload(update: update))
+        let payload = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        XCTAssertEqual(payload["source_notes"] as? String, MealSource.manualEdit.rawValue)
+        XCTAssertNil(payload["confidence"])
+        XCTAssertEqual(payload["calories_kcal"] as? Double, 300)
+    }
+
+    @MainActor
+    func testUntouchedConfidentAgentItemKeepsAgentProvenance() async throws {
+        let meal = meal(
+            mealID: UUID(),
+            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1, confidence: 1.0)]
+        )
+        let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
+
+        let loaded = try await repository.loadToday(userID: UUID(), date: meal.eatenAt)
+        let item = try XCTUnwrap(loaded.meals.first?.items.first)
+
+        XCTAssertEqual(item.provenance, .photoVision)
         XCTAssertFalse(DashboardMath.confidenceBadge(for: item.confidence).needsReview)
     }
 
@@ -41,6 +69,7 @@ final class MealCorrectionsTests: XCTestCase {
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
         let viewModel = DashboardViewModel(repository: repository, userID: UUID())
         await viewModel.load()
+        XCTAssertEqual(viewModel.reviewItems.map(\.itemID), [meal.items[0].itemID])
         let update = MealItemUpdate(itemID: meal.items[0].itemID, caloriesKcal: 440)
 
         let didUpdate = await viewModel.updateMealItem(update)

@@ -338,7 +338,7 @@ private struct MealLogOwnershipResponse: Decodable {
     let id: String
 }
 
-private struct MealItemUpdatePayload: Encodable {
+struct MealItemUpdatePayload: Encodable {
     let update: MealItemUpdate
 
     enum CodingKeys: String, CodingKey {
@@ -348,7 +348,7 @@ private struct MealItemUpdatePayload: Encodable {
         case proteinG = "protein_g"
         case carbsG = "carbs_g"
         case fatG = "fat_g"
-        case confidence
+        case sourceNotes = "source_notes"
     }
 
     func encode(to encoder: Encoder) throws {
@@ -360,7 +360,7 @@ private struct MealItemUpdatePayload: Encodable {
         try container.encodeIfPresent(update.carbsG, forKey: .carbsG)
         try container.encodeIfPresent(update.fatG, forKey: .fatG)
         if update.source == .manualEdit {
-            try container.encode(1.0, forKey: .confidence)
+            try container.encode(MealSource.manualEdit.rawValue, forKey: .sourceNotes)
         }
     }
 }

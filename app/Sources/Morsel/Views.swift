@@ -282,7 +282,7 @@ private struct MealItemRow: View {
     }
 
     private var needsReview: Bool {
-        badge.needsReview
+        item.needsReview
     }
 
     var body: some View {
