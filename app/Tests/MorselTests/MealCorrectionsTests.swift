@@ -6,7 +6,12 @@ final class MealCorrectionsTests: XCTestCase {
     func testUpdateChangesPortionAndMacrosAndRecordsManualEditProvenance() async throws {
         let meal = meal(
             mealID: UUID(),
-            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1, confidence: 0.7)]
+            items: [item(
+                name: "Rice",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 220, protein: 4, carbs: 48, fat: 1),
+                confidence: 0.7
+            )]
         )
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
         let userID = UUID()
@@ -49,7 +54,12 @@ final class MealCorrectionsTests: XCTestCase {
     func testUntouchedConfidentAgentItemKeepsAgentProvenance() async throws {
         let meal = meal(
             mealID: UUID(),
-            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1, confidence: 1.0)]
+            items: [item(
+                name: "Rice",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 220, protein: 4, carbs: 48, fat: 1),
+                confidence: 1.0
+            )]
         )
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
 
@@ -64,7 +74,12 @@ final class MealCorrectionsTests: XCTestCase {
     func testViewModelUpdateRefreshesTotalsAndClearsNeedsReview() async throws {
         let meal = meal(
             mealID: UUID(),
-            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1, confidence: 0.7)]
+            items: [item(
+                name: "Rice",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 220, protein: 4, carbs: 48, fat: 1),
+                confidence: 0.7
+            )]
         )
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
         let viewModel = DashboardViewModel(repository: repository, userID: UUID())
@@ -84,11 +99,19 @@ final class MealCorrectionsTests: XCTestCase {
     func testDeleteRemovesMealAndRefreshesTotals() async throws {
         let deletedMeal = meal(
             mealID: UUID(),
-            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1)]
+            items: [item(
+                name: "Rice",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 220, protein: 4, carbs: 48, fat: 1)
+            )]
         )
         let retainedMeal = meal(
             mealID: UUID(),
-            items: [item(name: "Chicken", quantity: 1, calories: 200, protein: 38, carbs: 0, fat: 5)]
+            items: [item(
+                name: "Chicken",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 200, protein: 38, carbs: 0, fat: 5)
+            )]
         )
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [deletedMeal, retainedMeal]))
         let viewModel = DashboardViewModel(repository: repository, userID: UUID())
@@ -105,7 +128,11 @@ final class MealCorrectionsTests: XCTestCase {
     func testMissingItemReportsErrorWithoutChangingState() async throws {
         let meal = meal(
             mealID: UUID(),
-            items: [item(name: "Rice", quantity: 1, calories: 220, protein: 4, carbs: 48, fat: 1)]
+            items: [item(
+                name: "Rice",
+                quantity: 1,
+                nutrition: ItemNutrition(calories: 220, protein: 4, carbs: 48, fat: 1)
+            )]
         )
         let repository = MockDashboardRepository(snapshot: snapshot(meals: [meal]))
         let viewModel = DashboardViewModel(repository: repository, userID: UUID())
@@ -144,13 +171,17 @@ final class MealCorrectionsTests: XCTestCase {
         )
     }
 
+    private struct ItemNutrition {
+        let calories: Double?
+        let protein: Double?
+        let carbs: Double?
+        let fat: Double?
+    }
+
     private func item(
         name: String,
         quantity: Double,
-        calories: Double?,
-        protein: Double?,
-        carbs: Double?,
-        fat: Double?,
+        nutrition: ItemNutrition,
         confidence: Double? = 0.9
     ) -> MealItem {
         MealItem(
@@ -158,10 +189,10 @@ final class MealCorrectionsTests: XCTestCase {
             name: name,
             quantity: quantity,
             unit: .serving,
-            caloriesKcal: calories,
-            proteinG: protein,
-            carbsG: carbs,
-            fatG: fat,
+            caloriesKcal: nutrition.calories,
+            proteinG: nutrition.protein,
+            carbsG: nutrition.carbs,
+            fatG: nutrition.fat,
             fiberG: nil,
             sugarG: nil,
             confidence: confidence,
