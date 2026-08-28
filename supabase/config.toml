@@ -1,0 +1,6 @@
+# Minimal config for running only Edge Functions (no DB, storage, or studio).
+project_id = "morsel"
+
+# The application validates the per-request bearer token for /mcp.
+[functions.mcp]
+verify_jwt = false

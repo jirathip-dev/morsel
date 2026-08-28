@@ -18,6 +18,100 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Check Supabase Edge Function
+        run: deno check supabase/functions/mcp/index.ts
+
+      - name: Bundle and probe Supabase Edge Function
+        run: |
+          start_log="$(mktemp)"
+          serve_log="$(mktemp)"
+          health_file="$(mktemp)"
+          response_file="$(mktemp)"
+          function_config="supabase/functions/mcp/deno.json"
+          function_config_created=0
+          cleanup() {
+            if [ -n "${serve_pid:-}" ]; then
+              kill "$serve_pid" 2>/dev/null || true
+              wait "$serve_pid" 2>/dev/null || true
+            fi
+            /usr/bin/timeout 60s npx --yes supabase@2.116.0 stop --project-id morsel --no-backup >/dev/null 2>&1 || true
+            if [ "$function_config_created" -eq 1 ]; then
+              rm -f "$function_config"
+            fi
+            rm -f "$start_log" "$serve_log" "$health_file" "$response_file"
+          }
+          trap cleanup EXIT
+
+          if [ -e "$function_config" ]; then
+            printf 'Unexpected committed function config: %s\n' "$function_config"
+            exit 1
+          fi
+          cp deno.json "$function_config"
+          function_config_created=1
+
+          if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
+            --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
+            --ignore-health-check >"$start_log" 2>&1; then
+            cat "$start_log"
+            exit 1
+          fi
+
+          npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt \
+            >"$serve_log" 2>&1 &
+          serve_pid=$!
+
+          fail_bundle_probe() {
+            printf '%s\n' 'Supabase start log:'
+            cat "$start_log"
+            printf '%s\n' 'Functions serve log:'
+            cat "$serve_log"
+            exit 1
+          }
+
+          for attempt in $(seq 1 180); do
+            if ! kill -0 "$serve_pid" 2>/dev/null; then
+              fail_bundle_probe
+            fi
+            if health_status="$(curl --silent --show-error --output "$health_file" --write-out '%{http_code}' \
+              http://127.0.0.1:54321/functions/v1/mcp/health)"; then
+              if [ "$health_status" = 200 ]; then
+                break
+              fi
+            fi
+            if [ "$attempt" -eq 180 ]; then
+              fail_bundle_probe
+            fi
+            sleep 1
+          done
+
+          if ! health_status="$(curl --silent --show-error --output "$health_file" --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/health)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted health status: %s\n' "$health_status"
+          cat "$health_file"
+          printf '\n'
+          if [ "$health_status" != 200 ]; then
+            fail_bundle_probe
+          fi
+          if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
+            --request POST \
+            --header 'content-type: application/json' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"; then
+            fail_bundle_probe
+          fi
+          printf 'Hosted MCP status: %s\n' "$mcp_status"
+          cat "$response_file"
+          printf '\n'
+          if [ "$mcp_status" != 401 ]; then
+            fail_bundle_probe
+          fi
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -40,7 +134,6 @@ jobs:
         # ephemeral cluster and never needs Supabase credentials.
         run: npm test
 
-      # No bundler yet — build proves the TS program compiles (tsc --noEmit).
       - name: Build
         run: npm run build
 

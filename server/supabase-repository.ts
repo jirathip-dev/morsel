@@ -15,8 +15,8 @@ import {
   SearchFoodItemSchema,
   SexSchema,
   UnitSchema,
-} from '../packages/schema/food-types.js'
-import { InvalidStoredDataError, RepositoryError, TransactionError } from './errors.js'
+} from '../packages/schema/food-types.ts'
+import { InvalidStoredDataError, RepositoryError, TransactionError } from './errors.ts'
 import type {
   ComputeTargetsOutput,
   GoalSummary,
@@ -27,9 +27,9 @@ import type {
   SetGoalsInput,
   UpdateMealItemInput,
   WeightTrendPoint,
-} from '../packages/schema/food-types.js'
-import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
-import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.js'
+} from '../packages/schema/food-types.ts'
+import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
+import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
 
 const databaseNumber = z.union([
   z.number(),

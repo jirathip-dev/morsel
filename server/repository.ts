@@ -9,7 +9,7 @@ import type {
   Source,
   UpdateMealItemInput,
   WeightTrendPoint,
-} from '../packages/schema/food-types.js'
+} from '../packages/schema/food-types.ts'
 
 export interface MealWrite {
   eaten_at: string

@@ -20,9 +20,9 @@ import {
   SetProfileOutputSchema,
   UpdateMealItemInputSchema,
   UpdateMealItemOutputSchema,
-} from '../packages/schema/food-types.js'
-import { MorselError } from './errors.js'
-import type { MorselService } from './service.js'
+} from '../packages/schema/food-types.ts'
+import { MorselError } from './errors.ts'
+import type { MorselService } from './service.ts'
 
 function success(output: Record<string, unknown>): {
   structuredContent: Record<string, unknown>

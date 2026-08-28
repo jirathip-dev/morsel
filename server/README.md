@@ -1,9 +1,10 @@
 # Morsel MCP server
 
-This directory contains the Bun-compatible Hono server for Morsel's remote MCP
-endpoint. It uses the official `@modelcontextprotocol/sdk` streamable HTTP
-transport and creates one authenticated service/repository boundary per MCP
-session.
+This directory contains the shared Hono server logic for Morsel's remote MCP
+endpoint. The local entrypoint is Bun; production runs the same app from
+`supabase/functions/mcp/index.ts` as a Supabase Edge Function on Deno. It uses
+the official `@modelcontextprotocol/sdk` streamable HTTP transport and creates
+one authenticated service/repository boundary per MCP session.
 
 ## Run locally
 
@@ -20,6 +21,17 @@ npm run server
 
 The MCP endpoint is `POST /mcp`; `GET /health` is an unauthenticated health
 check. `npm run dev` starts Bun's file-watching development server.
+
+## Supabase Edge Function
+
+The deployed function keeps `GET /health` public and handles per-request bearer
+authentication for the streamable `POST /mcp` endpoint. Supabase's gateway JWT
+verification is disabled for this function so the app can validate each MCP
+request itself. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read from the Edge
+Function environment when requests create the authenticated boundaries.
+Supabase prefixes requests with the function name, so the hosted URLs are
+`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp`; the local Bun entrypoint
+continues to use `/health` and `/mcp`.
 
 ## Design notes
 

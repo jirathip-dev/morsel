@@ -22,7 +22,7 @@ import {
   DeleteMealLogOutputSchema,
   SetGoalsOutputSchema,
   SetProfileOutputSchema,
-} from '../packages/schema/food-types.js'
+} from '../packages/schema/food-types.ts'
 import type {
   ComputeTargetsOutput,
   DeleteMealLogOutput,
@@ -39,9 +39,9 @@ import type {
   SetGoalsOutput,
   SetProfileOutput,
   UpdateMealItemOutput,
-} from '../packages/schema/food-types.js'
-import { MorselError } from './errors.js'
-import type { MorselRepository, StoredGoals } from './repository.js'
+} from '../packages/schema/food-types.ts'
+import { MorselError } from './errors.ts'
+import type { MorselRepository, StoredGoals } from './repository.ts'
 
 function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
   const parsed = schema.safeParse(value)
