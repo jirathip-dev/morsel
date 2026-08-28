@@ -131,7 +131,7 @@ At least one optional field must be supplied with `item_id`.
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD" }`
-**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number }`
+**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal can be used without a profile.
@@ -140,7 +140,7 @@ The v0.1 server interprets `date` as a UTC calendar day.
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
-**Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ] }`
+**Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "render": { "markdown", "svg" } }`
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
@@ -149,6 +149,12 @@ requested `days` window, so it is at most `days`. `weight_trend` is a supported
 v0.1 output: include it when non-empty and treat an empty array as no weight
 entries in the requested range. No registered v0.1 tool writes `weight_logs`,
 so it may be empty.
+
+Both read outputs include a `render` payload with markdown and SVG strings. The
+MCP server emits it as two content blocks: `{ type: "text", text:
+render.markdown }` followed by `{ type: "image", data: base64(render.svg),
+mimeType: "image/svg+xml" }`. Existing structured fields remain unchanged; the
+markdown is the safe fallback when a client cannot render SVG.
 
 ### `get_profile`
 

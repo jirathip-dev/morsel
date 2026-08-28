@@ -297,9 +297,9 @@ renders the store the agent wrote.
 ## Server snapshot renderer (Tier 1)
 
 `get_dashboard_summary` (and `get_day`) should emit this same chart as the
-`image` content block (`{ type:"image", data:<base64 png>, mimeType:"image/png" }`)
-per `IN_CHAT_RENDER.md`, so the in-chat chart and the app agree. The renderer
-output should match the **History chart** here: bars scaled to the range's max,
-a dashed goal line at the computed target, red = over / green = at-or-under,
-with a `markdown` `text` block fallback (summary + delta list) for clients that
-can't render images. One dataset, many views.
+`image` content block (`{ type:"image", data:<base64 SVG>, mimeType:"image/svg+xml" }`)
+per `IN_CHAT_RENDER.md`, so the in-chat chart and the app agree without native
+rasterization dependencies. The renderer output should match the **History
+chart** here: bars scaled to the range's max, a dashed goal line at the
+computed target, a `markdown` `text` block fallback (summary + delta list) for
+clients that can't render images. One dataset, many views.
