@@ -16,7 +16,7 @@ import {
   SexSchema,
   UnitSchema,
 } from '../packages/schema/food-types.ts'
-import { InvalidStoredDataError, RepositoryError, TransactionError } from './errors.ts'
+import { InvalidStoredDataError, ProviderUnavailableError, RepositoryError, TransactionError } from './errors.ts'
 import type {
   ComputeTargetsOutput,
   GoalSummary,
@@ -400,9 +400,17 @@ export class SupabaseRepository implements MorselRepository {
     if (results.length > 0) {
       return results
     }
+    let external: SearchFoodItem[]
     try {
-      const external = await this.nutritionProvider.search(query, limit)
-      const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
+      external = await this.nutritionProvider.search(query, limit)
+    } catch (error) {
+      if (error instanceof ProviderUnavailableError) {
+        throw error
+      }
+      return []
+    }
+    const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
+    try {
       if (unique.length > 0) {
         const rows: Database['public']['Tables']['food_catalog']['Insert'][] = unique.map((food) => ({
           id: food.id,
@@ -416,12 +424,15 @@ export class SupabaseRepository implements MorselRepository {
           carbs_g: food.carbs_g ?? null,
           fat_g: food.fat_g ?? null,
         }))
-        await this.client.from('food_catalog').upsert(rows, { onConflict: 'id', ignoreDuplicates: true })
+        const response = await this.client.rpc('upsert_food_catalog', { p_rows: rows })
+        if (response.error !== null) {
+          throw new RepositoryError('food catalog cache write failed', response.error)
+        }
       }
-      return unique.slice(0, limit)
     } catch {
-      return []
+      // The lookup remains useful even when cache persistence is unavailable.
     }
+    return unique.slice(0, limit)
   }
 
   async getProfile(userId: string): Promise<Profile | undefined> {

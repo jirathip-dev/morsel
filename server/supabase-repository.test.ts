@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import type { MealWrite } from './repository.js'
 import type { Profile } from '../packages/schema/food-types.js'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
+import type { NutritionProvider } from './nutrition-provider.js'
 
 const userId = '00000000-0000-4000-8000-000000000003'
 const mealId = '00000000-0000-4000-8000-000000000004'
@@ -32,7 +33,7 @@ function mealWrite(): MealWrite {
   }
 }
 
-function createRepository(mode: MealRpcMode = 'success'): { repository: SupabaseRepository; requests: RecordedRequest[] } {
+function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: NutritionProvider): { repository: SupabaseRepository; requests: RecordedRequest[] } {
   const requests: RecordedRequest[] = []
   const fetchMock = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
     const request = input instanceof Request
@@ -98,6 +99,12 @@ function createRepository(mode: MealRpcMode = 'success'): { repository: Supabase
         }],
       }])
     }
+    if (request.url.includes('/rest/v1/food_catalog')) {
+      return jsonResponse([])
+    }
+    if (request.url.includes('/rest/v1/rpc/upsert_food_catalog')) {
+      return jsonResponse({ message: 'cache unavailable' }, 503)
+    }
     if (request.url.includes('/rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type')) {
       return jsonResponse([{ id: mealId, eaten_at: '2026-08-25T12:30:00.000Z', meal_type: 'lunch' }])
     }
@@ -140,7 +147,7 @@ function createRepository(mode: MealRpcMode = 'success'): { repository: Supabase
   fetchMock.preconnect = (): void => undefined
 
   return {
-    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock }),
+    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock, nutritionProvider }),
     requests,
   }
 }
@@ -236,5 +243,16 @@ describe('SupabaseRepository', () => {
     expect(parentCheck?.url).toContain(`user_id=eq.${userId}`)
     const mealDelete = requests.find((request) => request.method === 'DELETE' && request.url.includes('/rest/v1/meal_logs'))
     expect(mealDelete?.url).toContain(`user_id=eq.${userId}`)
+  })
+
+  it('returns external results when the catalog cache RPC fails', async () => {
+    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', calories_kcal: 105 }
+    const provider: NutritionProvider = { search: () => Promise.resolve([food]) }
+    const { repository, requests } = createRepository('success', provider)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
+    })
+    expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(true)
   })
 })

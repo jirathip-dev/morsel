@@ -116,7 +116,8 @@ curated set in `db/seed.sql`. When the catalog has no match, the server queries
 the USDA FoodData Central `/fdc/v1/foods/search` endpoint using `USDA_API_KEY`,
 maps its `foods[].foodNutrients` values into this unchanged contract, and caches
 successful results in `food_catalog`. External IDs are deterministically mapped
-to UUIDs; missing keys or failed requests return the catalog result/empty result.
+to UUIDs. Unknown food returns empty results; a missing key uses catalog-only
+search, while an unavailable provider returns a typed tool error.
 
 ### `update_meal_item`
 

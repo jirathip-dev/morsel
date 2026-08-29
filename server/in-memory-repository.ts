@@ -1,4 +1,4 @@
-import { InvalidStoredDataError, TransactionError } from './errors.js'
+import { InvalidStoredDataError, ProviderUnavailableError, TransactionError } from './errors.js'
 import { calculateTargets } from './targets.js'
 import type {
   ComputeTargetsOutput,
@@ -148,7 +148,10 @@ export class InMemoryRepository implements MorselRepository {
       const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
       this.foods.push(...unique)
       return unique.slice(0, limit).map((food) => ({ ...food }))
-    } catch {
+    } catch (error) {
+      if (error instanceof ProviderUnavailableError) {
+        throw error
+      }
       return []
     }
   }

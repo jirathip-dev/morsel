@@ -29,6 +29,7 @@ const migrationFiles = [
   'db/migrations/0003_atomic_meals_and_users_rls.sql',
   'db/migrations/0004_store_assets.sql',
   'db/migrations/0005_oauth_authorization_grants.sql',
+  'db/migrations/0006_food_catalog_provider_cache.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -389,6 +390,14 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         select count(*) from public.food_catalog where id = '${catalogInsertId}';
       `), 'catalog insert state')
       expect(queryValues(catalogInsertState)).toEqual(['0'])
+
+      const catalogRpc = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        select public.upsert_food_catalog('[{"id":"${catalogInsertId}","name":"External banana","calories_kcal":105,"protein_g":1.3,"carbs_g":27,"fat_g":0.4}]'::jsonb);
+        select count(*) from public.food_catalog where id = '${catalogInsertId}' and name = 'External banana';
+      `), 'catalog cache RPC')
+      expect(queryValues(catalogRpc)).toEqual(['1'])
 
       const catalogUpdate = postgres.execute(`
         set role authenticated;

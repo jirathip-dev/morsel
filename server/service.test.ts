@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { Profile, SearchFoodItem } from '../packages/schema/food-types.js'
 import { InMemoryRepository } from './in-memory-repository.js'
-import { MorselError } from './errors.js'
+import { MorselError, ProviderUnavailableError } from './errors.js'
 import { MorselService } from './service.js'
 import type { NutritionProvider } from './nutrition-provider.js'
 
@@ -204,6 +204,14 @@ describe('MorselService', () => {
     const service = createService(new InMemoryRepository({ nutritionProvider: provider }))
 
     await expect(service.searchFood({ query: 'unknown food' })).resolves.toEqual({ results: [] })
+  })
+
+  it('surfaces provider outages as typed tool errors', async () => {
+    const provider: NutritionProvider = {
+      search: () => Promise.reject(new ProviderUnavailableError()),
+    }
+    await expect(createService(new InMemoryRepository({ nutritionProvider: provider })).searchFood({ query: 'banana' }))
+      .rejects.toMatchObject({ code: 'provider_unavailable', publicMessage: 'nutrition provider unavailable' })
   })
 
   it('returns a dashboard range summary with a current streak and scoped weight trend', async () => {

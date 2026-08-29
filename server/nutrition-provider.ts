@@ -1,10 +1,13 @@
 import { createHash } from 'node:crypto'
 import { z } from 'zod'
+import { ProviderUnavailableError } from './errors.ts'
 import type { SearchFoodItem } from '../packages/schema/food-types.ts'
 
 export interface NutritionProvider {
   search(query: string, limit: number): Promise<SearchFoodItem[]>
 }
+
+export type NutritionFetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>
 
 interface UsdaFood {
   fdcId?: number
@@ -53,7 +56,7 @@ function toFood(food: UsdaFood): SearchFoodItem | undefined {
 }
 
 export class UsdaFoodDataCentralProvider implements NutritionProvider {
-  constructor(private readonly fetcher: typeof fetch = fetch) {}
+  constructor(private readonly fetcher: NutritionFetcher = fetch) {}
 
   async search(query: string, limit: number): Promise<SearchFoodItem[]> {
     const apiKey = process.env.USDA_API_KEY?.trim()
@@ -64,9 +67,14 @@ export class UsdaFoodDataCentralProvider implements NutritionProvider {
     url.searchParams.set('api_key', apiKey)
     url.searchParams.set('query', query)
     url.searchParams.set('pageSize', String(limit))
-    const response = await this.fetcher(url, { signal: AbortSignal.timeout(5_000) })
+    let response: Response
+    try {
+      response = await this.fetcher(url, { signal: AbortSignal.timeout(5_000) })
+    } catch (error) {
+      throw new ProviderUnavailableError(error)
+    }
     if (!response.ok) {
-      throw new Error(`USDA lookup failed: ${String(response.status)}`)
+      throw new ProviderUnavailableError()
     }
     const payload: unknown = await response.json()
     if (!isUsdaResponse(payload)) {
