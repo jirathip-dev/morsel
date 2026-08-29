@@ -16,7 +16,7 @@ import {
   SexSchema,
   UnitSchema,
 } from '../packages/schema/food-types.ts'
-import { InvalidStoredDataError, RepositoryError, TransactionError } from './errors.ts'
+import { InvalidStoredDataError, ProviderUnavailableError, RepositoryError, TransactionError } from './errors.ts'
 import type {
   ComputeTargetsOutput,
   GoalSummary,
@@ -29,6 +29,8 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.ts'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
+import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
+import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
 
 const databaseNumber = z.union([
@@ -265,15 +267,21 @@ function toFood(value: unknown): SearchFoodItem {
 export interface SupabaseRepositoryOptions {
   client: SupabaseClient<Database>
   accessTokenContext: AsyncLocalStorage<string>
+  nutritionProvider?: NutritionProvider
+  cacheClientFactory?: () => SupabaseClient<Database> | undefined
 }
 
 export class SupabaseRepository implements MorselRepository {
   private readonly client: SupabaseClient<Database>
   private readonly accessTokenContext: AsyncLocalStorage<string>
+  private readonly nutritionProvider: NutritionProvider
+  private readonly cacheClientFactory: () => SupabaseClient<Database> | undefined
 
   constructor(options: SupabaseRepositoryOptions) {
     this.client = options.client
     this.accessTokenContext = options.accessTokenContext
+    this.nutritionProvider = options.nutritionProvider ?? new UsdaFoodDataCentralProvider()
+    this.cacheClientFactory = options.cacheClientFactory ?? (() => undefined)
   }
 
   withAccessToken<T>(accessToken: string, action: () => Promise<T>): Promise<T> {
@@ -368,6 +376,7 @@ export class SupabaseRepository implements MorselRepository {
     const nameResponse = await this.client
       .from('food_catalog')
       .select(foodColumns)
+      .or('source.eq.curated,source.eq.usda')
       .ilike('name', pattern)
       .limit(limit)
     const nameRows = parseStored(z.array(foodRowSchema), requireData(nameResponse.data, nameResponse.error, 'food search'), 'food catalog')
@@ -375,6 +384,7 @@ export class SupabaseRepository implements MorselRepository {
     const barcodeResponse = await this.client
       .from('food_catalog')
       .select(foodColumns)
+      .or('source.eq.curated,source.eq.usda')
       .eq('barcode', query)
       .limit(limit)
     const barcodeRows = parseStored(z.array(foodRowSchema), requireData(barcodeResponse.data, barcodeResponse.error, 'barcode search'), 'food catalog')
@@ -392,7 +402,51 @@ export class SupabaseRepository implements MorselRepository {
         break
       }
     }
-    return results
+    if (results.length > 0) {
+      return results
+    }
+    let external: ProviderFood[]
+    try {
+      external = await this.nutritionProvider.search(query, limit)
+    } catch (error) {
+      if (error instanceof ProviderUnavailableError) {
+        throw error
+      }
+      return []
+    }
+    const unique = external.filter((food: ProviderFood, index) => external.findIndex((candidate: ProviderFood) => candidate.id === food.id) === index)
+    try {
+      const cacheClient = this.cacheClientFactory()
+      const cacheable = unique.filter((food) => Number.isFinite(food.fdc_id)
+        && food.serving_size === '100' && food.serving_unit === 'g')
+      if (cacheClient !== undefined && cacheable.length > 0) {
+        const rows: Record<string, unknown>[] = cacheable.map((food) => ({
+          id: food.id,
+          fdc_id: food.fdc_id,
+          name: food.name,
+          brand: food.brand ?? null,
+          barcode: food.barcode ?? null,
+          serving_size: food.serving_size ?? null,
+          serving_unit: food.serving_unit ?? null,
+          calories_kcal: food.calories_kcal ?? null,
+          protein_g: food.protein_g ?? null,
+          carbs_g: food.carbs_g ?? null,
+          fat_g: food.fat_g ?? null,
+        }))
+        const response = await cacheClient.rpc('upsert_food_catalog', { p_rows: rows })
+        if (response.error !== null) {
+          throw new RepositoryError('food catalog cache write failed', response.error)
+        }
+      }
+    } catch {
+      // The lookup remains useful even when cache persistence is unavailable.
+    }
+    return unique.slice(0, limit).map((food) => {
+      void food.fdc_id
+      const { fdc_id, ...publicFood } = food
+      void fdc_id
+      return publicFood
+    })
   }
 
   async getProfile(userId: string): Promise<Profile | undefined> {
@@ -563,6 +617,8 @@ export class SupabaseRepository implements MorselRepository {
 
 export interface SupabaseRepositoryFactoryOptions {
   fetch?: typeof fetch
+  nutritionProvider?: NutritionProvider
+  cacheClientFactory?: () => SupabaseClient<Database> | undefined
 }
 
 export function createSupabaseRepository(
@@ -597,5 +653,11 @@ export function createSupabaseRepository(
     },
     global: { fetch: authenticatedFetch },
   })
-  return new SupabaseRepository({ client, accessTokenContext })
+  const cacheClientFactory = options.cacheClientFactory ?? (() => {
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
+    return serviceKey === undefined || serviceKey === ''
+      ? undefined
+      : createClient<Database>(supabaseUrl, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } })
+  })
+  return new SupabaseRepository({ client, accessTokenContext, nutritionProvider: options.nutritionProvider, cacheClientFactory })
 }

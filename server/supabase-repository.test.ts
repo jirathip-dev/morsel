@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { MealWrite } from './repository.js'
 import type { Profile } from '../packages/schema/food-types.js'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
+import type { NutritionProvider } from './nutrition-provider.js'
+import { ProviderUnavailableError } from './errors.js'
+import type { Database } from './supabase-types.js'
 
 const userId = '00000000-0000-4000-8000-000000000003'
 const mealId = '00000000-0000-4000-8000-000000000004'
@@ -32,7 +36,7 @@ function mealWrite(): MealWrite {
   }
 }
 
-function createRepository(mode: MealRpcMode = 'success'): { repository: SupabaseRepository; requests: RecordedRequest[] } {
+function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: NutritionProvider, cacheClientFactory?: (() => SupabaseClient<Database> | undefined) | null): { repository: SupabaseRepository; requests: RecordedRequest[] } {
   const requests: RecordedRequest[] = []
   const fetchMock = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
     const request = input instanceof Request
@@ -98,6 +102,12 @@ function createRepository(mode: MealRpcMode = 'success'): { repository: Supabase
         }],
       }])
     }
+    if (request.url.includes('/rest/v1/food_catalog')) {
+      return jsonResponse([])
+    }
+    if (request.url.includes('/rest/v1/rpc/upsert_food_catalog')) {
+      return jsonResponse({ message: 'cache unavailable' }, 503)
+    }
     if (request.url.includes('/rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type')) {
       return jsonResponse([{ id: mealId, eaten_at: '2026-08-25T12:30:00.000Z', meal_type: 'lunch' }])
     }
@@ -140,7 +150,11 @@ function createRepository(mode: MealRpcMode = 'success'): { repository: Supabase
   fetchMock.preconnect = (): void => undefined
 
   return {
-    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock }),
+    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', {
+      fetch: fetchMock,
+      nutritionProvider,
+      ...(cacheClientFactory === null ? {} : { cacheClientFactory: cacheClientFactory === undefined ? () => createClient<Database>('https://morsel.test', 'service-role-key', { global: { fetch: fetchMock }, auth: { autoRefreshToken: false, persistSession: false } }) : cacheClientFactory }),
+    }),
     requests,
   }
 }
@@ -236,5 +250,66 @@ describe('SupabaseRepository', () => {
     expect(parentCheck?.url).toContain(`user_id=eq.${userId}`)
     const mealDelete = requests.find((request) => request.method === 'DELETE' && request.url.includes('/rest/v1/meal_logs'))
     expect(mealDelete?.url).toContain(`user_id=eq.${userId}`)
+  })
+
+  it('returns external results when the catalog cache RPC fails', async () => {
+    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', serving_size: '100', serving_unit: 'g', calories_kcal: 105 }
+    const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173944 }]) }
+    const { repository, requests } = createRepository('success', provider)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
+    })
+    expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(true)
+    const cacheRequest = requests.find((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))
+    expect(cacheRequest?.authorization).toBe('Bearer service-role-key')
+    expect(cacheRequest?.authorization).not.toBe('Bearer token-one')
+  })
+
+  it('reads cache RPC errors before degrading to external results', async () => {
+    let errorRead = false
+    const cacheClient = {
+      rpc: () => {
+        const response = { data: null, error: { message: 'cache unavailable' } }
+        Object.defineProperty(response, 'error', { get: (): { message: string } => { errorRead = true; return { message: 'cache unavailable' } } })
+        return Promise.resolve(response)
+      },
+    }
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const typedCacheClient = cacheClient as unknown as SupabaseClient<Database>
+    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', serving_size: '100', serving_unit: 'g', calories_kcal: 105 }
+    const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173944 }]) }
+    const { repository } = createRepository('success', provider, () => typedCacheClient)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
+    })
+    expect(errorRead).toBe(true)
+  })
+
+  it('skips cache writes when the service key is absent', async () => {
+    const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY
+    try {
+      const food = { id: '00000000-0000-4000-8000-000000000007', name: 'Apple', serving_size: '100', serving_unit: 'g', calories_kcal: 52 }
+      const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173945 }]) }
+      const { repository, requests } = createRepository('success', provider, null)
+      await withTestToken(repository, async () => {
+        await expect(repository.searchFood(userId, 'apple', 1)).resolves.toEqual([food])
+      })
+      expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(false)
+    } finally {
+      if (previousKey === undefined) delete process.env.SUPABASE_SERVICE_ROLE_KEY
+      else process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey
+    }
+  })
+
+  it('propagates provider outages from the production repository adapter', async () => {
+    const provider: NutritionProvider = { search: () => Promise.reject(new ProviderUnavailableError()) }
+    const { repository } = createRepository('success', provider)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).rejects.toMatchObject({ code: 'provider_unavailable' })
+    })
   })
 })

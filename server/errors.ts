@@ -5,6 +5,7 @@ export type ErrorCode =
   | 'profile_required'
   | 'store_error'
   | 'store_invalid_data'
+  | 'provider_unavailable'
   | 'transaction_failed'
   | 'internal_error'
 
@@ -31,6 +32,13 @@ export class InvalidStoredDataError extends MorselError {
   constructor(message: string, cause?: unknown) {
     super('store_invalid_data', message, cause)
     this.name = 'InvalidStoredDataError'
+  }
+}
+
+export class ProviderUnavailableError extends MorselError {
+  constructor(cause?: unknown) {
+    super('provider_unavailable', 'nutrition provider unavailable', cause)
+    this.name = 'ProviderUnavailableError'
   }
 }
 

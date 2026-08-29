@@ -328,6 +328,10 @@ export interface Database {
         }
         Returns: LogMealFunctionRow[]
       }
+      upsert_food_catalog: {
+        Args: { p_rows: Record<string, unknown>[] }
+        Returns: null
+      }
       claim_oauth_authorization_grant: {
         Args: {
           p_code_hash: string

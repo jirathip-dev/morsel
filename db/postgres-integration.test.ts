@@ -29,6 +29,7 @@ const migrationFiles = [
   'db/migrations/0003_atomic_meals_and_users_rls.sql',
   'db/migrations/0004_store_assets.sql',
   'db/migrations/0005_oauth_authorization_grants.sql',
+  'db/migrations/0006_food_catalog_provider_cache.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -208,6 +209,7 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
     const userTwo = '00000000-0000-4000-8000-000000000102'
     const userThree = '00000000-0000-4000-8000-000000000103'
     const catalogInsertId = 'f0000000-0000-4000-8000-000000000009'
+    const catalogExternalId = '49d29a54-14b9-4df0-8270-965aa64b9cc7'
     const catalogUpdateId = 'f0000000-0000-4000-8000-000000000001'
     const catalogDeleteId = 'f0000000-0000-4000-8000-000000000002'
 
@@ -217,6 +219,7 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         create schema auth;
         create role anon nologin;
         create role authenticated nologin;
+        create role service_role nologin;
         create or replace function auth.uid()
         returns uuid
         language sql
@@ -389,6 +392,36 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         select count(*) from public.food_catalog where id = '${catalogInsertId}';
       `), 'catalog insert state')
       expect(queryValues(catalogInsertState)).toEqual(['0'])
+
+      const deniedRpc = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        select public.upsert_food_catalog('[]'::jsonb);
+      `, false)
+      expect(deniedRpc.stderr).toMatch(/permission denied for function upsert_food_catalog/i)
+      const poisoningRpc = postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogInsertId}","fdc_id":173944,"name":"Poisoned banana","serving_size":"1","serving_unit":"cup"}]'::jsonb);
+      `, false)
+      expect(poisoningRpc.stderr).toMatch(/invalid food catalog row/i)
+      const missingExternalIdRpc = postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogInsertId}","name":"Missing id","serving_size":"100","serving_unit":"g","calories_kcal":99999}]'::jsonb);
+      `, false)
+      expect(missingExternalIdRpc.stderr).toMatch(/invalid food catalog row/i)
+      const forgedContentRpc = postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogExternalId}","fdc_id":173944,"name":"Forged banana","serving_size":"100","serving_unit":"g","calories_kcal":99999}]'::jsonb);
+      `, false)
+      expect(forgedContentRpc.stderr).toMatch(/invalid food catalog row/i)
+      const catalogRpc = requireSuccess(postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogExternalId}","fdc_id":173944,"name":"External banana","serving_size":"100","serving_unit":"g","calories_kcal":105,"protein_g":1.3,"carbs_g":27,"fat_g":0.4}]'::jsonb);
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        select count(*) from public.food_catalog where id = '${catalogExternalId}' and name = 'External banana' and source = 'usda';
+      `), 'catalog cache RPC')
+      expect(queryValues(catalogRpc)).toEqual(['1'])
 
       const catalogUpdate = postgres.execute(`
         set role authenticated;

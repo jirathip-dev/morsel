@@ -111,10 +111,13 @@ log_meal({
 **Input** `{ "query": "string", "limit": { "type": "integer", "default": 8 } }`
 **Output** `{ "results": [ { "id", "name", "brand", "barcode", "serving_size", "serving_unit", "calories_kcal", "protein_g", "carbs_g", "fat_g" } ] }`
 
-The v0.1 store reads this catalog from `food_catalog`, with a small deterministic
-curated set in `db/seed.sql`; v0.1 result IDs are UUIDs and are the only valid
-`food_ref_id` values. A broader external OpenNutrition reference is planned for
-v0.3 and will require an explicit ID mapping or contract change.
+The store reads this catalog from `food_catalog`, with a small deterministic
+curated set in `db/seed.sql`. When the catalog has no match, the server queries
+the USDA FoodData Central `/fdc/v1/foods/search` endpoint using `USDA_API_KEY`,
+maps its `foods[].foodNutrients` values into this unchanged contract, and caches
+successful results in `food_catalog`. External IDs are deterministically mapped
+to UUIDs. Unknown food returns empty results; a missing key uses catalog-only
+search, while an unavailable provider returns a typed tool error.
 
 ### `update_meal_item`
 
