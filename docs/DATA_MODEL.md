@@ -15,7 +15,7 @@ data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
 | `water_logs` | optional, v1.1 | `user_id` |
 | `weight_logs` | optional, v1.1 | `user_id` |
-| `food_catalog` | deterministic v0.1 curated food reference for search; external OpenNutrition is planned for v0.3 | `barcode` |
+| `food_catalog` | curated and USDA FoodData Central-backed reference data for search; external results are cached with `source='usda'` | `barcode` |
 
 ## The core shape: a meal is a log, a log has many items
 
@@ -88,6 +88,4 @@ their own user ID. Until the upload flow exists, the MCP server stores a
 caller-provided HTTPS URL reference in `meal_logs.image_path` and does not
 upload bytes.
 
-The v0.1 catalog is a small deterministic seed in `db/seed.sql`. It is intended
-to make `search_food` useful without pretending to be a comprehensive nutrition
-database; an external OpenNutrition-backed reference remains a v0.3 plan.
+The catalog starts with a small deterministic seed in `db/seed.sql` and is extended by the USDA FoodData Central lookup path. Successful external results are cached with `source='usda'`; the server-only cache write path keeps shared catalog data out of caller-controlled writes.

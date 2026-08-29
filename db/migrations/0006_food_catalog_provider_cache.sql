@@ -9,14 +9,12 @@ as $$
 declare
   row jsonb;
 begin
-  if (select auth.uid()) is null then
-    raise exception 'authenticated user required';
-  end if;
   if jsonb_typeof(p_rows) <> 'array' then
     raise exception 'food catalog rows must be an array';
   end if;
   for row in select value from jsonb_array_elements(p_rows) loop
-    if (row->>'fdc_id' !~ '^[0-9]+$'
+    if row->>'fdc_id' is null or row->>'fdc_id' = ''
+      or row->>'fdc_id' !~ '^[0-9]+$'
       or row->>'id' <> (
         substr(encode(digest('usda:' || (row->>'fdc_id'), 'sha256'), 'hex'), 1, 8) || '-' ||
         substr(encode(digest('usda:' || (row->>'fdc_id'), 'sha256'), 'hex'), 9, 4) || '-4' ||
@@ -25,10 +23,12 @@ begin
         substr(encode(digest('usda:' || (row->>'fdc_id'), 'sha256'), 'hex'), 21, 12)
       )
       or coalesce(length(trim(row->>'name')), 0) = 0
-      or (row ? 'calories_kcal' and (row->>'calories_kcal')::numeric not between 0 and 100000)
-      or (row ? 'protein_g' and (row->>'protein_g')::numeric not between 0 and 10000)
-      or (row ? 'carbs_g' and (row->>'carbs_g')::numeric not between 0 and 10000)
-      or (row ? 'fat_g' and (row->>'fat_g')::numeric not between 0 and 10000)) then
+      or row->>'serving_size' <> '100'
+      or lower(row->>'serving_unit') <> 'g'
+      or row ? 'calories_kcal' and (row->>'calories_kcal')::numeric not between 0 and 100000
+      or row ? 'protein_g' and (row->>'protein_g')::numeric not between 0 and 10000
+      or row ? 'carbs_g' and (row->>'carbs_g')::numeric not between 0 and 10000
+      or (row ? 'fat_g' and (row->>'fat_g')::numeric not between 0 and 10000) then
       raise exception 'invalid food catalog row';
     end if;
   end loop;
@@ -42,5 +42,6 @@ begin
 end;
 $$;
 
-revoke execute on function public.upsert_food_catalog(jsonb) from public;
-grant execute on function public.upsert_food_catalog(jsonb) to authenticated;
+revoke execute on function public.upsert_food_catalog(jsonb) from public, authenticated;
+grant execute on function public.upsert_food_catalog(jsonb) to service_role;
+grant insert, select on public.food_catalog to service_role;

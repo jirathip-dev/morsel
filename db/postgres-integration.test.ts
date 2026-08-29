@@ -219,6 +219,7 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         create schema auth;
         create role anon nologin;
         create role authenticated nologin;
+        create role service_role nologin;
         create or replace function auth.uid()
         returns uuid
         language sql
@@ -392,16 +393,22 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       `), 'catalog insert state')
       expect(queryValues(catalogInsertState)).toEqual(['0'])
 
-      const poisoningRpc = postgres.execute(`
+      const deniedRpc = postgres.execute(`
         set role authenticated;
         set "request.jwt.claim.sub" = '${userOne}';
-        select public.upsert_food_catalog('[{"id":"${catalogInsertId}","fdc_id":173944,"name":"Poisoned banana"}]'::jsonb);
+        select public.upsert_food_catalog('[]'::jsonb);
+      `, false)
+      expect(deniedRpc.stderr).toMatch(/permission denied for function upsert_food_catalog/i)
+      const poisoningRpc = postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogInsertId}","fdc_id":173944,"name":"Poisoned banana","serving_size":"1","serving_unit":"cup"}]'::jsonb);
       `, false)
       expect(poisoningRpc.stderr).toMatch(/invalid food catalog row/i)
       const catalogRpc = requireSuccess(postgres.execute(`
+        set role service_role;
+        select public.upsert_food_catalog('[{"id":"${catalogExternalId}","fdc_id":173944,"name":"External banana","serving_size":"100","serving_unit":"g","calories_kcal":105,"protein_g":1.3,"carbs_g":27,"fat_g":0.4}]'::jsonb);
         set role authenticated;
         set "request.jwt.claim.sub" = '${userOne}';
-        select public.upsert_food_catalog('[{"id":"${catalogExternalId}","fdc_id":173944,"name":"External banana","calories_kcal":105,"protein_g":1.3,"carbs_g":27,"fat_g":0.4}]'::jsonb);
         select count(*) from public.food_catalog where id = '${catalogExternalId}' and name = 'External banana' and source = 'usda';
       `), 'catalog cache RPC')
       expect(queryValues(catalogRpc)).toEqual(['1'])

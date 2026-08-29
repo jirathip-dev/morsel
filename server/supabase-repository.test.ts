@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { createClient } from '@supabase/supabase-js'
 import type { MealWrite } from './repository.js'
 import type { Profile } from '../packages/schema/food-types.js'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
 import { ProviderUnavailableError } from './errors.js'
+import type { Database } from './supabase-types.js'
 
 const userId = '00000000-0000-4000-8000-000000000003'
 const mealId = '00000000-0000-4000-8000-000000000004'
@@ -148,7 +150,7 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
   fetchMock.preconnect = (): void => undefined
 
   return {
-    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock, nutritionProvider }),
+    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock, nutritionProvider, cacheClientFactory: () => createClient<Database>('https://morsel.test', 'service-role-key', { global: { fetch: fetchMock }, auth: { autoRefreshToken: false, persistSession: false } }) }),
     requests,
   }
 }
@@ -247,7 +249,7 @@ describe('SupabaseRepository', () => {
   })
 
   it('returns external results when the catalog cache RPC fails', async () => {
-    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', calories_kcal: 105 }
+    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', serving_size: '100', serving_unit: 'g', calories_kcal: 105 }
     const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173944 }]) }
     const { repository, requests } = createRepository('success', provider)
 
