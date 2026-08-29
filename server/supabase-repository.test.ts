@@ -3,6 +3,7 @@ import type { MealWrite } from './repository.js'
 import type { Profile } from '../packages/schema/food-types.js'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
+import { ProviderUnavailableError } from './errors.js'
 
 const userId = '00000000-0000-4000-8000-000000000003'
 const mealId = '00000000-0000-4000-8000-000000000004'
@@ -247,12 +248,21 @@ describe('SupabaseRepository', () => {
 
   it('returns external results when the catalog cache RPC fails', async () => {
     const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', calories_kcal: 105 }
-    const provider: NutritionProvider = { search: () => Promise.resolve([food]) }
+    const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173944 }]) }
     const { repository, requests } = createRepository('success', provider)
 
     await withTestToken(repository, async () => {
       await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
     })
     expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(true)
+  })
+
+  it('propagates provider outages from the production repository adapter', async () => {
+    const provider: NutritionProvider = { search: () => Promise.reject(new ProviderUnavailableError()) }
+    const { repository } = createRepository('success', provider)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).rejects.toMatchObject({ code: 'provider_unavailable' })
+    })
   })
 })

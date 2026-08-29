@@ -146,8 +146,16 @@ export class InMemoryRepository implements MorselRepository {
     try {
       const external = await this.nutritionProvider.search(query, limit)
       const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
-      this.foods.push(...unique)
-      return unique.slice(0, limit).map((food) => ({ ...food }))
+      this.foods.push(...unique.map(({ fdc_id, ...food }) => {
+        void fdc_id
+        return food
+      }))
+      return unique.slice(0, limit).map((food) => {
+        void food.fdc_id
+        const { fdc_id, ...publicFood } = food
+        void fdc_id
+        return { ...publicFood }
+      })
     } catch (error) {
       if (error instanceof ProviderUnavailableError) {
         throw error

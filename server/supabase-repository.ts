@@ -29,7 +29,7 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.ts'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
-import type { NutritionProvider } from './nutrition-provider.ts'
+import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
 import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
 
@@ -373,6 +373,7 @@ export class SupabaseRepository implements MorselRepository {
     const nameResponse = await this.client
       .from('food_catalog')
       .select(foodColumns)
+      .or('source.eq.curated,source.eq.usda')
       .ilike('name', pattern)
       .limit(limit)
     const nameRows = parseStored(z.array(foodRowSchema), requireData(nameResponse.data, nameResponse.error, 'food search'), 'food catalog')
@@ -380,6 +381,7 @@ export class SupabaseRepository implements MorselRepository {
     const barcodeResponse = await this.client
       .from('food_catalog')
       .select(foodColumns)
+      .or('source.eq.curated,source.eq.usda')
       .eq('barcode', query)
       .limit(limit)
     const barcodeRows = parseStored(z.array(foodRowSchema), requireData(barcodeResponse.data, barcodeResponse.error, 'barcode search'), 'food catalog')
@@ -400,7 +402,7 @@ export class SupabaseRepository implements MorselRepository {
     if (results.length > 0) {
       return results
     }
-    let external: SearchFoodItem[]
+    let external: ProviderFood[]
     try {
       external = await this.nutritionProvider.search(query, limit)
     } catch (error) {
@@ -409,11 +411,12 @@ export class SupabaseRepository implements MorselRepository {
       }
       return []
     }
-    const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
+    const unique = external.filter((food: ProviderFood, index) => external.findIndex((candidate: ProviderFood) => candidate.id === food.id) === index)
     try {
       if (unique.length > 0) {
-        const rows: Database['public']['Tables']['food_catalog']['Insert'][] = unique.map((food) => ({
+        const rows: Record<string, unknown>[] = unique.map((food: ProviderFood) => ({
           id: food.id,
+          fdc_id: food.fdc_id,
           name: food.name,
           brand: food.brand ?? null,
           barcode: food.barcode ?? null,
@@ -432,7 +435,12 @@ export class SupabaseRepository implements MorselRepository {
     } catch {
       // The lookup remains useful even when cache persistence is unavailable.
     }
-    return unique.slice(0, limit)
+    return unique.slice(0, limit).map((food) => {
+      void food.fdc_id
+      const { fdc_id, ...publicFood } = food
+      void fdc_id
+      return publicFood
+    })
   }
 
   async getProfile(userId: string): Promise<Profile | undefined> {

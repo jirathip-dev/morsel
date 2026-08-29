@@ -4,7 +4,13 @@ import { ProviderUnavailableError } from './errors.ts'
 import type { SearchFoodItem } from '../packages/schema/food-types.ts'
 
 export interface NutritionProvider {
-  search(query: string, limit: number): Promise<SearchFoodItem[]>
+  search(query: string, limit: number): Promise<ProviderFood[]>
+}
+
+export const NUTRITION_PROVIDER_TIMEOUT_MS = 5_000
+
+export interface ProviderFood extends SearchFoodItem {
+  fdc_id: number
 }
 
 export type NutritionFetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>
@@ -37,17 +43,18 @@ function idFor(fdcId: number): string {
   return `${hash.slice(0, 8)}-${hash.slice(8, 12)}-4${hash.slice(13, 16)}-8${hash.slice(17, 20)}-${hash.slice(20, 32)}`
 }
 
-function toFood(food: UsdaFood): SearchFoodItem | undefined {
+function toFood(food: UsdaFood): ProviderFood | undefined {
   if (typeof food.fdcId !== 'number' || typeof food.description !== 'string' || food.description.trim() === '') {
     return undefined
   }
   return {
     id: idFor(food.fdcId),
+    fdc_id: food.fdcId,
     name: food.description,
     ...(food.brandOwner === undefined ? {} : { brand: food.brandOwner }),
     ...(food.gtinUpc === undefined ? {} : { barcode: food.gtinUpc }),
-    ...(food.servingSize === undefined ? {} : { serving_size: String(food.servingSize) }),
-    ...(food.servingSizeUnit === undefined ? {} : { serving_unit: food.servingSizeUnit }),
+    serving_size: '100',
+    serving_unit: 'g',
     ...(nutrient(food, 'Energy') === undefined ? {} : { calories_kcal: nutrient(food, 'Energy') }),
     ...(nutrient(food, 'Protein') === undefined ? {} : { protein_g: nutrient(food, 'Protein') }),
     ...(nutrient(food, 'Carbohydrate, by difference') === undefined ? {} : { carbs_g: nutrient(food, 'Carbohydrate, by difference') }),
@@ -58,7 +65,7 @@ function toFood(food: UsdaFood): SearchFoodItem | undefined {
 export class UsdaFoodDataCentralProvider implements NutritionProvider {
   constructor(private readonly fetcher: NutritionFetcher = fetch) {}
 
-  async search(query: string, limit: number): Promise<SearchFoodItem[]> {
+  async search(query: string, limit: number): Promise<ProviderFood[]> {
     const apiKey = process.env.USDA_API_KEY?.trim()
     if (apiKey === undefined || apiKey === '') {
       return []
@@ -69,7 +76,7 @@ export class UsdaFoodDataCentralProvider implements NutritionProvider {
     url.searchParams.set('pageSize', String(limit))
     let response: Response
     try {
-      response = await this.fetcher(url, { signal: AbortSignal.timeout(5_000) })
+      response = await this.fetcher(url, { signal: AbortSignal.timeout(NUTRITION_PROVIDER_TIMEOUT_MS) })
     } catch (error) {
       throw new ProviderUnavailableError(error)
     }
@@ -80,6 +87,6 @@ export class UsdaFoodDataCentralProvider implements NutritionProvider {
     if (!isUsdaResponse(payload)) {
       return []
     }
-    return (payload.foods ?? []).map(toFood).filter((food): food is SearchFoodItem => food !== undefined)
+    return (payload.foods ?? []).map(toFood).filter((food): food is ProviderFood => food !== undefined)
   }
 }

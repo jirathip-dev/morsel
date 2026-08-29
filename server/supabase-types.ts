@@ -330,7 +330,7 @@ export interface Database {
       }
       upsert_food_catalog: {
         Args: { p_rows: Record<string, unknown>[] }
-        Returns: undefined
+        Returns: null
       }
       claim_oauth_authorization_grant: {
         Args: {

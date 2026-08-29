@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import { ProviderUnavailableError } from './errors.js'
-import { UsdaFoodDataCentralProvider, type NutritionFetcher } from './nutrition-provider.js'
+import { NUTRITION_PROVIDER_TIMEOUT_MS, UsdaFoodDataCentralProvider, type NutritionFetcher } from './nutrition-provider.js'
 
 const previousKey = process.env.USDA_API_KEY
 
@@ -34,8 +34,10 @@ describe('UsdaFoodDataCentralProvider', () => {
     const second = await provider.search('banana', 1)
 
     expect(first[0]).toMatchObject({ name: 'Banana, raw', calories_kcal: 105, protein_g: 1.3, carbs_g: 27, fat_g: 0.4 })
+    expect(first[0]).toMatchObject({ serving_size: '100', serving_unit: 'g' })
     expect(first[0]?.id).toBe(second[0]?.id)
     expect(signal).toBeInstanceOf(AbortSignal)
+    expect(NUTRITION_PROVIDER_TIMEOUT_MS).toBe(5_000)
   })
 
   it('does not fetch without a key and reports upstream failures as typed errors', async () => {

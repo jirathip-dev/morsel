@@ -187,7 +187,7 @@ describe('MorselService', () => {
     const provider: NutritionProvider = {
       search: () => Promise.resolve().then(() => {
         calls += 1
-        return [food]
+        return [{ ...food, fdc_id: 173944 }]
       }),
     }
     const service = createService(new InMemoryRepository({ nutritionProvider: provider }))
