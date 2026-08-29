@@ -78,7 +78,12 @@ private struct MorselRootView: View {
     var body: some View {
         Group {
             if let session = sessionStore.session {
-                AuthenticatedDashboardView(repository: repository, userID: session.userID, mcpEndpoint: mcpEndpoint)
+                AuthenticatedDashboardView(
+                    repository: repository,
+                    userID: session.userID,
+                    session: session,
+                    mcpEndpoint: mcpEndpoint
+                )
             } else {
                 OnboardingView(
                     userID: pendingSession?.userID ?? UUID(),
@@ -102,9 +107,16 @@ private struct AuthenticatedDashboardView: View {
     @State private var showingOnboarding = false
 
     let mcpEndpoint: String
+    let session: AuthenticatedSession
 
-    init(repository: any DashboardRepository, userID: UUID, mcpEndpoint: String) {
+    init(
+        repository: any DashboardRepository,
+        userID: UUID,
+        session: AuthenticatedSession,
+        mcpEndpoint: String
+    ) {
         self.mcpEndpoint = mcpEndpoint
+        self.session = session
         _viewModel = StateObject(
             wrappedValue: DashboardViewModel(
                 repository: repository,
@@ -133,7 +145,11 @@ private struct AuthenticatedDashboardView: View {
             }
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
-            OnboardingView(userID: viewModel.userID, endpoint: mcpEndpoint, onFinished: {
+            OnboardingView(
+                userID: viewModel.userID,
+                endpoint: mcpEndpoint,
+                session: session,
+                onFinished: {
                 OnboardingStore().markCompleted(for: viewModel.userID)
                 showingOnboarding = false
                 },

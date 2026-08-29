@@ -41,17 +41,53 @@ final class OnboardingTests: XCTestCase {
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude Code").contains("Claude Code"))
     }
 
-    func testDoneRequiresExplicitConfirmationAction() {
+    func testUnauthenticatedSignInCannotAdvance() {
         var state = OnboardingState()
-        state.step = .coach
 
+        XCTAssertFalse(state.authenticationSucceeded(nil))
+        XCTAssertEqual(state.step, .signIn)
+        XCTAssertNil(state.session)
+    }
+
+    func testDoneRequiresExplicitConfirmationEdge() {
+        var state = OnboardingState()
+        let session = AuthenticatedSession(userID: UUID(), email: "test@example.com")
+
+        XCTAssertTrue(state.authenticationSucceeded(session))
+        XCTAssertEqual(state.step, .signedIn)
+        XCTAssertTrue(state.proceedToConnect())
+        XCTAssertTrue(state.proceedToCoach())
+        XCTAssertTrue(state.proceedToConfirm())
         XCTAssertFalse(state.confirmed)
         XCTAssertNotEqual(state.step, .done)
 
-        state.confirmConnection()
+        XCTAssertTrue(state.confirmConnection())
 
         XCTAssertTrue(state.confirmed)
         XCTAssertEqual(state.step, .done)
+    }
+
+    func testIllegalEdgesDoNotAdvanceOrReachDone() {
+        var state = OnboardingState()
+        let session = AuthenticatedSession(userID: UUID(), email: nil)
+
+        XCTAssertFalse(state.proceedToCoach())
+        XCTAssertFalse(state.confirmConnection())
+        XCTAssertTrue(state.authenticationSucceeded(session))
+        XCTAssertFalse(state.proceedToConfirm())
+        XCTAssertNotEqual(state.step, .done)
+    }
+
+    func testCoachContinueUsesGuardedTransitionCallSite() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+
+        XCTAssertTrue(source.contains("Button(\"Continue\") { _ = state.proceedToConfirm() }"))
+        XCTAssertFalse(source.contains("Button(\"Continue\") { state.step = .done }"))
     }
 
     func testClaudeCodePromptKeepsFullTemplateAndEndpoint() {

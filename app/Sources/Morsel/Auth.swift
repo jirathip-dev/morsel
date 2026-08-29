@@ -6,6 +6,11 @@ struct AuthenticatedSession: Equatable, Sendable {
     let userID: UUID
     let email: String?
 
+    init(userID: UUID, email: String?) {
+        self.userID = userID
+        self.email = email
+    }
+
     init(session: Session) {
         userID = session.user.id
         email = session.user.email

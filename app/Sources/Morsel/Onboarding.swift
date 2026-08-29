@@ -3,17 +3,54 @@ import SwiftUI
 import UIKit
 
 struct OnboardingState: Equatable, Sendable {
-    var step: OnboardingStep = .connect
+    private(set) var step: OnboardingStep
+    private(set) var session: AuthenticatedSession?
     private(set) var confirmed = false
 
-    mutating func confirmConnection() {
+    init(session: AuthenticatedSession? = nil) {
+        self.session = session
+        step = session == nil ? .signIn : .signedIn
+    }
+
+    mutating func beginAuthentication() -> Bool { step == .signIn }
+
+    mutating func authenticationSucceeded(_ session: AuthenticatedSession?) -> Bool {
+        guard step == .signIn, let session else { return false }
+        self.session = session
+        step = .signedIn
+        return true
+    }
+
+    mutating func proceedToConnect() -> Bool {
+        guard step == .signedIn, session != nil else { return false }
+        step = .connect
+        return true
+    }
+
+    mutating func proceedToCoach() -> Bool {
+        guard step == .connect else { return false }
+        step = .coach
+        return true
+    }
+
+    mutating func proceedToConfirm() -> Bool {
+        guard step == .coach else { return false }
+        step = .confirm
+        return true
+    }
+
+    mutating func confirmConnection() -> Bool {
+        guard step == .confirm, session != nil else { return false }
         confirmed = true
         step = .done
+        return true
     }
 }
 
 enum OnboardingStep: Int, CaseIterable, Sendable {
-    case connect = 1
+    case signIn = 1
+    case signedIn
+    case connect
     case coach
     case confirm
     case done
@@ -124,6 +161,7 @@ struct OnboardingView: View {
         userID: UUID,
         endpoint: String,
         auth: (any SupabaseAuthenticating)? = nil,
+        session: AuthenticatedSession? = nil,
         onAuthenticated: @escaping (AuthenticatedSession) -> Void = { _ in },
         onFinished: @escaping () -> Void = {},
         onSkip: @escaping () -> Void = {}
@@ -134,6 +172,7 @@ struct OnboardingView: View {
         self.onAuthenticated = onAuthenticated
         self.onFinished = onFinished
         self.onSkip = onSkip
+        _state = State(initialValue: OnboardingState(session: session))
     }
 
     var body: some View {
@@ -168,6 +207,8 @@ struct OnboardingView: View {
 
     private var title: String {
         switch state.step {
+        case .signIn: return "Let's set up your food logger."
+        case .signedIn: return "Signed in ✓ — now connect your agent."
         case .connect: return "Now connect me in your chat app."
         case .coach: return "One photo. One honest entry."
         case .confirm: return "Ready when you are."
@@ -177,6 +218,8 @@ struct OnboardingView: View {
 
     private var subtitle: String {
         switch state.step {
+        case .signIn: return "First, prove it's you so I write to the right store."
+        case .signedIn: return "That's the account I'll write to."
         case .connect: return "Your agent will write here; Morsel keeps the record readable."
         case .coach: return "Send a photo of your next meal and let your agent do the careful part."
         case .confirm: return "Confirm only after your connector has finished signing in."
@@ -196,6 +239,8 @@ struct OnboardingView: View {
 
     @ViewBuilder private var content: some View {
         switch state.step {
+        case .signIn: signInContent
+        case .signedIn: signedInContent
         case .connect: connectContent
         case .coach: coachContent
         case .confirm: confirmContent
@@ -203,14 +248,37 @@ struct OnboardingView: View {
         }
     }
 
-    private var connectContent: some View {
+    private var signInContent: some View {
         VStack(alignment: .leading, spacing: 16) {
+            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("Hi — I'll be your food logger. Morsel is where I write what you eat; you never fill in forms.")
+                .font(.morselBody).foregroundStyle(Color.morselInk)
+            Text("First, prove it's you:").font(.morselBody).foregroundStyle(Color.morselInk)
             if let auth {
                 SignInView(auth: auth) { session in
+                    guard state.authenticationSucceeded(session) else { return }
                     onAuthenticated(session)
-                    state.step = .coach
                 }
             }
+        }
+    }
+
+    private var signedInContent: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("Signed in ✓ — that's the account I'll write to. Now connect me in your chat app.")
+                .font(.morselBody).foregroundStyle(Color.morselInk)
+            Text("Pick where you talk to me:").font(.morselBody).foregroundStyle(Color.morselInk)
+            Button("Continue to connector setup") { _ = state.proceedToConnect() }
+                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
+        }
+    }
+
+    private var connectContent: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("Paste this endpoint when your app asks for a custom connector.")
+                .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("MCP ENDPOINT").morselSectionLabel()
             if let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) {
                 Text(configuredEndpoint.value)
@@ -253,7 +321,7 @@ struct OnboardingView: View {
                     .frame(maxWidth: .infinity)
                     .disabled(OnboardingEndpoint(configuredValue: endpoint) == nil)
 
-            Button("I've added Morsel") { state.step = .coach }
+            Button("Continue to first log") { _ = state.proceedToCoach() }
                 .buttonStyle(MorselGhostButtonStyle())
                 .frame(maxWidth: .infinity)
         }
@@ -292,7 +360,7 @@ struct OnboardingView: View {
             }
             .font(.morselBody)
             .foregroundStyle(Color.morselInkTwo)
-            Button("Continue") { state.step = .confirm }
+            Button("Continue") { _ = state.proceedToConfirm() }
                 .buttonStyle(MorselPrimaryButtonStyle())
                 .frame(maxWidth: .infinity)
         }
@@ -303,8 +371,9 @@ struct OnboardingView: View {
             Text("When your connector is ready, confirm here to finish setup.")
                 .font(.morselBody)
                 .foregroundStyle(Color.morselInkTwo)
+            Text("you").font(.morselData).foregroundStyle(Color.morselInkThree)
             Button("I'm connected") {
-                state.confirmConnection()
+                guard state.confirmConnection() else { return }
                 onFinished()
             }
             .buttonStyle(MorselPrimaryButtonStyle())
@@ -313,8 +382,14 @@ struct OnboardingView: View {
     }
 
     private var doneContent: some View {
-        Text("Your next meal is ready to log.")
-            .font(.morselBody)
-            .foregroundStyle(Color.morselInkTwo)
+        VStack(alignment: .leading, spacing: 12) {
+            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("Agent connected ✓")
+                .font(.morselTitle)
+                .foregroundStyle(Color.morselAccent)
+            Text("Your next meal is ready to log.")
+                .font(.morselBody)
+                .foregroundStyle(Color.morselInkTwo)
+        }
     }
 }
