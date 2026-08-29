@@ -90,6 +90,24 @@ final class OnboardingTests: XCTestCase {
         XCTAssertFalse(source.contains("Button(\"Continue\") { state.step = .done }"))
     }
 
+    func testConfirmActionLeavesCompletionToDoneAction() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let confirmStart = try XCTUnwrap(source.range(of: "private var confirmContent"))
+        let doneStart = try XCTUnwrap(source.range(of: "private var doneContent"))
+        let confirmSource = String(source[confirmStart.lowerBound..<doneStart.lowerBound])
+        let doneSource = String(source[doneStart.lowerBound...])
+
+        XCTAssertTrue(confirmSource.contains("confirmConnection()"))
+        XCTAssertFalse(confirmSource.contains("onFinished()"))
+        XCTAssertTrue(doneSource.contains("Button(\"Open today's log\")"))
+        XCTAssertTrue(doneSource.contains("onFinished()"))
+    }
+
     func testClaudeCodePromptKeepsFullTemplateAndEndpoint() {
         let prompt = OnboardingContent.prompt(
             OnboardingContent.claudeCodePrompt,

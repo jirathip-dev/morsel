@@ -373,8 +373,7 @@ struct OnboardingView: View {
                 .foregroundStyle(Color.morselInkTwo)
             Text("you").font(.morselData).foregroundStyle(Color.morselInkThree)
             Button("I'm connected") {
-                guard state.confirmConnection() else { return }
-                onFinished()
+                _ = state.confirmConnection()
             }
             .buttonStyle(MorselPrimaryButtonStyle())
             .frame(maxWidth: .infinity)
@@ -390,6 +389,9 @@ struct OnboardingView: View {
             Text("Your next meal is ready to log.")
                 .font(.morselBody)
                 .foregroundStyle(Color.morselInkTwo)
+            Button("Open today's log") { onFinished() }
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .frame(maxWidth: .infinity)
         }
     }
 }
