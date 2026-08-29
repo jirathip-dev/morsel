@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import type { MealWrite } from './repository.js'
 import type { Profile } from '../packages/schema/food-types.js'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
@@ -36,7 +36,7 @@ function mealWrite(): MealWrite {
   }
 }
 
-function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: NutritionProvider): { repository: SupabaseRepository; requests: RecordedRequest[] } {
+function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: NutritionProvider, cacheClientFactory?: (() => SupabaseClient<Database> | undefined) | null): { repository: SupabaseRepository; requests: RecordedRequest[] } {
   const requests: RecordedRequest[] = []
   const fetchMock = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
     const request = input instanceof Request
@@ -150,7 +150,11 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
   fetchMock.preconnect = (): void => undefined
 
   return {
-    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', { fetch: fetchMock, nutritionProvider, cacheClientFactory: () => createClient<Database>('https://morsel.test', 'service-role-key', { global: { fetch: fetchMock }, auth: { autoRefreshToken: false, persistSession: false } }) }),
+    repository: createSupabaseRepository('https://morsel.test', 'test-anon-key', {
+      fetch: fetchMock,
+      nutritionProvider,
+      ...(cacheClientFactory === null ? {} : { cacheClientFactory: cacheClientFactory === undefined ? () => createClient<Database>('https://morsel.test', 'service-role-key', { global: { fetch: fetchMock }, auth: { autoRefreshToken: false, persistSession: false } }) : cacheClientFactory }),
+    }),
     requests,
   }
 }
@@ -260,6 +264,44 @@ describe('SupabaseRepository', () => {
     const cacheRequest = requests.find((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))
     expect(cacheRequest?.authorization).toBe('Bearer service-role-key')
     expect(cacheRequest?.authorization).not.toBe('Bearer token-one')
+  })
+
+  it('reads cache RPC errors before degrading to external results', async () => {
+    let errorRead = false
+    const cacheClient = {
+      rpc: () => {
+        const response = { data: null, error: { message: 'cache unavailable' } }
+        Object.defineProperty(response, 'error', { get: (): { message: string } => { errorRead = true; return { message: 'cache unavailable' } } })
+        return Promise.resolve(response)
+      },
+    }
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const typedCacheClient = cacheClient as unknown as SupabaseClient<Database>
+    const food = { id: '00000000-0000-4000-8000-000000000006', name: 'Banana', serving_size: '100', serving_unit: 'g', calories_kcal: 105 }
+    const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173944 }]) }
+    const { repository } = createRepository('success', provider, () => typedCacheClient)
+
+    await withTestToken(repository, async () => {
+      await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
+    })
+    expect(errorRead).toBe(true)
+  })
+
+  it('skips cache writes when the service key is absent', async () => {
+    const previousKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY
+    try {
+      const food = { id: '00000000-0000-4000-8000-000000000007', name: 'Apple', serving_size: '100', serving_unit: 'g', calories_kcal: 52 }
+      const provider: NutritionProvider = { search: () => Promise.resolve([{ ...food, fdc_id: 173945 }]) }
+      const { repository, requests } = createRepository('success', provider, null)
+      await withTestToken(repository, async () => {
+        await expect(repository.searchFood(userId, 'apple', 1)).resolves.toEqual([food])
+      })
+      expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(false)
+    } finally {
+      if (previousKey === undefined) delete process.env.SUPABASE_SERVICE_ROLE_KEY
+      else process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey
+    }
   })
 
   it('propagates provider outages from the production repository adapter', async () => {
