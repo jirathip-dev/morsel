@@ -257,6 +257,9 @@ describe('SupabaseRepository', () => {
       await expect(repository.searchFood(userId, 'banana', 1)).resolves.toEqual([food])
     })
     expect(requests.some((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))).toBe(true)
+    const cacheRequest = requests.find((request) => request.url.includes('/rest/v1/rpc/upsert_food_catalog'))
+    expect(cacheRequest?.authorization).toBe('Bearer service-role-key')
+    expect(cacheRequest?.authorization).not.toBe('Bearer token-one')
   })
 
   it('propagates provider outages from the production repository adapter', async () => {

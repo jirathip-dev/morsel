@@ -25,7 +25,7 @@ begin
       or coalesce(length(trim(row->>'name')), 0) = 0
       or row->>'serving_size' <> '100'
       or lower(row->>'serving_unit') <> 'g'
-      or row ? 'calories_kcal' and (row->>'calories_kcal')::numeric not between 0 and 100000
+      or row ? 'calories_kcal' and (row->>'calories_kcal')::numeric not between 0 and 10000
       or row ? 'protein_g' and (row->>'protein_g')::numeric not between 0 and 10000
       or row ? 'carbs_g' and (row->>'carbs_g')::numeric not between 0 and 10000
       or (row ? 'fat_g' and (row->>'fat_g')::numeric not between 0 and 10000) then
