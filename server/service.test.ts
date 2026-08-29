@@ -3,6 +3,7 @@ import type { Profile, SearchFoodItem } from '../packages/schema/food-types.js'
 import { InMemoryRepository } from './in-memory-repository.js'
 import { MorselError } from './errors.js'
 import { MorselService } from './service.js'
+import type { NutritionProvider } from './nutrition-provider.js'
 
 const userId = '00000000-0000-4000-8000-000000000001'
 const fixedNow = () => new Date('2026-08-25T12:00:00.000Z')
@@ -173,6 +174,36 @@ describe('MorselService', () => {
     await expect(service.getDay({ date: '2026-08-25' })).resolves.toMatchObject({ totals: { calories_kcal: 300 } })
     await expect(service.deleteMealLog({ meal_log_id: logged.meal_log_id })).resolves.toEqual({ ok: true, deleted: true })
     await expect(service.getDay({ date: '2026-08-25' })).resolves.toMatchObject({ meals: [] })
+  })
+
+  it('looks up an uncached food once and serves the cached result thereafter', async () => {
+    const food: SearchFoodItem = {
+      id: '00000000-0000-4000-8000-000000000011',
+      name: 'Banana',
+      calories_kcal: 105,
+      carbs_g: 27,
+    }
+    let calls = 0
+    const provider: NutritionProvider = {
+      search: () => Promise.resolve().then(() => {
+        calls += 1
+        return [food]
+      }),
+    }
+    const service = createService(new InMemoryRepository({ nutritionProvider: provider }))
+
+    await expect(service.searchFood({ query: 'banana' })).resolves.toEqual({ results: [food] })
+    await expect(service.searchFood({ query: 'banana' })).resolves.toEqual({ results: [food] })
+    expect(calls).toBe(1)
+  })
+
+  it('returns an honest empty result when the external lookup fails', async () => {
+    const provider: NutritionProvider = {
+      search: () => { throw new Error('upstream unavailable') },
+    }
+    const service = createService(new InMemoryRepository({ nutritionProvider: provider }))
+
+    await expect(service.searchFood({ query: 'unknown food' })).resolves.toEqual({ results: [] })
   })
 
   it('returns a dashboard range summary with a current streak and scoped weight trend', async () => {

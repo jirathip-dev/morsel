@@ -10,7 +10,6 @@ import type {
   UpdateMealItemInput,
   WeightTrendPoint,
 } from '../packages/schema/food-types.ts'
-
 export interface MealWrite {
   eaten_at: string
   meal_type: MealRecord['meal_type']

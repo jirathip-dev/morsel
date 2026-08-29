@@ -29,6 +29,8 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.ts'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
+import type { NutritionProvider } from './nutrition-provider.ts'
+import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
 
 const databaseNumber = z.union([
@@ -265,15 +267,18 @@ function toFood(value: unknown): SearchFoodItem {
 export interface SupabaseRepositoryOptions {
   client: SupabaseClient<Database>
   accessTokenContext: AsyncLocalStorage<string>
+  nutritionProvider?: NutritionProvider
 }
 
 export class SupabaseRepository implements MorselRepository {
   private readonly client: SupabaseClient<Database>
   private readonly accessTokenContext: AsyncLocalStorage<string>
+  private readonly nutritionProvider: NutritionProvider
 
   constructor(options: SupabaseRepositoryOptions) {
     this.client = options.client
     this.accessTokenContext = options.accessTokenContext
+    this.nutritionProvider = options.nutritionProvider ?? new UsdaFoodDataCentralProvider()
   }
 
   withAccessToken<T>(accessToken: string, action: () => Promise<T>): Promise<T> {
@@ -392,7 +397,31 @@ export class SupabaseRepository implements MorselRepository {
         break
       }
     }
-    return results
+    if (results.length > 0) {
+      return results
+    }
+    try {
+      const external = await this.nutritionProvider.search(query, limit)
+      const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
+      if (unique.length > 0) {
+        const rows: Database['public']['Tables']['food_catalog']['Insert'][] = unique.map((food) => ({
+          id: food.id,
+          name: food.name,
+          brand: food.brand ?? null,
+          barcode: food.barcode ?? null,
+          serving_size: food.serving_size ?? null,
+          serving_unit: food.serving_unit ?? null,
+          calories_kcal: food.calories_kcal ?? null,
+          protein_g: food.protein_g ?? null,
+          carbs_g: food.carbs_g ?? null,
+          fat_g: food.fat_g ?? null,
+        }))
+        await this.client.from('food_catalog').upsert(rows, { onConflict: 'id', ignoreDuplicates: true })
+      }
+      return unique.slice(0, limit)
+    } catch {
+      return []
+    }
   }
 
   async getProfile(userId: string): Promise<Profile | undefined> {
@@ -563,6 +592,7 @@ export class SupabaseRepository implements MorselRepository {
 
 export interface SupabaseRepositoryFactoryOptions {
   fetch?: typeof fetch
+  nutritionProvider?: NutritionProvider
 }
 
 export function createSupabaseRepository(
@@ -597,5 +627,5 @@ export function createSupabaseRepository(
     },
     global: { fetch: authenticatedFetch },
   })
-  return new SupabaseRepository({ client, accessTokenContext })
+  return new SupabaseRepository({ client, accessTokenContext, nutritionProvider: options.nutritionProvider })
 }

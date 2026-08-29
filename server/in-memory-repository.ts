@@ -12,12 +12,14 @@ import type {
   WeightTrendPoint,
 } from '../packages/schema/food-types.js'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
+import type { NutritionProvider } from './nutrition-provider.js'
 
 export interface InMemoryRepositoryOptions {
   foods?: SearchFoodItem[]
   weights?: WeightTrendPoint[]
   weightsByUser?: Record<string, WeightTrendPoint[]>
   failNextMealItemWrite?: boolean
+  nutritionProvider?: NutritionProvider
 }
 
 function cloneItem(item: MealRecord['items'][number]): MealRecord['items'][number] {
@@ -44,6 +46,7 @@ export class InMemoryRepository implements MorselRepository {
   private readonly foods: SearchFoodItem[]
   private readonly weightsByUser = new Map<string, WeightTrendPoint[]>()
   private failNextMealItemWrite: boolean
+  private readonly nutritionProvider?: NutritionProvider
 
   constructor(options: InMemoryRepositoryOptions = {}) {
     this.foods = options.foods?.map((food) => ({ ...food })) ?? []
@@ -54,6 +57,7 @@ export class InMemoryRepository implements MorselRepository {
       this.weightsByUser.set(userId, weights.map((weight) => ({ ...weight })))
     }
     this.failNextMealItemWrite = options.failNextMealItemWrite ?? false
+    this.nutritionProvider = options.nutritionProvider
   }
 
   setFailNextMealItemWrite(): void {
@@ -128,7 +132,7 @@ export class InMemoryRepository implements MorselRepository {
   async searchFood(_userId: string, query: string, limit: number): Promise<SearchFoodItem[]> {
     await Promise.resolve()
     const normalizedQuery = query.toLocaleLowerCase()
-    return this.foods
+    const cached = this.foods
       .filter((food) => {
         const nameMatches = food.name.toLocaleLowerCase().includes(normalizedQuery)
         const barcodeMatches = food.barcode?.toLocaleLowerCase() === normalizedQuery
@@ -136,6 +140,17 @@ export class InMemoryRepository implements MorselRepository {
       })
       .slice(0, limit)
       .map((food) => ({ ...food }))
+    if (cached.length > 0 || this.nutritionProvider === undefined) {
+      return cached
+    }
+    try {
+      const external = await this.nutritionProvider.search(query, limit)
+      const unique = external.filter((food, index) => external.findIndex((candidate) => candidate.id === food.id) === index)
+      this.foods.push(...unique)
+      return unique.slice(0, limit).map((food) => ({ ...food }))
+    } catch {
+      return []
+    }
   }
 
   async getProfile(userId: string): Promise<Profile | undefined> {
