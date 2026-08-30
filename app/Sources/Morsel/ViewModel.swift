@@ -50,6 +50,11 @@ final class DashboardViewModel: ObservableObject {
         DashboardMath.netEnergy(intake: totals.caloriesKcal, activeBurn: snapshot?.activeEnergyBurned ?? 0)
     }
 
+    var netEnergyDeltaFromGoal: Double? {
+        guard let goal = snapshot?.goal else { return nil }
+        return netEnergy - goal.calorieTargetKcal
+    }
+
     var mealGroups: [MealGroup] {
         guard let meals = snapshot?.meals else {
             return []

@@ -18,6 +18,7 @@ protocol WeightLogStore: AnyObject {
 
 final class MockWeightLogStore: WeightLogStore {
     private(set) var logs: [WeightLog] = []
+    private(set) var energyBurnedLogs: [EnergyBurnedLog] = []
 
     func upsert(_ newLogs: [WeightLog]) async throws {
         var byDate = Dictionary(uniqueKeysWithValues: logs.map { ($0.measuredAt, $0) })
@@ -26,7 +27,9 @@ final class MockWeightLogStore: WeightLogStore {
         }
         logs = byDate.values.sorted { $0.measuredAt < $1.measuredAt }
     }
-    func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {}
+    func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {
+        energyBurnedLogs = logs.sorted { $0.burnedAt < $1.burnedAt }
+    }
 }
 
 final class SupabaseWeightLogStore: WeightLogStore {
@@ -230,7 +233,7 @@ final class HealthKitWeightImporter {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         let samples = try await reader.activeEnergyBurned(since: since)
         var byDate: [Date: EnergyBurnedLog] = [:]
-        for sample in samples where sample.activeKilocalories >= 0 && sample.activeKilocalories.isFinite {
+        for sample in samples where sample.activeKilocalories > 0 && sample.activeKilocalories.isFinite {
             byDate[sample.burnedAt] = sample
         }
         try await store.upsertEnergyBurned(Array(byDate.values))

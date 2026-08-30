@@ -3,6 +3,7 @@ import XCTest
 import HealthKit
 
 #if canImport(HealthKit)
+@MainActor
 final class WeightImportTests: XCTestCase {
     func testMockStoreDeduplicatesMeasuredAtAndDropsInvalidValues() async throws {
         let store = MockWeightLogStore()
@@ -45,14 +46,52 @@ final class WeightImportTests: XCTestCase {
 
         XCTAssertEqual(store.logs, [WeightLog(measuredAt: date, kilograms: 81)])
     }
+
+    func testActiveEnergyImporterFiltersInvalidAndDeduplicates() async throws {
+        try XCTSkipUnless(HKHealthStore.isHealthDataAvailable())
+        let date = Date(timeIntervalSince1970: 4_000)
+        let reader = MockWeightReader(energyLogs: [
+            EnergyBurnedLog(burnedAt: date, activeKilocalories: 300),
+            EnergyBurnedLog(burnedAt: date, activeKilocalories: 420),
+            EnergyBurnedLog(burnedAt: date.addingTimeInterval(1), activeKilocalories: 0),
+            EnergyBurnedLog(burnedAt: date.addingTimeInterval(2), activeKilocalories: -1),
+            EnergyBurnedLog(burnedAt: date.addingTimeInterval(3), activeKilocalories: .infinity)
+        ])
+        let store = MockWeightLogStore()
+        let importer = try HealthKitWeightImporter(reader: reader, store: store)
+
+        try await importer.importActiveEnergy()
+
+        XCTAssertEqual(store.energyBurnedLogs, [
+            EnergyBurnedLog(burnedAt: date, activeKilocalories: 420)
+        ])
+    }
+
+    func testNetEnergyDayViewOverUnder() async throws {
+        let goal = DashboardGoal(calorieTargetKcal: 2_000, proteinG: 0, carbsG: 0, fatG: 0, source: .manual)
+        let snapshot = DashboardSnapshot(date: Date(), meals: [], goal: goal, activeEnergyBurned: 300)
+        let repository = MockDashboardRepository(snapshot: snapshot)
+        let viewModel = DashboardViewModel(repository: repository, userID: UUID())
+
+        await viewModel.load()
+
+        XCTAssertEqual(viewModel.netEnergy, -300)
+        XCTAssertEqual(viewModel.netEnergyDeltaFromGoal, -2_300)
+        XCTAssertTrue((viewModel.netEnergyDeltaFromGoal ?? 0) < 0)
+    }
 }
 
 private final class MockWeightReader: WeightSampleReading {
     let logs: [WeightLog]
+    let energyLogs: [EnergyBurnedLog]
     var authorizationRequested = false
 
-    init(logs: [WeightLog] = [WeightLog(measuredAt: Date(timeIntervalSince1970: 2_000), kilograms: 75)]) {
+    init(
+        logs: [WeightLog] = [WeightLog(measuredAt: Date(timeIntervalSince1970: 2_000), kilograms: 75)],
+        energyLogs: [EnergyBurnedLog] = []
+    ) {
         self.logs = logs
+        self.energyLogs = energyLogs
     }
 
     func requestAuthorization() async throws {
@@ -63,7 +102,7 @@ private final class MockWeightReader: WeightSampleReading {
         logs
     }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
 
     func startObserving(_ handler: @escaping () async -> Result<Void, Error>, onError: @escaping (Error) -> Void) {}
 
