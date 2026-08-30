@@ -205,7 +205,7 @@ export const GetWeightTrendOutputSchema = z.object({
 
 export const EnergyBurnedPointSchema = z.object({
   date: CalendarDateSchema,
-  active_kcal: nonNegativeNumber,
+  active_kcal: positiveNumber,
 }).strict()
 
 export const GetEnergyBurnedInputSchema = GetWeightTrendInputSchema

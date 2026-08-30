@@ -99,11 +99,20 @@ private struct EnergyBurnedRow: Encodable {
 #if canImport(HealthKit)
 import HealthKit
 
+enum HealthKitObserverKind: Equatable {
+    case bodyMass
+    case activeEnergyBurned
+}
+
 protocol WeightSampleReading: AnyObject {
     func requestAuthorization() async throws
     func samples(since: Date?) async throws -> [WeightLog]
     func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog]
-    func startObserving(_ handler: @escaping () async -> Result<Void, Error>, onError: @escaping (Error) -> Void)
+    func startObserving(
+        _ kind: HealthKitObserverKind,
+        handler: @escaping () async -> Result<Void, Error>,
+        onError: @escaping (Error) -> Void
+    )
     func stopObserving()
 }
 
@@ -180,12 +189,20 @@ final class HealthKitWeightReader: WeightSampleReading {
     }
 
     func startObserving(
-        _ handler: @escaping () async -> Result<Void, Error>,
+        _ kind: HealthKitObserverKind,
+        handler: @escaping () async -> Result<Void, Error>,
         onError: @escaping (Error) -> Void
     ) {
-        guard observerQueries.isEmpty else { return }
-        func makeQuery(for sampleType: HKSampleType) -> HKObserverQuery {
-            HKObserverQuery(sampleType: sampleType, predicate: nil) { _, completion, error in
+        let sampleType: HKSampleType
+        switch kind {
+        case .bodyMass:
+            guard observerQueries[.bodyMass] == nil else { return }
+            sampleType = bodyMassType
+        case .activeEnergyBurned:
+            guard observerQueries[.activeEnergyBurned] == nil else { return }
+            sampleType = activeEnergyType
+        }
+        let query = HKObserverQuery(sampleType: sampleType, predicate: nil) { _, completion, error in
             Task {
                 if let error {
                     onError(error)
@@ -195,23 +212,19 @@ final class HealthKitWeightReader: WeightSampleReading {
                 completion()
             }
         }
-        }
-        observerQueries = [makeQuery(for: bodyMassType), makeQuery(for: activeEnergyType)]
-        observerQueries.forEach(healthStore.execute)
-        healthStore.enableBackgroundDelivery(for: bodyMassType, frequency: .daily) { _, error in
-            if let error { onError(error) }
-        }
-        healthStore.enableBackgroundDelivery(for: activeEnergyType, frequency: .daily) { _, error in
+        observerQueries[kind] = query
+        healthStore.execute(query)
+        healthStore.enableBackgroundDelivery(for: sampleType, frequency: .daily) { _, error in
             if let error { onError(error) }
         }
     }
 
     func stopObserving() {
-        observerQueries.forEach(healthStore.stop)
-        observerQueries = []
+        observerQueries.values.forEach(healthStore.stop)
+        observerQueries = [:]
     }
 
-    private var observerQueries: [HKObserverQuery] = []
+    private var observerQueries: [HealthKitObserverKind: HKObserverQuery] = [:]
 }
 
 final class HealthKitWeightImporter {
@@ -256,7 +269,7 @@ final class HealthKitWeightImporter {
     func startObserving(onSuccess: @escaping () -> Void, onError: @escaping (Error) -> Void) {
         guard !isObserving else { return }
         isObserving = true
-        reader.startObserving({ [weak self] in
+        let handler: () async -> Result<Void, Error> = { [weak self] in
             do {
                 try await self?.importBodyMass()
                 try await self?.importActiveEnergy()
@@ -265,7 +278,9 @@ final class HealthKitWeightImporter {
             } catch {
                 return .failure(error)
             }
-        }, onError: onError)
+        }
+        reader.startObserving(.bodyMass, handler: handler, onError: onError)
+        reader.startObserving(.activeEnergyBurned, handler: handler, onError: onError)
     }
 
     func stopObserving() {

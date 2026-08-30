@@ -5,7 +5,7 @@ create table public.energy_burned_logs (
   burned_at timestamptz not null,
   active_kcal numeric not null,
   source text not null default 'manual',
-  constraint energy_burned_logs_kcal_nonnegative check (active_kcal >= 0),
+  constraint energy_burned_logs_kcal_positive check (active_kcal > 0),
   constraint energy_burned_logs_source_check check (source in ('manual', 'apple_health')),
   constraint energy_burned_logs_user_burned_unique unique (user_id, burned_at)
 );

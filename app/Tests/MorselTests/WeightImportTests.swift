@@ -107,6 +107,8 @@ final class WeightImportTests: XCTestCase {
         await Task.yield()
         await Task.yield()
 
+        XCTAssertEqual(reader.observerKinds, [.bodyMass, .activeEnergyBurned])
+        XCTAssertEqual(reader.deliveryKinds, [.bodyMass, .activeEnergyBurned])
         XCTAssertEqual(result?.isSuccess, true)
         XCTAssertEqual(repository.loadCount, initialLoads + 1)
         XCTAssertEqual(store.energyBurnedLogs, [EnergyBurnedLog(burnedAt: day, activeKilocalories: 250)])
@@ -117,6 +119,8 @@ private final class MockWeightReader: WeightSampleReading {
     let logs: [WeightLog]
     let energyLogs: [EnergyBurnedLog]
     var observerHandler: (() async -> Result<Void, Error>)?
+    var observerKinds: [HealthKitObserverKind] = []
+    var deliveryKinds: [HealthKitObserverKind] = []
     var authorizationRequested = false
 
     init(
@@ -137,7 +141,13 @@ private final class MockWeightReader: WeightSampleReading {
 
     func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
 
-    func startObserving(_ handler: @escaping () async -> Result<Void, Error>, onError: @escaping (Error) -> Void) {
+    func startObserving(
+        _ kind: HealthKitObserverKind,
+        handler: @escaping () async -> Result<Void, Error>,
+        onError: @escaping (Error) -> Void
+    ) {
+        observerKinds.append(kind)
+        deliveryKinds.append(kind)
         observerHandler = handler
     }
 
