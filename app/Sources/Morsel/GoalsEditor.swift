@@ -143,7 +143,11 @@ final class GoalsEditorViewModel: ObservableObject {
         guard let calories = Double(calories), calories.isFinite, calories >= 0,
               let protein = Double(protein), protein.isFinite, protein >= 0,
               let carbs = Double(carbs), carbs.isFinite, carbs >= 0,
-              let fat = Double(fat), fat.isFinite, fat >= 0 else {
+              let fat = Double(fat), fat.isFinite, fat >= 0,
+              Self.isOnTenthGrid(calories),
+              Self.isOnTenthGrid(protein),
+              Self.isOnTenthGrid(carbs),
+              Self.isOnTenthGrid(fat) else {
             return false
         }
         isSaving = true
@@ -151,10 +155,11 @@ final class GoalsEditorViewModel: ObservableObject {
         defer { isSaving = false }
         let source: GoalSource = ["calories", "protein", "carbs", "fat"]
             .allSatisfy { sources[$0] == .computed } ? .computed : .manual
-        // One-decimal normalization at the boundary: normalize every value to
-        // the 0.1 grid (round half-up) before writing so the payload, the
-        // stored row, and the response guard all agree. Store the normalized
-        // value back in view-model state so the fields show what was saved.
+        // Reject-before-normalize contract: off-grid values never reach the
+        // repository. Only values already on the 0.1 grid pass the guard above,
+        // so normalization below is identity for every write and exists purely
+        // as defense-in-depth for the persistence boundary. Store the value in
+        // view-model state so the fields show exactly what was saved.
         let savedGoal = SupabaseDashboardRepository.normalizedGoal(DashboardGoal(
             calorieTargetKcal: calories, proteinG: protein, carbsG: carbs, fatG: fat, source: source
         ))

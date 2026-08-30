@@ -235,26 +235,42 @@ final class GoalsEditorPrecisionTests: XCTestCase {
     }
 
     @MainActor
-    func testSaveNormalizesMoreThanOneDecimalValuesInRepositoryPayload() async throws {
+    func testSaveRejectsOffGridExponentCaloriesWithoutWrite() async throws {
+        // Reject-before-normalize contract at the save boundary: off-grid
+        // values (here "1e-2" -> 0.01) must return false, leave the visible
+        // fields untouched, and never reach the repository.
+        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
+        let userID = UUID()
+        let viewModel = GoalsEditorViewModel(repository: repository, userID: userID)
+        viewModel.calories = "1e-2"
+        viewModel.protein = "1"
+        viewModel.carbs = "1"
+        viewModel.fat = "1"
+        let didSave = await viewModel.save()
+        XCTAssertFalse(didSave)
+        XCTAssertEqual(viewModel.calories, "1e-2")
+        XCTAssertEqual(viewModel.protein, "1")
+        let stored = try await repository.loadGoals(userID: userID)
+        XCTAssertNil(stored)
+    }
+
+    @MainActor
+    func testSaveRejectsOrdinaryOffGridCaloriesWithoutWrite() async throws {
+        // Same reject-before-normalize contract for an ordinary >1-decimal
+        // spelling: 2000.55 is not on the 0.1 grid, so save() must not
+        // silently normalize-and-write it.
         let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
         let userID = UUID()
         let viewModel = GoalsEditorViewModel(repository: repository, userID: userID)
         viewModel.calories = "2000.55"
-        viewModel.protein = "150.25"
-        viewModel.carbs = "200.75"
-        viewModel.fat = "70.55"
+        viewModel.protein = "1"
+        viewModel.carbs = "1"
+        viewModel.fat = "1"
         let didSave = await viewModel.save()
-        XCTAssertTrue(didSave)
+        XCTAssertFalse(didSave)
+        XCTAssertEqual(viewModel.calories, "2000.55")
         let stored = try await repository.loadGoals(userID: userID)
-        let saved = try XCTUnwrap(stored)
-        XCTAssertEqual(saved.calorieTargetKcal, 2000.6)
-        XCTAssertEqual(saved.proteinG, 150.3)
-        XCTAssertEqual(saved.carbsG, 200.8)
-        XCTAssertEqual(saved.fatG, 70.6)
-        XCTAssertEqual(viewModel.calories, "2000.6")
-        XCTAssertEqual(viewModel.protein, "150.3")
-        XCTAssertEqual(viewModel.carbs, "200.8")
-        XCTAssertEqual(viewModel.fat, "70.6")
+        XCTAssertNil(stored)
     }
 
     @MainActor
