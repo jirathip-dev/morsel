@@ -204,6 +204,14 @@ Input: `{ days?: positive integer <= 366 }`; default is `30`.
 Output: `{ series: [{ date: YYYY-MM-DD, kg: finite number }], latest?: point }`.
 Measurements are user-scoped and `latest` is the final point in the sorted series.
 
+### `get_energy_burned`
+
+Input: `{ days?: positive integer <= 366 }`; default is `30`.
+Output: `{ series: [{ date: YYYY-MM-DD, active_kcal: finite number }] }`.
+For “how am I doing?” or target questions, read this alongside `get_day` and
+report net intake as calories eaten minus active burn, with the explicit kcal
+amount over or under the goal.
+
 ### `get_dashboard_summary`
 
 Input: `{ days?: positive integer <= 366 }`; default `days` is `7`.

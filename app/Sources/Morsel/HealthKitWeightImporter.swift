@@ -183,8 +183,9 @@ final class HealthKitWeightReader: WeightSampleReading {
         _ handler: @escaping () async -> Result<Void, Error>,
         onError: @escaping (Error) -> Void
     ) {
-        guard observerQuery == nil else { return }
-        let query = HKObserverQuery(sampleType: bodyMassType, predicate: nil) { _, completion, error in
+        guard observerQueries.isEmpty else { return }
+        func makeQuery(for sampleType: HKSampleType) -> HKObserverQuery {
+            HKObserverQuery(sampleType: sampleType, predicate: nil) { _, completion, error in
             Task {
                 if let error {
                     onError(error)
@@ -194,19 +195,23 @@ final class HealthKitWeightReader: WeightSampleReading {
                 completion()
             }
         }
-        observerQuery = query
-        healthStore.execute(query)
+        }
+        observerQueries = [makeQuery(for: bodyMassType), makeQuery(for: activeEnergyType)]
+        observerQueries.forEach(healthStore.execute)
         healthStore.enableBackgroundDelivery(for: bodyMassType, frequency: .daily) { _, error in
+            if let error { onError(error) }
+        }
+        healthStore.enableBackgroundDelivery(for: activeEnergyType, frequency: .daily) { _, error in
             if let error { onError(error) }
         }
     }
 
     func stopObserving() {
-        if let observerQuery { healthStore.stop(observerQuery) }
-        observerQuery = nil
+        observerQueries.forEach(healthStore.stop)
+        observerQueries = []
     }
 
-    private var observerQuery: HKObserverQuery?
+    private var observerQueries: [HKObserverQuery] = []
 }
 
 final class HealthKitWeightImporter {
@@ -232,20 +237,30 @@ final class HealthKitWeightImporter {
     func importActiveEnergy(since: Date? = nil) async throws {
         guard HKHealthStore.isHealthDataAvailable() else { return }
         let samples = try await reader.activeEnergyBurned(since: since)
-        var byDate: [Date: EnergyBurnedLog] = [:]
+        var byDate: [Date: (total: Double, samples: Set<String>)] = [:]
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
         for sample in samples where sample.activeKilocalories > 0 && sample.activeKilocalories.isFinite {
-            byDate[sample.burnedAt] = sample
+            let day = calendar.startOfDay(for: sample.burnedAt)
+            let key = "\(sample.burnedAt.timeIntervalSince1970):\(sample.activeKilocalories)"
+            guard byDate[day]?.samples.contains(key) != true else { continue }
+            byDate[day, default: (0, [])].samples.insert(key)
+            byDate[day]?.total += sample.activeKilocalories
         }
-        try await store.upsertEnergyBurned(Array(byDate.values))
+        let dailyLogs = byDate.map {
+            EnergyBurnedLog(burnedAt: $0.key, activeKilocalories: $0.value.total)
+        }
+        try await store.upsertEnergyBurned(dailyLogs)
     }
 
-    func startObserving(onError: @escaping (Error) -> Void) {
+    func startObserving(onSuccess: @escaping () -> Void, onError: @escaping (Error) -> Void) {
         guard !isObserving else { return }
         isObserving = true
         reader.startObserving({ [weak self] in
             do {
                 try await self?.importBodyMass()
                 try await self?.importActiveEnergy()
+                onSuccess()
                 return .success(())
             } catch {
                 return .failure(error)

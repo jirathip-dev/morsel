@@ -23,6 +23,7 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 | `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
 | `set_goals` | write | Manual override (marks `source='manual'`). |
 | `get_weight_trend` | read | Apple Health body-mass series and latest measurement. |
+| `get_energy_burned` | read | Apple Health daily active-energy burn series. |
 
 ## Tool schemas
 

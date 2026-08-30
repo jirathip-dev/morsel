@@ -77,11 +77,13 @@ final class DashboardViewModel: ObservableObject {
             try await weightImporter.importBodyMass()
             try await weightImporter.importActiveEnergy()
             await load()
-            weightImporter.startObserving { [weak self] error in
+            weightImporter.startObserving(onSuccess: { [weak self] in
+                Task { @MainActor in await self?.load() }
+            }, onError: { [weak self] error in
                 Task { @MainActor in
                     self?.weightImportError = error.localizedDescription
                 }
-            }
+            })
         } catch is CancellationError {
             return
         } catch {

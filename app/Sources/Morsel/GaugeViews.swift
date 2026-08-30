@@ -118,12 +118,16 @@ struct NetEnergyNotice: View {
 
     var body: some View {
         if let goal {
-            let difference = abs(goal.calorieTargetKcal - net)
-            Text("Net energy: \(MorselFormat.number(net)) kcal · "
-                + "\(MorselFormat.number(difference)) kcal \(net > goal.calorieTargetKcal ? "over" : "under")")
+            Text(Self.message(net: net, goal: goal))
                 .font(.morselData)
                 .foregroundStyle(Color.morselInkTwo)
         }
+    }
+
+    static func message(net: Double, goal: DashboardGoal) -> String {
+        let difference = abs(goal.calorieTargetKcal - net)
+        return "Net energy: \(MorselFormat.number(net)) kcal · "
+            + "\(MorselFormat.number(difference)) kcal \(net > goal.calorieTargetKcal ? "over" : "under")"
     }
 }
 
