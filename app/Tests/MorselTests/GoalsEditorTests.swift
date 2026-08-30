@@ -191,7 +191,9 @@ final class GoalsEditorTests: XCTestCase {
         viewModel.fat = "70.5"
         XCTAssertTrue(viewModel.isValid)
     }
+}
 
+final class GoalsEditorPrecisionTests: XCTestCase {
     @MainActor
     func testMoreThanOneDecimalCalorieInputIsRejectedWithFieldCopy() {
         let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
@@ -201,6 +203,35 @@ final class GoalsEditorTests: XCTestCase {
         XCTAssertFalse(viewModel.isValid)
         XCTAssertEqual(viewModel.fieldError("calories"), "One decimal is plenty — 2000.5 not 2000.55")
         XCTAssertNil(viewModel.fieldError("protein"))
+    }
+
+    @MainActor
+    func testOffGridExponentSpellingIsRejectedByValidation() {
+        // "1e-2" parses to 0.01 — off the 0.1 grid. The numeric grid check must
+        // reject it (a lexical "no dot means valid" helper would admit it and
+        // save would silently normalize 0.01 to 0.0).
+        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
+        let viewModel = GoalsEditorViewModel(repository: repository, userID: UUID())
+        viewModel.calories = "1e-2"
+        viewModel.protein = "1"
+        viewModel.carbs = "1"
+        viewModel.fat = "1"
+        XCTAssertFalse(viewModel.isValid)
+        XCTAssertEqual(viewModel.fieldError("calories"), "One decimal is plenty — 2000.5 not 2000.55")
+    }
+
+    @MainActor
+    func testOnGridExponentSpellingIsValid() {
+        // "1.2e3" parses to 1200.0 — exactly on the 0.1 grid. Numeric
+        // equivalence accepts it even though the spelling has no literal dot.
+        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
+        let viewModel = GoalsEditorViewModel(repository: repository, userID: UUID())
+        viewModel.calories = "1.2e3"
+        viewModel.protein = "1"
+        viewModel.carbs = "1"
+        viewModel.fat = "1"
+        XCTAssertTrue(viewModel.isValid)
+        XCTAssertNil(viewModel.fieldError("calories"))
     }
 
     @MainActor

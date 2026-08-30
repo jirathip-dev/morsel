@@ -59,7 +59,7 @@ final class GoalsEditorViewModel: ObservableObject {
     var isValid: Bool {
         [calories, protein, carbs, fat].allSatisfy { value in
             guard let number = Double(value) else { return false }
-            return number.isFinite && number >= 0 && Self.hasAtMostOneDecimal(value)
+            return number.isFinite && number >= 0 && Self.isOnTenthGrid(number)
         }
     }
 
@@ -133,7 +133,7 @@ final class GoalsEditorViewModel: ObservableObject {
         guard let number = Double(value), number.isFinite, number >= 0 else {
             return "Enter a number of 0 or more."
         }
-        guard Self.hasAtMostOneDecimal(value) else {
+        guard Self.isOnTenthGrid(number) else {
             return "One decimal is plenty — 2000.5 not 2000.55"
         }
         return nil
@@ -178,19 +178,14 @@ final class GoalsEditorViewModel: ObservableObject {
         onSeeToday()
     }
 
-    /// True when the literal value has at most one digit after the decimal
-    /// point. Keeps the editor on the same 0.1 grid the DB stores, so a value
-    /// the user sees is exactly the value that gets persisted.
-    static func hasAtMostOneDecimal(_ value: String) -> Bool {
-        guard let dot = value.firstIndex(of: ".") else { return true }
-        return value.distance(from: value.index(after: dot), to: value.endIndex) <= 1
-    }
-
-    /// True when the value sits on the 0.1 grid the app writes (one decimal
-    /// place or fewer). Used to keep reload lossless: values the app can store
-    /// render with the canonical one-decimal formatter (identity round trip);
-    /// legacy off-grid stored values render exactly so validation can reject
-    /// them instead of silently rounding stored precision.
+    /// True when the numeric value sits on the 0.1 grid the app writes (one
+    /// decimal place or fewer). Validation parses the input to a Double first
+    /// and tests numeric equivalence here — a lexical "count the dots" check
+    /// would miss exponent spellings like `1e-2` (0.01, off-grid) or wrongly
+    /// reject `1.2e3` (1200.0, on-grid). Used to keep reload lossless: values
+    /// the app can store render with the canonical one-decimal formatter
+    /// (identity round trip); legacy off-grid stored values render exactly so
+    /// validation can reject them instead of silently rounding stored precision.
     static func isOnTenthGrid(_ value: Double) -> Bool {
         guard value.isFinite else { return false }
         let scaled = value * 10
