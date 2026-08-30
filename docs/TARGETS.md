@@ -47,3 +47,21 @@ goal. A computed default means the number is tailored, not a guess the user must
 look up — and the review step keeps them in control (and honest about the model's
 limits). Accuracy of the *goal* is a baseline concern; the vision/macro accuracy
 of the *log* is still the real hard problem.
+
+## Numeric precision contract (one decimal, round half-up)
+All four goal values — calorie target and the protein/carbs/fat macros — are
+normalized to **exactly one decimal place (round half-up to 0.1)** at the app
+boundary. Rationale: the DB's coarsest goal column scale is `numeric(10,1)`
+(`calorie_target_kcal`, migration 0009), and macros at one decimal are
+nutritionally sufficient for this screen. Because the editor normalizes before
+writing and renders stored values with the same one-decimal formatter, a reload
+round-trips identically (no `150.25` → `150.2` truncation), and the app's
+exact-equality response guard compares like-for-like with what Postgres stores
+(a `2000.55` write becomes `2000.6` in the column and in the payload).
+
+The editor also rejects input with more than one decimal place at validation
+time ("One decimal is plenty — 2000.5 not 2000.55"), so normalization is always
+visible to the user, never a silent surprise. Legacy values stored with more
+precision than the contract (e.g. an old `150.25`) reload exactly and are
+rejected until the user edits them to one decimal — the app never silently
+overwrites them.

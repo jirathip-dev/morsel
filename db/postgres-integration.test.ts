@@ -32,6 +32,7 @@ const migrationFiles = [
   'db/migrations/0006_food_catalog_provider_cache.sql',
   'db/migrations/0007_weight_logs.sql',
   'db/migrations/0008_energy_burned_logs.sql',
+  'db/migrations/0009_goals_fractional_calories.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -266,11 +267,24 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       requireSuccess(postgres.execute(migrationSql('db/migrations/0004_store_assets.sql')), 'rerunnable store assets migration')
       requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'rerunnable food catalog seed')
 
+      const goalsSourceContract = requireSuccess(postgres.execute(`
+        select count(*) from information_schema.columns
+        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
+        select column_default from information_schema.columns
+        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
+        select pg_get_constraintdef(oid) from pg_constraint
+        where conrelid = 'public.goals'::regclass
+          and contype = 'c'
+          and pg_get_constraintdef(oid) ilike '%source%';
+      `), 'cumulative goals.source contract')
+      expect(queryValues(goalsSourceContract)).toEqual(['1', "'computed'::text", 'CHECK ((source = ANY (ARRAY[\'computed\'::text, \'manual\'::text])))'])
+
       requireSuccess(postgres.execute(`
         grant usage on schema public to anon, authenticated;
         grant select, insert, update on public.users to authenticated;
         grant select, insert on public.meal_logs, public.meal_items to authenticated;
         grant select, insert on public.energy_burned_logs to authenticated;
+        grant select, insert, update, delete on public.goals to authenticated;
         grant select, insert, update, delete on public.food_catalog to authenticated;
         grant select on storage.buckets to authenticated;
         grant select, insert, update, delete on storage.objects to authenticated;
@@ -615,6 +629,45 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         where user_id = '${userOne}' and active_kcal = 300;
       `), 'positive active-energy insert')
       expect(queryValues(positiveEnergyInsert)).toEqual(['INSERT 0 1', '1'])
+
+      const fractionalGoal = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g, source)
+        values ('${userOne}', 2000.5, 100, 200, 50, 'manual');
+      `, false)
+      expect(fractionalGoal.stderr).not.toMatch(/integer|invalid input|goals_calorie/i)
+      const fractionalRoundTrip = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        select calorie_target_kcal from public.goals
+        where user_id = '${userOne}' and calorie_target_kcal = 2000.5;
+      `), 'fractional calorie goal survives persistence exactly')
+      expect(queryValues(fractionalRoundTrip)).toEqual(['2000.5'])
+
+      // Column scale and the app's one-decimal normalization agree: a 2000.55
+      // write rounds to 2000.6 in Postgres's numeric(10,1) column, exactly the
+      // value the editor normalizes to before sending.
+      const scaledCalorieGoal = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userTwo}';
+        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g, source)
+        values ('${userTwo}', 2000.55, 100, 200, 50, 'manual');
+        select calorie_target_kcal from public.goals
+        where user_id = '${userTwo}' and calorie_target_kcal = 2000.6;
+      `), 'numeric(10,1) rounds 2000.55 to 2000.6 like the app normalizer')
+      expect(queryValues(scaledCalorieGoal)).toEqual(['INSERT 0 1', '2000.6'])
+
+      // The goals.source allowlist is exactly computed|manual: a forbidden
+      // value is rejected by the check constraint (string-match assertions
+      // alone did not discriminate).
+      const forbiddenSourceGoal = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g, source)
+        values ('${userOne}', 2000, 100, 200, 50, 'other');
+      `, false)
+      expect(forbiddenSourceGoal.stderr).toMatch(/violates check constraint/i)
 
       const ownerRead = requireSuccess(postgres.execute(`
         begin;
