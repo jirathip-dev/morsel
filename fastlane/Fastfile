@@ -1,0 +1,89 @@
+require "base64"
+require "fileutils"
+
+APP_IDENTIFIER = "com.morsel.app".freeze
+
+platform :ios do
+  desc "Build Morsel and upload it to TestFlight"
+  lane :native_beta do
+    api_key = app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_PATH")
+    )
+
+    if ENV["CI"]
+      setup_ci
+      cert_path = File.expand_path("certs/dist.p12", __dir__)
+      FileUtils.mkdir_p(File.dirname(cert_path))
+      File.binwrite(cert_path, Base64.decode64(ENV.fetch("IOS_DIST_CERT_P12")))
+      import_certificate(
+        certificate_path: cert_path,
+        certificate_password: ENV.fetch("IOS_DIST_CERT_PASSWORD"),
+        keychain_name: "fastlane_tmp_keychain",
+        keychain_password: ""
+      )
+    else
+      get_certificates(api_key: api_key, output_path: "fastlane/certs")
+    end
+
+    app_id = Spaceship::ConnectAPI::BundleId.all(filter: { identifier: APP_IDENTIFIER })
+      .find { |candidate| candidate.identifier == APP_IDENTIFIER }
+    unless app_id
+      app_id = Spaceship::ConnectAPI::BundleId.create(
+        name: "Morsel", identifier: APP_IDENTIFIER, platform: "IOS"
+      )
+    end
+    capabilities = Spaceship::ConnectAPI::BundleIdCapability.all(bundle_id_id: app_id.id)
+      .map(&:capability_type)
+    unless capabilities.include?("APPLE_ID_AUTH")
+      Spaceship::ConnectAPI::BundleIdCapability.create(
+        bundle_id_id: app_id.id,
+        capability_type: "APPLE_ID_AUTH",
+        settings: [{
+          key: "APPLE_ID_AUTH_APP_CONSENT",
+          options: [{ key: "PRIMARY_APP_CONSENT", enabled: true }]
+        }]
+      )
+    end
+
+    unless Spaceship::ConnectAPI::App.find(APP_IDENTIFIER)
+      Spaceship::ConnectAPI::App.create(
+        name: "Morsel", bundle_id: APP_IDENTIFIER, primary_locale: "en-US",
+        sku: "MORSEL", platforms: ["IOS"], version_string: "1.0.0"
+      )
+    end
+
+    get_provisioning_profile(
+      api_key: api_key, app_identifier: APP_IDENTIFIER, force: true,
+      output_path: "fastlane/certs"
+    )
+    profile = lane_context[SharedValues::SIGH_NAME]
+    build = latest_testflight_build_number(
+      api_key: api_key, app_identifier: APP_IDENTIFIER, initial_build_number: 0
+    ) + 1
+    key_path = File.expand_path(File.basename(ENV.fetch("ASC_KEY_PATH")), __dir__)
+    export_auth_args = "-authenticationKeyID #{ENV.fetch('ASC_KEY_ID')} " \
+      "-authenticationKeyIssuerID #{ENV.fetch('ASC_ISSUER_ID')} " \
+      "-authenticationKeyPath #{key_path} -allowProvisioningUpdates"
+
+    gym(
+      project: "app/Morsel.xcodeproj",
+      scheme: "Morsel",
+      configuration: "Release",
+      export_method: "app-store",
+      xcargs: "CURRENT_PROJECT_VERSION=#{build}",
+      export_xcargs: export_auth_args,
+      export_options: {
+        signingStyle: "manual",
+        signingCertificate: "Apple Distribution",
+        provisioningProfiles: { APP_IDENTIFIER => profile }
+      }
+    )
+    upload_to_testflight(
+      api_key: api_key, app_identifier: APP_IDENTIFIER,
+      skip_waiting_for_build_processing: true
+    )
+    UI.success("Uploaded Morsel build #{build} to TestFlight (#{APP_IDENTIFIER}).")
+  end
+end

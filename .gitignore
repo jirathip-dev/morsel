@@ -35,6 +35,12 @@ DerivedData/
 supabase/.temp/
 supabase/.branches/
 
+# Fastlane — secrets + generated output
+fastlane/asc_api_key.p8
+fastlane/certs/
+fastlane/report.xml
+fastlane/test_output/
+
 # Agent process artifacts (never committed)
 HANDOFF.md
 BRIEF.md

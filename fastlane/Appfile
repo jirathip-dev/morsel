@@ -1,0 +1,3 @@
+app_identifier("com.morsel.app")
+
+# Team is resolved from the App Store Connect API key.
