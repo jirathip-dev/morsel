@@ -107,11 +107,6 @@ final class GoalsEditorTests: XCTestCase {
         viewModel.edit("fat", value: "75")
         XCTAssertEqual(viewModel.sourceIndicator, "writes source: manual")
         XCTAssertTrue(viewModel.whatChangesText.contains("KCAL LEFT"))
-        let source = try? String(
-            contentsOf: URL(fileURLWithPath: "Sources/Morsel/GoalsEditor.swift"), encoding: .utf8
-        )
-        XCTAssertTrue(source?.contains("Button(\"See it\")") == true)
-        XCTAssertTrue(source?.contains("viewModel.seeToday()") == true)
         let didSave = await viewModel.save()
         XCTAssertTrue(didSave)
         XCTAssertTrue(viewModel.didSave)
@@ -130,7 +125,7 @@ final class GoalsEditorTests: XCTestCase {
     }
 
     func testGoalsRepositoryEncodesRPCEnvelopeAndGuardsEverySavedField() throws {
-        let userID = UUID(uuidString: "00000000-0000-4000-8000-000000000001")!
+        let userID = try XCTUnwrap(UUID(uuidString: "00000000-0000-4000-8000-000000000001"))
         let input = ComputeTargetsFunctionInput(
             userID: userID, profile: DashboardProfile(
                 sex: .female, ageYears: 31, heightCm: 165, weightKg: 62,

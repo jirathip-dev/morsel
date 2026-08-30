@@ -185,9 +185,12 @@ private struct SettingsView: View {
             Form {
                 Section("Goals") {
                     NavigationLink("Daily goals") {
-                        GoalsEditorView(repository: repository, userID: userID, onSeeToday: showToday) {
-                            await dashboardViewModel.load()
-                        }
+                        GoalsEditorView(
+                            repository: repository,
+                            userID: userID,
+                            onSaved: { await dashboardViewModel.load() },
+                            onSeeToday: showToday
+                        )
                     }
                 }
                 Section("Agent") {
