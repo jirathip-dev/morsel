@@ -50,5 +50,15 @@ Design scaffold with quality guardrails in place (strict TypeScript, anti-slop
 ESLint + SwiftLint, CI on every PR). Working name `morsel` (rename freely —
 it's a folder + a README).
 
+## Deployments
+Migrations auto-apply on pushes to `main` after Supabase project setup (#9),
+using the `SUPABASE_PROJECT_REF` variable and `SUPABASE_ACCESS_TOKEN` secret.
+After the one-time manual migration setup, run
+`node scripts/apply-migrations.mjs --adopt` once; it records the existing
+migrations without executing their SQL. A genuinely fresh database must first
+have migrations applied in order, then use the same adoption step.
+TestFlight is dispatch-only and requires the `testflight` environment's ASC API
+key and iOS distribution certificate secrets.
+
 ## License
 MIT — see [LICENSE](LICENSE).
