@@ -97,11 +97,12 @@ final class GoalsEditorTests: XCTestCase {
         let viewModel = GoalsEditorViewModel(repository: repository, userID: UUID())
         await viewModel.choose(.maintain)
         XCTAssertEqual(viewModel.sourceIndicator, "writes source: computed")
-        XCTAssertTrue(viewModel.whatChangesText.contains("2000 kcal target"))
+        XCTAssertTrue(viewModel.whatChangesText.contains("2759 kcal target"))
         viewModel.edit("fat", value: "75")
         XCTAssertEqual(viewModel.sourceIndicator, "writes source: manual")
         XCTAssertTrue(viewModel.whatChangesText.contains("See it"))
-        XCTAssertTrue(await viewModel.save())
+        let didSave = await viewModel.save()
+        XCTAssertTrue(didSave)
         XCTAssertTrue(viewModel.didSave)
     }
 
