@@ -164,12 +164,16 @@ final class GoalsEditorViewModel: ObservableObject {
         onSeeToday()
     }
 
+    static func displayValue(_ value: Double) -> String {
+        String(format: "%.1f", locale: Locale(identifier: "en_US_POSIX"), value)
+    }
+
     private func apply(_ goal: DashboardGoal, source: GoalSource) {
         self.goal = goal
-        calories = String(Int(goal.calorieTargetKcal))
-        protein = String(Int(goal.proteinG))
-        carbs = String(Int(goal.carbsG))
-        fat = String(Int(goal.fatG))
+        calories = Self.displayValue(goal.calorieTargetKcal)
+        protein = Self.displayValue(goal.proteinG)
+        carbs = Self.displayValue(goal.carbsG)
+        fat = Self.displayValue(goal.fatG)
         sources = ["calories": source, "protein": source, "carbs": source, "fat": source]
     }
 }

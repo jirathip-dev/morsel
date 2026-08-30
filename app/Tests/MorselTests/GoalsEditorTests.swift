@@ -91,6 +91,31 @@ final class GoalsEditorTests: XCTestCase {
     }
 
     @MainActor
+    func testFractionalStoredGoalLoadsAndResavesWithoutRounding() async throws {
+        let goal = DashboardGoal(
+            calorieTargetKcal: 2000.5, proteinG: 150.2, carbsG: 200.7, fatG: 70.5, source: .manual
+        )
+        let repository = MockDashboardRepository(
+            snapshot: DashboardSnapshot(date: Date(), meals: [], goal: goal)
+        )
+        let userID = UUID()
+        let viewModel = GoalsEditorViewModel(repository: repository, userID: userID)
+        await viewModel.load()
+        XCTAssertEqual(viewModel.calories, "2000.5")
+        XCTAssertEqual(viewModel.protein, "150.2")
+        XCTAssertEqual(viewModel.carbs, "200.7")
+        XCTAssertEqual(viewModel.fat, "70.5")
+        let didSave = await viewModel.save()
+        XCTAssertTrue(didSave)
+        let savedGoal = try await repository.loadGoals(userID: userID)
+        let saved = try XCTUnwrap(savedGoal)
+        XCTAssertEqual(saved.calorieTargetKcal, 2000.5)
+        XCTAssertEqual(saved.proteinG, 150.2)
+        XCTAssertEqual(saved.carbsG, 200.7)
+        XCTAssertEqual(saved.fatG, 70.5)
+    }
+
+    @MainActor
     func testV3RenderContractsCoverAgentPanelSourceConsequenceAndSavedBanner() async {
         let goal = DashboardGoal(calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .computed)
         let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: goal))

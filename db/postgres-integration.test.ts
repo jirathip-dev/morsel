@@ -267,6 +267,18 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       requireSuccess(postgres.execute(migrationSql('db/migrations/0004_store_assets.sql')), 'rerunnable store assets migration')
       requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'rerunnable food catalog seed')
 
+      const goalsSourceContract = requireSuccess(postgres.execute(`
+        select count(*) from information_schema.columns
+        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
+        select column_default from information_schema.columns
+        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
+        select count(*) from pg_constraint
+        where conrelid = 'public.goals'::regclass
+          and pg_get_constraintdef(oid) ilike '%computed%'
+          and pg_get_constraintdef(oid) ilike '%manual%';
+      `), 'cumulative goals.source contract')
+      expect(queryValues(goalsSourceContract)).toEqual(['1', "'computed'::text", '1'])
+
       requireSuccess(postgres.execute(`
         grant usage on schema public to anon, authenticated;
         grant select, insert, update on public.users to authenticated;
