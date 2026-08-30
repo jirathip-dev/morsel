@@ -135,6 +135,7 @@ describe('MCP HTTP server', () => {
       'get_day',
       'get_goals',
       'get_profile',
+      'get_weight_trend',
       'log_meal',
       'search_food',
       'set_goals',

@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 
 const migrationPath = resolve(process.cwd(), 'db/migrations/0003_atomic_meals_and_users_rls.sql')
 const oauthMigrationPath = resolve(process.cwd(), 'db/migrations/0005_oauth_authorization_grants.sql')
+const weightMigrationPath = resolve(process.cwd(), 'db/migrations/0007_weight_logs.sql')
 
 function migrationSql(): string {
   return readFileSync(migrationPath, 'utf8')
@@ -12,6 +13,20 @@ function migrationSql(): string {
 function oauthMigrationSql(): string {
   return readFileSync(oauthMigrationPath, 'utf8')
 }
+
+function weightMigrationSql(): string {
+  return readFileSync(weightMigrationPath, 'utf8')
+}
+
+describe('migration 0007 weight log contract', () => {
+  it('renames HealthKit timestamps, enforces positive values, and deduplicates measurements', () => {
+    const sql = weightMigrationSql()
+    expect(sql).toContain('rename column logged_at to measured_at')
+    expect(sql).toContain('unique (user_id, measured_at)')
+    expect(sql).toContain('check (kg > 0)')
+    expect(sql).toContain('weight_logs_user_measured_idx')
+  })
+})
 
 describe('migration 0003 security and transaction contract', () => {
   it('protects public.users from cross-user select, insert, and update access', () => {

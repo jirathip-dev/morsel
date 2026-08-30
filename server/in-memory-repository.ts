@@ -170,9 +170,10 @@ export class InMemoryRepository implements MorselRepository {
     return profile === undefined ? undefined : { ...profile }
   }
 
-  async computeTargets(_userId: string, profile: Profile): Promise<ComputeTargetsOutput> {
+  async computeTargets(userId: string, profile: Profile): Promise<ComputeTargetsOutput> {
     await Promise.resolve()
-    return calculateTargets(profile)
+    const latest = [...(this.weightsByUser.get(userId) ?? [])].sort((left, right) => right.date.localeCompare(left.date))[0]
+    return calculateTargets(latest === undefined ? profile : { ...profile, weight_kg: latest.kg })
   }
 
   async setProfile(userId: string, profile: Profile): Promise<Profile> {

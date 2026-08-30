@@ -62,10 +62,10 @@ Always follow these rules:
 - Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
   not upload or fetch image bytes. Never fabricate a URL.
 
-The v0.1 server registers exactly these tools: `log_meal`, `search_food`,
+The server registers exactly these tools: `log_meal`, `search_food`,
 `update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
 `get_profile`, `set_profile`, `compute_targets`, `get_goals`, and `set_goals`.
-`log_water` and `log_weight` are v1.1 ideas and are not callable.
+`get_weight_trend` reads Apple Health imports; use it for weight context.
 
 ## Exact tool contract
 
@@ -194,6 +194,12 @@ Output:
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal works without a profile. A
 negative `remaining_kcal` means the calorie target has been exceeded.
+
+### `get_weight_trend`
+
+Input: `{ days?: positive integer <= 366 }`; default is `30`.
+Output: `{ series: [{ date: YYYY-MM-DD, kg: finite number }], latest?: point }`.
+Measurements are user-scoped and `latest` is the final point in the sorted series.
 
 ### `get_dashboard_summary`
 

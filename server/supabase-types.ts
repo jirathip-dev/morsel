@@ -294,17 +294,17 @@ export interface Database {
         Row: {
           id: string
           user_id: string
-          logged_at: string
+          measured_at: string
           kg: number
         }
         Insert: {
           user_id: string
-          logged_at?: string
+          measured_at?: string
           kg: number
         }
         Update: {
           user_id?: string
-          logged_at?: string
+          measured_at?: string
           kg?: number
         }
         Relationships: []

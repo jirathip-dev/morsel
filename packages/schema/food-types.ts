@@ -194,6 +194,15 @@ export const GetDashboardSummaryOutputSchema = z.object({
   render: RenderPayloadSchema,
 }).strict()
 
+export const GetWeightTrendInputSchema = z.object({
+  days: z.number().int().positive().max(366).optional().default(30),
+}).strict()
+
+export const GetWeightTrendOutputSchema = z.object({
+  series: z.array(WeightTrendPointSchema),
+  latest: WeightTrendPointSchema.optional(),
+}).strict()
+
 export const ProfileSchema = z.object({
   sex: SexSchema,
   age_years: z.number().int().min(10).max(100),
@@ -279,6 +288,9 @@ export type ParsedGetDashboardSummaryInput = z.output<typeof GetDashboardSummary
 export type WeightTrendPoint = z.infer<typeof WeightTrendPointSchema>
 export type MacroSplit = z.infer<typeof MacroSplitSchema>
 export type GetDashboardSummaryOutput = z.infer<typeof GetDashboardSummaryOutputSchema>
+export type GetWeightTrendInput = z.input<typeof GetWeightTrendInputSchema>
+export type ParsedGetWeightTrendInput = z.output<typeof GetWeightTrendInputSchema>
+export type GetWeightTrendOutput = z.infer<typeof GetWeightTrendOutputSchema>
 export type Profile = z.infer<typeof ProfileSchema>
 export type SetProfileInput = z.infer<typeof SetProfileInputSchema>
 export type GetProfileOutput = z.infer<typeof GetProfileOutputSchema>

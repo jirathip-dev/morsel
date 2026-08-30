@@ -10,6 +10,8 @@ import {
   GetDayOutputSchema,
   GetGoalsOutputSchema,
   GetProfileOutputSchema,
+  GetWeightTrendInputSchema,
+  GetWeightTrendOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   SearchFoodInputSchema,
@@ -144,6 +146,12 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: DeleteMealLogInputSchema,
     outputSchema: DeleteMealLogOutputSchema,
   }, (input) => runTool(() => service.deleteMealLog(input)))
+
+  server.registerTool('get_weight_trend', {
+    description: 'Read imported body-mass measurements and the latest weight.',
+    inputSchema: GetWeightTrendInputSchema,
+    outputSchema: GetWeightTrendOutputSchema,
+  }, (input) => runTool(() => service.getWeightTrend(input)))
 
   server.registerTool('get_dashboard_summary', {
     description: 'Summarize average calories, streak, macros, and weight trend over the requested number of days.',

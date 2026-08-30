@@ -138,7 +138,7 @@ const userRowSchema = z.object({
 }).strict()
 
 const weightRowSchema = z.object({
-  logged_at: IsoDateTimeSchema,
+  measured_at: IsoDateTimeSchema,
   kg: databaseNumber.refine((value) => value > 0, 'must be positive'),
 }).strict()
 
@@ -475,12 +475,20 @@ export class SupabaseRepository implements MorselRepository {
       throw new RepositoryError('profile is not set')
     }
     const profile = parseStored(profileRpcRowSchema, profileResponse.data, 'profile')
+    const latestWeightResponse = await this.client
+      .from('weight_logs')
+      .select('measured_at,kg')
+      .eq('user_id', userId)
+      .order('measured_at', { ascending: false })
+      .limit(1)
+    const latestWeights = parseStored(z.array(weightRowSchema), requireData(latestWeightResponse.data, latestWeightResponse.error, 'latest weight read'), 'latest weight')
+    const latestWeight = latestWeights[0]
     const functionInput: ComputeTargetsFunctionInput = {
       user_id: profile.user_id,
       sex: profile.sex,
       age_years: profile.age_years,
       height_cm: profile.height_cm,
-      weight_kg: profile.weight_kg,
+      weight_kg: latestWeight?.kg ?? profile.weight_kg,
       activity_level: profile.activity_level,
       diet_goal: profile.diet_goal,
       goal_weight_kg: profile.goal_weight_kg,
@@ -599,14 +607,14 @@ export class SupabaseRepository implements MorselRepository {
   async getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]> {
     const response = await this.client
       .from('weight_logs')
-      .select('logged_at,kg')
+      .select('measured_at,kg')
       .eq('user_id', userId)
-      .gte('logged_at', start)
-      .lt('logged_at', end)
-      .order('logged_at', { ascending: true })
+      .gte('measured_at', start)
+      .lt('measured_at', end)
+      .order('measured_at', { ascending: true })
     const rows = parseStored(z.array(weightRowSchema), requireData(response.data, response.error, 'weight trend read'), 'weight logs')
     return rows.map((row) => {
-      const date = parseStored(CalendarDateSchema, row.logged_at.slice(0, 10), 'weight trend date')
+      const date = parseStored(CalendarDateSchema, row.measured_at.slice(0, 10), 'weight trend date')
       return {
         date,
       kg: row.kg,

@@ -22,7 +22,7 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 | `compute_targets` | read | BMR/TDEE + kcal + macro split derived from profile. |
 | `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
 | `set_goals` | write | Manual override (marks `source='manual'`). |
-| `log_water` / `log_weight` | write | v1.1 extras; not registered by the v0.1 server. |
+| `get_weight_trend` | read | Apple Health body-mass series and latest measurement. |
 
 ## Tool schemas
 
@@ -140,6 +140,15 @@ At least one optional field must be supplied with `item_id`.
 a complete manual goal. A complete manual goal can be used without a profile.
 The v0.1 server interprets `date` as a UTC calendar day.
 
+### `get_weight_trend`
+
+**Input** `{ "days": { "type": "integer", "default": 30 } }`
+**Output** `{ "series": [ { "date", "kg" } ], "latest": { "date", "kg" }? }`
+
+The series is scoped to the authenticated user and sorted by measurement date.
+`latest` is the final series point when one exists. Imported measurements are
+deduplicated by their HealthKit measurement timestamp.
+
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
@@ -169,7 +178,7 @@ markdown is the safe fallback when a client cannot render SVG.
 
 ### `compute_targets`
 
-**Input** `{}` (uses the profile) — **Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g" }`
+**Input** `{}` (uses the profile and latest imported weight when present) — **Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g" }`
 Formula (Mifflin-St Jeor → activity factor → diet goal) in [`TARGETS.md`](TARGETS.md).
 
 ### `get_goals`
