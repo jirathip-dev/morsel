@@ -25,6 +25,7 @@ struct TodayView: View {
                                 .foregroundStyle(Color.morselOver)
                         }
                         GaugeCard(totals: viewModel.totals, goal: viewModel.snapshot?.goal)
+                        NetEnergyNotice(net: viewModel.netEnergy, goal: viewModel.snapshot?.goal)
                         if let weightTrend = viewModel.snapshot?.weightTrend, !weightTrend.isEmpty {
                             WeightTrendView(points: weightTrend)
                         }
@@ -131,7 +132,6 @@ private struct LoadingNotice: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
-
 private struct ErrorNotice: View {
     let message: String
     let retry: () -> Void

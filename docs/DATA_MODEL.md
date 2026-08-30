@@ -14,6 +14,7 @@ data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version
 | `meal_logs` | a meal session; **one photo = one log** | `user_id` |
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
 | `water_logs` | optional, v1.1 | `user_id` |
+| `energy_burned_logs` | daily active-energy imports, v1.1 | `user_id` |
 | `weight_logs` | Apple Health body-mass measurements | `user_id` |
 | `food_catalog` | curated and USDA FoodData Central-backed reference data for search; external results are cached with `source='usda'` | `barcode` |
 

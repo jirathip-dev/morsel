@@ -203,6 +203,16 @@ export const GetWeightTrendOutputSchema = z.object({
   latest: WeightTrendPointSchema.optional(),
 }).strict()
 
+export const EnergyBurnedPointSchema = z.object({
+  date: CalendarDateSchema,
+  active_kcal: nonNegativeNumber,
+}).strict()
+
+export const GetEnergyBurnedInputSchema = GetWeightTrendInputSchema
+export const GetEnergyBurnedOutputSchema = z.object({
+  series: z.array(EnergyBurnedPointSchema),
+}).strict()
+
 export const ProfileSchema = z.object({
   sex: SexSchema,
   age_years: z.number().int().min(10).max(100),
@@ -255,6 +265,7 @@ export const LogWeightInputSchema = z.object({
   logged_at: IsoDateTimeSchema.optional(),
 }).strict()
 
+export type EnergyBurnedPoint = z.infer<typeof EnergyBurnedPointSchema>
 export type MealType = z.infer<typeof MealTypeSchema>
 export type Source = z.infer<typeof SourceSchema>
 export type Unit = z.infer<typeof UnitSchema>

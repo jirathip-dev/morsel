@@ -237,6 +237,21 @@ describe('MorselService', () => {
     await expect(service.computeTargets({})).resolves.toMatchObject({ bmr_kcal: 1680 })
   })
 
+  it('returns daily active-energy burned series', async () => {
+    const repository = new InMemoryRepository({ energyBurnedByUser: {
+      [userId]: [
+        { date: '2026-08-25', active_kcal: 420 },
+        { date: '2026-08-24', active_kcal: 300 },
+      ],
+    } })
+    await expect(createService(repository).getEnergyBurned({ days: 30 })).resolves.toEqual({
+      series: [
+        { date: '2026-08-24', active_kcal: 300 },
+        { date: '2026-08-25', active_kcal: 420 },
+      ],
+    })
+  })
+
   it('returns a dashboard range summary with a current streak and scoped weight trend', async () => {
     const repository = new InMemoryRepository()
     repository.seedWeightTrend(userId, [

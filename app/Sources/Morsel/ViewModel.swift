@@ -46,6 +46,10 @@ final class DashboardViewModel: ObservableObject {
         DashboardMath.totals(for: snapshot?.meals ?? [])
     }
 
+    var netEnergy: Double {
+        DashboardMath.netEnergy(intake: totals.caloriesKcal, activeBurn: snapshot?.activeEnergyBurned ?? 0)
+    }
+
     var mealGroups: [MealGroup] {
         guard let meals = snapshot?.meals else {
             return []
@@ -66,6 +70,7 @@ final class DashboardViewModel: ObservableObject {
         guard let weightImporter else { return }
         do {
             try await weightImporter.importBodyMass()
+            try await weightImporter.importActiveEnergy()
             await load()
             weightImporter.startObserving { [weak self] error in
                 Task { @MainActor in

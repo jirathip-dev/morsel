@@ -12,6 +12,8 @@ import {
   GetProfileOutputSchema,
   GetWeightTrendInputSchema,
   GetWeightTrendOutputSchema,
+  GetEnergyBurnedInputSchema,
+  GetEnergyBurnedOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   SearchFoodInputSchema,
@@ -152,6 +154,12 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: GetWeightTrendInputSchema,
     outputSchema: GetWeightTrendOutputSchema,
   }, (input) => runTool(() => service.getWeightTrend(input)))
+
+  server.registerTool('get_energy_burned', {
+    description: 'Read daily active-energy burned measurements imported from Apple Health.',
+    inputSchema: GetEnergyBurnedInputSchema,
+    outputSchema: GetEnergyBurnedOutputSchema,
+  }, (input) => runTool(() => service.getEnergyBurned(input)))
 
   server.registerTool('get_dashboard_summary', {
     description: 'Summarize average calories, streak, macros, and weight trend over the requested number of days.',

@@ -57,6 +57,9 @@ Always follow these rules:
 - `source` is assigned by the server; never send it. A photo URL makes the
   server use `photo_vision`, a barcode without a photo makes it use `barcode`,
   and otherwise it uses `manual`.
+- For “how am I doing” or target questions, read `get_energy_burned` when
+  available and report net intake (food minus active burn) with the explicit
+  kcal over/under amount against the effective goal.
 - `eaten_at` means when the meal happened, not when the photo was uploaded. If
   it is unknown, omit it and let the server use now.
 - Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does

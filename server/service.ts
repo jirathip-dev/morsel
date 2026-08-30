@@ -11,6 +11,8 @@ import {
   GetProfileOutputSchema,
   GetWeightTrendInputSchema,
   GetWeightTrendOutputSchema,
+  GetEnergyBurnedInputSchema,
+  GetEnergyBurnedOutputSchema,
   GoalSummarySchema,
   LogMealInputSchema,
   LogMealOutputSchema,
@@ -33,6 +35,7 @@ import type {
   GetGoalsOutput,
   GetProfileOutput,
   GetWeightTrendOutput,
+  EnergyBurnedPoint,
   GoalSummary,
   LogMealOutput,
   ParsedGetDashboardSummaryInput,
@@ -332,6 +335,14 @@ export class MorselService {
       series,
       ...(series.at(-1) === undefined ? {} : { latest: series.at(-1) }),
     }, 'get_weight_trend output')
+  }
+
+  async getEnergyBurned(input: unknown): Promise<{ series: EnergyBurnedPoint[] }> {
+    const parsed = parseInput(GetEnergyBurnedInputSchema, omittedInputAsObject(input), 'get_energy_burned')
+    const today = this.now().toISOString().slice(0, 10)
+    const startDate = addDays(today, 1 - parsed.days)
+    const series = await this.repository.getEnergyBurned(this.userId, dayStart(startDate), nextDayStart(today))
+    return parseInput(GetEnergyBurnedOutputSchema, { series }, 'get_energy_burned output')
   }
 
   async getDashboardSummary(input: unknown): Promise<GetDashboardSummaryOutput> {

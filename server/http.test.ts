@@ -133,6 +133,7 @@ describe('MCP HTTP server', () => {
       'delete_meal_log',
       'get_dashboard_summary',
       'get_day',
+      'get_energy_burned',
       'get_goals',
       'get_profile',
       'get_weight_trend',

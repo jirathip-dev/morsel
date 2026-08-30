@@ -39,6 +39,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let weightRows = try await loadWeightTrend(
             client, userID: authenticatedUserID, start: trendStart, end: end
         )
+        let energyRows = try await loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
 
         var itemsByMealID: [String: [MealItem]] = [:]
         var sourcesByMealID: [String: MealSource] = [:]
@@ -60,7 +61,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
         let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
-        return DashboardSnapshot(date: start, meals: meals, goal: goal, weightTrend: weightRows.compactMap(parseWeight))
+        return DashboardSnapshot(
+            date: start, meals: meals, goal: goal, weightTrend: weightRows.compactMap(parseWeight),
+            activeEnergyBurned: energyRows.reduce(0) { $0 + $1.activeKilocalories }
+        )
     }
 
     private func loadMealLogs(
@@ -133,6 +137,15 @@ struct SupabaseDashboardRepository: DashboardRepository {
         guard let date = MorselDate.date(response.measuredAt), response.kilograms.isFinite,
               response.kilograms > 0 else { return nil }
         return WeightTrendPoint(date: date, kilograms: response.kilograms)
+    }
+
+    private func loadEnergyBurned(
+        _ client: SupabaseClient, userID: UUID, start: Date, end: Date
+    ) async throws -> [EnergyResponse] {
+        try await client.from("energy_burned_logs").select("burned_at,active_kcal")
+            .eq("user_id", value: userID.uuidString)
+            .gte("burned_at", value: MorselDate.iso8601(start))
+            .lt("burned_at", value: MorselDate.iso8601(end)).execute().value
     }
 
     private func parseMeal(_ response: MealLogResponse, items: [MealItem]) throws -> MealRecord {
@@ -339,6 +352,15 @@ private struct WeightResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case measuredAt = "measured_at"
         case kilograms = "kg"
+    }
+}
+
+private struct EnergyResponse: Decodable {
+    let burnedAt: String
+    let activeKilocalories: Double
+    enum CodingKeys: String, CodingKey {
+        case burnedAt = "burned_at"
+        case activeKilocalories = "active_kcal"
     }
 }
 

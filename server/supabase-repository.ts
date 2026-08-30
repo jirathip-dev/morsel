@@ -27,6 +27,7 @@ import type {
   SetGoalsInput,
   UpdateMealItemInput,
   WeightTrendPoint,
+  EnergyBurnedPoint,
 } from '../packages/schema/food-types.ts'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
 import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
@@ -140,6 +141,10 @@ const userRowSchema = z.object({
 const weightRowSchema = z.object({
   measured_at: IsoDateTimeSchema,
   kg: databaseNumber.refine((value) => value > 0, 'must be positive'),
+}).strict()
+const energyBurnedRowSchema = z.object({
+  burned_at: IsoDateTimeSchema,
+  active_kcal: databaseNumber.refine((value) => value >= 0, 'must be non-negative'),
 }).strict()
 
 const mealLogColumns = 'id,eaten_at,meal_type'
@@ -620,6 +625,22 @@ export class SupabaseRepository implements MorselRepository {
       kg: row.kg,
       }
     })
+  }
+  async getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]> {
+    const response = await this.client
+      .from('energy_burned_logs')
+      .select('burned_at,active_kcal')
+      .eq('user_id', userId)
+      .gte('burned_at', start)
+      .lt('burned_at', end)
+      .order('burned_at', { ascending: true })
+    const rows = parseStored(z.array(energyBurnedRowSchema), requireData(response.data, response.error, 'energy burned read'), 'energy burned logs')
+    const totals = new Map<string, number>()
+    for (const row of rows) {
+      const date = parseStored(CalendarDateSchema, row.burned_at.slice(0, 10), 'energy burned date')
+      totals.set(date, (totals.get(date) ?? 0) + row.active_kcal)
+    }
+    return [...totals.entries()].map(([date, active_kcal]) => ({ date, active_kcal }))
   }
 }
 

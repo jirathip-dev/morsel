@@ -312,6 +312,12 @@ export interface Database {
         }
         Relationships: []
       }
+      energy_burned_logs: {
+        Row: { id: string; user_id: string; burned_at: string; active_kcal: number; source: string }
+        Insert: { user_id: string; burned_at?: string; active_kcal: number; source?: string }
+        Update: { user_id?: string; burned_at?: string; active_kcal?: number; source?: string }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: {

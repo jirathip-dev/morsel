@@ -6,8 +6,14 @@ struct WeightLog: Equatable, Sendable {
     let kilograms: Double
 }
 
+struct EnergyBurnedLog: Equatable, Sendable {
+    let burnedAt: Date
+    let activeKilocalories: Double
+}
+
 protocol WeightLogStore: AnyObject {
     func upsert(_ logs: [WeightLog]) async throws
+    func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws
 }
 
 final class MockWeightLogStore: WeightLogStore {
@@ -20,6 +26,7 @@ final class MockWeightLogStore: WeightLogStore {
         }
         logs = byDate.values.sorted { $0.measuredAt < $1.measuredAt }
     }
+    func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {}
 }
 
 final class SupabaseWeightLogStore: WeightLogStore {
@@ -47,6 +54,16 @@ final class SupabaseWeightLogStore: WeightLogStore {
             .upsert(rows, onConflict: "user_id,measured_at")
             .execute()
     }
+    func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let rows = logs.map {
+            EnergyBurnedRow(userID: userID, burnedAt: formatter.string(from: $0.burnedAt),
+                            activeKilocalories: $0.activeKilocalories, source: "apple_health")
+        }
+        guard !rows.isEmpty else { return }
+        try await client.from("energy_burned_logs").upsert(rows, onConflict: "user_id,burned_at").execute()
+    }
 }
 
 private struct WeightLogRow: Encodable {
@@ -63,12 +80,26 @@ private struct WeightLogRow: Encodable {
     }
 }
 
+private struct EnergyBurnedRow: Encodable {
+    let userID: UUID
+    let burnedAt: String
+    let activeKilocalories: Double
+    let source: String
+    enum CodingKeys: String, CodingKey {
+        case userID = "user_id"
+        case burnedAt = "burned_at"
+        case activeKilocalories = "active_kcal"
+        case source
+    }
+}
+
 #if canImport(HealthKit)
 import HealthKit
 
 protocol WeightSampleReading: AnyObject {
     func requestAuthorization() async throws
     func samples(since: Date?) async throws -> [WeightLog]
+    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog]
     func startObserving(_ handler: @escaping () async -> Result<Void, Error>, onError: @escaping (Error) -> Void)
     func stopObserving()
 }
@@ -82,6 +113,7 @@ enum HealthKitWeightImporterError: LocalizedError {
 final class HealthKitWeightReader: WeightSampleReading {
     private let healthStore: HKHealthStore
     private let bodyMassType: HKQuantityType
+    private let activeEnergyType: HKQuantityType
 
     init(healthStore: HKHealthStore = HKHealthStore()) throws {
         self.healthStore = healthStore
@@ -89,10 +121,14 @@ final class HealthKitWeightReader: WeightSampleReading {
             throw HealthKitWeightImporterError.bodyMassTypeUnavailable
         }
         self.bodyMassType = bodyMassType
+        guard let activeEnergyType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned) else {
+            throw HealthKitWeightImporterError.bodyMassTypeUnavailable
+        }
+        self.activeEnergyType = activeEnergyType
     }
 
     func requestAuthorization() async throws {
-        try await healthStore.requestAuthorization(toShare: [], read: [bodyMassType])
+        try await healthStore.requestAuthorization(toShare: [], read: [bodyMassType, activeEnergyType])
     }
 
     func samples(since: Date?) async throws -> [WeightLog] {
@@ -118,6 +154,23 @@ final class HealthKitWeightReader: WeightSampleReading {
                     )
                 }
                 continuation.resume(returning: logs)
+            }
+            self.healthStore.execute(query)
+        }
+    }
+
+    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] {
+        let predicate = since.map { HKQuery.predicateForSamples(withStart: $0, end: nil, options: .strictStartDate) }
+        return try await withCheckedThrowingContinuation { continuation in
+            let query = HKSampleQuery(
+                sampleType: activeEnergyType, predicate: predicate, limit: HKObjectQueryNoLimit,
+                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
+            ) { _, results, error in
+                if let error { continuation.resume(throwing: error); return }
+                let unit = HKUnit.kilocalorie()
+                continuation.resume(returning: (results as? [HKQuantitySample] ?? []).map {
+                    EnergyBurnedLog(burnedAt: $0.startDate, activeKilocalories: $0.quantity.doubleValue(for: unit))
+                })
             }
             self.healthStore.execute(query)
         }
@@ -173,12 +226,23 @@ final class HealthKitWeightImporter {
         try await store.upsert(samples.filter { $0.kilograms > 0 && $0.kilograms.isFinite })
     }
 
+    func importActiveEnergy(since: Date? = nil) async throws {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        let samples = try await reader.activeEnergyBurned(since: since)
+        var byDate: [Date: EnergyBurnedLog] = [:]
+        for sample in samples where sample.activeKilocalories >= 0 && sample.activeKilocalories.isFinite {
+            byDate[sample.burnedAt] = sample
+        }
+        try await store.upsertEnergyBurned(Array(byDate.values))
+    }
+
     func startObserving(onError: @escaping (Error) -> Void) {
         guard !isObserving else { return }
         isObserving = true
         reader.startObserving({ [weak self] in
             do {
                 try await self?.importBodyMass()
+                try await self?.importActiveEnergy()
                 return .success(())
             } catch {
                 return .failure(error)

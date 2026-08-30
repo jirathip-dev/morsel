@@ -10,6 +10,7 @@ import type {
   SetGoalsInput,
   UpdateMealItemInput,
   WeightTrendPoint,
+  EnergyBurnedPoint,
 } from '../packages/schema/food-types.js'
 import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
@@ -18,6 +19,7 @@ export interface InMemoryRepositoryOptions {
   foods?: SearchFoodItem[]
   weights?: WeightTrendPoint[]
   weightsByUser?: Record<string, WeightTrendPoint[]>
+  energyBurnedByUser?: Record<string, EnergyBurnedPoint[]>
   failNextMealItemWrite?: boolean
   nutritionProvider?: NutritionProvider
 }
@@ -45,6 +47,7 @@ export class InMemoryRepository implements MorselRepository {
   private readonly goals = new Map<string, StoredGoals>()
   private readonly foods: SearchFoodItem[]
   private readonly weightsByUser = new Map<string, WeightTrendPoint[]>()
+  private readonly energyBurnedByUser = new Map<string, EnergyBurnedPoint[]>()
   private failNextMealItemWrite: boolean
   private readonly nutritionProvider?: NutritionProvider
 
@@ -55,6 +58,9 @@ export class InMemoryRepository implements MorselRepository {
     }
     for (const [userId, weights] of Object.entries(options.weightsByUser ?? {})) {
       this.weightsByUser.set(userId, weights.map((weight) => ({ ...weight })))
+    }
+    for (const [userId, rows] of Object.entries(options.energyBurnedByUser ?? {})) {
+      this.energyBurnedByUser.set(userId, rows.map((row) => ({ ...row })))
     }
     this.failNextMealItemWrite = options.failNextMealItemWrite ?? false
     this.nutritionProvider = options.nutritionProvider
@@ -249,5 +255,13 @@ export class InMemoryRepository implements MorselRepository {
       .filter((weight) => inRange(`${weight.date}T00:00:00.000Z`, start, end))
       .sort((left, right) => left.date.localeCompare(right.date))
       .map((weight) => ({ ...weight }))
+  }
+
+  async getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]> {
+    await Promise.resolve()
+    return (this.energyBurnedByUser.get(userId) ?? [])
+      .filter((row) => inRange(`${row.date}T00:00:00.000Z`, start, end))
+      .sort((left, right) => left.date.localeCompare(right.date))
+      .map((row) => ({ ...row }))
   }
 }

@@ -149,6 +149,12 @@ The series is scoped to the authenticated user and sorted by measurement date.
 `latest` is the final series point when one exists. Imported measurements are
 deduplicated by their HealthKit measurement timestamp.
 
+### `get_energy_burned`
+
+**Input** `{ "days": { "type": "integer", "default": 30 } }` — **Output** `{ "series": [ { "date": "YYYY-MM-DD", "active_kcal": number } ] }`.
+
+Reads daily active-energy calories imported from Apple Health. Values are user-scoped and idempotent by `(user_id, burned_at)`.
+
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 } }`
