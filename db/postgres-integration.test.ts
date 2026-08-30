@@ -272,6 +272,7 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         grant select, insert, update on public.users to authenticated;
         grant select, insert on public.meal_logs, public.meal_items to authenticated;
         grant select, insert on public.energy_burned_logs to authenticated;
+        grant select, insert, update, delete on public.goals to authenticated;
         grant select, insert, update, delete on public.food_catalog to authenticated;
         grant select on storage.buckets to authenticated;
         grant select, insert, update, delete on storage.objects to authenticated;
