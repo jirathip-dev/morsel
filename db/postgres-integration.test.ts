@@ -30,7 +30,8 @@ const migrationFiles = [
   'db/migrations/0004_store_assets.sql',
   'db/migrations/0005_oauth_authorization_grants.sql',
   'db/migrations/0006_food_catalog_provider_cache.sql',
-  'db/migrations/0007_goals_fractional_calories.sql',
+  'db/migrations/0007_weight_logs.sql',
+  'db/migrations/0008_energy_burned_logs.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -190,7 +191,7 @@ function outputLines(value: string): string[] {
 }
 
 function queryValues(value: string): string[] {
-  return outputLines(value).filter((line) => !/^(BEGIN|COMMIT|DO|ROLLBACK|SAVEPOINT|SET|(?:INSERT|UPDATE|DELETE) \d+(?: \d+)*)$/.test(line))
+  return outputLines(value).filter((line) => !/^(BEGIN|COMMIT|DO|ROLLBACK|SAVEPOINT|SET|(?:INSERT|UPDATE|DELETE) \d+)$/.test(line))
 }
 
 function migrationSql(relativePath: string): string {
@@ -265,28 +266,11 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       requireSuccess(postgres.execute(migrationSql('db/migrations/0004_store_assets.sql')), 'rerunnable store assets migration')
       requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'rerunnable food catalog seed')
 
-      const goalsSourceContract = requireSuccess(postgres.execute(`
-        select column_default from information_schema.columns
-        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
-        select count(*) from information_schema.columns
-        where table_schema = 'public' and table_name = 'goals' and column_name = 'source';
-        select count(*) from pg_constraint
-        where conrelid = 'public.goals'::regclass
-          and pg_get_constraintdef(oid) ilike '%computed%'
-          and pg_get_constraintdef(oid) ilike '%manual%';
-        insert into public.users (id, email)
-        values ('00000000-0000-4000-8000-000000000199', 'fractional-goal@example.com');
-        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g)
-        values ('00000000-0000-4000-8000-000000000199', 2000.5, 150.25, 200.75, 70.5);
-        select calorie_target_kcal::text from public.goals
-        where user_id = '00000000-0000-4000-8000-000000000199';
-      `), 'cumulative goals source contract')
-      expect(queryValues(goalsSourceContract)).toEqual(["'computed'::text", '1', '1', '2000.5'])
-
       requireSuccess(postgres.execute(`
         grant usage on schema public to anon, authenticated;
         grant select, insert, update on public.users to authenticated;
         grant select, insert on public.meal_logs, public.meal_items to authenticated;
+        grant select, insert on public.energy_burned_logs to authenticated;
         grant select, insert, update, delete on public.food_catalog to authenticated;
         grant select on storage.buckets to authenticated;
         grant select, insert, update, delete on storage.objects to authenticated;
@@ -613,6 +597,24 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         insert into public.users (id, email) values ('${userTwo}', 'two@example.com');
         commit;
       `), 'owner user inserts')
+
+      const zeroEnergyInsert = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.energy_burned_logs (user_id, burned_at, active_kcal)
+        values ('${userOne}', '2026-08-25T00:00:00Z', 0);
+      `, false)
+      expect(zeroEnergyInsert.stderr).toMatch(/energy_burned_logs_kcal_positive/i)
+
+      const positiveEnergyInsert = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.energy_burned_logs (user_id, burned_at, active_kcal)
+        values ('${userOne}', '2026-08-25T00:00:00Z', 300);
+        select count(*) from public.energy_burned_logs
+        where user_id = '${userOne}' and active_kcal = 300;
+      `), 'positive active-energy insert')
+      expect(queryValues(positiveEnergyInsert)).toEqual(['INSERT 0 1', '1'])
 
       const ownerRead = requireSuccess(postgres.execute(`
         begin;

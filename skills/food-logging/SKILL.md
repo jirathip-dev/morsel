@@ -57,15 +57,19 @@ Always follow these rules:
 - `source` is assigned by the server; never send it. A photo URL makes the
   server use `photo_vision`, a barcode without a photo makes it use `barcode`,
   and otherwise it uses `manual`.
+- For “how am I doing” or target questions, read `get_energy_burned` when
+  available and report net intake (food minus active burn) with the explicit
+  kcal over/under amount against the effective goal.
 - `eaten_at` means when the meal happened, not when the photo was uploaded. If
   it is unknown, omit it and let the server use now.
 - Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
   not upload or fetch image bytes. Never fabricate a URL.
 
-The v0.1 server registers exactly these tools: `log_meal`, `search_food`,
+The server registers exactly these tools: `log_meal`, `search_food`,
 `update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
-`get_profile`, `set_profile`, `compute_targets`, `get_goals`, and `set_goals`.
-`log_water` and `log_weight` are v1.1 ideas and are not callable.
+`get_profile`, `set_profile`, `compute_targets`, `get_goals`, `set_goals`,
+`get_weight_trend`, and `get_energy_burned`. It reads Apple Health imports for
+weight and active-energy context.
 
 ## Exact tool contract
 
@@ -194,6 +198,20 @@ Output:
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal works without a profile. A
 negative `remaining_kcal` means the calorie target has been exceeded.
+
+### `get_weight_trend`
+
+Input: `{ days?: positive integer <= 366 }`; default is `30`.
+Output: `{ series: [{ date: YYYY-MM-DD, kg: finite number }], latest?: point }`.
+Measurements are user-scoped and `latest` is the final point in the sorted series.
+
+### `get_energy_burned`
+
+Input: `{ days?: positive integer <= 366 }`; default is `30`.
+Output: `{ series: [{ date: YYYY-MM-DD, active_kcal: finite number }] }`.
+For “how am I doing?” or target questions, read this alongside `get_day` and
+report net intake as calories eaten minus active burn, with the explicit kcal
+amount over or under the goal.
 
 ### `get_dashboard_summary`
 

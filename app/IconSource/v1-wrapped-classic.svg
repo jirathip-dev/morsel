@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="V1 — Wrapped classic">
+  <metadata>Morsel smiling onigiri direction gate; flat deterministic geometry; warm DESIGN.md palette.</metadata>
+  <rect width="1024" height="1024" fill="#FBFAF6"/>
+  <path data-role="body" data-bite="top-right" fill="#20231E" d="M512 142 C470 142 439 164 416 206 L168 684 C132 747 176 829 250 840 H774 C849 840 893 757 857 692 L618 207 C598 165 559 142 512 142 Z"/>
+<g data-role="bite"><circle fill="#FBFAF6" cx="700" cy="278" r="100"/><circle fill="#FBFAF6" cx="780" cy="374" r="100"/></g>
+<path data-role="seaweed" fill="#F08A2E" d="M346 637 Q346 608 376 608 H648 Q678 608 678 637 L705 828 H319 Z"/>
+<rect data-role="eye" fill="#FBFAF6" x="389" y="430" width="58" height="72" rx="29"/>
+<rect data-role="eye" fill="#FBFAF6" x="533" y="430" width="58" height="72" rx="29"/>
+<path data-role="smile" fill="#FBFAF6" d="M438 558 C452 602 510 611 544 561 L513 550 C496 576 473 577 457 550 Z"/>
+</svg>

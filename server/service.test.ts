@@ -214,6 +214,44 @@ describe('MorselService', () => {
       .rejects.toMatchObject({ code: 'provider_unavailable', publicMessage: 'nutrition provider unavailable' })
   })
 
+  it('returns a sorted weight series and latest measurement', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedWeightTrend(userId, [
+      { date: '2026-08-25', kg: 79.8 },
+      { date: '2026-08-24', kg: 80.2 },
+    ])
+    await expect(createService(repository).getWeightTrend({ days: 30 })).resolves.toEqual({
+      series: [
+        { date: '2026-08-24', kg: 80.2 },
+        { date: '2026-08-25', kg: 79.8 },
+      ],
+      latest: { date: '2026-08-25', kg: 79.8 },
+    })
+  })
+
+  it('recomputes targets from the latest imported weight', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedWeightTrend(userId, [{ date: '2026-08-25', kg: 70 }])
+    const service = createService(repository)
+    await service.setProfile(profile)
+    await expect(service.computeTargets({})).resolves.toMatchObject({ bmr_kcal: 1680 })
+  })
+
+  it('returns daily active-energy burned series', async () => {
+    const repository = new InMemoryRepository({ energyBurnedByUser: {
+      [userId]: [
+        { date: '2026-08-25', active_kcal: 420 },
+        { date: '2026-08-24', active_kcal: 300 },
+      ],
+    } })
+    await expect(createService(repository).getEnergyBurned({ days: 30 })).resolves.toEqual({
+      series: [
+        { date: '2026-08-24', active_kcal: 300 },
+        { date: '2026-08-25', active_kcal: 420 },
+      ],
+    })
+  })
+
   it('returns a dashboard range summary with a current streak and scoped weight trend', async () => {
     const repository = new InMemoryRepository()
     repository.seedWeightTrend(userId, [

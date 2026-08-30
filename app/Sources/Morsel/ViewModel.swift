@@ -22,23 +22,37 @@ final class DashboardViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
+    @Published private(set) var weightImportError: String?
 
     let repository: any DashboardRepository
     let userID: UUID
+    private let weightImporter: HealthKitWeightImporter?
     private let dateProvider: () -> Date
+    private var reloadAfterLoad = false
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
+        weightImporter: HealthKitWeightImporter? = nil,
         dateProvider: @escaping () -> Date = { Date() }
     ) {
         self.repository = repository
         self.userID = userID
+        self.weightImporter = weightImporter
         self.dateProvider = dateProvider
     }
 
     var totals: DashboardTotals {
         DashboardMath.totals(for: snapshot?.meals ?? [])
+    }
+
+    var netEnergy: Double {
+        DashboardMath.netEnergy(intake: totals.caloriesKcal, activeBurn: snapshot?.activeEnergyBurned ?? 0)
+    }
+
+    var netEnergyDeltaFromGoal: Double? {
+        guard let goal = snapshot?.goal else { return nil }
+        return netEnergy - goal.calorieTargetKcal
     }
 
     var mealGroups: [MealGroup] {
@@ -57,10 +71,40 @@ final class DashboardViewModel: ObservableObject {
             .filter(\.needsReview) ?? []
     }
 
+    func importWeights() async {
+        guard let weightImporter else { return }
+        do {
+            try await weightImporter.importBodyMass()
+            try await weightImporter.importActiveEnergy()
+            await load()
+            weightImporter.startObserving(onSuccess: { [weak self] in
+                Task { @MainActor in await self?.load() }
+            }, onError: { [weak self] error in
+                Task { @MainActor in
+                    self?.weightImportError = error.localizedDescription
+                }
+            })
+        } catch is CancellationError {
+            return
+        } catch {
+            weightImportError = error.localizedDescription
+        }
+    }
+
     func load() async {
+        if isLoading {
+            reloadAfterLoad = true
+            return
+        }
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        defer {
+            isLoading = false
+            if reloadAfterLoad {
+                reloadAfterLoad = false
+                Task { await load() }
+            }
+        }
         do {
             snapshot = try await repository.loadToday(
                 userID: userID,

@@ -20,6 +20,7 @@ struct MorselApp: App {
                 sessionStore: sessionStore,
                 auth: SupabaseAuthClient(client: supabaseClient),
                 repository: SupabaseDashboardRepository(client: supabaseClient),
+                supabaseClient: supabaseClient,
                 mcpEndpoint: mcpEndpoint
             )
         }
@@ -72,6 +73,7 @@ private struct MorselRootView: View {
     @ObservedObject var sessionStore: SessionStore
     let auth: any SupabaseAuthenticating
     let repository: any DashboardRepository
+    let supabaseClient: SupabaseClient?
     let mcpEndpoint: String
     @State private var pendingSession: AuthenticatedSession?
 
@@ -82,6 +84,11 @@ private struct MorselRootView: View {
                     repository: repository,
                     userID: session.userID,
                     session: session,
+                    weightImporter: supabaseClient.flatMap {
+                        try? HealthKitWeightImporter(
+                            store: SupabaseWeightLogStore(client: $0, userID: session.userID)
+                        )
+                    },
                     mcpEndpoint: mcpEndpoint
                 )
             } else {
@@ -114,19 +121,23 @@ private struct AuthenticatedDashboardView: View {
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
+    let weightImporter: HealthKitWeightImporter?
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
         session: AuthenticatedSession,
+        weightImporter: HealthKitWeightImporter?,
         mcpEndpoint: String
     ) {
         self.mcpEndpoint = mcpEndpoint
         self.session = session
+        self.weightImporter = weightImporter
         _viewModel = StateObject(
             wrappedValue: DashboardViewModel(
                 repository: repository,
-                userID: userID
+                userID: userID,
+                weightImporter: weightImporter
             )
         )
     }
@@ -151,6 +162,7 @@ private struct AuthenticatedDashboardView: View {
         }
         .tint(Color.morselAccent)
         .task {
+            await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
                 showingOnboarding = true
             }

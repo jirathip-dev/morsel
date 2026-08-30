@@ -10,6 +10,10 @@ import {
   GetDayOutputSchema,
   GetGoalsOutputSchema,
   GetProfileOutputSchema,
+  GetWeightTrendInputSchema,
+  GetWeightTrendOutputSchema,
+  GetEnergyBurnedInputSchema,
+  GetEnergyBurnedOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   SearchFoodInputSchema,
@@ -116,7 +120,7 @@ export function createMcpServer(service: MorselService): McpServer {
   }, (input) => runTool(() => service.setProfile(input)))
 
   server.registerTool('compute_targets', {
-    description: 'Compute BMR, TDEE, calories, and macros from the saved profile.',
+    description: 'Compute BMR, TDEE, calories, and macros from the saved profile; uses the latest imported weight when available.',
     inputSchema: EmptyInputSchema,
     outputSchema: ComputeTargetsOutputSchema,
   }, (input) => runTool(() => service.computeTargets(input)))
@@ -144,6 +148,18 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: DeleteMealLogInputSchema,
     outputSchema: DeleteMealLogOutputSchema,
   }, (input) => runTool(() => service.deleteMealLog(input)))
+
+  server.registerTool('get_weight_trend', {
+    description: 'Read imported body-mass measurements and the latest weight.',
+    inputSchema: GetWeightTrendInputSchema,
+    outputSchema: GetWeightTrendOutputSchema,
+  }, (input) => runTool(() => service.getWeightTrend(input)))
+
+  server.registerTool('get_energy_burned', {
+    description: 'Read daily active-energy burned measurements imported from Apple Health.',
+    inputSchema: GetEnergyBurnedInputSchema,
+    outputSchema: GetEnergyBurnedOutputSchema,
+  }, (input) => runTool(() => service.getEnergyBurned(input)))
 
   server.registerTool('get_dashboard_summary', {
     description: 'Summarize average calories, streak, macros, and weight trend over the requested number of days.',

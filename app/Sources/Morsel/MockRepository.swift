@@ -8,6 +8,7 @@ final class MockDashboardRepository: DashboardRepository {
         activityLevel: .moderate, dietGoal: .maintain, goalWeightKg: nil
     )
     private(set) var uploadedImagePaths: [String] = []
+    private(set) var loadCount = 0
     var failMealLog = false
     private var storedGoal: StoredDashboardGoal?
 
@@ -58,6 +59,7 @@ final class MockDashboardRepository: DashboardRepository {
     }
 
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
+        loadCount += 1
         _ = userID
         _ = date
         return currentSnapshot
