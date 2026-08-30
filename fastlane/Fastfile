@@ -1,7 +1,7 @@
 require "base64"
 require "fileutils"
 
-APP_IDENTIFIER = "com.morsel.app".freeze
+APP_IDENTIFIER = "com.jirathip.morsel".freeze
 
 platform :ios do
   desc "Build Morsel and upload it to TestFlight"
@@ -44,6 +44,12 @@ platform :ios do
           key: "APPLE_ID_AUTH_APP_CONSENT",
           options: [{ key: "PRIMARY_APP_CONSENT", enabled: true }]
         }]
+      )
+    end
+    unless capabilities.include?("HEALTHKIT")
+      Spaceship::ConnectAPI::BundleIdCapability.create(
+        bundle_id_id: app_id.id,
+        capability_type: "HEALTHKIT"
       )
     end
 

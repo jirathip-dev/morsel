@@ -1,3 +1,3 @@
-app_identifier("com.morsel.app")
+app_identifier("com.jirathip.morsel")
 
 # Team is resolved from the App Store Connect API key.
