@@ -9,6 +9,8 @@ import {
   GetDayOutputSchema,
   GetGoalsOutputSchema,
   GetProfileOutputSchema,
+  GetWeightTrendInputSchema,
+  GetWeightTrendOutputSchema,
   GoalSummarySchema,
   LogMealInputSchema,
   LogMealOutputSchema,
@@ -30,6 +32,7 @@ import type {
   GetDayOutput,
   GetGoalsOutput,
   GetProfileOutput,
+  GetWeightTrendOutput,
   GoalSummary,
   LogMealOutput,
   ParsedGetDashboardSummaryInput,
@@ -318,6 +321,17 @@ export class MorselService {
       throw new MorselError('not_found', 'meal log was not found')
     }
     return parseInput(DeleteMealLogOutputSchema, { ok: true, deleted: true }, 'delete_meal_log output')
+  }
+
+  async getWeightTrend(input: unknown): Promise<GetWeightTrendOutput> {
+    const parsed = parseInput(GetWeightTrendInputSchema, omittedInputAsObject(input), 'get_weight_trend')
+    const today = this.now().toISOString().slice(0, 10)
+    const startDate = addDays(today, 1 - parsed.days)
+    const series = await this.repository.getWeightTrend(this.userId, dayStart(startDate), nextDayStart(today))
+    return parseInput(GetWeightTrendOutputSchema, {
+      series,
+      ...(series.at(-1) === undefined ? {} : { latest: series.at(-1) }),
+    }, 'get_weight_trend output')
   }
 
   async getDashboardSummary(input: unknown): Promise<GetDashboardSummaryOutput> {

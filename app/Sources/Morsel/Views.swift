@@ -19,12 +19,15 @@ struct TodayView: View {
                     } else if viewModel.isLoading && viewModel.snapshot == nil {
                         LoadingNotice()
                     } else {
-                        if let errorMessage = viewModel.errorMessage {
+                        if let errorMessage = viewModel.errorMessage ?? viewModel.weightImportError {
                             Text(errorMessage)
                                 .font(.morselBody)
                                 .foregroundStyle(Color.morselOver)
                         }
                         GaugeCard(totals: viewModel.totals, goal: viewModel.snapshot?.goal)
+                        if let weightTrend = viewModel.snapshot?.weightTrend, !weightTrend.isEmpty {
+                            WeightTrendView(points: weightTrend)
+                        }
                         TodayLogSection(
                             viewModel: viewModel,
                             onEdit: { editingItem = $0 },
@@ -146,7 +149,6 @@ private struct ErrorNotice: View {
         .background(Color.morselEnergySoft, in: RoundedRectangle(cornerRadius: 12))
     }
 }
-
 private struct TodayLogSection: View {
     @ObservedObject var viewModel: DashboardViewModel
     let onEdit: (MealItem) -> Void
@@ -179,7 +181,7 @@ private struct TodayLogSection: View {
     }
 }
 
-private struct SectionHeading: View {
+struct SectionHeading: View {
     let title: String
     let detail: String?
 
