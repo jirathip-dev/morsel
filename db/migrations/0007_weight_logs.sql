@@ -3,6 +3,10 @@
 
 alter table public.weight_logs rename column logged_at to measured_at;
 alter table public.weight_logs
+  add column source text not null default 'manual';
+alter table public.weight_logs
+  add constraint weight_logs_source_check check (source in ('manual', 'apple_health'));
+alter table public.weight_logs
   add constraint weight_logs_user_measured_unique unique (user_id, measured_at);
 
 alter table public.weight_logs

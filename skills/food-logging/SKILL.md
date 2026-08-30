@@ -64,8 +64,8 @@ Always follow these rules:
 
 The server registers exactly these tools: `log_meal`, `search_food`,
 `update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
-`get_profile`, `set_profile`, `compute_targets`, `get_goals`, and `set_goals`.
-`get_weight_trend` reads Apple Health imports; use it for weight context.
+`get_profile`, `set_profile`, `compute_targets`, `get_goals`, `set_goals`, and
+`get_weight_trend`. It reads Apple Health imports for weight context.
 
 ## Exact tool contract
 

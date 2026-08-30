@@ -55,7 +55,8 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
 - `meal_items.source_notes` — the agent's own reasoning ("approx, shared plate").
   Note that wrong-ish estimates, if honest, should be kept (human can correct later).
  - `weight_logs.measured_at` — the original HealthKit measurement timestamp;
- `(user_id, measured_at)` is unique so background sync is idempotent.
+  `(user_id, measured_at)` is unique so background sync is idempotent. Its
+  `source` is `manual` or `apple_health`.
 
 ## Row-level security
 

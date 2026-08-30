@@ -118,7 +118,7 @@ export function createMcpServer(service: MorselService): McpServer {
   }, (input) => runTool(() => service.setProfile(input)))
 
   server.registerTool('compute_targets', {
-    description: 'Compute BMR, TDEE, calories, and macros from the saved profile.',
+    description: 'Compute BMR, TDEE, calories, and macros from the saved profile; uses the latest imported weight when available.',
     inputSchema: EmptyInputSchema,
     outputSchema: ComputeTargetsOutputSchema,
   }, (input) => runTool(() => service.computeTargets(input)))

@@ -24,6 +24,8 @@ describe('migration 0007 weight log contract', () => {
     expect(sql).toContain('rename column logged_at to measured_at')
     expect(sql).toContain('unique (user_id, measured_at)')
     expect(sql).toContain('check (kg > 0)')
+    expect(sql).toContain("add column source text not null default 'manual'")
+    expect(sql).toContain("source in ('manual', 'apple_health')")
     expect(sql).toContain('weight_logs_user_measured_idx')
   })
 })

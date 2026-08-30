@@ -296,16 +296,19 @@ export interface Database {
           user_id: string
           measured_at: string
           kg: number
+          source: string
         }
         Insert: {
           user_id: string
           measured_at?: string
           kg: number
+          source?: string
         }
         Update: {
           user_id?: string
           measured_at?: string
           kg?: number
+          source?: string
         }
         Relationships: []
       }

@@ -20,6 +20,7 @@
 		9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C1C0258B7A800F46DCEDFB /* Views.swift */; };
 		9F6D52083092B0942326E0E1 /* MealThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2B2FD6DB00BB811705B9BC /* MealThumbnail.swift */; };
 		B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E6261C91086065F01D569 /* DesignSystem.swift */; };
+		B6ABB70C54EA8F94F25FCBB4 /* WeightImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B5C42479945B7A48EC226F /* WeightImportTests.swift */; };
 		BAEEBDD9CE34464B93736C34 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315E731961ED8D1653921F25 /* MockRepository.swift */; };
 		C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */; };
 		D121DAF0E6F33EA00DD41209 /* GaugeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD07E30D9C16AEF92DA647 /* GaugeViews.swift */; };
@@ -69,6 +70,7 @@
 		9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitWeightImporter.swift; sourceTree = "<group>"; };
 		9507E44AD8780775C30E2891 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		98E8B5270DDA7AA045CA6901 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
+		B1B5C42479945B7A48EC226F /* WeightImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightImportTests.swift; sourceTree = "<group>"; };
 		B3E736D53085F8CAFBC52583 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
 		D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemEditSheet.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */,
 				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
 				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
+				B1B5C42479945B7A48EC226F /* WeightImportTests.swift */,
 			);
 			path = MorselTests;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */,
 				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,
 				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,
+				B6ABB70C54EA8F94F25FCBB4 /* WeightImportTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

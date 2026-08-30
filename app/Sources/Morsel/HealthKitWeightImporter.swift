@@ -43,7 +43,9 @@ final class SupabaseWeightLogStore: WeightLogStore {
             )
         }
         guard !rows.isEmpty else { return }
-        try await client.from("weight_logs").upsert(rows, onConflict: "user_id,measured_at").execute()
+        try await client.from("weight_logs")
+            .upsert(rows, onConflict: "user_id,measured_at")
+            .execute()
     }
 }
 
@@ -64,35 +66,86 @@ private struct WeightLogRow: Encodable {
 #if canImport(HealthKit)
 import HealthKit
 
-final class HealthKitWeightImporter {
+protocol WeightSampleReading: AnyObject {
+    func requestAuthorization() async throws
+    func samples(since: Date?) async throws -> [WeightLog]
+}
+
+final class HealthKitWeightReader: WeightSampleReading {
     private let healthStore: HKHealthStore
+    private let bodyMassType: HKQuantityType
+
+    init(healthStore: HKHealthStore = HKHealthStore()) {
+        self.healthStore = healthStore
+        bodyMassType = HKObjectType.quantityType(forIdentifier: .bodyMass)!
+    }
+
+    func requestAuthorization() async throws {
+        try await healthStore.requestAuthorization(toShare: [], read: [bodyMassType])
+    }
+
+    func samples(since: Date?) async throws -> [WeightLog] {
+        let predicate = since.map {
+            HKQuery.predicateForSamples(withStart: $0, end: nil, options: .strictStartDate)
+        }
+        return try await withCheckedThrowingContinuation { continuation in
+            let query = HKSampleQuery(
+                sampleType: bodyMassType,
+                predicate: predicate,
+                limit: HKObjectQueryNoLimit,
+                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
+            ) { _, results, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                let unit = HKUnit.gramUnit(with: .kilo)
+                let logs = (results as? [HKQuantitySample] ?? []).map {
+                    WeightLog(
+                        measuredAt: $0.startDate,
+                        kilograms: $0.quantity.doubleValue(for: unit)
+                    )
+                }
+                continuation.resume(returning: logs)
+            }
+            self.healthStore.execute(query)
+        }
+    }
+
+    func observeBodyMass(_ handler: @escaping () -> Void) {
+        let query = HKObserverQuery(sampleType: bodyMassType, predicate: nil) { _, completion, _ in
+            handler()
+            completion()
+        }
+        healthStore.execute(query)
+        healthStore.enableBackgroundDelivery(for: bodyMassType, frequency: .daily) { _, _ in }
+    }
+}
+
+final class HealthKitWeightImporter {
+    private let reader: WeightSampleReading
     private let store: WeightLogStore
 
-    init(healthStore: HKHealthStore = HKHealthStore(), store: WeightLogStore) {
-        self.healthStore = healthStore
+    init(
+        reader: WeightSampleReading = HealthKitWeightReader(),
+        store: WeightLogStore
+    ) {
+        self.reader = reader
         self.store = store
     }
 
     func importBodyMass(since: Date? = nil) async throws {
-        guard HKHealthStore.isHealthDataAvailable(),
-              let type = HKObjectType.quantityType(forIdentifier: .bodyMass) else { return }
-        try await healthStore.requestAuthorization(toShare: [], read: [type])
-        let predicate = since.map { HKQuery.predicateForSamples(withStart: $0, end: nil, options: .strictStartDate) }
-        let samples: [WeightLog] = try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(
-                sampleType: type, predicate: predicate, limit: HKObjectQueryNoLimit,
-                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
-            ) { _, results, error in
-                if let error { continuation.resume(throwing: error); return }
-                let unit = HKUnit.gramUnit(with: .kilo)
-                let logs = (results as? [HKQuantitySample] ?? []).map {
-                    WeightLog(measuredAt: $0.startDate, kilograms: $0.quantity.doubleValue(for: unit))
-                }
-                continuation.resume(returning: logs)
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        try await reader.requestAuthorization()
+        try await store.upsert(reader.samples(since: since))
+    }
+
+    func startObserving() {
+        (reader as? HealthKitWeightReader)?.observeBodyMass { [weak self] in
+            Task {
+                try? await self?.importBodyMass()
             }
-            healthStore.execute(query)
         }
-        try await store.upsert(samples)
     }
 }
 #endif

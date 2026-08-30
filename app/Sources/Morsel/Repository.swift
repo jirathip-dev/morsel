@@ -27,7 +27,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
         let start = utcCalendar.startOfDay(for: date)
-        guard let end = utcCalendar.date(byAdding: .day, value: 1, to: start) else {
+        guard let end = utcCalendar.date(byAdding: .day, value: 1, to: start),
+              let trendStart = utcCalendar.date(byAdding: .day, value: -29, to: start) else {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
@@ -35,7 +36,9 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let items = try await loadMealItems(client, logs: logs)
         let goalRows = try await loadGoals(client, userID: authenticatedUserID)
         let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
-        let weightRows = try await loadWeightTrend(client, userID: authenticatedUserID, start: start, end: end)
+        let weightRows = try await loadWeightTrend(
+            client, userID: authenticatedUserID, start: trendStart, end: end
+        )
 
         var itemsByMealID: [String: [MealItem]] = [:]
         var sourcesByMealID: [String: MealSource] = [:]

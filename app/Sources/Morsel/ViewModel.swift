@@ -22,18 +22,22 @@ final class DashboardViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
+    @Published private(set) var weightImportError: String?
 
     let repository: any DashboardRepository
     let userID: UUID
+    private let weightImporter: HealthKitWeightImporter?
     private let dateProvider: () -> Date
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
+        weightImporter: HealthKitWeightImporter? = nil,
         dateProvider: @escaping () -> Date = { Date() }
     ) {
         self.repository = repository
         self.userID = userID
+        self.weightImporter = weightImporter
         self.dateProvider = dateProvider
     }
 
@@ -55,6 +59,18 @@ final class DashboardViewModel: ObservableObject {
         snapshot?.meals
             .flatMap(\.items)
             .filter(\.needsReview) ?? []
+    }
+
+    func importWeights() async {
+        guard let weightImporter else { return }
+        do {
+            try await weightImporter.importBodyMass()
+            weightImporter.startObserving()
+        } catch is CancellationError {
+            return
+        } catch {
+            weightImportError = error.localizedDescription
+        }
     }
 
     func load() async {
