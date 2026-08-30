@@ -145,6 +145,9 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
     if (request.url.includes('/rest/v1/weight_logs?')) {
       return jsonResponse([])
     }
+    if (request.url.includes('/rest/v1/energy_burned_logs?')) {
+      return jsonResponse([{ burned_at: '2026-08-25T00:00:00.000Z', active_kcal: 300 }])
+    }
     return jsonResponse({ message: 'unexpected test request' }, 500)
   }
   fetchMock.preconnect = (): void => undefined
@@ -302,6 +305,21 @@ describe('SupabaseRepository', () => {
       if (previousKey === undefined) delete process.env.SUPABASE_SERVICE_ROLE_KEY
       else process.env.SUPABASE_SERVICE_ROLE_KEY = previousKey
     }
+  })
+
+  it('scopes active-energy reads to the authenticated user and day bounds', async () => {
+    const { repository, requests } = createRepository()
+
+    await withTestToken(repository, () => repository.getEnergyBurned(
+      userId,
+      '2026-08-25T00:00:00.000Z',
+      '2026-08-26T00:00:00.000Z',
+    ))
+
+    const request = requests.find((candidate) => candidate.url.includes('/rest/v1/energy_burned_logs?'))
+    expect(request?.url).toContain(`user_id=eq.${userId}`)
+    expect(request?.url).toContain('burned_at=gte.2026-08-25T00%3A00%3A00.000Z')
+    expect(request?.url).toContain('burned_at=lt.2026-08-26T00%3A00%3A00.000Z')
   })
 
   it('propagates provider outages from the production repository adapter', async () => {

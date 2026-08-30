@@ -9,6 +9,7 @@ import type {
   Source,
   UpdateMealItemInput,
   WeightTrendPoint,
+  EnergyBurnedPoint,
 } from '../packages/schema/food-types.ts'
 export interface MealWrite {
   eaten_at: string
@@ -47,4 +48,5 @@ export interface MorselRepository {
   updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean>
   deleteMealLog(userId: string, mealLogId: string): Promise<boolean>
   getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]>
+  getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]>
 }

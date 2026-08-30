@@ -151,6 +151,12 @@ struct DashboardTotals: Equatable, Sendable {
     let fatG: Double
 }
 
+struct WeightTrendPoint: Equatable, Sendable, Identifiable {
+    let date: Date
+    let kilograms: Double
+    var id: Date { date }
+}
+
 enum GoalSource: String, Sendable {
     case computed
     case manual
@@ -176,6 +182,19 @@ struct DashboardSnapshot: Equatable, Sendable {
     let date: Date
     let meals: [MealRecord]
     let goal: DashboardGoal?
+    let weightTrend: [WeightTrendPoint]
+    let activeEnergyBurned: Double
+
+    init(
+        date: Date, meals: [MealRecord], goal: DashboardGoal?, weightTrend: [WeightTrendPoint] = [],
+        activeEnergyBurned: Double = 0
+    ) {
+        self.date = date
+        self.meals = meals
+        self.goal = goal
+        self.weightTrend = weightTrend
+        self.activeEnergyBurned = activeEnergyBurned
+    }
 }
 
 enum ConfidenceBadge: Equatable, Sendable {
@@ -198,6 +217,8 @@ enum GoalStatus: Equatable, Sendable {
 enum DashboardMath {
     static let lowConfidenceThreshold = 0.8
     static let nearGoalThreshold = 0.85
+
+    static func netEnergy(intake: Double, activeBurn: Double) -> Double { intake - activeBurn }
 
     static func totals(for meals: [MealRecord]) -> DashboardTotals {
         meals.reduce(into: DashboardTotals(caloriesKcal: 0, proteinG: 0, carbsG: 0, fatG: 0)) { totals, meal in

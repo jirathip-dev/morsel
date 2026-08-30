@@ -4,6 +4,7 @@ final class MockDashboardRepository: DashboardRepository {
     private var currentSnapshot: DashboardSnapshot
     private var imageData: [String: Data] = [:]
     private(set) var uploadedImagePaths: [String] = []
+    private(set) var loadCount = 0
     var failMealLog = false
 
     init(snapshot: DashboardSnapshot) {
@@ -11,6 +12,7 @@ final class MockDashboardRepository: DashboardRepository {
     }
 
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
+        loadCount += 1
         _ = userID
         _ = date
         return currentSnapshot

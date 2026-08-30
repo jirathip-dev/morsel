@@ -30,6 +30,8 @@ const migrationFiles = [
   'db/migrations/0004_store_assets.sql',
   'db/migrations/0005_oauth_authorization_grants.sql',
   'db/migrations/0006_food_catalog_provider_cache.sql',
+  'db/migrations/0007_weight_logs.sql',
+  'db/migrations/0008_energy_burned_logs.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -268,6 +270,7 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         grant usage on schema public to anon, authenticated;
         grant select, insert, update on public.users to authenticated;
         grant select, insert on public.meal_logs, public.meal_items to authenticated;
+        grant select, insert on public.energy_burned_logs to authenticated;
         grant select, insert, update, delete on public.food_catalog to authenticated;
         grant select on storage.buckets to authenticated;
         grant select, insert, update, delete on storage.objects to authenticated;
@@ -594,6 +597,24 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         insert into public.users (id, email) values ('${userTwo}', 'two@example.com');
         commit;
       `), 'owner user inserts')
+
+      const zeroEnergyInsert = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.energy_burned_logs (user_id, burned_at, active_kcal)
+        values ('${userOne}', '2026-08-25T00:00:00Z', 0);
+      `, false)
+      expect(zeroEnergyInsert.stderr).toMatch(/energy_burned_logs_kcal_positive/i)
+
+      const positiveEnergyInsert = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.energy_burned_logs (user_id, burned_at, active_kcal)
+        values ('${userOne}', '2026-08-25T00:00:00Z', 300);
+        select count(*) from public.energy_burned_logs
+        where user_id = '${userOne}' and active_kcal = 300;
+      `), 'positive active-energy insert')
+      expect(queryValues(positiveEnergyInsert)).toEqual(['INSERT 0 1', '1'])
 
       const ownerRead = requireSuccess(postgres.execute(`
         begin;

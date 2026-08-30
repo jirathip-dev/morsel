@@ -27,7 +27,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
         var utcCalendar = Calendar(identifier: .gregorian)
         utcCalendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
         let start = utcCalendar.startOfDay(for: date)
-        guard let end = utcCalendar.date(byAdding: .day, value: 1, to: start) else {
+        guard let end = utcCalendar.date(byAdding: .day, value: 1, to: start),
+              let trendStart = utcCalendar.date(byAdding: .day, value: -29, to: start) else {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
@@ -35,6 +36,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let items = try await loadMealItems(client, logs: logs)
         let goalRows = try await loadGoals(client, userID: authenticatedUserID)
         let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
+        let weightRows = try await loadWeightTrend(
+            client, userID: authenticatedUserID, start: trendStart, end: end
+        )
+        let energyRows = try await loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
 
         var itemsByMealID: [String: [MealItem]] = [:]
         var sourcesByMealID: [String: MealSource] = [:]
@@ -56,7 +61,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
         let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
-        return DashboardSnapshot(date: start, meals: meals, goal: goal)
+        return DashboardSnapshot(
+            date: start, meals: meals, goal: goal, weightTrend: weightRows.compactMap(parseWeight),
+            activeEnergyBurned: energyRows.reduce(0) { $0 + $1.activeKilocalories }
+        )
     }
 
     private func loadMealLogs(
@@ -111,6 +119,33 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .limit(1)
             .execute()
             .value
+    }
+
+    private func loadWeightTrend(
+        _ client: SupabaseClient, userID: UUID, start: Date, end: Date
+    ) async throws -> [WeightResponse] {
+        try await client.from("weight_logs")
+            .select("measured_at,kg")
+            .eq("user_id", value: userID.uuidString)
+            .gte("measured_at", value: MorselDate.iso8601(start))
+            .lt("measured_at", value: MorselDate.iso8601(end))
+            .order("measured_at", ascending: true)
+            .execute().value
+    }
+
+    private func parseWeight(_ response: WeightResponse) -> WeightTrendPoint? {
+        guard let date = MorselDate.date(response.measuredAt), response.kilograms.isFinite,
+              response.kilograms > 0 else { return nil }
+        return WeightTrendPoint(date: date, kilograms: response.kilograms)
+    }
+
+    private func loadEnergyBurned(
+        _ client: SupabaseClient, userID: UUID, start: Date, end: Date
+    ) async throws -> [EnergyResponse] {
+        try await client.from("energy_burned_logs").select("burned_at,active_kcal")
+            .eq("user_id", value: userID.uuidString)
+            .gte("burned_at", value: MorselDate.iso8601(start))
+            .lt("burned_at", value: MorselDate.iso8601(end)).execute().value
     }
 
     private func parseMeal(_ response: MealLogResponse, items: [MealItem]) throws -> MealRecord {
@@ -307,6 +342,25 @@ private struct GoalResponse: Decodable {
         case carbsG = "carbs_g"
         case fatG = "fat_g"
         case source
+    }
+}
+
+private struct WeightResponse: Decodable {
+    let measuredAt: String
+    let kilograms: Double
+
+    enum CodingKeys: String, CodingKey {
+        case measuredAt = "measured_at"
+        case kilograms = "kg"
+    }
+}
+
+private struct EnergyResponse: Decodable {
+    let burnedAt: String
+    let activeKilocalories: Double
+    enum CodingKeys: String, CodingKey {
+        case burnedAt = "burned_at"
+        case activeKilocalories = "active_kcal"
     }
 }
 

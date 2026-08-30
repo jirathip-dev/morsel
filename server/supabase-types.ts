@@ -294,19 +294,28 @@ export interface Database {
         Row: {
           id: string
           user_id: string
-          logged_at: string
+          measured_at: string
           kg: number
+          source: string
         }
         Insert: {
           user_id: string
-          logged_at?: string
+          measured_at?: string
           kg: number
+          source?: string
         }
         Update: {
           user_id?: string
-          logged_at?: string
+          measured_at?: string
           kg?: number
+          source?: string
         }
+        Relationships: []
+      }
+      energy_burned_logs: {
+        Row: { id: string; user_id: string; burned_at: string; active_kcal: number; source: string }
+        Insert: { user_id: string; burned_at?: string; active_kcal: number; source?: string }
+        Update: { user_id?: string; burned_at?: string; active_kcal?: number; source?: string }
         Relationships: []
       }
     }
