@@ -32,6 +32,7 @@ const migrationFiles = [
   'db/migrations/0006_food_catalog_provider_cache.sql',
   'db/migrations/0007_weight_logs.sql',
   'db/migrations/0008_energy_burned_logs.sql',
+  'db/migrations/0009_goals_fractional_calories.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -615,6 +616,21 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         where user_id = '${userOne}' and active_kcal = 300;
       `), 'positive active-energy insert')
       expect(queryValues(positiveEnergyInsert)).toEqual(['INSERT 0 1', '1'])
+
+      const fractionalGoal = postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g, source)
+        values ('${userOne}', 2000.5, 100, 200, 50, 'manual');
+      `, false)
+      expect(fractionalGoal.stderr).not.toMatch(/integer|invalid input|goals_calorie/i)
+      const fractionalRoundTrip = requireSuccess(postgres.execute(`
+        set role authenticated;
+        set "request.jwt.claim.sub" = '${userOne}';
+        select calorie_target_kcal from public.goals
+        where user_id = '${userOne}' and calorie_target_kcal = 2000.5;
+      `), 'fractional calorie goal survives persistence exactly')
+      expect(queryValues(fractionalRoundTrip)).toEqual(['2000.5'])
 
       const ownerRead = requireSuccess(postgres.execute(`
         begin;
