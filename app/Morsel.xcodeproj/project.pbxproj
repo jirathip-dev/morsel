@@ -17,6 +17,7 @@
 		5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8B5270DDA7AA045CA6901 /* Onboarding.swift */; };
 		7E6281B200D4C09B8854BB63 /* WeightTrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71181F42D2D74093AED142DC /* WeightTrendView.swift */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
+		93B200FE6687B5CE5F31A364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62826381660BDBE9BBB4CA2F /* Assets.xcassets */; };
 		9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C1C0258B7A800F46DCEDFB /* Views.swift */; };
 		9F6D52083092B0942326E0E1 /* MealThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2B2FD6DB00BB811705B9BC /* MealThumbnail.swift */; };
 		B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E6261C91086065F01D569 /* DesignSystem.swift */; };
@@ -60,6 +61,7 @@
 		37A12A89F0EF310480905F84 /* DashboardMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMathTests.swift; sourceTree = "<group>"; };
 		4F9E6261C91086065F01D569 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		56DD07E30D9C16AEF92DA647 /* GaugeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViews.swift; sourceTree = "<group>"; };
+		62826381660BDBE9BBB4CA2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71181F42D2D74093AED142DC /* WeightTrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightTrendView.swift; sourceTree = "<group>"; };
 		7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCorrectionsTests.swift; sourceTree = "<group>"; };
 		7A0DDA5C9C79E66C218B00C8 /* Morsel.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 		1AFDA4B412B398A53D28BA2A = {
 			isa = PBXGroup;
 			children = (
+				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
 				97A4D9B8557C5A8E72B0EFE5 /* Products */,
@@ -173,6 +176,7 @@
 			buildConfigurationList = C98BCFFB3F70270C66795EBF /* Build configuration list for PBXNativeTarget "Morsel" */;
 			buildPhases = (
 				DC7F1A76C1F5DB6A4C637B0F /* Sources */,
+				7D4B2F441B27F32B8363F847 /* Resources */,
 				6E17073636AD5D5751E26EF0 /* Frameworks */,
 			);
 			buildRules = (
@@ -238,6 +242,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7D4B2F441B27F32B8363F847 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93B200FE6687B5CE5F31A364 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DC7F1A76C1F5DB6A4C637B0F /* Sources */ = {
