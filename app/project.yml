@@ -1,6 +1,6 @@
 name: Morsel
 options:
-  bundleIdPrefix: com.morsel
+  bundleIdPrefix: com.jirathip
   deploymentTarget:
     iOS: "17.0"
   createIntermediateGroups: true
@@ -23,7 +23,7 @@ targets:
         product: Supabase
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.morsel.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.jirathip.morsel
         GENERATE_INFOPLIST_FILE: YES
         CODE_SIGN_ENTITLEMENTS: Morsel.entitlements
         INFOPLIST_KEY_CFBundleDisplayName: Morsel
@@ -47,7 +47,7 @@ targets:
       - target: Morsel
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.morsel.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.jirathip.morsel.tests
         GENERATE_INFOPLIST_FILE: YES
 schemes:
   Morsel:
