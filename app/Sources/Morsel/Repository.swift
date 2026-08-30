@@ -8,6 +8,9 @@ let mealItemColumns = [
 
 protocol DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
+    func loadGoals(userID: UUID) async throws -> StoredDashboardGoal?
+    func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal
+    func saveGoals(userID: UUID, goal: DashboardGoal) async throws
     func confirmMealItem(userID: UUID, itemID: UUID) async throws
     func updateMealItem(userID: UUID, update: MealItemUpdate) async throws
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws
@@ -157,7 +160,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func parseStoredGoal(_ response: GoalResponse) throws -> StoredDashboardGoal {
+    func parseStoredGoal(_ response: GoalResponse) throws -> StoredDashboardGoal {
         guard let source = GoalSource(rawValue: response.source) else {
             throw MorselError.invalidData("Supabase returned an invalid calorie goal source.")
         }
@@ -170,7 +173,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func parseProfile(_ response: ProfileResponse) throws -> DashboardProfile {
+    func parseProfile(_ response: ProfileResponse) throws -> DashboardProfile {
         guard let sex = ProfileSex(rawValue: response.sex),
               let activityLevel = ProfileActivityLevel(rawValue: response.activityLevel),
               let dietGoal = ProfileDietGoal(rawValue: response.dietGoal),
@@ -294,7 +297,7 @@ struct MealItemResponse: Decodable {
     }
 }
 
-private struct GoalResponse: Decodable {
+struct GoalResponse: Decodable {
     let calorieTargetKcal: Double?
     let proteinG: Double?
     let carbsG: Double?
@@ -310,7 +313,7 @@ private struct GoalResponse: Decodable {
     }
 }
 
-private struct ProfileResponse: Decodable {
+struct ProfileResponse: Decodable {
     let sex: String
     let ageYears: Int
     let heightCm: Double

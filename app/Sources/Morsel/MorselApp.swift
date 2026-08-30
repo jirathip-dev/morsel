@@ -131,7 +131,10 @@ private struct AuthenticatedDashboardView: View {
                 .tabItem {
                     Label("Today", systemImage: "chart.bar")
                 }
-            SettingsView(mcpEndpoint: mcpEndpoint) {
+            SettingsView(
+                mcpEndpoint: mcpEndpoint, repository: viewModel.repository,
+                userID: viewModel.userID, dashboardViewModel: viewModel
+            ) {
                 showingOnboarding = true
             }
             .tabItem {
@@ -163,11 +166,21 @@ private struct AuthenticatedDashboardView: View {
 
 private struct SettingsView: View {
     let mcpEndpoint: String
+    let repository: any DashboardRepository
+    let userID: UUID
+    @ObservedObject var dashboardViewModel: DashboardViewModel
     let replay: () -> Void
 
     var body: some View {
         NavigationStack {
             Form {
+                Section("Goals") {
+                    NavigationLink("Daily goals") {
+                        GoalsEditorView(repository: repository, userID: userID) {
+                            await dashboardViewModel.load()
+                        }
+                    }
+                }
                 Section("Agent") {
                     Text(mcpEndpoint.isEmpty ? "MCP endpoint is not configured." : mcpEndpoint)
                         .font(.morselData)
