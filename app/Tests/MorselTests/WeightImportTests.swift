@@ -63,6 +63,8 @@ private final class MockWeightReader: WeightSampleReading {
         logs
     }
 
+    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+
     func startObserving(_ handler: @escaping () async -> Result<Void, Error>, onError: @escaping (Error) -> Void) {}
 
     func stopObserving() {}
