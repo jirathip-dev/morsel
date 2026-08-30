@@ -3,12 +3,59 @@ import Foundation
 final class MockDashboardRepository: DashboardRepository {
     private var currentSnapshot: DashboardSnapshot
     private var imageData: [String: Data] = [:]
+    private let profile = DashboardProfile(
+        sex: .male, ageYears: 30, heightCm: 180, weightKg: 80,
+        activityLevel: .moderate, dietGoal: .maintain, goalWeightKg: nil
+    )
     private(set) var uploadedImagePaths: [String] = []
     private(set) var loadCount = 0
     var failMealLog = false
+    private var storedGoal: StoredDashboardGoal?
 
     init(snapshot: DashboardSnapshot) {
         currentSnapshot = snapshot
+        storedGoal = snapshot.goal.map {
+            StoredDashboardGoal(
+                calorieTargetKcal: $0.calorieTargetKcal, proteinG: $0.proteinG,
+                carbsG: $0.carbsG, fatG: $0.fatG, source: $0.source
+            )
+        }
+    }
+
+    func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? {
+        _ = userID
+        return storedGoal
+    }
+
+    func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal {
+        _ = userID
+        let dietGoal: ProfileDietGoal = switch direction {
+        case .cut: .lose
+        case .maintain: .maintain
+        case .bulk: .gain
+        }
+        return DashboardMath.computedGoal(
+            for: DashboardProfile(
+                sex: profile.sex, ageYears: profile.ageYears, heightCm: profile.heightCm,
+                weightKg: profile.weightKg, activityLevel: profile.activityLevel,
+                dietGoal: dietGoal, goalWeightKg: profile.goalWeightKg
+            )
+        )
+    }
+
+    func saveGoals(userID: UUID, goal: DashboardGoal) async throws {
+        _ = userID
+        storedGoal = StoredDashboardGoal(
+            calorieTargetKcal: goal.calorieTargetKcal, proteinG: goal.proteinG,
+            carbsG: goal.carbsG, fatG: goal.fatG, source: goal.source
+        )
+        currentSnapshot = DashboardSnapshot(
+            date: currentSnapshot.date, meals: currentSnapshot.meals,
+            goal: DashboardGoal(
+                calorieTargetKcal: goal.calorieTargetKcal, proteinG: goal.proteinG,
+                carbsG: goal.carbsG, fatG: goal.fatG, source: goal.source
+            )
+        )
     }
 
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
