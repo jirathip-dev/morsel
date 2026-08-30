@@ -28,6 +28,7 @@ final class DashboardViewModel: ObservableObject {
     let userID: UUID
     private let weightImporter: HealthKitWeightImporter?
     private let dateProvider: () -> Date
+    private var reloadAfterLoad = false
 
     init(
         repository: any DashboardRepository,
@@ -79,9 +80,19 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func load() async {
+        if isLoading {
+            reloadAfterLoad = true
+            return
+        }
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        defer {
+            isLoading = false
+            if reloadAfterLoad {
+                reloadAfterLoad = false
+                Task { await load() }
+            }
+        }
         do {
             snapshot = try await repository.loadToday(
                 userID: userID,
