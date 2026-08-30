@@ -98,13 +98,17 @@ final class WeightImportTests: XCTestCase {
         let reader = MockWeightReader(energyLogs: [EnergyBurnedLog(burnedAt: date, activeKilocalories: 250)])
         let store = MockWeightLogStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: store)
-        var successes = 0
+        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: day, meals: [], goal: nil))
+        let viewModel = DashboardViewModel(repository: repository, userID: UUID(), weightImporter: importer)
 
-        importer.startObserving(onSuccess: { successes += 1 }, onError: { _ in XCTFail("unexpected observer error") })
+        await viewModel.importWeights()
+        let initialLoads = repository.loadCount
         let result = await reader.observerHandler?()
+        await Task.yield()
+        await Task.yield()
 
         XCTAssertEqual(result?.isSuccess, true)
-        XCTAssertEqual(successes, 1)
+        XCTAssertEqual(repository.loadCount, initialLoads + 1)
         XCTAssertEqual(store.energyBurnedLogs, [EnergyBurnedLog(burnedAt: day, activeKilocalories: 250)])
     }
 }
