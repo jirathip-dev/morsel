@@ -3,6 +3,8 @@ require "fileutils"
 
 APP_IDENTIFIER = "com.jirathip.morsel".freeze
 
+default_platform(:ios)
+
 platform :ios do
   desc "Build Morsel and upload it to TestFlight"
   lane :native_beta do
