@@ -50,6 +50,7 @@ function staleCliCheckout() {
   const writer = join(root, "writer");
   const checkout = join(root, "checkout");
   execFileSync("git", ["init", "--bare", remote], { encoding: "utf8" });
+  git(remote, "symbolic-ref", "HEAD", "refs/heads/main");
   execFileSync("git", ["clone", remote, checkout], { encoding: "utf8" });
   git(checkout, "config", "user.email", "test@example.com");
   git(checkout, "config", "user.name", "Test");
