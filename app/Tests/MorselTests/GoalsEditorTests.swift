@@ -97,13 +97,36 @@ final class GoalsEditorTests: XCTestCase {
         let viewModel = GoalsEditorViewModel(repository: repository, userID: UUID())
         await viewModel.choose(.maintain)
         XCTAssertEqual(viewModel.sourceIndicator, "writes source: computed")
-        XCTAssertTrue(viewModel.whatChangesText.contains("2759 kcal target"))
+        XCTAssertTrue(viewModel.whatChangesText.contains("\(MorselFormat.number(2759)) KCAL LEFT"))
+        var didSeeToday = false
+        let actionViewModel = GoalsEditorViewModel(
+            repository: repository, userID: UUID(), onSeeToday: { didSeeToday = true }
+        )
+        actionViewModel.seeToday()
+        XCTAssertTrue(didSeeToday)
         viewModel.edit("fat", value: "75")
         XCTAssertEqual(viewModel.sourceIndicator, "writes source: manual")
-        XCTAssertTrue(viewModel.whatChangesText.contains("See it"))
+        XCTAssertTrue(viewModel.whatChangesText.contains("KCAL LEFT"))
+        let source = try? String(
+            contentsOf: URL(fileURLWithPath: "Sources/Morsel/GoalsEditor.swift"), encoding: .utf8
+        )
+        XCTAssertTrue(source?.contains("Button(\"See it\")") == true)
+        XCTAssertTrue(source?.contains("viewModel.seeToday()") == true)
         let didSave = await viewModel.save()
         XCTAssertTrue(didSave)
         XCTAssertTrue(viewModel.didSave)
+    }
+
+    @MainActor
+    func testV3QuantitativeConsequenceCoversUnderAndOver() {
+        XCTAssertEqual(
+            GoalsEditorViewModel.calorieConsequence(goal: 2100, eaten: 993),
+            "\(MorselFormat.number(1107)) KCAL LEFT"
+        )
+        XCTAssertEqual(
+            GoalsEditorViewModel.calorieConsequence(goal: 2100, eaten: 2250),
+            "\(MorselFormat.number(150)) KCAL OVER"
+        )
     }
 
     func testGoalsRepositoryEncodesRPCEnvelopeAndGuardsEverySavedField() throws {

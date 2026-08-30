@@ -102,9 +102,15 @@ private struct MorselRootView: View {
     }
 }
 
+private enum DashboardTab: Hashable {
+    case today
+    case settings
+}
+
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
     @State private var showingOnboarding = false
+    @State private var selectedTab: DashboardTab = .today
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
@@ -126,17 +132,19 @@ private struct AuthenticatedDashboardView: View {
     }
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             TodayView(viewModel: viewModel)
+                .tag(DashboardTab.today)
                 .tabItem {
                     Label("Today", systemImage: "chart.bar")
                 }
             SettingsView(
                 mcpEndpoint: mcpEndpoint, repository: viewModel.repository,
-                userID: viewModel.userID, dashboardViewModel: viewModel
-            ) {
-                showingOnboarding = true
-            }
+                userID: viewModel.userID, dashboardViewModel: viewModel,
+                showToday: { selectedTab = .today },
+                replay: { showingOnboarding = true }
+            )
+            .tag(DashboardTab.settings)
             .tabItem {
                 Label("Settings", systemImage: "gearshape")
             }
@@ -169,6 +177,7 @@ private struct SettingsView: View {
     let repository: any DashboardRepository
     let userID: UUID
     @ObservedObject var dashboardViewModel: DashboardViewModel
+    let showToday: () -> Void
     let replay: () -> Void
 
     var body: some View {
@@ -176,7 +185,7 @@ private struct SettingsView: View {
             Form {
                 Section("Goals") {
                     NavigationLink("Daily goals") {
-                        GoalsEditorView(repository: repository, userID: userID) {
+                        GoalsEditorView(repository: repository, userID: userID, onSeeToday: showToday) {
                             await dashboardViewModel.load()
                         }
                     }

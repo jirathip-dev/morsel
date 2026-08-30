@@ -30,6 +30,7 @@ const migrationFiles = [
   'db/migrations/0004_store_assets.sql',
   'db/migrations/0005_oauth_authorization_grants.sql',
   'db/migrations/0006_food_catalog_provider_cache.sql',
+  'db/migrations/0007_goals_fractional_calories.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
@@ -189,7 +190,7 @@ function outputLines(value: string): string[] {
 }
 
 function queryValues(value: string): string[] {
-  return outputLines(value).filter((line) => !/^(BEGIN|COMMIT|DO|ROLLBACK|SAVEPOINT|SET|(?:INSERT|UPDATE|DELETE) \d+)$/.test(line))
+  return outputLines(value).filter((line) => !/^(BEGIN|COMMIT|DO|ROLLBACK|SAVEPOINT|SET|(?:INSERT|UPDATE|DELETE) \d+(?: \d+)*)$/.test(line))
 }
 
 function migrationSql(relativePath: string): string {
@@ -273,8 +274,14 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
         where conrelid = 'public.goals'::regclass
           and pg_get_constraintdef(oid) ilike '%computed%'
           and pg_get_constraintdef(oid) ilike '%manual%';
+        insert into public.users (id, email)
+        values ('00000000-0000-4000-8000-000000000199', 'fractional-goal@example.com');
+        insert into public.goals (user_id, calorie_target_kcal, protein_g, carbs_g, fat_g)
+        values ('00000000-0000-4000-8000-000000000199', 2000.5, 150.25, 200.75, 70.5);
+        select calorie_target_kcal::text from public.goals
+        where user_id = '00000000-0000-4000-8000-000000000199';
       `), 'cumulative goals source contract')
-      expect(queryValues(goalsSourceContract)).toEqual(["'computed'::text", '1', '1'])
+      expect(queryValues(goalsSourceContract)).toEqual(["'computed'::text", '1', '1', '2000.5'])
 
       requireSuccess(postgres.execute(`
         grant usage on schema public to anon, authenticated;

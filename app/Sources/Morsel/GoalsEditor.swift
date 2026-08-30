@@ -33,6 +33,7 @@ final class GoalsEditorViewModel: ObservableObject {
     @Published private(set) var errorMessage: String?
     @Published private(set) var selectedDirection: GoalDirection?
     @Published private(set) var didSave = false
+    @Published private(set) var todayCalories = 0.0
     @Published var calories = ""
     @Published var protein = ""
     @Published var carbs = ""
@@ -41,11 +42,18 @@ final class GoalsEditorViewModel: ObservableObject {
     private let repository: any DashboardRepository
     private let userID: UUID
     private let onSaved: () async -> Void
+    private let onSeeToday: () -> Void
 
-    init(repository: any DashboardRepository, userID: UUID, onSaved: @escaping () async -> Void = {}) {
+    init(
+        repository: any DashboardRepository,
+        userID: UUID,
+        onSaved: @escaping () async -> Void = {},
+        onSeeToday: @escaping () -> Void = {}
+    ) {
         self.repository = repository
         self.userID = userID
         self.onSaved = onSaved
+        self.onSeeToday = onSeeToday
     }
 
     var isValid: Bool {
@@ -59,9 +67,16 @@ final class GoalsEditorViewModel: ObservableObject {
         "writes source: \(sources.values.contains(.manual) ? "manual" : "computed")"
     }
 
+    static func calorieConsequence(goal: Double, eaten: Double) -> String {
+        let remaining = goal - eaten
+        return remaining >= 0
+            ? "\(MorselFormat.number(remaining)) KCAL LEFT"
+            : "\(MorselFormat.number(abs(remaining))) KCAL OVER"
+    }
+
     var whatChangesText: String {
-        let target = goal.map { "\(Int($0.calorieTargetKcal)) kcal target" } ?? "your kcal target"
-        return "Today: \(target); kcal left updates after save · See it"
+        let consequence = Self.calorieConsequence(goal: goal?.calorieTargetKcal ?? 0, eaten: todayCalories)
+        return "Today: \(MorselFormat.number(todayCalories)) eaten · \(consequence)"
     }
 
     func load() async {
@@ -69,6 +84,8 @@ final class GoalsEditorViewModel: ObservableObject {
         errorMessage = nil
         defer { isLoading = false }
         do {
+            let today = try await repository.loadToday(userID: userID, date: Date())
+            todayCalories = DashboardMath.totals(for: today.meals).caloriesKcal
             let stored = try await repository.loadGoals(userID: userID)
             guard let stored,
                   let calories = stored.calorieTargetKcal,
@@ -143,6 +160,10 @@ final class GoalsEditorViewModel: ObservableObject {
         }
     }
 
+    func seeToday() {
+        onSeeToday()
+    }
+
     private func apply(_ goal: DashboardGoal, source: GoalSource) {
         self.goal = goal
         calories = String(Int(goal.calorieTargetKcal))
@@ -154,10 +175,20 @@ final class GoalsEditorViewModel: ObservableObject {
 }
 
 struct GoalsEditorView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel: GoalsEditorViewModel
 
-    init(repository: any DashboardRepository, userID: UUID, onSaved: @escaping () async -> Void = {}) {
-        _viewModel = StateObject(wrappedValue: GoalsEditorViewModel(repository: repository, userID: userID, onSaved: onSaved))
+    init(
+        repository: any DashboardRepository,
+        userID: UUID,
+        onSaved: @escaping () async -> Void = {},
+        onSeeToday: @escaping () -> Void = {}
+    ) {
+        _viewModel = StateObject(
+            wrappedValue: GoalsEditorViewModel(
+                repository: repository, userID: userID, onSaved: onSaved, onSeeToday: onSeeToday
+            )
+        )
     }
 
     var body: some View {
@@ -196,6 +227,11 @@ struct GoalsEditorView: View {
                     .buttonStyle(.borderedProminent).tint(Color.morselAccent).disabled(!viewModel.isValid || viewModel.isSaving)
                 Text("WHAT CHANGES").morselSectionLabel()
                 Text(viewModel.whatChangesText).font(.morselBody).foregroundStyle(Color.morselInkTwo)
+                Button("See it") {
+                    dismiss()
+                    viewModel.seeToday()
+                }
+                .buttonStyle(MorselGhostButtonStyle())
             }.padding(18)
         }
         .background(Color.morselBackground.ignoresSafeArea())
