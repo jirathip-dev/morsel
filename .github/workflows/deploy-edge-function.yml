@@ -1,18 +1,12 @@
 # Deploy the MCP Edge Function to the hosted Supabase project (issue #12).
-# Fails closed BEFORE deployment if any required secret is unset. It never
-# creates or synthesizes MORSEL_OAUTH_SIGNING_KEY — that missing key is a
-# human gate, not something this workflow may invent.
+# Runs ONLY on explicit workflow_dispatch: no push or other event can invoke
+# a remote mutation without a human-triggered dispatch. Fails closed BEFORE
+# deployment if any required secret is unset. It never creates or
+# synthesizes MORSEL_OAUTH_SIGNING_KEY — that missing key is a human gate,
+# not something this workflow may invent.
 name: Deploy Edge Function
 
 on:
-  push:
-    paths:
-      - "supabase/functions/**"
-      - "supabase/config.toml"
-      - "server/**"
-      - "packages/schema/**"
-      - "deno.json"
-      - ".github/workflows/deploy-edge-function.yml"
   workflow_dispatch:
 
 concurrency:
@@ -57,13 +51,6 @@ jobs:
             exit 1
           fi
 
-          # Push runs on non-main branches validate the same config/env checks
-          # but must never deploy (workflow_dispatch always deploys).
-          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF" != "refs/heads/main" ]; then
-            echo "Skipping deploy: push to ${GITHUB_REF}; deployment is main-only."
-            exit 0
-          fi
-
           secrets_file="$(mktemp)"
           trap 'rm -f "$secrets_file"' EXIT
           chmod 600 "$secrets_file"
@@ -79,30 +66,46 @@ jobs:
           set -euo pipefail
           base="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/mcp"
 
+          health_file="$(mktemp)"
+          oauth_file="$(mktemp)"
+          mcp_file="$(mktemp)"
+          cleanup() {
+            rm -f "$health_file" "$oauth_file" "$mcp_file"
+          }
+          trap cleanup EXIT
+
           echo "== health =="
-          curl --fail --silent --show-error --max-time 30 "$base/health"
+          health_status="$(curl --silent --show-error --max-time 30 --output "$health_file" --write-out '%{http_code}' "$base/health")"
+          echo "status: $health_status"
+          cat "$health_file"
           echo
+          if [ "$health_status" != "200" ]; then
+            echo "::error::Expected HTTP 200 from /health; got $health_status"
+            exit 1
+          fi
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d.get("ok") is True, "health contract violated: %r" % (d,)' "$health_file"
 
           echo "== OAuth authorization-server metadata =="
-          oauth_file="$(mktemp)"
-          curl --fail --silent --show-error --max-time 30 --output "$oauth_file" \
-            "$base/.well-known/oauth-authorization-server"
+          oauth_status="$(curl --silent --show-error --max-time 30 --output "$oauth_file" --write-out '%{http_code}' "$base/.well-known/oauth-authorization-server")"
+          echo "status: $oauth_status"
           cat "$oauth_file"
           echo
-          rm -f "$oauth_file"
+          if [ "$oauth_status" != "200" ]; then
+            echo "::error::Expected HTTP 200 from /.well-known/oauth-authorization-server; got $oauth_status"
+            exit 1
+          fi
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); r=["issuer","authorization_endpoint","token_endpoint","registration_endpoint","code_challenge_methods_supported","grant_types_supported"]; m=[k for k in r if k not in d]; assert not m, "missing OAuth metadata fields: %s" % ", ".join(m)' "$oauth_file"
 
           echo "== unauthenticated MCP initialize (expect 401) =="
-          response_file="$(mktemp)"
-          status="$(curl --silent --show-error --max-time 30 --output "$response_file" --write-out '%{http_code}' \
+          mcp_status="$(curl --silent --show-error --max-time 30 --output "$mcp_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
             "$base/mcp")"
-          echo "status: $status"
-          cat "$response_file"
+          echo "status: $mcp_status"
+          cat "$mcp_file"
           echo
-          rm -f "$response_file"
-          if [ "$status" != "401" ]; then
-            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize; got $status"
+          if [ "$mcp_status" != "401" ]; then
+            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize; got $mcp_status"
             exit 1
           fi
