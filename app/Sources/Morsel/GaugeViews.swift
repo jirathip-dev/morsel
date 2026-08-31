@@ -72,8 +72,10 @@ private struct CalorieRing: View {
         switch status {
         case .over, .unavailable:
             return AnyShapeStyle(status.tint)
-        case .onTrack, .nearGoal:
+        case .onTrack:
             return AnyShapeStyle(LinearGradient.morselGauge)
+        case .nearGoal:
+            return AnyShapeStyle(status.tint)
         }
     }
 

@@ -526,8 +526,23 @@ describe('V1 review-r2: forest active tab, orange actions, split status text (Re
   })
 
   it('renders near-goal ring stroke mustardDeep but 11pt status text in an AA token', () => {
-    // Graphic stroke keeps the accessible data-stroke token.
+    // Graphic stroke keeps the accessible data-stroke token. The ring fill
+    // switch must route .nearGoal to its status.tint (mustardDeep), NOT the
+    // measured gauge gradient — near-goal and on-track are opposed states.
     expect(gaugeViews).toContain('case .nearGoal:\n            return .morselMustardDeep')
+    const ringFill = gaugeViews.slice(
+      gaugeViews.indexOf('private var ringFill: some ShapeStyle'),
+      gaugeViews.indexOf('var body: some View {\n        ZStack {')
+    )
+    expect(ringFill, 'CalorieRing.ringFill switch must exist').toBeTruthy()
+    // onTrack ALONE renders the measured gauge gradient.
+    expect(ringFill).toMatch(/case \.onTrack:\s*\n\s*return AnyShapeStyle\(LinearGradient\.morselGauge\)/)
+    expect(ringFill, 'onTrack must be the only case grouped with the gauge gradient')
+      .not.toMatch(/case \.onTrack, \.nearGoal:/)
+    // nearGoal routes to its existing status.tint (parsed: mustardDeep).
+    expect(ringFill).toMatch(/case \.nearGoal:\s*\n\s*return AnyShapeStyle\(status\.tint\)/)
+    // over/unavailable routing unchanged.
+    expect(ringFill).toMatch(/case \.over, \.unavailable:\s*\n\s*return AnyShapeStyle\(status\.tint\)/)
     // GoalSummary's small text must NOT use status.tint (which routes
     // mustardDeep into 11pt text) — it must use the dedicated status color.
     const summaryStart = gaugeViews.indexOf('private struct GoalSummary: View')
