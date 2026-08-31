@@ -239,6 +239,24 @@ describe("reconcile mode fail-closed behavior", () => {
     expect(badToken.stderr).toMatch(/SUPABASE_ACCESS_TOKEN is malformed/);
     expect(badToken.stderr).not.toContain("SECRETLEAK");
   });
+
+  it("CLI rejects raw env values with leading/trailing whitespace (exit 2, no input echo)", () => {
+    const cases = [
+      { SUPABASE_PROJECT_REF: `  ${REF}`, SUPABASE_ACCESS_TOKEN: TOKEN },
+      { SUPABASE_PROJECT_REF: `${REF}\n`, SUPABASE_ACCESS_TOKEN: TOKEN },
+      { SUPABASE_PROJECT_REF: `\t${REF}`, SUPABASE_ACCESS_TOKEN: TOKEN },
+      { SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: ` ${TOKEN}` },
+      { SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: `${TOKEN}\n` },
+      { SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: `${TOKEN}\t` },
+    ];
+    for (const env of cases) {
+      const result = spawnCli(env);
+      expect(result.status).toBe(2);
+      expect(result.stderr).toMatch(/whitespace or control characters/);
+      expect(result.stderr).not.toContain(REF);
+      expect(result.stderr).not.toContain(TOKEN);
+    }
+  });
 });
 
 describe("credential sentinel redaction", () => {
@@ -328,6 +346,135 @@ describe("credential sentinel redaction", () => {
     }
     expect(caught.message).toBe("reconcile mode refuses non-allowlisted SQL");
     expect(caught.message).not.toContain(TOKEN);
+  });
+
+  it("sanitizes queryImpl exceptions so sentinels never escape run()", async () => {
+    let caught;
+    try {
+      await run({
+        ref: REF,
+        token: TOKEN,
+        root: repoRoot,
+        queryImpl: async () => {
+          throw new Error(`impl exploded token=${TOKEN} ref=${REF}`);
+        },
+        log: quiet,
+      });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught.message).toMatch(/ledger existence failed: query error/);
+    expect(caught.message).not.toContain(REF);
+    expect(caught.message).not.toContain(TOKEN);
+  });
+
+  it("redacts hostile ledger rows containing ref/token/newline sentinels", async () => {
+    const db = fakeDatabase({
+      ledgerNames: ["init", "targets", `${TOKEN}`, `evil\n${REF}`, "  spaced  "],
+    });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
+
+    // Only safe local-manifest names are returned/reported; unknown rows are
+    // counted, never echoed.
+    expect(result.ledgerNames).toEqual(["init", "targets"]);
+    expect(result.unknownLedgerCount).toBe(3);
+    expect(result.report).toContain("2 recorded");
+    expect(result.report).toContain("unknown: 3");
+    expect(result.report).toContain("values redacted");
+    expect(result.report).not.toContain(TOKEN);
+    expect(result.report).not.toContain(REF);
+    expect(result.report).not.toContain("evil");
+    expect(result.report).not.toContain("spaced");
+    expect(JSON.stringify(result.checks)).not.toContain(TOKEN);
+  });
+
+  it("redacts hostile inventory rows from report and returned fields", async () => {
+    const db = fakeDatabase({
+      tables: ["users", `evil-table\n${TOKEN}`],
+      columns: [
+        { table_name: "users", column_name: "timezone", data_type: "text" },
+        { table_name: `evil-col\n${REF}`, column_name: "x", data_type: "text" },
+      ],
+      routines: [`evil-routine ${TOKEN}`],
+      policies: [{ schemaname: "public", tablename: "evil", policyname: `p ${REF}` }],
+    });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
+
+    expect(result.report).not.toContain(TOKEN);
+    expect(result.report).not.toContain(REF);
+    expect(result.report).not.toContain("evil");
+    expect(JSON.stringify(result.checks)).not.toContain(TOKEN);
+    expect(JSON.stringify(result.checks)).not.toContain(REF);
+  });
+
+  it("main() output contains no sentinels when the database returns hostile rows", async () => {
+    const originalFetch = globalThis.fetch;
+    const originalRef = process.env.SUPABASE_PROJECT_REF;
+    const originalToken = process.env.SUPABASE_ACCESS_TOKEN;
+    const originalLog = console.log;
+    const originalError = console.error;
+    const out = [];
+    try {
+      process.env.SUPABASE_PROJECT_REF = REF;
+      process.env.SUPABASE_ACCESS_TOKEN = TOKEN;
+      const respond = (rows) => ({ ok: true, status: 200, json: async () => rows });
+      globalThis.fetch = async (url, options) => {
+        const { query } = JSON.parse(options.body);
+        if (query.includes("to_regclass")) return respond([{ name: "migration_ledger" }]);
+        if (query.startsWith("select name from public.migration_ledger")) {
+          return respond([{ name: `${TOKEN}` }, { name: "init" }]);
+        }
+        if (query.includes("information_schema.tables")) return respond([{ table_name: `evil\n${REF}` }]);
+        return respond([]);
+      };
+      console.log = (message) => out.push(String(message));
+      console.error = (message) => out.push(String(message));
+      const code = await main([]);
+      expect(code).toBe(0);
+    } finally {
+      if (originalRef === undefined) delete process.env.SUPABASE_PROJECT_REF;
+      else process.env.SUPABASE_PROJECT_REF = originalRef;
+      if (originalToken === undefined) delete process.env.SUPABASE_ACCESS_TOKEN;
+      else process.env.SUPABASE_ACCESS_TOKEN = originalToken;
+      globalThis.fetch = originalFetch;
+      console.log = originalLog;
+      console.error = originalError;
+    }
+    const output = out.join("\n");
+    expect(output).not.toContain(TOKEN);
+    expect(output).not.toContain(REF);
+    expect(output).not.toContain("evil");
+    expect(output).toContain("unknown: 1");
+  });
+
+  it("main() rejects raw env whitespace before any fetch", async () => {
+    const originalFetch = globalThis.fetch;
+    const originalRef = process.env.SUPABASE_PROJECT_REF;
+    const originalToken = process.env.SUPABASE_ACCESS_TOKEN;
+    const originalError = console.error;
+    let fetchCalls = 0;
+    const stderr = [];
+    try {
+      process.env.SUPABASE_PROJECT_REF = ` ${REF}`;
+      process.env.SUPABASE_ACCESS_TOKEN = TOKEN;
+      globalThis.fetch = async () => {
+        fetchCalls += 1;
+        return { ok: true, json: async () => [] };
+      };
+      console.error = (message) => stderr.push(String(message));
+      const code = await main([]);
+      expect(code).toBe(2);
+      expect(fetchCalls).toBe(0);
+      expect(stderr.join("\n")).not.toContain(REF);
+      expect(stderr.join("\n")).not.toContain(TOKEN);
+    } finally {
+      if (originalRef === undefined) delete process.env.SUPABASE_PROJECT_REF;
+      else process.env.SUPABASE_PROJECT_REF = originalRef;
+      if (originalToken === undefined) delete process.env.SUPABASE_ACCESS_TOKEN;
+      else process.env.SUPABASE_ACCESS_TOKEN = originalToken;
+      globalThis.fetch = originalFetch;
+      console.error = originalError;
+    }
   });
 });
 

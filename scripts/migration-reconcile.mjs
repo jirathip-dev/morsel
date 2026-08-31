@@ -188,6 +188,18 @@ export function validateInputShape(ref, token) {
   }
 }
 
+// Reject raw environment values that carry leading/trailing whitespace or
+// control characters BEFORE any trimming or request. The validated exact
+// value is used as-is afterwards; the message is fixed and never echoes the
+// input.
+export function validateRawEnvValue(name, value) {
+  if (/^[\s\u0000-\u001f\u007f]|[\s\u0000-\u001f\u007f]$/.test(value)) {
+    throw new UsageError(
+      `${name} must not have leading or trailing whitespace or control characters.`,
+    );
+  }
+}
+
 function columnKey(table, column) {
   return `${table}.${column}`;
 }
@@ -223,7 +235,7 @@ async function managementQuery(sql, label, ref, token) {
   return Array.isArray(body) ? body : (body.result ?? body.rows ?? []);
 }
 
-export function formatReport({ local, ledgerExists, ledgerNames, inventory, checks }) {
+export function formatReport({ local, ledgerExists, ledgerNames, unknownLedgerCount, inventory, checks }) {
   const lines = [];
   lines.push("Morsel migration ledger reconciliation — READ-ONLY");
   lines.push("==================================================");
@@ -238,6 +250,11 @@ export function formatReport({ local, ledgerExists, ledgerNames, inventory, chec
         ? "  names  : 0 recorded (empty)"
         : `  names  : ${ledgerNames.length} recorded (${ledgerNames.join(", ")})`,
     );
+    if (unknownLedgerCount > 0) {
+      lines.push(
+        `  unknown: ${unknownLedgerCount} ledger ${unknownLedgerCount === 1 ? "entry" : "entries"} do not match the local migration manifest (values redacted)`,
+      );
+    }
   } else {
     lines.push("  exists : no — MISSING (not bootstrapped; nothing was created or recorded)");
   }
@@ -284,19 +301,38 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
   if (!token) throw new UsageError("No Management API token found. Set SUPABASE_ACCESS_TOKEN.");
   validateInputShape(ref, token);
 
+  const local = parseMigrationNames(
+    readdirSync(join(root, "db", "migrations")).filter((file) => file.endsWith(".sql")),
+  );
+  const localNameSet = new Set(local.map((migration) => migration.name));
+
   // Every statement is guarded read-only before it reaches the query layer,
-  // regardless of which query implementation is in use.
+  // regardless of which query implementation is in use. Query implementation
+  // failures (including an injected hostile queryImpl) cross the same
+  // sanitizing boundary as managementQuery: only fixed label/status
+  // diagnostics escape; raw error.message (which may embed ref/token/query/
+  // body/header/URL sentinels) never does.
   const query = async (sql, label) => {
     assertReadOnly(sql);
-    if (queryImpl) return queryImpl(sql, label);
-    return managementQuery(sql, label, ref, token);
+    try {
+      if (queryImpl) return await queryImpl(sql, label);
+      return await managementQuery(sql, label, ref, token);
+    } catch (error) {
+      if (error instanceof SanitizedError) throw error;
+      throw new SanitizedError(`${label} failed: query error`);
+    }
   };
 
   const ledgerRow = (await query(LEDGER_EXISTS_SQL, "ledger existence"))[0] ?? {};
   const ledgerExists = Boolean(ledgerRow.name);
-  const ledgerNames = ledgerExists
+  const rawLedgerNames = ledgerExists
     ? (await query(LEDGER_NAMES_SQL, "ledger names")).map((row) => row.name)
     : [];
+  // Only ledger names that exactly match the local migration manifest are
+  // reported/returned; unknown rows are counted and redacted so arbitrary
+  // database response values can never leak through report/stdout.
+  const ledgerNames = rawLedgerNames.filter((name) => localNameSet.has(name));
+  const unknownLedgerCount = rawLedgerNames.length - ledgerNames.length;
 
   const [tableRows, columnRows, routineRows, policyRows] = await Promise.all([
     query(INVENTORY_SQL.tables, "table inventory"),
@@ -315,10 +351,6 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
       policyRows.map((row) => `${row.schemaname}.${row.tablename}:${row.policyname}`),
     ),
   };
-
-  const local = parseMigrationNames(
-    readdirSync(join(root, "db", "migrations")).filter((file) => file.endsWith(".sql")),
-  );
 
   const checks = {};
   for (const migration of local) {
@@ -368,27 +400,40 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
     local,
     ledgerExists,
     ledgerNames,
+    unknownLedgerCount,
     inventory,
     checks,
   });
   log.log(report);
-  return { ledgerExists, ledgerNames, local: local.map((migration) => migration.file), checks, report };
+  return {
+    ledgerExists,
+    ledgerNames,
+    unknownLedgerCount,
+    local: local.map((migration) => migration.file),
+    checks,
+    report,
+  };
 }
 
 export async function main(argv = process.argv.slice(2)) {
-  const ref = process.env.SUPABASE_PROJECT_REF?.trim();
-  const token = process.env.SUPABASE_ACCESS_TOKEN?.trim();
+  // Validate the RAW environment values: leading/trailing whitespace or
+  // control characters are rejected with exit 2 before any request, and the
+  // validated exact values (not trimmed copies) are used afterwards.
+  const rawRef = process.env.SUPABASE_PROJECT_REF;
+  const rawToken = process.env.SUPABASE_ACCESS_TOKEN;
   try {
-    if (!ref) throw new UsageError("SUPABASE_PROJECT_REF is required.");
-    if (!token) throw new UsageError("No Management API token found. Set SUPABASE_ACCESS_TOKEN.");
+    if (!rawRef) throw new UsageError("SUPABASE_PROJECT_REF is required.");
+    if (!rawToken) throw new UsageError("No Management API token found. Set SUPABASE_ACCESS_TOKEN.");
     if (argv.length > 0) {
       throw new UsageError(
         "migration-reconcile accepts no arguments (read-only; --adopt and migration apply are not supported here).",
       );
     }
-    validateInputShape(ref, token);
+    validateRawEnvValue("SUPABASE_PROJECT_REF", rawRef);
+    validateRawEnvValue("SUPABASE_ACCESS_TOKEN", rawToken);
+    validateInputShape(rawRef, rawToken);
     const root = dirname(dirname(fileURLToPath(import.meta.url)));
-    await run({ ref, token, root });
+    await run({ ref: rawRef, token: rawToken, root });
     return 0;
   } catch (error) {
     // Only fixed messages (UsageError / SanitizedError) are printed. Raw
