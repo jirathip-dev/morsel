@@ -67,6 +67,15 @@ platform :ios do
       output_path: "fastlane/certs"
     )
     profile = lane_context[SharedValues::SIGH_NAME]
+    update_code_signing_settings(
+      path: "app/Morsel.xcodeproj",
+      use_automatic_signing: false,
+      team_id: "9244PWFYD7",
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile,
+      targets: ["Morsel"],
+      build_configurations: ["Release"]
+    )
     build = latest_testflight_build_number(
       api_key: api_key, app_identifier: APP_IDENTIFIER, initial_build_number: 0
     ) + 1
