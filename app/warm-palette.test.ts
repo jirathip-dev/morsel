@@ -572,4 +572,53 @@ describe('V1 review-r2: forest active tab, orange actions, split status text (Re
     expect(designMd).not.toMatch(/calorie figures, active nav/)
     expect(designMd, 'accent bullet must not claim active nav').not.toMatch(/accent[^\n]*active nav/i)
   })
+
+  it('wraps Today, Settings, and the onboarding cover in MorselActionTint below the forest shell', () => {
+    const shellStart = morselApp.indexOf('private struct AuthenticatedDashboardView: View')
+    expect(shellStart, 'AuthenticatedDashboardView must exist').toBeGreaterThan(-1)
+    const shell = morselApp.slice(shellStart)
+    const wrapperDef = shell.indexOf('private struct MorselActionTint')
+    expect(wrapperDef, 'MorselActionTint wrapper must be defined in the shell').toBeGreaterThan(-1)
+    const tabViewAt = shell.indexOf('TabView(selection: $selectedTab)')
+    expect(tabViewAt, 'root TabView must exist').toBeGreaterThan(-1)
+
+    // Bounded-slice helper: content strictly between two unique anchors —
+    // never a whole-file occurrence count.
+    const site = (from: string, to: string, label: string): { start: number; text: string } => {
+      const start = shell.indexOf(from)
+      const end = shell.indexOf(to, start + from.length)
+      expect(start, `${label}: start anchor must exist`).toBeGreaterThan(-1)
+      expect(end, `${label}: end anchor must exist`).toBeGreaterThan(start)
+      return { start, text: shell.slice(start, end) }
+    }
+
+    // 1. The Today tab content is wrapped.
+    const today = site('TabView(selection: $selectedTab) {', '.tag(DashboardTab.today)', 'Today tab')
+    expect(today.text, 'Today tab content must be inside MorselActionTint')
+      .toMatch(/MorselActionTint \{[\s\S]*?TodayView\(viewModel: viewModel\)/)
+
+    // 2. The Settings tab content is wrapped.
+    const settings = site('.tag(DashboardTab.today)', '.tag(DashboardTab.settings)', 'Settings tab')
+    expect(settings.text, 'Settings tab content must be inside MorselActionTint')
+      .toMatch(/MorselActionTint \{[\s\S]*?SettingsView\(/)
+
+    // 3. The authenticated onboarding full-screen-cover content is wrapped.
+    const cover = site('.fullScreenCover(isPresented: $showingOnboarding) {', 'private struct MorselActionTint', 'onboarding cover')
+    expect(cover.text, 'onboarding cover content must be inside MorselActionTint')
+      .toMatch(/MorselActionTint \{[\s\S]*?OnboardingView\(/)
+
+    // 4. All three sites sit below the forest TabView shell (between the
+    // TabView opening and the wrapper definition), and the wrapper's own
+    // tint resolves to the orange action anchor.
+    expect(today.start, 'Today wrapper must sit at/after the TabView opening').toBeGreaterThanOrEqual(tabViewAt)
+    expect(settings.start, 'Settings wrapper must follow the Today tab').toBeGreaterThan(today.start)
+    expect(cover.start, 'onboarding cover must follow the Settings tab').toBeGreaterThan(settings.start)
+    expect(cover.start, 'all wrapper sites must precede the wrapper definition').toBeLessThan(wrapperDef)
+    const shellTint = /\.tint\((Color\.morsel\w+)\)/.exec(shell.slice(tabViewAt, wrapperDef))
+    expect(shellTint, 'forest TabView tint must sit between the TabView and the wrapper definition').toBeTruthy()
+    expect(resolveSwiftColor(shellTint![1]), 'TabView shell tint must be forest').toBe(V1.forest)
+    const wrapperTint = /\.tint\((Color\.morsel\w+)\)/.exec(shell.slice(wrapperDef))
+    expect(wrapperTint, 'wrapper tint must exist').toBeTruthy()
+    expect(resolveSwiftColor(wrapperTint![1]), 'wrapper must re-apply the orange action anchor').toBe(V1.accent)
+  })
 })
