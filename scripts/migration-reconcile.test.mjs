@@ -274,9 +274,9 @@ describe("read-only mutation probes", () => {
   it("accepts exactly the six fixed queries and rejects every near-miss variant", () => {
     const fixed = [LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)];
     expect(fixed).toHaveLength(6);
-    expect(ALLOWED_QUERIES.size).toBe(6);
+    expect(ALLOWED_QUERIES.length).toBe(6);
     for (const sql of fixed) {
-      expect(ALLOWED_QUERIES.has(sql), sql).toBe(true);
+      expect(ALLOWED_QUERIES.includes(sql), sql).toBe(true);
       expect(() => assertReadOnly(sql), sql).not.toThrow();
     }
     const nearMisses = [
@@ -298,10 +298,71 @@ describe("read-only mutation probes", () => {
     const db = fakeDatabase({});
     await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
     const issued = new Set(db.sql);
+    expect(issued.size).toBe(6); // ledger existence + names + 4 inventory queries
     for (const statement of issued) {
-      expect(ALLOWED_QUERIES.has(statement), statement).toBe(true);
+      expect(ALLOWED_QUERIES.includes(statement), statement).toBe(true);
     }
     expect(db.sql.every((statement) => /^\s*select\b/i.test(statement))).toBe(true);
+  });
+
+  it("exported allowlist representation is immutable and cannot be widened", () => {
+    const injected = "select set_config('app.reconciled', 'yes', false)";
+    // A frozen ARRAY is the exported surface: mutation attempts throw in strict mode.
+    expect(Object.isFrozen(ALLOWED_QUERIES)).toBe(true);
+    expect(() => ALLOWED_QUERIES.push(injected)).toThrow();
+    expect(() => ALLOWED_QUERIES.splice(0, 1)).toThrow();
+    expect(() => ALLOWED_QUERIES.pop()).toThrow();
+    expect(() => {
+      ALLOWED_QUERIES[0] = injected;
+    }).toThrow();
+    // The exported surface is not a Set, so .add/.delete/.clear cannot widen it.
+    expect(typeof ALLOWED_QUERIES.add).toBe("undefined");
+    expect(typeof ALLOWED_QUERIES.delete).toBe("undefined");
+    expect(typeof ALLOWED_QUERIES.clear).toBe("undefined");
+    // The six fixed queries are still exactly the only accepted statements.
+    expect(ALLOWED_QUERIES).toEqual([
+      LEDGER_EXISTS_SQL,
+      LEDGER_NAMES_SQL,
+      ...Object.values(INVENTORY_SQL),
+    ]);
+    expect(() => assertReadOnly(injected)).toThrow(/non-allowlisted/);
+  });
+
+  it("exported INVENTORY_SQL is frozen and cannot redirect the internal queries", () => {
+    const injected = "select set_config('app.reconciled', 'yes', false)";
+    const tablesBefore = INVENTORY_SQL.tables;
+    const policiesBefore = INVENTORY_SQL.policies;
+    expect(Object.isFrozen(INVENTORY_SQL)).toBe(true);
+    expect(() => {
+      INVENTORY_SQL.tables = injected;
+    }).toThrow();
+    expect(() => {
+      INVENTORY_SQL.policies = "select 1; drop table public.users";
+    }).toThrow();
+    // Values are unchanged after the attempted redirect.
+    expect(INVENTORY_SQL.tables).toBe(tablesBefore);
+    expect(INVENTORY_SQL.policies).toBe(policiesBefore);
+    // The injected SELECT is still refused by the private membership set.
+    expect(() => assertReadOnly(injected)).toThrow(/non-allowlisted/);
+  });
+
+  it("an injected writable SELECT can never reach the query layer (reviewer attack)", async () => {
+    const injected = "select set_config('app.reconciled', 'yes', false)";
+    // Step 1 of the round-2 reviewer attack: widen the allowlist — impossible.
+    expect(() => ALLOWED_QUERIES.push(injected)).toThrow();
+    // Step 2: redirect the exported inventory config — impossible.
+    expect(() => {
+      INVENTORY_SQL.tables = injected;
+    }).toThrow();
+    // The injected string is refused by the guard, and a full run still issues
+    // exactly the six fixed queries with the ORIGINAL strings.
+    expect(() => assertReadOnly(injected)).toThrow(/non-allowlisted/);
+    const db = fakeDatabase({});
+    await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    expect(new Set(db.sql)).toEqual(
+      new Set([LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)]),
+    );
+    expect(db.sql.every((statement) => ALLOWED_QUERIES.includes(statement))).toBe(true);
   });
 
   it("never prints the project ref or token in the report, stdout, or errors", async () => {

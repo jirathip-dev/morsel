@@ -23,7 +23,7 @@ export const LEDGER_EXISTS_SQL =
 export const LEDGER_NAMES_SQL =
   "select name from public.migration_ledger order by name";
 
-export const INVENTORY_SQL = {
+export const INVENTORY_SQL = Object.freeze({
   tables:
     "select table_name from information_schema.tables where table_schema = 'public' order by table_name",
   columns:
@@ -32,21 +32,30 @@ export const INVENTORY_SQL = {
     "select routine_name from information_schema.routines where routine_schema = 'public' order by routine_name",
   policies:
     "select schemaname, tablename, policyname from pg_policies where schemaname in ('public','storage') order by schemaname, tablename, policyname",
-};
+});
 
 // Immutable exact-membership allowlist: reconcile mode only ever issues these
 // fixed SELECT statements, and NOTHING else. Stacked statements, writable
 // SELECT functions, transactions, comments/whitespace variants, migration SQL,
 // and ledger DDL/inserts are all refused because the submitted string must be
 // byte-for-byte identical to one of the entries below.
-export const ALLOWED_QUERIES = Object.freeze(
-  new Set([LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)]),
-);
+//
+// The EXPORTED representation is a frozen ARRAY (Object.freeze(new Set(...))
+// does not prevent Set#add/delete — see fix round 2); the membership Set used
+// by the guard is PRIVATE and built once from that frozen array, so callers
+// cannot widen it by mutating any exported value.
+export const ALLOWED_QUERIES = Object.freeze([
+  LEDGER_EXISTS_SQL,
+  LEDGER_NAMES_SQL,
+  ...Object.values(INVENTORY_SQL),
+]);
+
+const allowedQuerySet = new Set(ALLOWED_QUERIES);
 
 // Hard read-only guard: the query wrapper rejects any non-allowlisted string
 // before it reaches queryImpl/fetch.
 export function assertReadOnly(sql) {
-  if (!ALLOWED_QUERIES.has(sql)) {
+  if (!allowedQuerySet.has(sql)) {
     const preview = sql.replace(/\s+/g, " ").trim().slice(0, 80);
     throw new Error(`reconcile mode refuses non-allowlisted SQL: ${preview}`);
   }
