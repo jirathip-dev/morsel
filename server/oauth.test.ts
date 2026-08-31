@@ -51,12 +51,17 @@ function createTestGrantStore(): OAuthGrantStore {
   }
 }
 
-function createTestApp(basePath?: string, grantStore = createTestGrantStore()) {
+function createTestApp(basePath?: string, grantStore = createTestGrantStore(), publicBaseUrl?: string) {
   return createMorselApp({
     basePath,
     authenticate: () => Promise.reject(new Error('not reached')),
     repositoryFactory: () => new InMemoryRepository(),
-    oauth: { grantStore, signingKey: 'oauth-test-signing-key', service: oauthService },
+    oauth: {
+      grantStore,
+      publicBaseUrl,
+      signingKey: 'oauth-test-signing-key',
+      service: oauthService,
+    },
   })
 }
 
@@ -104,6 +109,58 @@ describe('OAuth discovery and MCP authentication', () => {
       resource: 'https://connector.example/functions/v1/mcp/mcp',
       authorization_servers: ['https://connector.example/functions/v1/mcp'],
     })
+  })
+
+  it('advertises the explicit public prefix when the gateway strips /functions/v1', async () => {
+    const app = createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp')
+    const [authorizationServer, protectedResource] = await Promise.all([
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server')),
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-protected-resource/mcp')),
+    ])
+
+    expect(authorizationServer.status).toBe(200)
+    expect(await authorizationServer.json()).toMatchObject({
+      issuer: 'https://connector.example/functions/v1/mcp',
+      authorization_endpoint: 'https://connector.example/functions/v1/mcp/authorize',
+      token_endpoint: 'https://connector.example/functions/v1/mcp/token',
+      registration_endpoint: 'https://connector.example/functions/v1/mcp/register',
+      code_challenge_methods_supported: ['S256'],
+      grant_types_supported: ['authorization_code', 'refresh_token'],
+    })
+    expect(protectedResource.status).toBe(200)
+    expect(await protectedResource.json()).toMatchObject({
+      resource: 'https://connector.example/functions/v1/mcp/mcp',
+      authorization_servers: ['https://connector.example/functions/v1/mcp'],
+    })
+
+    const challengeResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(challengeResponse.status).toBe(401)
+    expect(challengeResponse.headers.get('www-authenticate')).toBe(
+      'Bearer resource_metadata="https://connector.example/functions/v1/mcp/.well-known/oauth-protected-resource/mcp"',
+    )
+  })
+
+  it('derives metadata from the request when no public prefix is configured', async () => {
+    const app = createTestApp('/mcp')
+    const response = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server'))
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      issuer: 'http://supabase-edge-runtime:8081/mcp',
+      authorization_endpoint: 'http://supabase-edge-runtime:8081/mcp/authorize',
+      token_endpoint: 'http://supabase-edge-runtime:8081/mcp/token',
+      registration_endpoint: 'http://supabase-edge-runtime:8081/mcp/register',
+    })
+  })
+
+  it('rejects a malformed explicit public base URL', () => {
+    expect(() => createTestApp('/mcp', createTestGrantStore(), 'not-a-url')).toThrow(/public base URL/)
+    expect(() => createTestApp('/mcp', createTestGrantStore(), 'ftp://connector.example/mcp')).toThrow(/public base URL/)
+    expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/mcp#fragment')).toThrow(/public base URL/)
   })
 
   it('keeps discovery and the MCP challenge working below the Edge Function prefix', async () => {

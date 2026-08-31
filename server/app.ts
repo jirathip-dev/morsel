@@ -12,6 +12,7 @@ import {
   protectedResourceMetadataUrl,
   registerOAuthRoutes,
   type MorselOAuthOptions,
+  type OAuthConfigValue,
 } from './oauth.ts'
 
 interface McpSession {
@@ -43,7 +44,7 @@ function environmentValue(names: string[]): string {
   throw new MorselError('internal_error', `missing server configuration: ${names[0] ?? 'environment variable'}`)
 }
 
-function httpError(error: unknown, request?: Request, basePath?: string): Response {
+function httpError(error: unknown, request?: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Response {
   const morselError = error instanceof MorselError
     ? error
     : new MorselError('internal_error', 'request failed')
@@ -56,7 +57,7 @@ function httpError(error: unknown, request?: Request, basePath?: string): Respon
         : 500
   const headers = new Headers({ 'content-type': 'application/json' })
   if (morselError.code === 'authentication_failed' && request !== undefined) {
-    headers.set('www-authenticate', `Bearer resource_metadata="${protectedResourceMetadataUrl(request, basePath)}"`)
+    headers.set('www-authenticate', `Bearer resource_metadata="${protectedResourceMetadataUrl(request, basePath, publicBaseUrl)}"`)
   }
   return new Response(JSON.stringify({ error: morselError.publicMessage }), {
     status,
@@ -141,11 +142,13 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const oauthOptions = options.oauth ?? {}
   const oauthAnonKey = oauthOptions.anonKey ?? (() => environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY']))
   const oauthSupabaseUrl = oauthOptions.supabaseUrl ?? (() => environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL']))
+  const oauthPublicBaseUrl = oauthOptions.publicBaseUrl
   const oauthService = oauthOptions.service ?? createSupabaseOAuthService({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
   const oauthGrantStore = oauthOptions.grantStore ?? createSupabaseOAuthGrantStore({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
   registerOAuthRoutes(routes, {
     basePath: options.basePath,
     grantStore: oauthGrantStore,
+    publicBaseUrl: oauthPublicBaseUrl,
     service: oauthService,
     signingKey: oauthOptions.signingKey ?? (() => environmentValue(['MORSEL_OAUTH_SIGNING_KEY'])),
   })
@@ -238,7 +241,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
         return transport.handleRequest(await requestWithDefaultToolArguments(context.req.raw), { authInfo: user.authInfo })
       })
     } catch (error) {
-      return httpError(error, context.req.raw, options.basePath)
+      return httpError(error, context.req.raw, options.basePath, oauthPublicBaseUrl)
     }
   })
 
