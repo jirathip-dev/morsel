@@ -8,15 +8,15 @@ const palette = {
   surface: '#FFFFFF',
   surfaceTwo: '#F3F1EA',
   line: '#E7E3D8',
-  accent: '#3E63E8',
-  accentSoft: '#E9EEFC',
+  accent: '#F08A2E',
+  accentSoft: '#F6E8D8',
   energy: '#F08A2E',
   energySoft: '#F6E8D8',
   over: '#C0483F',
   low: '#8A5514',
-  protein: '#6C5CE7',
+  protein: '#C0483F',
   carbs: '#F0A63C',
-  fat: '#0FA6A0',
+  fat: '#D46A2E',
 }
 
 const monthNames = [

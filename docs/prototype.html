@@ -23,22 +23,22 @@
     --ink-2:#666A60;
     --ink-3:#9BA095;
     --line:#E7E3D8;          /* hairline */
-    --accent:#3E63E8;        /* interaction accent — cobalt blue (confirm / active / streak / tags) */
-    --accent-soft:#E9EEFC;
+    --accent:#F08A2E;        /* interaction accent — warm orange (confirm / active / streak / tags) */
+    --accent-soft:#F6E8D8;
     --energy:#F08A2E;        /* calories — copper/amber */
     --energy-soft:#F6E8D8;
     --over:#C0483F;          /* over goal / danger (text) */
     --low:#8A5514;           /* low-confidence / review */
-    --protein:#6C5CE7;       /* violet */
+    --protein:#C0483F;       /* coral */
     --carbs:#F0A63C;         /* amber */
-    --fat:#0FA6A0;           /* teal */
-    --grad-energy:linear-gradient(180deg,#FFC24B,#F0762E);
-    --grad-protein:linear-gradient(180deg,#9C8BF5,#6C5CE7);
+    --fat:#D46A2E;           /* warm orange-brown */
+    --grad-energy:linear-gradient(180deg,#FFC24B,#D46A2E);
+    --grad-protein:linear-gradient(180deg,#C0483F,#C0483F);
     --grad-carbs:linear-gradient(180deg,#FFC24B,#F0A63C);
-    --grad-fat:linear-gradient(180deg,#37D5C2,#0FA6A0);
-    --grad-under:linear-gradient(180deg,#5BD8E6,#1FA3C4);
-    --grad-on:linear-gradient(180deg,#3BC8A8,#12A98E);
-    --grad-over:linear-gradient(180deg,#F7A98C,#E0765F);
+    --grad-fat:linear-gradient(180deg,#F0A63C,#D46A2E);
+    --grad-under:linear-gradient(180deg,#FFC24B,#F08A2E);
+    --grad-on:linear-gradient(180deg,#F0A63C,#D46A2E);
+    --grad-over:linear-gradient(180deg,#F7A98C,#C0483F);
     --grad-card:linear-gradient(180deg,#FFFFFF,#FBF9F2);
     --r:12px;
     --ui:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
@@ -83,7 +83,7 @@
   .g-tot{font-size:12.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
   .g-tot b{color:var(--ink);font-weight:800}
   .g-tot .rem{color:var(--ink-2)}
-  .g-tot .rem.over{color:#D9715D}
+  .g-tot .rem.over{color:#C0483F}
   .macros{margin-top:12px;display:grid;gap:8px}
   .macro{display:grid;grid-template-columns:14px 40px 1fr;align-items:center;gap:8px}
   .macro .dot{width:9px;height:9px;border-radius:2px}
@@ -104,7 +104,7 @@
   .m-head .time{font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
   .m-head .kcal{margin-left:auto;font-size:14px;font-weight:800;color:var(--energy)}
   .m-head .kcal small{font-size:10px;color:var(--ink-3);font-weight:600}
-  .row{display:flex;align-items:flex-start;gap:10px;padding:9px 2px;border-top:1px solid #F0EDE3}
+  .row{display:flex;align-items:flex-start;gap:10px;padding:9px 2px;border-top:1px solid var(--line)}
   .row:first-child{border-top:none}
   .row.low{background:linear-gradient(to right,var(--energy-soft),transparent 72%);border-radius:6px;padding:9px 8px}
   .row .r-l{flex:1;min-width:0}
@@ -132,8 +132,8 @@
   .btn:active{transform:scale(.98)}
   .btn.ghost{background:var(--surface-2);color:var(--ink-2)}
   .btn.confirm{background:var(--accent);color:#fff}
-  .btn.confirm:hover{background:#3354C7}
-  .btn.ghost:hover{background:#EBE8DF}
+  .btn.confirm:hover{background:#F6E8D8}
+  .btn.ghost:hover{background:#E7E3D8}
 
   /* ---- water ---- */
   .water{display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
@@ -141,7 +141,7 @@
   .water .wn{font-size:12px;color:var(--ink-2);margin-left:auto;font-family:var(--mono)}
   .glasses{display:flex;gap:5px;margin-top:10px}
   .glass{flex:1;height:26px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);position:relative;overflow:hidden}
-  .glass i{display:block;position:absolute;left:0;right:0;bottom:0;background:#6FA7C6;height:0;transition:height .5s ease}
+  .glass i{display:block;position:absolute;left:0;right:0;bottom:0;background:#F08A2E;height:0;transition:height .5s ease}
   .glass.full i{height:100%}
 
   /* ---- review / goals screens ---- */
@@ -209,8 +209,8 @@
   .day .date{font-size:14px;font-weight:700}
   .day .sub{font-size:12px;color:var(--ink-2);margin-top:1px}
   .day .delta{font-family:var(--mono);font-size:13px;font-weight:600;text-align:right;white-space:nowrap}
-  .day .delta.over{color:#D9715D}
-  .day .delta.under{color:#1AA3B8}
+  .day .delta.over{color:#C0483F}
+  .day .delta.under{color:#8A5514}
   .day .delta.on{color:var(--ink-2)}
   .day .delta .state{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
 
@@ -224,7 +224,7 @@
   .day-detail .dd-sub{font-size:12px;color:var(--ink-2);margin-top:2px}
   .day-detail .dd-mac{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);margin-top:10px}
   .day-detail .dd-items{margin-top:8px;border-top:1px solid var(--line)}
-  .day-detail .di{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #F0EDE3;font-size:13px}
+  .day-detail .di{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
   .day-detail .di:last-child{border-bottom:none}
   .day-detail .di span{color:var(--ink-2);font-size:12px}
 
@@ -251,9 +251,9 @@
       <div class="g-ring" id="ring">
         <svg width="118" height="118" viewBox="0 0 118 118">
           <defs>
-            <linearGradient id="gOn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ED6BE"/><stop offset=".5" stop-color="#12A98E"/><stop offset="1" stop-color="#0E9F8A"/></linearGradient>
-            <linearGradient id="gNear" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFCF5E"/><stop offset=".5" stop-color="#F08A2E"/><stop offset="1" stop-color="#F0762E"/></linearGradient>
-            <linearGradient id="gOver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB9A8"/><stop offset=".5" stop-color="#E0765F"/><stop offset="1" stop-color="#C0483F"/></linearGradient>
+            <linearGradient id="gOn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0A63C"/><stop offset=".5" stop-color="#D46A2E"/><stop offset="1" stop-color="#C0483F"/></linearGradient>
+            <linearGradient id="gNear" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC24B"/><stop offset=".5" stop-color="#F08A2E"/><stop offset="1" stop-color="#F0A63C"/></linearGradient>
+            <linearGradient id="gOver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7A98C"/><stop offset=".5" stop-color="#C0483F"/><stop offset="1" stop-color="#C0483F"/></linearGradient>
           </defs>
           <circle class="g-track" cx="59" cy="59" r="50" fill="none" stroke-width="10"></circle>
           <circle class="g-fill" id="ringFill" cx="59" cy="59" r="50" fill="none" stroke-width="10" stroke-dasharray="314.2" stroke-dashoffset="314.2"></circle>

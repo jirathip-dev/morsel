@@ -4,8 +4,9 @@ name: Morsel
 description: A readout, not a showcase. Morsel is a data store + read-only dashboard
   + agent skill (no chat). The UI renders what the agent wrote — source, confidence,
   unit, per-item macros — and surfaces a needs-review affordance for low-confidence
-  estimates. Warm neutral ground, a single green accent for on-track/confirm, amber for
-  calories, red for over-goal. Humanist sans for copy, monospace for the data vocabulary.
+  estimates. Warm neutral ground, a single warm-orange accent for interaction and
+  calories, amber for carbs, coral-red for over-goal. Humanist sans for copy,
+  monospace for the data vocabulary.
 colors:
   ink: "#20231E"
   inkTwo: "#666A60"
@@ -14,15 +15,15 @@ colors:
   surface: "#FFFFFF"
   surfaceTwo: "#F3F1EA"
   line: "#E7E3D8"
-  accent: "#3E63E8"
-  accentSoft: "#E9EEFC"
+  accent: "#F08A2E"
+  accentSoft: "#F6E8D8"
   energy: "#F08A2E"
   energySoft: "#F6E8D8"
   over: "#C0483F"
   low: "#8A5514"
-  protein: "#6C5CE7"
+  protein: "#C0483F"
   carbs: "#F0A63C"
-  fat: "#0FA6A0"
+  fat: "#D46A2E"
 typography:
   display:
     fontFamily: Nunito Sans
@@ -79,7 +80,7 @@ components:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.sm}"
   tag-conf-high:
-    textColor: "{colors.accent}"
+    textColor: "{colors.low}"
     backgroundColor: "{colors.accentSoft}"
   tag-conf-low:
     textColor: "{colors.low}"
@@ -120,19 +121,19 @@ renderer should follow.
 ## Colors
 
 - **ink (#20231E)** — warm near-black for primary text and numerals.
-- **accent (#3E63E8)** — the *interaction* accent: **cobalt blue**. Confirm
+- **accent (#F08A2E)** — the *interaction* accent: **warm orange**. Confirm
   buttons, active nav, streak, high-confidence tags; slider thumbs and
-  focus states. It is **not** a chart color and is deliberately **not green**.
+  focus states. It is **not** a chart color.
 - **energy (#F08A2E)** — calories. Headline kcal numbers and the "verify"
   affordance; the ring's near/over gradient uses this copper-amber family.
 - **over (#C0483F)** — text only when eaten exceeds goal.
-- **Macro colors (gradients)** — protein violet (#6C5CE7), carbs amber
-  (#F0A63C), fat teal (#0FA6A0), used as gradient fills (`gradProtein` /
-  `gradCarbs` / `gradFat`). No generic green/red.
+- **Macro colors (gradients)** — protein coral (#C0483F), carbs amber
+  (#F0A63C), fat warm orange-brown (#D46A2E), used as gradient fills
+  (`gradProtein` / `gradCarbs` / `gradFat`).
 - **Neutrals** — bg (#FBFAF6), surface (#FFFFFF), surfaceTwo (#F3F1EA), line
   (#E7E3D8), inkTwo/inkThree for muted and faint text.
 
-Color is discipline: one interaction accent, a calorie color, and a cool→warm
+Color is discipline: one interaction accent, a calorie color, and a warm
 **status ramp** (see Charts & gradients). Charts use gradients, not flat fills.
 Add a color to the token table first, never an ad-hoc hex in a component.
 
@@ -140,15 +141,15 @@ Add a color to the token table first, never an ad-hoc hex in a component.
 
 Charts never use flat fills. Every data element is a **gradient**:
 
-- **Macro bars** — `gradProtein` (violet), `gradCarbs` (amber), `gradFat`
-  (teal), `linear-gradient(180deg,…)`, rounded caps, ~6px tall on a surfaceTwo
-  track. The macro dot uses the same gradient.
+- **Macro bars** — `gradProtein` (coral), `gradCarbs` (amber), `gradFat`
+  (warm orange-brown), `linear-gradient(180deg,…)`, rounded caps, ~6px tall on
+  a surfaceTwo track. The macro dot uses the same gradient.
 - **Calorie ring** — SVG `linearGradient` stroke (3-stop for richness). On target
-  `gradOn` (teal-emerald); `gradNear` (amber→copper) as you approach (>85%);
-  `gradOver` (copper-rose) when over. A soft radial glow lifts it.
-- **History bars + over/under** — a **cool→warm temperature ramp** instead of
-  generic green/red: `gradUnder` (cyan, below target) → `gradOn` (teal-emerald,
-  in the ±50 kcal zone) → `gradOver` (copper-rose, above). The dashed goal line
+  `gradOn` (amber→warm orange-brown); `gradNear` (golden→copper) as you approach
+  (>85%); `gradOver` (blush-coral) when over. A soft radial glow lifts it.
+- **History bars + over/under** — a **warm temperature ramp**: `gradUnder`
+  (golden-amber, below target) → `gradOn` (amber→warm orange-brown, in the
+  ±50 kcal zone) → `gradOver` (blush-coral, above). The dashed goal line
   and signed delta text carry the precise value; the gradient carries the *feel*.
 - **Cards** — a faint `gradCard` (#FFFFFF → #FBF9F2) on the gauge/history
   readout surfaces for a soft modern lift.
@@ -158,12 +159,12 @@ Gradient values are defined once — in the prototype CSS and a SwiftUI
 takes single CSS colors. Never hard-code them per component:
 
 ```css
---grad-protein: linear-gradient(180deg,#9C8BF5,#6C5CE7);
+--grad-protein: linear-gradient(180deg,#C0483F,#C0483F);
 --grad-carbs:   linear-gradient(180deg,#FFC24B,#F0A63C);
---grad-fat:     linear-gradient(180deg,#37D5C2,#0FA6A0);
---grad-under:   linear-gradient(180deg,#5BD8E6,#1FA3C4);
---grad-on:      linear-gradient(180deg,#3BC8A8,#12A98E);
---grad-over:    linear-gradient(180deg,#F7A98C,#E0765F);
+--grad-fat:     linear-gradient(180deg,#F0A63C,#D46A2E);
+--grad-under:   linear-gradient(180deg,#FFC24B,#F08A2E);
+--grad-on:      linear-gradient(180deg,#F0A63C,#D46A2E);
+--grad-over:    linear-gradient(180deg,#F7A98C,#C0483F);
 ```
 
 On native, map them to SwiftUI `LinearGradient` / `HueRotation` / `Charts`
@@ -226,7 +227,7 @@ banner. Depth is earned through tint and border, not shadow.
   `source: computed`) and **Adjust** (reveals the manual kcal/macro sliders →
   `source: manual`); a `Use computed` ghost returns to the computed value.
 - **Tag** — monospace, 5px radius, surface bg + hairline border, inkTwo text.
-  `tag-conf-high` (accent on accentSoft), `tag-conf-low` (low on energySoft).
+  `tag-conf-high` (low on accentSoft), `tag-conf-low` (low on energySoft).
 - **btn-confirm** (accent, white text) and **btn-ghost** (surfaceTwo, inkTwo) —
   40px tall, 8px radius. Confirmation is the high-emphasis action; there is
   exactly one confirm per correction card.
@@ -237,7 +238,7 @@ banner. Depth is earned through tint and border, not shadow.
   `(confirm)`. Confirming flips the confidence tag to `1.00` high.
 - **History screen** — a `calories vs goal` bar chart with a **7 / 30 day**
   range toggle (bars scaled to the range's max, dashed goal line at the computed
-  target, red = over / green = at-or-under, outlined bar = today), a summary
+  target), a summary
   strip (avg kcal, days over, day streak), and a **Days vs goal** list where each
   day shows kcal vs goal and a signed mono **delta** with a state word
   (**under / on target / over**) — the over/under framing, not "over/under eat".
@@ -256,10 +257,10 @@ banner. Depth is earned through tint and border, not shadow.
 - Make the trust affordance (needs-review / verify) a first-class element.
 - Use mono only for data vocabulary; use tabular numerals for all numbers.
 - Keep ONE interaction accent and ONE calorie color; encode over/under with the
-  cool→warm ramp, not generic green/red.
+  warm ramp, not generic red.
 - Separate with hairlines and tints, not shadows and decorations.
-- Charts use gradient fills; encode over/under as a cool→warm ramp, never
-  generic green/red.
+- Charts use gradient fills; encode over/under as a warm ramp, never
+  generic red.
 
 **Don't**
 - Don't build a chat UI, a feed, or any in-app AI surface — out of scope by design.
