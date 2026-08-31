@@ -40,6 +40,7 @@ export interface MorselOAuthOptions {
   grantStore?: OAuthGrantStore
   supabaseUrl?: OAuthConfigValue
   anonKey?: OAuthConfigValue
+  publicBaseUrl?: OAuthConfigValue
 }
 
 interface OAuthRouteOptions {
@@ -47,6 +48,7 @@ interface OAuthRouteOptions {
   grantStore: OAuthGrantStore
   signingKey: OAuthConfigValue
   service: OAuthIdentityService
+  publicBaseUrl?: OAuthConfigValue
 }
 
 type HeaderValues = Record<string, string>
@@ -269,6 +271,33 @@ function normalizedBasePath(basePath?: string): string {
   return `/${basePath.replace(/^\/+|\/+$/g, '')}`
 }
 
+// An explicit public base URL is authoritative for metadata and challenge URLs
+// so the Edge entry point can advertise callable paths even when the gateway
+// strips /functions/v1 and forwards no prefix. It is optional: when unset the
+// request/forwarded-header derivation below is unchanged.
+function resolvePublicBaseUrl(publicBaseUrl: OAuthConfigValue | undefined): URL | undefined {
+  if (publicBaseUrl === undefined) {
+    return undefined
+  }
+  const raw = typeof publicBaseUrl === 'function' ? publicBaseUrl() : publicBaseUrl
+  if (raw.trim() === '') {
+    throw new OAuthProtocolError('server_error', 'public base URL is not configured', 500)
+  }
+  let url: URL
+  try {
+    url = new URL(raw)
+  } catch {
+    throw new OAuthProtocolError('server_error', 'public base URL is not a valid URL', 500)
+  }
+  if ((url.protocol !== 'http:' && url.protocol !== 'https:') || url.hostname === '' || url.hash !== '') {
+    throw new OAuthProtocolError('server_error', 'public base URL must be an absolute http(s) URL without a fragment', 500)
+  }
+  url.search = ''
+  url.hash = ''
+  url.pathname = url.pathname.replace(/\/+$/g, '')
+  return url
+}
+
 function firstHeaderValue(request: Request, name: string): string | undefined {
   const value = request.headers.get(name)?.split(',')[0]?.trim()
   return value === undefined || value === '' ? undefined : value
@@ -311,7 +340,11 @@ function applyForwardedPathPrefix(request: Request, url: URL): void {
   url.pathname = `${prefix}${url.pathname.startsWith('/') ? '' : '/'}${url.pathname}`
 }
 
-export function oauthBaseUrl(request: Request, basePath?: string): URL {
+export function oauthBaseUrl(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): URL {
+  const publicUrl = resolvePublicBaseUrl(publicBaseUrl)
+  if (publicUrl !== undefined) {
+    return publicUrl
+  }
   const url = new URL(request.url)
   applyForwardedOrigin(request, url)
   const configuredPath = normalizedBasePath(basePath)
@@ -345,12 +378,12 @@ function baseUrlString(baseUrl: URL): string {
   return baseUrl.pathname === '/' ? baseUrl.origin : baseUrl.href.replace(/\/+$/g, '')
 }
 
-export function protectedResourceMetadataUrl(request: Request, basePath?: string): string {
-  return appendPath(oauthBaseUrl(request, basePath), '.well-known/oauth-protected-resource/mcp').href
+export function protectedResourceMetadataUrl(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): string {
+  return appendPath(oauthBaseUrl(request, basePath, publicBaseUrl), '.well-known/oauth-protected-resource/mcp').href
 }
 
-function authorizationServerMetadata(request: Request, basePath?: string): Record<string, unknown> {
-  const baseUrl = oauthBaseUrl(request, basePath)
+function authorizationServerMetadata(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Record<string, unknown> {
+  const baseUrl = oauthBaseUrl(request, basePath, publicBaseUrl)
   return {
     issuer: baseUrlString(baseUrl),
     authorization_endpoint: appendPath(baseUrl, 'authorize').href,
@@ -364,8 +397,8 @@ function authorizationServerMetadata(request: Request, basePath?: string): Recor
   }
 }
 
-function protectedResourceMetadata(request: Request, basePath?: string): Record<string, unknown> {
-  const baseUrl = oauthBaseUrl(request, basePath)
+function protectedResourceMetadata(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Record<string, unknown> {
+  const baseUrl = oauthBaseUrl(request, basePath, publicBaseUrl)
   return {
     resource: appendPath(baseUrl, 'mcp').href,
     authorization_servers: [baseUrlString(baseUrl)],
@@ -464,13 +497,21 @@ async function requestParameters(request: Request): Promise<URLSearchParams> {
   return params
 }
 
-function authorizationForm(request: Request, params: URLSearchParams, message?: string): Response {
+function authorizationForm(request: Request, params: URLSearchParams, message?: string, publicBaseUrl?: OAuthConfigValue): Response {
   const hiddenFields = Array.from(params.entries())
     .filter(([name]) => name !== 'email' && name !== 'password')
     .map(([name, value]) => `<input type="hidden" name="${htmlEscape(name)}" value="${htmlEscape(value)}">`)
     .join('')
   const notice = message === undefined ? '' : `<p role="alert">${htmlEscape(message)}</p>`
-  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect Morsel</title></head><body><main><h1>Connect Morsel</h1>${notice}<form method="post" action="${htmlEscape(new URL(request.url).pathname)}"><label>Email <input name="email" type="email" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Authorize</button>${hiddenFields}</form></main></body></html>`
+  // When an explicit public base is configured the form must post to the
+  // callable public authorization URL (the gateway strips /functions/v1 from
+  // the raw request pathname). Local/default behavior stays on the request
+  // pathname so the browser posts back to the same route it was served from.
+  const publicUrl = resolvePublicBaseUrl(publicBaseUrl)
+  const action = publicUrl === undefined
+    ? new URL(request.url).pathname
+    : appendPath(publicUrl, 'authorize').href
+  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect Morsel</title></head><body><main><h1>Connect Morsel</h1>${notice}<form method="post" action="${htmlEscape(action)}"><label>Email <input name="email" type="email" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Authorize</button>${hiddenFields}</form></main></body></html>`
   return new Response(body, {
     status: 200,
     headers: {
@@ -607,12 +648,12 @@ async function handleAuthorization(
     return oauthErrorResponse(new OAuthProtocolError('invalid_request', 'resource must be a valid URL'))
   }
   if (request.method === 'GET') {
-    return authorizationForm(request, params)
+    return authorizationForm(request, params, undefined, options.publicBaseUrl)
   }
   const email = params.get('email')
   const password = params.get('password')
   if (email === null || password === null || email.trim() === '' || password === '') {
-    return authorizationForm(request, params, 'Email and password are required.')
+    return authorizationForm(request, params, 'Email and password are required.', options.publicBaseUrl)
   }
   let session: OAuthUserSession
   try {
@@ -939,9 +980,29 @@ export function createSupabaseOAuthService(options: {
 }
 
 export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void {
-  app.get('/.well-known/oauth-authorization-server', (context) => oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath)))
-  app.get('/.well-known/oauth-protected-resource', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
-  app.get('/.well-known/oauth-protected-resource/mcp', (context) => oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath)))
+  // Fail closed at startup when an explicit public base URL is malformed.
+  resolvePublicBaseUrl(options.publicBaseUrl)
+  app.get('/.well-known/oauth-authorization-server', (context) => {
+    try {
+      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+    } catch (error) {
+      return oauthErrorResponse(error)
+    }
+  })
+  app.get('/.well-known/oauth-protected-resource', (context) => {
+    try {
+      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+    } catch (error) {
+      return oauthErrorResponse(error)
+    }
+  })
+  app.get('/.well-known/oauth-protected-resource/mcp', (context) => {
+    try {
+      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+    } catch (error) {
+      return oauthErrorResponse(error)
+    }
+  })
   app.options('/register', () => new Response(null, { status: 204, headers: corsHeaders() }))
   app.post('/register', async (context) => {
     try {

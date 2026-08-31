@@ -28,6 +28,10 @@ const app = createMorselApp({
     ),
   oauth: {
     anonKey: () => environmentValue("SUPABASE_ANON_KEY"),
+    // The gateway strips /functions/v1 and supplies no forwarded prefix, so
+    // derive the public base from the project URL for metadata/challenge URLs.
+    publicBaseUrl: () =>
+      `${environmentValue("SUPABASE_URL").replace(/\/+$/, "")}/functions/v1/mcp`,
     signingKey: () => environmentValue("MORSEL_OAUTH_SIGNING_KEY"),
     supabaseUrl: () => environmentValue("SUPABASE_URL"),
   },
