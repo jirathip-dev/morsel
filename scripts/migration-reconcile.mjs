@@ -235,6 +235,39 @@ async function managementQuery(sql, label, ref, token) {
   return Array.isArray(body) ? body : (body.result ?? body.rows ?? []);
 }
 
+// Normalize a query result into inert primitive snapshots so hostile
+// Proxy/accessor-backed rows cannot throw ref/token-bearing errors during
+// later consumption (.name, mapping, coercion, inventory construction). Any
+// exception from row access, iteration, or coercion becomes a fixed
+// SanitizedError with label/status only.
+function normalizeRows(rows, label) {
+  try {
+    if (!Array.isArray(rows)) return [];
+    return rows.map((row) => {
+      if (row === null || typeof row !== "object") return {};
+      const snapshot = {};
+      for (const key of Object.keys(row)) {
+        const value = row[key];
+        if (
+          typeof value === "string" ||
+          typeof value === "number" ||
+          typeof value === "boolean" ||
+          value === null
+        ) {
+          snapshot[key] = value;
+        } else if (typeof value === "object") {
+          snapshot[key] = JSON.stringify(value);
+        } else {
+          snapshot[key] = String(value);
+        }
+      }
+      return snapshot;
+    });
+  } catch {
+    throw new SanitizedError(`${label} failed: invalid response rows`);
+  }
+}
+
 export function formatReport({ local, ledgerExists, ledgerNames, unknownLedgerCount, inventory, checks }) {
   const lines = [];
   lines.push("Morsel migration ledger reconciliation — READ-ONLY");
@@ -311,16 +344,21 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
   // failures (including an injected hostile queryImpl) cross the same
   // sanitizing boundary as managementQuery: only fixed label/status
   // diagnostics escape; raw error.message (which may embed ref/token/query/
-  // body/header/URL sentinels) never does.
+  // body/header/URL sentinels) never does. Every successful result is ALSO
+  // normalized to inert primitive snapshots inside this boundary, so hostile
+  // Proxy/accessor-backed rows cannot throw sentinel-bearing errors during
+  // later consumption.
   const query = async (sql, label) => {
     assertReadOnly(sql);
+    let rows;
     try {
-      if (queryImpl) return await queryImpl(sql, label);
-      return await managementQuery(sql, label, ref, token);
+      if (queryImpl) rows = await queryImpl(sql, label);
+      else rows = await managementQuery(sql, label, ref, token);
     } catch (error) {
       if (error instanceof SanitizedError) throw error;
       throw new SanitizedError(`${label} failed: query error`);
     }
+    return normalizeRows(rows, label);
   };
 
   const ledgerRow = (await query(LEDGER_EXISTS_SQL, "ledger existence"))[0] ?? {};

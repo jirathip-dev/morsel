@@ -368,6 +368,75 @@ describe("credential sentinel redaction", () => {
     expect(caught.message).not.toContain(TOKEN);
   });
 
+  it("normalizes hostile accessor/proxy ledger rows so sentinels never escape run()", async () => {
+    const hostileRow = new Proxy(
+      {},
+      {
+        ownKeys() {
+          throw new Error(`ownKeys token=${TOKEN} ref=${REF}`);
+        },
+        get() {
+          throw new Error(`get token=${TOKEN} ref=${REF}`);
+        },
+      },
+    );
+    let caught;
+    try {
+      await run({
+        ref: REF,
+        token: TOKEN,
+        root: repoRoot,
+        queryImpl: async (sql) => {
+          if (sql.includes("to_regclass")) return [{ name: "migration_ledger" }];
+          if (sql.startsWith("select name from public.migration_ledger")) {
+            return [{ name: "init" }, hostileRow];
+          }
+          return [];
+        },
+        log: quiet,
+      });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught.message).toMatch(/ledger names failed: invalid response rows/);
+    expect(caught.message).not.toContain(REF);
+    expect(caught.message).not.toContain(TOKEN);
+  });
+
+  it("normalizes hostile accessor/proxy inventory rows so sentinels never escape run()", async () => {
+    const hostileRow = new Proxy(
+      {},
+      {
+        ownKeys() {
+          throw new Error(`inv ownKeys token=${TOKEN}`);
+        },
+        get() {
+          throw new Error(`inv get token=${REF}`);
+        },
+      },
+    );
+    let caught;
+    try {
+      await run({
+        ref: REF,
+        token: TOKEN,
+        root: repoRoot,
+        queryImpl: async (sql) => {
+          if (sql.includes("to_regclass")) return [{ name: "migration_ledger" }];
+          if (sql.startsWith("select name from public.migration_ledger")) return [];
+          if (sql.includes("information_schema.tables")) return [hostileRow];
+          return [];
+        },
+        log: quiet,
+      });
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught.message).toMatch(/table inventory failed: invalid response rows/);
+    expect(caught.message).not.toContain(REF);
+    expect(caught.message).not.toContain(TOKEN);
+  });
+
   it("redacts hostile ledger rows containing ref/token/newline sentinels", async () => {
     const db = fakeDatabase({
       ledgerNames: ["init", "targets", `${TOKEN}`, `evil\n${REF}`, "  spaced  "],
