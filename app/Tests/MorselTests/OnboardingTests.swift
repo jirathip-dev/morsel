@@ -121,6 +121,55 @@ final class OnboardingTests: XCTestCase {
         XCTAssertTrue(prompt.contains("Complete the OAuth browser sign-in"))
     }
 
+    @MainActor
+    func testInitialSkipExposesHonestSignInStateWithoutInventingSession() {
+        let sessionStore = SessionStore()
+
+        XCTAssertNil(sessionStore.session)
+        XCTAssertEqual(sessionStore.pendingRoute, .initialSetup)
+        XCTAssertFalse(sessionStore.isSetupDeferred)
+
+        sessionStore.deferSetup()
+
+        XCTAssertEqual(sessionStore.pendingRoute, .setupDeferred)
+        XCTAssertTrue(sessionStore.isSetupDeferred)
+        XCTAssertNil(sessionStore.session, "Skipping initial setup must not invent a session")
+    }
+
+    func testRootViewWiresInitialSkipToExplicitDeferredRoute() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/MorselApp.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let storeStart = try XCTUnwrap(
+            source.range(of: "final class SessionStore"),
+            "Expected the SessionStore declaration in MorselApp.swift"
+        )
+        let rootStart = try XCTUnwrap(
+            source.range(of: "private struct MorselRootView", range: storeStart.upperBound..<source.endIndex),
+            "Expected MorselRootView after SessionStore in MorselApp.swift"
+        )
+        let initialCallStart = try XCTUnwrap(
+            source.range(of: "userID: pendingSession?.userID ?? UUID()", range: rootStart.upperBound..<source.endIndex),
+            "Expected the initial no-session OnboardingView call in MorselRootView"
+        )
+
+        XCTAssertTrue(
+            source.contains("OnboardingStore().markCompleted(for: viewModel.userID)"),
+            "Signed-in onboarding must keep its completion persistence"
+        )
+        XCTAssertEqual(
+            source.components(separatedBy: "sessionStore.deferSetup()").count - 1, 1,
+            "Exactly one load-bearing initial-skip transition is expected"
+        )
+        XCTAssertTrue(
+            source[initialCallStart.lowerBound..<source.endIndex].contains("sessionStore.deferSetup()"),
+            "The initial no-session onboarding must defer setup instead of the default no-op"
+        )
+    }
+
     func testOnboardingStoreShowsOnceAndCanBeReplayed() {
         let suiteName = "OnboardingTests.\(UUID().uuidString)"
         guard let defaults = UserDefaults(suiteName: suiteName) else {

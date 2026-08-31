@@ -55,10 +55,32 @@ struct MorselConfiguration {
 
 @MainActor
 final class SessionStore: ObservableObject {
+    /// Explicit app routes when no session exists. `initialSetup` presents
+    /// onboarding; `setupDeferred` is the honest post-"Set up later" state:
+    /// it never invents a session, only offers sign-in (which re-enters
+    /// onboarding with the resulting real session).
+    enum NoSessionRoute: Equatable, Sendable {
+        case initialSetup
+        case setupDeferred
+    }
+
     @Published private(set) var session: AuthenticatedSession?
+    @Published private(set) var pendingRoute: NoSessionRoute = .initialSetup
+
+    /// True once "Set up later" deferred the initial onboarding (the honest
+    /// no-session state that offers sign-in).
+    var isSetupDeferred: Bool { pendingRoute == .setupDeferred }
+
+    /// "Set up later" on the initial (unauthenticated) onboarding: leave the
+    /// presentation and land in the explicit deferred state. No session is
+    /// created and no authenticated repository/network call is made.
+    func deferSetup() {
+        pendingRoute = .setupDeferred
+    }
 
     func authenticate(_ session: AuthenticatedSession) {
         self.session = session
+        pendingRoute = .initialSetup
     }
 
     func restore(using auth: any SupabaseAuthenticating) async {
@@ -91,6 +113,10 @@ private struct MorselRootView: View {
                     },
                     mcpEndpoint: mcpEndpoint
                 )
+            } else if sessionStore.isSetupDeferred {
+                SignInView(auth: auth) { session in
+                    sessionStore.authenticate(session)
+                }
             } else {
                 OnboardingView(
                     userID: pendingSession?.userID ?? UUID(),
@@ -99,7 +125,8 @@ private struct MorselRootView: View {
                     onAuthenticated: { pendingSession = $0 },
                     onFinished: {
                         if let pendingSession { sessionStore.authenticate(pendingSession) }
-                    }
+                    },
+                    onSkip: { sessionStore.deferSetup() }
                 )
             }
         }
