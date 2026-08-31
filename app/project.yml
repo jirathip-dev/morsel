@@ -28,7 +28,13 @@ targets:
         MARKETING_VERSION: 1.0.0
         CURRENT_PROJECT_VERSION: 1
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        GENERATE_INFOPLIST_FILE: YES
+        # Explicit Info.plist template scoped to THIS app target only. It
+        # mirrors the generated plist and carries the three Supabase runtime
+        # keys via $(MORSEL_*) placeholders that the Fastfile lane populates
+        # transiently (never on the command line). A command-line
+        # INFOPLIST_FILE would leak into SPM resource bundles (e.g.
+        # swift-crypto_Crypto.bundle) and contaminate their Info.plists.
+        INFOPLIST_FILE: ../fastlane/Morsel-Info.plist
         CODE_SIGN_ENTITLEMENTS: Morsel.entitlements
         INFOPLIST_KEY_CFBundleDisplayName: Morsel
         INFOPLIST_KEY_MorselSupabaseURL: ""

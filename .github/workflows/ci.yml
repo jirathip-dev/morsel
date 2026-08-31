@@ -194,3 +194,19 @@ jobs:
           fi
           docker run --rm -v "$PWD":/work -w /work \
             ghcr.io/realm/swiftlint:latest swiftlint lint --strict
+
+  fastfile-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1.321.0
+        with:
+          ruby-version: "4.0.5"
+
+      - name: Run executable Fastfile contract tests
+        run: |
+          ruby fastlane/supabase_xcargs.test.rb
+          # built-plist.test.rb skips cleanly on Linux (needs xcodebuild);
+          # on a macOS runner it is a hard built-artifact gate.
+          ruby fastlane/built-plist.test.rb

@@ -395,7 +395,7 @@
 				CODE_SIGN_ENTITLEMENTS = Morsel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "../fastlane/Morsel-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_MORSEL_MCP_URL = "";
@@ -445,7 +445,7 @@
 				CODE_SIGN_ENTITLEMENTS = Morsel.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "../fastlane/Morsel-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_MORSEL_MCP_URL = "";
