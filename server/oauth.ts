@@ -497,13 +497,21 @@ async function requestParameters(request: Request): Promise<URLSearchParams> {
   return params
 }
 
-function authorizationForm(request: Request, params: URLSearchParams, message?: string): Response {
+function authorizationForm(request: Request, params: URLSearchParams, message?: string, publicBaseUrl?: OAuthConfigValue): Response {
   const hiddenFields = Array.from(params.entries())
     .filter(([name]) => name !== 'email' && name !== 'password')
     .map(([name, value]) => `<input type="hidden" name="${htmlEscape(name)}" value="${htmlEscape(value)}">`)
     .join('')
   const notice = message === undefined ? '' : `<p role="alert">${htmlEscape(message)}</p>`
-  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect Morsel</title></head><body><main><h1>Connect Morsel</h1>${notice}<form method="post" action="${htmlEscape(new URL(request.url).pathname)}"><label>Email <input name="email" type="email" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Authorize</button>${hiddenFields}</form></main></body></html>`
+  // When an explicit public base is configured the form must post to the
+  // callable public authorization URL (the gateway strips /functions/v1 from
+  // the raw request pathname). Local/default behavior stays on the request
+  // pathname so the browser posts back to the same route it was served from.
+  const publicUrl = resolvePublicBaseUrl(publicBaseUrl)
+  const action = publicUrl === undefined
+    ? new URL(request.url).pathname
+    : appendPath(publicUrl, 'authorize').href
+  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect Morsel</title></head><body><main><h1>Connect Morsel</h1>${notice}<form method="post" action="${htmlEscape(action)}"><label>Email <input name="email" type="email" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Authorize</button>${hiddenFields}</form></main></body></html>`
   return new Response(body, {
     status: 200,
     headers: {
@@ -640,12 +648,12 @@ async function handleAuthorization(
     return oauthErrorResponse(new OAuthProtocolError('invalid_request', 'resource must be a valid URL'))
   }
   if (request.method === 'GET') {
-    return authorizationForm(request, params)
+    return authorizationForm(request, params, undefined, options.publicBaseUrl)
   }
   const email = params.get('email')
   const password = params.get('password')
   if (email === null || password === null || email.trim() === '' || password === '') {
-    return authorizationForm(request, params, 'Email and password are required.')
+    return authorizationForm(request, params, 'Email and password are required.', options.publicBaseUrl)
   }
   let session: OAuthUserSession
   try {

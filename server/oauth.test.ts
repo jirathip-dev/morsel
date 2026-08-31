@@ -163,6 +163,56 @@ describe('OAuth discovery and MCP authentication', () => {
     expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/mcp#fragment')).toThrow(/public base URL/)
   })
 
+  it('posts the authorization form to the public callable URL when a public base is configured', async () => {
+    const app = createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp')
+    const redirectUri = 'https://client.example/callback'
+    const registrationResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: [redirectUri] }),
+    }))
+    expect(registrationResponse.status).toBe(201)
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+
+    const authorizationResponse = await app.fetch(new Request(`http://supabase-edge-runtime:8081/mcp/authorize?${new URLSearchParams({
+      client_id: clientId,
+      code_challenge: 'prefix-challenge',
+      code_challenge_method: 'S256',
+      redirect_uri: redirectUri,
+      response_type: 'code',
+      state: 'state-123',
+    }).toString()}`))
+    expect(authorizationResponse.status).toBe(200)
+    const html = await authorizationResponse.text()
+    expect(html).toContain('<form method="post" action="https://connector.example/functions/v1/mcp/authorize">')
+    expect(html).toContain('name="client_id"')
+    expect(html).toContain('name="state"')
+    expect(html).not.toContain('action="/mcp/authorize"')
+  })
+
+  it('keeps the local authorization form action when no public base is configured', async () => {
+    const app = createTestApp('/mcp')
+    const redirectUri = 'https://client.example/callback'
+    const registrationResponse = await app.fetch(new Request('https://morsel.test/mcp/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: [redirectUri] }),
+    }))
+    expect(registrationResponse.status).toBe(201)
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+
+    const authorizationResponse = await app.fetch(new Request(`https://morsel.test/mcp/authorize?${new URLSearchParams({
+      client_id: clientId,
+      code_challenge: 'prefix-challenge',
+      code_challenge_method: 'S256',
+      redirect_uri: redirectUri,
+      response_type: 'code',
+      state: 'state-123',
+    }).toString()}`))
+    expect(authorizationResponse.status).toBe(200)
+    expect(await authorizationResponse.text()).toContain('<form method="post" action="/mcp/authorize">')
+  })
+
   it('keeps discovery and the MCP challenge working below the Edge Function prefix', async () => {
     const app = createTestApp('/mcp')
     const [rootMetadata, metadata] = await Promise.all([
