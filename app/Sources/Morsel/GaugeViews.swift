@@ -68,13 +68,24 @@ private struct CalorieRing: View {
     let status: GoalStatus
     let eaten: Double
 
+    private var ringFill: some ShapeStyle {
+        switch status {
+        case .over, .unavailable:
+            return AnyShapeStyle(status.tint)
+        case .onTrack:
+            return AnyShapeStyle(LinearGradient.morselGauge)
+        case .nearGoal:
+            return AnyShapeStyle(status.tint)
+        }
+    }
+
     var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.morselSurfaceTwo, lineWidth: 7)
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(status.tint, style: StrokeStyle(lineWidth: 7, lineCap: .round))
+                .stroke(ringFill, style: StrokeStyle(lineWidth: 7, lineCap: .round))
                 .rotationEffect(.degrees(-90))
             VStack(spacing: 0) {
                 Text(MorselFormat.number(eaten))
@@ -108,7 +119,7 @@ private struct GoalSummary: View {
             }
         }
         .font(.morselData)
-        .foregroundStyle(status.tint)
+        .foregroundStyle(status == .over ? Color.morselOver : Color.morselStatusText)
     }
 }
 
@@ -170,16 +181,26 @@ private struct MacroRow: View {
 }
 
 extension GoalStatus {
+    /// Graphic stroke/tint per goal state. mustardDeep is the documented
+    /// accessible data stroke — valid for ring/progress graphics, never for
+    /// small text.
     var tint: Color {
         switch self {
         case .onTrack:
-            return .morselAccent
+            return .morselForest
         case .nearGoal:
-            return .morselEnergy
+            return .morselMustardDeep
         case .over:
             return .morselOver
         case .unavailable:
             return .morselInkThree
         }
     }
+}
+
+/// Dedicated 11pt status-text color for the gauge card: alias of the locked
+/// V1 forest token, measuring >= 4.5:1 on both ends of the card gradient
+/// (surface 6.65:1, cardEnd 6.31:1). Graphic strokes keep `GoalStatus.tint`.
+extension Color {
+    static let morselStatusText = Color.morselForest
 }

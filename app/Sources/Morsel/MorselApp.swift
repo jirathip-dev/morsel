@@ -171,23 +171,27 @@ private struct AuthenticatedDashboardView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            TodayView(viewModel: viewModel)
-                .tag(DashboardTab.today)
-                .tabItem {
-                    Label("Today", systemImage: "chart.bar")
-                }
-            SettingsView(
-                mcpEndpoint: mcpEndpoint, repository: viewModel.repository,
-                userID: viewModel.userID, dashboardViewModel: viewModel,
-                showToday: { selectedTab = .today },
-                replay: { showingOnboarding = true }
-            )
+            MorselActionTint {
+                TodayView(viewModel: viewModel)
+            }
+            .tag(DashboardTab.today)
+            .tabItem {
+                Label("Today", systemImage: "chart.bar")
+            }
+            MorselActionTint {
+                SettingsView(
+                    mcpEndpoint: mcpEndpoint, repository: viewModel.repository,
+                    userID: viewModel.userID, dashboardViewModel: viewModel,
+                    showToday: { selectedTab = .today },
+                    replay: { showingOnboarding = true }
+                )
+            }
             .tag(DashboardTab.settings)
             .tabItem {
                 Label("Settings", systemImage: "gearshape")
             }
         }
-        .tint(Color.morselAccent)
+        .tint(Color.morselForest)
         .task {
             await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
@@ -195,19 +199,37 @@ private struct AuthenticatedDashboardView: View {
             }
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
-            OnboardingView(
-                userID: viewModel.userID,
-                endpoint: mcpEndpoint,
-                session: session,
-                onFinished: {
-                OnboardingStore().markCompleted(for: viewModel.userID)
-                showingOnboarding = false
-                },
-                onSkip: {
-                OnboardingStore().markCompleted(for: viewModel.userID)
-                showingOnboarding = false
-            })
+            MorselActionTint {
+                OnboardingView(
+                    userID: viewModel.userID,
+                    endpoint: mcpEndpoint,
+                    session: session,
+                    onFinished: {
+                    OnboardingStore().markCompleted(for: viewModel.userID)
+                    showingOnboarding = false
+                    },
+                    onSkip: {
+                    OnboardingStore().markCompleted(for: viewModel.userID)
+                    showingOnboarding = false
+                })
+            }
         }
+    }
+}
+
+/// Scoped orange action tint for tab content: the TabView tint itself is V1
+/// forest (active navigation reads forest), while every descendant action
+/// control keeps the V1 orange identity/action anchor.
+private struct MorselActionTint<Content: View>: View {
+    let content: () -> Content
+
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+
+    var body: some View {
+        content()
+            .tint(Color.morselAccent)
     }
 }
 

@@ -19,7 +19,7 @@ struct SignInView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("morsel")
                             .font(.morselData)
-                            .foregroundStyle(Color.morselAccent)
+                            .foregroundStyle(Color.morselForest)
                         Text("Your food record,\nread honestly.")
                             .font(.morselDisplay)
                             .foregroundStyle(Color.morselInk)
@@ -67,7 +67,7 @@ struct SignInView: View {
                                 message = nil
                             }
                             .font(.morselData)
-                            .foregroundStyle(Color.morselAccent)
+                            .foregroundStyle(Color.morselForest)
                         }
                     }
 

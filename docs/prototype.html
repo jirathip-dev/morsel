@@ -16,30 +16,28 @@
      Surface: Monitor (today) / Operate (review) / Configure (goals).
      ============================================================ */
   :root{
-    --bg:#FBFAF6;            /* warm neutral ground */
-    --surface:#FFFFFF;
-    --surface-2:#F3F1EA;
-    --ink:#20231E;           /* warm near-black */
-    --ink-2:#666A60;
-    --ink-3:#9BA095;
-    --line:#E7E3D8;          /* hairline */
-    --accent:#3E63E8;        /* interaction accent — cobalt blue (confirm / active / streak / tags) */
-    --accent-soft:#E9EEFC;
-    --energy:#F08A2E;        /* calories — copper/amber */
-    --energy-soft:#F6E8D8;
-    --over:#C0483F;          /* over goal / danger (text) */
-    --low:#8A5514;           /* low-confidence / review */
-    --protein:#6C5CE7;       /* violet */
-    --carbs:#F0A63C;         /* amber */
-    --fat:#0FA6A0;           /* teal */
-    --grad-energy:linear-gradient(180deg,#FFC24B,#F0762E);
-    --grad-protein:linear-gradient(180deg,#9C8BF5,#6C5CE7);
-    --grad-carbs:linear-gradient(180deg,#FFC24B,#F0A63C);
-    --grad-fat:linear-gradient(180deg,#37D5C2,#0FA6A0);
-    --grad-under:linear-gradient(180deg,#5BD8E6,#1FA3C4);
-    --grad-on:linear-gradient(180deg,#3BC8A8,#12A98E);
-    --grad-over:linear-gradient(180deg,#F7A98C,#E0765F);
-    --grad-card:linear-gradient(180deg,#FFFFFF,#FBF9F2);
+    --bg:#FFF7E8;            /* warm paper ground */
+    --surface:#FFFCF5;
+    --surface-2:#F2E9D9;
+    --ink:#2A261F;           /* warm near-black */
+    --ink-2:#655A4B;
+    --ink-3:#756955;
+    --line:#E3D2BA;          /* hairline */
+    --accent:#E66A2C;        /* orange identity/action anchor — confirm / calories / streak (ink label, never white) */
+    --accent-soft:#FBE1C9;   /* review tint + warm action wash */
+    --leaf:#5E7E57;          /* leafy supporting data color */
+    --leaf-soft:#E1E9D7;     /* high-confidence / stable tint */
+    --forest:#2F654B;        /* stable / on-track text + active navigation */
+    --coral:#B94738;         /* protein / correction */
+    --mustard:#D6A62C;       /* highlight (non-text) */
+    --mustard-deep:#A5750B;  /* accessible data stroke (carbs) */
+    --review:#7A3D2B;        /* needs-review / low confidence text */
+    --over:#9C3A2F;          /* over goal / error (text) */
+    --grad-protein:linear-gradient(180deg,#C9513D,#A63A32);
+    --grad-carbs:linear-gradient(180deg,#B07A13,#875A02);
+    --grad-fat:linear-gradient(180deg,#6B8B60,#3F6745);
+    --grad-gauge:linear-gradient(135deg,#6B8B60,#2F654B);
+    --grad-card:linear-gradient(180deg,#FFFCF5,#FFF5E5);
     --r:12px;
     --ui:'Nunito Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -83,7 +81,7 @@
   .g-tot{font-size:12.5px;color:var(--ink-2);display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
   .g-tot b{color:var(--ink);font-weight:800}
   .g-tot .rem{color:var(--ink-2)}
-  .g-tot .rem.over{color:#D9715D}
+  .g-tot .rem.over{color:var(--over)}
   .macros{margin-top:12px;display:grid;gap:8px}
   .macro{display:grid;grid-template-columns:14px 40px 1fr;align-items:center;gap:8px}
   .macro .dot{width:9px;height:9px;border-radius:2px}
@@ -102,20 +100,20 @@
   .m-head{display:flex;align-items:baseline;gap:8px;padding:12px 2px 8px}
   .m-head .t{font-size:14px;font-weight:800;text-transform:capitalize}
   .m-head .time{font-size:11.5px;color:var(--ink-3);font-family:var(--mono)}
-  .m-head .kcal{margin-left:auto;font-size:14px;font-weight:800;color:var(--energy)}
+  .m-head .kcal{margin-left:auto;font-size:14px;font-weight:800;color:var(--accent)}
   .m-head .kcal small{font-size:10px;color:var(--ink-3);font-weight:600}
-  .row{display:flex;align-items:flex-start;gap:10px;padding:9px 2px;border-top:1px solid #F0EDE3}
+  .row{display:flex;align-items:flex-start;gap:10px;padding:9px 2px;border-top:1px solid var(--line)}
   .row:first-child{border-top:none}
-  .row.low{background:linear-gradient(to right,var(--energy-soft),transparent 72%);border-radius:6px;padding:9px 8px}
+  .row.low{background:linear-gradient(to right,var(--accent-soft),transparent 72%);border-radius:6px;padding:9px 8px}
   .row .r-l{flex:1;min-width:0}
   .row .name{font-size:14.5px;font-weight:700;line-height:1.25}
   .row .name em{font-style:normal;font-size:12px;color:var(--ink-2);font-weight:600;margin-left:6px}
   .row .meta{margin-top:3px}
   .row .flags{margin-top:5px;display:flex;gap:6px;flex-wrap:wrap}
-  .tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:2px 6px;border-radius:5px;border:1px solid var(--line);color:var(--ink-2);background:#fff}
+  .tag{font-family:var(--mono);font-size:10px;font-weight:500;padding:2px 6px;border-radius:5px;border:1px solid var(--line);color:var(--ink-2);background:var(--surface)}
   .tag.conf{color:var(--ink-2)}
-  .tag.conf.hi{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-soft)}
-  .tag.conf.lo{color:var(--low);border-color:var(--energy-soft);background:var(--energy-soft)}
+  .tag.conf.hi{color:var(--forest);border-color:var(--leaf-soft);background:var(--leaf-soft)}
+  .tag.conf.lo{color:var(--review);border-color:var(--accent-soft);background:var(--accent-soft)}
   .tag.src{font-family:var(--mono)}
   .row .kcal{font-size:14px;font-weight:800;letter-spacing:-.01em;flex:none;padding-top:1px}
   .row .kcal small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-3);font-weight:400;text-align:right;margin-top:1px}
@@ -125,15 +123,15 @@
   .review-card .rc{display:flex;gap:14px;align-items:center}
   .review-card .r-l{flex:1;min-width:0}
   .review-card .name{font-size:14.5px;font-weight:800}
-  .review-card .note{font-size:12px;color:var(--low);margin-top:2px;line-height:1.4}
+  .review-card .note{font-size:12px;color:var(--review);margin-top:2px;line-height:1.4}
   .review-card .note .m{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
   .review-card .btns{display:flex;gap:8px;flex:none}
   .btn{height:40px;padding:0 14px;border-radius:8px;border:none;font-family:var(--ui);font-size:13px;font-weight:700;cursor:pointer;transition:transform .1s,background .2s}
   .btn:active{transform:scale(.98)}
   .btn.ghost{background:var(--surface-2);color:var(--ink-2)}
-  .btn.confirm{background:var(--accent);color:#fff}
-  .btn.confirm:hover{background:#3354C7}
-  .btn.ghost:hover{background:#EBE8DF}
+  .btn.confirm{background:var(--accent);color:var(--ink)}
+  .btn.confirm:hover{background:var(--accent-soft)}
+  .btn.ghost:hover{background:var(--line)}
 
   /* ---- water ---- */
   .water{display:flex;align-items:center;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
@@ -141,7 +139,7 @@
   .water .wn{font-size:12px;color:var(--ink-2);margin-left:auto;font-family:var(--mono)}
   .glasses{display:flex;gap:5px;margin-top:10px}
   .glass{flex:1;height:26px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);position:relative;overflow:hidden}
-  .glass i{display:block;position:absolute;left:0;right:0;bottom:0;background:#6FA7C6;height:0;transition:height .5s ease}
+  .glass i{display:block;position:absolute;left:0;right:0;bottom:0;background:var(--accent);height:0;transition:height .5s ease}
   .glass.full i{height:100%}
 
   /* ---- review / goals screens ---- */
@@ -162,7 +160,7 @@
   .goal-card .val{font-size:20px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
   .goal-card .unit{font-size:12px;color:var(--ink-2);font-weight:600}
   input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--surface-2);margin-top:14px;outline:none}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:2.5px solid var(--accent);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--surface);border:2.5px solid var(--accent);cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.1)}
   .fineprint{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:10px}
 
   /* ---- targets: profile → computed → review/adjust ---- */
@@ -175,7 +173,7 @@
   .isel{width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-family:var(--ui);font-size:14px;font-weight:600;color:var(--ink);outline:none;-webkit-appearance:none;appearance:none}
   .seg{display:flex;gap:6px}
   .seg-btn{flex:1;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-family:var(--ui);font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-  .seg-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .seg-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
   .t-readout{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px}
   .t-kcal{font-size:40px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
   .t-kcal .t-unit{font-size:15px;font-weight:600;color:var(--ink-2);letter-spacing:0}
@@ -191,10 +189,10 @@
   .hist-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px 16px 14px}
   .hist-bars{position:relative;height:120px;display:flex;align-items:flex-end;gap:9px;margin-top:8px}
   .hb{flex:1;height:100%;display:flex;align-items:flex-end}
-  .hb .bar{width:100%;border-radius:6px 6px 0 0;background:var(--grad-on);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
-  .hb.under .bar{background:var(--grad-under)}
-  .hb.over .bar{background:var(--grad-over)}
-  .hb.today .bar{outline:2px solid var(--energy);outline-offset:-2px}
+  .hb .bar{width:100%;border-radius:6px 6px 0 0;background:var(--grad-gauge);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+  .hb.under .bar{background:var(--grad-carbs)}
+  .hb.over .bar{background:var(--grad-protein)}
+  .hb.today .bar{outline:2px solid var(--accent);outline-offset:-2px}
   .goal-line{position:absolute;left:0;right:0;border-top:1.5px dashed var(--ink-3);z-index:1}
   .goal-line span{position:absolute;right:0;top:-14px;font-family:var(--mono);font-size:10px;color:var(--ink-3);background:var(--surface);padding:0 4px;line-height:1.4}
   .day-labels{display:flex;gap:9px;margin-top:6px}
@@ -209,14 +207,14 @@
   .day .date{font-size:14px;font-weight:700}
   .day .sub{font-size:12px;color:var(--ink-2);margin-top:1px}
   .day .delta{font-family:var(--mono);font-size:13px;font-weight:600;text-align:right;white-space:nowrap}
-  .day .delta.over{color:#D9715D}
-  .day .delta.under{color:#1AA3B8}
+  .day .delta.over{color:var(--over)}
+  .day .delta.under{color:var(--mustard-deep)}
   .day .delta.on{color:var(--ink-2)}
   .day .delta .state{display:block;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-top:2px}
 
   .range{display:inline-flex;gap:4px}
   .range button{height:28px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-2);cursor:pointer}
-  .range button.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .range button.active{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
   .hist-bars.dense{gap:3px}
   .day.sel{background:var(--accent-soft);border-radius:8px}
   .day-detail{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin:10px 0 12px;text-align:left}
@@ -224,7 +222,7 @@
   .day-detail .dd-sub{font-size:12px;color:var(--ink-2);margin-top:2px}
   .day-detail .dd-mac{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);margin-top:10px}
   .day-detail .dd-items{margin-top:8px;border-top:1px solid var(--line)}
-  .day-detail .di{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #F0EDE3;font-size:13px}
+  .day-detail .di{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
   .day-detail .di:last-child{border-bottom:none}
   .day-detail .di span{color:var(--ink-2);font-size:12px}
 
@@ -232,7 +230,7 @@
   .nav{position:absolute;left:14px;right:14px;bottom:14px;height:64px;display:flex;justify-content:space-around;align-items:center;padding:0 6px;background:rgba(255,255,255,.55);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);border:1px solid rgba(255,255,255,.65);border-radius:22px;box-shadow:0 10px 34px rgba(20,24,18,.14)}
   .nav-item{background:none;border:none;font-family:var(--ui);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--ink-3);cursor:pointer;width:70px;padding:0;-webkit-tap-highlight-color:transparent}
   .nav-item svg{stroke:currentColor;fill:none;stroke-width:1.8;width:22px;height:22px}
-  .nav-item.active{color:var(--accent)}
+  .nav-item.active{color:var(--forest)}
 
   /* ---- screen switching ---- */
   .screen{display:none}
@@ -251,9 +249,9 @@
       <div class="g-ring" id="ring">
         <svg width="118" height="118" viewBox="0 0 118 118">
           <defs>
-            <linearGradient id="gOn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ED6BE"/><stop offset=".5" stop-color="#12A98E"/><stop offset="1" stop-color="#0E9F8A"/></linearGradient>
-            <linearGradient id="gNear" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFCF5E"/><stop offset=".5" stop-color="#F08A2E"/><stop offset="1" stop-color="#F0762E"/></linearGradient>
-            <linearGradient id="gOver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB9A8"/><stop offset=".5" stop-color="#E0765F"/><stop offset="1" stop-color="#C0483F"/></linearGradient>
+            <linearGradient id="gOn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6B8B60"/><stop offset="1" stop-color="#2F654B"/></linearGradient>
+            <linearGradient id="gNear" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B07A13"/><stop offset="1" stop-color="#875A02"/></linearGradient>
+            <linearGradient id="gOver" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C9513D"/><stop offset="1" stop-color="#9C3A2F"/></linearGradient>
           </defs>
           <circle class="g-track" cx="59" cy="59" r="50" fill="none" stroke-width="10"></circle>
           <circle class="g-fill" id="ringFill" cx="59" cy="59" r="50" fill="none" stroke-width="10" stroke-dasharray="314.2" stroke-dashoffset="314.2"></circle>
@@ -301,7 +299,7 @@
         </div>
         <div class="row low">
           <div class="r-l"><div class="name">Stir-fried veg <em>1 serving</em></div>
-            <div class="meta mono">C10 F4</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf lo">0.70</span><span class="tag" style="color:var(--low);border-color:var(--energy-soft);background:var(--energy-soft)">verify</span></div></div>
+            <div class="meta mono">C10 F4</div><div class="flags"><span class="tag src">photo_vision</span><span class="tag conf lo">0.70</span><span class="tag" style="color:var(--review);border-color:var(--accent-soft);background:var(--accent-soft)">verify</span></div></div>
           <div class="kcal">90<small>kcal</small></div>
         </div>
       </div>
@@ -444,7 +442,7 @@
     </div>
 
     <div class="t-manual" id="tManual" hidden>
-      <div class="shead"><h2>Manual override</h2><span class="mono" style="color:var(--low)">source: manual</span></div>
+      <div class="shead"><h2>Manual override</h2><span class="mono" style="color:var(--review)">source: manual</span></div>
       <div class="goal-card"><div class="top"><span class="name">Calories</span><span class="val" data-val="kcal">2,077<span class="unit"> kcal</span></span></div><input type="range" min="1200" max="3500" step="50" value="2077" data-target="kcal"></div>
       <div class="goal-card"><div class="top"><span class="name">Protein</span><span class="val" data-val="protein">156<span class="unit"> g</span></span></div><input type="range" min="40" max="250" step="5" value="156" data-target="protein"></div>
       <div class="goal-card"><div class="top"><span class="name">Carbs</span><span class="val" data-val="carbs">234<span class="unit"> g</span></span></div><input type="range" min="50" max="400" step="5" value="234" data-target="carbs"></div>
@@ -504,7 +502,7 @@
   // ---- review confirm / keep ----
   document.querySelectorAll('[data-action-card]').forEach(card=>{
     card.querySelector('[data-confirm]').addEventListener('click',()=>{
-      const pill=card.querySelector('.note');pill.textContent='verified · 1.00';pill.style.color='var(--accent)';
+      const pill=card.querySelector('.note');pill.textContent='verified · 1.00';pill.style.color='var(--forest)';
       card.style.opacity='.5';card.style.pointerEvents='none';
     });
     card.querySelector('[data-open]').addEventListener('click',()=>{});
