@@ -37,6 +37,7 @@ targets:
         INFOPLIST_KEY_NSCameraUsageDescription: "Morsel uses the camera to attach a photo to your meal log."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Morsel uses your photo library to attach a photo to your meal log."
         INFOPLIST_KEY_NSHealthShareUsageDescription: "Morsel reads body mass from Apple Health to show your weight trend."
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: "Morsel reads your weight and active energy from Apple Health and does not write health data."
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
