@@ -347,7 +347,7 @@ private struct ConfidenceTag: View {
         switch badge {
         case .high:
             Text(MorselFormat.confidence(value))
-                .morselTag(foreground: Color.morselAccent, background: Color.morselAccentSoft)
+                .morselTag(foreground: Color.morselInk, background: Color.morselAccentSoft)
         case .low:
             Text(MorselFormat.confidence(value))
                 .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)

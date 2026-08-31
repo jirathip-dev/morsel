@@ -80,14 +80,14 @@ components:
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.sm}"
   tag-conf-high:
-    textColor: "{colors.low}"
+    textColor: "{colors.ink}"
     backgroundColor: "{colors.accentSoft}"
   tag-conf-low:
     textColor: "{colors.low}"
     backgroundColor: "{colors.energySoft}"
   btn-confirm:
     backgroundColor: "{colors.accent}"
-    textColor: "#FFFFFF"
+    textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "0 14px"
   btn-ghost:
@@ -227,8 +227,8 @@ banner. Depth is earned through tint and border, not shadow.
   `source: computed`) and **Adjust** (reveals the manual kcal/macro sliders →
   `source: manual`); a `Use computed` ghost returns to the computed value.
 - **Tag** — monospace, 5px radius, surface bg + hairline border, inkTwo text.
-  `tag-conf-high` (low on accentSoft), `tag-conf-low` (low on energySoft).
-- **btn-confirm** (accent, white text) and **btn-ghost** (surfaceTwo, inkTwo) —
+  `tag-conf-high` (ink on accentSoft), `tag-conf-low` (low on energySoft).
+- **btn-confirm** (accent with ink label) and **btn-ghost** (surfaceTwo, inkTwo) —
   40px tall, 8px radius. Confirmation is the high-emphasis action; there is
   exactly one confirm per correction card.
 - **row-low** — the low-confidence item row (energySoft tint, 6px radius). It

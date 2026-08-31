@@ -98,7 +98,7 @@ struct MorselPrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.morselBodyStrong)
-            .foregroundStyle(Color.morselSurface)
+            .foregroundStyle(Color.morselInk)
             .frame(minHeight: 40)
             .padding(.horizontal, 14)
             .background(Color.morselAccent, in: RoundedRectangle(cornerRadius: 8))

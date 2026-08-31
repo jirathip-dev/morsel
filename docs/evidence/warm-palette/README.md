@@ -1,8 +1,10 @@
 # Warm-palette evidence — issue #32 (Guy-approved 2026-08-31)
 
-Fresh iPhone 16 Simulator captures of the warm-orange palette build at this
-commit. Guy's approval was based on a real warm-palette simulator run; these
-captures reproduce that rendering on the shipped token set.
+Fresh iPhone 16 Simulator captures of the warm-orange palette build,
+**re-captured after fix round 1** (accessible ink/soft component pairs) on top
+of `origin/main` `45d58ba`. Guy's approval was based on a real warm-palette
+simulator run; these captures reproduce that rendering with the final
+accessible component states.
 
 ## Locked token map (this change)
 
@@ -26,42 +28,61 @@ inkThree `#9BA095`, bg `#FBFAF6`, surface `#FFFFFF`, surfaceTwo `#F3F1EA`,
 line `#E7E3D8`, cardEnd `#FBF9F2`); see `docs/DESIGN.md` for the normative
 token table.
 
+## Component contrast (fix round 1, WCAG 2.x relative luminance)
+
+| Pair | Ratio |
+| --- | --- |
+| high-confidence tag: ink `#20231E` on accentSoft `#F6E8D8` | **13.22:1** |
+| low-confidence tag: low `#8A5514` on energySoft `#F6E8D8` | **5.15:1** |
+| btn-confirm label: ink `#20231E` on accent `#F08A2E` | **6.35:1** |
+| btn-confirm hover: ink `#20231E` on accentSoft `#F6E8D8` | **13.22:1** |
+| source tag: inkTwo `#666A60` on surface `#FFFFFF` (unchanged) | 5.53:1 |
+
+These are computed by the executable helpers in `app/warm-palette.test.ts`,
+which fail if any covered pair drops below WCAG AA 4.5:1. (Previous round's
+incorrect "tag rows ≥ 4.5:1" claim for accent-on-soft, which measured 2.08:1,
+was corrected here; high confidence now uses ink on accentSoft.)
+
 ## Capture method (DEBUG-only, temporary)
 
-- Device: iPhone 16 Simulator, id `59DDC0C5-891E-4EC0-91AF-4F50DF68D793`
-  (iOS 26.x), booted fresh.
+- Device: iPhone 16 Simulator, id `59DDC0C5-891E-4EC0-91AF-4F50DF68D793`,
+  booted.
 - Build: `xcodebuild build -project app/Morsel.xcodeproj -scheme Morsel
   -destination 'platform=iOS Simulator,id=<id>' -derivedDataPath .build/xc-dd
   CODE_SIGNING_ALLOWED=NO` (unsigned, Debug configuration).
 - The capture harness was a TEMPORARY `#if DEBUG` block in `MorselApp.swift`,
-  gated on `ProcessInfo.processInfo.environment["MORSEL_CAPTURE_DEMO"] == "1"`.
+  gated on `ProcessInfo.processInfo.environment["MORSEL_CAPTURE_DEMO"]`.
   When set, it rendered the real `TodayView` / `SettingsView` surfaces backed
-  by the existing DEBUG `MockDashboardRepository` + `PreviewData` snapshot,
+  by the existing DEBUG `MockDashboardRepository` + Preview-style snapshot,
   and the real `OnboardingView` (sign-in step) — no Supabase client is created
   on that path, no credentials are involved, and Release builds are untouched.
-  The harness was removed before commit; `git diff <base> -- app/Sources/Morsel/MorselApp.swift`
-  is empty at the final SHA (see "Harness removal proof").
-- Screens: `xcrun simctl io <id> screenshot <file>` after UI automation taps.
+  The harness was removed before commit; at the final SHA
+  `git diff 45d58ba -- app/Sources/Morsel/MorselApp.swift` is empty
+  (byte-identical), so no capture hook is committed.
+- Screens: `xcrun simctl io <id> screenshot <file>` after launching with the
+  capture environment variable; no UI automation required.
 
 ## Captures
 
 | File | State |
 | --- | --- |
-| `today-warm.png` | Today dashboard — DEBUG PreviewData/MockRepository snapshot (breakfast + lunch incl. low-confidence "Stir-fried veg", computed goal 2,077 kcal), warm gauge ring + macro gradients |
+| `today-warm.png` | Today dashboard — DEBUG PreviewData/MockRepository snapshot (breakfast + lunch incl. high-confidence `0.90` tag now ink-on-cream, low-confidence "Stir-fried veg" with `verify` tag, computed goal 2,077 kcal) |
 | `settings-warm.png` | Settings screen (Goals / Agent sections) with warm accent |
 | `onboarding-warm.png` | Onboarding first step ("Set up your food logger") with warm accent |
 
-## Pixel inspection findings
+## Pixel inspection findings (final images)
 
 Verified programmatically (PIL) on the raw PNGs after visual review:
 
-- No cool pixels: fewer than 0.01% of pixels have hue in the blue/cyan/teal
-  bands (180–260°) on any capture; dominant non-neutral hues are 20–45°.
-- Warm accent present: 10th-percentile saturated-orange sample ≈ `#F08A2E`
-  (±JPEG-free PNG sampling tolerance).
-- Legible contrast: text regions (Today headline, tag rows, onboarding copy)
-  measure ≥ 4.5:1 mean luminance contrast against their local background.
-- No white/black full-frame outliers; backgrounds match `#FBFAF6` bg family.
+- No cool pixels: cool-hue share (saturation > 0.15, hue 180–260°) is
+  **0.0000%** on all three captures; the only green pixels are the iOS
+  status-bar battery glyph (identical across captures — OS chrome, not app).
+- Warm accent present throughout (gauge ring, kcal figures, macro bars, brand
+  text, progress capsule, selected tab).
+- Background samples match locked `#FBFAF6`.
+- Overall ink-vs-background luminance contrast on all three screens is high
+  (≈19:1 modal-background vs darkest-ink estimate); per-component WCAG values
+  are the authoritative numbers in the table above.
 
 ## Limitations
 
@@ -71,10 +92,3 @@ Verified programmatically (PIL) on the raw PNGs after visual review:
   three states above were captured.
 - The capture harness is not part of the commit; re-capturing requires the
   temporary DEBUG hook again (documented above).
-
-## Harness removal proof
-
-`git diff b7effa2d0fe10c16542ef2013f756aa3ab9925da <HEAD> --
-app/Sources/Morsel/MorselApp.swift` is EMPTY at the final commit, and
-`git log --oneline -- app/Sources/Morsel/MorselApp.swift` over the branch
-shows no commit touching that file.

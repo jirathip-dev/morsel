@@ -8,13 +8,15 @@ import { fileURLToPath } from 'node:url'
 // #F6E8D8, protein/coral/over #C0483F, carbs #F0A63C, fat #D46A2E, low
 // confidence #8A5514, neutrals unchanged, warm-only gradient stops. The old
 // cobalt/blue/teal/cyan/purple/green role values are forbidden across the
-// design-system sources and docs. This probe parses the three surfaces
-// (DesignSystem.swift, docs/DESIGN.md, docs/prototype.html) and asserts the
-// locked tokens are present and the forbidden cool values are gone, so the
-// warm alignment cannot silently regress.
+// design-system sources and docs. This probe parses the surfaces
+// (DesignSystem.swift, Views.swift, docs/DESIGN.md, docs/prototype.html),
+// asserts the locked tokens are present, the forbidden cool values are gone,
+// and every normative component text pair measurably passes WCAG AA (>= 4.5:1)
+// — including the real SwiftUI call sites, not just the spec.
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const designSystem = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'DesignSystem.swift'), 'utf8')
+const views = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'Views.swift'), 'utf8')
 const designMd = readFileSync(join(repoRoot, 'docs', 'DESIGN.md'), 'utf8')
 const prototype = readFileSync(join(repoRoot, 'docs', 'prototype.html'), 'utf8')
 
@@ -51,8 +53,68 @@ const STALE_SECOND_PALETTE_HEXES = [
 
 const COOL_GUIDANCE_WORDS = ['cobalt', 'blue', 'teal', 'cyan', 'violet', 'emerald', 'purple', 'green']
 
-// Case-insensitive so lowercase CSS hex cannot dodge the contract while the
-// Swift assertions pin the exact declaration spelling.
+// ── Executable WCAG contrast helpers (normative-pair enforcement) ─────────
+function luminance(hex: string): number {
+  const value = hex.replace('#', '')
+  const channel = (i: number): number => {
+    const c = parseInt(value.slice(i, i + 2), 16) / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  return 0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4)
+}
+
+function contrastRatio(foreground: string, background: string): number {
+  const l1 = luminance(foreground)
+  const l2 = luminance(background)
+  const [hi, lo] = l1 >= l2 ? [l1, l2] : [l2, l1]
+  return (hi + 0.05) / (lo + 0.05)
+}
+
+function expectAA(foreground: string, background: string, label: string): number {
+  const ratio = contrastRatio(foreground, background)
+  expect(
+    ratio,
+    `${label}: ${foreground} on ${background} is ${ratio.toFixed(2)}:1, below WCAG AA 4.5:1`
+  ).toBeGreaterThanOrEqual(4.5)
+  return ratio
+}
+
+// Resolve `var(--x)` references (and bare hexes) against the prototype :root
+// block so component-state assertions measure real rendered pairs.
+function prototypeVarMap(): Map<string, string> {
+  const rootMatch = /:root\{([^}]*)\}/.exec(prototype)
+  expect(rootMatch, 'prototype must keep a :root token block').toBeTruthy()
+  const map = new Map<string, string>()
+  for (const m of rootMatch![1].matchAll(/--([a-z0-9-]+):([^;}]+)/gi)) {
+    map.set(m[1].toLowerCase(), m[2].trim().toLowerCase())
+  }
+  return map
+}
+
+function resolveColor(raw: string, vars: Map<string, string>): string {
+  const value = raw.trim().toLowerCase()
+  if (value.startsWith('var(--')) {
+    const name = value.slice(6, -1)
+    const resolved = vars.get(name)
+    expect(resolved, `prototype var --${name} must be defined`).toBeTruthy()
+    return resolved!
+  }
+  return value
+}
+
+/** Extract a rule body like `.btn.confirm:hover{...}` and resolve fg/bg. */
+function prototypeRule(selector: string): { color: string; background: string } {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = new RegExp(`${escaped}\\{([^}]*)\\}`).exec(prototype)
+  expect(match, `prototype rule ${selector} must exist`).toBeTruthy()
+  const vars = prototypeVarMap()
+  const body = match![1]
+  const fg = /(?:^|;)\s*color:([^;}]+)/.exec(body)?.[1] ?? 'var(--ink)'
+  const bg = /background:([^;}]+)/.exec(body)?.[1] ?? 'var(--surface)'
+  return { color: resolveColor(fg, vars), background: resolveColor(bg, vars) }
+}
+
+// ── Shared helpers ────────────────────────────────────────────────────────
 function countCI(haystack: string, needle: string): number {
   return haystack.toLowerCase().split(needle.toLowerCase()).length - 1
 }
@@ -81,12 +143,19 @@ function colorsBlockTokens(): string[] {
   return lines
 }
 
+// Locked role hexes (normative — keep exact values).
+const INK = '#20231E'
+const ACCENT = '#F08A2E'
+const ACCENT_SOFT = '#F6E8D8'
+const LOW = '#8A5514'
+const ENERGY_SOFT = '#F6E8D8'
+
 describe('warm-palette token consistency (Refs #32)', () => {
   it('declares the locked warm interaction accent in DesignSystem.swift', () => {
-    requireSwiftToken('morselAccent', '#F08A2E')
-    requireSwiftToken('morselAccentSoft', '#F6E8D8')
-    requireSwiftToken('morselEnergy', '#F08A2E')
-    requireSwiftToken('morselEnergySoft', '#F6E8D8')
+    requireSwiftToken('morselAccent', ACCENT)
+    requireSwiftToken('morselAccentSoft', ACCENT_SOFT)
+    requireSwiftToken('morselEnergy', ACCENT)
+    requireSwiftToken('morselEnergySoft', ENERGY_SOFT)
   })
 
   it('declares the locked warm macro data roles in DesignSystem.swift', () => {
@@ -94,7 +163,7 @@ describe('warm-palette token consistency (Refs #32)', () => {
     requireSwiftToken('morselCarbs', '#F0A63C')
     requireSwiftToken('morselFat', '#D46A2E')
     requireSwiftToken('morselOver', '#C0483F')
-    requireSwiftToken('morselLow', '#8A5514')
+    requireSwiftToken('morselLow', LOW)
   })
 
   it('declares the locked warm-only gradient stops in DesignSystem.swift', () => {
@@ -102,7 +171,7 @@ describe('warm-palette token consistency (Refs #32)', () => {
     requireSwiftToken('morselCarbsStart', '#FFC24B')
     requireSwiftToken('morselFatStart', '#F0A63C')
     requireSwiftToken('morselUnderStart', '#FFC24B')
-    requireSwiftToken('morselUnder', '#F08A2E')
+    requireSwiftToken('morselUnder', ACCENT)
     requireSwiftToken('morselOnStart', '#F0A63C')
     requireSwiftToken('morselOn', '#D46A2E')
     requireSwiftToken('morselOverStart', '#F7A98C')
@@ -110,7 +179,7 @@ describe('warm-palette token consistency (Refs #32)', () => {
   })
 
   it('keeps the unchanged neutrals byte-for-byte in DesignSystem.swift', () => {
-    requireSwiftToken('morselInk', '#20231E')
+    requireSwiftToken('morselInk', INK)
     requireSwiftToken('morselInkTwo', '#666A60')
     requireSwiftToken('morselInkThree', '#9BA095')
     requireSwiftToken('morselBackground', '#FBFAF6')
@@ -122,15 +191,15 @@ describe('warm-palette token consistency (Refs #32)', () => {
 
   it('defines the locked warm colors as scalar tokens in DESIGN.md', () => {
     const expected: Array<[string, string]> = [
-      ['accent', '#F08A2E'],
-      ['accentSoft', '#F6E8D8'],
-      ['energy', '#F08A2E'],
-      ['energySoft', '#F6E8D8'],
+      ['accent', ACCENT],
+      ['accentSoft', ACCENT_SOFT],
+      ['energy', ACCENT],
+      ['energySoft', ENERGY_SOFT],
       ['protein', '#C0483F'],
       ['carbs', '#F0A63C'],
       ['fat', '#D46A2E'],
       ['over', '#C0483F'],
-      ['low', '#8A5514'],
+      ['low', LOW],
     ]
     colorsBlockTokens()
     for (const [name, hex] of expected) {
@@ -144,7 +213,7 @@ describe('warm-palette token consistency (Refs #32)', () => {
       ['--grad-protein', '#C0483F', '#C0483F'],
       ['--grad-carbs', '#FFC24B', '#F0A63C'],
       ['--grad-fat', '#F0A63C', '#D46A2E'],
-      ['--grad-under', '#FFC24B', '#F08A2E'],
+      ['--grad-under', '#FFC24B', ACCENT],
       ['--grad-on', '#F0A63C', '#D46A2E'],
       ['--grad-over', '#F7A98C', '#C0483F'],
     ]
@@ -165,6 +234,7 @@ describe('warm-palette token consistency (Refs #32)', () => {
   it('carries no forbidden cool hex in any design-system source', () => {
     for (const hex of FORBIDDEN_COOL_HEXES) {
       requireAbsent(designSystem, hex, 'DesignSystem.swift')
+      requireAbsent(views, hex, 'Views.swift')
       requireAbsent(designMd, hex, 'docs/DESIGN.md')
       requireAbsent(prototype, hex, 'docs/prototype.html')
     }
@@ -181,5 +251,63 @@ describe('warm-palette token consistency (Refs #32)', () => {
       expect(countCI(designMd, word), `"${word}" must be gone from docs/DESIGN.md`).toBe(0)
       expect(countCI(prototype, word), `"${word}" must be gone from docs/prototype.html`).toBe(0)
     }
+  })
+})
+
+describe('warm-palette accessibility contracts (WCAG AA, Refs #32 fix round 1)', () => {
+  it('keeps every normative component pair at or above 4.5:1', () => {
+    expectAA(INK, ACCENT_SOFT, 'tag-conf-high (DESIGN.md/prototype/SwiftUI)')
+    expectAA(LOW, ENERGY_SOFT, 'tag-conf-low')
+    expectAA(INK, ACCENT, 'btn-confirm label')
+    expectAA(INK, ACCENT_SOFT, 'btn-confirm hover')
+  })
+
+  it('renders the SwiftUI high-confidence tag with ink on accentSoft', () => {
+    const highCase = views.slice(views.indexOf('case .high:'), views.indexOf('case .low:'))
+    expect(highCase).toContain('morselTag(foreground: Color.morselInk, background: Color.morselAccentSoft)')
+    expect(highCase, 'high-confidence tag must not use the accent as text color').not.toContain('foreground: Color.morselAccent')
+    // The resolved pair must itself pass AA.
+    expectAA(INK, ACCENT_SOFT, 'SwiftUI high-confidence tag resolved pair')
+  })
+
+  it('renders the SwiftUI primary button with ink on accent (never white)', () => {
+    const start = designSystem.indexOf('struct MorselPrimaryButtonStyle')
+    const end = designSystem.indexOf('struct MorselGhostButtonStyle')
+    expect(start, 'MorselPrimaryButtonStyle must exist').toBeGreaterThan(-1)
+    expect(end, 'MorselGhostButtonStyle must follow').toBeGreaterThan(start)
+    const style = designSystem.slice(start, end)
+    expect(style).toContain('.foregroundStyle(Color.morselInk)')
+    expect(style).toContain('.background(Color.morselAccent')
+    expect(style, 'primary button must not use a white label').not.toContain('foregroundStyle(Color.morselSurface)')
+    expect(style, 'primary button must not hard-code white').not.toMatch(/\.white|#FFFFFF|#fff/i)
+    expectAA(INK, ACCENT, 'SwiftUI primary button resolved pair')
+  })
+
+  it('specifies the accessible confirm component in DESIGN.md', () => {
+    const block = designMd.slice(designMd.indexOf('  btn-confirm:'), designMd.indexOf('  btn-ghost:'))
+    expect(block).toContain('backgroundColor: "{colors.accent}"')
+    expect(block).toContain('textColor: "{colors.ink}"')
+    expect(block, 'btn-confirm must not use a white label').not.toMatch(/#FFFFFF|#fff/i)
+    expect(designMd).toContain('`tag-conf-high` (ink on accentSoft)')
+  })
+
+  it('renders prototype high/low tags and confirm states with AA pairs', () => {
+    const hi = prototypeRule('.tag.conf.hi')
+    expect(hi.color).toBe('#20231e')
+    expect(hi.background).toBe('#f6e8d8')
+    expectAA(hi.color, hi.background, 'prototype tag.conf.hi')
+
+    const lo = prototypeRule('.tag.conf.lo')
+    expectAA(lo.color, lo.background, 'prototype tag.conf.lo')
+
+    const confirm = prototypeRule('.btn.confirm')
+    expect(confirm.color).toBe('#20231e')
+    expect(confirm.background).toBe('#f08a2e')
+    expectAA(confirm.color, confirm.background, 'prototype .btn.confirm')
+
+    const hover = prototypeRule('.btn.confirm:hover')
+    expect(hover.background).toBe('#f6e8d8')
+    expect(hover.color, 'hover must not keep a white label on cream').not.toMatch(/#fff/i)
+    expectAA(hover.color, hover.background, 'prototype .btn.confirm:hover')
   })
 })
