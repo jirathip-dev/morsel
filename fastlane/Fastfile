@@ -7,6 +7,13 @@ APP_IDENTIFIER = "com.jirathip.morsel".freeze
 # Build shell-safe xcode build-setting overrides for the Supabase TestFlight
 # configuration. Fails fast before gym with names-only diagnostics when the
 # repository secrets are missing or empty; secret values are never printed.
+#
+# Delivery: Xcode silently drops arbitrary INFOPLIST_KEY_<custom> build
+# settings under GENERATE_INFOPLIST_FILE=YES, so the three runtime keys are
+# carried by an explicit Info.plist template (fastlane/Morsel-Info.plist)
+# whose $(MORSEL_*) placeholders are substituted from plain build settings.
+# The template mirrors the project's generated plist exactly, plus the three
+# custom keys, and is used only by this lane via INFOPLIST_FILE.
 def morsel_supabase_xcargs(build)
   supabase_url = ENV.fetch("SUPABASE_URL", "").strip
   anon_key = ENV.fetch("SUPABASE_ANON_KEY", "").strip
@@ -20,10 +27,12 @@ def morsel_supabase_xcargs(build)
     )
   end
   mcp_url = "#{supabase_url.sub(%r{/+\z}, '')}/functions/v1/mcp"
+  info_plist = File.expand_path("Morsel-Info.plist", __dir__)
   overrides = {
-    "INFOPLIST_KEY_MorselSupabaseURL" => supabase_url,
-    "INFOPLIST_KEY_MorselSupabaseAnonKey" => anon_key,
-    "INFOPLIST_KEY_MORSEL_MCP_URL" => mcp_url
+    "INFOPLIST_FILE" => info_plist,
+    "MORSEL_SUPABASE_URL" => supabase_url,
+    "MORSEL_SUPABASE_ANON_KEY" => anon_key,
+    "MORSEL_MCP_URL" => mcp_url
   }.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
   "CURRENT_PROJECT_VERSION=#{build} #{overrides}"
 end

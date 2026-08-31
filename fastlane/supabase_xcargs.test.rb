@@ -65,12 +65,27 @@ class SupabaseXcargsTest < Minitest::Test
     assert_includes error.message, "SUPABASE_ANON_KEY"
   end
 
+  def test_blank_anon_key_with_valid_url_fails_naming_only_anon_key
+    # Regression: a valid SUPABASE_URL with a blank/whitespace anon key must
+    # fail listing only SUPABASE_ANON_KEY as missing (the URL guard must not
+    # mask it). The guidance sentence may mention both names; the missing
+    # list itself is what must name only the anon key.
+    ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
+    ENV["SUPABASE_ANON_KEY"] = "   "
+    error = assert_raises(RuntimeError) { morsel_supabase_xcargs(1) }
+    assert_includes error.message, "SUPABASE_ANON_KEY"
+    assert_includes error.message,
+      "Missing required TestFlight configuration: SUPABASE_ANON_KEY."
+    refute_includes error.message,
+      "Missing required TestFlight configuration: SUPABASE_URL"
+  end
+
   def test_derives_mcp_url_from_supabase_url
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
     xcargs = morsel_supabase_xcargs(3)
     assert_includes xcargs,
-      "INFOPLIST_KEY_MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
+      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
   end
 
   def test_trailing_slash_does_not_create_double_slash
@@ -78,19 +93,40 @@ class SupabaseXcargsTest < Minitest::Test
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
     xcargs = morsel_supabase_xcargs(3)
     assert_includes xcargs,
-      "INFOPLIST_KEY_MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
+      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
     refute_includes xcargs, "//functions/v1/mcp"
   end
 
-  def test_all_three_overrides_and_build_number_reach_xcargs
+  def test_all_overrides_and_build_number_reach_xcargs
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
     xcargs = morsel_supabase_xcargs(42)
     assert_includes xcargs, "CURRENT_PROJECT_VERSION=42"
-    assert_includes xcargs, "INFOPLIST_KEY_MorselSupabaseURL=https://abcd.supabase.co"
-    assert_includes xcargs, "INFOPLIST_KEY_MorselSupabaseAnonKey=anon-key"
+    assert_includes xcargs, "INFOPLIST_FILE="
+    assert_includes xcargs, "MORSEL_SUPABASE_URL=https://abcd.supabase.co"
+    assert_includes xcargs, "MORSEL_SUPABASE_ANON_KEY=anon-key"
     assert_includes xcargs,
-      "INFOPLIST_KEY_MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
+      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
+    # The old INFOPLIST_KEY_<custom> delivery is gone: Xcode silently drops it.
+    refute_includes xcargs, "INFOPLIST_KEY_MorselSupabaseURL"
+    refute_includes xcargs, "INFOPLIST_KEY_MorselSupabaseAnonKey"
+    refute_includes xcargs, "INFOPLIST_KEY_MORSEL_MCP_URL"
+  end
+
+  def test_template_exists_and_points_at_committed_fixture
+    ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
+    ENV["SUPABASE_ANON_KEY"] = "anon-key"
+    xcargs = morsel_supabase_xcargs(1)
+    plist_path = xcargs[/INFOPLIST_FILE=(.+?)(?:\s|$)/, 1]
+    refute_nil plist_path, "INFOPLIST_FILE must point at the template"
+    assert File.exist?(plist_path), "template #{plist_path} must exist"
+    template = File.read(plist_path)
+    assert_includes template, "<key>MorselSupabaseURL</key>"
+    assert_includes template, "$(MORSEL_SUPABASE_URL)"
+    assert_includes template, "<key>MorselSupabaseAnonKey</key>"
+    assert_includes template, "$(MORSEL_SUPABASE_ANON_KEY)"
+    assert_includes template, "<key>MORSEL_MCP_URL</key>"
+    assert_includes template, "$(MORSEL_MCP_URL)"
   end
 
   def test_shell_sensitive_values_are_quoted_not_executed_or_split
@@ -103,7 +139,7 @@ class SupabaseXcargsTest < Minitest::Test
     # execution, no mangling of shell metacharacters.
     tokens = Shellwords.split(xcargs)
     assert_includes tokens,
-      "INFOPLIST_KEY_MorselSupabaseAnonKey=abc def;$(touch #{sentinel})&`echo hi`\"q\"'q'"
+      "MORSEL_SUPABASE_ANON_KEY=abc def;$(touch #{sentinel})&`echo hi`\"q\"'q'"
     refute File.exist?(sentinel), "shell metacharacters must not be executed"
     refute_includes xcargs, "CURRENT_PROJECT_VERSION=1 abc", "value must be quoted, not split"
   end
