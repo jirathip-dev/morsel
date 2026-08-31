@@ -34,15 +34,21 @@ export const INVENTORY_SQL = {
     "select schemaname, tablename, policyname from pg_policies where schemaname in ('public','storage') order by schemaname, tablename, policyname",
 };
 
-export const READ_ONLY_SQL_RE = /^\s*select\b/i;
+// Immutable exact-membership allowlist: reconcile mode only ever issues these
+// fixed SELECT statements, and NOTHING else. Stacked statements, writable
+// SELECT functions, transactions, comments/whitespace variants, migration SQL,
+// and ledger DDL/inserts are all refused because the submitted string must be
+// byte-for-byte identical to one of the entries below.
+export const ALLOWED_QUERIES = Object.freeze(
+  new Set([LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)]),
+);
 
-// Hard read-only guard: reconcile mode only ever issues SELECT statements.
-// Anything else (create/insert/alter/drop/update/delete/grant/begin/commit,
-// migration SQL, ledger DDL/inserts) is refused before the query layer sees it.
+// Hard read-only guard: the query wrapper rejects any non-allowlisted string
+// before it reaches queryImpl/fetch.
 export function assertReadOnly(sql) {
-  if (!READ_ONLY_SQL_RE.test(sql)) {
+  if (!ALLOWED_QUERIES.has(sql)) {
     const preview = sql.replace(/\s+/g, " ").trim().slice(0, 80);
-    throw new Error(`reconcile mode refuses non-read-only SQL: ${preview}`);
+    throw new Error(`reconcile mode refuses non-allowlisted SQL: ${preview}`);
   }
 }
 
@@ -170,11 +176,11 @@ async function managementQuery(sql, label, ref, token) {
   return Array.isArray(body) ? body : (body.result ?? body.rows ?? []);
 }
 
-export function formatReport({ ref, local, ledgerExists, ledgerNames, inventory, checks }) {
+export function formatReport({ local, ledgerExists, ledgerNames, inventory, checks }) {
   const lines = [];
   lines.push("Morsel migration ledger reconciliation — READ-ONLY");
   lines.push("==================================================");
-  lines.push(`project ref : ${ref}`);
+  lines.push("project ref : [redacted]");
   lines.push("mode        : read-only — no --adopt, no migration SQL, no ledger writes");
   lines.push("");
   lines.push("ledger public.migration_ledger");
@@ -311,7 +317,6 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
   }
 
   const report = formatReport({
-    ref,
     local,
     ledgerExists,
     ledgerNames,
