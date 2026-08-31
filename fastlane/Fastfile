@@ -1,7 +1,32 @@
 require "base64"
 require "fileutils"
+require "shellwords"
 
 APP_IDENTIFIER = "com.jirathip.morsel".freeze
+
+# Build shell-safe xcode build-setting overrides for the Supabase TestFlight
+# configuration. Fails fast before gym with names-only diagnostics when the
+# repository secrets are missing or empty; secret values are never printed.
+def morsel_supabase_xcargs(build)
+  supabase_url = ENV.fetch("SUPABASE_URL", "").strip
+  anon_key = ENV.fetch("SUPABASE_ANON_KEY", "").strip
+  missing = []
+  missing << "SUPABASE_URL" if supabase_url.empty?
+  missing << "SUPABASE_ANON_KEY" if anon_key.empty?
+  unless missing.empty?
+    UI.user_error!(
+      "Missing required TestFlight configuration: #{missing.join(', ')}. " \
+      "Set the SUPABASE_URL and SUPABASE_ANON_KEY repository secrets."
+    )
+  end
+  mcp_url = "#{supabase_url.sub(%r{/+\z}, '')}/functions/v1/mcp"
+  overrides = {
+    "INFOPLIST_KEY_MorselSupabaseURL" => supabase_url,
+    "INFOPLIST_KEY_MorselSupabaseAnonKey" => anon_key,
+    "INFOPLIST_KEY_MORSEL_MCP_URL" => mcp_url
+  }.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
+  "CURRENT_PROJECT_VERSION=#{build} #{overrides}"
+end
 
 default_platform(:ios)
 
@@ -89,7 +114,7 @@ platform :ios do
       scheme: "Morsel",
       configuration: "Release",
       export_method: "app-store",
-      xcargs: "CURRENT_PROJECT_VERSION=#{build}",
+      xcargs: morsel_supabase_xcargs(build),
       export_xcargs: export_auth_args,
       export_options: {
         signingStyle: "manual",
