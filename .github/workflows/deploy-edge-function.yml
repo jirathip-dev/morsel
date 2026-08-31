@@ -88,13 +88,48 @@ jobs:
           echo "== OAuth authorization-server metadata =="
           oauth_status="$(curl --silent --show-error --max-time 30 --output "$oauth_file" --write-out '%{http_code}' "$base/.well-known/oauth-authorization-server")"
           echo "status: $oauth_status"
-          cat "$oauth_file"
-          echo
           if [ "$oauth_status" != "200" ]; then
             echo "::error::Expected HTTP 200 from /.well-known/oauth-authorization-server; got $oauth_status"
             exit 1
           fi
-          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); r=["issuer","authorization_endpoint","token_endpoint","registration_endpoint","code_challenge_methods_supported","grant_types_supported"]; m=[k for k in r if k not in d]; assert not m, "missing OAuth metadata fields: %s" % ", ".join(m)' "$oauth_file"
+          python3 - "$oauth_file" "$base" <<'PY'
+          import json
+          import sys
+          from urllib.parse import urlparse
+
+          with open(sys.argv[1]) as handle:
+              metadata = json.load(handle)
+
+          base = sys.argv[2].rstrip('/')
+
+          def is_absolute_url(value):
+              if not isinstance(value, str) or not value:
+                  return False
+              parsed = urlparse(value)
+              return parsed.scheme in ('http', 'https') and bool(parsed.netloc)
+
+          endpoints = {
+              'issuer': base,
+              'authorization_endpoint': base + '/authorize',
+              'token_endpoint': base + '/token',
+              'registration_endpoint': base + '/register',
+          }
+          for field, expected in endpoints.items():
+              if not is_absolute_url(metadata.get(field)):
+                  raise SystemExit('invalid OAuth metadata field %s (expected a non-empty valid absolute URL)' % field)
+              if metadata[field] != expected:
+                  raise SystemExit('OAuth metadata field %s does not match the deployed MCP base' % field)
+
+          challenge_methods = metadata.get('code_challenge_methods_supported')
+          if not isinstance(challenge_methods, list) or 'S256' not in challenge_methods:
+              raise SystemExit('OAuth metadata code_challenge_methods_supported must be an array containing S256')
+
+          grant_types = metadata.get('grant_types_supported')
+          if not isinstance(grant_types, list) or 'authorization_code' not in grant_types or 'refresh_token' not in grant_types:
+              raise SystemExit('OAuth metadata grant_types_supported must be an array containing authorization_code and refresh_token')
+
+          print('OAuth metadata: OK (%s)' % ', '.join(endpoints))
+          PY
 
           echo "== unauthenticated MCP initialize (expect 401) =="
           mcp_status="$(curl --silent --show-error --max-time 30 --output "$mcp_file" --write-out '%{http_code}' \
