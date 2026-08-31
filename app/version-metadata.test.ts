@@ -99,4 +99,16 @@ describe('generated Morsel app version metadata (issue #32)', () => {
       expect(update, `NSHealthUpdateUsageDescription must stay honest in ${configId}`).toContain('does not write health data')
     }
   })
+
+  it('declares the standard-encryption exemption for TestFlight (issue #32)', () => {
+    // ASC held build 1 behind "Missing Compliance" because the generated
+    // Info.plist did not declare ITSAppUsesNonExemptEncryption. Morsel only
+    // uses Apple OS encryption (HTTPS, Keychain, Sign in with Apple), so the
+    // app qualifies for the standard-encryption exemption: the key must be
+    // present with value NO in every configuration of the application target.
+    for (const configId of appConfigIds) {
+      const exempt = buildSetting(buildConfigsSection, configId, 'INFOPLIST_KEY_ITSAppUsesNonExemptEncryption')
+      expect(exempt, `INFOPLIST_KEY_ITSAppUsesNonExemptEncryption missing in ${configId}`).toBe('NO')
+    }
+  })
 })

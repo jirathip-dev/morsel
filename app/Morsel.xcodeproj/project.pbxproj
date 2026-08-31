@@ -397,6 +397,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_MORSEL_MCP_URL = "";
 				INFOPLIST_KEY_MorselSupabaseAnonKey = "";
 				INFOPLIST_KEY_MorselSupabaseURL = "";
@@ -446,6 +447,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Morsel;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_MORSEL_MCP_URL = "";
 				INFOPLIST_KEY_MorselSupabaseAnonKey = "";
 				INFOPLIST_KEY_MorselSupabaseURL = "";
