@@ -343,3 +343,154 @@ describe('V1 semantic contracts (Refs #32 approval comment)', () => {
     expectAA(hover.color, hover.background, 'prototype .btn.confirm:hover')
   })
 })
+
+// ── Review round 1 (V1) fixes: small-text AA + gauge spec truthfulness ────
+// V1 accent #E66A2C on warm ground is ~3:1 — below AA for 11pt text. These
+// tests parse the REAL Swift call sites and resolve them through the
+// DesignSystem token table to hexes, then compute WCAG — a call-site revert
+// in any covered file turns them RED.
+
+const swiftCallSites: Array<{ file: string; text: string }> = [
+  'Views.swift',
+  'Onboarding.swift',
+  'AuthView.swift',
+  'GoalsEditor.swift',
+  'MealCaptureView.swift',
+].map((file) => ({
+  file,
+  text: readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', file), 'utf8'),
+}))
+const gaugeViews = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'GaugeViews.swift'), 'utf8')
+
+/** Parse `static let morselX = Color(paletteHex: "#…")` from DesignSystem.swift. */
+function swiftTokenHex(token: string): string {
+  const match = new RegExp(`static let ${token} = Color\\(paletteHex: "#([0-9A-Fa-f]{6})"\\)`).exec(designSystem)
+  expect(match, `DesignSystem.swift must declare token ${token}`).toBeTruthy()
+  return `#${match![1].toUpperCase()}`
+}
+
+/**
+ * Resolve a color expression used at a call site to its hex through the
+ * parsed DesignSystem token table (supports `Color.morselX` and `.morselX`).
+ */
+function resolveSwiftColor(expression: string): string {
+  const match = /(?:Color\.)?morsel(\w+)/.exec(expression.trim())
+  expect(match, `cannot resolve Swift color expression "${expression}"`).toBeTruthy()
+  const name = match![1]
+  const hex = swiftTokenHex(`morsel${name}`)
+  expect(hex, `token morsel${name} must resolve to a hex`).toMatch(/^#[0-9A-F]{6}$/)
+  return hex
+}
+
+/** Find `.foregroundStyle(<expr>)` immediately after a given anchor line. */
+function foregroundAfter(source: string, anchor: string, label: string): string {
+  const at = source.indexOf(anchor)
+  expect(at, `${label}: anchor must exist`).toBeGreaterThan(-1)
+  const match = /\.foregroundStyle\(([^\n]+)\)/.exec(source.slice(at, at + anchor.length + 400))
+  expect(match, `${label}: foregroundStyle must follow the anchor`).toBeTruthy()
+  return match![1]
+}
+
+describe('V1 review-r1: small warm-ground text uses AA-compliant forest (Refs #32)', () => {
+  const smallWordmarkSites: Array<{ file: string; source: string; anchor: string; label: string }> = [
+    {
+      file: 'Views.swift',
+      source: swiftCallSites[0].text,
+      anchor: 'Text("morsel")',
+      label: 'Today morsel wordmark',
+    },
+    {
+      file: 'Onboarding.swift',
+      source: swiftCallSites[1].text,
+      anchor: 'Text("morsel")',
+      label: 'onboarding morsel wordmark',
+    },
+    {
+      file: 'AuthView.swift',
+      source: swiftCallSites[2].text,
+      anchor: 'Text("morsel")\n                            .font(.morselData)',
+      label: 'auth morsel wordmark (sign-in step)',
+    },
+    {
+      file: 'AuthView.swift',
+      source: swiftCallSites[2].text,
+      anchor: 'Button("Use a different email")',
+      label: 'auth use-a-different-email link',
+    },
+    {
+      file: 'GoalsEditor.swift',
+      source: swiftCallSites[3].text,
+      anchor: 'Text("morsel · agent voice")',
+      label: 'goals agent-voice label',
+    },
+    {
+      file: 'MealCaptureView.swift',
+      source: swiftCallSites[4].text,
+      anchor: 'Button("Remove")',
+      label: 'capture remove label',
+    },
+  ]
+
+  it('renders the six small product-text call sites in forest, measurably AA on bg', () => {
+    const forestHex = swiftTokenHex('morselForest')
+    expect(forestHex).toBe(V1.forest)
+    const bgHex = swiftTokenHex('morselBackground')
+    expect(bgHex).toBe(V1.bg)
+    for (const site of smallWordmarkSites) {
+      const expression = foregroundAfter(site.source, site.anchor, `${site.file} ${site.label}`)
+      expect(expression, `${site.label} (${site.file}) must use Color.morselForest`).toContain('Color.morselForest')
+      const resolved = resolveSwiftColor(expression)
+      expect(resolved, `${site.label} must resolve to forest ${V1.forest}`).toBe(V1.forest)
+      const ratio = contrastRatio(resolved, bgHex)
+      expect(
+        ratio,
+        `${site.label}: forest on bg is ${ratio.toFixed(2)}:1, below WCAG AA 4.5:1`
+      ).toBeGreaterThanOrEqual(4.5)
+    }
+  })
+
+  it('keeps accent off the six small-text sites entirely (no accent foreground at those anchors)', () => {
+    for (const site of smallWordmarkSites) {
+      const expression = foregroundAfter(site.source, site.anchor, `${site.file} ${site.label}`)
+      expect(expression, `${site.label} (${site.file}) must not use accent text`).not.toContain('morselAccent')
+    }
+  })
+
+  it('renders the gauge ring on-track fill via the measured gauge gradient, not accent', () => {
+    const ringStart = gaugeViews.indexOf('private struct CalorieRing: View')
+    const ringEnd = gaugeViews.indexOf('private struct GoalSummary: View')
+    expect(ringStart, 'CalorieRing must exist').toBeGreaterThan(-1)
+    expect(ringEnd, 'GoalSummary must follow CalorieRing').toBeGreaterThan(ringStart)
+    const ring = gaugeViews.slice(ringStart, ringEnd)
+    expect(ring).toContain('LinearGradient.morselGauge')
+    // The gauge gradient itself must be composed of the measured leaf→forest stops.
+    const gaugeStart = swiftTokenHex('morselGaugeStart')
+    const gaugeEnd = swiftTokenHex('morselGaugeEnd')
+    expect(gaugeStart).toBe('#6B8B60')
+    expect(gaugeEnd).toBe(V1.forest)
+    // status.tint onTrack must resolve to forest (5.65:1 on surface2 track),
+    // never accent (2.70:1).
+    const tintBlock = gaugeViews.slice(gaugeViews.indexOf('extension GoalStatus'))
+    const onTrack = /case \.onTrack:\s*\n\s*return \.morsel(\w+)/.exec(tintBlock)
+    expect(onTrack, 'GoalStatus.tint must have an .onTrack case').toBeTruthy()
+    expect(onTrack![1], 'onTrack tint must be Forest').toBe('Forest')
+    expectAA(resolveSwiftColor('.morselForest'), swiftTokenHex('morselSurfaceTwo'), 'onTrack ring on surface2 track')
+    const nearGoal = /case \.nearGoal:\s*\n\s*return \.morsel(\w+)/.exec(tintBlock)
+    expect(nearGoal, 'GoalStatus.tint must have a .nearGoal case').toBeTruthy()
+    expect(nearGoal![1], 'nearGoal tint must be MustardDeep (accessible data stroke)').toBe('MustardDeep')
+  })
+
+  it('makes the normative gauge-ring frontmatter truthful (forest fallback, measured prose)', () => {
+    const gaugeBlock = designMd.slice(
+      designMd.indexOf('  gauge-ring:'),
+      designMd.indexOf('  macro-track:')
+    )
+    expect(gaugeBlock, 'gauge-ring component must exist in DESIGN.md').toBeTruthy()
+    expect(gaugeBlock).toContain('fillColor: "{colors.forest}"')
+    expect(gaugeBlock, 'gauge fill fallback must not be accent').not.toContain('fillColor: "{colors.accent}"')
+    // Prose keeps the measured treatment explicit: the rendered ring is the
+    // measured leaf→forest gradient; forest is only the scalar fallback.
+    expect(designMd).toContain('gradGauge')
+    expect(designMd).toMatch(/measured leaf→forest/i)
+  })
+})

@@ -76,7 +76,7 @@ struct AddMealView: View {
                                 pickerItem = nil
                             }
                             .font(.morselData)
-                            .foregroundStyle(Color.morselAccent)
+                            .foregroundStyle(Color.morselForest)
                         }
                     }
                 }

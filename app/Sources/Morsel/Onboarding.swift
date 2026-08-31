@@ -181,7 +181,7 @@ struct OnboardingView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     Text("morsel")
                         .font(.morselData)
-                        .foregroundStyle(Color.morselAccent)
+                        .foregroundStyle(Color.morselForest)
                     Text(title)
                         .font(.morselDisplay)
                         .foregroundStyle(Color.morselInk)

@@ -2,8 +2,10 @@
 
 Fresh iPhone 16 Simulator captures of the **approved V1 palette**
 (`accent #E66A2C`, `bg #FFF7E8`, forest/leaf support, mustard highlights)
-after the V1 reconciliation on top of `origin/main` `45d58ba`. These
-re-place the earlier warm-orange (r1) captures; the r1 locked values
+on top of `origin/main` `45d58ba`, **re-captured after the V1 review-r1 AA
+fixes** (the six small warm-ground wordmark/label sites moved from accent to
+compliant forest `#2F654B` on their ground; 6.39:1). These re-place the
+earlier warm-orange (r1) captures; the r1 locked values
 (#F08A2E / #F6E8D8 / #C0483F family) are retired everywhere.
 
 ## V1 token map (this change)
@@ -70,8 +72,8 @@ call sites (SwiftUI `ConfidenceTag`, primary button style, prototype rules).
 
 | File | State |
 | --- | --- |
-| `today-warm.png` | Today dashboard — real `TodayView` with DEBUG mock snapshot (high-confidence `0.90` tag now forest-on-leafSoft, low-confidence "Stir-fried veg" row with accentSoft tint + `0.70`/`verify` review tags above the fold, forest ring, orange kcal anchors, measured macro gradients) |
-| `onboarding-warm.png` | Onboarding first step ("Let's set up your food logger.") with orange brand text, orange progress capsule, orange `Send email code` button |
+| `today-warm.png` | Today dashboard — real `TodayView` with DEBUG mock snapshot (forest `morsel` wordmark, high-confidence `0.90` tag forest-on-leafSoft, low-confidence "Stir-fried veg" row with accentSoft tint + `0.70`/`verify` review tags above the fold, forest ring, orange kcal anchors, measured macro gradients) |
+| `onboarding-warm.png` | Onboarding first step ("Let's set up your food logger.") with forest `morsel` wordmarks, orange progress capsule, orange `Send email code` button |
 | `settings-warm.png` | **Known limitation:** captured from the real private `SettingsView` inside the temporary harness — but the bare harness context omits the production TabView-level `.tint(Color.morselAccent)`, so the Form renders its rows with Apple's system-blue tint (`#007AFF`) instead of V1 accent. The shipped app wraps `SettingsView` in the tinted TabView (`.tint(Color.morselAccent)` in `MorselApp.swift`), so production renders orange. Replacing this capture 1:1 requires a harness that reproduces the production tint context, which was out of scope for this round; the V1 contract for this screen is enforced by the token + call-site tests, not by this PNG. |
 
 ## Pixel inspection findings (final images)

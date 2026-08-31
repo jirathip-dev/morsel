@@ -109,7 +109,7 @@ private struct TodayHeader: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("morsel")
                 .font(.morselData)
-                .foregroundStyle(Color.morselAccent)
+                .foregroundStyle(Color.morselForest)
             Text("Today")
                 .font(.morselDisplay)
                 .foregroundStyle(Color.morselInk)

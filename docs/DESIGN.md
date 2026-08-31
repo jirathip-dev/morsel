@@ -62,7 +62,7 @@ components:
     padding: 16px
   gauge-ring:
     trackColor: "{colors.surface2}"
-    fillColor: "{colors.accent}"
+    fillColor: "{colors.forest}"
     fillColorNear: "{colors.mustardDeep}"
     fillColorOver: "{colors.over}"
   macro-track:
@@ -160,8 +160,10 @@ prototype CSS and a SwiftUI `LinearGradient` extension — **not** in the
 - **Macro bars** — `gradProtein` (coral), `gradCarbs` (mustardDeep family),
   `gradFat` (leaf family), rounded caps, ~6px tall on a surface2 track, each
   verified ≥3:1 against its track. The macro dot uses the same gradient.
-- **Calorie ring** — `gradGauge` (leaf→forest). Near-goal uses
-  `mustardDeep`, over-goal uses `over`. Every bar/ring keeps an adjacent
+- **Calorie ring** — the rendered on-track ring is the measured leaf→forest
+  `gradGauge` (the `gauge-ring.fillColor` scalar `forest` is only the
+  single-color fallback). Near-goal uses `mustardDeep`, over-goal uses
+  `over`. Every bar/ring keeps an adjacent
   numeric value, label, and track — the gradient carries *feel*, text carries
   the precise value, so gradient degeneracy never blinds a readout.
 - **Cards** — a faint `gradCard` (surface → #FFF5E5) on the gauge readout

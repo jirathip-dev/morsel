@@ -240,7 +240,7 @@ struct GoalsEditorView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("morsel · agent voice").font(.morselData).foregroundStyle(Color.morselAccent)
+                    Text("morsel · agent voice").font(.morselData).foregroundStyle(Color.morselForest)
                     Text(viewModel.sourceIndicator).font(.morselData).foregroundStyle(Color.morselInkTwo)
                 }
                 .padding(12)
