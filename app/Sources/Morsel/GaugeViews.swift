@@ -117,7 +117,7 @@ private struct GoalSummary: View {
             }
         }
         .font(.morselData)
-        .foregroundStyle(status.tint)
+        .foregroundStyle(status == .over ? Color.morselOver : Color.morselStatusText)
     }
 }
 
@@ -179,6 +179,9 @@ private struct MacroRow: View {
 }
 
 extension GoalStatus {
+    /// Graphic stroke/tint per goal state. mustardDeep is the documented
+    /// accessible data stroke — valid for ring/progress graphics, never for
+    /// small text.
     var tint: Color {
         switch self {
         case .onTrack:
@@ -191,4 +194,11 @@ extension GoalStatus {
             return .morselInkThree
         }
     }
+}
+
+/// Dedicated 11pt status-text color for the gauge card: alias of the locked
+/// V1 forest token, measuring >= 4.5:1 on both ends of the card gradient
+/// (surface 6.65:1, cardEnd 6.31:1). Graphic strokes keep `GoalStatus.tint`.
+extension Color {
+    static let morselStatusText = Color.morselForest
 }

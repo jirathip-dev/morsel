@@ -72,9 +72,22 @@ call sites (SwiftUI `ConfidenceTag`, primary button style, prototype rules).
 
 | File | State |
 | --- | --- |
-| `today-warm.png` | Today dashboard — real `TodayView` with DEBUG mock snapshot (forest `morsel` wordmark, high-confidence `0.90` tag forest-on-leafSoft, low-confidence "Stir-fried veg" row with accentSoft tint + `0.70`/`verify` review tags above the fold, forest ring, orange kcal anchors, measured macro gradients) |
+| `today-warm.png` | Today dashboard — real `TodayView` with DEBUG mock snapshot (forest `morsel` wordmark, high-confidence `0.90` tag forest-on-leafSoft, low-confidence "Stir-fried veg" row with accentSoft tint + `0.70`/`verify` review tags above the fold, forest ring, orange kcal anchors, measured macro gradients). **r2 limitation:** predates the r2 active-tab tint change, so it does not show the selected-tab color; the TabView fix is evidenced by compiled source + discriminating tests instead (below). |
 | `onboarding-warm.png` | Onboarding first step ("Let's set up your food logger.") with forest `morsel` wordmarks, orange progress capsule, orange `Send email code` button |
-| `settings-warm.png` | **Known limitation:** captured from the real private `SettingsView` inside the temporary harness — but the bare harness context omits the production TabView-level `.tint(Color.morselAccent)`, so the Form renders its rows with Apple's system-blue tint (`#007AFF`) instead of V1 accent. The shipped app wraps `SettingsView` in the tinted TabView (`.tint(Color.morselAccent)` in `MorselApp.swift`), so production renders orange. Replacing this capture 1:1 requires a harness that reproduces the production tint context, which was out of scope for this round; the V1 contract for this screen is enforced by the token + call-site tests, not by this PNG. |
+| `settings-warm.png` | **Known limitation (r2):** the r2 active-tab fix changes the TabView tint from accent to forest with an orange action-tint wrapper on tab content; this capture predates that change and shows system blue on "Replay onboarding" (see below). Recapture in the real TabView context did not happen: the round's single permitted capture-build attempt failed at compile (`@main` can only apply to one type in a module — the harness insert left two `@main` declarations) and capture iteration was stopped per scope control. The active-tab forest mapping is instead enforced by parsed-source + WCAG tests in `app/warm-palette.test.ts` and by compiled source. Production `SettingsView` renders with the V1 orange action tint via the `MorselActionTint` wrapper (source: `MorselApp.swift`). |
+
+## Capture attempt status (round 2)
+
+- The single permitted capture-build attempt for the real-TabView evidence
+  **failed at compile**: the harness insertion left two `@main` declarations
+  in `MorselApp.swift` (`'main' attribute can only apply to one type in a
+  module`). No screenshot was taken from a failed build; capture iteration
+  was stopped per the round's scope control. `MorselApp.swift` was restored
+  to its exact production state (HEAD + the r2 fix, no harness residue —
+  `MORSEL_CAPTURE_DEMO`/`MorselCaptureApp`/`MORSEL_CAPTURE_TAB` absent from
+  `app/Sources/Morsel/`). The active-tab and action-tint behavior is
+  therefore evidenced by compiled source and the discriminating
+  parsed-source tests, not by PNG.
 
 ## Pixel inspection findings (final images)
 

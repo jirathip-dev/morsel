@@ -119,7 +119,7 @@ renderer should follow.
 - **ink (#2A261F)** — warm near-black for primary copy and the dark label on
   identity hues. Orange never carries a white label.
 - **accent (#E66A2C)** — the orange **identity/action anchor**: confirm
-  buttons, calorie figures, active nav, slider thumbs, focus states. It takes
+  buttons, calorie figures, slider thumbs, focus states. It takes
   dark **ink**, never white.
 - **forest (#2F654B) / leafSoft (#E1E9D7)** — stable/on-track support and
   high-confidence tags; **forest** is also the active-navigation text.

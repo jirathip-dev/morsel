@@ -361,6 +361,7 @@ const swiftCallSites: Array<{ file: string; text: string }> = [
   text: readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', file), 'utf8'),
 }))
 const gaugeViews = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'GaugeViews.swift'), 'utf8')
+const morselApp = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'MorselApp.swift'), 'utf8')
 
 /** Parse `static let morselX = Color(paletteHex: "#…")` from DesignSystem.swift. */
 function swiftTokenHex(token: string): string {
@@ -492,5 +493,83 @@ describe('V1 review-r1: small warm-ground text uses AA-compliant forest (Refs #3
     // measured leaf→forest gradient; forest is only the scalar fallback.
     expect(designMd).toContain('gradGauge')
     expect(designMd).toMatch(/measured leaf→forest/i)
+  })
+})
+
+// ── Review round 2 (V1): app-shell tab tint + near-goal text split ────────
+// These parse the app shell (MorselApp.swift) and the gauge card renderer,
+// which earlier rounds never read — exactly where both r2 defects hid.
+
+describe('V1 review-r2: forest active tab, orange actions, split status text (Refs #32)', () => {
+  it('scopes the TabView active tab to forest without turning descendant actions green', () => {
+    const dashboardStart = morselApp.indexOf('private struct AuthenticatedDashboardView: View')
+    expect(dashboardStart, 'AuthenticatedDashboardView must exist').toBeGreaterThan(-1)
+    const shell = morselApp.slice(dashboardStart)
+    // The TabView (active navigation) tint must resolve to forest through
+    // the parsed token table...
+    const tabTint = /\.tint\((Color\.morsel\w+)\)/.exec(shell.slice(shell.indexOf('TabView(')))
+    expect(tabTint, 'TabView must carry a tint').toBeTruthy()
+    expect(resolveSwiftColor(tabTint![1]), 'active tab tint must be forest').toBe(V1.forest)
+    expectAA(V1.forest, V1.bg, 'active tab label on warm ground')
+    // ...while a dedicated wrapper re-applies the orange action anchor to
+    // every tab's descendant content.
+    expect(shell).toContain('MorselActionTint')
+    const wrapper = morselApp.slice(morselApp.indexOf('private struct MorselActionTint'))
+    const wrapperTint = /\.tint\((Color\.morsel\w+)\)/.exec(wrapper)
+    expect(wrapperTint, 'action-tint wrapper must exist').toBeTruthy()
+    expect(resolveSwiftColor(wrapperTint![1]), 'descendant actions must stay orange').toBe(V1.accent)
+    // No orange tint between the TabView and the wrapper definition — the
+    // shell must never globally tint the tab bar itself accent.
+    const between = shell.slice(shell.indexOf('TabView('), shell.indexOf('private struct MorselActionTint'))
+    expect(between, 'shell must not tint the TabView itself orange')
+      .not.toMatch(/\.tint\(Color\.morselAccent\)/)
+  })
+
+  it('renders near-goal ring stroke mustardDeep but 11pt status text in an AA token', () => {
+    // Graphic stroke keeps the accessible data-stroke token.
+    expect(gaugeViews).toContain('case .nearGoal:\n            return .morselMustardDeep')
+    // GoalSummary's small text must NOT use status.tint (which routes
+    // mustardDeep into 11pt text) — it must use the dedicated status color.
+    const summaryStart = gaugeViews.indexOf('private struct GoalSummary: View')
+    const summaryEnd = gaugeViews.indexOf('struct NetEnergyNotice: View')
+    expect(summaryStart, 'GoalSummary must exist').toBeGreaterThan(-1)
+    expect(summaryEnd, 'NetEnergyNotice must follow GoalSummary').toBeGreaterThan(summaryStart)
+    const summary = gaugeViews.slice(summaryStart, summaryEnd)
+    expect(summary, 'near-goal status text must not route through status.tint')
+      .not.toContain('.foregroundStyle(status.tint)')
+    expect(summary).toMatch(/\.foregroundStyle\(status == \.over \? Color\.morselOver : Color\.morselStatusText\)/)
+    // The small-text token is declared beside its use site (GaugeViews.swift
+    // is outside the DesignSystem token table) as an alias of a locked V1
+    // token — resolve the alias through the parsed table, then compute AA
+    // against BOTH ends of the actual card gradient (surface -> cardEnd).
+    const statusDecl = /static let morselStatusText = (Color\.morsel\w+)/.exec(gaugeViews)
+    expect(statusDecl, 'GaugeViews must declare morselStatusText as an alias of a locked token').toBeTruthy()
+    const statusHex = resolveSwiftColor(statusDecl![1])
+    expect(statusHex).toBe(V1.forest)
+    const cardStart = swiftTokenHex('morselSurface')
+    const cardEnd = swiftTokenHex('morselCardEnd')
+    expectAA(statusHex, cardStart, 'near-goal status text on card gradient start')
+    expectAA(statusHex, cardEnd, 'near-goal status text on card gradient end')
+    // on-track/over semantics preserved.
+    expect(gaugeViews).toMatch(/case \.onTrack:\s*\n\s*return \.morselForest/)
+    expect(gaugeViews).toMatch(/case \.over:\s*\n\s*return \.morselOver/)
+  })
+
+  it('keeps the low-confidence row tint in the peach/review family, never leafSoft', () => {
+    const viewsText = swiftCallSites[0].text
+    const row = /needsReview \? Color\.morsel(\w+) : Color\.morsel(\w+)/.exec(viewsText)
+    expect(row, 'MealItemRow needs-review background expression must exist').toBeTruthy()
+    // The tinted branch must be the peach/review wash — resolved through the
+    // token table, never the high-confidence leafSoft family, and never
+    // rewired to status text colors.
+    const tintHex = resolveSwiftColor(`Color.morsel${row![1]}`)
+    expect(tintHex, 'low-confidence row tint must resolve to accentSoft').toBe(V1.accentSoft)
+    expect(tintHex, 'row tint must not collapse onto leafSoft').not.toBe(V1.leafSoft)
+  })
+
+  it('keeps DESIGN.md non-contradictory: forest active nav, orange identity/actions/calories', () => {
+    expect(designMd).toMatch(/\*\*forest\*\* is also the active-navigation text\./)
+    expect(designMd).not.toMatch(/calorie figures, active nav/)
+    expect(designMd, 'accent bullet must not claim active nav').not.toMatch(/accent[^\n]*active nav/i)
   })
 })
