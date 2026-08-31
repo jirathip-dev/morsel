@@ -85,4 +85,18 @@ describe('generated Morsel app version metadata (issue #32)', () => {
       expect(version, `MARKETING_VERSION missing in ${configId}`).toBe('1.0.0')
     }
   })
+
+  it('keeps both HealthKit purpose strings for the HealthKit entitlement (issue #32)', () => {
+    // Apple requires NSHealthShareUsageDescription AND NSHealthUpdateUsageDescription
+    // whenever the HealthKit entitlement is present, even though Morsel never
+    // writes health data. altool rejected the TestFlight upload with 90683 when
+    // the update purpose string was missing.
+    for (const configId of appConfigIds) {
+      const share = buildSetting(buildConfigsSection, configId, 'INFOPLIST_KEY_NSHealthShareUsageDescription')
+      const update = buildSetting(buildConfigsSection, configId, 'INFOPLIST_KEY_NSHealthUpdateUsageDescription')
+      expect(share, `NSHealthShareUsageDescription missing in ${configId}`).toBeTruthy()
+      expect(update, `NSHealthUpdateUsageDescription missing in ${configId}`).toBeTruthy()
+      expect(update, `NSHealthUpdateUsageDescription must stay honest in ${configId}`).toContain('does not write health data')
+    }
+  })
 })
