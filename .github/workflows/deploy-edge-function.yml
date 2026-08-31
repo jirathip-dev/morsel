@@ -1,0 +1,146 @@
+# Deploy the MCP Edge Function to the hosted Supabase project (issue #12).
+# Runs ONLY on explicit workflow_dispatch: no push or other event can invoke
+# a remote mutation without a human-triggered dispatch. Fails closed BEFORE
+# deployment if any required secret is unset. It never creates or
+# synthesizes MORSEL_OAUTH_SIGNING_KEY — that missing key is a human gate,
+# not something this workflow may invent.
+name: Deploy Edge Function
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-edge-function-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Deploy MCP Edge Function
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          MORSEL_OAUTH_SIGNING_KEY: ${{ secrets.MORSEL_OAUTH_SIGNING_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "::error::Missing required secret SUPABASE_ACCESS_TOKEN (repo secret). Add it to deploy the MCP Edge Function."
+            exit 1
+          fi
+          if [ -z "$SUPABASE_PROJECT_REF" ]; then
+            echo "::error::Missing required secret SUPABASE_PROJECT_REF (repo secret). Add it to deploy the MCP Edge Function."
+            exit 1
+          fi
+          if [ -z "$MORSEL_OAUTH_SIGNING_KEY" ]; then
+            echo "::error::Missing required secret MORSEL_OAUTH_SIGNING_KEY (repo secret). Human gate: the OAuth signing key is not wired; add it to enable deployment. This workflow never creates or synthesizes the key."
+            exit 1
+          fi
+
+          secrets_file="$(mktemp)"
+          trap 'rm -f "$secrets_file"' EXIT
+          chmod 600 "$secrets_file"
+          printf 'MORSEL_OAUTH_SIGNING_KEY=%s\n' "$MORSEL_OAUTH_SIGNING_KEY" > "$secrets_file"
+
+          npx --yes supabase@2.116.0 secrets set --env-file "$secrets_file" --project-ref "$SUPABASE_PROJECT_REF"
+          npx --yes supabase@2.116.0 functions deploy mcp --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt --import-map deno.json
+
+      - name: Probe deployed MCP endpoint
+        env:
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          set -euo pipefail
+          base="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/mcp"
+
+          health_file="$(mktemp)"
+          oauth_file="$(mktemp)"
+          mcp_file="$(mktemp)"
+          cleanup() {
+            rm -f "$health_file" "$oauth_file" "$mcp_file"
+          }
+          trap cleanup EXIT
+
+          echo "== health =="
+          health_status="$(curl --silent --show-error --max-time 30 --output "$health_file" --write-out '%{http_code}' "$base/health")"
+          echo "status: $health_status"
+          cat "$health_file"
+          echo
+          if [ "$health_status" != "200" ]; then
+            echo "::error::Expected HTTP 200 from /health; got $health_status"
+            exit 1
+          fi
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert d.get("ok") is True, "health contract violated: %r" % (d,)' "$health_file"
+
+          echo "== OAuth authorization-server metadata =="
+          oauth_status="$(curl --silent --show-error --max-time 30 --output "$oauth_file" --write-out '%{http_code}' "$base/.well-known/oauth-authorization-server")"
+          echo "status: $oauth_status"
+          if [ "$oauth_status" != "200" ]; then
+            echo "::error::Expected HTTP 200 from /.well-known/oauth-authorization-server; got $oauth_status"
+            exit 1
+          fi
+          python3 - "$oauth_file" "$base" <<'PY'
+          import json
+          import sys
+          from urllib.parse import urlparse
+
+          with open(sys.argv[1]) as handle:
+              metadata = json.load(handle)
+
+          base = sys.argv[2].rstrip('/')
+
+          def is_absolute_url(value):
+              if not isinstance(value, str) or not value:
+                  return False
+              parsed = urlparse(value)
+              return parsed.scheme in ('http', 'https') and bool(parsed.netloc)
+
+          endpoints = {
+              'issuer': base,
+              'authorization_endpoint': base + '/authorize',
+              'token_endpoint': base + '/token',
+              'registration_endpoint': base + '/register',
+          }
+          for field, expected in endpoints.items():
+              if not is_absolute_url(metadata.get(field)):
+                  raise SystemExit('invalid OAuth metadata field %s (expected a non-empty valid absolute URL)' % field)
+              if metadata[field] != expected:
+                  raise SystemExit('OAuth metadata field %s does not match the deployed MCP base' % field)
+
+          challenge_methods = metadata.get('code_challenge_methods_supported')
+          if not isinstance(challenge_methods, list) or 'S256' not in challenge_methods:
+              raise SystemExit('OAuth metadata code_challenge_methods_supported must be an array containing S256')
+
+          grant_types = metadata.get('grant_types_supported')
+          if not isinstance(grant_types, list) or 'authorization_code' not in grant_types or 'refresh_token' not in grant_types:
+              raise SystemExit('OAuth metadata grant_types_supported must be an array containing authorization_code and refresh_token')
+
+          print('OAuth metadata: OK (%s)' % ', '.join(endpoints))
+          PY
+
+          echo "== unauthenticated MCP initialize (expect 401) =="
+          mcp_status="$(curl --silent --show-error --max-time 30 --output "$mcp_file" --write-out '%{http_code}' \
+            --request POST \
+            --header 'content-type: application/json' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+            "$base/mcp")"
+          echo "status: $mcp_status"
+          cat "$mcp_file"
+          echo
+          if [ "$mcp_status" != "401" ]; then
+            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize; got $mcp_status"
+            exit 1
+          fi
