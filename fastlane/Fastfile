@@ -73,6 +73,7 @@ platform :ios do
       team_id: "9244PWFYD7",
       code_sign_identity: "Apple Distribution",
       profile_name: profile,
+      targets: ["Morsel"],
       build_configurations: ["Release"]
     )
     build = latest_testflight_build_number(
