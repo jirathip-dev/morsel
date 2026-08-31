@@ -10,12 +10,19 @@ import {
   LEDGER_EXISTS_SQL,
   LEDGER_NAMES_SQL,
   assertReadOnly,
+  main,
   run,
 } from "./migration-reconcile.mjs";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const scriptUrl = fileURLToPath(new URL("./migration-reconcile.mjs", import.meta.url));
 const quiet = { log: () => {} };
+
+// Valid-shaped synthetic inputs: 20-char lowercase alphanumeric project ref,
+// token with >= 20 non-whitespace characters (passes shape validation so the
+// request path, not the validation path, is exercised).
+const REF = "abcdefghijklmnopqrst";
+const TOKEN = "sbp_validtokenabcdefghijklmnopqrs";
 
 // A canned live-schema inventory that matches every 0001–0009 sentinel.
 function fullSchema() {
@@ -116,7 +123,7 @@ describe("migration reconciliation report", () => {
     const db = fakeDatabase({
       ledgerNames: ["init", "targets", "atomic_meals_and_users_rls", "store_assets", "oauth_authorization_grants", "food_catalog_provider_cache", "weight_logs", "energy_burned_logs", "goals_fractional_calories"],
     });
-    const result = await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
     expect(result.ledgerExists).toBe(true);
     expect(result.ledgerNames).toHaveLength(9);
@@ -142,7 +149,7 @@ describe("migration reconciliation report", () => {
       routines: [],
       policies: [],
     });
-    const result = await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
     expect(result.report).toContain("names  : 0 recorded (empty)");
     expect(result.report).toMatch(/table\s+public\.users\s+PRESENT/);
@@ -162,7 +169,7 @@ describe("migration reconciliation report", () => {
 
   it("reports ledger MISSING without querying ledger names and without any write", async () => {
     const db = fakeDatabase({ ledgerExists: false });
-    const result = await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
     expect(result.ledgerExists).toBe(false);
     expect(result.ledgerNames).toEqual([]);
@@ -189,7 +196,7 @@ describe("reconcile mode fail-closed behavior", () => {
   });
 
   it("fails closed with exit 2 when SUPABASE_ACCESS_TOKEN is missing", () => {
-    const result = spawnCli({ SUPABASE_PROJECT_REF: "ref", SUPABASE_ACCESS_TOKEN: "" });
+    const result = spawnCli({ SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: "" });
     expect(result.status).toBe(2);
     expect(result.stderr).toMatch(/SUPABASE_ACCESS_TOKEN/);
   });
@@ -198,10 +205,129 @@ describe("reconcile mode fail-closed behavior", () => {
     const withArg = spawnSync(
       process.execPath,
       ["--input-type=module", "-e", `import(${JSON.stringify(scriptUrl)}).then(({ main }) => main(["--adopt"])).then((code) => process.exit(code))`],
-      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: "ref", SUPABASE_ACCESS_TOKEN: "token" } },
+      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: TOKEN } },
     );
     expect(withArg.status).toBe(2);
     expect(withArg.stderr).toMatch(/accepts no arguments/);
+  });
+
+  it("rejects a malformed project ref before any request with a fixed message", async () => {
+    const db = fakeDatabase({});
+    await expect(
+      run({ ref: "BAD REF!!!", token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet }),
+    ).rejects.toThrow(/SUPABASE_PROJECT_REF is malformed/);
+    expect(db.sql).toEqual([]); // no request reached the query layer
+  });
+
+  it("rejects a malformed access token (embedded newline) before any request", async () => {
+    const db = fakeDatabase({});
+    const badToken = "sbp_ok\nSECRETLEAK";
+    await expect(
+      run({ ref: REF, token: badToken, root: repoRoot, queryImpl: db.query, log: quiet }),
+    ).rejects.toThrow(/SUPABASE_ACCESS_TOKEN is malformed/);
+    expect(db.sql).toEqual([]);
+  });
+
+  it("CLI rejects malformed ref/token with fixed messages that omit the input", () => {
+    const badRef = spawnCli({ SUPABASE_PROJECT_REF: "BAD REF!!!", SUPABASE_ACCESS_TOKEN: TOKEN });
+    expect(badRef.status).toBe(2);
+    expect(badRef.stderr).toMatch(/SUPABASE_PROJECT_REF is malformed/);
+    expect(badRef.stderr).not.toContain("BAD REF!!!");
+
+    const badToken = spawnCli({ SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: "sbp_ok\nSECRETLEAK" });
+    expect(badToken.status).toBe(2);
+    expect(badToken.stderr).toMatch(/SUPABASE_ACCESS_TOKEN is malformed/);
+    expect(badToken.stderr).not.toContain("SECRETLEAK");
+  });
+});
+
+describe("credential sentinel redaction", () => {
+  // Sentinel-shaped values are embedded in transport exceptions and must never
+  // appear in any error message or stderr.
+  const sentinelRef = REF;
+  const sentinelToken = TOKEN;
+
+  async function captureRunError(queryImpl = null, fetchImpl) {
+    const originalFetch = globalThis.fetch;
+    try {
+      globalThis.fetch = fetchImpl;
+      try {
+        await run({ ref: sentinelRef, token: sentinelToken, root: repoRoot, queryImpl, log: quiet });
+        return null;
+      } catch (error) {
+        return error;
+      }
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  }
+
+  it("sanitizes transport exceptions that embed ref/token sentinels", async () => {
+    const error = await captureRunError(null, async () => {
+      throw new Error(`transport exploded token=${sentinelToken} ref=${sentinelRef}`);
+    });
+    expect(error.message).toMatch(/ledger existence failed: transport error/);
+    expect(error.message).not.toContain(sentinelRef);
+    expect(error.message).not.toContain(sentinelToken);
+  });
+
+  it("sanitizes HTTP errors to a fixed label + status", async () => {
+    const error = await captureRunError(null, async () => ({ ok: false, status: 500 }));
+    expect(error.message).toMatch(/ledger existence failed: HTTP 500/);
+    expect(error.message).not.toContain(sentinelRef);
+    expect(error.message).not.toContain(sentinelToken);
+  });
+
+  it("sanitizes invalid response-body failures", async () => {
+    const error = await captureRunError(null, async () => ({
+      ok: true,
+      json: async () => {
+        throw new Error(`bad json token=${sentinelToken}`);
+      },
+    }));
+    expect(error.message).toMatch(/ledger existence failed: invalid response body/);
+    expect(error.message).not.toContain(sentinelRef);
+    expect(error.message).not.toContain(sentinelToken);
+  });
+
+  it("main() prints only sanitized errors; ref/token sentinels never reach stderr", async () => {
+    const originalFetch = globalThis.fetch;
+    const originalRef = process.env.SUPABASE_PROJECT_REF;
+    const originalToken = process.env.SUPABASE_ACCESS_TOKEN;
+    const originalError = console.error;
+    const stderr = [];
+    try {
+      process.env.SUPABASE_PROJECT_REF = sentinelRef;
+      process.env.SUPABASE_ACCESS_TOKEN = sentinelToken;
+      globalThis.fetch = async () => {
+        throw new Error(`header token=${sentinelToken} ref=${sentinelRef}`);
+      };
+      console.error = (message) => stderr.push(String(message));
+      const code = await main([]);
+      expect(code).toBe(1);
+    } finally {
+      if (originalRef === undefined) delete process.env.SUPABASE_PROJECT_REF;
+      else process.env.SUPABASE_PROJECT_REF = originalRef;
+      if (originalToken === undefined) delete process.env.SUPABASE_ACCESS_TOKEN;
+      else process.env.SUPABASE_ACCESS_TOKEN = originalToken;
+      globalThis.fetch = originalFetch;
+      console.error = originalError;
+    }
+    expect(stderr.join("\n")).not.toContain(sentinelRef);
+    expect(stderr.join("\n")).not.toContain(sentinelToken);
+    expect(stderr.join("\n")).toMatch(/failed/);
+  });
+
+  it("assertReadOnly never echoes query text", () => {
+    const withSentinel = `select 1; -- ${TOKEN}`;
+    let caught;
+    try {
+      assertReadOnly(withSentinel);
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught.message).toBe("reconcile mode refuses non-allowlisted SQL");
+    expect(caught.message).not.toContain(TOKEN);
   });
 });
 
@@ -296,7 +422,7 @@ describe("read-only mutation probes", () => {
     // A hostile query layer that would run anything: the module guard still
     // ensures reconcile mode cannot smuggle migration SQL or ledger writes.
     const db = fakeDatabase({});
-    await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
     const issued = new Set(db.sql);
     expect(issued.size).toBe(6); // ledger existence + names + 4 inventory queries
     for (const statement of issued) {
@@ -358,7 +484,7 @@ describe("read-only mutation probes", () => {
     // exactly the six fixed queries with the ORIGINAL strings.
     expect(() => assertReadOnly(injected)).toThrow(/non-allowlisted/);
     const db = fakeDatabase({});
-    await run({ ref: "ref", token: "token", root: repoRoot, queryImpl: db.query, log: quiet });
+    await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
     expect(new Set(db.sql)).toEqual(
       new Set([LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)]),
     );
@@ -366,35 +492,33 @@ describe("read-only mutation probes", () => {
   });
 
   it("never prints the project ref or token in the report, stdout, or errors", async () => {
-    const ref = "supa-ref-abc123";
-    const token = "supa-token-abc123";
     const db = fakeDatabase({});
-    const result = await run({ ref, token, root: repoRoot, queryImpl: db.query, log: quiet });
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
     expect(result.report).toContain("project ref : [redacted]");
-    expect(result.report).not.toContain(ref);
-    expect(result.report).not.toContain(token);
-    expect(JSON.stringify(result.checks)).not.toContain(ref);
-    expect(JSON.stringify(result.checks)).not.toContain(token);
+    expect(result.report).not.toContain(REF);
+    expect(result.report).not.toContain(TOKEN);
+    expect(JSON.stringify(result.checks)).not.toContain(REF);
+    expect(JSON.stringify(result.checks)).not.toContain(TOKEN);
 
     // CLI arg rejection must not echo the supplied env values.
     const cli = spawnSync(
       process.execPath,
       ["--input-type=module", "-e", `import(${JSON.stringify(scriptUrl)}).then(({ main }) => main(["--adopt"])).then((code) => process.exit(code))`],
-      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: ref, SUPABASE_ACCESS_TOKEN: token } },
+      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: TOKEN } },
     );
     expect(cli.status).toBe(2);
-    expect(cli.stderr).not.toContain(ref);
-    expect(cli.stderr).not.toContain(token);
+    expect(cli.stderr).not.toContain(REF);
+    expect(cli.stderr).not.toContain(TOKEN);
 
     // Missing-token error must not echo the supplied ref value.
     const missingToken = spawnSync(
       process.execPath,
       ["--input-type=module", "-e", `import(${JSON.stringify(scriptUrl)}).then(({ main }) => main()).then((code) => process.exit(code))`],
-      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: ref, SUPABASE_ACCESS_TOKEN: "" } },
+      { cwd: repoRoot, encoding: "utf8", env: { ...process.env, SUPABASE_PROJECT_REF: REF, SUPABASE_ACCESS_TOKEN: "" } },
     );
     expect(missingToken.status).toBe(2);
-    expect(missingToken.stderr).not.toContain(ref);
-    expect(missingToken.stderr).not.toContain("supa-token-abc123");
+    expect(missingToken.stderr).not.toContain(REF);
+    expect(missingToken.stderr).not.toContain(TOKEN);
   });
 });

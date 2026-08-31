@@ -53,11 +53,11 @@ export const ALLOWED_QUERIES = Object.freeze([
 const allowedQuerySet = new Set(ALLOWED_QUERIES);
 
 // Hard read-only guard: the query wrapper rejects any non-allowlisted string
-// before it reaches queryImpl/fetch.
+// before it reaches queryImpl/fetch. The message is fixed and never echoes the
+// submitted query text.
 export function assertReadOnly(sql) {
   if (!allowedQuerySet.has(sql)) {
-    const preview = sql.replace(/\s+/g, " ").trim().slice(0, 80);
-    throw new Error(`reconcile mode refuses non-allowlisted SQL: ${preview}`);
+    throw new Error("reconcile mode refuses non-allowlisted SQL");
   }
 }
 
@@ -162,26 +162,64 @@ export class UsageError extends Error {
   exitCode = 2;
 }
 
+// Internal error whose message is a fixed label/status only. main() prints
+// these, but suppresses raw error.message from every other error type so a
+// transport/header exception can never surface ref/token/URL/body/query text.
+class SanitizedError extends Error {}
+
+export const PROJECT_REF_RE = /^[a-z0-9]{20}$/;
+const TOKEN_RE = /^[^\s\u0000-\u001f\u007f]{20,}$/;
+
+// Reject malformed runtime inputs BEFORE any request is constructed, with
+// fixed messages that never echo the supplied values. The project ref must be
+// the documented 20-char lowercase alphanumeric Supabase ref; a token
+// containing whitespace/control characters (e.g. an embedded newline) could
+// otherwise surface in downstream transport error output.
+export function validateInputShape(ref, token) {
+  if (!PROJECT_REF_RE.test(ref)) {
+    throw new UsageError(
+      "SUPABASE_PROJECT_REF is malformed (expected 20 lowercase alphanumeric characters).",
+    );
+  }
+  if (!TOKEN_RE.test(token)) {
+    throw new UsageError(
+      "SUPABASE_ACCESS_TOKEN is malformed (expected a non-empty token with no whitespace).",
+    );
+  }
+}
+
 function columnKey(table, column) {
   return `${table}.${column}`;
 }
 
 async function managementQuery(sql, label, ref, token) {
-  const response = await fetch(
-    `https://api.supabase.com/v1/projects/${ref}/database/query`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+  let response;
+  try {
+    response = await fetch(
+      `https://api.supabase.com/v1/projects/${ref}/database/query`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: sql }),
       },
-      body: JSON.stringify({ query: sql }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`${label} failed: HTTP ${response.status}`);
+    );
+  } catch {
+    // Transport/header failures may carry ref/token sentinels in their
+    // message; emit a fixed label only, never the raw error or request bits.
+    throw new SanitizedError(`${label} failed: transport error`);
   }
-  const body = await response.json();
+  if (!response.ok) {
+    throw new SanitizedError(`${label} failed: HTTP ${response.status}`);
+  }
+  let body;
+  try {
+    body = await response.json();
+  } catch {
+    throw new SanitizedError(`${label} failed: invalid response body`);
+  }
   return Array.isArray(body) ? body : (body.result ?? body.rows ?? []);
 }
 
@@ -244,6 +282,7 @@ export function formatReport({ local, ledgerExists, ledgerNames, inventory, chec
 export async function run({ ref, token, root, queryImpl = null, log = console }) {
   if (!ref) throw new UsageError("SUPABASE_PROJECT_REF is required.");
   if (!token) throw new UsageError("No Management API token found. Set SUPABASE_ACCESS_TOKEN.");
+  validateInputShape(ref, token);
 
   // Every statement is guarded read-only before it reaches the query layer,
   // regardless of which query implementation is in use.
@@ -347,11 +386,19 @@ export async function main(argv = process.argv.slice(2)) {
         "migration-reconcile accepts no arguments (read-only; --adopt and migration apply are not supported here).",
       );
     }
+    validateInputShape(ref, token);
     const root = dirname(dirname(fileURLToPath(import.meta.url)));
     await run({ ref, token, root });
     return 0;
   } catch (error) {
-    console.error(`✗ ${error.message}`);
+    // Only fixed messages (UsageError / SanitizedError) are printed. Raw
+    // error.message from any other source could embed ref/token/URL/body/query
+    // text, so it is suppressed entirely.
+    if (error instanceof UsageError || error instanceof SanitizedError) {
+      console.error(`✗ ${error.message}`);
+    } else {
+      console.error("✗ reconcile failed (error details suppressed)");
+    }
     return error instanceof UsageError ? error.exitCode : 1;
   }
 }
