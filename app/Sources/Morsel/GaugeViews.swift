@@ -68,13 +68,22 @@ private struct CalorieRing: View {
     let status: GoalStatus
     let eaten: Double
 
+    private var ringFill: some ShapeStyle {
+        switch status {
+        case .over, .unavailable:
+            return AnyShapeStyle(status.tint)
+        case .onTrack, .nearGoal:
+            return AnyShapeStyle(LinearGradient.morselGauge)
+        }
+    }
+
     var body: some View {
         ZStack {
             Circle()
                 .stroke(Color.morselSurfaceTwo, lineWidth: 7)
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(status.tint, style: StrokeStyle(lineWidth: 7, lineCap: .round))
+                .stroke(ringFill, style: StrokeStyle(lineWidth: 7, lineCap: .round))
                 .rotationEffect(.degrees(-90))
             VStack(spacing: 0) {
                 Text(MorselFormat.number(eaten))
@@ -173,9 +182,9 @@ extension GoalStatus {
     var tint: Color {
         switch self {
         case .onTrack:
-            return .morselAccent
+            return .morselForest
         case .nearGoal:
-            return .morselEnergy
+            return .morselMustardDeep
         case .over:
             return .morselOver
         case .unavailable:

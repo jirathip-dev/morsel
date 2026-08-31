@@ -5,7 +5,7 @@ private extension Color {
     init(paletteHex hex: String) {
         let value = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
         guard let rgb = UInt64(value, radix: 16) else {
-            self.init(red: 0.125490, green: 0.137255, blue: 0.117647)
+            self.init(red: 0.164706, green: 0.149020, blue: 0.121569)
             return
         }
         self.init(
@@ -16,66 +16,70 @@ private extension Color {
     }
 }
 
+// Approved V1 palette "Orange Hearth + Sage" (issue #32). Exact scalar
+// contract; docs/DESIGN.md is normative.
 extension Color {
-    static let morselInk = Color(paletteHex: "#20231E")
-    static let morselInkTwo = Color(paletteHex: "#666A60")
-    static let morselInkThree = Color(paletteHex: "#9BA095")
-    static let morselBackground = Color(paletteHex: "#FBFAF6")
-    static let morselSurface = Color(paletteHex: "#FFFFFF")
-    static let morselSurfaceTwo = Color(paletteHex: "#F3F1EA")
-    static let morselLine = Color(paletteHex: "#E7E3D8")
-    static let morselAccent = Color(paletteHex: "#F08A2E")
-    static let morselAccentSoft = Color(paletteHex: "#F6E8D8")
-    static let morselEnergy = Color(paletteHex: "#F08A2E")
-    static let morselEnergySoft = Color(paletteHex: "#F6E8D8")
-    static let morselOver = Color(paletteHex: "#C0483F")
-    static let morselLow = Color(paletteHex: "#8A5514")
-    static let morselProtein = Color(paletteHex: "#C0483F")
-    static let morselCarbs = Color(paletteHex: "#F0A63C")
-    static let morselFat = Color(paletteHex: "#D46A2E")
+    static let morselInk = Color(paletteHex: "#2A261F")
+    static let morselInkTwo = Color(paletteHex: "#655A4B")
+    static let morselInkThree = Color(paletteHex: "#756955")
+    static let morselBackground = Color(paletteHex: "#FFF7E8")
+    static let morselSurface = Color(paletteHex: "#FFFCF5")
+    static let morselSurfaceTwo = Color(paletteHex: "#F2E9D9")
+    static let morselLine = Color(paletteHex: "#E3D2BA")
+    static let morselAccent = Color(paletteHex: "#E66A2C")
+    static let morselAccentSoft = Color(paletteHex: "#FBE1C9")
+    static let morselLeaf = Color(paletteHex: "#5E7E57")
+    static let morselLeafSoft = Color(paletteHex: "#E1E9D7")
+    static let morselForest = Color(paletteHex: "#2F654B")
+    static let morselCoral = Color(paletteHex: "#B94738")
+    static let morselMustard = Color(paletteHex: "#D6A62C")
+    static let morselMustardDeep = Color(paletteHex: "#A5750B")
+    static let morselReview = Color(paletteHex: "#7A3D2B")
+    static let morselOver = Color(paletteHex: "#9C3A2F")
 
-    static let morselProteinStart = Color(paletteHex: "#C0483F")
-    static let morselCarbsStart = Color(paletteHex: "#FFC24B")
-    static let morselFatStart = Color(paletteHex: "#F0A63C")
-    static let morselUnderStart = Color(paletteHex: "#FFC24B")
-    static let morselUnder = Color(paletteHex: "#F08A2E")
-    static let morselOnStart = Color(paletteHex: "#F0A63C")
-    static let morselOn = Color(paletteHex: "#D46A2E")
-    static let morselOverStart = Color(paletteHex: "#F7A98C")
-    static let morselOverEnd = Color(paletteHex: "#C0483F")
-    static let morselCardEnd = Color(paletteHex: "#FBF9F2")
+    // Semantic aliases over the V1 contract, kept for the existing call
+    // sites: accent is the calorie anchor; review is the low-confidence
+    // text; accentSoft is the warm review/action wash.
+    static let morselEnergy = Color(paletteHex: "#E66A2C")
+    static let morselEnergySoft = Color(paletteHex: "#FBE1C9")
+    static let morselLow = Color(paletteHex: "#7A3D2B")
+
+    // Measured-data gradient stops (approved TOKENS.md table) — documented
+    // measured-data treatment, never scalar/background decoration.
+    static let morselProtein = Color(paletteHex: "#B94738")
+    static let morselProteinStart = Color(paletteHex: "#C9513D")
+    static let morselProteinEnd = Color(paletteHex: "#A63A32")
+    static let morselCarbs = Color(paletteHex: "#A5750B")
+    static let morselCarbsStart = Color(paletteHex: "#B07A13")
+    static let morselCarbsEnd = Color(paletteHex: "#875A02")
+    static let morselFat = Color(paletteHex: "#5E7E57")
+    static let morselFatStart = Color(paletteHex: "#6B8B60")
+    static let morselFatEnd = Color(paletteHex: "#3F6745")
+    static let morselGaugeStart = Color(paletteHex: "#6B8B60")
+    static let morselGaugeEnd = Color(paletteHex: "#2F654B")
+    static let morselCardEnd = Color(paletteHex: "#FFF5E5")
 }
 
 extension LinearGradient {
     static let morselProtein = LinearGradient(
-        colors: [.morselProteinStart, .morselProtein],
-        startPoint: .top,
-        endPoint: .bottom
+        colors: [.morselProteinStart, .morselProteinEnd],
+        startPoint: .trailing,
+        endPoint: .leading
     )
     static let morselCarbs = LinearGradient(
-        colors: [.morselCarbsStart, .morselCarbs],
-        startPoint: .top,
-        endPoint: .bottom
+        colors: [.morselCarbsStart, .morselCarbsEnd],
+        startPoint: .trailing,
+        endPoint: .leading
     )
     static let morselFat = LinearGradient(
-        colors: [.morselFatStart, .morselFat],
-        startPoint: .top,
-        endPoint: .bottom
+        colors: [.morselFatStart, .morselFatEnd],
+        startPoint: .trailing,
+        endPoint: .leading
     )
-    static let morselUnder = LinearGradient(
-        colors: [.morselUnderStart, .morselUnder],
-        startPoint: .top,
-        endPoint: .bottom
-    )
-    static let morselOn = LinearGradient(
-        colors: [.morselOnStart, .morselOn],
-        startPoint: .top,
-        endPoint: .bottom
-    )
-    static let morselOver = LinearGradient(
-        colors: [.morselOverStart, .morselOverEnd],
-        startPoint: .top,
-        endPoint: .bottom
+    static let morselGauge = LinearGradient(
+        colors: [.morselGaugeStart, .morselGaugeEnd],
+        startPoint: .topTrailing,
+        endPoint: .bottomLeading
     )
     static let morselCard = LinearGradient(
         colors: [.morselSurface, .morselCardEnd],

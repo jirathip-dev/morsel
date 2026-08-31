@@ -14,7 +14,7 @@ struct WeightTrendView: View {
                 )
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.morselUnder, .morselOn],
+                        colors: [.morselGaugeStart, .morselGaugeEnd],
                         startPoint: .bottom,
                         endPoint: .top
                     )
@@ -23,7 +23,7 @@ struct WeightTrendView: View {
                     x: .value("Date", point.date),
                     y: .value("Weight", point.kilograms)
                 )
-                .foregroundStyle(Color.morselOn)
+                .foregroundStyle(Color.morselGaugeEnd)
             }
             .chartYAxisLabel("kg")
             .frame(height: 130)

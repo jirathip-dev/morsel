@@ -308,7 +308,7 @@ private struct MealItemRow: View {
                             onEdit(item)
                         } label: {
                             Text("verify")
-                                .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)
+                                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Correct \(item.name)")
@@ -347,13 +347,13 @@ private struct ConfidenceTag: View {
         switch badge {
         case .high:
             Text(MorselFormat.confidence(value))
-                .morselTag(foreground: Color.morselInk, background: Color.morselAccentSoft)
+                .morselTag(foreground: Color.morselForest, background: Color.morselLeafSoft)
         case .low:
             Text(MorselFormat.confidence(value))
-                .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)
+                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
         case .missing:
             Text("confidence —")
-                .morselTag(foreground: Color.morselLow, background: Color.morselEnergySoft)
+                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
         }
     }
 }

@@ -1,22 +1,23 @@
 import type { GoalSummary, RenderPayload, Totals } from '../packages/schema/food-types.ts'
 
 const palette = {
-  ink: '#20231E',
-  inkTwo: '#666A60',
-  inkThree: '#9BA095',
-  bg: '#FBFAF6',
-  surface: '#FFFFFF',
-  surfaceTwo: '#F3F1EA',
-  line: '#E7E3D8',
-  accent: '#F08A2E',
-  accentSoft: '#F6E8D8',
-  energy: '#F08A2E',
-  energySoft: '#F6E8D8',
-  over: '#C0483F',
-  low: '#8A5514',
-  protein: '#C0483F',
-  carbs: '#F0A63C',
-  fat: '#D46A2E',
+  ink: '#2A261F',
+  inkTwo: '#655A4B',
+  inkThree: '#756955',
+  bg: '#FFF7E8',
+  surface: '#FFFCF5',
+  surfaceTwo: '#F2E9D9',
+  line: '#E3D2BA',
+  accent: '#E66A2C',
+  accentSoft: '#FBE1C9',
+  leaf: '#5E7E57',
+  leafSoft: '#E1E9D7',
+  forest: '#2F654B',
+  coral: '#B94738',
+  mustard: '#D6A62C',
+  mustardDeep: '#A5750B',
+  review: '#7A3D2B',
+  over: '#9C3A2F',
 }
 
 const monthNames = [
@@ -175,16 +176,16 @@ function renderSvg(summary: DashboardRenderSummary, goal: RangeGoal | undefined)
   const parts = [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 ${svgNumber(height)}" role="img" aria-label="Morsel nutrition summary for ${escapeXml(dateLabel(summary))}">`,
     '<defs>',
-    `<linearGradient id="ring-on" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.accent}"/><stop offset="100%" stop-color="${palette.fat}"/></linearGradient>`,
-    `<linearGradient id="ring-near" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.energy}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
-    `<linearGradient id="ring-over" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.energy}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
-    `<linearGradient id="macro-protein" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.protein}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
-    `<linearGradient id="macro-carbs" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.carbs}"/><stop offset="100%" stop-color="${palette.energy}"/></linearGradient>`,
-    `<linearGradient id="macro-fat" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.fat}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
-    `<linearGradient id="trend-under" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.fat}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
-    `<linearGradient id="trend-on" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.accent}"/><stop offset="100%" stop-color="${palette.fat}"/></linearGradient>`,
-    `<linearGradient id="trend-near" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.energy}"/><stop offset="100%" stop-color="${palette.carbs}"/></linearGradient>`,
-    `<linearGradient id="trend-over" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.energy}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
+    `<linearGradient id="ring-on" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
+    `<linearGradient id="ring-near" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="ring-over" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
+    `<linearGradient id="macro-protein" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
+    `<linearGradient id="macro-carbs" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="macro-fat" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
+    `<linearGradient id="trend-under" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="trend-on" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
+    `<linearGradient id="trend-near" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
+    `<linearGradient id="trend-over" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
     '</defs>',
     `<rect width="720" height="${svgNumber(height)}" fill="${palette.bg}"/>`,
     `<text x="24" y="32" fill="${palette.ink}" font-family="system-ui, sans-serif" font-size="20" font-weight="700">Morsel</text>`,
@@ -228,8 +229,8 @@ function renderSvg(summary: DashboardRenderSummary, goal: RangeGoal | undefined)
   }
   if (summary.lowConfidenceItemCount > 0) {
     parts.push(
-      `<rect x="330" y="235" width="336" height="24" rx="6" fill="${palette.energySoft}"/>`,
-      `<text x="342" y="251" fill="${palette.low}" font-family="ui-monospace, SFMono-Regular, monospace" font-size="10">needs-review - ${formatNumber(summary.lowConfidenceItemCount)} low-confidence ${plural(summary.lowConfidenceItemCount, 'item')}</text>`,
+      `<rect x="330" y="235" width="336" height="24" rx="6" fill="${palette.accentSoft}"/>`,
+      `<text x="342" y="251" fill="${palette.review}" font-family="ui-monospace, SFMono-Regular, monospace" font-size="10">needs-review - ${formatNumber(summary.lowConfidenceItemCount)} low-confidence ${plural(summary.lowConfidenceItemCount, 'item')}</text>`,
     )
   }
 

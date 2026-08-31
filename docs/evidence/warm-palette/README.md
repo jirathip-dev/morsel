@@ -1,64 +1,68 @@
-# Warm-palette evidence — issue #32 (Guy-approved 2026-08-31)
+# Warm-palette evidence — issue #32 (approved V1 "Orange Hearth + Sage")
 
-Fresh iPhone 16 Simulator captures of the warm-orange palette build,
-**re-captured after fix round 1** (accessible ink/soft component pairs) on top
-of `origin/main` `45d58ba`. Guy's approval was based on a real warm-palette
-simulator run; these captures reproduce that rendering with the final
-accessible component states.
+Fresh iPhone 16 Simulator captures of the **approved V1 palette**
+(`accent #E66A2C`, `bg #FFF7E8`, forest/leaf support, mustard highlights)
+after the V1 reconciliation on top of `origin/main` `45d58ba`. These
+re-place the earlier warm-orange (r1) captures; the r1 locked values
+(#F08A2E / #F6E8D8 / #C0483F family) are retired everywhere.
 
-## Locked token map (this change)
+## V1 token map (this change)
 
-| Role | Old (cool) | New (locked warm) |
+| Role | r1 warm-orange (removed) | Approved V1 |
 | --- | --- | --- |
-| accent / energy | `#3E63E8` cobalt | `#F08A2E` |
-| accentSoft / energySoft | `#E9EEFC` cobalt tint | `#F6E8D8` |
-| protein / coral / over / correction | `#6C5CE7` violet | `#C0483F` |
-| carbs | `#F0A63C` | `#F0A63C` (unchanged) |
-| carbsStart / underStart | `#FFC24B` | `#FFC24B` (unchanged) |
-| fat | `#0FA6A0` teal | `#D46A2E` |
-| low confidence | `#8A5514` | `#8A5514` (unchanged) |
-| protein gradient | `#9C8BF5 → #6C5CE7` violet | `#C0483F → #C0483F` |
-| fat gradient | `#37D5C2 → #0FA6A0` teal | `#F0A63C → #D46A2E` |
-| under gradient | `#5BD8E6 → #1FA3C4` cyan | `#FFC24B → #F08A2E` |
-| on gradient | `#3BC8A8 → #12A98E` emerald | `#F0A63C → #D46A2E` |
-| over gradient | `#F7A98C → #E0765F` copper-rose | `#F7A98C → #C0483F` |
+| bg | `#FBFAF6` | `#FFF7E8` |
+| surface | `#FFFFFF` | `#FFFCF5` |
+| surface2 | `#F3F1EA` | `#F2E9D9` |
+| line | `#E7E3D8` | `#E3D2BA` |
+| ink | `#20231E` | `#2A261F` |
+| ink2 | `#666A60` | `#655A4B` |
+| ink3 | `#9BA095` | `#756955` |
+| accent / energy | `#F08A2E` | `#E66A2C` |
+| accentSoft / energySoft | `#F6E8D8` | `#FBE1C9` |
+| leaf / leafSoft | — | `#5E7E57` / `#E1E9D7` |
+| forest | — | `#2F654B` |
+| coral | `#C0483F` | `#B94738` |
+| mustard / mustardDeep | — | `#D6A62C` / `#A5750B` |
+| review / low-confidence text | `#8A5514` | `#7A3D2B` |
+| over | `#C0483F` | `#9C3A2F` |
+| protein gradient | `#C0483F → #C0483F` | `#C9513D → #A63A32` (measured) |
+| carbs gradient | `#FFC24B → #F0A63C` | `#B07A13 → #875A02` (measured) |
+| fat gradient | `#F0A63C → #D46A2E` | `#6B8B60 → #3F6745` (measured) |
+| gauge gradient | accent-based | `#6B8B60 → #2F654B` (measured) |
+| cardEnd | `#FBF9F2` | `#FFF5E5` |
 
-Neutrals are byte-for-byte unchanged (ink `#20231E`, inkTwo `#666A60`,
-inkThree `#9BA095`, bg `#FBFAF6`, surface `#FFFFFF`, surfaceTwo `#F3F1EA`,
-line `#E7E3D8`, cardEnd `#FBF9F2`); see `docs/DESIGN.md` for the normative
-token table.
+Measured-data gradient stops are the documented measured-data treatment from
+the approved `TOKENS.md`/`GRADIENTS.md`; never scalar/background decoration.
 
-## Component contrast (fix round 1, WCAG 2.x relative luminance)
+## Component contrast (approved V1, WCAG 2.x relative luminance)
 
 | Pair | Ratio |
 | --- | --- |
-| high-confidence tag: ink `#20231E` on accentSoft `#F6E8D8` | **13.22:1** |
-| low-confidence tag: low `#8A5514` on energySoft `#F6E8D8` | **5.15:1** |
-| btn-confirm label: ink `#20231E` on accent `#F08A2E` | **6.35:1** |
-| btn-confirm hover: ink `#20231E` on accentSoft `#F6E8D8` | **13.22:1** |
-| source tag: inkTwo `#666A60` on surface `#FFFFFF` (unchanged) | 5.53:1 |
+| primary text: ink `#2A261F` on bg `#FFF7E8` | **14.13:1** |
+| btn-confirm label: ink `#2A261F` on accent `#E66A2C` | **4.63:1** |
+| high-confidence tag: forest `#2F654B` on leafSoft `#E1E9D7` | **5.46:1** |
+| needs-review/low tag: review `#7A3D2B` on accentSoft `#FBE1C9` | **6.61:1** |
+| btn-confirm hover: ink `#2A261F` on accentSoft `#FBE1C9` | **11.98:1** |
+| over-goal text: over `#9C3A2F` on bg `#FFF7E8` | **6.45:1** |
 
-These are computed by the executable helpers in `app/warm-palette.test.ts`,
-which fail if any covered pair drops below WCAG AA 4.5:1. (Previous round's
-incorrect "tag rows ≥ 4.5:1" claim for accent-on-soft, which measured 2.08:1,
-was corrected here; high confidence now uses ink on accentSoft.)
+All pairs computed by the executable helpers in `app/warm-palette.test.ts`,
+which fail if any covered pair drops below WCAG AA 4.5:1 and pin the exact
+call sites (SwiftUI `ConfidenceTag`, primary button style, prototype rules).
 
 ## Capture method (DEBUG-only, temporary)
 
 - Device: iPhone 16 Simulator, id `59DDC0C5-891E-4EC0-91AF-4F50DF68D793`,
-  booted.
-- Build: `xcodebuild build -project app/Morsel.xcodeproj -scheme Morsel
-  -destination 'platform=iOS Simulator,id=<id>' -derivedDataPath .build/xc-dd
-  CODE_SIGNING_ALLOWED=NO` (unsigned, Debug configuration).
-- The capture harness was a TEMPORARY `#if DEBUG` block in `MorselApp.swift`,
-  gated on `ProcessInfo.processInfo.environment["MORSEL_CAPTURE_DEMO"]`.
-  When set, it rendered the real `TodayView` / `SettingsView` surfaces backed
-  by the existing DEBUG `MockDashboardRepository` + Preview-style snapshot,
-  and the real `OnboardingView` (sign-in step) — no Supabase client is created
-  on that path, no credentials are involved, and Release builds are untouched.
-  The harness was removed before commit; at the final SHA
+  booted; unsigned Debug build via `xcodebuild build … CODE_SIGNING_ALLOWED=NO`.
+- The capture harness was a TEMPORARY `#if DEBUG` block in `MorselApp.swift`
+  (it temporarily replaced the `@main` entry point because Swift allows only
+  one `@main` per module), gated on
+  `ProcessInfo.processInfo.environment["MORSEL_CAPTURE_DEMO"]`. It rendered
+  the real `TodayView` (backed by the DEBUG `MockDashboardRepository` +
+  Preview-style snapshot) and the real `OnboardingView` sign-in step — no
+  Supabase client is created on that path, no credentials involved, Release
+  builds untouched. The harness was removed after capture; at the final SHA
   `git diff 45d58ba -- app/Sources/Morsel/MorselApp.swift` is empty
-  (byte-identical), so no capture hook is committed.
+  (byte-identical, SHA-256 `bed9e9f1…`), so no capture hook is committed.
 - Screens: `xcrun simctl io <id> screenshot <file>` after launching with the
   capture environment variable; no UI automation required.
 
@@ -66,29 +70,33 @@ was corrected here; high confidence now uses ink on accentSoft.)
 
 | File | State |
 | --- | --- |
-| `today-warm.png` | Today dashboard — DEBUG PreviewData/MockRepository snapshot (breakfast + lunch incl. high-confidence `0.90` tag now ink-on-cream, low-confidence "Stir-fried veg" with `verify` tag, computed goal 2,077 kcal) |
-| `settings-warm.png` | Settings screen (Goals / Agent sections) with warm accent |
-| `onboarding-warm.png` | Onboarding first step ("Set up your food logger") with warm accent |
+| `today-warm.png` | Today dashboard — real `TodayView` with DEBUG mock snapshot (high-confidence `0.90` tag now forest-on-leafSoft, low-confidence "Stir-fried veg" row with accentSoft tint + `0.70`/`verify` review tags above the fold, forest ring, orange kcal anchors, measured macro gradients) |
+| `onboarding-warm.png` | Onboarding first step ("Let's set up your food logger.") with orange brand text, orange progress capsule, orange `Send email code` button |
+| `settings-warm.png` | **Known limitation:** captured from the real private `SettingsView` inside the temporary harness — but the bare harness context omits the production TabView-level `.tint(Color.morselAccent)`, so the Form renders its rows with Apple's system-blue tint (`#007AFF`) instead of V1 accent. The shipped app wraps `SettingsView` in the tinted TabView (`.tint(Color.morselAccent)` in `MorselApp.swift`), so production renders orange. Replacing this capture 1:1 requires a harness that reproduces the production tint context, which was out of scope for this round; the V1 contract for this screen is enforced by the token + call-site tests, not by this PNG. |
 
 ## Pixel inspection findings (final images)
 
 Verified programmatically (PIL) on the raw PNGs after visual review:
 
-- No cool pixels: cool-hue share (saturation > 0.15, hue 180–260°) is
-  **0.0000%** on all three captures; the only green pixels are the iOS
-  status-bar battery glyph (identical across captures — OS chrome, not app).
-- Warm accent present throughout (gauge ring, kcal figures, macro bars, brand
-  text, progress capsule, selected tab).
-- Background samples match locked `#FBFAF6`.
-- Overall ink-vs-background luminance contrast on all three screens is high
-  (≈19:1 modal-background vs darkest-ink estimate); per-component WCAG values
-  are the authoritative numbers in the table above.
+- `today-warm.png`: cool-hue share (saturation > 0.15, hue 180–260°) is
+  **0.0000%**; dominant background `RGB(248,240,232)` ≈ V1 `bg` `#FFF7E8`
+  (255,247,232) — the small offset is the gauge card's surface tint plus
+  anti-aliasing; visually and numerically the warm-paper V1 ground.
+- `onboarding-warm.png`: cool share **0.1830%**, all of it one bbox around
+  the EMAIL field placeholder `RGB(0,122,255)` — Apple's system-blue
+  UITextField placeholder color (OS chrome, same class as the black
+  Sign-in-with-Apple button), not an app-drawn palette color.
+- `settings-warm.png`: captured outside the production tint context (see
+  limitation above); rows show the iOS system tint instead of accent.
+- Warm V1 accent present throughout Today (forest ring, orange kcal figures,
+  macro gradient bars, brand text, progress capsule).
+- Per-component WCAG values are the authoritative numbers in the contrast
+  table above.
 
 ## Limitations
 
-- Simulator renders (not device): colors are sRGB; no Night-shift/True-Tone
-  variance. No accessibility zoom/Dynamic-Type-large states captured.
-- The low-confidence row tint and review flows use the same tokens; only the
-  three states above were captured.
+- Simulator renders (not device): sRGB; no Night Shift/True-Tone variance.
+  No accessibility zoom/Dynamic-Type-large states captured.
+- Settings capture carries the documented harness-context limitation above.
 - The capture harness is not part of the commit; re-capturing requires the
   temporary DEBUG hook again (documented above).

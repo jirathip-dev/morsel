@@ -1,29 +1,25 @@
 ---
 version: alpha
 name: Morsel
-description: A readout, not a showcase. Morsel is a data store + read-only dashboard
-  + agent skill (no chat). The UI renders what the agent wrote — source, confidence,
-  unit, per-item macros — and surfaces a needs-review affordance for low-confidence
-  estimates. Warm neutral ground, a single warm-orange accent for interaction and
-  calories, amber for carbs, coral-red for over-goal. Humanist sans for copy,
-  monospace for the data vocabulary.
+description: A readout, not a showcase — data store + read-only dashboard + agent skill. Warm paper ground, orange identity/action anchor (ink label, never white), sage/forest support, mustard highlights. Approved V1 "Orange Hearth + Sage" (issue #32).
 colors:
-  ink: "#20231E"
-  inkTwo: "#666A60"
-  inkThree: "#9BA095"
-  bg: "#FBFAF6"
-  surface: "#FFFFFF"
-  surfaceTwo: "#F3F1EA"
-  line: "#E7E3D8"
-  accent: "#F08A2E"
-  accentSoft: "#F6E8D8"
-  energy: "#F08A2E"
-  energySoft: "#F6E8D8"
-  over: "#C0483F"
-  low: "#8A5514"
-  protein: "#C0483F"
-  carbs: "#F0A63C"
-  fat: "#D46A2E"
+  ink: "#2A261F"
+  ink2: "#655A4B"
+  ink3: "#756955"
+  bg: "#FFF7E8"
+  surface: "#FFFCF5"
+  surface2: "#F2E9D9"
+  line: "#E3D2BA"
+  accent: "#E66A2C"
+  accentSoft: "#FBE1C9"
+  leaf: "#5E7E57"
+  leafSoft: "#E1E9D7"
+  forest: "#2F654B"
+  coral: "#B94738"
+  mustard: "#D6A62C"
+  mustardDeep: "#A5750B"
+  review: "#7A3D2B"
+  over: "#9C3A2F"
 typography:
   display:
     fontFamily: Nunito Sans
@@ -65,38 +61,38 @@ components:
     rounded: "{rounded.lg}"
     padding: 16px
   gauge-ring:
-    trackColor: "{colors.surfaceTwo}"
+    trackColor: "{colors.surface2}"
     fillColor: "{colors.accent}"
-    fillColorNear: "{colors.energy}"
+    fillColorNear: "{colors.mustardDeep}"
     fillColorOver: "{colors.over}"
   macro-track:
-    backgroundColor: "{colors.surfaceTwo}"
+    backgroundColor: "{colors.surface2}"
   macro-line:
-    proteinColor: "{colors.protein}"
-    carbsColor: "{colors.carbs}"
-    fatColor: "{colors.fat}"
+    proteinColor: "{colors.coral}"
+    carbsColor: "{colors.mustardDeep}"
+    fatColor: "{colors.leaf}"
   tag:
-    textColor: "{colors.inkTwo}"
+    textColor: "{colors.ink2}"
     backgroundColor: "{colors.surface}"
     rounded: "{rounded.sm}"
   tag-conf-high:
-    textColor: "{colors.ink}"
-    backgroundColor: "{colors.accentSoft}"
+    textColor: "{colors.forest}"
+    backgroundColor: "{colors.leafSoft}"
   tag-conf-low:
-    textColor: "{colors.low}"
-    backgroundColor: "{colors.energySoft}"
+    textColor: "{colors.review}"
+    backgroundColor: "{colors.accentSoft}"
   btn-confirm:
     backgroundColor: "{colors.accent}"
     textColor: "{colors.ink}"
     rounded: "{rounded.md}"
     padding: "0 14px"
   btn-ghost:
-    backgroundColor: "{colors.surfaceTwo}"
-    textColor: "{colors.inkTwo}"
+    backgroundColor: "{colors.surface2}"
+    textColor: "{colors.ink2}"
     rounded: "{rounded.md}"
     padding: "0 14px"
   row-low:
-    backgroundColor: "{colors.energySoft}"
+    backgroundColor: "{colors.accentSoft}"
     rounded: "{rounded.sm}"
 ---
 
@@ -118,57 +114,60 @@ The reference implementation is `./prototype.html` (this repo, `docs/`). This
 file is the normative token spec the SwiftUI app and the server snapshot
 renderer should follow.
 
-## Colors
+## Colors (approved V1 — Orange Hearth + Sage)
 
-- **ink (#20231E)** — warm near-black for primary text and numerals.
-- **accent (#F08A2E)** — the *interaction* accent: **warm orange**. Confirm
-  buttons, active nav, streak, high-confidence tags; slider thumbs and
-  focus states. It is **not** a chart color.
-- **energy (#F08A2E)** — calories. Headline kcal numbers and the "verify"
-  affordance; the ring's near/over gradient uses this copper-amber family.
-- **over (#C0483F)** — text only when eaten exceeds goal.
-- **Macro colors (gradients)** — protein coral (#C0483F), carbs amber
-  (#F0A63C), fat warm orange-brown (#D46A2E), used as gradient fills
-  (`gradProtein` / `gradCarbs` / `gradFat`).
-- **Neutrals** — bg (#FBFAF6), surface (#FFFFFF), surfaceTwo (#F3F1EA), line
-  (#E7E3D8), inkTwo/inkThree for muted and faint text.
+- **ink (#2A261F)** — warm near-black for primary copy and the dark label on
+  identity hues. Orange never carries a white label.
+- **accent (#E66A2C)** — the orange **identity/action anchor**: confirm
+  buttons, calorie figures, active nav, slider thumbs, focus states. It takes
+  dark **ink**, never white.
+- **forest (#2F654B) / leafSoft (#E1E9D7)** — stable/on-track support and
+  high-confidence tags; **forest** is also the active-navigation text.
+  **leaf (#5E7E57)** is the leafy supporting data color. Surfaces stay warm —
+  the sage family supports status, it never green-washes backgrounds.
+- **review (#7A3D2B) on accentSoft (#FBE1C9)** — needs-review/low-confidence
+  names uncertainty without treating it as an error. **coral (#B94738)**
+  supports protein/correction and warm over-goal families; **over (#9C3A2F)**
+  is over-goal/error text.
+- **mustard (#D6A62C)** — non-text highlight; **mustardDeep (#A5750B)** is
+  the accessible data stroke (carbs).
+- **Neutrals** — bg (#FFF7E8) warm paper, surface (#FFFCF5), surface2
+  (#F2E9D9) field/track, line (#E3D2BA) hairline, ink2 (#655A4B) secondary,
+  ink3 (#756955) metadata/section labels.
 
-Color is discipline: one interaction accent, a calorie color, and a warm
-**status ramp** (see Charts & gradients). Charts use gradients, not flat fills.
-Add a color to the token table first, never an ad-hoc hex in a component.
+Color is discipline: one orange action anchor, a sage/forest support family,
+a warm review family, and mustard highlights. Measured data graphics keep
+their documented measured-data gradients (below); everything else is matte
+and near-flat. Add a color to the token table first, never an ad-hoc hex in a
+component.
 
-## Charts & gradients
+## Charts & gradients (measured-data treatment)
 
-Charts never use flat fills. Every data element is a **gradient**:
-
-- **Macro bars** — `gradProtein` (coral), `gradCarbs` (amber), `gradFat`
-  (warm orange-brown), `linear-gradient(180deg,…)`, rounded caps, ~6px tall on
-  a surfaceTwo track. The macro dot uses the same gradient.
-- **Calorie ring** — SVG `linearGradient` stroke (3-stop for richness). On target
-  `gradOn` (amber→warm orange-brown); `gradNear` (golden→copper) as you approach
-  (>85%); `gradOver` (blush-coral) when over. A soft radial glow lifts it.
-- **History bars + over/under** — a **warm temperature ramp**: `gradUnder`
-  (golden-amber, below target) → `gradOn` (amber→warm orange-brown, in the
-  ±50 kcal zone) → `gradOver` (blush-coral, above). The dashed goal line
-  and signed delta text carry the precise value; the gradient carries the *feel*.
-- **Cards** — a faint `gradCard` (#FFFFFF → #FBF9F2) on the gauge/history
-  readout surfaces for a soft modern lift.
-
-Gradient values are defined once — in the prototype CSS and a SwiftUI
-`LinearGradient` extension — **not** in the DESIGN.md `colors:` block, which only
-takes single CSS colors. Never hard-code them per component:
+Gradients apply **only** to measured data and the single readout card — they
+are the documented measured-data treatment from the approved token artifacts,
+never new scalar/background decoration. Values are defined once — in the
+prototype CSS and a SwiftUI `LinearGradient` extension — **not** in the
+`colors:` block, which only takes single CSS colors:
 
 ```css
---grad-protein: linear-gradient(180deg,#C0483F,#C0483F);
---grad-carbs:   linear-gradient(180deg,#FFC24B,#F0A63C);
---grad-fat:     linear-gradient(180deg,#F0A63C,#D46A2E);
---grad-under:   linear-gradient(180deg,#FFC24B,#F08A2E);
---grad-on:      linear-gradient(180deg,#F0A63C,#D46A2E);
---grad-over:    linear-gradient(180deg,#F7A98C,#C0483F);
+--grad-protein: linear-gradient(90deg,#C9513D,#A63A32);
+--grad-carbs:   linear-gradient(90deg,#B07A13,#875A02);
+--grad-fat:     linear-gradient(90deg,#6B8B60,#3F6745);
+--grad-gauge:   linear-gradient(135deg,#6B8B60,#2F654B);
+--grad-card:    linear-gradient(180deg,#FFFCF5,#FFF5E5);
 ```
 
-On native, map them to SwiftUI `LinearGradient` / `HueRotation` / `Charts`
-`LinearGradient` styling.
+- **Macro bars** — `gradProtein` (coral), `gradCarbs` (mustardDeep family),
+  `gradFat` (leaf family), rounded caps, ~6px tall on a surface2 track, each
+  verified ≥3:1 against its track. The macro dot uses the same gradient.
+- **Calorie ring** — `gradGauge` (leaf→forest). Near-goal uses
+  `mustardDeep`, over-goal uses `over`. Every bar/ring keeps an adjacent
+  numeric value, label, and track — the gradient carries *feel*, text carries
+  the precise value, so gradient degeneracy never blinds a readout.
+- **Cards** — a faint `gradCard` (surface → #FFF5E5) on the gauge readout
+  surface only.
+
+On native, map them to SwiftUI `LinearGradient` styling.
 
 ## Typography
 
@@ -177,64 +176,70 @@ On native, map them to SwiftUI `LinearGradient` / `HueRotation` / `Charts`
   counts align in lists.
 - **Data vocabulary:** IBM Plex Mono (400/500). Reserved for the things the agent
   wrote — `source` (photo_vision / manual), `confidence` (0.90), gram targets
-  (`69 / 140g`), and per-item macro lines (`P24 C30 F9`). Mono is the "the app is
+  (`69 / 156g`), and per-item macro lines (`P24 C30 F9`). Mono is the "the app is
   showing you raw data" signal. Never use mono for headings or body copy.
 - Hierarchy comes from weight + size + spacing, not boxes: section labels are
-  12px 700 uppercase (inkThree), item names 14.5px 700, headline kcal 14px 800
-  in energy, the gauge number 26px 800.
+  12px 700 uppercase (ink3), item names 14.5px 700, headline kcal 14px 800
+  in accent, the gauge number 26px 800.
 
 ## Layout
 
 - App column: `max-width: 430px`, centered; `padding: 24px 18px`. On small
   screens `20px 16px`. Fixed bottom nav (4 items max) with a subtle top hairline.
-- **The gauge** is the only card; everything below is a hairline-divided **list**
-  (the log), not a grid of cards. Group items by `meal_type` (breakfast/lunch/
-  dinner/snack); each group has a header row (type, time, group kcal) then item
-  rows.
+  Active nav text uses forest.
+- **The gauge** is the only card; everything below is a hairline-divided
+  **list** (the log), not a grid of cards. Group items by `meal_type`
+  (breakfast/lunch/dinner/snack); each group has a header row (type, time,
+  group kcal) then item rows.
 - Each **item row**: name + portion (left), headline kcal (right), and below the
   name a mono macro line + a tag row (source + confidence). This is the primary
-  composition. A **low-confidence** row gets a soft amber tint + a `verify` tag;
-  it is *not* given a left accent rail (that reads as decoration, not hierarchy).
+  composition. A **low-confidence** row gets a soft accentSoft tint + a `verify`
+  tag; it is *not* given a left accent rail (that reads as decoration, not
+  hierarchy).
 
 ## Elevation & Depth
 
-Near-flat. Cards carry a 1px hairline (line) border on surface; no drop shadows.
-The only non-flat element is the fixed bottom nav, which uses a near-opaque
-`rgba(255,255,255,.96)` backdrop so scrolled content recedes — not a glassy
-banner. Depth is earned through tint and border, not shadow.
+Matte and near-flat. Cards carry a 1px hairline (line) border on surface; no
+drop-shadow stacks. Hairlines and warm/sage tints do the separation work. The
+fixed bottom nav uses a near-opaque surface backdrop so scrolled content
+recedes — not a glassy banner. Depth is earned through tint and border, not
+shadow.
 
 ## Shapes
 
-- `rounded.sm` (6px) — micro elements (range thumbs, small fills).
-- `rounded.md` (8px) — buttons, mono field inputs, confidence tags.
-- `rounded.lg` (12px) — the gauge card and review/config cards.
-- Macro dots are 9px squares (2px radius) — a data landmark, not an icon.
+No shape-system change. `rounded.sm` (6px) micro elements, `rounded.md`
+(8px) buttons/tags, `rounded.lg` (12px) the gauge card. Macro dots stay 9px
+squares (2px radius). The approved bitten smiling-onigiri geometry (wrap,
+bite, face) remains byte-for-byte the control — only its three scalar fills
+map to this palette.
 
 ## Components
 
 - **Gauge** — small ring (left) with remaining kcal centered; right side shows
   `Eaten · Goal · X left` and three macro lines (label, 4px track with progress,
-  `value / targetg`). Ring fill: accent when on track, energy when near goal
-  (>85%), over when exceeding.
+  `value / targetg`). Ring fill: the measured `gradGauge`; near-goal
+  `mustardDeep`, over `over`.
 - **Goal source** — the gauge's `Goal` is the **computed** target from the profile
   (Mifflin-St Jeor → TDEE → diet goal; see `TARGETS.md`), not a manual number. The
   Targets screen shows the computed value and lets the user **confirm or adjust**;
   adjusting flips `goals.source` to `manual`.
 - **Targets screen** — a short profile form (sex, age, height, weight, activity,
-  diet goal: mono upper-case labels + number inputs + segmented toggles) above a
-  computed readout (big `t-kcal` number, `BMR … · TDEE … · <goal>` meta line, mono
-  macro line, `source: computed` tag). Actions: **Looks right** (confirm → lock,
-  `source: computed`) and **Adjust** (reveals the manual kcal/macro sliders →
-  `source: manual`); a `Use computed` ghost returns to the computed value.
-- **Tag** — monospace, 5px radius, surface bg + hairline border, inkTwo text.
-  `tag-conf-high` (ink on accentSoft), `tag-conf-low` (low on energySoft).
-- **btn-confirm** (accent with ink label) and **btn-ghost** (surfaceTwo, inkTwo) —
+  diet goal: mono upper-case labels + number inputs on surface2 + segmented
+  toggles) above a computed readout (big `t-kcal` number, `BMR … · TDEE … ·
+  <goal>` meta line, mono macro line, `source: computed` tag). Actions:
+  **Looks right** (confirm → lock, `source: computed`) and **Adjust** (reveals
+  the manual kcal/macro sliders → `source: manual`); a `Use computed` ghost
+  returns to the computed value.
+- **Tag** — monospace, 5px radius, surface bg + hairline border, ink2 text.
+  `tag-conf-high` (forest on leafSoft), `tag-conf-low` (review on accentSoft).
+- **btn-confirm** (accent with ink label) and **btn-ghost** (surface2, ink2) —
   40px tall, 8px radius. Confirmation is the high-emphasis action; there is
-  exactly one confirm per correction card.
-- **row-low** — the low-confidence item row (energySoft tint, 6px radius). It
+  exactly one confirm per correction card. Hover stays legible: ink on
+  accentSoft.
+- **row-low** — the low-confidence item row (accentSoft tint, 6px radius). It
   must always carry a `verify` tag so the tint is never the only signal.
 - **Review card** — `// agent: <reason>` note in mono plus editable kcal/P/C/F
-  fields (mono inputs on surfaceTwo) with `Keep guess` (ghost) and `Looks right`
+  fields (mono inputs on surface2) with `Keep guess` (ghost) and `Looks right`
   `(confirm)`. Confirming flips the confidence tag to `1.00` high.
 - **History screen** — a `calories vs goal` bar chart with a **7 / 30 day**
   range toggle (bars scaled to the range's max, dashed goal line at the computed
@@ -244,11 +249,9 @@ banner. Depth is earned through tint and border, not shadow.
   (**under / on target / over**) — the over/under framing, not "over/under eat".
   **Tap a day to open it** (drill-down: that day's kcal, macro split, and items
   for today; past-day macros derive from the total via the 30/45/25 split).
-- **Liquid-glass tab bar** — the bottom nav is a floating, translucent frosted
-  pill (`rgba(255,255,255,.55)` + `backdrop-filter: blur(22px) saturate(1.6)`,
-  rounded 22px, hairline border, soft shadow) pinned to the bottom of the app
-  column; content scrolls behind it. This is the native-iOS "liquid glass" tab
-  bar (see Native implementation below).
+- **Tab bar** — the bottom nav is the floating translucent pill pinned to the
+  bottom of the app column; content scrolls behind it; active item text uses
+  forest.
 
 ## Do's and Don'ts
 
@@ -256,19 +259,24 @@ banner. Depth is earned through tint and border, not shadow.
 - Show exactly what the agent wrote: source, confidence, unit, per-item macros.
 - Make the trust affordance (needs-review / verify) a first-class element.
 - Use mono only for data vocabulary; use tabular numerals for all numbers.
-- Keep ONE interaction accent and ONE calorie color; encode over/under with the
-  warm ramp, not generic red.
+- Use orange for identity/action, sage/forest for stable support, coral for
+  correction, mustard for measured highlights, and generous cream breathing room.
 - Separate with hairlines and tints, not shadows and decorations.
-- Charts use gradient fills; encode over/under as a warm ramp, never
-  generic red.
+- Keep measured-data gradients verified ≥3:1 against their tracks and every
+  text pair ≥4.5:1.
 
 **Don't**
 - Don't build a chat UI, a feed, or any in-app AI surface — out of scope by design.
 - Don't add a fake phone bezel, fake status bar, or mock OS chrome.
 - Don't reach for a card-per-thing or a 3-feature grid; the day is a log.
 - Don't invent colors ad-hoc — add the token, then use it.
-- Don't decorate low-confidence with an accent rail or an icon; a tint + `verify`
-  tag + the reason is the honest treatment.
+- Don't put white on the orange button; ink is the label.
+- Don't turn every surface sage; green supports status, it doesn't paint the app.
+- Don't copy botanical geometry; the approved onigiri geometry is the control.
+- Don't collapse review and over-goal into one state — review (#7A3D2B on
+  accentSoft) and over (#9C3A2F) stay distinct.
+- Don't decorate low-confidence with an accent rail or an icon; a tint +
+  `verify` tag + the reason is the honest treatment.
 
 ## Native implementation (SwiftUI)
 
@@ -279,7 +287,7 @@ Map each design element to its native equivalent:
 
 | Design (this doc) | SwiftUI implementation |
 |---|---|
-| Liquid-glass tab bar | `TabView` with a glass `toolbarBackground`, or a custom `.regularMaterial` capsule overlay; SF Symbols for icons (`chart.bar`, `list.bullet`, `checkmark.seal`, `slider.horizontal.3`) |
+| Tab bar | `TabView` with a `toolbarBackground`, or a custom `.regularMaterial` capsule overlay; SF Symbols for icons (`chart.bar`, `list.bullet`, `checkmark.seal`, `slider.horizontal.3`) |
 | Calorie gauge / ring | `Circle` stroke with `trim(to:)` progress arc + `Text` center |
 | Macro split | `HStack` of label/value rows, or a `Gauge`/`ProgressView` per macro |
 | Meals log | `List` / `ScrollView` + `LazyVStack` with `Divider` hairlines |

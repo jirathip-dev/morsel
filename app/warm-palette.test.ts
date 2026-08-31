@@ -3,55 +3,62 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// Warm-palette design-system alignment (Guy-approved 2026-08-31; Refs #32).
-// The locked palette is normative: accent/energy #F08A2E, accentSoft
-// #F6E8D8, protein/coral/over #C0483F, carbs #F0A63C, fat #D46A2E, low
-// confidence #8A5514, neutrals unchanged, warm-only gradient stops. The old
-// cobalt/blue/teal/cyan/purple/green role values are forbidden across the
-// design-system sources and docs. This probe parses the surfaces
-// (DesignSystem.swift, Views.swift, docs/DESIGN.md, docs/prototype.html),
-// asserts the locked tokens are present, the forbidden cool values are gone,
-// and every normative component text pair measurably passes WCAG AA (>= 4.5:1)
-// — including the real SwiftUI call sites, not just the spec.
+// Approved V1 palette — "Orange Hearth + Sage" (issue #32, Guy-approved).
+// Authority: design-output/morsel/32-palette-botanical-reference (TOKENS.md,
+// palette-data.json V1, CONTRAST.md, DESIGN-CANDIDATE.md) and the bounded
+// implementation brief. V1 supersedes the older warm-orange locked palette.
+//
+// This probe parses the real surfaces (DesignSystem.swift, Views.swift,
+// docs/DESIGN.md, docs/prototype.html, server/render.ts), asserts the exact
+// V1 scalar tokens are present, the older-palette values are gone, the
+// semantic usage contracts hold (forest=stable/high-confidence text on
+// leafSoft, review on accentSoft for needs-review, ink on accent for the
+// primary confirm button — never white, never cool), and every normative
+// component text pair measurably passes WCAG AA (>= 4.5:1).
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const designSystem = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'DesignSystem.swift'), 'utf8')
 const views = readFileSync(join(repoRoot, 'app', 'Sources', 'Morsel', 'Views.swift'), 'utf8')
 const designMd = readFileSync(join(repoRoot, 'docs', 'DESIGN.md'), 'utf8')
 const prototype = readFileSync(join(repoRoot, 'docs', 'prototype.html'), 'utf8')
+const renderer = readFileSync(join(repoRoot, 'server', 'render.ts'), 'utf8')
 
-// Old cool role values (forbidden anywhere in the design system).
-const FORBIDDEN_COOL_HEXES = [
-  '#3E63E8', // old cobalt accent
-  '#E9EEFC', // old cobalt soft
-  '#6C5CE7', // old violet protein
-  '#0FA6A0', // old teal fat
-  '#9C8BF5', // old violet gradient start
-  '#37D5C2', // old teal gradient start
-  '#5BD8E6', // old cyan under start
-  '#1FA3C4', // old cyan under end
-  '#3BC8A8', // old emerald on start
-  '#12A98E', // old emerald on end
-  '#E0765F', // old copper-rose over end
+// Exact approved V1 scalar contract (brief; palette-data.json V1).
+const V1: Record<string, string> = {
+  bg: '#FFF7E8',
+  surface: '#FFFCF5',
+  surface2: '#F2E9D9',
+  line: '#E3D2BA',
+  ink: '#2A261F',
+  ink2: '#655A4B',
+  ink3: '#756955',
+  accent: '#E66A2C',
+  accentSoft: '#FBE1C9',
+  leaf: '#5E7E57',
+  leafSoft: '#E1E9D7',
+  forest: '#2F654B',
+  coral: '#B94738',
+  mustard: '#D6A62C',
+  mustardDeep: '#A5750B',
+  review: '#7A3D2B',
+  over: '#9C3A2F',
+}
+
+// Any previous palette value that must not survive in any design surface.
+const RETIRED_PALETTE_HEXES = [
+  '#3E63E8', '#E9EEFC', '#6C5CE7', '#0FA6A0', '#9C8BF5', '#37D5C2',
+  '#5BD8E6', '#1FA3C4', '#3BC8A8', '#12A98E', '#E0765F', '#3354C7',
+  '#6FA7C6', '#1AA3B8', '#D9715D', '#3ED6BE', '#0E9F8A', '#FFB9A8',
+  '#FFCF5E', // original cobalt/teal/violet/cyan palette (rounds 0)
+  '#F08A2E', '#F6E8D8', '#C0483F', '#F0A63C', '#D46A2E', '#FFC24B',
+  '#F7A98C', '#FBF9F2', '#FBFAF6', '#F3F1EA', '#E7E3D8', '#20231E',
+  '#666A60', '#9BA095', // r1 warm-orange palette (superseded by V1)
 ]
 
-// Stale old-palette values that are not on the cool list but belonged to the
-// retired palette; a second stale palette must not survive in the prototype.
-const STALE_SECOND_PALETTE_HEXES = [
-  '#3354C7', // old confirm hover cobalt
-  '#6FA7C6', // old blue water fill
-  '#1AA3B8', // old cyan under-delta text
-  '#D9715D', // old rose over text (replaced by locked #C0483F roles)
-  '#F0762E', // old deep-copper energy gradient end
-  '#EBE8DF', // old ghost hover neutral (replaced by locked line)
-  '#F0EDE3', // old row hairline neutral (replaced by locked line)
-  '#3ED6BE', // old ring on-gradient light stop
-  '#0E9F8A', // old ring on-gradient dark stop
-  '#FFB9A8', // old ring over-gradient light stop
-  '#FFCF5E', // old ring near-gradient light stop
-]
-
-const COOL_GUIDANCE_WORDS = ['cobalt', 'blue', 'teal', 'cyan', 'violet', 'emerald', 'purple', 'green']
+// V1 forbids cool families as app accents/status colors. Matching is
+// word-boundary based so compound words (evergreen, blueprint) cannot
+// false-positive, while the exact banned color words still fail.
+const COOL_COLOR_WORDS = ['cobalt', 'blue', 'teal', 'cyan', 'violet', 'purple']
 
 // ── Executable WCAG contrast helpers (normative-pair enforcement) ─────────
 function luminance(hex: string): number {
@@ -115,12 +122,12 @@ function prototypeRule(selector: string): { color: string; background: string } 
 }
 
 // ── Shared helpers ────────────────────────────────────────────────────────
-function countCI(haystack: string, needle: string): number {
-  return haystack.toLowerCase().split(needle.toLowerCase()).length - 1
+function countMatches(text: string, re: RegExp): number {
+  return [...text.matchAll(re)].length
 }
 
 function requireAbsent(text: string, hex: string, where: string) {
-  expect(countCI(text, hex), `${hex} must be gone from ${where}`).toBe(0)
+  expect(countMatches(text, new RegExp(hex, 'gi')), `${hex} must be gone from ${where}`).toBe(0)
 }
 
 function requireSwiftToken(token: string, hex: string) {
@@ -143,131 +150,153 @@ function colorsBlockTokens(): string[] {
   return lines
 }
 
-// Locked role hexes (normative — keep exact values).
-const INK = '#20231E'
-const ACCENT = '#F08A2E'
-const ACCENT_SOFT = '#F6E8D8'
-const LOW = '#8A5514'
-const ENERGY_SOFT = '#F6E8D8'
-
-describe('warm-palette token consistency (Refs #32)', () => {
-  it('declares the locked warm interaction accent in DesignSystem.swift', () => {
-    requireSwiftToken('morselAccent', ACCENT)
-    requireSwiftToken('morselAccentSoft', ACCENT_SOFT)
-    requireSwiftToken('morselEnergy', ACCENT)
-    requireSwiftToken('morselEnergySoft', ENERGY_SOFT)
+describe('V1 palette token consistency (Orange Hearth + Sage, Refs #32)', () => {
+  it('declares every approved V1 neutral/scalar token in DesignSystem.swift', () => {
+    requireSwiftToken('morselBackground', V1.bg)
+    requireSwiftToken('morselSurface', V1.surface)
+    requireSwiftToken('morselSurfaceTwo', V1.surface2)
+    requireSwiftToken('morselLine', V1.line)
+    requireSwiftToken('morselInk', V1.ink)
+    requireSwiftToken('morselInkTwo', V1.ink2)
+    requireSwiftToken('morselInkThree', V1.ink3)
+    requireSwiftToken('morselAccent', V1.accent)
+    requireSwiftToken('morselAccentSoft', V1.accentSoft)
+    requireSwiftToken('morselLeaf', V1.leaf)
+    requireSwiftToken('morselLeafSoft', V1.leafSoft)
+    requireSwiftToken('morselForest', V1.forest)
+    requireSwiftToken('morselCoral', V1.coral)
+    requireSwiftToken('morselMustard', V1.mustard)
+    requireSwiftToken('morselMustardDeep', V1.mustardDeep)
+    requireSwiftToken('morselReview', V1.review)
+    requireSwiftToken('morselOver', V1.over)
   })
 
-  it('declares the locked warm macro data roles in DesignSystem.swift', () => {
-    requireSwiftToken('morselProtein', '#C0483F')
-    requireSwiftToken('morselCarbs', '#F0A63C')
-    requireSwiftToken('morselFat', '#D46A2E')
-    requireSwiftToken('morselOver', '#C0483F')
-    requireSwiftToken('morselLow', LOW)
+  it('maps V1 semantic aliases for the existing call sites in DesignSystem.swift', () => {
+    // energy = calorie accent (V1 keeps accent as the calorie anchor);
+    // energySoft = warm action wash; low-confidence review text = V1 review.
+    requireSwiftToken('morselEnergy', V1.accent)
+    requireSwiftToken('morselEnergySoft', V1.accentSoft)
+    requireSwiftToken('morselLow', V1.review)
   })
 
-  it('declares the locked warm-only gradient stops in DesignSystem.swift', () => {
-    requireSwiftToken('morselProteinStart', '#C0483F')
-    requireSwiftToken('morselCarbsStart', '#FFC24B')
-    requireSwiftToken('morselFatStart', '#F0A63C')
-    requireSwiftToken('morselUnderStart', '#FFC24B')
-    requireSwiftToken('morselUnder', ACCENT)
-    requireSwiftToken('morselOnStart', '#F0A63C')
-    requireSwiftToken('morselOn', '#D46A2E')
-    requireSwiftToken('morselOverStart', '#F7A98C')
-    requireSwiftToken('morselOverEnd', '#C0483F')
+  it('declares the measured-data gradient stops from the approved TOKENS.md table', () => {
+    // Measured-data gradient values are the documented measured-data
+    // treatment (never new scalar/background decoration).
+    requireSwiftToken('morselProtein', V1.coral)
+    requireSwiftToken('morselProteinStart', '#C9513D')
+    requireSwiftToken('morselProteinEnd', '#A63A32')
+    requireSwiftToken('morselCarbs', V1.mustardDeep)
+    requireSwiftToken('morselCarbsStart', '#B07A13')
+    requireSwiftToken('morselCarbsEnd', '#875A02')
+    requireSwiftToken('morselFat', V1.leaf)
+    requireSwiftToken('morselFatStart', '#6B8B60')
+    requireSwiftToken('morselFatEnd', '#3F6745')
+    requireSwiftToken('morselGaugeStart', '#6B8B60')
+    requireSwiftToken('morselGaugeEnd', V1.forest)
+    requireSwiftToken('morselCardEnd', '#FFF5E5')
   })
 
-  it('keeps the unchanged neutrals byte-for-byte in DesignSystem.swift', () => {
-    requireSwiftToken('morselInk', INK)
-    requireSwiftToken('morselInkTwo', '#666A60')
-    requireSwiftToken('morselInkThree', '#9BA095')
-    requireSwiftToken('morselBackground', '#FBFAF6')
-    requireSwiftToken('morselSurface', '#FFFFFF')
-    requireSwiftToken('morselSurfaceTwo', '#F3F1EA')
-    requireSwiftToken('morselLine', '#E7E3D8')
-    requireSwiftToken('morselCardEnd', '#FBF9F2')
-  })
-
-  it('defines the locked warm colors as scalar tokens in DESIGN.md', () => {
-    const expected: Array<[string, string]> = [
-      ['accent', ACCENT],
-      ['accentSoft', ACCENT_SOFT],
-      ['energy', ACCENT],
-      ['energySoft', ENERGY_SOFT],
-      ['protein', '#C0483F'],
-      ['carbs', '#F0A63C'],
-      ['fat', '#D46A2E'],
-      ['over', '#C0483F'],
-      ['low', LOW],
-    ]
+  it('defines the exact approved V1 colors as scalar tokens in DESIGN.md', () => {
     colorsBlockTokens()
-    for (const [name, hex] of expected) {
+    for (const [name, hex] of Object.entries(V1)) {
       expect(designMd, `DESIGN.md colors.${name} must be ${hex}`).toContain(`${name}: "${hex}"`)
     }
   })
 
-  it('documents only warm gradient stops in the DESIGN.md gradient CSS', () => {
+  it('documents only the measured-data gradient stops in the DESIGN.md gradient CSS', () => {
     const squash = designMd.replace(/\s+/g, '')
     const gradients: Array<[string, string, string]> = [
-      ['--grad-protein', '#C0483F', '#C0483F'],
-      ['--grad-carbs', '#FFC24B', '#F0A63C'],
-      ['--grad-fat', '#F0A63C', '#D46A2E'],
-      ['--grad-under', '#FFC24B', ACCENT],
-      ['--grad-on', '#F0A63C', '#D46A2E'],
-      ['--grad-over', '#F7A98C', '#C0483F'],
+      ['--grad-protein', '#C9513D', '#A63A32'],
+      ['--grad-carbs', '#B07A13', '#875A02'],
+      ['--grad-fat', '#6B8B60', '#3F6745'],
+      ['--grad-gauge', '#6B8B60', '#2F654B'],
+      ['--grad-card', '#FFFCF5', '#FFF5E5'],
     ]
     for (const [name, from, to] of gradients) {
-      expect(squash, `DESIGN.md must document ${name}:${from}->${to}`).toContain(`${name}:linear-gradient(180deg,${from},${to})`)
+      const needle = `${name}:linear-gradient(90deg,${from},${to})`
+      const alt = `${name}:linear-gradient(135deg,${from},${to})`
+      const alt180 = `${name}:linear-gradient(180deg,${from},${to})`
+      expect(
+        squash.includes(needle) || squash.includes(alt) || squash.includes(alt180),
+        `DESIGN.md must document ${name} with approved measured stops ${from}->${to}`
+      ).toBe(true)
     }
   })
 
-  it('aligns the prototype tokens to the same locked warm values', () => {
-    expect(prototype).toContain('--accent:#F08A2E')
-    expect(prototype).toContain('--accent-soft:#F6E8D8')
-    expect(prototype).toContain('--protein:#C0483F')
-    expect(prototype).toContain('--carbs:#F0A63C')
-    expect(prototype).toContain('--fat:#D46A2E')
-    expect(prototype.toLowerCase()).toContain('--grad-protein:linear-gradient(180deg,#c0483f,#c0483f)')
+  it('aligns the prototype tokens to the same approved V1 values', () => {
+    expect(prototype).toContain('--bg:#FFF7E8')
+    expect(prototype).toContain('--surface:#FFFCF5')
+    expect(prototype).toContain('--surface-2:#F2E9D9')
+    expect(prototype).toContain('--line:#E3D2BA')
+    expect(prototype).toContain('--ink:#2A261F')
+    expect(prototype).toContain('--ink-2:#655A4B')
+    expect(prototype).toContain('--ink-3:#756955')
+    expect(prototype).toContain('--accent:#E66A2C')
+    expect(prototype).toContain('--accent-soft:#FBE1C9')
+    expect(prototype).toContain('--leaf:#5E7E57')
+    expect(prototype).toContain('--leaf-soft:#E1E9D7')
+    expect(prototype).toContain('--forest:#2F654B')
+    expect(prototype).toContain('--coral:#B94738')
+    expect(prototype).toContain('--mustard:#D6A62C')
+    expect(prototype).toContain('--mustard-deep:#A5750B')
+    expect(prototype).toContain('--review:#7A3D2B')
+    expect(prototype).toContain('--over:#9C3A2F')
   })
 
-  it('carries no forbidden cool hex in any design-system source', () => {
-    for (const hex of FORBIDDEN_COOL_HEXES) {
-      requireAbsent(designSystem, hex, 'DesignSystem.swift')
-      requireAbsent(views, hex, 'Views.swift')
-      requireAbsent(designMd, hex, 'docs/DESIGN.md')
-      requireAbsent(prototype, hex, 'docs/prototype.html')
+  it('keeps the server renderer palette subset aligned to V1 for its DESIGN.md contract', () => {
+    for (const hex of Object.values(V1)) {
+      expect(renderer, `server/render.ts palette must include V1 ${hex}`).toContain(hex)
     }
   })
 
-  it('leaves no stale second palette in the prototype', () => {
-    for (const hex of STALE_SECOND_PALETTE_HEXES) {
-      requireAbsent(prototype, hex, 'docs/prototype.html')
+  it('carries no retired palette hex in any design-system source', () => {
+    const surfaces: Array<[string, string]> = [
+      [designSystem, 'DesignSystem.swift'],
+      [views, 'Views.swift'],
+      [designMd, 'docs/DESIGN.md'],
+      [prototype, 'docs/prototype.html'],
+      [renderer, 'server/render.ts'],
+    ]
+    for (const hex of RETIRED_PALETTE_HEXES) {
+      for (const [text, where] of surfaces) {
+        requireAbsent(text, hex, where)
+      }
     }
   })
 
-  it('removes cool-palette guidance wording from the docs and prototype', () => {
-    for (const word of COOL_GUIDANCE_WORDS) {
-      expect(countCI(designMd, word), `"${word}" must be gone from docs/DESIGN.md`).toBe(0)
-      expect(countCI(prototype, word), `"${word}" must be gone from docs/prototype.html`).toBe(0)
+  it('removes cool-palette color wording from the docs and prototype', () => {
+    for (const word of COOL_COLOR_WORDS) {
+      const re = new RegExp(`\\b${word}\\b`, 'i')
+      expect(re.test(designMd), `"${word}" must be gone from docs/DESIGN.md`).toBe(false)
+      expect(re.test(prototype), `"${word}" must be gone from docs/prototype.html`).toBe(false)
     }
+    // evergreen/blueprint must NOT false-positive the word matcher
+    expect(/\bblue\b/i.test('evergreen blueprint')).toBe(false)
   })
 })
 
-describe('warm-palette accessibility contracts (WCAG AA, Refs #32 fix round 1)', () => {
-  it('keeps every normative component pair at or above 4.5:1', () => {
-    expectAA(INK, ACCENT_SOFT, 'tag-conf-high (DESIGN.md/prototype/SwiftUI)')
-    expectAA(LOW, ENERGY_SOFT, 'tag-conf-low')
-    expectAA(INK, ACCENT, 'btn-confirm label')
-    expectAA(INK, ACCENT_SOFT, 'btn-confirm hover')
+describe('V1 semantic contracts (Refs #32 approval comment)', () => {
+  it('keeps every normative component text pair at or above 4.5:1', () => {
+    expectAA(V1.forest, V1.leafSoft, 'high-confidence/stable tag (forest on leafSoft)')
+    expectAA(V1.review, V1.accentSoft, 'needs-review/low-confidence tag (review on accentSoft)')
+    expectAA(V1.ink, V1.accent, 'btn-confirm label (ink on accent, never white)')
+    expectAA(V1.ink, V1.accentSoft, 'btn-confirm hover (ink on accentSoft)')
+    expectAA(V1.ink, V1.bg, 'primary text on bg')
+    expectAA(V1.over, V1.bg, 'over-goal status text')
   })
 
-  it('renders the SwiftUI high-confidence tag with ink on accentSoft', () => {
+  it('renders the SwiftUI high-confidence tag with forest on leafSoft', () => {
     const highCase = views.slice(views.indexOf('case .high:'), views.indexOf('case .low:'))
-    expect(highCase).toContain('morselTag(foreground: Color.morselInk, background: Color.morselAccentSoft)')
-    expect(highCase, 'high-confidence tag must not use the accent as text color').not.toContain('foreground: Color.morselAccent')
-    // The resolved pair must itself pass AA.
-    expectAA(INK, ACCENT_SOFT, 'SwiftUI high-confidence tag resolved pair')
+    expect(highCase).toContain('morselTag(foreground: Color.morselForest, background: Color.morselLeafSoft)')
+    expect(highCase, 'high-confidence tag must not use ink as its text color anymore')
+      .not.toContain('foreground: Color.morselInk')
+    expectAA(V1.forest, V1.leafSoft, 'SwiftUI high-confidence tag resolved pair')
+  })
+
+  it('renders the SwiftUI low-confidence/review tag with review on accentSoft', () => {
+    const lowCase = views.slice(views.indexOf('case .low:'), views.indexOf('case .missing:'))
+    expect(lowCase).toContain('morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)')
+    expectAA(V1.review, V1.accentSoft, 'SwiftUI low-confidence tag resolved pair')
   })
 
   it('renders the SwiftUI primary button with ink on accent (never white)', () => {
@@ -280,33 +309,36 @@ describe('warm-palette accessibility contracts (WCAG AA, Refs #32 fix round 1)',
     expect(style).toContain('.background(Color.morselAccent')
     expect(style, 'primary button must not use a white label').not.toContain('foregroundStyle(Color.morselSurface)')
     expect(style, 'primary button must not hard-code white').not.toMatch(/\.white|#FFFFFF|#fff/i)
-    expectAA(INK, ACCENT, 'SwiftUI primary button resolved pair')
+    expectAA(V1.ink, V1.accent, 'SwiftUI primary button resolved pair')
   })
 
-  it('specifies the accessible confirm component in DESIGN.md', () => {
+  it('specifies the accessible confirm and tag components in DESIGN.md', () => {
     const block = designMd.slice(designMd.indexOf('  btn-confirm:'), designMd.indexOf('  btn-ghost:'))
     expect(block).toContain('backgroundColor: "{colors.accent}"')
     expect(block).toContain('textColor: "{colors.ink}"')
     expect(block, 'btn-confirm must not use a white label').not.toMatch(/#FFFFFF|#fff/i)
-    expect(designMd).toContain('`tag-conf-high` (ink on accentSoft)')
+    expect(designMd).toContain('`tag-conf-high` (forest on leafSoft)')
+    expect(designMd).toContain('`tag-conf-low` (review on accentSoft)')
   })
 
-  it('renders prototype high/low tags and confirm states with AA pairs', () => {
+  it('renders prototype high/low tags and confirm states with V1 AA pairs', () => {
     const hi = prototypeRule('.tag.conf.hi')
-    expect(hi.color).toBe('#20231e')
-    expect(hi.background).toBe('#f6e8d8')
+    expect(hi.color).toBe('#2f654b')
+    expect(hi.background).toBe('#e1e9d7')
     expectAA(hi.color, hi.background, 'prototype tag.conf.hi')
 
     const lo = prototypeRule('.tag.conf.lo')
+    expect(lo.color).toBe('#7a3d2b')
+    expect(lo.background).toBe('#fbe1c9')
     expectAA(lo.color, lo.background, 'prototype tag.conf.lo')
 
     const confirm = prototypeRule('.btn.confirm')
-    expect(confirm.color).toBe('#20231e')
-    expect(confirm.background).toBe('#f08a2e')
+    expect(confirm.color).toBe('#2a261f')
+    expect(confirm.background).toBe('#e66a2c')
     expectAA(confirm.color, confirm.background, 'prototype .btn.confirm')
 
     const hover = prototypeRule('.btn.confirm:hover')
-    expect(hover.background).toBe('#f6e8d8')
+    expect(hover.background).toBe('#fbe1c9')
     expect(hover.color, 'hover must not keep a white label on cream').not.toMatch(/#fff/i)
     expectAA(hover.color, hover.background, 'prototype .btn.confirm:hover')
   })
