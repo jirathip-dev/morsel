@@ -3,38 +3,35 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// Regression probe for issue #32: future native-testflight archives must
+// Regression probe for issue #32 (r2): future native-testflight archives must
 // receive the public Supabase endpoint and anon key from repository secrets
-// without committing values or printing them. The archived app currently
-// fails closed because the generated Info.plist carries empty configuration
-// values.
+// without committing values or printing them, and without leaking the Morsel
+// Info.plist template into SPM resource bundles or putting values on
+// xcodebuild/Fastlane command lines.
 //
-// Xcode silently drops arbitrary INFOPLIST_KEY_<custom> build settings under
-// GENERATE_INFOPLIST_FILE=YES, so the lane delivers the three runtime keys via
-// an explicit Info.plist template (fastlane/Morsel-Info.plist) whose
-// $(MORSEL_*) placeholders are substituted from plain build settings passed
-// through gym xcargs. This parses the workflow, the Fastfile, and the template
-// (the repo's existing Fastfile contract probe, app/version-metadata.test.ts,
-// does the same for the generated Xcode project) and asserts the wiring,
-// fail-fast validation, MCP URL derivation, shell-safe escaping, names-only
-// diagnostics, and the template delivery route.
-//
-// The Fastfile's runtime behavior (raising on missing/empty values, escaping
-// shell metacharacters, never leaking the anon key) is additionally proven by
-// executable Ruby tests at fastlane/supabase_xcargs.test.rb, and the built
-// product is asserted against a real unsigned Xcode build by
-// fastlane/built-plist.test.rb.
+// Delivery contract asserted here (source-level; the built artifact is proven
+// by fastlane/built-plist.test.rb and the runtime helpers by
+// fastlane/supabase_xcargs.test.rb):
+//   - app/project.yml scopes INFOPLIST_FILE to the Morsel app target only,
+//     keeping the three Supabase config defaults empty;
+//   - fastlane/Morsel-Info.plist is the committed no-value template carrying
+//     $(MORSEL_*) placeholders plus all project-level keys;
+//   - the Fastfile populates that template FILE transiently
+//     (with_morsel_supabase_plist) and restores it in an ensure block, so
+//     values never appear in gym xcargs / xcodebuild command lines.
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const workflowPath = join(repoRoot, '.github', 'workflows', 'native-testflight.yml')
 const fastfilePath = join(repoRoot, 'fastlane', 'Fastfile')
 const templatePath = join(repoRoot, 'fastlane', 'Morsel-Info.plist')
+const projectYmlPath = join(repoRoot, 'app', 'project.yml')
 
-describe('native-testflight Supabase configuration injection (issue #32)', () => {
+describe('native-testflight Supabase configuration injection (issue #32, r2)', () => {
   const workflow = readFileSync(workflowPath, 'utf8')
   const fastfile = readFileSync(fastfilePath, 'utf8')
   const template = readFileSync(templatePath, 'utf8')
-  const helperIndex = fastfile.indexOf('def morsel_supabase_xcargs')
+  const projectYml = readFileSync(projectYmlPath, 'utf8')
+  const helperIndex = fastfile.indexOf('def morsel_supabase_values')
   const gymIndex = fastfile.indexOf('gym(')
 
   it('passes the repository SUPABASE secrets into the Fastlane step environment', () => {
@@ -45,17 +42,48 @@ describe('native-testflight Supabase configuration injection (issue #32)', () =>
     expect(step).toContain('SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}')
   })
 
-  it('validates both SUPABASE values before gym and fails with names-only diagnostics', () => {
-    // The helper must be defined before the lane and the lane must compute the
-    // xcargs string (which validates) before the gym( call.
+  it('scopes INFOPLIST_FILE to the Morsel app target and keeps config defaults empty', () => {
+    // The Morsel target carries the explicit template; the three Supabase
+    // defaults stay empty (never committed values).
+    expect(projectYml).toMatch(/INFOPLIST_FILE: \.\.\/fastlane\/Morsel-Info\.plist/)
+    expect(projectYml).toMatch(/INFOPLIST_KEY_MorselSupabaseURL: ""/)
+    expect(projectYml).toMatch(/INFOPLIST_KEY_MorselSupabaseAnonKey: ""/)
+    expect(projectYml).toMatch(/INFOPLIST_KEY_MORSEL_MCP_URL: ""/)
+    // No GENERATE_INFOPLIST_FILE on the app target (explicit template wins);
+    // MorselTests keeps GENERATE for its own generated plist.
+    const morselTarget = projectYml.slice(projectYml.indexOf('  Morsel:'), projectYml.indexOf('  MorselTests:'))
+    const testsTarget = projectYml.slice(projectYml.indexOf('  MorselTests:'))
+    expect(morselTarget).not.toMatch(/GENERATE_INFOPLIST_FILE/)
+    expect(morselTarget).toMatch(/INFOPLIST_FILE:/)
+    expect(testsTarget).toMatch(/GENERATE_INFOPLIST_FILE: YES/)
+  })
+
+  it('keeps the template a no-value superset of the generated plist contract', () => {
+    expect(template).toContain('$(INFOPLIST_KEY_CFBundleDisplayName)')
+    expect(template).toContain('$(INFOPLIST_KEY_NSCameraUsageDescription)')
+    expect(template).toContain('$(INFOPLIST_KEY_NSHealthShareUsageDescription)')
+    expect(template).toContain('$(INFOPLIST_KEY_NSHealthUpdateUsageDescription)')
+    expect(template).toContain('$(INFOPLIST_KEY_NSPhotoLibraryUsageDescription)')
+    expect(template).toContain('$(MARKETING_VERSION)')
+    expect(template).toContain('$(CURRENT_PROJECT_VERSION)')
+    expect(template).toContain('$(PRODUCT_BUNDLE_IDENTIFIER)')
+    expect(template).toContain('<key>ITSAppUsesNonExemptEncryption</key>')
+    expect(template).toContain('<key>UIApplicationSceneManifest</key>')
+    // The three runtime keys are placeholders — no committed values.
+    expect(template).toContain('<key>MorselSupabaseURL</key>')
+    expect(template).toContain('$(MORSEL_SUPABASE_URL)')
+    expect(template).toContain('<key>MorselSupabaseAnonKey</key>')
+    expect(template).toContain('$(MORSEL_SUPABASE_ANON_KEY)')
+    expect(template).toContain('<key>MORSEL_MCP_URL</key>')
+    expect(template).toContain('$(MORSEL_MCP_URL)')
+  })
+
+  it('validates both SUPABASE values before gym with names-only diagnostics', () => {
     expect(helperIndex).toBeGreaterThan(-1)
     expect(gymIndex).toBeGreaterThan(helperIndex)
-    // The validation reads both env vars, treating missing/empty as failure.
     expect(fastfile).toMatch(/ENV\.fetch\("SUPABASE_URL",\s*""\)/)
     expect(fastfile).toMatch(/ENV\.fetch\("SUPABASE_ANON_KEY",\s*""\)/)
     expect(fastfile).toContain('.empty?')
-    // Diagnostics mention only the names; the secret values are never
-    // interpolated or echoed.
     const diagnostic = fastfile.slice(helperIndex, gymIndex)
     expect(diagnostic).toMatch(/UI\.user_error!\(/)
     expect(diagnostic).toContain('SUPABASE_URL')
@@ -67,54 +95,35 @@ describe('native-testflight Supabase configuration injection (issue #32)', () =>
 
   it('derives MORSEL_MCP_URL from SUPABASE_URL with a single slash separator', () => {
     expect(fastfile).toContain('/functions/v1/mcp')
-    // Trailing-slash normalization avoids an accidental double slash.
     expect(fastfile).toContain('/+\\z')
   })
 
-  it('delivers all three runtime keys through the Info.plist template and gym xcargs', () => {
-    const helper = fastfile.slice(helperIndex, gymIndex)
-    // The lane must pass the committed template as INFOPLIST_FILE and the
-    // three plain MORSEL_* build settings (not INFOPLIST_KEY_<custom>, which
-    // Xcode silently drops under GENERATE_INFOPLIST_FILE=YES).
-    expect(helper).toContain('"INFOPLIST_FILE"')
-    expect(helper).toContain('Morsel-Info.plist')
-    expect(helper).toContain('"MORSEL_SUPABASE_URL"')
-    expect(helper).toContain('"MORSEL_SUPABASE_ANON_KEY"')
-    expect(helper).toContain('"MORSEL_MCP_URL"')
-    expect(helper).not.toContain('INFOPLIST_KEY_MorselSupabaseURL')
-    expect(helper).not.toContain('INFOPLIST_KEY_MorselSupabaseAnonKey')
-    expect(helper).not.toContain('INFOPLIST_KEY_MORSEL_MCP_URL')
-    // CURRENT_PROJECT_VERSION is preserved and the full string reaches gym.
-    expect(helper).toContain('CURRENT_PROJECT_VERSION=#{build}')
-    expect(fastfile.slice(gymIndex)).toMatch(/xcargs:\s*morsel_supabase_xcargs\(build\)/)
+  it('populates the template file transiently and restores it in an ensure block', () => {
+    expect(fastfile).toContain('def with_morsel_supabase_plist')
+    expect(fastfile).toContain('File.binread(MORSEL_INFO_PLIST)')
+    expect(fastfile).toContain('File.binwrite(MORSEL_INFO_PLIST, populated)')
+    expect(fastfile).toContain('ensure')
+    expect(fastfile).toContain('File.binwrite(MORSEL_INFO_PLIST, template) if template')
+    expect(fastfile).toContain('.gsub("$(MORSEL_SUPABASE_URL)")')
+    expect(fastfile).toContain('.gsub("$(MORSEL_SUPABASE_ANON_KEY)")')
+    expect(fastfile).toContain('.gsub("$(MORSEL_MCP_URL)")')
   })
 
-  it('keeps the template a strict superset of the generated plist contract', () => {
-    // All project-level keys that previously reached the built plist through
-    // allowlisted INFOPLIST_KEY_* settings must still be present in the
-    // template, with build-setting references preserved.
-    expect(template).toContain('$(INFOPLIST_KEY_CFBundleDisplayName)')
-    expect(template).toContain('$(INFOPLIST_KEY_NSCameraUsageDescription)')
-    expect(template).toContain('$(INFOPLIST_KEY_NSHealthShareUsageDescription)')
-    expect(template).toContain('$(INFOPLIST_KEY_NSHealthUpdateUsageDescription)')
-    expect(template).toContain('$(INFOPLIST_KEY_NSPhotoLibraryUsageDescription)')
-    expect(template).toContain('$(MARKETING_VERSION)')
-    expect(template).toContain('$(CURRENT_PROJECT_VERSION)')
-    expect(template).toContain('$(PRODUCT_BUNDLE_IDENTIFIER)')
-    expect(template).toContain('<key>ITSAppUsesNonExemptEncryption</key>')
-    expect(template).toContain('<key>UIApplicationSceneManifest</key>')
-    // The three runtime keys are carried as $(MORSEL_*) placeholders — no
-    // committed values, matching app/project.yml's checked-in empty defaults.
-    expect(template).toContain('<key>MorselSupabaseURL</key>')
-    expect(template).toContain('$(MORSEL_SUPABASE_URL)')
-    expect(template).toContain('<key>MorselSupabaseAnonKey</key>')
-    expect(template).toContain('$(MORSEL_SUPABASE_ANON_KEY)')
-    expect(template).toContain('<key>MORSEL_MCP_URL</key>')
-    expect(template).toContain('$(MORSEL_MCP_URL)')
-  })
-
-  it('shell-escapes values with Shellwords.escape before concatenation', () => {
-    expect(fastfile).toContain('require "shellwords"')
-    expect(fastfile).toContain('Shellwords.escape(')
+  it('never places Supabase values on the gym command line', () => {
+    // gym receives only CURRENT_PROJECT_VERSION; the old INFOPLIST_FILE /
+    // MORSEL_* command-line delivery is gone entirely.
+    const gymCall = fastfile.slice(gymIndex)
+    expect(gymCall).toMatch(/xcargs:\s*"CURRENT_PROJECT_VERSION=#\{build\}"/)
+    expect(gymCall).not.toContain('INFOPLIST_FILE=')
+    expect(gymCall).not.toContain('MORSEL_SUPABASE_URL')
+    expect(gymCall).not.toContain('MORSEL_SUPABASE_ANON_KEY')
+    expect(gymCall).not.toContain('MORSEL_MCP_URL')
+    expect(gymCall).not.toContain('Shellwords')
+    // The lane wraps gym in the ephemeral-plist helper (value delivery): the
+    // wrapper opens before the gym call and closes after its argument list.
+    const wrapper = fastfile.slice(Math.max(0, gymIndex - 120), gymIndex)
+    expect(wrapper).toContain('with_morsel_supabase_plist do')
+    const close = fastfile.slice(gymIndex + gymCall.indexOf(')'))
+    expect(close).toMatch(/\n\s*end\n\s*end\n/)
   })
 })

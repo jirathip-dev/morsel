@@ -1,20 +1,23 @@
 require "base64"
 require "fileutils"
-require "shellwords"
 
 APP_IDENTIFIER = "com.jirathip.morsel".freeze
 
-# Build shell-safe xcode build-setting overrides for the Supabase TestFlight
-# configuration. Fails fast before gym with names-only diagnostics when the
-# repository secrets are missing or empty; secret values are never printed.
-#
-# Delivery: Xcode silently drops arbitrary INFOPLIST_KEY_<custom> build
-# settings under GENERATE_INFOPLIST_FILE=YES, so the three runtime keys are
-# carried by an explicit Info.plist template (fastlane/Morsel-Info.plist)
-# whose $(MORSEL_*) placeholders are substituted from plain build settings.
-# The template mirrors the project's generated plist exactly, plus the three
-# custom keys, and is used only by this lane via INFOPLIST_FILE.
-def morsel_supabase_xcargs(build)
+# Info.plist source for the Morsel app target (app/project.yml sets the
+# target-scoped INFOPLIST_FILE to this committed, no-value template). The lane
+# temporarily populates its $(MORSEL_*) placeholders and restores the template
+# in an ensure block, so values live only in the plist FILE — never in
+# xcodebuild/Fastlane command lines or logs.
+MORSEL_INFO_PLIST = File.expand_path("Morsel-Info.plist", __dir__).freeze
+
+# Escape a value for embedding as a literal string in an XML Info.plist.
+def morsel_xml_escape(value)
+  value.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;").gsub('"', "&quot;")
+end
+
+# Read and validate the Supabase TestFlight configuration. Fails fast with
+# names-only diagnostics when a value is missing or empty; never prints values.
+def morsel_supabase_values
   supabase_url = ENV.fetch("SUPABASE_URL", "").strip
   anon_key = ENV.fetch("SUPABASE_ANON_KEY", "").strip
   missing = []
@@ -27,14 +30,23 @@ def morsel_supabase_xcargs(build)
     )
   end
   mcp_url = "#{supabase_url.sub(%r{/+\z}, '')}/functions/v1/mcp"
-  info_plist = File.expand_path("Morsel-Info.plist", __dir__)
-  overrides = {
-    "INFOPLIST_FILE" => info_plist,
-    "MORSEL_SUPABASE_URL" => supabase_url,
-    "MORSEL_SUPABASE_ANON_KEY" => anon_key,
-    "MORSEL_MCP_URL" => mcp_url
-  }.map { |key, value| "#{key}=#{Shellwords.escape(value)}" }.join(" ")
-  "CURRENT_PROJECT_VERSION=#{build} #{overrides}"
+  { url: supabase_url, anon_key: anon_key, mcp_url: mcp_url }
+end
+
+# Yield with the Morsel Info.plist source populated with the Supabase values,
+# then restore the committed no-value template in all cases (success or
+# failure). The values reach the built product through the plist FILE only.
+def with_morsel_supabase_plist
+  values = morsel_supabase_values
+  template = File.binread(MORSEL_INFO_PLIST)
+  populated = template
+    .gsub("$(MORSEL_SUPABASE_URL)") { morsel_xml_escape(values[:url]) }
+    .gsub("$(MORSEL_SUPABASE_ANON_KEY)") { morsel_xml_escape(values[:anon_key]) }
+    .gsub("$(MORSEL_MCP_URL)") { morsel_xml_escape(values[:mcp_url]) }
+  File.binwrite(MORSEL_INFO_PLIST, populated)
+  yield
+ensure
+  File.binwrite(MORSEL_INFO_PLIST, template) if template
 end
 
 default_platform(:ios)
@@ -118,19 +130,21 @@ platform :ios do
       "-authenticationKeyIssuerID #{ENV.fetch('ASC_ISSUER_ID')} " \
       "-authenticationKeyPath #{key_path} -allowProvisioningUpdates"
 
-    gym(
-      project: "app/Morsel.xcodeproj",
-      scheme: "Morsel",
-      configuration: "Release",
-      export_method: "app-store",
-      xcargs: morsel_supabase_xcargs(build),
-      export_xcargs: export_auth_args,
-      export_options: {
-        signingStyle: "manual",
-        signingCertificate: "Apple Distribution",
-        provisioningProfiles: { APP_IDENTIFIER => profile }
-      }
-    )
+    with_morsel_supabase_plist do
+      gym(
+        project: "app/Morsel.xcodeproj",
+        scheme: "Morsel",
+        configuration: "Release",
+        export_method: "app-store",
+        xcargs: "CURRENT_PROJECT_VERSION=#{build}",
+        export_xcargs: export_auth_args,
+        export_options: {
+          signingStyle: "manual",
+          signingCertificate: "Apple Distribution",
+          provisioningProfiles: { APP_IDENTIFIER => profile }
+        }
+      )
+    end
     upload_to_testflight(
       api_key: api_key, app_identifier: APP_IDENTIFIER,
       skip_waiting_for_build_processing: true

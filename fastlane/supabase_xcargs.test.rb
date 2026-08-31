@@ -3,17 +3,19 @@
 # Executable regression coverage for issue #32: native-testflight archives
 # must receive the public Supabase endpoint/anon key from repository secrets
 # with fail-fast, names-only diagnostics, a correctly derived MORSEL_MCP_URL,
-# and shell-safe quoting so values can never be executed or split.
+# and a no-log delivery (values live only in the Morsel Info.plist FILE, never
+# on xcodebuild/Fastlane command lines or logs, and the committed no-value
+# template is restored after success or failure).
 #
 # The real fastlane/Fastfile is loaded with minimal DSL stubs (lane bodies are
-# never executed) so the actual `morsel_supabase_xcargs` production helper is
-# what the tests exercise, not a copy.
+# never executed) so the actual production helpers are what the tests exercise.
 #
 # Run: mise exec ruby@4.0.5 -- ruby fastlane/supabase_xcargs.test.rb
 
 require "minitest/autorun"
 require "shellwords"
 require "tmpdir"
+require "open3"
 
 # Minimal fastlane DSL surface so Fastfile loads outside a lane run.
 module UI
@@ -44,15 +46,27 @@ def lane(*); end
 FASTFILE = File.expand_path("Fastfile", __dir__)
 load FASTFILE
 
-class SupabaseXcargsTest < Minitest::Test
+TEMPLATE_PATH = MORSEL_INFO_PLIST
+COMMITTED_TEMPLATE = File.binread(TEMPLATE_PATH)
+
+class SupabaseValuesTest < Minitest::Test
   def setup
     ENV.delete("SUPABASE_URL")
     ENV.delete("SUPABASE_ANON_KEY")
     UI.messages&.clear
+    restore_template!
+  end
+
+  def teardown
+    restore_template!
+  end
+
+  def restore_template!
+    File.binwrite(TEMPLATE_PATH, COMMITTED_TEMPLATE)
   end
 
   def test_missing_values_fail_before_gym_with_names_only_diagnostics
-    error = assert_raises(RuntimeError) { morsel_supabase_xcargs(1) }
+    error = assert_raises(RuntimeError) { morsel_supabase_values }
     assert_includes error.message, "SUPABASE_URL"
     assert_includes error.message, "SUPABASE_ANON_KEY"
   end
@@ -60,7 +74,7 @@ class SupabaseXcargsTest < Minitest::Test
   def test_empty_values_fail_before_gym
     ENV["SUPABASE_URL"] = ""
     ENV["SUPABASE_ANON_KEY"] = "   "
-    error = assert_raises(RuntimeError) { morsel_supabase_xcargs(1) }
+    error = assert_raises(RuntimeError) { morsel_supabase_values }
     assert_includes error.message, "SUPABASE_URL"
     assert_includes error.message, "SUPABASE_ANON_KEY"
   end
@@ -72,7 +86,7 @@ class SupabaseXcargsTest < Minitest::Test
     # list itself is what must name only the anon key.
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "   "
-    error = assert_raises(RuntimeError) { morsel_supabase_xcargs(1) }
+    error = assert_raises(RuntimeError) { morsel_supabase_values }
     assert_includes error.message, "SUPABASE_ANON_KEY"
     assert_includes error.message,
       "Missing required TestFlight configuration: SUPABASE_ANON_KEY."
@@ -83,72 +97,102 @@ class SupabaseXcargsTest < Minitest::Test
   def test_derives_mcp_url_from_supabase_url
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    xcargs = morsel_supabase_xcargs(3)
-    assert_includes xcargs,
-      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
+    values = morsel_supabase_values
+    assert_equal "https://abcd.supabase.co/functions/v1/mcp", values[:mcp_url]
   end
 
   def test_trailing_slash_does_not_create_double_slash
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co/"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    xcargs = morsel_supabase_xcargs(3)
-    assert_includes xcargs,
-      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
-    refute_includes xcargs, "//functions/v1/mcp"
+    assert_equal "https://abcd.supabase.co/functions/v1/mcp",
+      morsel_supabase_values[:mcp_url]
   end
 
-  def test_all_overrides_and_build_number_reach_xcargs
+  def test_template_stays_no_value_after_success
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    xcargs = morsel_supabase_xcargs(42)
-    assert_includes xcargs, "CURRENT_PROJECT_VERSION=42"
-    assert_includes xcargs, "INFOPLIST_FILE="
-    assert_includes xcargs, "MORSEL_SUPABASE_URL=https://abcd.supabase.co"
-    assert_includes xcargs, "MORSEL_SUPABASE_ANON_KEY=anon-key"
-    assert_includes xcargs,
-      "MORSEL_MCP_URL=https://abcd.supabase.co/functions/v1/mcp"
-    # The old INFOPLIST_KEY_<custom> delivery is gone: Xcode silently drops it.
-    refute_includes xcargs, "INFOPLIST_KEY_MorselSupabaseURL"
-    refute_includes xcargs, "INFOPLIST_KEY_MorselSupabaseAnonKey"
-    refute_includes xcargs, "INFOPLIST_KEY_MORSEL_MCP_URL"
+    with_morsel_supabase_plist { nil }
+    assert_equal COMMITTED_TEMPLATE, File.binread(TEMPLATE_PATH),
+      "template must be restored byte-identical after success"
+    refute_includes File.binread(TEMPLATE_PATH), "anon-key"
+    refute_includes File.binread(TEMPLATE_PATH), "abcd.supabase.co"
   end
 
-  def test_template_exists_and_points_at_committed_fixture
+  def test_template_stays_no_value_after_block_failure
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    xcargs = morsel_supabase_xcargs(1)
-    plist_path = xcargs[/INFOPLIST_FILE=(.+?)(?:\s|$)/, 1]
-    refute_nil plist_path, "INFOPLIST_FILE must point at the template"
-    assert File.exist?(plist_path), "template #{plist_path} must exist"
-    template = File.read(plist_path)
-    assert_includes template, "<key>MorselSupabaseURL</key>"
-    assert_includes template, "$(MORSEL_SUPABASE_URL)"
-    assert_includes template, "<key>MorselSupabaseAnonKey</key>"
-    assert_includes template, "$(MORSEL_SUPABASE_ANON_KEY)"
-    assert_includes template, "<key>MORSEL_MCP_URL</key>"
-    assert_includes template, "$(MORSEL_MCP_URL)"
+    assert_raises(RuntimeError) do
+      with_morsel_supabase_plist { raise "simulated gym failure" }
+    end
+    assert_equal COMMITTED_TEMPLATE, File.binread(TEMPLATE_PATH),
+      "template must be restored byte-identical after failure"
+    refute_includes File.binread(TEMPLATE_PATH), "anon-key"
   end
 
-  def test_shell_sensitive_values_are_quoted_not_executed_or_split
+  def test_values_reach_the_plist_file_during_yield_only
+    ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
+    ENV["SUPABASE_ANON_KEY"] = "anon-key"
+    seen = nil
+    with_morsel_supabase_plist { seen = File.binread(TEMPLATE_PATH) }
+    assert_includes seen, "<key>MorselSupabaseURL</key>"
+    assert_includes seen, "<string>https://abcd.supabase.co</string>"
+    assert_includes seen, "<string>anon-key</string>"
+    assert_includes seen,
+      "<string>https://abcd.supabase.co/functions/v1/mcp</string>"
+  end
+
+  def test_shell_sensitive_values_are_never_executed_or_split
     sentinel = File.join(Dir.tmpdir, "morsel-pwned-#{Process.pid}")
     File.delete(sentinel) if File.exist?(sentinel)
+    hostile = "abc def;$(touch #{sentinel})&`echo hi`\"q\"'q'<&>"
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
-    ENV["SUPABASE_ANON_KEY"] = "abc def;$(touch #{sentinel})&`echo hi`\"q\"'q'"
-    xcargs = morsel_supabase_xcargs(1)
-    # Shellwords.split must recover exactly the same tokens: no splitting, no
-    # execution, no mangling of shell metacharacters.
-    tokens = Shellwords.split(xcargs)
-    assert_includes tokens,
-      "MORSEL_SUPABASE_ANON_KEY=abc def;$(touch #{sentinel})&`echo hi`\"q\"'q'"
-    refute File.exist?(sentinel), "shell metacharacters must not be executed"
-    refute_includes xcargs, "CURRENT_PROJECT_VERSION=1 abc", "value must be quoted, not split"
+    ENV["SUPABASE_ANON_KEY"] = hostile
+    seen = nil
+    round_tripped = nil
+    with_morsel_supabase_plist do
+      seen = File.binread(TEMPLATE_PATH)
+      round_tripped = plist_xml_value(TEMPLATE_PATH, "MorselSupabaseAnonKey")
+    end
+    refute File.exist?(sentinel), "values must never be executed"
+    # The hostile value must be embedded as an XML-escaped literal string.
+    assert_includes seen, "<string>abc def;$(touch #{sentinel})&amp;`echo hi`&quot;q&quot;'q'&lt;&amp;&gt;</string>"
+    # And it must round-trip through a plist/XML parser back to the exact
+    # value (REXML unescapes entities), proving it is data, not code.
+    assert_equal hostile, round_tripped
+    assert_equal COMMITTED_TEMPLATE, File.binread(TEMPLATE_PATH),
+      "template restored after yield"
+  ensure
+    File.delete(sentinel) if File.exist?(sentinel)
   end
 
   def test_diagnostics_never_reveal_the_anon_key
     ENV["SUPABASE_URL"] = ""
     ENV["SUPABASE_ANON_KEY"] = "super-secret-anon-value"
-    error = assert_raises(RuntimeError) { morsel_supabase_xcargs(1) }
+    error = assert_raises(RuntimeError) { morsel_supabase_values }
     refute_includes error.message, "super-secret-anon-value"
     refute(UI.messages&.any? { |m| m.include?("super-secret-anon-value") })
+  end
+
+  def test_production_code_has_no_value_echo_path
+    fastfile = File.read(FASTFILE)
+    # The lane's gym xcargs must carry no Supabase values at all.
+    refute_match(/xcargs:.*MORSEL_SUPABASE|xcconfig/, fastfile)
+    # No puts/UI.message of the values anywhere in the helpers.
+    refute_match(/UI\.message\([^)]*(url|anon|mcp)/, fastfile)
+    refute_match(/puts\s+.*(anon_key|supabase_url|values\[)/, fastfile)
+  end
+
+  private
+
+  # Read a top-level <key>...</key><string>...</string> value from the plist
+  # via stdlib REXML, which unescapes XML entities. Portable (no PlistBuddy).
+  def plist_xml_value(plist_path, key)
+    require "rexml/document"
+    doc = REXML::Document.new(File.read(plist_path))
+    nodes = doc.get_elements("//key")
+    idx = nodes.index { |node| node.text == key }
+    raise "key #{key} not found in plist" unless idx
+
+    nodes[idx].next_element&.text
   end
 end
