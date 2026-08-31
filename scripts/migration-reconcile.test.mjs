@@ -296,6 +296,78 @@ describe("credential sentinel redaction", () => {
     expect(error.message).not.toContain(sentinelToken);
   });
 
+  it("redacts a hostile string HTTP status containing ref/token/URL sentinels (run)", async () => {
+    const hostile = `${sentinelToken} ${sentinelRef} https://evil.invalid/body`;
+    const originalFetch = globalThis.fetch;
+    try {
+      globalThis.fetch = async () => ({ ok: false, status: hostile });
+      let caught;
+      try {
+        await run({ ref: sentinelRef, token: sentinelToken, root: repoRoot, queryImpl: null, log: quiet });
+      } catch (error) {
+        caught = error;
+      }
+      expect(caught.message).toMatch(/ledger existence failed: HTTP error/);
+      expect(caught.message).not.toContain(sentinelRef);
+      expect(caught.message).not.toContain(sentinelToken);
+      expect(caught.message).not.toContain("evil.invalid");
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  it("redacts a coercion-backed hostile HTTP status (toString/valueOf sentinels) without invoking it", async () => {
+    const coercive = {
+      toString() {
+        return `${sentinelToken}`;
+      },
+      valueOf() {
+        return `${sentinelRef}`;
+      },
+    };
+    const originalFetch = globalThis.fetch;
+    try {
+      globalThis.fetch = async () => ({ ok: false, status: coercive });
+      let caught;
+      try {
+        await run({ ref: sentinelRef, token: sentinelToken, root: repoRoot, queryImpl: null, log: quiet });
+      } catch (error) {
+        caught = error;
+      }
+      expect(caught.message).toMatch(/ledger existence failed: HTTP error/);
+      expect(caught.message).not.toContain(sentinelRef);
+      expect(caught.message).not.toContain(sentinelToken);
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
+
+  it("main() stderr contains no sentinels for a hostile HTTP status", async () => {
+    const originalFetch = globalThis.fetch;
+    const originalRef = process.env.SUPABASE_PROJECT_REF;
+    const originalToken = process.env.SUPABASE_ACCESS_TOKEN;
+    const originalError = console.error;
+    const stderr = [];
+    try {
+      process.env.SUPABASE_PROJECT_REF = sentinelRef;
+      process.env.SUPABASE_ACCESS_TOKEN = sentinelToken;
+      globalThis.fetch = async () => ({ ok: false, status: `${sentinelToken} ${sentinelRef} body` });
+      console.error = (message) => stderr.push(String(message));
+      const code = await main([]);
+      expect(code).toBe(1);
+      expect(stderr.join("\n")).not.toContain(sentinelRef);
+      expect(stderr.join("\n")).not.toContain(sentinelToken);
+      expect(stderr.join("\n")).toMatch(/HTTP error/);
+    } finally {
+      if (originalRef === undefined) delete process.env.SUPABASE_PROJECT_REF;
+      else process.env.SUPABASE_PROJECT_REF = originalRef;
+      if (originalToken === undefined) delete process.env.SUPABASE_ACCESS_TOKEN;
+      else process.env.SUPABASE_ACCESS_TOKEN = originalToken;
+      globalThis.fetch = originalFetch;
+      console.error = originalError;
+    }
+  });
+
   it("sanitizes invalid response-body failures", async () => {
     const error = await captureRunError(null, async () => ({
       ok: true,

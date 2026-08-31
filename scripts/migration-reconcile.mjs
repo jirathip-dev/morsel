@@ -204,6 +204,17 @@ function columnKey(table, column) {
   return `${table}.${column}`;
 }
 
+// Echo an HTTP status only when it is provably a plain integer in the valid
+// HTTP range; anything else (hostile string, object, coercion-backed getter
+// result, BigInt, etc.) yields null so the caller emits a fixed message. No
+// coercion (toString/valueOf) is ever invoked on the value.
+function safeHttpStatus(status) {
+  if (typeof status === "number" && Number.isInteger(status) && status >= 100 && status <= 599) {
+    return status;
+  }
+  return null;
+}
+
 async function managementQuery(sql, label, ref, token) {
   let response;
   try {
@@ -224,7 +235,10 @@ async function managementQuery(sql, label, ref, token) {
     throw new SanitizedError(`${label} failed: transport error`);
   }
   if (!response.ok) {
-    throw new SanitizedError(`${label} failed: HTTP ${response.status}`);
+    const status = safeHttpStatus(response.status);
+    throw new SanitizedError(
+      status === null ? `${label} failed: HTTP error` : `${label} failed: HTTP ${status}`,
+    );
   }
   let body;
   try {
