@@ -165,7 +165,7 @@ jobs:
             printf 'Expected unauthenticated canonical MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
             fail_bundle_probe
           fi
-          assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '*'
+          assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '\*'
           assert_response_header "$mcp_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
 
           mcp_alias_status="$(curl --silent --show-error --dump-header "$alias_headers_file" --output /dev/null \
@@ -175,13 +175,13 @@ jobs:
             printf 'Expected compatibility-alias MCP challenge status 401, got: %s\n' "$mcp_alias_status"
             fail_bundle_probe
           fi
-          assert_response_header "$alias_headers_file" 'access-control-allow-origin' '*'
+          assert_response_header "$alias_headers_file" 'access-control-allow-origin' '\*'
           assert_response_header "$alias_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
 
           curl --silent --show-error --dump-header "$preflight_headers_file" --output /dev/null \
             --request OPTIONS \
             http://127.0.0.1:54321/functions/v1/mcp
-          assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '*'
+          assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '\*'
 
           if ! protected_status="$(curl --silent --show-error --output "$protected_metadata_file" --write-out '%{http_code}' \
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp)"; then
