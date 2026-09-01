@@ -56,10 +56,14 @@ so inside the Edge runtime routes register under the function name `mcp` while
 publicly exposing the **canonical MCP transport at the function root**,
 `/functions/v1/mcp` (issue #57); the pre-#57 nested `/functions/v1/mcp/mcp`
 path remains as a compatibility alias and must not be published to clients.
-OAuth discovery and provider routes use the same canonical prefix:
+OAuth discovery and provider backend routes use the same canonical prefix:
 `/.well-known/oauth-authorization-server`, `/authorize`, `/token`, and `/register`
 are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
-is the canonical transport URL itself.
+is the canonical transport URL itself. The authorization-server metadata may
+advertise the separately hosted static browser page
+`https://morsel-authorize-ui.vercel.app/authorize` as its
+`authorization_endpoint`; this changes no other URL. The page posts directly to
+the Supabase `/authorize` route, which remains the OAuth backend and issuer.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use

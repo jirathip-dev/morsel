@@ -244,18 +244,21 @@ and `/.well-known/oauth-authorization-server`, all under the canonical base.
 The advertised OAuth `resource` is the canonical transport URL itself.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
-grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password
-sign-in page (the Edge Function serves it as `text/html`, but Supabase's hosted
-gateway rewrites GET `text/html` responses to `text/plain` on default
-`supabase.co` domains, so browser rendering requires a custom domain or an
-externally hosted form); `/token` requires PKCE with `code_challenge_method=S256` and rejects
-`plain`. Access tokens are the real Supabase Auth session access tokens, validated
-with `auth.getUser()` before issuance, so existing RLS policies continue to scope
-every tool call to the signed-in user. Client registration remains stateless,
-but `/authorize` stores a short-lived user-owned grant in the RLS-protected
-`oauth_authorization_grants` table. The client-facing code is an
-encrypted/signed envelope containing no Supabase token. `/token` atomically
-claims the grant through `claim_oauth_authorization_grant` before minting a
-Supabase access token, so replay fails across concurrent Edge Function
-isolates. Refresh-token wrappers remain encrypted/signed; no long-lived
-server-side OAuth sessions are used.
+grant, and refresh tokens. The Supabase `/authorize` route remains the OAuth
+backend and presents the Supabase Auth email/password sign-in flow. An Edge
+deployment may set `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` to the verified static
+HTTPS page `https://morsel-authorize-ui.vercel.app/authorize`; only the
+authorization-server metadata's `authorization_endpoint` changes. The static
+page posts credentials and the preserved OAuth parameters directly to the
+fixed Supabase `/authorize` route. When the setting is absent, metadata falls
+back to the Supabase `/authorize` URL. `/token` requires PKCE with
+`code_challenge_method=S256` and rejects `plain`. Access tokens are the real
+Supabase Auth session access tokens, validated with `auth.getUser()` before
+issuance, so existing RLS policies continue to scope every tool call to the
+signed-in user. Client registration remains stateless, but `/authorize` stores
+a short-lived user-owned grant in the RLS-protected `oauth_authorization_grants`
+table. The client-facing code is an encrypted/signed envelope containing no
+Supabase token. `/token` atomically claims the grant through
+`claim_oauth_authorization_grant` before minting a Supabase access token, so
+replay fails across concurrent Edge Function isolates. Refresh-token wrappers
+remain encrypted/signed; no long-lived server-side OAuth sessions are used.

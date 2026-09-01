@@ -51,17 +51,23 @@ function createTestGrantStore(): OAuthGrantStore {
   }
 }
 
-function createTestApp(basePath?: string, grantStore = createTestGrantStore(), publicBaseUrl?: string) {
+function createTestApp(
+  basePath?: string,
+  grantStore = createTestGrantStore(),
+  publicBaseUrl?: string,
+  authorizationEndpoint?: string,
+) {
+  const oauthOptions = Object.assign({
+    grantStore,
+    publicBaseUrl,
+    signingKey: 'oauth-test-signing-key',
+    service: oauthService,
+  }, authorizationEndpoint === undefined ? {} : { authorizationEndpoint })
   return createMorselApp({
     basePath,
     authenticate: () => Promise.reject(new Error('not reached')),
     repositoryFactory: () => new InMemoryRepository(),
-    oauth: {
-      grantStore,
-      publicBaseUrl,
-      signingKey: 'oauth-test-signing-key',
-      service: oauthService,
-    },
+    oauth: oauthOptions,
   })
 }
 
@@ -364,6 +370,84 @@ describe('OAuth discovery and MCP authentication', () => {
     expect(challengeResponse.headers.get('www-authenticate')).toBe(
       'Bearer resource_metadata="https://connector.example/functions/v1/mcp/.well-known/oauth-protected-resource/mcp"',
     )
+  })
+
+  it('advertises only the configured external authorization endpoint', async () => {
+    const canonical = 'https://connector.example/functions/v1/mcp'
+    const externalAuthorizationEndpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
+    const app = createTestApp('/mcp', createTestGrantStore(), canonical, externalAuthorizationEndpoint)
+    const [authorizationServer, protectedResource] = await Promise.all([
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server')),
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-protected-resource/mcp')),
+    ])
+
+    expect(authorizationServer.status).toBe(200)
+    expect(await authorizationServer.json()).toMatchObject({
+      issuer: canonical,
+      authorization_endpoint: externalAuthorizationEndpoint,
+      token_endpoint: `${canonical}/token`,
+      registration_endpoint: `${canonical}/register`,
+    })
+    expect(protectedResource.status).toBe(200)
+    expect(await protectedResource.json()).toMatchObject({
+      resource: canonical,
+      authorization_servers: [canonical],
+    })
+
+    const challengeResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(challengeResponse.status).toBe(401)
+    expect(challengeResponse.headers.get('www-authenticate')).toBe(
+      `Bearer resource_metadata="${canonical}/.well-known/oauth-protected-resource/mcp"`,
+    )
+
+    const registrationResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: ['https://client.example/callback'] }),
+    }))
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+    const authorizationResponse = await app.fetch(new Request(`http://supabase-edge-runtime:8081/mcp/authorize?${new URLSearchParams({
+      client_id: clientId,
+      code_challenge: 'prefix-challenge',
+      code_challenge_method: 'S256',
+      redirect_uri: 'https://client.example/callback',
+      response_type: 'code',
+    }).toString()}`))
+    expect(authorizationResponse.status).toBe(200)
+    expect(await authorizationResponse.text()).toContain(`<form method="post" action="${canonical}/authorize">`)
+  })
+
+  it('falls back to the Supabase authorization route when the external endpoint is unset', async () => {
+    const canonical = 'https://connector.example/functions/v1/mcp'
+    const app = createTestApp('/mcp', createTestGrantStore(), canonical)
+    const response = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server'))
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      issuer: canonical,
+      authorization_endpoint: `${canonical}/authorize`,
+      token_endpoint: `${canonical}/token`,
+      registration_endpoint: `${canonical}/register`,
+    })
+  })
+
+  it('fails closed for malformed external authorization endpoints', () => {
+    const malformedEndpoints = [
+      'http://morsel-authorize-ui.vercel.app/authorize',
+      '/authorize',
+      'https://morsel-authorize-ui.vercel.app/authorize?state=ambiguous',
+      'https://morsel-authorize-ui.vercel.app/authorize#fragment',
+      'https://user:password@morsel-authorize-ui.vercel.app/authorize',
+      'https://@morsel-authorize-ui.vercel.app/authorize',
+    ]
+
+    for (const authorizationEndpoint of malformedEndpoints) {
+      expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp', authorizationEndpoint)).toThrow(/authorization endpoint/)
+    }
   })
 
   it('derives metadata from the request when no public prefix is configured', async () => {

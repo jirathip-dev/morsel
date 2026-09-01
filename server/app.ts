@@ -146,11 +146,13 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const oauthAnonKey = oauthOptions.anonKey ?? (() => environmentValue(['SUPABASE_ANON_KEY', 'SUPABASE_PUBLISHABLE_KEY', 'NEXT_PUBLIC_SUPABASE_ANON_KEY']))
   const oauthSupabaseUrl = oauthOptions.supabaseUrl ?? (() => environmentValue(['SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_URL']))
   const oauthPublicBaseUrl = oauthOptions.publicBaseUrl
+  const oauthAuthorizationEndpoint = oauthOptions.authorizationEndpoint
   const oauthService = oauthOptions.service ?? createSupabaseOAuthService({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
   const oauthGrantStore = oauthOptions.grantStore ?? createSupabaseOAuthGrantStore({ anonKey: oauthAnonKey, supabaseUrl: oauthSupabaseUrl })
   registerOAuthRoutes(routes, {
     basePath: options.basePath,
     grantStore: oauthGrantStore,
+    authorizationEndpoint: oauthAuthorizationEndpoint,
     publicBaseUrl: oauthPublicBaseUrl,
     service: oauthService,
     signingKey: oauthOptions.signingKey ?? (() => environmentValue(['MORSEL_OAUTH_SIGNING_KEY'])),

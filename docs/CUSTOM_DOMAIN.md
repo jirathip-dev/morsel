@@ -5,13 +5,21 @@ configuration, or production deployment has been performed or authorized from
 the implementation lane. Activation requires explicit human approval after the
 checklist below is complete. Nothing in this document is live.
 
+The current #55 browser-authorization path does not require a Supabase custom
+domain: authorization-server metadata may advertise the verified static page
+`https://morsel-authorize-ui.vercel.app/authorize`, while the canonical MCP URL,
+issuer, OAuth backend routes, resource, and challenge URLs remain on the
+Supabase function base. This document describes a separate future custom-domain
+option only.
+
 ## Why a custom domain
 
 On the default `*.supabase.co` project URL, Supabase's hosted gateway rewrites
 certain responses (observed: GET `text/html` becomes `text/plain`, issue #55)
-and browser-rendered OAuth screens cannot be guaranteed. A project-level custom
-domain is Supabase's supported path to stable, browser-facing behavior for the
-OAuth `/authorize` form and a clean canonical MCP endpoint host:
+and browser-rendered server-hosted OAuth screens cannot be guaranteed. A
+project-level custom domain remains Supabase's supported future path to stable,
+browser-facing behavior for the server-hosted OAuth `/authorize` form and a
+clean canonical MCP endpoint host:
 
 ```
 https://<owned-custom-subdomain>/functions/v1/mcp

@@ -66,6 +66,7 @@ jobs:
           cp deno.json "$function_config"
           function_config_created=1
           printf 'MORSEL_OAUTH_SIGNING_KEY=ci-bundle-test-key\n' >"$oauth_env_file"
+          printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize\n' >>"$oauth_env_file"
 
           if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
             --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
@@ -124,6 +125,31 @@ jobs:
           if [ "$oauth_status" != 200 ]; then
             fail_bundle_probe
           fi
+
+          python3 - "$oauth_metadata_file" <<'PY'
+          import json
+          import sys
+          from urllib.parse import urlparse
+
+          with open(sys.argv[1]) as handle:
+              metadata = json.load(handle)
+
+          expected_authorization_endpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
+          supabase_base = metadata.get('issuer')
+          if not isinstance(supabase_base, str) or not urlparse(supabase_base).netloc:
+              raise SystemExit('OAuth metadata issuer must be an absolute Supabase base URL')
+          if metadata.get('authorization_endpoint') != expected_authorization_endpoint:
+              raise SystemExit('OAuth metadata authorization_endpoint must be the external static authorization page')
+          if urlparse(supabase_base).netloc == urlparse(expected_authorization_endpoint).netloc:
+              raise SystemExit('OAuth issuer must remain on the Supabase host')
+          for field, suffix in {
+              'token_endpoint': '/token',
+              'registration_endpoint': '/register',
+          }.items():
+              if metadata.get(field) != supabase_base.rstrip('/') + suffix:
+                  raise SystemExit('OAuth metadata field %s must remain on the Supabase issuer base' % field)
+          print('OAuth metadata split: external authorization endpoint; Supabase issuer/token/register')
+          PY
 
           # Browser-facing OAuth/MCP response contracts (issue #55): the Edge
           # runtime must expose CORS on discovery, serve the authorization
@@ -193,6 +219,18 @@ jobs:
           if [ "$protected_status" != 200 ]; then
             fail_bundle_probe
           fi
+          python3 - "$protected_metadata_file" "$oauth_metadata_file" <<'PY'
+          import json
+          import sys
+
+          with open(sys.argv[1]) as handle:
+              protected = json.load(handle)
+          with open(sys.argv[2]) as handle:
+              authorization_server = json.load(handle)
+          supabase_base = authorization_server.get('issuer')
+          if protected.get('resource') != supabase_base or protected.get('authorization_servers') != [supabase_base]:
+              raise SystemExit('protected-resource metadata must remain on the Supabase issuer base')
+          PY
 
           if ! registration_status="$(curl --silent --show-error --output "$registration_file" --write-out '%{http_code}' \
             --request POST \

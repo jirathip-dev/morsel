@@ -33,6 +33,9 @@ const app = createMorselApp({
     ),
   oauth: {
     anonKey: () => environmentValue("SUPABASE_ANON_KEY"),
+    // Optional public browser UI; all server-side OAuth/MCP routes stay on the
+    // Supabase function base. Unset keeps the local/default /authorize value.
+    authorizationEndpoint: Deno.env.get("MORSEL_OAUTH_AUTHORIZATION_ENDPOINT"),
     // The gateway strips /functions/v1 and supplies no forwarded prefix, so
     // derive the public base from the project URL for metadata/challenge URLs.
     publicBaseUrl: () =>

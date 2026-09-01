@@ -38,8 +38,12 @@ alias for clients provisioned before the route change; it serves the same
 transport and never advertises its own metadata, and nothing user-facing links
 to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-server`,
 `/.well-known/oauth-protected-resource/mcp`, `/authorize`, `/token`,
-`/register`) are published at the same canonical base, and the advertised
-OAuth `resource` is the canonical transport URL itself. The local Bun
+`/register`) remain on the same canonical Supabase base, and the advertised OAuth
+`resource` is the canonical transport URL itself. The authorization-server
+metadata may advertise the static HTTPS browser page
+`https://morsel-authorize-ui.vercel.app/authorize` only as
+`authorization_endpoint`; the page posts directly to the Supabase `/authorize`
+route. The local Bun
 entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
 server root `/` with `/mcp` as the alias.
 
@@ -81,6 +85,10 @@ server root `/` with `/mcp` as the alias.
   concurrent Edge Function isolates. Refresh-token wrappers remain
   encrypted/signed. `MORSEL_OAUTH_SIGNING_KEY` is required for registration
   and token exchange; set it as an Edge Function secret and never commit it.
+- `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is an optional public configuration
+  value for the external browser page. When unset, authorization-server
+  metadata advertises the Supabase `/authorize` route as usual; it never moves
+  the issuer, token, register, resource, challenge, or MCP URLs.
 - Deployments must apply the ordered SQL in `db/migrations/` and then
   `db/seed.sql`; migration `0004_store_assets.sql` provisions the private
   `food-images` bucket and its owner-scoped Storage policies, and migration
