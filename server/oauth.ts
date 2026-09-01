@@ -309,7 +309,22 @@ function resolveAuthorizationEndpoint(authorizationEndpoint: OAuthConfigValue | 
     return undefined
   }
   const raw = typeof authorizationEndpoint === 'function' ? authorizationEndpoint() : authorizationEndpoint
-  if (raw.trim() === '' || raw !== raw.trim() || raw.includes('?') || raw.includes('#')) {
+  let hasAsciiControlOrWhitespace = false
+  for (const character of raw) {
+    const codePoint = character.codePointAt(0) ?? 0
+    if (codePoint <= 0x20 || codePoint === 0x7f) {
+      hasAsciiControlOrWhitespace = true
+      break
+    }
+  }
+  if (
+    raw.trim() === '' ||
+    raw !== raw.trim() ||
+    hasAsciiControlOrWhitespace ||
+    raw.includes('\\') ||
+    raw.includes('?') ||
+    raw.includes('#')
+  ) {
     throw new OAuthProtocolError('server_error', 'authorization endpoint must be an absolute HTTPS URL with a stable path', 500)
   }
   let url: URL
@@ -321,7 +336,7 @@ function resolveAuthorizationEndpoint(authorizationEndpoint: OAuthConfigValue | 
   const authorityStart = raw.indexOf('://') + 3
   const authorityEnd = raw.indexOf('/', authorityStart)
   const authority = raw.slice(authorityStart, authorityEnd === -1 ? raw.length : authorityEnd)
-  if (url.protocol !== 'https:' || url.hostname === '' || authority.includes('@') || url.username !== '' || url.password !== '' || url.pathname === '/') {
+  if (url.href !== raw || url.protocol !== 'https:' || url.hostname === '' || authority.includes('@') || url.username !== '' || url.password !== '' || url.pathname === '/') {
     throw new OAuthProtocolError('server_error', 'authorization endpoint must be an absolute HTTPS URL with a stable path', 500)
   }
   return url.href

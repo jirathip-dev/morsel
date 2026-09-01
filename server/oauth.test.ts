@@ -382,12 +382,14 @@ describe('OAuth discovery and MCP authentication', () => {
     ])
 
     expect(authorizationServer.status).toBe(200)
-    expect(await authorizationServer.json()).toMatchObject({
+    const authorizationServerMetadata = await authorizationServer.json()
+    expect(authorizationServerMetadata).toMatchObject({
       issuer: canonical,
       authorization_endpoint: externalAuthorizationEndpoint,
       token_endpoint: `${canonical}/token`,
       registration_endpoint: `${canonical}/register`,
     })
+    expect(stringProperty(authorizationServerMetadata, 'authorization_endpoint')).toBe(externalAuthorizationEndpoint)
     expect(protectedResource.status).toBe(200)
     expect(await protectedResource.json()).toMatchObject({
       resource: canonical,
@@ -435,19 +437,27 @@ describe('OAuth discovery and MCP authentication', () => {
     })
   })
 
-  it('fails closed for malformed external authorization endpoints', () => {
-    const malformedEndpoints = [
-      'http://morsel-authorize-ui.vercel.app/authorize',
-      '/authorize',
-      'https://morsel-authorize-ui.vercel.app/authorize?state=ambiguous',
-      'https://morsel-authorize-ui.vercel.app/authorize#fragment',
-      'https://user:password@morsel-authorize-ui.vercel.app/authorize',
-      'https://@morsel-authorize-ui.vercel.app/authorize',
-    ]
-
-    for (const authorizationEndpoint of malformedEndpoints) {
-      expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp', authorizationEndpoint)).toThrow(/authorization endpoint/)
-    }
+  it.each([
+    ['blank', ''],
+    ['leading whitespace', ' https://morsel-authorize-ui.vercel.app/authorize'],
+    ['trailing whitespace', 'https://morsel-authorize-ui.vercel.app/authorize '],
+    ['non-HTTPS', 'http://morsel-authorize-ui.vercel.app/authorize'],
+    ['relative', '/authorize'],
+    ['query', 'https://morsel-authorize-ui.vercel.app/authorize?state=ambiguous'],
+    ['fragment', 'https://morsel-authorize-ui.vercel.app/authorize#fragment'],
+    ['userinfo', 'https://user:password@morsel-authorize-ui.vercel.app/authorize'],
+    ['empty userinfo', 'https://@morsel-authorize-ui.vercel.app/authorize'],
+    ['extra-slash scheme', 'https:////morsel-authorize-ui.vercel.app/authorize'],
+    ['backslash', 'https://morsel-authorize-ui.vercel.app\\authorize'],
+    ['embedded tab', 'https://morsel-authorize-ui.vercel.app/auth\\torize'],
+    ['embedded newline', 'https://morsel-authorize-ui.vercel.app/auth\\norize'],
+    ['embedded ASCII control', 'https://morsel-authorize-ui.vercel.app/auth\\u0000orize'],
+    ['embedded whitespace', 'https://morsel-authorize-ui.vercel.app/auth orize'],
+    ['explicit default port', 'https://morsel-authorize-ui.vercel.app:443/authorize'],
+    ['dot segment', 'https://morsel-authorize-ui.vercel.app/a/../authorize'],
+    ['canonical host case', 'https://MORSEL-AUTHORIZE-UI.VERCEL.APP/authorize'],
+  ] as const)('fails closed for malformed external authorization endpoint: %s', (_label, authorizationEndpoint) => {
+    expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp', authorizationEndpoint)).toThrow(/authorization endpoint/)
   })
 
   it('derives metadata from the request when no public prefix is configured', async () => {
