@@ -1,0 +1,162 @@
+:root {
+  color: #2a261f;
+  background: #fff7e8;
+  font-family: ui-rounded, "SF Pro Rounded", "Avenir Next", system-ui, sans-serif;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 20rem;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 10%, #fbe1c9 0 7rem, transparent 7.1rem),
+    radial-gradient(circle at 90% 88%, #e1e9d7 0 9rem, transparent 9.1rem),
+    #fff7e8;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.authorization-shell {
+  display: grid;
+  min-height: 100vh;
+  padding: 2rem 1.25rem;
+  place-items: center;
+}
+
+.authorization-card {
+  width: min(100%, 28rem);
+  padding: 2rem;
+  border: 1px solid #e3d2ba;
+  border-radius: 1.5rem;
+  background: #fffcf5;
+  box-shadow: 0 1.25rem 3rem rgb(101 90 75 / 14%);
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #2f654b;
+  font-size: 1rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.7rem 0.7rem 0.7rem 0.25rem;
+  background: #e66a2c;
+  color: #fffcf5;
+  font-size: 0.95rem;
+  place-items: center;
+  transform: rotate(-4deg);
+}
+
+.intro {
+  margin: 2rem 0 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #a5750b;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.85rem, 7vw, 2.45rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.lede {
+  margin: 0.9rem 0 0;
+  color: #655a4b;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+label {
+  margin-top: 0.35rem;
+  color: #655a4b;
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #e3d2ba;
+  border-radius: 0.8rem;
+  outline: none;
+  background: #fff7e8;
+  color: #2a261f;
+}
+
+input:focus {
+  border-color: #e66a2c;
+  box-shadow: 0 0 0 3px #fbe1c9;
+}
+
+button {
+  min-height: 3.15rem;
+  margin-top: 0.8rem;
+  border: 0;
+  border-radius: 0.9rem;
+  background: #e66a2c;
+  color: #fffcf5;
+  cursor: pointer;
+  font-weight: 800;
+}
+
+button:hover {
+  background: #b94738;
+}
+
+button:focus-visible {
+  outline: 3px solid #2f654b;
+  outline-offset: 3px;
+}
+
+.privacy-note {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.4rem 0 0;
+  color: #756955;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.privacy-note span {
+  color: #5e7e57;
+}
+
+@media (max-width: 30rem) {
+  .authorization-shell {
+    padding: 1rem;
+  }
+
+  .authorization-card {
+    padding: 1.5rem;
+    border-radius: 1.15rem;
+  }
+}
