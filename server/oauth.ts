@@ -404,7 +404,9 @@ function authorizationServerMetadata(request: Request, basePath?: string, public
 function protectedResourceMetadata(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Record<string, unknown> {
   const baseUrl = oauthBaseUrl(request, basePath, publicBaseUrl)
   return {
-    resource: appendPath(baseUrl, 'mcp').href,
+    // The canonical MCP resource is the transport URL itself: the function
+    // root (…/functions/v1/mcp), not the legacy nested /mcp/mcp path.
+    resource: baseUrlString(baseUrl),
     authorization_servers: [baseUrlString(baseUrl)],
     scopes_supported: ['mcp'],
     resource_name: 'Morsel MCP',

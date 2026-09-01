@@ -1,5 +1,5 @@
 import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js'
-import { Hono } from 'hono'
+import { Hono, type Context } from 'hono'
 import { MorselError } from './errors.ts'
 import { bearerToken, createSupabaseAuthenticator, type Authenticate, type AuthenticatedUser } from './auth.ts'
 import { MorselService } from './service.ts'
@@ -190,7 +190,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
 
   // Only the preflight handshake: real MCP requests still go through the same
   // bearer-token authentication as before.
-  routes.options('/mcp', () => new Response(null, {
+  const mcpPreflight = () => new Response(null, {
     status: 204,
     headers: {
       'access-control-allow-headers': 'authorization, content-type, mcp-session-id',
@@ -198,9 +198,9 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
       'access-control-allow-origin': '*',
       'access-control-max-age': '86400',
     },
-  }))
+  })
 
-  routes.all('/mcp', async (context) => {
+  const handleMcpTransport = async (context: Context): Promise<Response> => {
     try {
       pruneSessions(Date.now())
       const token = bearerToken(context.req.header('authorization'))
@@ -258,7 +258,29 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     } catch (error) {
       return httpError(error, context.req.raw, options.basePath, oauthPublicBaseUrl)
     }
-  })
+  }
+
+  // Canonical MCP Streamable HTTP transport: the Edge Function ROOT. With the
+  // Edge basePath ("/mcp"; the hosted gateway strips /functions/v1) the root
+  // IS the basePath itself, so the canonical route is registered on the raw
+  // app at the runtime prefix. Without a basePath (local Bun entrypoint) the
+  // canonical route is the server root "/".
+  const normalizedPrefix = options.basePath === undefined || options.basePath === '' || options.basePath === '/'
+    ? ''
+    : `/${options.basePath.replace(/^\/+|\/+$/g, '')}`
+  const canonicalTransportPath = normalizedPrefix === '' ? '/' : normalizedPrefix
+  // Compatibility alias for clients provisioned with the pre-#57 nested
+  // transport path (.../functions/v1/mcp/mcp). It serves the same transport
+  // state and never advertises metadata of its own; nothing user-facing links
+  // to it. Retire once provisioned clients have migrated.
+  const compatibilityTransportPath = normalizedPrefix === '' ? '/mcp' : `${normalizedPrefix}/mcp`
+
+  routes.options('/mcp', mcpPreflight)
+  routes.all('/mcp', handleMcpTransport)
+  app.options(canonicalTransportPath, mcpPreflight)
+  app.all(canonicalTransportPath, handleMcpTransport)
+  app.options(compatibilityTransportPath, mcpPreflight)
+  app.all(compatibilityTransportPath, handleMcpTransport)
 
   return routes
 }

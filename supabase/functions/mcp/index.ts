@@ -15,6 +15,11 @@ function environmentValue(name: SupabaseEnvironmentVariable): string {
 }
 
 const app = createMorselApp({
+  // The Edge Function keeps its /mcp runtime prefix (the hosted gateway strips
+  // /functions/v1), so routes register relative to it: the canonical MCP
+  // transport lives AT the function root — the public
+  // https://<host>/functions/v1/mcp URL — and /mcp/mcp remains only as the
+  // pre-#57 compatibility alias.
   basePath: "/mcp",
   authenticate: (token) =>
     createSupabaseAuthenticator({

@@ -131,16 +131,16 @@ jobs:
           print('OAuth metadata: OK (%s)' % ', '.join(endpoints))
           PY
 
-          echo "== unauthenticated MCP initialize (expect 401) =="
+          echo "== unauthenticated MCP initialize at the canonical function-root transport (expect 401) =="
           mcp_status="$(curl --silent --show-error --max-time 30 --output "$mcp_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-            "$base/mcp")"
+            "$base")"
           echo "status: $mcp_status"
           cat "$mcp_file"
           echo
           if [ "$mcp_status" != "401" ]; then
-            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize; got $mcp_status"
+            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize at the canonical root transport; got $mcp_status"
             exit 1
           fi

@@ -25,15 +25,23 @@ check. `npm run dev` starts Bun's file-watching development server.
 ## Supabase Edge Function
 
 The deployed function keeps `GET /health` public and handles per-request bearer
-authentication for the streamable `POST /mcp` endpoint. Supabase's gateway JWT
-verification is disabled for this function so the app can validate each MCP
+authentication for the streamable MCP transport endpoint. Supabase's gateway
+JWT verification is disabled for this function so the app can validate each MCP
 request itself. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read from the Edge
 Function environment when requests create the authenticated boundaries.
-Supabase prefixes requests with the function name, so the hosted URLs are
-`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp`; the local Bun entrypoint
-continues to use `/health` and `/mcp`. OAuth discovery and provider routes are
-available at the same local root (`/.well-known/oauth-authorization-server`,
-`/authorize`, `/token`, `/register`) and below the hosted function prefix.
+
+**Canonical transport URL (issue #57):** `https://<public-host>/functions/v1/mcp`
+— the Edge Function root. The hosted gateway strips `/functions/v1`, so inside
+the runtime the canonical route is the function's own `/mcp` prefix. The
+pre-#57 nested path `…/functions/v1/mcp/mcp` remains as a tested compatibility
+alias for clients provisioned before the route change; it serves the same
+transport and never advertises its own metadata, and nothing user-facing links
+to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-server`,
+`/.well-known/oauth-protected-resource/mcp`, `/authorize`, `/token`,
+`/register`) are published at the same canonical base, and the advertised
+OAuth `resource` is the canonical transport URL itself. The local Bun
+entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
+server root `/` with `/mcp` as the alias.
 
 ## Design notes
 

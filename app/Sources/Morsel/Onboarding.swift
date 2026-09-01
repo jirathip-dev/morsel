@@ -57,9 +57,13 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 }
 
 enum OnboardingContent {
+    // Default setup guidance is client-neutral (issue #57): paste the canonical
+    // MCP endpoint into the client's custom MCP/connector field, complete the
+    // OAuth browser sign-in, verify with get_profile. Vendor-specific flows
+    // stay in the labeled per-platform instructions below.
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
-1. Tell me to open Settings → Connectors → Add custom connector and paste: {{MCP_URL}}
+1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
 2. When I approve the sign-in, call get_profile to verify the connection.
 3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),
    then set_profile + compute_targets.
@@ -70,14 +74,16 @@ I use Morsel to track my food. Set yourself up as my food logger.
 
     static let signedInMarker = "Signed in ✓"
 
+    // Optional vendor-specific flow (clearly labeled Claude Code tab).
     static let claudeCodePrompt = """
-Set up Morsel food tracking.
+Set up Morsel food tracking with Claude Code.
 1. Add the MCP server: claude mcp add --transport http morsel {{MCP_URL}}
 2. Complete the OAuth browser sign-in when it opens.
 3. Verify by calling get_profile; if empty, ask me for stats, then set_profile.
 4. Confirm: "Morsel connected — send me a photo of your next meal."
 """
 
+    // Optional vendor-specific flow (clearly labeled Claude Desktop tab).
     static let claudeDesktopPrompt = """
 Connect Morsel in Claude Desktop.
 1. Open Settings → Connectors → Add custom connector.
@@ -277,7 +283,7 @@ struct OnboardingView: View {
     private var connectContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
-            Text("Paste this endpoint when your app asks for a custom connector.")
+            Text("Paste this endpoint into any MCP client's custom connector field, then verify with get_profile.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("MCP ENDPOINT").morselSectionLabel()
             if let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) {

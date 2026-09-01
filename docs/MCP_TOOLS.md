@@ -233,10 +233,15 @@ future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
 ## Remote authentication
 
 The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
-access token issued by the provider in the same Edge Function. OAuth clients
-discover the provider through `/.well-known/oauth-protected-resource` (the
-path-specific `/.well-known/oauth-protected-resource/mcp` is also served) and
-`/.well-known/oauth-authorization-server`.
+access token issued by the provider in the same Edge Function. The canonical
+client-facing transport URL is the Edge Function root,
+`https://<public-host>/functions/v1/mcp` (issue #57); the nested
+`…/functions/v1/mcp/mcp` path remains only as a compatibility alias for clients
+provisioned before the route change and is never published to users. OAuth
+clients discover the provider through `/.well-known/oauth-protected-resource`
+(the path-specific `/.well-known/oauth-protected-resource/mcp` is also served)
+and `/.well-known/oauth-authorization-server`, all under the canonical base.
+The advertised OAuth `resource` is the canonical transport URL itself.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
 grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password

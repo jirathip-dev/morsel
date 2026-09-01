@@ -70,7 +70,10 @@ For local OAuth registration/token probes, pass an env file containing
 because the Edge Runtime does not inherit arbitrary shell variables.
 
 In another terminal, expect `200` and `{"ok":true}` from the public health
-route, then expect `401` from the unauthenticated MCP route:
+route, then expect `401` from the unauthenticated MCP transport. The canonical
+client-facing transport is the function root `…/functions/v1/mcp`; the nested
+`…/functions/v1/mcp/mcp` path remains only as the pre-#57 compatibility alias
+(it answers identically but must not be given to clients):
 
 ```sh
 curl --fail http://127.0.0.1:54321/functions/v1/mcp/health
@@ -78,7 +81,7 @@ curl --silent --show-error --write-out '%{http_code}\n' \
   --request POST \
   --header 'content-type: application/json' \
   --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-  http://127.0.0.1:54321/functions/v1/mcp/mcp
+  http://127.0.0.1:54321/functions/v1/mcp
 ```
 
 Stop the disposable local stack after the probe with:

@@ -40,6 +40,7 @@ morsel/
 - [ARCHITECTURE](docs/ARCHITECTURE.md) — components, data flow, auth, backend decision
 - [DATA_MODEL](docs/DATA_MODEL.md) — tables, enums, RLS
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
+- [CUSTOM_DOMAIN](docs/CUSTOM_DOMAIN.md) — planned custom-domain setup for the canonical MCP endpoint (not activated; human-gated)
 - [TARGETS](docs/TARGETS.md) — computed calorie/macro goal from body metrics
 - [IN_CHAT_RENDER](docs/IN_CHAT_RENDER.md) — Tier-1 snapshot rendering inside Claude/GPT
 - [ROADMAP](docs/ROADMAP.md) — milestones

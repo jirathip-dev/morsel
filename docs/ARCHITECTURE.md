@@ -49,12 +49,16 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
 The production entrypoint is `supabase/functions/mcp/index.ts`, a Supabase Edge
 Function running Hono and the MCP SDK on Deno. `GET /health` is public; the
 function disables the platform JWT check so the app can validate the per-request
-bearer token required by `/mcp`. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
-from the function environment at request time. Supabase exposes these routes as
-`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp` because `mcp` is the
-function name. OAuth discovery and provider routes use the same function prefix:
+bearer token required by the MCP transport. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
+from the function environment at request time. The gateway strips `/functions/v1`,
+so inside the Edge runtime routes register under the function name `mcp` while
+publicly exposing the **canonical MCP transport at the function root**,
+`/functions/v1/mcp` (issue #57); the pre-#57 nested `/functions/v1/mcp/mcp`
+path remains as a compatibility alias and must not be published to clients.
+OAuth discovery and provider routes use the same canonical prefix:
 `/.well-known/oauth-authorization-server`, `/authorize`, `/token`, and `/register`
-are available below `/functions/v1/mcp/`.
+are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
+is the canonical transport URL itself.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use

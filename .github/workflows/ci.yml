@@ -39,6 +39,7 @@ jobs:
           protected_headers_file="$(mktemp)"
           authorize_headers_file="$(mktemp)"
           mcp_headers_file="$(mktemp)"
+          alias_headers_file="$(mktemp)"
           preflight_headers_file="$(mktemp)"
           function_config="supabase/functions/mcp/deno.json"
           function_config_created=0
@@ -54,7 +55,7 @@ jobs:
             rm -f "$start_log" "$serve_log" "$health_file" "$response_file" \
               "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file" \
               "$oauth_headers_file" "$protected_headers_file" "$authorize_headers_file" \
-              "$mcp_headers_file" "$preflight_headers_file"
+              "$mcp_headers_file" "$alias_headers_file" "$preflight_headers_file"
           }
           trap cleanup EXIT
 
@@ -152,22 +153,35 @@ jobs:
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp
           assert_response_header "$protected_headers_file" 'access-control-allow-origin' '\*'
 
-          # An unauthenticated GET on /mcp must return the browser-readable 401
-          # challenge (CORS-exposed WWW-Authenticate).
+          # Issue #57: the canonical MCP transport is the function ROOT
+          # (public https://<host>/functions/v1/mcp). The unauthenticated GET
+          # on it must return the browser-readable 401 challenge, and the
+          # pre-#57 nested /mcp/mcp path must keep serving the same challenge
+          # as a compatibility alias without advertising its own metadata.
           mcp_challenge_status="$(curl --silent --show-error --dump-header "$mcp_headers_file" --output /dev/null \
             --write-out '%{http_code}' \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+            http://127.0.0.1:54321/functions/v1/mcp)"
           if [ "$mcp_challenge_status" != 401 ]; then
-            printf 'Expected unauthenticated MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
+            printf 'Expected unauthenticated canonical MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
             fail_bundle_probe
           fi
-          assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '\*'
+          assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '*'
           assert_response_header "$mcp_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
+
+          mcp_alias_status="$(curl --silent --show-error --dump-header "$alias_headers_file" --output /dev/null \
+            --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+          if [ "$mcp_alias_status" != 401 ]; then
+            printf 'Expected compatibility-alias MCP challenge status 401, got: %s\n' "$mcp_alias_status"
+            fail_bundle_probe
+          fi
+          assert_response_header "$alias_headers_file" 'access-control-allow-origin' '*'
+          assert_response_header "$alias_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
 
           curl --silent --show-error --dump-header "$preflight_headers_file" --output /dev/null \
             --request OPTIONS \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp
-          assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '\*'
+            http://127.0.0.1:54321/functions/v1/mcp
+          assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '*'
 
           if ! protected_status="$(curl --silent --show-error --output "$protected_metadata_file" --write-out '%{http_code}' \
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp)"; then
@@ -215,11 +229,14 @@ jobs:
             http://127.0.0.1:54321/functions/v1/mcp/authorize
           assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
 
+          # Issue #57: the final MCP initialize probe goes to the CANONICAL
+          # function-root transport (…/functions/v1/mcp) and expects the 401
+          # application/json challenge.
           if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp)"; then
+            http://127.0.0.1:54321/functions/v1/mcp)"; then
             fail_bundle_probe
           fi
           printf 'Hosted MCP status: %s\n' "$mcp_status"
