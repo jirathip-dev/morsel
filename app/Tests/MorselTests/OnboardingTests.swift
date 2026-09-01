@@ -63,7 +63,9 @@ final class OnboardingTests: XCTestCase {
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Optional Claude.ai flow"))
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude Desktop").contains("Claude Desktop"))
         XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Optional ChatGPT flow"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude Code").contains("Claude Code"))
+        let codeInstructions = OnboardingContent.instructions(for: "Claude Code")
+        XCTAssertTrue(codeInstructions.contains("Claude Code"))
+        XCTAssertFalse(codeInstructions.contains("{{MCP_URL}}"))
     }
 
     func testDefaultPlatformIsClientNeutralCustomMcp() throws {

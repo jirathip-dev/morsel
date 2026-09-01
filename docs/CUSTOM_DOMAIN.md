@@ -52,7 +52,7 @@ anywhere in the repository.
      documented exemption.
 3. **Add the CNAME record** at the DNS provider (no proxying; DNS-only).
 4. **Verify, then activate** the custom domain in the Supabase dashboard.
-   Activation is the point of no return for the project's public hostname.
+   Activation is the cutover point for the project's public hostname.
 5. **Update `SUPABASE_URL`** (GitHub repository variable/secret and any local
    environments) to the custom domain so `fastlane/Fastfile` derives the new
    canonical `MORSEL_MCP_URL` for the next app build.

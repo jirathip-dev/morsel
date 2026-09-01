@@ -110,7 +110,7 @@ Connect Morsel in Claude Desktop.
         case "ChatGPT":
             return "Optional ChatGPT flow: Settings → Apps → Create, then add Morsel with this setup prompt."
         case "Claude Code":
-            return "Optional Claude Code flow: claude mcp add --transport http morsel {{MCP_URL}}."
+            return "Optional Claude Code flow: use the setup prompt below to add Morsel with the claude mcp command."
         default:
             return neutral
         }
