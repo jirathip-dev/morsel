@@ -2,8 +2,9 @@
 
 ## Decision
 **Supabase Edge Function + Supabase store.** We host the MCP endpoint as a
-Deno Edge Function and host the store on Supabase; we do not build a chat app,
-a feed, or an AI.
+Deno Edge Function (canonical transport at the function root,
+`https://<public-host>/functions/v1/mcp`, issue #57) and host the store on
+Supabase; we do not build a chat app, a feed, or an AI.
 
 ## Why hosted (not self-hosted)
 The user's agent runs in Claude/ChatGPT's cloud, so the MCP server must be an
@@ -49,12 +50,20 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
 The production entrypoint is `supabase/functions/mcp/index.ts`, a Supabase Edge
 Function running Hono and the MCP SDK on Deno. `GET /health` is public; the
 function disables the platform JWT check so the app can validate the per-request
-bearer token required by `/mcp`. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
-from the function environment at request time. Supabase exposes these routes as
-`/functions/v1/mcp/health` and `/functions/v1/mcp/mcp` because `mcp` is the
-function name. OAuth discovery and provider routes use the same function prefix:
+bearer token required by the MCP transport. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
+from the function environment at request time. The gateway strips `/functions/v1`,
+so inside the Edge runtime routes register under the function name `mcp` while
+publicly exposing the **canonical MCP transport at the function root**,
+`/functions/v1/mcp` (issue #57); the pre-#57 nested `/functions/v1/mcp/mcp`
+path remains as a compatibility alias and must not be published to clients.
+OAuth discovery and provider backend routes use the same canonical prefix:
 `/.well-known/oauth-authorization-server`, `/authorize`, `/token`, and `/register`
-are available below `/functions/v1/mcp/`.
+are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
+is the canonical transport URL itself. The authorization-server metadata may
+advertise the separately hosted static browser page
+`https://morsel-authorize-ui.vercel.app/authorize` as its
+`authorization_endpoint`; this changes no other URL. The page posts directly to
+the Supabase `/authorize` route, which remains the OAuth backend and issuer.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use

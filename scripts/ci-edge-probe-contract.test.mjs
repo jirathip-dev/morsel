@@ -12,6 +12,8 @@ import { join } from 'node:path'
 
 const root = join(fileURLToPath(import.meta.url), '..', '..')
 const ciSource = readFileSync(join(root, '.github/workflows/ci.yml'), 'utf8')
+const deploySource = readFileSync(join(root, '.github/workflows/deploy-edge-function.yml'), 'utf8')
+const edgeSource = readFileSync(join(root, 'supabase/functions/mcp/index.ts'), 'utf8')
 
 function bundleProbeScript() {
   const start = ciSource.indexOf('name: Bundle and probe Supabase Edge Function')
@@ -74,5 +76,39 @@ describe('CI Edge bundle probe script contract', () => {
       expect(script.includes(marker), `probe present: ${label}`).toBe(true)
     }
     expect(script.split('assert_response_header "$authorize_headers_file" \'content-type\'')).toHaveLength(2)
+  })
+
+  it('probes the external authorization endpoint while keeping other metadata on the Supabase base', () => {
+    const script = bundleProbeScript()
+    expect(script).toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize')
+    expect(script).toContain('metadata.get(\'authorization_endpoint\')')
+    expect(script).toContain('https://morsel-authorize-ui.vercel.app/authorize')
+    expect(script).toContain("supabase_base = metadata.get('issuer')")
+    expect(script).toContain("'token_endpoint': '/token'")
+    expect(script).toContain("'registration_endpoint': '/register'")
+    expect(script).toContain("urlparse(supabase_base).netloc == urlparse(expected_authorization_endpoint).netloc")
+    expect(script).toContain("protected.get('resource') != supabase_base")
+    expect(script).toContain("protected.get('authorization_servers') != [supabase_base]")
+  })
+
+  it('wires the optional public authorization endpoint through the Edge entrypoint', () => {
+    expect(edgeSource).toContain('authorizationEndpoint: Deno.env.get("MORSEL_OAUTH_AUTHORIZATION_ENDPOINT"),')
+    const oauthStart = edgeSource.indexOf('  oauth: {')
+    const oauthEnd = edgeSource.indexOf('\n  },', oauthStart)
+    expect(oauthStart, 'Edge OAuth options must exist').toBeGreaterThanOrEqual(0)
+    expect(oauthEnd, 'Edge OAuth options must be bounded').toBeGreaterThan(oauthStart)
+    const oauthSource = edgeSource.slice(oauthStart, oauthEnd)
+    expect(oauthSource).toContain('publicBaseUrl:')
+    expect(oauthSource).toContain('SUPABASE_URL')
+    expect(oauthSource).toContain('authorizationEndpoint:')
+  })
+
+  it('stages the public endpoint without moving the signing key into command arguments', () => {
+    expect(deploySource).toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT: https://morsel-authorize-ui.vercel.app/authorize')
+    expect(deploySource).toContain("printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=%s\\n' \"$MORSEL_OAUTH_AUTHORIZATION_ENDPOINT\" >> \"$secrets_file\"")
+    expect(deploySource).toContain("'token_endpoint': base + '/token'")
+    expect(deploySource).toContain("'registration_endpoint': base + '/register'")
+    expect(deploySource).toContain("metadata.get('authorization_endpoint') != expected_authorization_endpoint")
+    expect(deploySource).not.toMatch(/(?:supabase|functions deploy)[^\n]*MORSEL_OAUTH_SIGNING_KEY/)
   })
 })

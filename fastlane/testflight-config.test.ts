@@ -94,8 +94,15 @@ describe('native-testflight Supabase configuration injection (issue #32, r2)', (
   })
 
   it('derives MORSEL_MCP_URL from SUPABASE_URL with a single slash separator', () => {
+    // Issue #57: the derived URL IS the canonical MCP transport (the Edge
+    // Function root). The nested /mcp/mcp path is a compatibility alias only
+    // and must never be published by the build configuration.
     expect(fastfile).toContain('/functions/v1/mcp')
     expect(fastfile).toContain('/+\\z')
+  })
+
+  it('never publishes the nested /mcp/mcp compatibility alias in the build pipeline', () => {
+    expect(fastfile).not.toContain('/functions/v1/mcp/mcp')
   })
 
   it('populates the template file transiently and restores it in an ensure block', () => {

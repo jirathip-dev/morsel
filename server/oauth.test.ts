@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createMorselApp } from './app.js'
 import { InMemoryRepository } from './in-memory-repository.js'
 import type { OAuthAuthorizationGrant, OAuthGrantStore } from './oauth.js'
@@ -51,21 +51,182 @@ function createTestGrantStore(): OAuthGrantStore {
   }
 }
 
-function createTestApp(basePath?: string, grantStore = createTestGrantStore(), publicBaseUrl?: string) {
+function createTestApp(
+  basePath?: string,
+  grantStore = createTestGrantStore(),
+  publicBaseUrl?: string,
+  authorizationEndpoint?: string,
+) {
+  const oauthOptions = Object.assign({
+    grantStore,
+    publicBaseUrl,
+    signingKey: 'oauth-test-signing-key',
+    service: oauthService,
+  }, authorizationEndpoint === undefined ? {} : { authorizationEndpoint })
   return createMorselApp({
     basePath,
     authenticate: () => Promise.reject(new Error('not reached')),
     repositoryFactory: () => new InMemoryRepository(),
-    oauth: {
-      grantStore,
-      publicBaseUrl,
-      signingKey: 'oauth-test-signing-key',
-      service: oauthService,
-    },
+    oauth: oauthOptions,
   })
 }
 
+function expectRejectedBeforeUrlParsing(authorizationEndpoint: string): void {
+  const urlConstructor = vi.spyOn(globalThis, 'URL')
+  try {
+    expect(() => createTestApp('/mcp', createTestGrantStore(), undefined, authorizationEndpoint)).toThrow(/authorization endpoint/)
+    expect(urlConstructor).not.toHaveBeenCalled()
+  } finally {
+    urlConstructor.mockRestore()
+  }
+}
+
 describe('OAuth discovery and MCP authentication', () => {
+  // Issue #57: the canonical client-facing MCP transport is the Edge Function
+  // ROOT (public https://<host>/functions/v1/mcp; runtime /mcp because the
+  // hosted gateway strips /functions/v1). The pre-#57 nested /mcp/mcp path is
+  // a compatibility alias only: it must keep serving old clients but must
+  // never advertise its own metadata. Every new or updated user-facing
+  // surface publishes the root URL.
+  describe('canonical root transport (#57)', () => {
+    it('serves the MCP transport at the function root and keeps the nested path as a compatibility alias', async () => {
+      const app = createTestApp('/mcp')
+      const initialize = {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+      }
+
+      // Root: reaches transport authentication (401 challenge), not a 404.
+      const rootResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp', initialize))
+      expect(rootResponse.status).toBe(401)
+      expect(rootResponse.headers.get('content-type')).toBe('application/json')
+      expect(rootResponse.headers.get('www-authenticate')).toContain('Bearer resource_metadata=')
+      expect(rootResponse.headers.get('access-control-allow-origin')).toBe('*')
+      expect(rootResponse.headers.get('access-control-expose-headers')).toBe('WWW-Authenticate')
+
+      // Alias: same transport contract, same challenge, no separate identity.
+      const aliasResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp', initialize))
+      expect(aliasResponse.status).toBe(401)
+      expect(aliasResponse.headers.get('content-type')).toBe('application/json')
+      expect(aliasResponse.headers.get('www-authenticate')).toBe(rootResponse.headers.get('www-authenticate'))
+
+      // Load-bearing alias check: the alias must actually reach transport
+      // authentication (a stubbed 404 must fail this test), so it is a real
+      // compatibility path rather than a dead route.
+      const unauthenticatedGet = { headers: { accept: 'application/json, text/event-stream' } }
+      const aliasGet = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp', unauthenticatedGet))
+      expect(aliasGet.status).toBe(401)
+
+      // The alias serves no discovery of its own.
+      const aliasDiscovery = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp/.well-known/oauth-authorization-server'))
+      expect(aliasDiscovery.status).toBe(404)
+    })
+
+    it('keeps an MCP client session usable across the root transport and the alias', async () => {
+      // Session continuity is what makes the alias a true compatibility path:
+      // a client that initializes at the root may continue over the nested
+      // path (and vice versa) because both serve the same session store.
+      const app = createMorselApp({
+        basePath: '/mcp',
+        authenticate: (receivedToken) => Promise.resolve({
+          userId: '00000000-0000-4000-8000-000000000002',
+          email: 'test@example.com',
+          token: receivedToken,
+          authInfo: {
+            token: receivedToken,
+            clientId: 'test-client',
+            scopes: [],
+            extra: { userId: '00000000-0000-4000-8000-000000000002' },
+          },
+        }),
+        repositoryFactory: () => new InMemoryRepository(),
+        enableJsonResponse: true,
+      })
+      const initializeBody = {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2025-03-26',
+          capabilities: {},
+          clientInfo: { name: 'morsel-alias-test-client', version: '1.0.0' },
+        },
+      }
+      const request = (path: string, sessionId?: string, body: unknown = initializeBody): Request => new Request(`https://morsel.test${path}`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: 'Bearer session-bearer-token',
+          // The MCP SDK requires clients to accept both response shapes.
+          accept: 'application/json, text/event-stream',
+          ...(sessionId === undefined ? {} : { 'mcp-session-id': sessionId }),
+        },
+        body: JSON.stringify(body),
+      })
+
+      const initializeResponse = await app.fetch(request('/mcp'))
+      expect(initializeResponse.status).toBe(200)
+      const sessionId = initializeResponse.headers.get('mcp-session-id') ?? ''
+      expect(sessionId).not.toBe('')
+      expect(sessionId).toEqual(expect.any(String))
+
+      // A legacy client keeps its initialized session when it keeps talking
+      // to the nested alias URL.
+      const aliasListResponse = await app.fetch(request('/mcp/mcp', sessionId, { jsonrpc: '2.0', id: 2, method: 'tools/list' }))
+      expect(aliasListResponse.status).toBe(200)
+
+      // And a client initialized at the alias may continue at the root.
+      const rootListResponse = await app.fetch(request('/mcp', sessionId, { jsonrpc: '2.0', id: 3, method: 'tools/list' }))
+      expect(rootListResponse.status).toBe(200)
+    })
+
+    it('advertises the canonical root URL consistently across metadata, challenge, form action, and endpoints', async () => {
+      const app = createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp')
+      const [authorizationServer, protectedResource] = await Promise.all([
+        app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server')),
+        app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-protected-resource/mcp')),
+      ])
+      const authorizationServerMetadata = await authorizationServer.json()
+      const protectedResourceMetadata = await protectedResource.json()
+
+      const canonical = 'https://connector.example/functions/v1/mcp'
+      expect(authorizationServerMetadata).toMatchObject({
+        issuer: canonical,
+        authorization_endpoint: `${canonical}/authorize`,
+        token_endpoint: `${canonical}/token`,
+        registration_endpoint: `${canonical}/register`,
+      })
+      expect(protectedResourceMetadata).toMatchObject({
+        resource: canonical,
+        authorization_servers: [canonical],
+      })
+      // No canonical advertisement may present the nested alias as a resource
+      // or issuer (the alias is transport-only compatibility).
+      expect(JSON.stringify(authorizationServerMetadata)).not.toContain(`${canonical}/mcp`)
+      expect(JSON.stringify(protectedResourceMetadata)).not.toContain(`${canonical}/mcp`)
+
+      const registrationResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/register', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ redirect_uris: ['https://client.example/callback'] }),
+      }))
+      expect(registrationResponse.status).toBe(201)
+      const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+      const authorizationResponse = await app.fetch(new Request(`http://supabase-edge-runtime:8081/mcp/authorize?${new URLSearchParams({
+        client_id: clientId,
+        code_challenge: 'prefix-challenge',
+        code_challenge_method: 'S256',
+        redirect_uri: 'https://client.example/callback',
+        response_type: 'code',
+      }).toString()}`))
+      expect(authorizationResponse.status).toBe(200)
+      const html = await authorizationResponse.text()
+      expect(html).toContain(`<form method="post" action="${canonical}/authorize">`)
+      expect(html).not.toContain(`${canonical}/mcp/authorize`)
+    })
+  })
+
   it('serves browser-readable CORS headers on all discovery responses', async () => {
     const app = createTestApp()
     const responses = await Promise.all([
@@ -139,10 +300,13 @@ describe('OAuth discovery and MCP authentication', () => {
     const pathSpecificProtectedResource = await responses[1].json()
     const authorizationServer = await responses[2].json()
     expect(pathSpecificProtectedResource).toEqual(protectedResource)
+    // Issue #57: the advertised resource is the canonical transport URL — the
+    // base/issuer itself — with no nested /mcp suffix appended anywhere.
     expect(protectedResource).toMatchObject({
-      resource: 'https://morsel.test/mcp',
+      resource: 'https://morsel.test',
       authorization_servers: ['https://morsel.test'],
     })
+    expect(JSON.stringify(protectedResource)).not.toContain('/mcp/mcp')
     expect(authorizationServer).toMatchObject({
       issuer: 'https://morsel.test',
       authorization_endpoint: 'https://morsel.test/authorize',
@@ -166,7 +330,7 @@ describe('OAuth discovery and MCP authentication', () => {
 
     expect(response.status).toBe(200)
     expect(await response.json()).toMatchObject({
-      resource: 'https://connector.example/functions/v1/mcp/mcp',
+      resource: 'https://connector.example/functions/v1/mcp',
       authorization_servers: ['https://connector.example/functions/v1/mcp'],
     })
   })
@@ -189,9 +353,23 @@ describe('OAuth discovery and MCP authentication', () => {
     })
     expect(protectedResource.status).toBe(200)
     expect(await protectedResource.json()).toMatchObject({
-      resource: 'https://connector.example/functions/v1/mcp/mcp',
+      resource: 'https://connector.example/functions/v1/mcp',
       authorization_servers: ['https://connector.example/functions/v1/mcp'],
     })
+
+    // Issue #57: the canonical transport is the function ROOT — the unauthenticated
+    // initialize at https://<host>/functions/v1/mcp must reach transport auth and get
+    // the 401 challenge, and the WWW-Authenticate resource_metadata URL must equal the
+    // root's protected-resource discovery URL.
+    const rootChallengeResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(rootChallengeResponse.status).toBe(401)
+    expect(rootChallengeResponse.headers.get('www-authenticate')).toBe(
+      'Bearer resource_metadata="https://connector.example/functions/v1/mcp/.well-known/oauth-protected-resource/mcp"',
+    )
 
     const challengeResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp', {
       method: 'POST',
@@ -202,6 +380,112 @@ describe('OAuth discovery and MCP authentication', () => {
     expect(challengeResponse.headers.get('www-authenticate')).toBe(
       'Bearer resource_metadata="https://connector.example/functions/v1/mcp/.well-known/oauth-protected-resource/mcp"',
     )
+  })
+
+  it('advertises only the configured external authorization endpoint', async () => {
+    const canonical = 'https://connector.example/functions/v1/mcp'
+    const externalAuthorizationEndpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
+    const app = createTestApp('/mcp', createTestGrantStore(), canonical, externalAuthorizationEndpoint)
+    const [authorizationServer, protectedResource] = await Promise.all([
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server')),
+      app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-protected-resource/mcp')),
+    ])
+
+    expect(authorizationServer.status).toBe(200)
+    const authorizationServerMetadata = await authorizationServer.json()
+    expect(authorizationServerMetadata).toMatchObject({
+      issuer: canonical,
+      authorization_endpoint: externalAuthorizationEndpoint,
+      token_endpoint: `${canonical}/token`,
+      registration_endpoint: `${canonical}/register`,
+    })
+    expect(stringProperty(authorizationServerMetadata, 'authorization_endpoint')).toBe(externalAuthorizationEndpoint)
+    expect(protectedResource.status).toBe(200)
+    expect(await protectedResource.json()).toMatchObject({
+      resource: canonical,
+      authorization_servers: [canonical],
+    })
+
+    const challengeResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(challengeResponse.status).toBe(401)
+    expect(challengeResponse.headers.get('www-authenticate')).toBe(
+      `Bearer resource_metadata="${canonical}/.well-known/oauth-protected-resource/mcp"`,
+    )
+
+    const registrationResponse = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: ['https://client.example/callback'] }),
+    }))
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+    const authorizationResponse = await app.fetch(new Request(`http://supabase-edge-runtime:8081/mcp/authorize?${new URLSearchParams({
+      client_id: clientId,
+      code_challenge: 'prefix-challenge',
+      code_challenge_method: 'S256',
+      redirect_uri: 'https://client.example/callback',
+      response_type: 'code',
+    }).toString()}`))
+    expect(authorizationResponse.status).toBe(200)
+    expect(await authorizationResponse.text()).toContain(`<form method="post" action="${canonical}/authorize">`)
+  })
+
+  it('falls back to the Supabase authorization route when the external endpoint is unset', async () => {
+    const canonical = 'https://connector.example/functions/v1/mcp'
+    const app = createTestApp('/mcp', createTestGrantStore(), canonical)
+    const response = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server'))
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      issuer: canonical,
+      authorization_endpoint: `${canonical}/authorize`,
+      token_endpoint: `${canonical}/token`,
+      registration_endpoint: `${canonical}/register`,
+    })
+  })
+
+  const backslashEndpoint = `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x5c)}orize`
+  const malformedEndpointCases = [
+    ['blank', ''],
+    ['leading whitespace', ' https://morsel-authorize-ui.vercel.app/authorize'],
+    ['trailing whitespace', 'https://morsel-authorize-ui.vercel.app/authorize '],
+    ['non-HTTPS', 'http://morsel-authorize-ui.vercel.app/authorize'],
+    ['relative', '/authorize'],
+    ['query', 'https://morsel-authorize-ui.vercel.app/authorize?state=ambiguous'],
+    ['fragment', 'https://morsel-authorize-ui.vercel.app/authorize#fragment'],
+    ['userinfo', 'https://user:password@morsel-authorize-ui.vercel.app/authorize'],
+    ['empty userinfo', 'https://@morsel-authorize-ui.vercel.app/authorize'],
+    ['extra-slash scheme', 'https:////morsel-authorize-ui.vercel.app/authorize'],
+    ['backslash', backslashEndpoint],
+    ['embedded whitespace', 'https://morsel-authorize-ui.vercel.app/auth orize'],
+    ['explicit default port', 'https://morsel-authorize-ui.vercel.app:443/authorize'],
+    ['dot segment', 'https://morsel-authorize-ui.vercel.app/a/../authorize'],
+    ['canonical host case', 'https://MORSEL-AUTHORIZE-UI.VERCEL.APP/authorize'],
+  ] as const
+
+  const controlEndpointCases = [
+    ['embedded tab', 0x09, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x09)}orize`],
+    ['embedded newline', 0x0a, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x0a)}orize`],
+    ['embedded carriage return', 0x0d, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x0d)}orize`],
+    ['embedded NUL', 0x00, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x00)}orize`],
+    ['embedded DEL', 0x7f, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x7f)}orize`],
+  ] as const
+
+  it.each(malformedEndpointCases)('fails closed for malformed external authorization endpoint: %s', (_label, authorizationEndpoint) => {
+    expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp', authorizationEndpoint)).toThrow(/authorization endpoint/)
+  })
+
+  it('rejects a runtime backslash before URL parsing', () => {
+    expectRejectedBeforeUrlParsing(backslashEndpoint)
+  })
+
+  it.each(controlEndpointCases)('fails closed for malformed external authorization endpoint: %s', (_label, codePoint, authorizationEndpoint) => {
+    const controlPrefix = 'https://morsel-authorize-ui.vercel.app/auth'
+    expect(authorizationEndpoint.codePointAt(controlPrefix.length)).toBe(codePoint)
+    expectRejectedBeforeUrlParsing(authorizationEndpoint)
   })
 
   it('derives metadata from the request when no public prefix is configured', async () => {
@@ -283,7 +567,7 @@ describe('OAuth discovery and MCP authentication', () => {
     expect(metadata.status).toBe(200)
     expect(await rootMetadata.json()).toEqual(await metadata.clone().json())
     expect(await metadata.json()).toMatchObject({
-      resource: 'https://morsel.test/mcp/mcp',
+      resource: 'https://morsel.test/mcp',
       authorization_servers: ['https://morsel.test/mcp'],
     })
 

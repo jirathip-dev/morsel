@@ -194,12 +194,23 @@ describe('MCP HTTP server', () => {
     expect(healthResponse.status).toBe(200)
     expect(await healthResponse.json()).toEqual({ ok: true })
 
-    const mcpResponse = await app.fetch(new Request('https://morsel.test/mcp/mcp', {
+    // The canonical MCP transport is the Edge Function ROOT (runtime /mcp; the
+    // hosted gateway strips /functions/v1): an unauthenticated initialize gets
+    // the 401 challenge, not the plain-404 that motivated issue #57.
+    const mcpResponse = await app.fetch(new Request('https://morsel.test/mcp', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
     }))
     expect(mcpResponse.status).toBe(401)
+
+    // The pre-#57 nested path stays reachable only as a compatibility alias.
+    const aliasResponse = await app.fetch(new Request('https://morsel.test/mcp/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+    expect(aliasResponse.status).toBe(401)
   })
 
   it('refreshes the session repository token before a post-rotation tool call', async () => {

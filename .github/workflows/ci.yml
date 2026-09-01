@@ -39,6 +39,7 @@ jobs:
           protected_headers_file="$(mktemp)"
           authorize_headers_file="$(mktemp)"
           mcp_headers_file="$(mktemp)"
+          alias_headers_file="$(mktemp)"
           preflight_headers_file="$(mktemp)"
           function_config="supabase/functions/mcp/deno.json"
           function_config_created=0
@@ -54,7 +55,7 @@ jobs:
             rm -f "$start_log" "$serve_log" "$health_file" "$response_file" \
               "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file" \
               "$oauth_headers_file" "$protected_headers_file" "$authorize_headers_file" \
-              "$mcp_headers_file" "$preflight_headers_file"
+              "$mcp_headers_file" "$alias_headers_file" "$preflight_headers_file"
           }
           trap cleanup EXIT
 
@@ -65,6 +66,7 @@ jobs:
           cp deno.json "$function_config"
           function_config_created=1
           printf 'MORSEL_OAUTH_SIGNING_KEY=ci-bundle-test-key\n' >"$oauth_env_file"
+          printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize\n' >>"$oauth_env_file"
 
           if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
             --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
@@ -124,6 +126,31 @@ jobs:
             fail_bundle_probe
           fi
 
+          python3 - "$oauth_metadata_file" <<'PY'
+          import json
+          import sys
+          from urllib.parse import urlparse
+
+          with open(sys.argv[1]) as handle:
+              metadata = json.load(handle)
+
+          expected_authorization_endpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
+          supabase_base = metadata.get('issuer')
+          if not isinstance(supabase_base, str) or not urlparse(supabase_base).netloc:
+              raise SystemExit('OAuth metadata issuer must be an absolute Supabase base URL')
+          if metadata.get('authorization_endpoint') != expected_authorization_endpoint:
+              raise SystemExit('OAuth metadata authorization_endpoint must be the external static authorization page')
+          if urlparse(supabase_base).netloc == urlparse(expected_authorization_endpoint).netloc:
+              raise SystemExit('OAuth issuer must remain on the Supabase host')
+          for field, suffix in {
+              'token_endpoint': '/token',
+              'registration_endpoint': '/register',
+          }.items():
+              if metadata.get(field) != supabase_base.rstrip('/') + suffix:
+                  raise SystemExit('OAuth metadata field %s must remain on the Supabase issuer base' % field)
+          print('OAuth metadata split: external authorization endpoint; Supabase issuer/token/register')
+          PY
+
           # Browser-facing OAuth/MCP response contracts (issue #55): the Edge
           # runtime must expose CORS on discovery, serve the authorization
           # form as HTML, and make the 401 WWW-Authenticate challenge
@@ -152,21 +179,34 @@ jobs:
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp
           assert_response_header "$protected_headers_file" 'access-control-allow-origin' '\*'
 
-          # An unauthenticated GET on /mcp must return the browser-readable 401
-          # challenge (CORS-exposed WWW-Authenticate).
+          # Issue #57: the canonical MCP transport is the function ROOT
+          # (public https://<host>/functions/v1/mcp). The unauthenticated GET
+          # on it must return the browser-readable 401 challenge, and the
+          # pre-#57 nested /mcp/mcp path must keep serving the same challenge
+          # as a compatibility alias without advertising its own metadata.
           mcp_challenge_status="$(curl --silent --show-error --dump-header "$mcp_headers_file" --output /dev/null \
             --write-out '%{http_code}' \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+            http://127.0.0.1:54321/functions/v1/mcp)"
           if [ "$mcp_challenge_status" != 401 ]; then
-            printf 'Expected unauthenticated MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
+            printf 'Expected unauthenticated canonical MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
             fail_bundle_probe
           fi
           assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '\*'
           assert_response_header "$mcp_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
 
+          mcp_alias_status="$(curl --silent --show-error --dump-header "$alias_headers_file" --output /dev/null \
+            --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+          if [ "$mcp_alias_status" != 401 ]; then
+            printf 'Expected compatibility-alias MCP challenge status 401, got: %s\n' "$mcp_alias_status"
+            fail_bundle_probe
+          fi
+          assert_response_header "$alias_headers_file" 'access-control-allow-origin' '\*'
+          assert_response_header "$alias_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
+
           curl --silent --show-error --dump-header "$preflight_headers_file" --output /dev/null \
             --request OPTIONS \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp
+            http://127.0.0.1:54321/functions/v1/mcp
           assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '\*'
 
           if ! protected_status="$(curl --silent --show-error --output "$protected_metadata_file" --write-out '%{http_code}' \
@@ -179,6 +219,18 @@ jobs:
           if [ "$protected_status" != 200 ]; then
             fail_bundle_probe
           fi
+          python3 - "$protected_metadata_file" "$oauth_metadata_file" <<'PY'
+          import json
+          import sys
+
+          with open(sys.argv[1]) as handle:
+              protected = json.load(handle)
+          with open(sys.argv[2]) as handle:
+              authorization_server = json.load(handle)
+          supabase_base = authorization_server.get('issuer')
+          if protected.get('resource') != supabase_base or protected.get('authorization_servers') != [supabase_base]:
+              raise SystemExit('protected-resource metadata must remain on the Supabase issuer base')
+          PY
 
           if ! registration_status="$(curl --silent --show-error --output "$registration_file" --write-out '%{http_code}' \
             --request POST \
@@ -215,11 +267,14 @@ jobs:
             http://127.0.0.1:54321/functions/v1/mcp/authorize
           assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
 
+          # Issue #57: the final MCP initialize probe goes to the CANONICAL
+          # function-root transport (…/functions/v1/mcp) and expects the 401
+          # application/json challenge.
           if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-            http://127.0.0.1:54321/functions/v1/mcp/mcp)"; then
+            http://127.0.0.1:54321/functions/v1/mcp)"; then
             fail_bundle_probe
           fi
           printf 'Hosted MCP status: %s\n' "$mcp_status"

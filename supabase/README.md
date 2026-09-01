@@ -33,14 +33,23 @@ The Edge Function reads these values at request time:
   refresh-token wrappers. Authorization grants are stored in the RLS-protected
   `oauth_authorization_grants` table and claimed atomically by its
   `claim_oauth_authorization_grant` RPC.
+- `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` — optional public absolute HTTPS URL for
+  the browser authorization page. When set, only the authorization-server
+  metadata's `authorization_endpoint` uses it; issuer, token, register,
+  protected-resource metadata, challenge, resource, and MCP routes remain on
+  the Supabase function base. It is not a credential.
 
 The provider supports dynamic RFC 7591 registration, authorization-code OAuth
-with S256 PKCE, and refresh tokens. `/authorize` displays a Supabase Auth
-email/password form. `/token` claims the stored authorization grant exactly
-once, then refreshes the Supabase session and returns the real access token
-only after `auth.getUser()` validates it, so MCP requests retain normal RLS
-behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do not put
-its value in this repository.
+with S256 PKCE, and refresh tokens. The Supabase `/authorize` route remains the
+backend; deployments may advertise the verified static page
+`https://morsel-authorize-ui.vercel.app/authorize` through
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`, and that page posts directly to the
+fixed Supabase route. Without the setting, metadata falls back to Supabase
+`/authorize`. `/token` claims the stored authorization grant exactly once, then
+refreshes the Supabase session and returns the real access token only after
+`auth.getUser()` validates it, so MCP requests retain normal RLS behavior.
+Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do not put its value
+in this repository.
 
 ## Edge Function bundle and route check
 
@@ -66,11 +75,16 @@ npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt
 ```
 
 For local OAuth registration/token probes, pass an env file containing
-`MORSEL_OAUTH_SIGNING_KEY=...` with `--env-file`; the CI gate uses this form
-because the Edge Runtime does not inherit arbitrary shell variables.
+`MORSEL_OAUTH_SIGNING_KEY=...` with `--env-file`; add
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize`
+when exercising the external metadata seam. The CI gate uses this form because
+the Edge Runtime does not inherit arbitrary shell variables.
 
 In another terminal, expect `200` and `{"ok":true}` from the public health
-route, then expect `401` from the unauthenticated MCP route:
+route, then expect `401` from the unauthenticated MCP transport. The canonical
+client-facing transport is the function root `…/functions/v1/mcp`; the nested
+`…/functions/v1/mcp/mcp` path remains only as the pre-#57 compatibility alias
+(it answers identically but must not be given to clients):
 
 ```sh
 curl --fail http://127.0.0.1:54321/functions/v1/mcp/health
@@ -78,7 +92,7 @@ curl --silent --show-error --write-out '%{http_code}\n' \
   --request POST \
   --header 'content-type: application/json' \
   --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-  http://127.0.0.1:54321/functions/v1/mcp/mcp
+  http://127.0.0.1:54321/functions/v1/mcp
 ```
 
 Stop the disposable local stack after the probe with:

@@ -41,6 +41,7 @@ export interface MorselOAuthOptions {
   supabaseUrl?: OAuthConfigValue
   anonKey?: OAuthConfigValue
   publicBaseUrl?: OAuthConfigValue
+  authorizationEndpoint?: OAuthConfigValue
 }
 
 interface OAuthRouteOptions {
@@ -49,6 +50,7 @@ interface OAuthRouteOptions {
   signingKey: OAuthConfigValue
   service: OAuthIdentityService
   publicBaseUrl?: OAuthConfigValue
+  authorizationEndpoint?: OAuthConfigValue
 }
 
 type HeaderValues = Record<string, string>
@@ -302,6 +304,44 @@ function resolvePublicBaseUrl(publicBaseUrl: OAuthConfigValue | undefined): URL 
   return url
 }
 
+function resolveAuthorizationEndpoint(authorizationEndpoint: OAuthConfigValue | undefined): string | undefined {
+  if (authorizationEndpoint === undefined) {
+    return undefined
+  }
+  const raw = typeof authorizationEndpoint === 'function' ? authorizationEndpoint() : authorizationEndpoint
+  let hasAsciiControlOrWhitespace = false
+  for (const character of raw) {
+    const codePoint = character.codePointAt(0) ?? 0
+    if (codePoint <= 0x20 || codePoint === 0x7f) {
+      hasAsciiControlOrWhitespace = true
+      break
+    }
+  }
+  if (
+    raw.trim() === '' ||
+    raw !== raw.trim() ||
+    hasAsciiControlOrWhitespace ||
+    raw.includes('\\') ||
+    raw.includes('?') ||
+    raw.includes('#')
+  ) {
+    throw new OAuthProtocolError('server_error', 'authorization endpoint must be an absolute HTTPS URL with a stable path', 500)
+  }
+  let url: URL
+  try {
+    url = new URL(raw)
+  } catch {
+    throw new OAuthProtocolError('server_error', 'authorization endpoint must be an absolute HTTPS URL with a stable path', 500)
+  }
+  const authorityStart = raw.indexOf('://') + 3
+  const authorityEnd = raw.indexOf('/', authorityStart)
+  const authority = raw.slice(authorityStart, authorityEnd === -1 ? raw.length : authorityEnd)
+  if (url.href !== raw || url.protocol !== 'https:' || url.hostname === '' || authority.includes('@') || url.username !== '' || url.password !== '' || url.pathname === '/') {
+    throw new OAuthProtocolError('server_error', 'authorization endpoint must be an absolute HTTPS URL with a stable path', 500)
+  }
+  return url.href
+}
+
 function firstHeaderValue(request: Request, name: string): string | undefined {
   const value = request.headers.get(name)?.split(',')[0]?.trim()
   return value === undefined || value === '' ? undefined : value
@@ -386,11 +426,16 @@ export function protectedResourceMetadataUrl(request: Request, basePath?: string
   return appendPath(oauthBaseUrl(request, basePath, publicBaseUrl), '.well-known/oauth-protected-resource/mcp').href
 }
 
-function authorizationServerMetadata(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Record<string, unknown> {
+function authorizationServerMetadata(
+  request: Request,
+  basePath: string | undefined,
+  publicBaseUrl: OAuthConfigValue | undefined,
+  authorizationEndpoint: string | undefined,
+): Record<string, unknown> {
   const baseUrl = oauthBaseUrl(request, basePath, publicBaseUrl)
   return {
     issuer: baseUrlString(baseUrl),
-    authorization_endpoint: appendPath(baseUrl, 'authorize').href,
+    authorization_endpoint: authorizationEndpoint ?? appendPath(baseUrl, 'authorize').href,
     token_endpoint: appendPath(baseUrl, 'token').href,
     registration_endpoint: appendPath(baseUrl, 'register').href,
     response_types_supported: ['code'],
@@ -404,7 +449,9 @@ function authorizationServerMetadata(request: Request, basePath?: string, public
 function protectedResourceMetadata(request: Request, basePath?: string, publicBaseUrl?: OAuthConfigValue): Record<string, unknown> {
   const baseUrl = oauthBaseUrl(request, basePath, publicBaseUrl)
   return {
-    resource: appendPath(baseUrl, 'mcp').href,
+    // The canonical MCP resource is the transport URL itself: the function
+    // root (…/functions/v1/mcp), not the legacy nested /mcp/mcp path.
+    resource: baseUrlString(baseUrl),
     authorization_servers: [baseUrlString(baseUrl)],
     scopes_supported: ['mcp'],
     resource_name: 'Morsel MCP',
@@ -985,11 +1032,13 @@ export function createSupabaseOAuthService(options: {
 }
 
 export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void {
-  // Fail closed at startup when an explicit public base URL is malformed.
+  // Fail closed at startup when an explicit public base URL or authorization
+  // endpoint is malformed.
   resolvePublicBaseUrl(options.publicBaseUrl)
+  const authorizationEndpoint = resolveAuthorizationEndpoint(options.authorizationEndpoint)
   app.get('/.well-known/oauth-authorization-server', (context) => {
     try {
-      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl), 200, corsHeaders())
+      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl, authorizationEndpoint), 200, corsHeaders())
     } catch (error) {
       return oauthErrorResponse(error)
     }

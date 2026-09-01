@@ -57,9 +57,12 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 }
 
 enum OnboardingContent {
+    // Default setup guidance is client-neutral (#57): paste the canonical MCP
+    // URL into the client's custom MCP/connector field, complete OAuth when
+    // prompted, verify with get_profile. Vendor flows stay labeled below.
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
-1. Tell me to open Settings → Connectors → Add custom connector and paste: {{MCP_URL}}
+1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
 2. When I approve the sign-in, call get_profile to verify the connection.
 3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),
    then set_profile + compute_targets.
@@ -69,15 +72,16 @@ I use Morsel to track my food. Set yourself up as my food logger.
 """
 
     static let signedInMarker = "Signed in ✓"
-
+    // Optional vendor-specific flow (clearly labeled Claude Code tab).
     static let claudeCodePrompt = """
-Set up Morsel food tracking.
+Set up Morsel food tracking with Claude Code.
 1. Add the MCP server: claude mcp add --transport http morsel {{MCP_URL}}
 2. Complete the OAuth browser sign-in when it opens.
 3. Verify by calling get_profile; if empty, ask me for stats, then set_profile.
 4. Confirm: "Morsel connected — send me a photo of your next meal."
 """
 
+    // Optional vendor-specific flow (clearly labeled Claude Desktop tab).
     static let claudeDesktopPrompt = """
 Connect Morsel in Claude Desktop.
 1. Open Settings → Connectors → Add custom connector.
@@ -92,15 +96,23 @@ Connect Morsel in Claude Desktop.
     }
 
     static func instructions(for platform: String) -> String {
+        let neutral = "Paste the MCP endpoint into your client's custom MCP/connector field, " +
+            "complete OAuth when prompted, and verify with get_profile."
         switch platform {
+        case "Custom MCP":
+            return neutral
         case "Claude.ai":
-            return "Customize → Connectors → + → Add custom connector, then paste this setup prompt."
+            return "Optional Claude.ai flow: Customize → Connectors → + → Add custom " +
+                "connector, then paste this setup prompt."
         case "Claude Desktop":
-            return "In Claude Desktop, open Settings → Connectors, add a custom connector, then paste this prompt."
+            return "Optional Claude Desktop flow: open Settings → Connectors, add a custom " +
+                "connector, then paste this prompt."
         case "ChatGPT":
-            return "Settings → Apps → Create, then add Morsel with this setup prompt."
+            return "Optional ChatGPT flow: Settings → Apps → Create, then add Morsel with this setup prompt."
+        case "Claude Code":
+            return "Optional Claude Code flow: use the setup prompt below to add Morsel with the claude mcp command."
         default:
-            return "Claude Code can install the connector for you."
+            return neutral
         }
     }
 }
@@ -110,14 +122,16 @@ struct OnboardingEndpoint: Equatable, Sendable {
 
     init?(configuredValue: String) {
         let value = configuredValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let url = URL(string: value), url.scheme == "https", url.host != nil else {
-            return nil
-        }
+        guard let url = URL(string: value), url.scheme == "https", url.host != nil else { return nil }
         self.value = value
     }
 }
 
 enum OnboardingPlatform: String, CaseIterable {
+    // Client-neutral default (issue #57): paste the canonical MCP URL into the
+    // client's own custom MCP/connector field; vendor flows below are labeled
+    // optional extras.
+    case custom = "Custom MCP"
     case claude = "Claude.ai"
     case desktop = "Claude Desktop"
     case chatGPT = "ChatGPT"
@@ -154,7 +168,7 @@ struct OnboardingView: View {
     let onAuthenticated: (AuthenticatedSession) -> Void
 
     @State private var state = OnboardingState()
-    @State private var platform = OnboardingPlatform.claude
+    @State private var platform = OnboardingPlatform.custom
     @State private var didCopy = false
 
     init(
@@ -179,15 +193,9 @@ struct OnboardingView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text("morsel")
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselForest)
-                    Text(title)
-                        .font(.morselDisplay)
-                        .foregroundStyle(Color.morselInk)
-                    Text(subtitle)
-                        .font(.morselBody)
-                        .foregroundStyle(Color.morselInkTwo)
+                    Text("morsel").font(.morselData).foregroundStyle(Color.morselForest)
+                    Text(title).font(.morselDisplay).foregroundStyle(Color.morselInk)
+                    Text(subtitle).font(.morselBody).foregroundStyle(Color.morselInkTwo)
 
                     progress
                     content
@@ -198,8 +206,7 @@ struct OnboardingView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Set up later", action: onSkip)
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselInkTwo)
+                        .font(.morselData).foregroundStyle(Color.morselInkTwo)
                 }
             }
         }
@@ -273,11 +280,10 @@ struct OnboardingView: View {
                 .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
-
     private var connectContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
-            Text("Paste this endpoint when your app asks for a custom connector.")
+            Text("Paste this endpoint into any MCP client's custom connector field, then verify with get_profile.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("MCP ENDPOINT").morselSectionLabel()
             if let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) {
@@ -330,12 +336,9 @@ struct OnboardingView: View {
     private func prompt(for platform: OnboardingPlatform, endpoint: String) -> String {
         let template: String
         switch platform {
-        case .claude, .chatGPT:
-            template = OnboardingContent.chatPrompt
-        case .desktop:
-            template = OnboardingContent.claudeDesktopPrompt
-        case .code:
-            template = OnboardingContent.claudeCodePrompt
+        case .custom, .claude, .chatGPT: template = OnboardingContent.chatPrompt
+        case .desktop: template = OnboardingContent.claudeDesktopPrompt
+        case .code: template = OnboardingContent.claudeCodePrompt
         }
         return OnboardingContent.prompt(template, endpoint: endpoint)
     }

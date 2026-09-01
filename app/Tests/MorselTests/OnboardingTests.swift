@@ -13,6 +13,30 @@ final class OnboardingTests: XCTestCase {
         XCTAssertEqual(OnboardingContent.signedInMarker, "Signed in ✓")
     }
 
+    func testDefaultSetupGuidanceIsClientNeutral() throws {
+        // Issue #57: the default prompt must work for any MCP client — name the
+        // client's own MCP/connector field, OAuth sign-in, and get_profile —
+        // without Claude-specific paths or invented mobile/plugin capabilities.
+        let prompt = OnboardingContent.prompt(
+            OnboardingContent.chatPrompt,
+            endpoint: "https://mcp.example.test/mcp"
+        )
+        XCTAssertTrue(
+            prompt.contains("MCP/connector settings"),
+            "Default guidance must name a neutral custom-connector field"
+        )
+        XCTAssertTrue(prompt.contains("get_profile"), "Default guidance must include the verification call")
+        XCTAssertFalse(
+            prompt.lowercased().contains("claude"),
+            "Default guidance must not require a Claude-only path"
+        )
+
+        // Vendor-specific flows remain available but only as clearly labeled
+        // optional instructions on their own tabs.
+        XCTAssertTrue(OnboardingContent.claudeCodePrompt.hasPrefix("Set up Morsel food tracking with Claude Code."))
+        XCTAssertTrue(OnboardingContent.claudeDesktopPrompt.hasPrefix("Connect Morsel in Claude Desktop."))
+    }
+
     func testEndpointConfigurationRejectsEmptyAndNonHTTPSValues() {
         XCTAssertNil(OnboardingEndpoint(configuredValue: ""))
         XCTAssertNil(OnboardingEndpoint(configuredValue: "http://mcp.example.test/mcp"))
@@ -35,10 +59,29 @@ final class OnboardingTests: XCTestCase {
     }
 
     func testEachPlatformHasDistinctInstructions() {
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Customize → Connectors"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Custom MCP").contains("custom MCP/connector field"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Optional Claude.ai flow"))
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude Desktop").contains("Claude Desktop"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Settings → Apps → Create"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude Code").contains("Claude Code"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Optional ChatGPT flow"))
+        let codeInstructions = OnboardingContent.instructions(for: "Claude Code")
+        XCTAssertTrue(codeInstructions.contains("Claude Code"))
+        XCTAssertFalse(codeInstructions.contains("{{MCP_URL}}"))
+    }
+
+    func testDefaultPlatformIsClientNeutralCustomMcp() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let stateStart = try XCTUnwrap(source.range(of: "@State private var platform"))
+        let stateLine = String(source[stateStart.lowerBound..<source.index(stateStart.lowerBound, offsetBy: 90)])
+        XCTAssertTrue(
+            stateLine.contains("OnboardingPlatform.custom"),
+            "Default onboarding platform must be the client-neutral Custom MCP option"
+        )
+        XCTAssertTrue(source.contains("case custom = \"Custom MCP\""))
     }
 
     func testUnauthenticatedSignInCannotAdvance() {
@@ -119,6 +162,47 @@ final class OnboardingTests: XCTestCase {
             "claude mcp add --transport http morsel https://mcp.example.test/mcp"
         ))
         XCTAssertTrue(prompt.contains("Complete the OAuth browser sign-in"))
+    }
+
+    // MARK: - Issue #57 source contracts (canonical endpoint source, no stale alias copy)
+
+    func testOnboardingCopyNeverPublishesTheNestedCompatibilityAlias() throws {
+        // The /mcp/mcp nested path is a protocol-level compatibility alias only:
+        // no user-facing onboarding copy may hand it to clients as the endpoint.
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+
+        XCTAssertFalse(
+            source.contains("/mcp/mcp"),
+            "Onboarding copy must never reference the nested compatibility alias"
+        )
+        // The endpoint card and copy payload render the single configured value.
+        XCTAssertTrue(source.contains("OnboardingEndpoint(configuredValue: endpoint)"))
+    }
+
+    func testConnectStepNamesNeutralCustomConnectorFieldAndVerification() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let connectStart = try XCTUnwrap(source.range(of: "private var connectContent"))
+        let coachStart = try XCTUnwrap(source.range(of: "private var coachContent"))
+        let connectSource = String(source[connectStart.lowerBound..<coachStart.lowerBound])
+
+        XCTAssertTrue(
+            connectSource.contains("any MCP client's custom connector field"),
+            "The connect step must present the endpoint as a neutral MCP-client URL"
+        )
+        XCTAssertTrue(
+            connectSource.contains("get_profile"),
+            "The connect step must tell the user how to verify the connection"
+        )
     }
 
     @MainActor

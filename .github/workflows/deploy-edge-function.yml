@@ -35,6 +35,7 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
           MORSEL_OAUTH_SIGNING_KEY: ${{ secrets.MORSEL_OAUTH_SIGNING_KEY }}
+          MORSEL_OAUTH_AUTHORIZATION_ENDPOINT: https://morsel-authorize-ui.vercel.app/authorize
         run: |
           set -euo pipefail
 
@@ -55,6 +56,7 @@ jobs:
           trap 'rm -f "$secrets_file"' EXIT
           chmod 600 "$secrets_file"
           printf 'MORSEL_OAUTH_SIGNING_KEY=%s\n' "$MORSEL_OAUTH_SIGNING_KEY" > "$secrets_file"
+          printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=%s\n' "$MORSEL_OAUTH_AUTHORIZATION_ENDPOINT" >> "$secrets_file"
 
           npx --yes supabase@2.116.0 secrets set --env-file "$secrets_file" --project-ref "$SUPABASE_PROJECT_REF"
           npx --yes supabase@2.116.0 functions deploy mcp --project-ref "$SUPABASE_PROJECT_REF" --no-verify-jwt --import-map deno.json
@@ -62,6 +64,7 @@ jobs:
       - name: Probe deployed MCP endpoint
         env:
           SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          MORSEL_OAUTH_AUTHORIZATION_ENDPOINT: https://morsel-authorize-ui.vercel.app/authorize
         run: |
           set -euo pipefail
           base="https://${SUPABASE_PROJECT_REF}.supabase.co/functions/v1/mcp"
@@ -94,6 +97,7 @@ jobs:
           fi
           python3 - "$oauth_file" "$base" <<'PY'
           import json
+          import os
           import sys
           from urllib.parse import urlparse
 
@@ -110,7 +114,6 @@ jobs:
 
           endpoints = {
               'issuer': base,
-              'authorization_endpoint': base + '/authorize',
               'token_endpoint': base + '/token',
               'registration_endpoint': base + '/register',
           }
@@ -120,6 +123,19 @@ jobs:
               if metadata[field] != expected:
                   raise SystemExit('OAuth metadata field %s does not match the deployed MCP base' % field)
 
+          expected_authorization_endpoint = os.environ['MORSEL_OAUTH_AUTHORIZATION_ENDPOINT']
+          parsed_authorization_endpoint = urlparse(expected_authorization_endpoint)
+          if (parsed_authorization_endpoint.scheme != 'https'
+                  or not parsed_authorization_endpoint.netloc
+                  or parsed_authorization_endpoint.username is not None
+                  or parsed_authorization_endpoint.password is not None
+                  or parsed_authorization_endpoint.query
+                  or parsed_authorization_endpoint.fragment
+                  or parsed_authorization_endpoint.path in ('', '/')):
+              raise SystemExit('configured authorization endpoint is not a stable absolute HTTPS URL')
+          if metadata.get('authorization_endpoint') != expected_authorization_endpoint:
+              raise SystemExit('OAuth metadata authorization_endpoint does not match the configured external page')
+
           challenge_methods = metadata.get('code_challenge_methods_supported')
           if not isinstance(challenge_methods, list) or 'S256' not in challenge_methods:
               raise SystemExit('OAuth metadata code_challenge_methods_supported must be an array containing S256')
@@ -128,19 +144,19 @@ jobs:
           if not isinstance(grant_types, list) or 'authorization_code' not in grant_types or 'refresh_token' not in grant_types:
               raise SystemExit('OAuth metadata grant_types_supported must be an array containing authorization_code and refresh_token')
 
-          print('OAuth metadata: OK (%s)' % ', '.join(endpoints))
+          print('OAuth metadata: OK (external authorization endpoint; %s)' % ', '.join(endpoints))
           PY
 
-          echo "== unauthenticated MCP initialize (expect 401) =="
+          echo "== unauthenticated MCP initialize at the canonical function-root transport (expect 401) =="
           mcp_status="$(curl --silent --show-error --max-time 30 --output "$mcp_file" --write-out '%{http_code}' \
             --request POST \
             --header 'content-type: application/json' \
             --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
-            "$base/mcp")"
+            "$base")"
           echo "status: $mcp_status"
           cat "$mcp_file"
           echo
           if [ "$mcp_status" != "401" ]; then
-            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize; got $mcp_status"
+            echo "::error::Expected HTTP 401 for unauthenticated MCP initialize at the canonical root transport; got $mcp_status"
             exit 1
           fi
