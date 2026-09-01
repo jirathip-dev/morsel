@@ -17,10 +17,19 @@ final class OnboardingTests: XCTestCase {
         // Issue #57: the default prompt must work for any MCP client — name the
         // client's own MCP/connector field, OAuth sign-in, and get_profile —
         // without Claude-specific paths or invented mobile/plugin capabilities.
-        let prompt = OnboardingContent.prompt(OnboardingContent.chatPrompt, endpoint: "https://mcp.example.test/mcp")
-        XCTAssertTrue(prompt.contains("MCP/connector settings"), "Default guidance must name a neutral custom-connector field")
+        let prompt = OnboardingContent.prompt(
+            OnboardingContent.chatPrompt,
+            endpoint: "https://mcp.example.test/mcp"
+        )
+        XCTAssertTrue(
+            prompt.contains("MCP/connector settings"),
+            "Default guidance must name a neutral custom-connector field"
+        )
         XCTAssertTrue(prompt.contains("get_profile"), "Default guidance must include the verification call")
-        XCTAssertFalse(prompt.lowercased().contains("claude"), "Default guidance must not require a Claude-only path")
+        XCTAssertFalse(
+            prompt.lowercased().contains("claude"),
+            "Default guidance must not require a Claude-only path"
+        )
 
         // Vendor-specific flows remain available but only as clearly labeled
         // optional instructions on their own tabs.

@@ -57,10 +57,10 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 }
 
 enum OnboardingContent {
-    // Default setup guidance is client-neutral (issue #57): paste the canonical
-    // MCP endpoint into the client's custom MCP/connector field, complete the
-    // OAuth browser sign-in, verify with get_profile. Vendor-specific flows
-    // stay in the labeled per-platform instructions below.
+    // Default setup guidance is client-neutral (#57): paste the canonical MCP
+    // URL into the client's custom MCP/connector field, complete OAuth when
+    // prompted, verify with get_profile. Vendor-specific flows stay in the
+    // labeled per-platform instructions below.
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
 1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
@@ -116,9 +116,7 @@ struct OnboardingEndpoint: Equatable, Sendable {
 
     init?(configuredValue: String) {
         let value = configuredValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let url = URL(string: value), url.scheme == "https", url.host != nil else {
-            return nil
-        }
+        guard let url = URL(string: value), url.scheme == "https", url.host != nil else { return nil }
         self.value = value
     }
 }
@@ -185,15 +183,9 @@ struct OnboardingView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text("morsel")
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselForest)
-                    Text(title)
-                        .font(.morselDisplay)
-                        .foregroundStyle(Color.morselInk)
-                    Text(subtitle)
-                        .font(.morselBody)
-                        .foregroundStyle(Color.morselInkTwo)
+                    Text("morsel").font(.morselData).foregroundStyle(Color.morselForest)
+                    Text(title).font(.morselDisplay).foregroundStyle(Color.morselInk)
+                    Text(subtitle).font(.morselBody).foregroundStyle(Color.morselInkTwo)
 
                     progress
                     content
