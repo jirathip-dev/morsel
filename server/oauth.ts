@@ -256,11 +256,15 @@ function oauthErrorResponse(error: unknown): Response {
   return oauthResponse({ error: protocolError.errorCode, error_description: protocolError.message }, protocolError.status, headers)
 }
 
+// Browser-facing OAuth responses (Claude's connector flow fetches these from
+// web contexts) must stay CORS-readable, and the MCP 401 challenge carried on
+// www-authenticate must not be filtered out by browser CORS response rules.
 function corsHeaders(): HeaderValues {
   return {
     'access-control-allow-headers': 'content-type',
     'access-control-allow-methods': 'GET,POST,OPTIONS',
     'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'WWW-Authenticate',
   }
 }
 
@@ -515,6 +519,7 @@ function authorizationForm(request: Request, params: URLSearchParams, message?: 
   return new Response(body, {
     status: 200,
     headers: {
+      'access-control-allow-origin': '*',
       'cache-control': 'no-store',
       'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'",
       'content-type': 'text/html; charset=utf-8',
@@ -984,21 +989,21 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   resolvePublicBaseUrl(options.publicBaseUrl)
   app.get('/.well-known/oauth-authorization-server', (context) => {
     try {
-      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl), 200, corsHeaders())
     } catch (error) {
       return oauthErrorResponse(error)
     }
   })
   app.get('/.well-known/oauth-protected-resource', (context) => {
     try {
-      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl), 200, corsHeaders())
     } catch (error) {
       return oauthErrorResponse(error)
     }
   })
   app.get('/.well-known/oauth-protected-resource/mcp', (context) => {
     try {
-      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl))
+      return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl), 200, corsHeaders())
     } catch (error) {
       return oauthErrorResponse(error)
     }

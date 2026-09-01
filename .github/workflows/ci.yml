@@ -35,6 +35,11 @@ jobs:
           protected_metadata_file="$(mktemp)"
           registration_file="$(mktemp)"
           oauth_env_file="$(mktemp)"
+          oauth_headers_file="$(mktemp)"
+          protected_headers_file="$(mktemp)"
+          authorize_headers_file="$(mktemp)"
+          mcp_headers_file="$(mktemp)"
+          preflight_headers_file="$(mktemp)"
           function_config="supabase/functions/mcp/deno.json"
           function_config_created=0
           cleanup() {
@@ -47,7 +52,9 @@ jobs:
               rm -f "$function_config"
             fi
             rm -f "$start_log" "$serve_log" "$health_file" "$response_file" \
-              "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file"
+              "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file" \
+              "$oauth_headers_file" "$protected_headers_file" "$authorize_headers_file" \
+              "$mcp_headers_file" "$preflight_headers_file"
           }
           trap cleanup EXIT
 
@@ -117,6 +124,51 @@ jobs:
             fail_bundle_probe
           fi
 
+          # Browser-facing OAuth/MCP response contracts (issue #55): the Edge
+          # runtime must expose CORS on discovery, serve the authorization
+          # form as HTML, and make the 401 WWW-Authenticate challenge
+          # browser-readable. Asserted against `functions serve` (the LOCAL
+          # Edge runtime — NOT the hosted supabase.co gateway, which rewrites
+          # GET text/html to text/plain without a custom domain). These probes
+          # guard the code-level contract; hosted behavior needs the custom
+          # domain / external-UI decision tracked in issue #55.
+          assert_response_header() {
+            headers_file="$1"
+            expected_header="$2"
+            expected_value="$3"
+            if ! tr -d '\r' <"$headers_file" | grep -qi "^${expected_header}: ${expected_value}$"; then
+              printf 'Missing response header %s: %s\n' "$expected_header" "$expected_value"
+              cat "$headers_file"
+              fail_bundle_probe
+            fi
+          }
+
+          curl --silent --show-error --dump-header "$oauth_headers_file" --output /dev/null \
+            http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-authorization-server
+          assert_response_header "$oauth_headers_file" 'access-control-allow-origin' '\*'
+          assert_response_header "$oauth_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
+
+          curl --silent --show-error --dump-header "$protected_headers_file" --output /dev/null \
+            http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp
+          assert_response_header "$protected_headers_file" 'access-control-allow-origin' '\*'
+
+          # An unauthenticated GET on /mcp must return the browser-readable 401
+          # challenge (CORS-exposed WWW-Authenticate).
+          mcp_challenge_status="$(curl --silent --show-error --dump-header "$mcp_headers_file" --output /dev/null \
+            --write-out '%{http_code}' \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp)"
+          if [ "$mcp_challenge_status" != 401 ]; then
+            printf 'Expected unauthenticated MCP challenge status 401, got: %s\n' "$mcp_challenge_status"
+            fail_bundle_probe
+          fi
+          assert_response_header "$mcp_headers_file" 'access-control-allow-origin' '\*'
+          assert_response_header "$mcp_headers_file" 'access-control-expose-headers' 'WWW-Authenticate'
+
+          curl --silent --show-error --dump-header "$preflight_headers_file" --output /dev/null \
+            --request OPTIONS \
+            http://127.0.0.1:54321/functions/v1/mcp/mcp
+          assert_response_header "$preflight_headers_file" 'access-control-allow-origin' '\*'
+
           if ! protected_status="$(curl --silent --show-error --output "$protected_metadata_file" --write-out '%{http_code}' \
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp)"; then
             fail_bundle_probe
@@ -141,6 +193,27 @@ jobs:
           if [ "$registration_status" != 201 ]; then
             fail_bundle_probe
           fi
+
+          # The authorize-form probe must run only after the registration POST
+          # above has succeeded and populated $registration_file (issue #55
+          # hosted-CI r1: consuming it earlier failed the probe with an empty
+          # client_id). Asserts the form content type at the Edge runtime
+          # layer only; the hosted supabase.co gateway rewrites GET text/html
+          # to text/plain without a custom domain (Supabase functions limits).
+          authorize_client_id="$(sed -n 's/.*"client_id":"\([^"]*\)".*/\1/p' "$registration_file")"
+          if [ -z "$authorize_client_id" ]; then
+            printf 'Could not extract client_id from registration response\n'
+            fail_bundle_probe
+          fi
+          curl --silent --show-error --dump-header "$authorize_headers_file" --output /dev/null \
+            --get \
+            --data-urlencode "client_id=$authorize_client_id" \
+            --data-urlencode 'code_challenge=ci-challenge' \
+            --data-urlencode 'code_challenge_method=S256' \
+            --data-urlencode 'redirect_uri=https://ci.example/callback' \
+            --data-urlencode 'response_type=code' \
+            http://127.0.0.1:54321/functions/v1/mcp/authorize
+          assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
 
           if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \

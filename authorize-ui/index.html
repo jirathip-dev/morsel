@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'">
+  <title>Connect Morsel</title>
+  <link rel="stylesheet" href="./authorization.css">
+</head>
+<body>
+  <main class="authorization-shell">
+    <section class="authorization-card" aria-labelledby="authorization-title">
+      <div class="brand-lockup" aria-label="Morsel">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>Morsel</span>
+      </div>
+
+      <div class="intro">
+        <p class="eyebrow">Claude connection</p>
+        <h1 id="authorization-title">Sign in to Morsel</h1>
+        <p class="lede">Use your Morsel account to approve this secure connection. Your credentials go directly to Morsel’s Supabase authorization endpoint.</p>
+      </div>
+
+      <form action="https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize" method="post" data-authorization-form>
+        <div data-authorization-fields></div>
+
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" autocomplete="current-password" required>
+
+        <button type="submit">Continue to Morsel</button>
+      </form>
+
+      <p class="privacy-note"><span aria-hidden="true">●</span> Morsel never sends your password to the static page host.</p>
+    </section>
+  </main>
+  <script type="module" src="./authorization.js"></script>
+</body>
+</html>
