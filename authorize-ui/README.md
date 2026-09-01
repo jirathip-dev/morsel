@@ -16,7 +16,7 @@ browser ── GET/HEAD/POST /authorize ──► external HTTPS handler
                   Supabase /functions/v1/mcp/authorize
 ```
 
-`handler.mjs` exports the pure `createAuthorizeHandler()` Web Fetch API handler.
+`handler.js` exports the pure `createAuthorizeHandler()` Web Fetch API handler.
 The external layer:
 
 - accepts only `/authorize` with GET, HEAD, POST, or OPTIONS;
@@ -27,10 +27,14 @@ The external layer:
 - forwards no Cookie, Authorization, host, runtime, or custom request headers;
 - uses `redirect: manual`, forwards only validated HTTPS (or OAuth-permitted
   loopback HTTP) redirect Locations, and filters all other upstream headers;
-- rewrites exactly one known upstream `action="<UPSTREAM_AUTHORIZE_URL>"` to
-  `action="/authorize"`; a missing/duplicate action fails closed;
-- returns the form as `text/html; charset=utf-8` with no-store, nosniff, and a
-  restrictive CSP; JSON OAuth errors remain JSON;
+- applies the same allowlist, exact-one action rewrite, safe-header filter, and
+  HTML security headers to GET forms and non-redirect POST form re-renders;
+  missing/duplicate actions and unsupported/missing content types fail closed;
+- returns validated forms as `text/html; charset=utf-8` with no-store, nosniff,
+  and a restrictive CSP; JSON OAuth errors remain status/body/type-faithful;
+- for HEAD, validates only the upstream status/content type and returns no body;
+  HEAD cannot inspect or validate the form action, so it does not claim that
+  document-level guarantee;
 - emits no logs. In particular, it never logs query strings, request/response
   bodies, passwords, codes, tokens, state, client IDs, or redirect URIs.
 
@@ -54,19 +58,19 @@ external host configuration.
 
 ## Run and test (provider-neutral)
 
-Requires a Web Fetch API runtime. Tests use the standard Node test runner and no
-dependencies:
+Requires a Web Fetch API runtime. Tests use the repository's existing Vitest dependency:
 
 ```sh
-node --test authorize-ui/*.node-test.mjs
-node --check authorize-ui/handler.mjs
-node --check authorize-ui/adapters/cloudflare.mjs
+npx vitest run authorize-ui/*.test.js
+node --check authorize-ui/handler.js
+node --check authorize-ui/adapters/cloudflare.js
+deno check authorize-ui/handler.js authorize-ui/adapters/cloudflare.js
 ```
 
 The pure handler can be embedded by any runtime:
 
 ```js
-import { createAuthorizeHandler } from './handler.mjs'
+import { createAuthorizeHandler } from './handler.js'
 const handle = createAuthorizeHandler({ upstreamAuthorizeUrl: env.UPSTREAM_AUTHORIZE_URL })
 ```
 
@@ -75,12 +79,12 @@ use the runtime's global `fetch`.
 
 ## Optional adapters and deploy gates
 
-`adapters/cloudflare.mjs` is a thin Cloudflare Workers module adapter. It does
+`adapters/cloudflare.js` is a thin Cloudflare Workers module adapter. It does
 not imply that an account, project, route, token, or CLI exists.
 
 Plausible free-host paths (each needs a separate human deployment approval):
 
-- **Cloudflare Workers:** wire `adapters/cloudflare.mjs` as the module worker;
+- **Cloudflare Workers:** wire `adapters/cloudflare.js` as the module worker;
   set the non-secret variable above; approve/account-authenticate Wrangler;
   confirm the assigned HTTPS route is exactly `/authorize`.
 - **Deno Deploy:** create a tiny entry point that reads

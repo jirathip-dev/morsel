@@ -68,7 +68,7 @@ function redirectResponse(upstream) {
   })
 }
 
-async function getResponse(upstreamResponse, upstreamUrl, head) {
+async function validatedContentResponse(upstreamResponse, upstreamUrl, head = false) {
   const contentType = upstreamResponse.headers.get('content-type')?.toLowerCase() ?? ''
   if (contentType.startsWith('application/json')) {
     return jsonResponse(upstreamResponse, head ? null : await upstreamResponse.arrayBuffer())
@@ -84,18 +84,9 @@ async function getResponse(upstreamResponse, upstreamUrl, head) {
   })
 }
 
-async function postResponse(upstreamResponse) {
+async function postResponse(upstreamResponse, upstreamUrl) {
   if (upstreamResponse.status >= 300 && upstreamResponse.status < 400) return redirectResponse(upstreamResponse)
-  const contentType = upstreamResponse.headers.get('content-type')
-  const body = await upstreamResponse.arrayBuffer()
-  return new Response(body, {
-    status: upstreamResponse.status,
-    headers: {
-      'cache-control': 'no-store',
-      ...(contentType === null ? {} : { 'content-type': contentType }),
-      'x-content-type-options': 'nosniff',
-    },
-  })
+  return validatedContentResponse(upstreamResponse, upstreamUrl)
 }
 
 export function createAuthorizeHandler(options) {
@@ -130,13 +121,13 @@ export function createAuthorizeHandler(options) {
           headers: contentType === null ? undefined : { 'content-type': contentType },
           body: new Uint8Array(await request.arrayBuffer()),
         })
-        return postResponse(upstreamResponse)
+        return postResponse(upstreamResponse, upstream)
       }
       const upstreamResponse = await fetchUpstream(`${upstream}${query}`, {
         method: request.method,
         redirect: 'manual',
       })
-      return getResponse(upstreamResponse, upstream, request.method === 'HEAD')
+      return validatedContentResponse(upstreamResponse, upstream, request.method === 'HEAD')
     } catch {
       return rejected('upstream request failed')
     }

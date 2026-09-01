@@ -1,4 +1,4 @@
-import { createAuthorizeHandler } from '../handler.mjs'
+import { createAuthorizeHandler } from '../handler.js'
 
 // Optional Cloudflare Workers adapter. UPSTREAM_AUTHORIZE_URL is non-secret
 // configuration and remains fixed by the deployment environment; request data
