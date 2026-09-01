@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createMorselApp } from './app.js'
 import { InMemoryRepository } from './in-memory-repository.js'
 import type { OAuthAuthorizationGrant, OAuthGrantStore } from './oauth.js'
@@ -69,6 +69,16 @@ function createTestApp(
     repositoryFactory: () => new InMemoryRepository(),
     oauth: oauthOptions,
   })
+}
+
+function expectRejectedBeforeUrlParsing(authorizationEndpoint: string): void {
+  const urlConstructor = vi.spyOn(globalThis, 'URL')
+  try {
+    expect(() => createTestApp('/mcp', createTestGrantStore(), undefined, authorizationEndpoint)).toThrow(/authorization endpoint/)
+    expect(urlConstructor).not.toHaveBeenCalled()
+  } finally {
+    urlConstructor.mockRestore()
+  }
 }
 
 describe('OAuth discovery and MCP authentication', () => {
@@ -437,7 +447,8 @@ describe('OAuth discovery and MCP authentication', () => {
     })
   })
 
-  it.each([
+  const backslashEndpoint = `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x5c)}orize`
+  const malformedEndpointCases = [
     ['blank', ''],
     ['leading whitespace', ' https://morsel-authorize-ui.vercel.app/authorize'],
     ['trailing whitespace', 'https://morsel-authorize-ui.vercel.app/authorize '],
@@ -448,16 +459,33 @@ describe('OAuth discovery and MCP authentication', () => {
     ['userinfo', 'https://user:password@morsel-authorize-ui.vercel.app/authorize'],
     ['empty userinfo', 'https://@morsel-authorize-ui.vercel.app/authorize'],
     ['extra-slash scheme', 'https:////morsel-authorize-ui.vercel.app/authorize'],
-    ['backslash', 'https://morsel-authorize-ui.vercel.app\\authorize'],
-    ['embedded tab', 'https://morsel-authorize-ui.vercel.app/auth\\torize'],
-    ['embedded newline', 'https://morsel-authorize-ui.vercel.app/auth\\norize'],
-    ['embedded ASCII control', 'https://morsel-authorize-ui.vercel.app/auth\\u0000orize'],
+    ['backslash', backslashEndpoint],
     ['embedded whitespace', 'https://morsel-authorize-ui.vercel.app/auth orize'],
     ['explicit default port', 'https://morsel-authorize-ui.vercel.app:443/authorize'],
     ['dot segment', 'https://morsel-authorize-ui.vercel.app/a/../authorize'],
     ['canonical host case', 'https://MORSEL-AUTHORIZE-UI.VERCEL.APP/authorize'],
-  ] as const)('fails closed for malformed external authorization endpoint: %s', (_label, authorizationEndpoint) => {
+  ] as const
+
+  const controlEndpointCases = [
+    ['embedded tab', 0x09, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x09)}orize`],
+    ['embedded newline', 0x0a, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x0a)}orize`],
+    ['embedded carriage return', 0x0d, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x0d)}orize`],
+    ['embedded NUL', 0x00, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x00)}orize`],
+    ['embedded DEL', 0x7f, `https://morsel-authorize-ui.vercel.app/auth${String.fromCharCode(0x7f)}orize`],
+  ] as const
+
+  it.each(malformedEndpointCases)('fails closed for malformed external authorization endpoint: %s', (_label, authorizationEndpoint) => {
     expect(() => createTestApp('/mcp', createTestGrantStore(), 'https://connector.example/functions/v1/mcp', authorizationEndpoint)).toThrow(/authorization endpoint/)
+  })
+
+  it('rejects a runtime backslash before URL parsing', () => {
+    expectRejectedBeforeUrlParsing(backslashEndpoint)
+  })
+
+  it.each(controlEndpointCases)('fails closed for malformed external authorization endpoint: %s', (_label, codePoint, authorizationEndpoint) => {
+    const controlPrefix = 'https://morsel-authorize-ui.vercel.app/auth'
+    expect(authorizationEndpoint.codePointAt(controlPrefix.length)).toBe(codePoint)
+    expectRejectedBeforeUrlParsing(authorizationEndpoint)
   })
 
   it('derives metadata from the request when no public prefix is configured', async () => {
