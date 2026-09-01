@@ -72,7 +72,6 @@ I use Morsel to track my food. Set yourself up as my food logger.
 """
 
     static let signedInMarker = "Signed in ✓"
-
     // Optional vendor-specific flow (clearly labeled Claude Code tab).
     static let claudeCodePrompt = """
 Set up Morsel food tracking with Claude Code.
@@ -110,11 +109,14 @@ Connect Morsel in Claude Desktop.
                 "connector, then paste this prompt."
         case "ChatGPT":
             return "Optional ChatGPT flow: Settings → Apps → Create, then add Morsel with this setup prompt."
+        case "Claude Code":
+            return "Optional Claude Code flow: claude mcp add --transport http morsel {{MCP_URL}}."
         default:
             return neutral
         }
     }
 }
+
 struct OnboardingEndpoint: Equatable, Sendable {
     let value: String
 
@@ -204,8 +206,7 @@ struct OnboardingView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Set up later", action: onSkip)
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselInkTwo)
+                        .font(.morselData).foregroundStyle(Color.morselInkTwo)
                 }
             }
         }
@@ -279,7 +280,6 @@ struct OnboardingView: View {
                 .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
-
     private var connectContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
