@@ -240,7 +240,10 @@ path-specific `/.well-known/oauth-protected-resource/mcp` is also served) and
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
 grant, and refresh tokens. `/authorize` presents a Supabase Auth email/password
-sign-in page; `/token` requires PKCE with `code_challenge_method=S256` and rejects
+sign-in page (the Edge Function serves it as `text/html`, but Supabase's hosted
+gateway rewrites GET `text/html` responses to `text/plain` on default
+`supabase.co` domains, so browser rendering requires a custom domain or an
+externally hosted form); `/token` requires PKCE with `code_challenge_method=S256` and rejects
 `plain`. Access tokens are the real Supabase Auth session access tokens, validated
 with `auth.getUser()` before issuance, so existing RLS policies continue to scope
 every tool call to the signed-in user. Client registration remains stateless,

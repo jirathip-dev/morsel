@@ -124,11 +124,14 @@ jobs:
             fail_bundle_probe
           fi
 
-          # Browser-facing OAuth/MCP response contracts (issue #55): the hosted
-          # Edge path must expose CORS on discovery, serve the authorization
+          # Browser-facing OAuth/MCP response contracts (issue #55): the Edge
+          # runtime must expose CORS on discovery, serve the authorization
           # form as HTML, and make the 401 WWW-Authenticate challenge
-          # browser-readable. Headers are asserted through the real gateway
-          # path so a bundle/runtime regression fails CI without a deploy.
+          # browser-readable. Asserted against `functions serve` (the LOCAL
+          # Edge runtime — NOT the hosted supabase.co gateway, which rewrites
+          # GET text/html to text/plain without a custom domain). These probes
+          # guard the code-level contract; hosted behavior needs the custom
+          # domain / external-UI decision tracked in issue #55.
           assert_response_header() {
             headers_file="$1"
             expected_header="$2"
@@ -194,7 +197,9 @@ jobs:
           # The authorize-form probe must run only after the registration POST
           # above has succeeded and populated $registration_file (issue #55
           # hosted-CI r1: consuming it earlier failed the probe with an empty
-          # client_id). Asserts the deployed form content type end to end.
+          # client_id). Asserts the form content type at the Edge runtime
+          # layer only; the hosted supabase.co gateway rewrites GET text/html
+          # to text/plain without a custom domain (Supabase functions limits).
           authorize_client_id="$(sed -n 's/.*"client_id":"\([^"]*\)".*/\1/p' "$registration_file")"
           if [ -z "$authorize_client_id" ]; then
             printf 'Could not extract client_id from registration response\n'
