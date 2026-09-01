@@ -59,8 +59,7 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 enum OnboardingContent {
     // Default setup guidance is client-neutral (#57): paste the canonical MCP
     // URL into the client's custom MCP/connector field, complete OAuth when
-    // prompted, verify with get_profile. Vendor-specific flows stay in the
-    // labeled per-platform instructions below.
+    // prompted, verify with get_profile. Vendor flows stay labeled below.
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
 1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
@@ -98,19 +97,24 @@ Connect Morsel in Claude Desktop.
     }
 
     static func instructions(for platform: String) -> String {
+        let neutral = "Paste the MCP endpoint into your client's custom MCP/connector field, " +
+            "complete OAuth when prompted, and verify with get_profile."
         switch platform {
+        case "Custom MCP":
+            return neutral
         case "Claude.ai":
-            return "Customize → Connectors → + → Add custom connector, then paste this setup prompt."
+            return "Optional Claude.ai flow: Customize → Connectors → + → Add custom " +
+                "connector, then paste this setup prompt."
         case "Claude Desktop":
-            return "In Claude Desktop, open Settings → Connectors, add a custom connector, then paste this prompt."
+            return "Optional Claude Desktop flow: open Settings → Connectors, add a custom " +
+                "connector, then paste this prompt."
         case "ChatGPT":
-            return "Settings → Apps → Create, then add Morsel with this setup prompt."
+            return "Optional ChatGPT flow: Settings → Apps → Create, then add Morsel with this setup prompt."
         default:
-            return "Claude Code can install the connector for you."
+            return neutral
         }
     }
 }
-
 struct OnboardingEndpoint: Equatable, Sendable {
     let value: String
 
@@ -122,6 +126,10 @@ struct OnboardingEndpoint: Equatable, Sendable {
 }
 
 enum OnboardingPlatform: String, CaseIterable {
+    // Client-neutral default (issue #57): paste the canonical MCP URL into the
+    // client's own custom MCP/connector field; vendor flows below are labeled
+    // optional extras.
+    case custom = "Custom MCP"
     case claude = "Claude.ai"
     case desktop = "Claude Desktop"
     case chatGPT = "ChatGPT"
@@ -158,7 +166,7 @@ struct OnboardingView: View {
     let onAuthenticated: (AuthenticatedSession) -> Void
 
     @State private var state = OnboardingState()
-    @State private var platform = OnboardingPlatform.claude
+    @State private var platform = OnboardingPlatform.custom
     @State private var didCopy = false
 
     init(
@@ -328,12 +336,9 @@ struct OnboardingView: View {
     private func prompt(for platform: OnboardingPlatform, endpoint: String) -> String {
         let template: String
         switch platform {
-        case .claude, .chatGPT:
-            template = OnboardingContent.chatPrompt
-        case .desktop:
-            template = OnboardingContent.claudeDesktopPrompt
-        case .code:
-            template = OnboardingContent.claudeCodePrompt
+        case .custom, .claude, .chatGPT: template = OnboardingContent.chatPrompt
+        case .desktop: template = OnboardingContent.claudeDesktopPrompt
+        case .code: template = OnboardingContent.claudeCodePrompt
         }
         return OnboardingContent.prompt(template, endpoint: endpoint)
     }

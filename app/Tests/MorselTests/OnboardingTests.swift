@@ -59,10 +59,27 @@ final class OnboardingTests: XCTestCase {
     }
 
     func testEachPlatformHasDistinctInstructions() {
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Customize → Connectors"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Custom MCP").contains("custom MCP/connector field"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Optional Claude.ai flow"))
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude Desktop").contains("Claude Desktop"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Settings → Apps → Create"))
+        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Optional ChatGPT flow"))
         XCTAssertTrue(OnboardingContent.instructions(for: "Claude Code").contains("Claude Code"))
+    }
+
+    func testDefaultPlatformIsClientNeutralCustomMcp() throws {
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        let stateStart = try XCTUnwrap(source.range(of: "@State private var platform"))
+        let stateLine = String(source[stateStart.lowerBound..<source.index(stateStart.lowerBound, offsetBy: 90)])
+        XCTAssertTrue(
+            stateLine.contains("OnboardingPlatform.custom"),
+            "Default onboarding platform must be the client-neutral Custom MCP option"
+        )
+        XCTAssertTrue(source.contains("case custom = \"Custom MCP\""))
     }
 
     func testUnauthenticatedSignInCannotAdvance() {

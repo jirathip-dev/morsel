@@ -2,8 +2,9 @@
 
 ## Decision
 **Supabase Edge Function + Supabase store.** We host the MCP endpoint as a
-Deno Edge Function and host the store on Supabase; we do not build a chat app,
-a feed, or an AI.
+Deno Edge Function (canonical transport at the function root,
+`https://<public-host>/functions/v1/mcp`, issue #57) and host the store on
+Supabase; we do not build a chat app, a feed, or an AI.
 
 ## Why hosted (not self-hosted)
 The user's agent runs in Claude/ChatGPT's cloud, so the MCP server must be an
