@@ -95,6 +95,13 @@ describe('OAuth discovery and MCP authentication', () => {
       expect(aliasResponse.headers.get('content-type')).toBe('application/json')
       expect(aliasResponse.headers.get('www-authenticate')).toBe(rootResponse.headers.get('www-authenticate'))
 
+      // Load-bearing alias check: the alias must actually reach transport
+      // authentication (a stubbed 404 must fail this test), so it is a real
+      // compatibility path rather than a dead route.
+      const unauthenticatedGet = { headers: { accept: 'application/json, text/event-stream' } }
+      const aliasGet = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp', unauthenticatedGet))
+      expect(aliasGet.status).toBe(401)
+
       // The alias serves no discovery of its own.
       const aliasDiscovery = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp/.well-known/oauth-authorization-server'))
       expect(aliasDiscovery.status).toBe(404)

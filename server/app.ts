@@ -269,18 +269,17 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     ? ''
     : `/${options.basePath.replace(/^\/+|\/+$/g, '')}`
   const canonicalTransportPath = normalizedPrefix === '' ? '/' : normalizedPrefix
-  // Compatibility alias for clients provisioned with the pre-#57 nested
-  // transport path (.../functions/v1/mcp/mcp). It serves the same transport
-  // state and never advertises metadata of its own; nothing user-facing links
-  // to it. Retire once provisioned clients have migrated.
-  const compatibilityTransportPath = normalizedPrefix === '' ? '/mcp' : `${normalizedPrefix}/mcp`
-
-  routes.options('/mcp', mcpPreflight)
-  routes.all('/mcp', handleMcpTransport)
   app.options(canonicalTransportPath, mcpPreflight)
   app.all(canonicalTransportPath, handleMcpTransport)
-  app.options(compatibilityTransportPath, mcpPreflight)
-  app.all(compatibilityTransportPath, handleMcpTransport)
+
+  // Compatibility alias for clients provisioned with the pre-#57 nested
+  // transport path (.../functions/v1/mcp/mcp): the basePath-relative "/mcp"
+  // route below resolves to runtime /mcp/mcp on the Edge (publicly
+  // /functions/v1/mcp/mcp) and to /mcp on the local root server. It serves
+  // the same transport state and never advertises metadata of its own;
+  // nothing user-facing links to it. Retire once provisioned clients migrate.
+  routes.options('/mcp', mcpPreflight)
+  routes.all('/mcp', handleMcpTransport)
 
   return routes
 }
