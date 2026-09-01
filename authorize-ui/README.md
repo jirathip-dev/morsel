@@ -58,7 +58,7 @@ Requires a Web Fetch API runtime. Tests use the standard Node test runner and no
 dependencies:
 
 ```sh
-node --test authorize-ui/*.test.mjs
+node --test authorize-ui/*.node-test.mjs
 node --check authorize-ui/handler.mjs
 node --check authorize-ui/adapters/cloudflare.mjs
 ```
