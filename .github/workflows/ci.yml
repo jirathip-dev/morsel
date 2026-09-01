@@ -149,21 +149,6 @@ jobs:
             http://127.0.0.1:54321/functions/v1/mcp/.well-known/oauth-protected-resource/mcp
           assert_response_header "$protected_headers_file" 'access-control-allow-origin' '\*'
 
-          authorize_client_id="$(sed -n 's/.*"client_id":"\([^"]*\)".*/\1/p' "$registration_file")"
-          if [ -z "$authorize_client_id" ]; then
-            printf 'Could not extract client_id from registration response\n'
-            fail_bundle_probe
-          fi
-          curl --silent --show-error --dump-header "$authorize_headers_file" --output /dev/null \
-            --get \
-            --data-urlencode "client_id=$authorize_client_id" \
-            --data-urlencode 'code_challenge=ci-challenge' \
-            --data-urlencode 'code_challenge_method=S256' \
-            --data-urlencode 'redirect_uri=https://ci.example/callback' \
-            --data-urlencode 'response_type=code' \
-            http://127.0.0.1:54321/functions/v1/mcp/authorize
-          assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
-
           # An unauthenticated GET on /mcp must return the browser-readable 401
           # challenge (CORS-exposed WWW-Authenticate).
           mcp_challenge_status="$(curl --silent --show-error --dump-header "$mcp_headers_file" --output /dev/null \
@@ -205,6 +190,25 @@ jobs:
           if [ "$registration_status" != 201 ]; then
             fail_bundle_probe
           fi
+
+          # The authorize-form probe must run only after the registration POST
+          # above has succeeded and populated $registration_file (issue #55
+          # hosted-CI r1: consuming it earlier failed the probe with an empty
+          # client_id). Asserts the deployed form content type end to end.
+          authorize_client_id="$(sed -n 's/.*"client_id":"\([^"]*\)".*/\1/p' "$registration_file")"
+          if [ -z "$authorize_client_id" ]; then
+            printf 'Could not extract client_id from registration response\n'
+            fail_bundle_probe
+          fi
+          curl --silent --show-error --dump-header "$authorize_headers_file" --output /dev/null \
+            --get \
+            --data-urlencode "client_id=$authorize_client_id" \
+            --data-urlencode 'code_challenge=ci-challenge' \
+            --data-urlencode 'code_challenge_method=S256' \
+            --data-urlencode 'redirect_uri=https://ci.example/callback' \
+            --data-urlencode 'response_type=code' \
+            http://127.0.0.1:54321/functions/v1/mcp/authorize
+          assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
 
           if ! mcp_status="$(curl --silent --show-error --output "$response_file" --write-out '%{http_code}' \
             --request POST \
