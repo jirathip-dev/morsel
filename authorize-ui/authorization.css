@@ -56,7 +56,7 @@ input {
   height: 2.1rem;
   border-radius: 0.7rem 0.7rem 0.7rem 0.25rem;
   background: #e66a2c;
-  color: #fffcf5;
+  color: #2a261f;
   font-size: 0.95rem;
   place-items: center;
   transform: rotate(-4deg);
@@ -68,7 +68,7 @@ input {
 
 .eyebrow {
   margin: 0 0 0.5rem;
-  color: #a5750b;
+  color: #756955;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -105,7 +105,7 @@ input {
   width: 100%;
   min-height: 3rem;
   padding: 0.75rem 0.9rem;
-  border: 1px solid #e3d2ba;
+  border: 1px solid #e66a2c;
   border-radius: 0.8rem;
   outline: none;
   background: #fff7e8;
@@ -113,8 +113,9 @@ input {
 }
 
 input:focus {
-  border-color: #e66a2c;
-  box-shadow: 0 0 0 3px #fbe1c9;
+  border-color: #2f654b;
+  outline: 3px solid #2f654b;
+  outline-offset: 2px;
 }
 
 button {
@@ -123,17 +124,17 @@ button {
   border: 0;
   border-radius: 0.9rem;
   background: #e66a2c;
-  color: #fffcf5;
+  color: #2a261f;
   cursor: pointer;
   font-weight: 800;
 }
 
 button:hover {
-  background: #b94738;
+  background: #d6a62c;
 }
 
 button:focus-visible {
-  outline: 3px solid #2f654b;
+  outline: 3px solid #2a261f;
   outline-offset: 3px;
 }
 

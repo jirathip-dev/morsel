@@ -46,6 +46,29 @@ function source(name) {
   return readFileSync(new URL(name, import.meta.url), 'utf8')
 }
 
+function cssRule(css, selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const matches = [...css.matchAll(new RegExp(`^${escaped}\\s*\\{([^}]*)\\}`, 'gm'))]
+  assert.notEqual(matches.length, 0, `missing CSS rule: ${selector}`)
+  return matches.at(-1)[1]
+}
+
+function luminance(hex) {
+  const channels = hex.match(/[0-9a-f]{2}/gi).map((value) => Number.parseInt(value, 16) / 255)
+  const linear = channels.map((value) => value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4)
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+}
+
+function contrast(foreground, background) {
+  const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a)
+  return (values[0] + 0.05) / (values[1] + 0.05)
+}
+
+function assertContrast(name, foreground, background, minimum) {
+  const ratio = contrast(foreground, background)
+  assert.ok(ratio >= minimum, `${name}: ${ratio.toFixed(2)} must be >= ${minimum}`)
+}
+
 describe('static authorization page', () => {
   it('exports only the fixed Supabase authorization POST endpoint', () => {
     assert.equal(SUPABASE_AUTHORIZE_ENDPOINT, endpoint)
@@ -96,16 +119,53 @@ describe('static authorization page', () => {
     assert.doesNotMatch(html, /on(?:click|load|submit)=/i)
   })
 
-  it('pins a restrictive static CSP to the fixed POST endpoint', () => {
+  it('keeps the initial POST fixed while allowing the validated client redirect chain', () => {
+    const html = source('./index.html')
+    const readme = source('./README.md')
+    const documentedPolicy = readme.match(/```text\n([^`]+)\n```/)
+    assert.notEqual(documentedPolicy, null)
+    for (const policy of [html, documentedPolicy[1]]) assert.doesNotMatch(policy, /(?:^|;)\s*form-action\b/i)
+    assert.match(readme, /form-action.*every redirect.*dynamic registered client callback/is)
+    assert.match(readme, /fresh reviewer.*real-browser redirect-chain probe/is)
+    assert.match(html, new RegExp(`action="${endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`))
+    assert.match(source('./authorization.js'), /form\.action = SUPABASE_AUTHORIZE_ENDPOINT/)
+    const redirectChainFixture = [endpoint, 'https://claude.ai/api/mcp/auth_callback']
+    assert.notEqual(new URL(redirectChainFixture[0]).origin, new URL(redirectChainFixture[1]).origin)
+  })
+
+  it('keeps the remaining static CSP restrictive without filtering form redirects', () => {
     const html = source('./index.html')
     assert.match(html, /default-src 'none'/)
     assert.match(html, /script-src 'self'/)
     assert.match(html, /style-src 'self'/)
-    assert.match(html, /form-action https:\/\/anuerofnnewbsumukhqq\.supabase\.co\/functions\/v1\/mcp\/authorize/)
     assert.match(html, /connect-src 'none'/)
     assert.match(html, /frame-ancestors 'none'/)
     assert.match(html, /object-src 'none'/)
     assert.match(html, /base-uri 'none'/)
+  })
+
+  it('enforces approved text and non-text contrast pairs', () => {
+    const css = source('./authorization.css')
+    assert.match(cssRule(css, '.brand-mark'), /color:\s*#2a261f/)
+    assert.match(cssRule(css, 'button'), /color:\s*#2a261f/)
+    assert.match(cssRule(css, '.eyebrow'), /color:\s*#756955/)
+    assert.match(cssRule(css, 'button:hover'), /background:\s*#d6a62c/)
+    assert.match(cssRule(css, 'input'), /border:\s*1px solid #e66a2c/)
+    assert.match(cssRule(css, 'input:focus'), /outline:\s*3px solid #2f654b/)
+    assert.doesNotMatch(cssRule(css, 'input:focus'), /box-shadow/)
+    assert.match(cssRule(css, 'button:focus-visible'), /outline:\s*3px solid #2a261f/)
+
+    for (const [name, foreground, background, minimum] of [
+      ['brand/button text on accent', '#2a261f', '#e66a2c', 4.5],
+      ['eyebrow text on card', '#756955', '#fffcf5', 4.5],
+      ['button hover text', '#2a261f', '#d6a62c', 4.5],
+      ['input border/card', '#e66a2c', '#fffcf5', 3],
+      ['input border/field', '#e66a2c', '#fff7e8', 3],
+      ['input focus/card', '#2f654b', '#fffcf5', 3],
+      ['input focus/field', '#2f654b', '#fff7e8', 3],
+      ['button focus/accent', '#2a261f', '#e66a2c', 3],
+      ['button focus/card', '#2a261f', '#fffcf5', 3],
+    ]) assertContrast(name, foreground, background, minimum)
   })
 
   it('contains no proxy, dynamic upstream, unsafe markup, network, storage, analytics, or logging code', () => {
@@ -124,8 +184,10 @@ describe('static authorization page', () => {
     const readme = source('./README.md')
     assert.match(readme, /blank credential/i)
     assert.match(readme, /text\/plain/i)
-    assert.match(readme, /GitHub Pages/i)
-    assert.match(readme, /human gate/i)
+    assert.match(readme, /GitHub Pages alone.*cannot.*CSP response header/is)
+    assert.match(readme, /separately approved.*host|fronting layer/is)
+    assert.match(readme, /ordered duplicate controls.*last-wins.*backend/is)
+    assert.match(readme, /scope.*space-delimited field/is)
     assert.match(readme, /authorization_endpoint/)
     assert.match(readme, /issuer.*register.*token.*resource.*MCP/is)
     assert.match(readme, /must not.*deploy|no deployment is authorized/i)
