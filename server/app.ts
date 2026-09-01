@@ -58,6 +58,9 @@ function httpError(error: unknown, request?: Request, basePath?: string, publicB
   const headers = new Headers({ 'content-type': 'application/json' })
   if (morselError.code === 'authentication_failed' && request !== undefined) {
     headers.set('www-authenticate', `Bearer resource_metadata="${protectedResourceMetadataUrl(request, basePath, publicBaseUrl)}"`)
+    // Browser-based MCP clients cannot read the challenge unless CORS exposes it.
+    headers.set('access-control-allow-origin', '*')
+    headers.set('access-control-expose-headers', 'WWW-Authenticate')
   }
   return new Response(JSON.stringify({ error: morselError.publicMessage }), {
     status,
@@ -184,6 +187,18 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   }
 
   routes.get('/health', (context) => context.json({ ok: true }))
+
+  // Only the preflight handshake: real MCP requests still go through the same
+  // bearer-token authentication as before.
+  routes.options('/mcp', () => new Response(null, {
+    status: 204,
+    headers: {
+      'access-control-allow-headers': 'authorization, content-type, mcp-session-id',
+      'access-control-allow-methods': 'GET,POST,DELETE,OPTIONS',
+      'access-control-allow-origin': '*',
+      'access-control-max-age': '86400',
+    },
+  }))
 
   routes.all('/mcp', async (context) => {
     try {

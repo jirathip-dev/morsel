@@ -66,6 +66,66 @@ function createTestApp(basePath?: string, grantStore = createTestGrantStore(), p
 }
 
 describe('OAuth discovery and MCP authentication', () => {
+  it('serves browser-readable CORS headers on all discovery responses', async () => {
+    const app = createTestApp()
+    const responses = await Promise.all([
+      app.fetch(new Request('https://morsel.test/.well-known/oauth-protected-resource')),
+      app.fetch(new Request('https://morsel.test/.well-known/oauth-protected-resource/mcp')),
+      app.fetch(new Request('https://morsel.test/.well-known/oauth-authorization-server')),
+    ])
+    for (const response of responses) {
+      expect(response.headers.get('access-control-allow-origin')).toBe('*')
+    }
+  })
+
+  it('serves an MCP OPTIONS preflight', async () => {
+    const app = createTestApp()
+    const response = await app.fetch(new Request('https://morsel.test/mcp', { method: 'OPTIONS' }))
+
+    expect(response.status).toBe(204)
+    expect(response.headers.get('access-control-allow-origin')).toBe('*')
+    expect(response.headers.get('access-control-allow-headers')).toContain('authorization')
+    expect(response.headers.get('access-control-allow-methods')).toBe('GET,POST,DELETE,OPTIONS')
+    expect(response.headers.get('access-control-max-age')).toBe('86400')
+  })
+
+  it('makes the unauthenticated MCP 401 challenge browser-readable', async () => {
+    const app = createTestApp()
+    const response = await app.fetch(new Request('https://morsel.test/mcp', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} }),
+    }))
+
+    expect(response.status).toBe(401)
+    expect(response.headers.get('access-control-allow-origin')).toBe('*')
+    expect(response.headers.get('access-control-expose-headers')).toBe('WWW-Authenticate')
+    expect(response.headers.get('www-authenticate')).toContain('Bearer resource_metadata=')
+  })
+
+  it('serves the authorization form as HTML with charset utf-8', async () => {
+    const app = createTestApp()
+    const redirectUri = 'https://client.example/callback'
+    const registrationResponse = await app.fetch(new Request('https://morsel.test/register', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ redirect_uris: [redirectUri] }),
+    }))
+    expect(registrationResponse.status).toBe(201)
+    const clientId = stringProperty(await registrationResponse.json(), 'client_id')
+    const authorizationResponse = await app.fetch(new Request(`https://morsel.test/authorize?${new URLSearchParams({
+      client_id: clientId,
+      code_challenge: 'prefix-challenge',
+      code_challenge_method: 'S256',
+      redirect_uri: redirectUri,
+      response_type: 'code',
+    }).toString()}`))
+
+    expect(authorizationResponse.status).toBe(200)
+    expect(authorizationResponse.headers.get('content-type')).toBe('text/html; charset=utf-8')
+    expect(await authorizationResponse.text()).toContain('<!doctype html>')
+  })
+
   it('serves protected-resource metadata at both standard path forms', async () => {
     const app = createTestApp()
     const responses = await Promise.all([
