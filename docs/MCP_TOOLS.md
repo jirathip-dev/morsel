@@ -9,21 +9,89 @@ Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types
 
 ## Tool list
 
-| Tool | Direction | Purpose |
-|---|---|---|
-| `log_meal` | write | **The main one.** Record a meal (and its items). Photo path uses this. |
-| `search_food` | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). |
-| `update_meal_item` | write | Correct one item (wrong macro, wrong portion). |
-| `delete_meal_log` | write | Remove a whole meal. |
-| `get_day` | read | One day's meals + totals + remaining vs goal. |
-| `get_dashboard_summary` | read | Range totals, streak, macro split, weight trend. |
-| `get_profile` | read | Body metrics (sex, age, height, weight, activity, diet goal). |
-| `set_profile` | write | Upsert body metrics. |
-| `compute_targets` | read | BMR/TDEE + kcal + macro split derived from profile. |
-| `get_goals` | read | **Effective** targets (computed default, else manual override) + `source`. |
-| `set_goals` | write | Manual override (marks `source='manual'`). |
-| `get_weight_trend` | read | Apple Health body-mass series and latest measurement. |
-| `get_energy_burned` | read | Apple Health daily active-energy burn series. |
+Every registered tool carries a client-visible `title`, the existing
+description, explicit input and output schemas, and an explicit SDK
+`annotations` object. "Annotations" below lists only the true claims; see
+[Safety annotations](#safety-annotations) for the full wire contract.
+
+| Tool | Title | Direction | Purpose | Annotations |
+|---|---|---|---|---|
+| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Photo path uses this. | — |
+| `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | — (see [search_food cache write](#search_food-cache-write)) |
+| `update_meal_item` | Update one meal item | write | Correct one item (wrong macro, wrong portion). | — |
+| `delete_meal_log` | Delete a meal log | write | Remove a whole meal. | `destructiveHint` |
+| `get_day` | Get a day of meals | read | One day's meals + totals + remaining vs goal. | `readOnlyHint` |
+| `get_dashboard_summary` | Get the dashboard summary | read | Range totals, streak, macro split, weight trend. | `readOnlyHint` |
+| `get_profile` | Get the body profile | read | Body metrics (sex, age, height, weight, activity, diet goal). | `readOnlyHint` |
+| `set_profile` | Set the body profile | write | Upsert body metrics. | — |
+| `compute_targets` | Compute nutrition targets | read | BMR/TDEE + kcal + macro split derived from profile. | `readOnlyHint` |
+| `get_goals` | Get the effective goal | read | **Effective** targets (computed default, else manual override) + `source`. | `readOnlyHint` |
+| `set_goals` | Set manual goals | write | Manual override (marks `source='manual'`). | — |
+| `get_weight_trend` | Get the weight trend | read | Apple Health body-mass series and latest measurement. | `readOnlyHint` |
+| `get_energy_burned` | Get energy burned | read | Apple Health daily active-energy burn series. | `readOnlyHint` |
+
+## Safety annotations
+
+The MCP SDK exposes tool metadata through the real registration/inspection
+path (`tools/list`). Morsel registers the annotations below as client-visible
+hints. They describe what a call may do to **state** so clients can classify a
+tool as read-only or as requiring write/delete confirmation.
+
+Every registered tool emits the **full** SDK annotation set as explicit
+booleans — `{ readOnlyHint, destructiveHint, idempotentHint, openWorldHint }` —
+so no client or reviewer ever has to infer meaning from an absent field. In
+the table above, `readOnlyHint` / `destructiveHint` mean that field is `true`
+(and all other fields are `false`); "—" means all four fields are explicit
+`false`: the tool claims no safety class. The claim rules:
+
+- `readOnlyHint: true` — claimed **only** for tools whose full implementation
+  path provably never writes; every reachable call is a read (`SELECT` /
+  immutable `compute_targets` RPC):
+  - `get_profile` — reads `profiles`.
+  - `get_day`, `get_dashboard_summary` — read `meal_logs`, `meal_items`,
+    `profiles`, `goals`, `weight_logs`, and the immutable `compute_targets` RPC.
+  - `compute_targets`, `get_goals` — read `profiles`, `goals`, `weight_logs`,
+    and the immutable `compute_targets` RPC.
+  - `get_weight_trend` — reads `weight_logs`.
+  - `get_energy_burned` — reads `energy_burned_logs`.
+  All other tools assert `readOnlyHint: false` because their implementation
+  can write.
+- `destructiveHint: true` — claimed only for `delete_meal_log`. Deleting a
+  meal log is a hard, owner-scoped `DELETE` of the `meal_logs` row; `meal_items`
+  rows cascade-delete with it (foreign key `on delete cascade`, migration
+  0001). There is no archive, soft-delete, or restore path, so the effect is
+  irreversible. The other write tools (`log_meal`, `set_profile`, `set_goals`,
+  `update_meal_item`) assert `destructiveHint: false`: they create or overwrite
+  owned rows and remove nothing.
+- `idempotentHint: false` — asserted on **every** tool: the server makes no
+  retry-safety promise. `log_meal` inserts a new meal log on every call, so a
+  blind retry duplicates data; `delete_meal_log` errors with `not_found` once
+  the log is gone; the remaining writes are upserts that converge, but they
+  are deliberately not advertised as retry-safe.
+- `openWorldHint: false` — asserted on **every** tool: no registered tool
+  performs an action in the real world. `search_food` may query the live USDA
+  provider (an outbound **read** that can observe changing external data), but
+  it never acts on the world, so `openWorldHint` stays `false`.
+
+<a id="search_food-cache-write"></a>
+
+`search_food` is **not** annotated `readOnlyHint` even though it never touches
+user data. On a catalog miss the server queries the USDA FoodData Central
+provider and, when a cache client is configured, persists the matched
+provider-derived rows into the **shared** `food_catalog` table through the
+service-role-only `upsert_food_catalog` RPC (deterministic UUIDs derived from
+`fdc_id`, `source='usda'`, conflict-no-op). That is a write of shared server
+state on a real path, so a strict "does not modify any state" claim would be
+inaccurate. Callers keep read semantics for their own data; nothing about the
+user's rows, RLS scoping, or confirmation behavior changes.
+
+Annotations are **advisory to clients only**: they are server-authored
+metadata emitted over `tools/list` and are never consulted by the server at
+call time. They cannot grant or deny access, cannot be used to bypass
+authorization, and change nothing about Supabase Auth/RLS enforcement
+(`auth.uid()`-scoped policies and the repository's ownership checks still gate
+every call). A client that ignores or misreads a hint can neither write with a
+read-annotated tool nor read or mutate another user's data.
 
 ## Tool schemas
 

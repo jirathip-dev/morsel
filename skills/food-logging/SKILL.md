@@ -71,6 +71,29 @@ The server registers exactly these tools: `log_meal`, `search_food`,
 `get_weight_trend`, and `get_energy_burned`. It reads Apple Health imports for
 weight and active-energy context.
 
+### Tool safety classes
+
+The MCP server advertises client-visible safety annotations for every tool
+(`readOnlyHint`, `destructiveHint`; see `docs/MCP_TOOLS.md`). They describe
+server behavior only — they do not replace authentication or the user's
+approval. Treat every call as account-scoped, and treat these classes as the
+authoritative guidance:
+
+- Read-only (never write): `get_day`, `get_profile`, `compute_targets`,
+  `get_goals`, `get_weight_trend`, `get_energy_burned`,
+  `get_dashboard_summary`. Safe to call without confirmation.
+- Writes (create or overwrite the user's data): `log_meal`, `set_profile`,
+  `set_goals`, `update_meal_item`. Confirm with the user when the effect is
+  not already requested; `log_meal` is never retried blindly — every call
+  inserts a new meal.
+- Destructive (irreversible delete): `delete_meal_log` only. Deleting removes
+  the meal log and its items permanently — never call it without explicit
+  user confirmation.
+- `search_food` is not advertised as read-only: it reads the catalog, but on a
+  miss it may query the USDA provider and persist matched rows into the
+  server's shared food catalog. It never writes the user's data and needs no
+  confirmation, but do not describe it to the user as a pure no-write read.
+
 ## Exact tool contract
 
 UUID means a UUID string. Numbers described as non-negative or positive must
