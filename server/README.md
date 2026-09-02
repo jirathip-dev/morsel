@@ -37,7 +37,8 @@ pre-#57 nested path `…/functions/v1/mcp/mcp` remains as a tested compatibility
 alias for clients provisioned before the route change; it serves the same
 transport and never advertises its own metadata, and nothing user-facing links
 to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-server`,
-`/.well-known/oauth-protected-resource/mcp`, `/authorize`, `/token`,
+`/.well-known/openid-configuration` (issue #59), `/.well-known/oauth-protected-resource/mcp`,
+`/authorize`, `/token`,
 `/register`) remain on the same canonical Supabase base, and the advertised OAuth
 `resource` is the canonical transport URL itself. The authorization-server
 metadata may advertise the static HTTPS browser page

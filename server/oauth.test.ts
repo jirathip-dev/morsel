@@ -598,6 +598,96 @@ describe('OAuth discovery and MCP authentication', () => {
     )
   })
 
+  describe('OIDC discovery at the issuer path (#59)', () => {
+    // Issue #59: spec-compliant MCP clients (Hermes, Claude, ChatGPT) build
+    // discovery URLs by appending to the issuer. Attempts 1-2 (host-root
+    // .well-known prefixes carrying the issuer path) die at the Supabase
+    // gateway before reaching the function; the third attempt -
+    // <issuer>/.well-known/openid-configuration - is the one that reaches
+    // Morsel, so the authorization-server document must be served there.
+    it('serves the authorization-server document at the OIDC discovery path with identical behavior', async () => {
+      const app = createTestApp('/mcp')
+      const [oidc, authorizationServer] = await Promise.all([
+        app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/openid-configuration')),
+        app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/oauth-authorization-server')),
+      ])
+      expect(oidc.status).toBe(200)
+      expect(authorizationServer.status).toBe(200)
+
+      // Same document, byte-for-byte: the OIDC route reuses the AS metadata
+      // builder rather than duplicating it.
+      const oidcText = await oidc.clone().text()
+      const asText = await authorizationServer.clone().text()
+      expect(oidcText).toBe(asText)
+      const metadata = await oidc.clone().json()
+      const asMetadata = await authorizationServer.clone().json()
+      expect(metadata).toEqual(asMetadata)
+      expect(metadata).toMatchObject({
+        issuer: 'http://supabase-edge-runtime:8081/mcp',
+        authorization_endpoint: 'http://supabase-edge-runtime:8081/mcp/authorize',
+        token_endpoint: 'http://supabase-edge-runtime:8081/mcp/token',
+        registration_endpoint: 'http://supabase-edge-runtime:8081/mcp/register',
+        response_types_supported: ['code'],
+        code_challenge_methods_supported: ['S256'],
+        token_endpoint_auth_methods_supported: ['none'],
+        grant_types_supported: ['authorization_code', 'refresh_token'],
+        scopes_supported: ['mcp'],
+      })
+
+      // Only claims the provider can back: no invented OIDC fields on the
+      // discovery surface (jwks_uri / subject_types_supported would be
+      // unbacked).
+      expect(metadata).not.toHaveProperty('jwks_uri')
+      expect(metadata).not.toHaveProperty('subject_types_supported')
+      expect(metadata).not.toHaveProperty('userinfo_endpoint')
+
+      // Same wire behavior as the existing AS metadata route.
+      const behaviorHeaders = [
+        ['cache-control', 'no-store'],
+        ['content-type', 'application/json'],
+        ['access-control-allow-origin', '*'],
+        ['access-control-allow-methods', 'GET,POST,OPTIONS'],
+        ['access-control-allow-headers', 'content-type'],
+        ['access-control-expose-headers', 'WWW-Authenticate'],
+      ] as const
+      for (const [name, expected] of behaviorHeaders) {
+        expect(oidc.headers.get(name)).toBe(expected)
+        expect(oidc.headers.get(name)).toBe(authorizationServer.headers.get(name))
+      }
+    })
+
+    it('keeps the issuer byte-equal to the production public base on the OIDC route', async () => {
+      const productionIssuer = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp'
+      const app = createTestApp('/mcp', createTestGrantStore(), productionIssuer)
+      const response = await app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/.well-known/openid-configuration'))
+
+      expect(response.status).toBe(200)
+      expect(response.headers.get('cache-control')).toBe('no-store')
+      expect(response.headers.get('content-type')).toBe('application/json')
+      expect(response.headers.get('access-control-allow-origin')).toBe('*')
+      expect(await response.json()).toMatchObject({
+        issuer: productionIssuer,
+        authorization_endpoint: `${productionIssuer}/authorize`,
+        token_endpoint: `${productionIssuer}/token`,
+        registration_endpoint: `${productionIssuer}/register`,
+      })
+    })
+
+    it('serves no OIDC discovery outside the canonical issuer path', async () => {
+      const app = createTestApp('/mcp')
+      const [hostRoot, alias] = await Promise.all([
+        // Host-root .well-known prefixes (spec attempts 1-2) are gateway
+        // territory and must not be registered by Morsel.
+        app.fetch(new Request('http://supabase-edge-runtime:8081/.well-known/openid-configuration')),
+        // The nested /mcp/mcp compatibility alias advertises no discovery of
+        // its own (issue #57 rule), OIDC included.
+        app.fetch(new Request('http://supabase-edge-runtime:8081/mcp/mcp/.well-known/openid-configuration')),
+      ])
+      expect(hostRoot.status).toBe(404)
+      expect(alias.status).toBe(404)
+    })
+  })
+
   it('runs a PKCE authorization-code flow and rejects cross-instance code replay', async () => {
     const grantStore = createTestGrantStore()
     const app = createTestApp(undefined, grantStore)

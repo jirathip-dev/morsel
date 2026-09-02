@@ -239,8 +239,18 @@ client-facing transport URL is the Edge Function root,
 `…/functions/v1/mcp/mcp` path remains only as a compatibility alias for clients
 provisioned before the route change and is never published to users. OAuth
 clients discover the provider through `/.well-known/oauth-protected-resource`
-(the path-specific `/.well-known/oauth-protected-resource/mcp` is also served)
-and `/.well-known/oauth-authorization-server`, all under the canonical base.
+(the path-specific `/.well-known/oauth-protected-resource/mcp` is also served),
+`/.well-known/oauth-authorization-server`, and
+`/.well-known/openid-configuration` (OpenID Connect discovery), all under the
+canonical base. The OIDC route serves the same authorization-server document —
+same `issuer`, endpoints, CORS, and cache behavior — and adds no OIDC claims
+the provider cannot back. Because the issuer is a path (`/functions/v1/mcp`),
+spec-compliant MCP clients try three discovery URLs: the two host-root
+prefixes (`/.well-known/oauth-authorization-server/functions/v1/mcp` and
+`/.well-known/openid-configuration/functions/v1/mcp`) are intercepted by the
+Supabase gateway before reaching the function, and the canonical URL that
+succeeds is the issuer-relative
+`https://<public-host>/functions/v1/mcp/.well-known/openid-configuration`.
 The advertised OAuth `resource` is the canonical transport URL itself.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code

@@ -57,7 +57,9 @@ publicly exposing the **canonical MCP transport at the function root**,
 `/functions/v1/mcp` (issue #57); the pre-#57 nested `/functions/v1/mcp/mcp`
 path remains as a compatibility alias and must not be published to clients.
 OAuth discovery and provider backend routes use the same canonical prefix:
-`/.well-known/oauth-authorization-server`, `/authorize`, `/token`, and `/register`
+`/.well-known/oauth-authorization-server`, `/.well-known/openid-configuration`
+(issue #59; same authorization-server document for OpenID Connect discovery),
+`/authorize`, `/token`, and `/register`
 are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
 is the canonical transport URL itself. The authorization-server metadata may
 advertise the separately hosted static browser page
@@ -86,7 +88,15 @@ the Supabase `/authorize` route, which remains the OAuth backend and issuer.
 - **OAuth discovery:** protected-resource metadata is served at both
   `/.well-known/oauth-protected-resource` and
   `/.well-known/oauth-protected-resource/mcp` (and the corresponding function
-  prefixed paths). The MCP 401 response points clients at the path-specific URL.
+  prefixed paths). Authorization-server metadata is served at
+  `/.well-known/oauth-authorization-server` and, for OpenID Connect
+  discovery, at `/.well-known/openid-configuration` (issue #59) — the same
+  document with the same issuer/endpoints. With the path issuer
+  `/functions/v1/mcp`, spec clients append the OIDC path to the issuer, so the
+  canonical discovery URL is
+  `<issuer>/.well-known/openid-configuration`; host-root
+  `/.well-known/…/functions/v1/mcp` prefixes never reach the function (Supabase
+  gateway). The MCP 401 response points clients at the path-specific URL.
 - **App side:** Supabase Auth (Apple / Google / email OTP). Same `user_id` as the
   agent, so both clients share one store.
 
