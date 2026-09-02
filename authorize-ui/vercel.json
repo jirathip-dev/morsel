@@ -3,7 +3,19 @@
   "routes": [
     {
       "src": "/authorize",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "methods": ["GET"]
+    }
+  ],
+  "headers": [
+    {
+      "source": "/authorize",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+        }
+      ]
     }
   ]
 }

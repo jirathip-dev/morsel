@@ -6,22 +6,25 @@ the implementation lane. Activation requires explicit human approval after the
 checklist below is complete. Nothing in this document is live.
 
 The current browser-authorization path does not require a Supabase custom
-domain: authorization-server metadata advertises the function-origin
-`…/functions/v1/mcp/authorize` URL as `authorization_endpoint`, and the Edge
-Function serves both email-OTP consent stages itself (issue #66), while the
-canonical MCP URL, issuer, OAuth backend routes, resource, and challenge URLs
-remain on the Supabase function base. A custom domain would only change the
-hostname of that same base. This document describes a separate future
-custom-domain option only.
+domain: the consent HTML lives on the static Vercel page (`authorize-ui/`,
+issue #69), and the Edge Function answers the OAuth flow with metadata, JSON
+errors, and bodyless 302s back to that page (the optional
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret names it; restoring that
+production secret is human-gated). The canonical MCP URL, issuer, OAuth
+backend routes, resource, and challenge URLs remain on the Supabase function
+base. A custom domain would only change the hostname of that same base. This
+document describes a separate future custom-domain option only.
 
 ## Why a custom domain
 
 On the default `*.supabase.co` project URL, Supabase's hosted gateway rewrites
 certain responses (observed: GET `text/html` becomes `text/plain`, issue #55)
-and browser-rendered server-hosted OAuth screens cannot be guaranteed. A
-project-level custom domain remains Supabase's supported future path to stable,
-browser-facing behavior for the server-hosted OAuth `/authorize` form and a
-clean canonical MCP endpoint host:
+— which is why consent HTML is served from the static Vercel page (issue #69)
+while the function stays metadata/JSON/302-only. A project-level custom
+domain remains Supabase's supported future path to stable, browser-facing
+behavior for a server-hosted OAuth `/authorize` form (should the repository
+ever move the consent skin back onto the function origin) and a clean
+canonical MCP endpoint host:
 
 ```
 https://<owned-custom-subdomain>/functions/v1/mcp
@@ -47,8 +50,10 @@ anywhere in the repository.
   and certificate issuance happen during activation.
 - **Rewrite behavior follows the domain.** After activation the gateway's
   `text/html` rewrite no longer applies (per Supabase's custom-domain
-  behavior); the browser-facing OAuth form works as served. Re-verify the
-  content-type after activation — do not assume it.
+  behavior). Today the consent skin is the Vercel page (issue #69), so this
+  only matters if the repository ever moves the browser forms back onto the
+  function origin; re-verify the content-type after any such change — do not
+  assume it.
 
 ## Activation checklist (human-gated; each step explicit)
 
@@ -74,8 +79,10 @@ anywhere in the repository.
      `resource_metadata` URL uses the custom domain.
    - `GET …/functions/v1/mcp/.well-known/oauth-authorization-server` → `200`
      with issuer/endpoints on the custom domain.
-   - `GET …/functions/v1/mcp/authorize?…` → `200` `text/html; charset=utf-8`
-     (not `text/plain`).
+   - If the consent skin is ever moved back onto the function origin:
+     `GET …/functions/v1/mcp/authorize?…` → `200` `text/html; charset=utf-8`
+     (not `text/plain`). (Today the browser skin is the Vercel page — issue
+     #69 — so the hosted function answers /authorize with 302s/JSON only.)
    - A real client connection (OAuth sign-in + `get_profile`) end to end.
 7. **Rollback / read-back plan.** Rolling back a custom domain means
    deactivating it in Supabase and reverting DNS; the default `*.supabase.co`

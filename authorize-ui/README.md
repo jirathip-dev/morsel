@@ -1,81 +1,105 @@
-# Morsel static authorization page (retired GET-only surface)
+# Morsel static authorization page (Vercel consent skin)
 
-Status (issue #66): **this page is no longer the OAuth consent surface.** Both
-email-OTP stages are served by the Supabase function origin itself; this
-directory is an archived static page that is kept only so the historical
-`https://morsel-authorize-ui.vercel.app/authorize` URL keeps serving a real
-page. Do not point clients at it.
+Status (issue #69): **this page is the browser consent surface again.** The
+two-step email-code authorization runs on this Vercel static page while the
+OAuth backend stays on the Supabase Edge Function, which answers only with
+metadata, JSON errors, and bodyless redirects — never consent HTML.
 
-## Where OAuth consent is served now
+## Why the page exists (and why the function cannot serve it)
 
-The consent flow runs entirely on the Supabase function origin:
+Supabase's free shared domain does not support serving HTML from Edge
+Functions: `text/html` GET responses are rewritten to `text/plain`, so
+browsers display source instead of a rendered page (the #66/#68 regression).
+Morsel stays on the free tier, so the repository's production wiring points
+clients' browsers at this Vercel page again:
 
-- Authorization-server metadata advertises
-  `https://<project>.supabase.co/functions/v1/mcp/authorize` as
-  `authorization_endpoint` (the Edge Function never configures an external
-  authorization page; `supabase/functions/mcp/index.ts`).
-- The `/authorize` route itself renders both stages as server-side HTML
-  (`server/oauth.ts`): a no-JavaScript stage-1 email form and a stage-2
-  code-entry form, each a self-POST to the same origin with every
-  non-credential OAuth parameter carried as a hidden field.
-- Responses are `text/html; charset=utf-8` with the CSP
-  `default-src 'none'; style-src 'unsafe-inline'; form-action 'self'`; the
-  flow never redirects to a static page.
-- The two-step contract is unchanged from #60: sealed single-use transaction
-  envelope, uniform unknown/existing-account responses, per-email rate limit,
-  single-use expiring codes, PKCE/redirect/resource binding, and no
-  credential echoing. Behavior is pinned in `server/oauth.test.ts`.
+- The optional `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` Edge Function
+  environment value names this page
+  (`https://morsel-authorize-ui.vercel.app/authorize`). When it is set,
+  authorization-server metadata advertises it as `authorization_endpoint`
+  and every `/authorize` form response is a bodyless 302 back to it,
+  carrying the OAuth parameters (plus the sealed `transaction` envelope and
+  the `#code-entry` fragment on stage 2).
+- Restoring that production secret after the #66 removal is a **human-gated
+  config step**; the repository never reads, sets, or deletes the live
+  secret. The deploy workflow verifies the expected endpoint but never
+  creates it. Unset, the function keeps its server-rendered two-stage
+  fallback (issue #66 hardening) as defense in depth — pinned by
+  `server/oauth.test.ts` — but that fallback is not the production browser
+  path on the shared domain.
 
-## Why the static page was retired
+## The consent flow
 
-Form posts from the page attempted to reach the Supabase backend through a
-legacy route whose destination was an external Supabase URL. Vercel legacy
-routes do not honor external destinations, so that route was inert: form posts
-to the page URL answered `405` with an empty body, and mobile browsers showed
-a "download authorize" sheet instead of the next stage. The #60 server-rendered
-path already implemented the identical two-step contract, so the repository
-stopped configuring the external page (issue #66). Removing the production
-secret (`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`) and any live hosting changes
-remain human-gated; this lane only changes repository code, tests, and docs.
+1. The MCP client starts at the metadata `authorization_endpoint` — this
+   page — with the OAuth parameters in the query string.
+2. `params.js` (the page's only JavaScript, same-origin, deferred) copies the
+   closed allowlist of server-supported OAuth query fields
+   (`client_id`, `redirect_uri`, `response_type`, `code_challenge`,
+   `code_challenge_method`, `scope`, `resource`, `state`, and — on the code
+   stage — `transaction`) into hidden inputs and points both stage forms at
+   the fixed Supabase
+   `https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize`
+   URL. It never copies `email`, `code`, `password`, duplicate values beyond
+   the deterministic last-wins rule, unrecognized fields, or fragment data,
+   and it performs no fetch/XHR, storage, analytics, logging, dynamic
+   loading, or credential handling.
+3. Submitting a stage form is a direct **cross-origin form POST** to the
+   Supabase function — HTML form POSTs need no CORS and no proxy. The server
+   validates the request (`requestParameters` accepts query or form body),
+   requests/verifies the email one-time code, and 302s back to this page for
+   the next stage or to the registered client with the authorization code.
+4. The static host has no function, no proxy, and no form-post route:
+   `vercel.json` serves `GET /authorize → index.html` only, so no submission
+   can ever reach a backend through Vercel. Without the bridge script a
+   form post would answer `404` from the static host — fail-closed, with no
+   backend side effect.
 
-## Routing contract (`vercel.json`)
-
-The file serves the archived page for `GET /authorize` and contains no other
-route:
+## Routing and security contract (`vercel.json`)
 
 ```json
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "routes": [
-    { "src": "/authorize", "dest": "/index.html" }
+    { "src": "/authorize", "dest": "/index.html", "methods": ["GET"] }
+  ],
+  "headers": [
+    {
+      "source": "/authorize",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'" }
+      ]
+    }
   ]
 }
 ```
 
-## The archived page
-
-Provider-neutral, **no-JavaScript** "Connect to Morsel" page with the same
-neutral copy as the server-rendered forms and a restrictive script-free CSP
-declaration. It never reads the query string, never writes storage, never
-fetches, and has no server runtime. Its two stage forms omit action and use
-`method="post"`, so a submission self-posts to the document URL with the
-current query string preserved — historical behavior that can no longer reach
-the backend, because the host has no route for form posts. The page therefore
-cannot complete the flow and is not a consent surface — it exists only to keep
-the historical URL serving a page.
+The GET-only route plus the deployed `Content-Security-Policy` header (the
+same restrictive policy as the page's `<meta>` — `script-src 'self'` admits
+only `params.js`) keep the skin locked down; `form-action` stays absent so
+the cross-origin form POST to Supabase remains allowed.
 
 ## Files
 
-- `index.html` — static two-stage page: email form (default), code form
-  (`#code-entry`), restrictive script-free CSP declaration. No JavaScript.
+- `index.html` — the static two-stage "Connect to Morsel" page: email form
+  (default), code form
+  (`#code-entry`, shown by CSS `:target`), restrictive CSP declaration, and
+  the single deferred `params.js` load. Visible copy, structure, styling,
+  and palette tokens match the approved design.
+- `params.js` — same-origin OAuth query-parameter bridge described above.
 - `authorization.css` — same-origin Morsel presentation using the existing
   palette tokens, including the `:target` stage switch.
-- `vercel.json` — archived-page GET route (above); no form-post routing.
+- `vercel.json` — GET-only `/authorize` page route plus the CSP header;
+  no external-destination route, function, or proxy.
 - `authorization.test.js` — repository-native Vitest contract: neutral copy,
-  no-JS source proof, form/CSP/shape, contrast pairs, and README/route pins.
+  single-script/CSP/route pins, executable DOM tests that run the real
+  `params.js` in a `node:vm` harness (no new dependency), contrast pairs,
+  and README/route pins. Removing the script, weakening the credential
+  exclusion, or pointing a form back at Vercel fails these tests RED.
 
 There is no fetch/XHR, server runtime, adapter, dynamic upstream,
-cookie/storage use, analytics, logging, third-party script, or inline secret.
+cookie/storage use, analytics, logging, third-party script, inline script,
+or inline secret. Deployment and live acceptance of the page and the
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret remain human-gated.
 
 ## Local verification
 

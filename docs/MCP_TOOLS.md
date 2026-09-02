@@ -330,19 +330,24 @@ succeeds is the issuer-relative
 The advertised OAuth `resource` is the canonical transport URL itself.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
-grant, and refresh tokens. The Supabase `/authorize` route remains the OAuth
-backend and presents a two-step email one-time-code sign-in: **sign in with
-the email on the Morsel account; a code is emailed to you.** Step 1 requests a
-Supabase Auth email OTP for an existing account only (no account creation) and
-answers uniformly for known and unknown emails; step 2 verifies the 6-digit
-code before the authorization code is issued. Both consent stages are served
-by the Supabase function origin itself: authorization-server metadata
-advertises `…/functions/v1/mcp/authorize` as `authorization_endpoint`, and the
-route renders the two no-JS email/code forms server-side as self-POSTs with
-every non-credential OAuth parameter carried as a hidden field. No external
-authorization page is configured — the legacy static host could not forward
-form posts, so the repository removed that configuration seam (issue #66); the
-archived `authorize-ui/` page is a GET-only static artifact. `/token` requires PKCE with
+grant, and refresh tokens. The Supabase `/authorize` route is the OAuth
+backend and consent runs as a two-step email one-time-code sign-in: **sign in
+with the email on the Morsel account; a code is emailed to you.** Step 1
+requests a Supabase Auth email OTP for an existing account only (no account
+creation) and answers uniformly for known and unknown emails; step 2 verifies
+the 6-digit code before the authorization code is issued. The BROWSER consent
+surface is the static Vercel page under `authorize-ui/` (issue #69):
+Supabase's free shared domain rewrites Edge Function `text/html` to
+`text/plain`, so the function origin cannot render consent HTML in
+production. When the optional `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret is
+set, authorization-server metadata advertises the Vercel page as
+`authorization_endpoint` and every `/authorize` form response is a bodyless
+302 back to it; the page's same-origin `params.js` copies the allowlisted
+OAuth query fields into hidden inputs and each stage form POSTs directly
+(cross-origin — no CORS, no proxy) to the function. Restoring that production
+secret is human-gated (the deploy workflow only verifies it); unset, the
+route renders the two no-JS email/code forms server-side as self-POSTs as the
+pinned fallback (issue #66 hardening). `/token` requires PKCE with
 `code_challenge_method=S256` and rejects `plain`. Access tokens are the real
 Supabase Auth session access tokens, validated with `auth.getUser()` before
 issuance, so existing RLS policies continue to scope every tool call to the

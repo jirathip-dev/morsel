@@ -38,6 +38,8 @@ jobs:
           oauth_headers_file="$(mktemp)"
           protected_headers_file="$(mktemp)"
           authorize_headers_file="$(mktemp)"
+          authorize_stage_headers_file="$(mktemp)"
+          authorize_stage_body_file="$(mktemp)"
           mcp_headers_file="$(mktemp)"
           alias_headers_file="$(mktemp)"
           preflight_headers_file="$(mktemp)"
@@ -55,6 +57,7 @@ jobs:
             rm -f "$start_log" "$serve_log" "$health_file" "$response_file" \
               "$oauth_metadata_file" "$protected_metadata_file" "$registration_file" "$oauth_env_file" \
               "$oauth_headers_file" "$protected_headers_file" "$authorize_headers_file" \
+              "$authorize_stage_headers_file" "$authorize_stage_body_file" \
               "$mcp_headers_file" "$alias_headers_file" "$preflight_headers_file"
           }
           trap cleanup EXIT
@@ -66,6 +69,7 @@ jobs:
           cp deno.json "$function_config"
           function_config_created=1
           printf 'MORSEL_OAUTH_SIGNING_KEY=ci-bundle-test-key\n' >"$oauth_env_file"
+          printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize\n' >>"$oauth_env_file"
 
           if ! /usr/bin/timeout 240s npx --yes supabase@2.116.0 start \
             --exclude gotrue,realtime,storage-api,imgproxy,mailpit,postgrest,postgres-meta,studio,logflare,vector,supavisor \
@@ -133,32 +137,39 @@ jobs:
           with open(sys.argv[1]) as handle:
               metadata = json.load(handle)
 
-          # Issue #66: no external authorization page is configured — both
-          # email-OTP stages are served by the Supabase function origin, so
-          # authorization_endpoint must stay on the issuer base.
+          # Issue #69: the browser consent skin is the Vercel static page
+          # again — Supabase's free shared domain rewrites function text/html
+          # to text/plain, so the function origin cannot render consent HTML.
+          # This CI run sets the synthetic endpoint above to exercise the
+          # configured mode: authorization_endpoint must be that external page
+          # while issuer/token/register stay on the Supabase base.
+          expected_authorization_endpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
           supabase_base = metadata.get('issuer')
           if not isinstance(supabase_base, str) or not urlparse(supabase_base).netloc:
               raise SystemExit('OAuth metadata issuer must be an absolute Supabase base URL')
-          expected_authorization_endpoint = supabase_base.rstrip('/') + '/authorize'
           if metadata.get('authorization_endpoint') != expected_authorization_endpoint:
-              raise SystemExit('OAuth metadata authorization_endpoint must be the function-origin /authorize route')
+              raise SystemExit('OAuth metadata authorization_endpoint must be the external static authorization page')
+          if urlparse(supabase_base).netloc == urlparse(expected_authorization_endpoint).netloc:
+              raise SystemExit('OAuth issuer must remain on the Supabase host')
           for field, suffix in {
               'token_endpoint': '/token',
               'registration_endpoint': '/register',
           }.items():
               if metadata.get(field) != supabase_base.rstrip('/') + suffix:
                   raise SystemExit('OAuth metadata field %s must remain on the Supabase issuer base' % field)
-          print('OAuth metadata: consent served from the Supabase function origin (authorization/token/register on one base)')
+          print('OAuth metadata split: external authorization endpoint; Supabase issuer/token/register')
           PY
 
           # Browser-facing OAuth/MCP response contracts (issue #55): the Edge
-          # runtime must expose CORS on discovery, serve the authorization
-          # form as HTML, and make the 401 WWW-Authenticate challenge
-          # browser-readable. Asserted against `functions serve` (the LOCAL
-          # Edge runtime — NOT the hosted supabase.co gateway, which rewrites
-          # GET text/html to text/plain without a custom domain). These probes
-          # guard the code-level contract; hosted behavior needs the custom
-          # domain / external-UI decision tracked in issue #55.
+          # runtime must expose CORS on discovery and make the 401
+          # WWW-Authenticate challenge browser-readable. Asserted against
+          # `functions serve` (the LOCAL Edge runtime — NOT the hosted
+          # supabase.co gateway, which rewrites GET text/html to text/plain
+          # without a custom domain). Consent HTML itself is never served by
+          # the function in production: the browser skin is the Vercel page
+          # (issue #69), so the /authorize GET below only pins the
+          # direct-visit fallback, and the stage-1 POST must be a bodyless
+          # 302 back to the external page.
           assert_response_header() {
             headers_file="$1"
             expected_header="$2"
@@ -249,9 +260,11 @@ jobs:
           # The authorize-form probe must run only after the registration POST
           # above has succeeded and populated $registration_file (issue #55
           # hosted-CI r1: consuming it earlier failed the probe with an empty
-          # client_id). Asserts the form content type at the Edge runtime
-          # layer only; the hosted supabase.co gateway rewrites GET text/html
-          # to text/plain without a custom domain (Supabase functions limits).
+          # client_id). With the external page configured (issue #69) a GET is
+          # the direct-visit fallback only: the function still renders the
+          # server-side email stage at the Edge runtime layer. Hosted
+          # text/html rewrites never affect the consent flow because the
+          # Vercel skin is the browser surface.
           authorize_client_id="$(sed -n 's/.*"client_id":"\([^"]*\)".*/\1/p' "$registration_file")"
           if [ -z "$authorize_client_id" ]; then
             printf 'Could not extract client_id from registration response\n'
@@ -266,6 +279,42 @@ jobs:
             --data-urlencode 'response_type=code' \
             http://127.0.0.1:54321/functions/v1/mcp/authorize
           assert_response_header "$authorize_headers_file" 'content-type' 'text/html; charset=utf-8'
+
+          # Configured-mode stage contract (issue #69): the email form POST
+          # from the Vercel skin must be a bodyless 302 back to the external
+          # page carrying every OAuth parameter plus a fresh sealed
+          # transaction envelope and the #code-entry fragment — never HTML
+          # from the function origin.
+          authorize_stage_status="$(curl --silent --show-error --dump-header "$authorize_stage_headers_file" --output "$authorize_stage_body_file" \
+            --write-out '%{http_code}' \
+            --request POST \
+            --data-urlencode 'email=ci-probe@example.com' \
+            "http://127.0.0.1:54321/functions/v1/mcp/authorize?client_id=$authorize_client_id&code_challenge=ci-challenge&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fci.example%2Fcallback&response_type=code&state=ci-state-123")"
+          printf 'Hosted authorize stage-1 POST status: %s\n' "$authorize_stage_status"
+          if [ "$authorize_stage_status" != 302 ]; then
+            printf 'Expected configured-mode stage-1 POST to redirect (302), got: %s\n' "$authorize_stage_status"
+            fail_bundle_probe
+          fi
+          if [ -s "$authorize_stage_body_file" ]; then
+            printf 'Configured-mode stage-1 response must have an empty body\n'
+            cat "$authorize_stage_body_file"
+            fail_bundle_probe
+          fi
+          if ! tr -d '\r' <"$authorize_stage_headers_file" | grep -qi '^location: https://morsel-authorize-ui\.vercel\.app/authorize?'; then
+            printf 'Configured-mode stage-1 Location must be the external authorization page\n'
+            cat "$authorize_stage_headers_file"
+            fail_bundle_probe
+          fi
+          if ! tr -d '\r' <"$authorize_stage_headers_file" | grep -qi '^location: .*transaction='; then
+            printf 'Configured-mode stage-1 Location must carry the sealed transaction envelope\n'
+            cat "$authorize_stage_headers_file"
+            fail_bundle_probe
+          fi
+          if ! tr -d '\r' <"$authorize_stage_headers_file" | grep -qi '^location: .*#code-entry$'; then
+            printf 'Configured-mode stage-1 Location must end with the #code-entry fragment\n'
+            cat "$authorize_stage_headers_file"
+            fail_bundle_probe
+          fi
 
           # Issue #57: the final MCP initialize probe goes to the CANONICAL
           # function-root transport (…/functions/v1/mcp) and expects the 401
