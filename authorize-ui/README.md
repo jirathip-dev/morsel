@@ -45,7 +45,7 @@ It relies on two browser/platform behaviors:
   email only in the body.
 - **CSS `:target` staging.** After step 1 the backend `302`s back to this page
   with the OAuth parameters plus a fresh `transaction` envelope and the
-  `#code-entry` fragment. `#code-stage` is `display:none` by default and both
+  `#code-entry` fragment. `#code-entry` is `display:none` by default and both
   stages are toggled with `body:has(#code-entry:target)` rules — no script.
   A "Use a different email or request a new code" anchor returns to
   `#email-stage` (fragment-only navigation keeps the query).
