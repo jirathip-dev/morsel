@@ -331,13 +331,20 @@ The advertised OAuth `resource` is the canonical transport URL itself.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
 grant, and refresh tokens. The Supabase `/authorize` route remains the OAuth
-backend and presents the Supabase Auth email/password sign-in flow. An Edge
-deployment may set `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` to the verified static
-HTTPS page `https://morsel-authorize-ui.vercel.app/authorize`; only the
+backend and presents a two-step email one-time-code sign-in: **sign in with
+the email on the Morsel account; a code is emailed to you.** Step 1 requests a
+Supabase Auth email OTP for an existing account only (no account creation) and
+answers uniformly for known and unknown emails; step 2 verifies the 6-digit
+code before the authorization code is issued. An Edge deployment may set
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` to the verified static HTTPS page
+`https://morsel-authorize-ui.vercel.app/authorize`; only the
 authorization-server metadata's `authorization_endpoint` changes. The static
-page posts credentials and the preserved OAuth parameters directly to the
-fixed Supabase `/authorize` route. When the setting is absent, metadata falls
-back to the Supabase `/authorize` URL. `/token` requires PKCE with
+page is a no-JavaScript skin of the same two-step contract: it submits
+method-preserving form POSTs that the static host forwards to the fixed
+Supabase `/authorize` route, preserving the OAuth parameters and the sealed
+transaction envelope in the URL state. When the setting is absent, metadata
+falls back to the Supabase `/authorize` URL and the route renders the same
+two-step forms itself. `/token` requires PKCE with
 `code_challenge_method=S256` and rejects `plain`. Access tokens are the real
 Supabase Auth session access tokens, validated with `auth.getUser()` before
 issuance, so existing RLS policies continue to scope every tool call to the

@@ -64,14 +64,17 @@ are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
 is the canonical transport URL itself. The authorization-server metadata may
 advertise the separately hosted static browser page
 `https://morsel-authorize-ui.vercel.app/authorize` as its
-`authorization_endpoint`; this changes no other URL. The page posts directly to
-the Supabase `/authorize` route, which remains the OAuth backend and issuer.
+`authorization_endpoint`; this changes no other URL. That page is a
+no-JavaScript skin of the same two-step email-code contract — both stages are
+method-preserving form POSTs forwarded to the Supabase `/authorize` route,
+which remains the OAuth backend and issuer.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use
   OAuth 2.0. The MCP server runs the OAuth provider; the user signs in once with
-  Supabase Auth email/password and the connector gets a per-user Supabase access
-  token. The server validates that token with `auth.getUser()` before returning it,
+  the email on their Morsel account and a one-time code is emailed to them.
+  The connector gets a per-user Supabase access token after the code verifies.
+  The server validates that token with `auth.getUser()` before returning it,
   so it becomes `auth.uid()` for every existing RLS policy. (Same pattern as
   `nutrition-mcp`'s Claude.ai connector.)
 - **OAuth storage:** dynamic RFC 7591 registration is stateless. The returned
