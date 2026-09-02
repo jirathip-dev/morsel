@@ -131,7 +131,10 @@ describe('static two-step authorization page (issue #60)', () => {
     // Stale class 2: form posts routed to, carried to, or reaching a backend.
     assert.doesNotMatch(html, /static host routes POST \/authorize to/i)
     assert.doesNotMatch(html, /carries? [^.]*to the backend/i)
-    assert.doesNotMatch(html, /reached (the |a )?[\w. -]*backend/i)
+    // Positive success claims only: truthful negatives ("never reached") and
+    // attempts ("attempted to reach") are allowed, so only a bounded set of
+    // non-negating fillers may sit between the subject and the verb.
+    assert.doesNotMatch(html, /(form )?posts? (?:from the page |have )?reached (the |a )?[\w. -]*backend/i)
   })
 
   it('enforces approved text and non-text contrast pairs', () => {
@@ -172,11 +175,19 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.match(readme, /vercel\.json/)
     assert.match(readme, /human[- ]gate|deploy|probe/i)
     assert.doesNotMatch(readme, /POST \/authorize/gi)
-    assert.doesNotMatch(readme, /prox|forward.*POST|POST.*forward/i)
+    // Active proxy/forwarding claims only: semantic patterns for a host that
+    // proxies/forwards posts to a backend. Historical wording such as
+    // "legacy proxy route ... was inert" stays allowed (no bare /prox/ ban).
+    assert.doesNotMatch(readme, /proxies? [^.]*to (the |a )?[\w. -]*backend/i)
+    assert.doesNotMatch(readme, /forwards? (the )?(form )?posts? (to|toward)/i)
+    assert.doesNotMatch(readme, /(form )?posts? (are |were )?forwarded to /i)
     // r2 docs-truth classes: the README may only describe form posts as
     // attempting to reach a backend (historical), never as reaching it or as
-    // an active redirect/stage chain back to this page.
-    assert.doesNotMatch(readme, /reached (the |a )?[\w. -]*backend/i)
+    // an active redirect/stage chain back to this page. The reach pin is a
+    // positive-claim test: only a bounded set of non-negating fillers may sit
+    // between the subject and "reached", so "never reached" and "attempted to
+    // reach" both stay allowed.
+    assert.doesNotMatch(readme, /(form )?posts? (?:from the page |have )?reached (the |a )?[\w. -]*backend/i)
     assert.doesNotMatch(readme, /(answers|redirects|302s) [^.]*back to (the|this) page/i)
     assert.doesNotMatch(readme, /Claude connection/)
   })
