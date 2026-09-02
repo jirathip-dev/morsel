@@ -5,12 +5,14 @@ configuration, or production deployment has been performed or authorized from
 the implementation lane. Activation requires explicit human approval after the
 checklist below is complete. Nothing in this document is live.
 
-The current #55 browser-authorization path does not require a Supabase custom
-domain: authorization-server metadata may advertise the verified static page
-`https://morsel-authorize-ui.vercel.app/authorize`, while the canonical MCP URL,
-issuer, OAuth backend routes, resource, and challenge URLs remain on the
-Supabase function base. This document describes a separate future custom-domain
-option only.
+The current browser-authorization path does not require a Supabase custom
+domain: authorization-server metadata advertises the function-origin
+`…/functions/v1/mcp/authorize` URL as `authorization_endpoint`, and the Edge
+Function serves both email-OTP consent stages itself (issue #66), while the
+canonical MCP URL, issuer, OAuth backend routes, resource, and challenge URLs
+remain on the Supabase function base. A custom domain would only change the
+hostname of that same base. This document describes a separate future
+custom-domain option only.
 
 ## Why a custom domain
 

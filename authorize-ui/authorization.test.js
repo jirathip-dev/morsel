@@ -3,8 +3,6 @@ import { readFileSync } from 'node:fs'
 import { readdirSync } from 'node:fs'
 import { describe, it } from 'vitest'
 
-const endpoint = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'
-
 function source(name) {
   return readFileSync(new URL(name, import.meta.url), 'utf8')
 }
@@ -107,21 +105,18 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.doesNotMatch(html, /form-action/)
   })
 
-  it('routes POST /authorize to the Supabase backend and every other method to the static page', () => {
+  it('serves the archived page for /authorize with no form-post forwarding route (issue #66)', () => {
     const routing = JSON.parse(source('./vercel.json'))
-    assert.equal(routing.routes.length, 2)
-    const [postRoute, pageRoute] = routing.routes
-    assert.deepEqual(postRoute, {
-      src: '/authorize',
-      dest: endpoint,
-      methods: ['POST'],
-    })
-    assert.deepEqual(pageRoute, {
+    assert.equal(routing.routes.length, 1)
+    assert.deepEqual(routing.routes[0], {
       src: '/authorize',
       dest: '/index.html',
     })
-    // Order is load-bearing: the POST proxy must win over the page fallback.
-    assert.deepEqual(routing.routes.map((route) => route.methods ?? []), [['POST'], []])
+    // No legacy external-destination POST route may return: Vercel legacy
+    // routes cannot forward to external hosts, so the route was inert and
+    // the page is no longer the consent surface.
+    assert.equal(routing.routes.some((route) => Array.isArray(route.methods)), false)
+    assert.equal(JSON.stringify(routing).includes('supabase.co'), false)
     assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
   })
 
@@ -150,15 +145,20 @@ describe('static two-step authorization page (issue #60)', () => {
     ]) assertContrast(name, foreground, background, minimum)
   })
 
-  it('documents the two-step contract, the routing probe gate, and the no-JS behavior in the README', () => {
+  it('documents the retired page, the function-origin consent path, and the no-JS artifact in the README', () => {
     const readme = source('./README.md')
     assert.match(readme, /Connect to Morsel/)
     assert.match(readme, /no JavaScript|no-JS|without JavaScript/i)
-    assert.match(readme, /action-less|omits action|current URL/i)
-    assert.match(readme, /vercel\.json/)
-    assert.match(readme, /POST \/authorize/)
+    assert.match(readme, /action-less|omits? action|current URL/i)
     assert.match(readme, /#code-entry/)
-    assert.match(readme, /human gate|deploy|probe/i)
+    // Issue #66: the README must say the page is not the consent surface and
+    // must not claim any form-post forwarding / active flow through this host.
+    assert.match(readme, /no longer the OAuth consent surface|retired|archived|historical/i)
+    assert.match(readme, /Supabase function origin|server-rendered|function origin/i)
+    assert.match(readme, /vercel\.json/)
+    assert.match(readme, /human[- ]gate|deploy|probe/i)
+    assert.doesNotMatch(readme, /POST \/authorize/gi)
+    assert.doesNotMatch(readme, /prox|forward.*POST|POST.*forward/i)
     assert.doesNotMatch(readme, /Claude connection/)
   })
 })

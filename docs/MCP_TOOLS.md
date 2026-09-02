@@ -335,16 +335,14 @@ backend and presents a two-step email one-time-code sign-in: **sign in with
 the email on the Morsel account; a code is emailed to you.** Step 1 requests a
 Supabase Auth email OTP for an existing account only (no account creation) and
 answers uniformly for known and unknown emails; step 2 verifies the 6-digit
-code before the authorization code is issued. An Edge deployment may set
-`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` to the verified static HTTPS page
-`https://morsel-authorize-ui.vercel.app/authorize`; only the
-authorization-server metadata's `authorization_endpoint` changes. The static
-page is a no-JavaScript skin of the same two-step contract: it submits
-method-preserving form POSTs that the static host forwards to the fixed
-Supabase `/authorize` route, preserving the OAuth parameters and the sealed
-transaction envelope in the URL state. When the setting is absent, metadata
-falls back to the Supabase `/authorize` URL and the route renders the same
-two-step forms itself. `/token` requires PKCE with
+code before the authorization code is issued. Both consent stages are served
+by the Supabase function origin itself: authorization-server metadata
+advertises `…/functions/v1/mcp/authorize` as `authorization_endpoint`, and the
+route renders the two no-JS email/code forms server-side as self-POSTs with
+every non-credential OAuth parameter carried as a hidden field. No external
+authorization page is configured — the legacy static host could not forward
+form posts, so the repository removed that configuration seam (issue #66); the
+archived `authorize-ui/` page is a GET-only static artifact. `/token` requires PKCE with
 `code_challenge_method=S256` and rejects `plain`. Access tokens are the real
 Supabase Auth session access tokens, validated with `auth.getUser()` before
 issuance, so existing RLS policies continue to scope every tool call to the

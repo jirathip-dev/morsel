@@ -1448,6 +1448,112 @@ describe('email one-time-code authorization (issue #60)', () => {
   })
 })
 
+describe('no-external-page consent origin (issue #66)', () => {
+  // The deployed Edge Function no longer configures an external authorization
+  // page: both email-OTP stages are served from the Supabase function origin.
+  // These tests pin that no-external mode through the real Hono app and fail
+  // RED if the external-page redirect branch is reintroduced for this path or
+  // if the form content type / self-action / CSP regress.
+  const productionBase = 'https://connector.example/functions/v1/mcp'
+  const externalPage = 'https://morsel-authorize-ui.vercel.app/authorize'
+
+  it('advertises the function-origin /authorize endpoint when no external endpoint is configured', async () => {
+    const app = createTestApp(undefined, createTestGrantStore(), productionBase)
+    const [metadata, oidc] = await Promise.all([
+      app.fetch(new Request('https://morsel.test/.well-known/oauth-authorization-server')),
+      app.fetch(new Request('https://morsel.test/.well-known/openid-configuration')),
+    ])
+    expect(metadata.status).toBe(200)
+    expect(oidc.status).toBe(200)
+    for (const document of [await metadata.json(), await oidc.json()]) {
+      expect(document).toMatchObject({
+        issuer: productionBase,
+        authorization_endpoint: `${productionBase}/authorize`,
+        token_endpoint: `${productionBase}/token`,
+        registration_endpoint: `${productionBase}/register`,
+      })
+      expect(JSON.stringify(document)).not.toContain(externalPage)
+    }
+  })
+
+  it('renders the stage-1 email form at the function origin with CSP, hidden fields, and no external redirect', async () => {
+    const app = createTestApp(undefined, createTestGrantStore(), productionBase)
+    const clientId = await registerTestClient(app)
+    const params = oauthParams(clientId, { state: 'state-123', scope: 'mcp', resource: productionBase })
+
+    const response = await app.fetch(new Request(`https://morsel.test/authorize?${params.toString()}`))
+    expect(response.status).toBe(200)
+    expect(response.headers.get('location')).toBeNull()
+    expect(response.headers.get('content-type')).toBe('text/html; charset=utf-8')
+    expect(response.headers.get('content-security-policy')).toContain("form-action 'self'")
+    const html = await response.text()
+    expectEmailStage(html)
+    // The self-POST form targets the function origin and every non-credential
+    // OAuth parameter rides as a hidden field with its value intact.
+    expect(html).toContain(`<form method="post" action="${productionBase}/authorize">`)
+    for (const name of ['state', 'scope', 'resource']) {
+      expect(html).toContain(`name="${name}"`)
+    }
+    expect(html).toContain('value="state-123"')
+    expect(html).toContain('value="mcp"')
+    expect(html).toContain(`value="${productionBase}"`)
+    for (const name of ['client_id', 'redirect_uri', 'code_challenge', 'code_challenge_method', 'response_type']) {
+      expect(html).toContain(`name="${name}"`)
+    }
+    expect(html).not.toContain(externalPage)
+  })
+
+  it('serves the code-entry stage from the email POST on the same origin with every OAuth field carried', async () => {
+    const app = createTestApp(undefined, createTestGrantStore(), productionBase)
+    const clientId = await registerTestClient(app)
+    const params = oauthParams(clientId, { state: 'state-123', scope: 'mcp' })
+
+    // A POST without an email re-renders the email stage on the same origin.
+    const missingEmail = await app.fetch(formPostRequest('https://morsel.test/authorize', new URLSearchParams(Object.fromEntries(params))))
+    expect(missingEmail.status).toBe(200)
+    expect(missingEmail.headers.get('location')).toBeNull()
+    expect(missingEmail.headers.get('content-type')).toBe('text/html; charset=utf-8')
+    expectEmailStage(await missingEmail.text(), `<form method="post" action="${productionBase}/authorize">`)
+
+    const stepOne = await app.fetch(formPostRequest('https://morsel.test/authorize', new URLSearchParams({
+      ...Object.fromEntries(params),
+      email: 'consent@example.com',
+    })))
+    expect(stepOne.status).toBe(200)
+    expect(stepOne.headers.get('location')).toBeNull()
+    expect(stepOne.headers.get('content-type')).toBe('text/html; charset=utf-8')
+    expect(stepOne.headers.get('content-security-policy')).toContain("form-action 'self'")
+    const html = await stepOne.text()
+    expectCodeStage(html, 'name="state"', 'name="scope"')
+    expect(html).toContain('value="state-123"')
+    expect(html).toContain(`<form method="post" action="${productionBase}/authorize">`)
+    expect(html).not.toContain('consent@example.com')
+    expect(html).not.toContain(externalPage)
+    expect(transactionValue(html)).not.toBe('')
+  })
+
+  it('keeps wrong and correct code responses on the consent origin and redirects only to the registered client', async () => {
+    const grantStore = createTestGrantStore()
+    const app = createTestApp(undefined, grantStore, productionBase)
+    const clientId = await registerTestClient(app)
+    const params = oauthParams(clientId, { state: 'state-123' })
+    const { transaction } = await requestCode(app, params, 'consent@example.com')
+
+    const wrong = await submitCode(app, params, transaction, '000000')
+    expect(wrong.status).toBe(200)
+    expect(wrong.headers.get('location')).toBeNull()
+    expect(wrong.headers.get('content-type')).toBe('text/html; charset=utf-8')
+    expectCodeStage(await wrong.text(), 'That code is invalid or has expired')
+
+    const success = await submitCode(app, params, transaction, '123456')
+    expect(success.status).toBe(302)
+    const location = success.headers.get('location') ?? ''
+    expect(location.startsWith(TEST_REDIRECT_URI)).toBe(true)
+    expect(location).not.toContain(externalPage)
+    expect(grantStore.grants.size).toBe(1)
+  })
+})
+
 describe('Supabase OAuth service', () => {
   it('requests email codes with user creation disabled and verifies them through Supabase Auth', async () => {
     const requests: Request[] = []
