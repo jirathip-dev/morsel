@@ -212,12 +212,17 @@ describe('annotation classification vs real behavior', () => {
     try {
       const listed = await clients.a.listTools()
       const searchTool = listed.tools.find((tool) => tool.name === 'search_food')
+      // The live-provider miss path makes search_food open-world (SDK
+      // openWorldHint: the domain of a web search tool is open) and its
+      // shared-catalog persistence disqualifies any read-only claim.
       expect(searchTool?.annotations).toEqual({
         readOnlyHint: false,
         destructiveHint: false,
         idempotentHint: false,
-        openWorldHint: false,
+        openWorldHint: true,
       })
+      const dayTool = listed.tools.find((tool) => tool.name === 'get_day')
+      expect(dayTool?.annotations?.openWorldHint).toBe(false)
     } finally {
       await clients.a.close()
       await clients.b.close()

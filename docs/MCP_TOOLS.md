@@ -17,7 +17,7 @@ description, explicit input and output schemas, and an explicit SDK
 | Tool | Title | Direction | Purpose | Annotations |
 |---|---|---|---|---|
 | `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Photo path uses this. | — |
-| `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | — (see [search_food cache write](#search_food-cache-write)) |
+| `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | `openWorldHint` (see [search_food cache write](#search_food-cache-write)) |
 | `update_meal_item` | Update one meal item | write | Correct one item (wrong macro, wrong portion). | — |
 | `delete_meal_log` | Delete a meal log | write | Remove a whole meal. | `destructiveHint` |
 | `get_day` | Get a day of meals | read | One day's meals + totals + remaining vs goal. | `readOnlyHint` |
@@ -40,9 +40,9 @@ tool as read-only or as requiring write/delete confirmation.
 Every registered tool emits the **full** SDK annotation set as explicit
 booleans — `{ readOnlyHint, destructiveHint, idempotentHint, openWorldHint }` —
 so no client or reviewer ever has to infer meaning from an absent field. In
-the table above, `readOnlyHint` / `destructiveHint` mean that field is `true`
-(and all other fields are `false`); "—" means all four fields are explicit
-`false`: the tool claims no safety class. The claim rules:
+the table above, `readOnlyHint` / `destructiveHint` / `openWorldHint` mean
+that field is `true` (and all other fields are `false`); "—" means all four
+fields are explicit `false`: the tool claims no safety class. The claim rules:
 
 - `readOnlyHint: true` — claimed **only** for tools whose full implementation
   path provably never writes; every reachable call is a read (`SELECT` /
@@ -68,22 +68,30 @@ the table above, `readOnlyHint` / `destructiveHint` mean that field is `true`
   blind retry duplicates data; `delete_meal_log` errors with `not_found` once
   the log is gone; the remaining writes are upserts that converge, but they
   are deliberately not advertised as retry-safe.
-- `openWorldHint: false` — asserted on **every** tool: no registered tool
-  performs an action in the real world. `search_food` may query the live USDA
-  provider (an outbound **read** that can observe changing external data), but
-  it never acts on the world, so `openWorldHint` stays `false`.
+- `openWorldHint: true` — claimed **only** for `search_food`. The SDK defines
+  the hint as whether the tool may interact with an "open world" of external
+  entities — its canonical example is a web search tool, whose world is open —
+  and defaults it to `true`. `search_food`'s configured catalog-miss path
+  calls the live USDA FoodData Central web-search API
+  (`nutrition-provider.ts`), so its domain of interaction is open. Every other
+  tool asserts `openWorldHint: false`: their domain of interaction is closed —
+  the authenticated account's stored rows plus deterministic server-side
+  computation only.
 
 <a id="search_food-cache-write"></a>
 
 `search_food` is **not** annotated `readOnlyHint` even though it never touches
-user data. On a catalog miss the server queries the USDA FoodData Central
-provider and, when a cache client is configured, persists the matched
+user data, and it is the **only** open-world tool (`openWorldHint: true`). On
+a catalog miss the server queries the live USDA FoodData Central web-search
+API and, when a cache client is configured, persists the matched
 provider-derived rows into the **shared** `food_catalog` table through the
 service-role-only `upsert_food_catalog` RPC (deterministic UUIDs derived from
 `fdc_id`, `source='usda'`, conflict-no-op). That is a write of shared server
 state on a real path, so a strict "does not modify any state" claim would be
-inaccurate. Callers keep read semantics for their own data; nothing about the
-user's rows, RLS scoping, or confirmation behavior changes.
+inaccurate; and because the miss path reaches an external web service, the
+tool's domain of interaction is open. Callers keep read semantics for their
+own data; nothing about the user's rows, RLS scoping, or confirmation behavior
+changes.
 
 Annotations are **advisory to clients only**: they are server-authored
 metadata emitted over `tools/list` and are never consulted by the server at

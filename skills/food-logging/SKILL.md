@@ -89,10 +89,13 @@ authoritative guidance:
 - Destructive (irreversible delete): `delete_meal_log` only. Deleting removes
   the meal log and its items permanently — never call it without explicit
   user confirmation.
-- `search_food` is not advertised as read-only: it reads the catalog, but on a
-  miss it may query the USDA provider and persist matched rows into the
-  server's shared food catalog. It never writes the user's data and needs no
-  confirmation, but do not describe it to the user as a pure no-write read.
+- `search_food` is not advertised as read-only and is the only **open-world**
+  tool: it reads the catalog, but on a miss the configured path calls the live
+  USDA web-search API and may persist matched rows into the server's shared
+  food catalog, so results can reflect current external data. It never writes
+  the user's data and needs no confirmation, but do not describe it to the
+  user as a pure no-write read. All other tools operate only on the account's
+  stored data (closed-world).
 
 ## Exact tool contract
 

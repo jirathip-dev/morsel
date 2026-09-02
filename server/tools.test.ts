@@ -42,6 +42,12 @@ const UNCLAIMED: ToolAnnotations = {
   idempotentHint: false,
   openWorldHint: false,
 }
+const OPEN_WORLD_SEARCH: ToolAnnotations = {
+  readOnlyHint: false,
+  destructiveHint: false,
+  idempotentHint: false,
+  openWorldHint: true,
+}
 
 const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
@@ -64,7 +70,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     name: 'search_food',
     title: 'Search the food catalog',
     description: 'Find catalog foods by name or barcode before estimating macros.',
-    annotations: UNCLAIMED,
+    annotations: OPEN_WORLD_SEARCH,
     inputRequired: ['query'],
     outputRequired: ['results'],
   },

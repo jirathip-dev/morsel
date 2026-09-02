@@ -111,6 +111,16 @@ export function createMcpServer(service: MorselService): McpServer {
     idempotentHint: false,
     openWorldHint: false,
   }
+  // search_food is the only open-world tool: its configured catalog-miss path
+  // calls the live USDA FoodData Central web-search API (SDK openWorldHint
+  // semantics: the domain of a web search tool is open), and it may persist
+  // matched rows into the shared catalog, so it also claims no read-only hint.
+  const OPEN_WORLD_SEARCH_ANNOTATIONS = {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+  }
 
   server.registerTool('log_meal', {
     title: 'Log a meal',
@@ -133,7 +143,7 @@ export function createMcpServer(service: MorselService): McpServer {
     description: 'Find catalog foods by name or barcode before estimating macros.',
     inputSchema: SearchFoodInputSchema,
     outputSchema: SearchFoodOutputSchema,
-    annotations: UNCLAIMED_ANNOTATIONS,
+    annotations: OPEN_WORLD_SEARCH_ANNOTATIONS,
   }, (input) => runTool(() => service.searchFood(input)))
 
   server.registerTool('get_profile', {
