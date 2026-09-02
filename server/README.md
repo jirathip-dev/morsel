@@ -40,15 +40,16 @@ to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-se
 `/.well-known/openid-configuration` (issue #59), `/.well-known/oauth-protected-resource/mcp`,
 `/authorize`, `/token`,
 `/register`) remain on the same canonical Supabase base, and the advertised OAuth
-`resource` is the canonical transport URL itself. The authorization-server
-metadata may advertise the static HTTPS browser page
-`https://morsel-authorize-ui.vercel.app/authorize` only as
-`authorization_endpoint`. The page is a no-JavaScript skin of the same
-two-step email one-time-code contract: both stages are method-preserving form
-POSTs to the Supabase `/authorize` route (the static host's routing forwards
-form posts), and the route answers stage transitions with 302s back to the
-page. Without the setting the route serves the same two-step forms itself. The local Bun
-entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
+`resource` is the canonical transport URL itself. Consent is served from that
+same function origin (issue #66): authorization-server metadata advertises the
+Supabase `/authorize` URL as `authorization_endpoint`, and the route renders
+both no-JS email-code stages server-side with self-POST forms. The Edge
+Function never configures an external authorization page — the legacy static
+host could not forward form posts, so the repository no longer sets
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` anywhere; the shared server keeps an
+optional `authorizationEndpoint` seam only for embedders that deliberately
+point the browser at their own page. The local Bun entrypoint
+(`server/index.ts`) has no prefix: its canonical transport is the
 server root `/` with `/mcp` as the alias.
 
 ## Design notes
@@ -94,9 +95,10 @@ server root `/` with `/mcp` as the alias.
   concurrent Edge Function isolates. Refresh-token wrappers remain
   encrypted/signed. `MORSEL_OAUTH_SIGNING_KEY` is required for registration
   and token exchange; set it as an Edge Function secret and never commit it.
-- `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is an optional public configuration
-  value for the external browser page. When unset, authorization-server
-  metadata advertises the Supabase `/authorize` route as usual; it never moves
+- The optional `authorizationEndpoint` option on the shared server exists
+  only for embedders that deliberately host their own browser page; the
+  deployed Edge Function, CI, and deploy workflow never configure it (issue
+  #66 — consent is served from the Supabase function origin). It never moves
   the issuer, token, register, resource, challenge, or MCP URLs.
 - Deployments must apply the ordered SQL in `db/migrations/` and then
   `db/seed.sql`; migration `0004_store_assets.sql` provisions the private

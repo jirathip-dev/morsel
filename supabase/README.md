@@ -34,31 +34,28 @@ The Edge Function reads these values at request time:
   email-code transaction envelopes, and refresh-token wrappers. Authorization
   grants are stored in the RLS-protected `oauth_authorization_grants` table
   and claimed atomically by its `claim_oauth_authorization_grant` RPC.
-- `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` — optional public absolute HTTPS URL for
-  the browser authorization page. When set, only the authorization-server
-  metadata's `authorization_endpoint` uses it; issuer, token, register,
-  protected-resource metadata, challenge, resource, and MCP routes remain on
-  the Supabase function base. It is not a credential.
 
 The provider supports dynamic RFC 7591 registration, authorization-code OAuth
-with S256 PKCE, and refresh tokens. The Supabase `/authorize` route remains the
-backend and presents a two-step email one-time-code sign-in for existing
-Morsel accounts: **sign in with the email on the Morsel account; a code is
-emailed to you.** Step 1 requests a Supabase Auth email OTP with user creation
-disabled and answers uniformly for known and unknown emails; step 2 verifies
-the code and only then issues the authorization code. Code requests are
-rate-limited per email, and the email/OAuth request travel between the steps
-in a confidential, integrity-protected, expiring server-issued envelope — no
-email, code, or token value is logged or echoed. Deployments may advertise the
-verified no-JS static page `https://morsel-authorize-ui.vercel.app/authorize`
-through `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`; that page implements the same
-two-step contract with method-preserving form posts forwarded to the fixed
-Supabase route. Without the setting, metadata falls back to Supabase
-`/authorize`. `/token` claims the stored authorization grant exactly once, then
-refreshes the Supabase session and returns the real access token only after
-`auth.getUser()` validates it, so MCP requests retain normal RLS behavior.
-Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do not put its value
-in this repository.
+with S256 PKCE, and refresh tokens. The Supabase `/authorize` route is the
+consent surface and presents a two-step email one-time-code sign-in for
+existing Morsel accounts: **sign in with the email on the Morsel account; a
+code is emailed to you.** Step 1 requests a Supabase Auth email OTP with user
+creation disabled and answers uniformly for known and unknown emails; step 2
+verifies the code and only then issues the authorization code. Code requests
+are rate-limited per email, and the email/OAuth request travel between the
+steps in a confidential, integrity-protected, expiring server-issued envelope
+— no email, code, or token value is logged or echoed. Both stages are served
+by the Supabase function origin itself: authorization-server metadata
+advertises `…/functions/v1/mcp/authorize` as `authorization_endpoint`, and the
+route renders the two no-JS email/code forms server-side. The repository no
+longer configures an external authorization page — the legacy static host
+could not forward form posts, so `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is not
+read anywhere (issue #66); the archived page under `authorize-ui/` remains a
+GET-only static artifact. `/token` claims the stored authorization grant
+exactly once, then refreshes the Supabase session and returns the real access
+token only after `auth.getUser()` validates it, so MCP requests retain normal
+RLS behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do
+not put its value in this repository.
 
 Two human-owned configuration gates remain before live acceptance (no account
 email is recorded in this repository): the Supabase email template must emit
@@ -91,10 +88,8 @@ npx --yes supabase@2.116.0 functions serve mcp --no-verify-jwt
 ```
 
 For local OAuth registration/token probes, pass an env file containing
-`MORSEL_OAUTH_SIGNING_KEY=...` with `--env-file`; add
-`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize`
-when exercising the external metadata seam. The CI gate uses this form because
-the Edge Runtime does not inherit arbitrary shell variables.
+`MORSEL_OAUTH_SIGNING_KEY=...` with `--env-file`. The CI gate uses this form
+because the Edge Runtime does not inherit arbitrary shell variables.
 
 In another terminal, expect `200` and `{"ok":true}` from the public health
 route, then expect `401` from the unauthenticated MCP transport. The canonical

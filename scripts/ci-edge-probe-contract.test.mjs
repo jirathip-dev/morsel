@@ -78,21 +78,24 @@ describe('CI Edge bundle probe script contract', () => {
     expect(script.split('assert_response_header "$authorize_headers_file" \'content-type\'')).toHaveLength(2)
   })
 
-  it('probes the external authorization endpoint while keeping other metadata on the Supabase base', () => {
+  it('probes the function-origin authorization endpoint with all metadata on the Supabase base (issue #66)', () => {
     const script = bundleProbeScript()
-    expect(script).toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=https://morsel-authorize-ui.vercel.app/authorize')
-    expect(script).toContain('metadata.get(\'authorization_endpoint\')')
-    expect(script).toContain('https://morsel-authorize-ui.vercel.app/authorize')
+    // No external authorization page may be configured: the Edge Function
+    // serves both consent stages, so metadata must stay on the issuer base.
+    expect(script).not.toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT')
+    expect(script).not.toContain('morsel-authorize-ui.vercel.app')
+    expect(script).toContain("metadata.get('authorization_endpoint')")
+    expect(script).toContain("expected_authorization_endpoint = supabase_base.rstrip('/') + '/authorize'")
     expect(script).toContain("supabase_base = metadata.get('issuer')")
     expect(script).toContain("'token_endpoint': '/token'")
     expect(script).toContain("'registration_endpoint': '/register'")
-    expect(script).toContain("urlparse(supabase_base).netloc == urlparse(expected_authorization_endpoint).netloc")
     expect(script).toContain("protected.get('resource') != supabase_base")
     expect(script).toContain("protected.get('authorization_servers') != [supabase_base]")
   })
 
-  it('wires the optional public authorization endpoint through the Edge entrypoint', () => {
-    expect(edgeSource).toContain('authorizationEndpoint: Deno.env.get("MORSEL_OAUTH_AUTHORIZATION_ENDPOINT"),')
+  it('keeps the Edge OAuth wiring on the function origin without an external authorization endpoint', () => {
+    expect(edgeSource).not.toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT')
+    expect(edgeSource).not.toContain('authorizationEndpoint')
     const oauthStart = edgeSource.indexOf('  oauth: {')
     const oauthEnd = edgeSource.indexOf('\n  },', oauthStart)
     expect(oauthStart, 'Edge OAuth options must exist').toBeGreaterThanOrEqual(0)
@@ -100,14 +103,16 @@ describe('CI Edge bundle probe script contract', () => {
     const oauthSource = edgeSource.slice(oauthStart, oauthEnd)
     expect(oauthSource).toContain('publicBaseUrl:')
     expect(oauthSource).toContain('SUPABASE_URL')
-    expect(oauthSource).toContain('authorizationEndpoint:')
+    expect(oauthSource).not.toContain('Deno.env.get')
   })
 
-  it('stages the public endpoint without moving the signing key into command arguments', () => {
-    expect(deploySource).toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT: https://morsel-authorize-ui.vercel.app/authorize')
-    expect(deploySource).toContain("printf 'MORSEL_OAUTH_AUTHORIZATION_ENDPOINT=%s\\n' \"$MORSEL_OAUTH_AUTHORIZATION_ENDPOINT\" >> \"$secrets_file\"")
+  it('deploys with only the signing key in secrets and probes the function-origin authorization endpoint', () => {
+    expect(deploySource).not.toContain('MORSEL_OAUTH_AUTHORIZATION_ENDPOINT')
+    expect(deploySource).not.toContain('morsel-authorize-ui.vercel.app')
+    expect(deploySource).toContain("printf 'MORSEL_OAUTH_SIGNING_KEY=%s\\n'")
     expect(deploySource).toContain("'token_endpoint': base + '/token'")
     expect(deploySource).toContain("'registration_endpoint': base + '/register'")
+    expect(deploySource).toContain("expected_authorization_endpoint = base + '/authorize'")
     expect(deploySource).toContain("metadata.get('authorization_endpoint') != expected_authorization_endpoint")
     expect(deploySource).not.toMatch(/(?:supabase|functions deploy)[^\n]*MORSEL_OAUTH_SIGNING_KEY/)
   })

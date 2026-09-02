@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <!-- No JavaScript anywhere on this page: the two stages below are pure
-       HTML/CSS and every submission is a method-preserving form POST to the
-       page's own URL, which carries the OAuth query parameters and the sealed
-       transaction envelope forward. The static host routes POST /authorize to
-       the Supabase authorization backend (see vercel.json). -->
+  <!-- Archived GET-only surface (issue #66): no longer the consent host —
+       both email-OTP stages are served by the Supabase function origin, and
+       vercel.json keeps only the archived page route for /authorize. No
+       JavaScript anywhere: the two stage forms below are pure HTML/CSS
+       self-posts to the page's own URL; the static host routes no submission
+       to any backend. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'">
   <title>Connect to Morsel</title>
   <link rel="stylesheet" href="./authorization.css">
@@ -40,11 +41,12 @@
         </form>
       </section>
 
-      <!-- Stage 2: six-digit code. The server redirects here with the OAuth
-           parameters plus a sealed transaction envelope in the query and the
-           #code-entry fragment, which CSS :target turns into the visible
-           stage. The code form also omits action: its POST carries the same
-           query state (envelope included) to the backend. -->
+      <!-- Stage 2: six-digit code. Archived markup only: in the pre-#66 flow
+           the backend landed the browser back here with the #code-entry
+           fragment, which CSS :target turns into the visible stage. No such
+           flow exists anymore: vercel.json keeps no backend route, and the
+           code form below (which omits action like stage 1) self-posts to
+           this page's own URL only. -->
       <section id="code-entry" class="stage" aria-labelledby="code-stage-title">
         <h2 id="code-stage-title" class="stage-title">Enter the code</h2>
         <p class="stage-copy">Enter the 6-digit code from the email. The code is single-use and expires.</p>
