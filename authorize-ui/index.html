@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <!-- No JavaScript anywhere on this page: the two stages below are pure
-       HTML/CSS and every submission is a method-preserving form POST to the
-       page's own URL, which carries the OAuth query parameters and the sealed
-       transaction envelope forward. The static host routes POST /authorize to
-       the Supabase authorization backend (see vercel.json). -->
+  <!-- Archived GET-only surface (issue #66): no longer the consent host —
+       both email-OTP stages are served by the Supabase function origin, and
+       vercel.json keeps only the archived page route for /authorize. No
+       JavaScript anywhere: the two stage forms below are pure HTML/CSS
+       self-posts to the page's own URL; the static host routes no submission
+       to any backend. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'">
   <title>Connect to Morsel</title>
   <link rel="stylesheet" href="./authorization.css">

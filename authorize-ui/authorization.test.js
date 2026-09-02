@@ -120,6 +120,14 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
   })
 
+  it('keeps the archived-page HTML comment free of the stale POST-proxy claim (issue #66)', () => {
+    const html = source('./index.html')
+    // The page is an archived GET-only surface: the top comment may not
+    // claim the static host routes form posts to the Supabase backend
+    // (that claim died with the POST-proxy route in vercel.json).
+    assert.doesNotMatch(html, /static host routes POST \/authorize to\s+the Supabase authorization backend/i)
+  })
+
   it('enforces approved text and non-text contrast pairs', () => {
     const css = source('./authorization.css')
     assert.match(cssRule(css, '.brand-mark'), /color:\s*#2a261f/)
