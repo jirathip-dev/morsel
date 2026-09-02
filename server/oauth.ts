@@ -1043,6 +1043,19 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
       return oauthErrorResponse(error)
     }
   })
+  // Issue #59: spec-compliant MCP clients build discovery URLs by appending to
+  // the issuer. With Morsel's path issuer (/functions/v1/mcp), the third spec
+  // attempt - <issuer>/.well-known/openid-configuration - reaches the Edge
+  // Function, so the authorization-server document is also served there.
+  // Same document, same CORS/cache/content-type behavior; no OIDC claims the
+  // provider cannot back (no jwks_uri / subject_types_supported).
+  app.get('/.well-known/openid-configuration', (context) => {
+    try {
+      return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl, authorizationEndpoint), 200, corsHeaders())
+    } catch (error) {
+      return oauthErrorResponse(error)
+    }
+  })
   app.get('/.well-known/oauth-protected-resource', (context) => {
     try {
       return oauthResponse(protectedResourceMetadata(context.req.raw, options.basePath, options.publicBaseUrl), 200, corsHeaders())
