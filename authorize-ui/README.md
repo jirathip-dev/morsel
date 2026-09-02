@@ -60,23 +60,27 @@ clients' browsers at this Vercel page again:
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "routes": [
-    { "src": "/authorize", "dest": "/index.html", "methods": ["GET"] }
-  ],
-  "headers": [
     {
-      "source": "/authorize",
-      "headers": [
-        { "key": "Content-Security-Policy", "value": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'" }
-      ]
+      "src": "/authorize",
+      "dest": "/index.html",
+      "methods": ["GET"],
+      "headers": {
+        "Content-Security-Policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+      }
     }
   ]
 }
 ```
 
-The GET-only route plus the deployed `Content-Security-Policy` header (the
-same restrictive policy as the page's `<meta>` — `script-src 'self'` admits
-only `params.js`) keep the skin locked down; `form-action` stays absent so
-the cross-origin form POST to Supabase remains allowed.
+The file uses the legacy-routes-only form: the GET-only `/authorize` route
+carries the restrictive `Content-Security-Policy` in its own `headers`
+object. A top-level `headers` property cannot coexist with legacy `routes`
+(`vercel build` rejects the mix with `RouteApiError invalid_mixed_routes`),
+and the header is not attached implicitly — pinning it on the route object is
+the only valid way to ship the deployed-header CSP alongside the GET rewrite.
+The CSP value is byte-for-byte the same restrictive policy as the page's
+`<meta>` (`script-src 'self'` admits only `params.js`); `form-action` stays
+absent so the cross-origin form POST to Supabase remains allowed.
 
 ## Files
 

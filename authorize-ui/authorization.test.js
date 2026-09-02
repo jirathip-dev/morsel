@@ -16,6 +16,17 @@ import { describe, it } from 'vitest'
 
 const AUTHORIZE_URL = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'
 const DEPLOYED_CSP = "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+// Valid legacy-routes-only Vercel shape (review r1): the restrictive CSP
+// rides on the GET route object itself. A top-level `headers` key cannot be
+// combined with legacy `routes` (vercel build rejects it with
+// RouteApiError invalid_mixed_routes), and Vercel attaches no implicit
+// header otherwise.
+const DEPLOYED_ROUTE = {
+  src: '/authorize',
+  dest: '/index.html',
+  methods: ['GET'],
+  headers: { 'Content-Security-Policy': DEPLOYED_CSP },
+}
 
 function source(name) {
   return readFileSync(new URL(name, import.meta.url), 'utf8')
@@ -190,24 +201,37 @@ describe('static Vercel authorization page (issue #69)', () => {
     for (const forbidden of ['unsafe-inline', 'unsafe-eval', 'https:', 'data:', '*', 'form-action']) {
       assert.equal(meta.includes(forbidden), false, `forbidden CSP broadening: ${forbidden}`)
     }
-    // The deployed-header routing config serves the identical policy so the
-    // page is covered even if the meta tag is stripped.
-    const cspHeaders = routing.headers.flatMap((entry) => entry.headers).filter((header) => header.key === 'Content-Security-Policy')
-    assert.equal(cspHeaders.length, 1)
-    assert.equal(cspHeaders[0].value, DEPLOYED_CSP, 'deployed CSP header must equal the meta CSP')
+    // The deployed route object carries the identical policy as its own
+    // headers map (legacy-routes-only form; a top-level `headers` property
+    // cannot coexist with `routes` and would be rejected by vercel build).
+    assert.deepEqual(routing.routes[0].headers, { 'Content-Security-Policy': DEPLOYED_CSP }, 'deployed CSP header must equal the meta CSP')
   })
 
   it('serves the page for GET /authorize only, with no external-destination or form-post route', () => {
     const routing = JSON.parse(source('./vercel.json'))
-    assert.deepEqual(routing.routes, [{ src: '/authorize', dest: '/index.html', methods: ['GET'] }])
+    assert.deepEqual(routing.routes, [DEPLOYED_ROUTE])
+    assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
     assert.equal(JSON.stringify(routing).includes('supabase.co'), false, 'vercel.json must not reference the Supabase destination')
     for (const route of routing.routes) {
       assert.equal(Array.isArray(route.methods) && route.methods.every((method) => method === 'GET'), true)
       assert.equal(route.dest.startsWith('https://'), false)
     }
-    assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
-    assert.equal(routing.headers.length, 1)
-    assert.equal(routing.headers[0].source, '/authorize')
+  })
+
+  it('rejects the invalid mixed top-level headers shape and pins the route-local CSP (review r1)', () => {
+    const routing = JSON.parse(source('./vercel.json'))
+    // Legacy `routes` cannot coexist with a top-level `headers` property:
+    // vercel build fails with RouteApiError invalid_mixed_routes ("If
+    // rewrites, redirects, headers, cleanUrls or trailingSlash are used,
+    // then routes cannot be present"). The CSP must live ON the GET route.
+    assert.equal(Object.hasOwn(routing, 'headers'), false, 'top-level headers must not coexist with legacy routes')
+    assert.equal(Object.hasOwn(routing, 'rewrites') || Object.hasOwn(routing, 'redirects'), false)
+    assert.deepEqual(Object.keys(routing).sort(), ['$schema', 'routes'])
+    assert.equal(routing.routes.length, 1)
+    assert.equal(routing.routes[0].headers['Content-Security-Policy'], DEPLOYED_CSP, 'route-local CSP must be present with the exact pinned value')
+    // Route-local keys stay minimal: the GET rewrite, the method pin, and the
+    // CSP header — nothing else (no continue/status/headers-on-top-level).
+    assert.deepEqual(Object.keys(routing.routes[0]).sort(), ['dest', 'headers', 'methods', 'src'])
   })
 
   // --- Executable DOM contract (real params.js in the harness) -------------
