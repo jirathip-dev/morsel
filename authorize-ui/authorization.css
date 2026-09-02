@@ -101,9 +101,10 @@ h1 {
   margin-top: 0.9rem;
 }
 
-/* No-JS two-stage switch: the backend redirect appends #code-entry after a
-   code is requested; CSS :target shows the code stage and hides the email
-   stage. Without the fragment the email stage is the default. */
+/* CSS-only two-stage switch: the backend redirect appends #code-entry after
+   a code is requested; CSS :target shows the code stage and hides the email
+   stage. Without the fragment the email stage is the default. The bridge
+   script never switches stages or touches the fragment. */
 #code-entry {
   display: none;
 }

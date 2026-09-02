@@ -34,24 +34,35 @@ The Edge Function reads these values at request time:
   email-code transaction envelopes, and refresh-token wrappers. Authorization
   grants are stored in the RLS-protected `oauth_authorization_grants` table
   and claimed atomically by its `claim_oauth_authorization_grant` RPC.
+- `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` — OPTIONAL (issue #69). The Vercel
+  static consent skin (`https://morsel-authorize-ui.vercel.app/authorize`);
+  when set, authorization-server metadata advertises it as
+  `authorization_endpoint` and every `/authorize` form response becomes a
+  bodyless 302 back to it. Restoring this production secret is human-gated:
+  CI exercises the configured mode with a synthetic endpoint and the deploy
+  workflow verifies the expected endpoint without creating or overwriting
+  the secret. Unset keeps the server-rendered function fallback below.
 
 The provider supports dynamic RFC 7591 registration, authorization-code OAuth
-with S256 PKCE, and refresh tokens. The Supabase `/authorize` route is the
-consent surface and presents a two-step email one-time-code sign-in for
-existing Morsel accounts: **sign in with the email on the Morsel account; a
-code is emailed to you.** Step 1 requests a Supabase Auth email OTP with user
-creation disabled and answers uniformly for known and unknown emails; step 2
-verifies the code and only then issues the authorization code. Code requests
-are rate-limited per email, and the email/OAuth request travel between the
-steps in a confidential, integrity-protected, expiring server-issued envelope
-— no email, code, or token value is logged or echoed. Both stages are served
-by the Supabase function origin itself: authorization-server metadata
-advertises `…/functions/v1/mcp/authorize` as `authorization_endpoint`, and the
-route renders the two no-JS email/code forms server-side. The repository no
-longer configures an external authorization page — the legacy static host
-could not forward form posts, so `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is not
-read anywhere (issue #66); the archived page under `authorize-ui/` remains a
-GET-only static artifact. `/token` claims the stored authorization grant
+with S256 PKCE, and refresh tokens. Consent is a two-step email one-time-code
+sign-in for existing Morsel accounts: **sign in with the email on the Morsel
+account; a code is emailed to you.** Step 1 requests a Supabase Auth email OTP
+with user creation disabled and answers uniformly for known and unknown
+emails; step 2 verifies the code and only then issues the authorization code.
+Code requests are rate-limited per email, and the email/OAuth request travel
+between the steps in a confidential, integrity-protected, expiring
+server-issued envelope — no email, code, or token value is logged or echoed.
+The BROWSER surface is the Vercel static skin under `authorize-ui/` (issue
+#69): Supabase's free shared domain rewrites Edge Function `text/html` to
+`text/plain`, so the function origin cannot render consent HTML in
+production. The function therefore only serves metadata, JSON errors, and
+bodyless 302s back to the page; the page's same-origin `params.js` bridges
+the allowlisted OAuth query fields into hidden inputs and each stage form
+POSTs directly (cross-origin — no CORS, no fetch, no proxy) to
+`…/functions/v1/mcp/authorize`. When `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is
+unset, the `/authorize` route renders the two no-JS email/code forms
+server-side as the fallback (issue #66 hardening, defense in depth). `/token`
+claims the stored authorization grant
 exactly once, then refreshes the Supabase session and returns the real access
 token only after `auth.getUser()` validates it, so MCP requests retain normal
 RLS behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do

@@ -1449,11 +1449,15 @@ describe('email one-time-code authorization (issue #60)', () => {
 })
 
 describe('no-external-page consent origin (issue #66)', () => {
-  // The deployed Edge Function no longer configures an external authorization
-  // page: both email-OTP stages are served from the Supabase function origin.
-  // These tests pin that no-external mode through the real Hono app and fail
-  // RED if the external-page redirect branch is reintroduced for this path or
-  // if the form content type / self-action / CSP regress.
+  // Unset-mode fallback (issue #69 defense in depth): with no external
+  // authorization endpoint configured (MORSEL_OAUTH_AUTHORIZATION_ENDPOINT
+  // absent) both email-OTP stages are served from the Supabase function
+  // origin — that fallback is not the production browser path on the free
+  // shared domain (which rewrites function text/html to text/plain), but it
+  // stays pinned so the external-page redirect branch can never break the
+  // unset configuration. These tests fail RED if the external-page redirect
+  // branch is reintroduced for this path or if the form content type /
+  // self-action / CSP regress.
   const productionBase = 'https://connector.example/functions/v1/mcp'
   const externalPage = 'https://morsel-authorize-ui.vercel.app/authorize'
 

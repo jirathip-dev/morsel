@@ -33,10 +33,16 @@ const app = createMorselApp({
     ),
   oauth: {
     anonKey: () => environmentValue("SUPABASE_ANON_KEY"),
-    // Issue #66: no external authorization page is configured. Both email-OTP
-    // stages are served by this function origin — the legacy Vercel page could
-    // not proxy POST /authorize, so the server-rendered /authorize route is
-    // the repository-supported consent path.
+    // Issue #69: the browser consent skin is the Vercel static page again —
+    // Supabase's free shared domain rewrites function text/html to
+    // text/plain, so this origin must never serve consent HTML in
+    // production. The OPTIONAL MORSEL_OAUTH_AUTHORIZATION_ENDPOINT names that
+    // page: when set, authorization-server metadata advertises it and every
+    // /authorize form response becomes a bodyless 302 back to it (the page
+    // POSTs straight to this route). Restoring the production secret is a
+    // human-gated config step; unset keeps the server-rendered function
+    // fallback (issue #66) as defense in depth.
+    authorizationEndpoint: Deno.env.get("MORSEL_OAUTH_AUTHORIZATION_ENDPOINT"),
     // The gateway strips /functions/v1 and supplies no forwarded prefix, so
     // derive the public base from the project URL for metadata/challenge URLs.
     publicBaseUrl: () =>

@@ -54,6 +54,11 @@ jobs:
           secrets_file="$(mktemp)"
           trap 'rm -f "$secrets_file"' EXIT
           chmod 600 "$secrets_file"
+          # Only the signing key is staged here. The browser-skin endpoint
+          # (issue #69) is enabled by the MORSEL_OAUTH_AUTHORIZATION_ENDPOINT
+          # secret, which stays human-gated: this workflow never creates or
+          # overwrites it, and the post-deploy probe below fails loudly until
+          # a human restores it.
           printf 'MORSEL_OAUTH_SIGNING_KEY=%s\n' "$MORSEL_OAUTH_SIGNING_KEY" > "$secrets_file"
 
           npx --yes supabase@2.116.0 secrets set --env-file "$secrets_file" --project-ref "$SUPABASE_PROJECT_REF"
@@ -119,12 +124,27 @@ jobs:
               if metadata[field] != expected:
                   raise SystemExit('OAuth metadata field %s does not match the deployed MCP base' % field)
 
-          # Issue #66: no external authorization page is configured — the
-          # deployed function serves both email-OTP stages itself, so the
-          # metadata authorization_endpoint must be the function-origin route.
-          expected_authorization_endpoint = base + '/authorize'
+          # Issue #69: the browser consent skin is the Vercel static page —
+          # Supabase's free shared domain rewrites function text/html to
+          # text/plain, so the deployed function must advertise the external
+          # authorization endpoint while issuer/token/register stay on the
+          # function base. The MORSEL_OAUTH_AUTHORIZATION_ENDPOINT secret
+          # that enables this mode is HUMAN-GATED: this workflow only
+          # verifies the endpoint and never creates or overwrites the secret,
+          # so a mismatch here fails the deploy loudly until a human restores
+          # it (Supabase secrets set) and redeploys.
+          expected_authorization_endpoint = 'https://morsel-authorize-ui.vercel.app/authorize'
+          parsed_authorization_endpoint = urlparse(expected_authorization_endpoint)
+          if (parsed_authorization_endpoint.scheme != 'https'
+                  or not parsed_authorization_endpoint.netloc
+                  or parsed_authorization_endpoint.username is not None
+                  or parsed_authorization_endpoint.password is not None
+                  or parsed_authorization_endpoint.query
+                  or parsed_authorization_endpoint.fragment
+                  or parsed_authorization_endpoint.path in ('', '/')):
+              raise SystemExit('configured authorization endpoint is not a stable absolute HTTPS URL')
           if metadata.get('authorization_endpoint') != expected_authorization_endpoint:
-              raise SystemExit('OAuth metadata authorization_endpoint must be the deployed function-origin /authorize route')
+              raise SystemExit('OAuth metadata authorization_endpoint does not match the expected external page; restore the MORSEL_OAUTH_AUTHORIZATION_ENDPOINT secret (human-gated) and redeploy')
 
           challenge_methods = metadata.get('code_challenge_methods_supported')
           if not isinstance(challenge_methods, list) or 'S256' not in challenge_methods:
@@ -134,7 +154,7 @@ jobs:
           if not isinstance(grant_types, list) or 'authorization_code' not in grant_types or 'refresh_token' not in grant_types:
               raise SystemExit('OAuth metadata grant_types_supported must be an array containing authorization_code and refresh_token')
 
-          print('OAuth metadata: OK (function-origin authorization endpoint; %s)' % ', '.join(endpoints))
+          print('OAuth metadata: OK (external Vercel authorization endpoint; %s)' % ', '.join(endpoints))
           PY
 
           echo "== unauthenticated MCP initialize at the canonical function-root transport (expect 401) =="

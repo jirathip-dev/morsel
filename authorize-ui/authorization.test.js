@@ -1,7 +1,32 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { readdirSync } from 'node:fs'
+import vm from 'node:vm'
 import { describe, it } from 'vitest'
+
+// The static Vercel consent page (issue #69) is the production browser skin:
+// it renders the two email-code stages and posts straight to the Supabase
+// Edge Function /authorize route. Supabase's free shared domain rewrites Edge
+// text/html to text/plain, so the function never serves consent HTML — the
+// page's only JavaScript (params.js) bridges the allowlisted OAuth query
+// fields into hidden inputs and points both stage forms at the function URL.
+// Tests below execute the real params.js against a minimal node:vm DOM
+// harness (no jsdom dependency) so the DOM the page would produce is what is
+// asserted, not just source strings.
+
+const AUTHORIZE_URL = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'
+const DEPLOYED_CSP = "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+// Valid legacy-routes-only Vercel shape (review r1): the restrictive CSP
+// rides on the GET route object itself. A top-level `headers` key cannot be
+// combined with legacy `routes` (vercel build rejects it with
+// RouteApiError invalid_mixed_routes), and Vercel attaches no implicit
+// header otherwise.
+const DEPLOYED_ROUTE = {
+  src: '/authorize',
+  dest: '/index.html',
+  methods: ['GET'],
+  headers: { 'Content-Security-Policy': DEPLOYED_CSP },
+}
 
 function source(name) {
   return readFileSync(new URL(name, import.meta.url), 'utf8')
@@ -30,8 +55,79 @@ function assertContrast(name, foreground, background, minimum) {
   assert.ok(ratio >= minimum, `${name}: ${ratio.toFixed(2)} must be >= ${minimum}`)
 }
 
-describe('static two-step authorization page (issue #60)', () => {
-  it('uses neutral "Connect to Morsel" copy with no client-specific label anywhere', () => {
+// --- Executable DOM harness (node:vm; no new dependency) -------------------
+// Parses index.html for its single local deferred script, then runs that real
+// script file against a minimal document/location sandbox. The fake document
+// exposes only the two stage forms and input creation, which is the full DOM
+// surface params.js uses.
+
+function loadPage(search, hash = '') {
+  const html = source('./index.html')
+  const scriptTags = [...html.matchAll(/<script\b[^>]*>/g)].map((match) => match[0])
+  assert.equal(scriptTags.length, 1, 'index.html must load exactly one script element')
+  assert.match(scriptTags[0], /\bsrc="\.\/params\.js"/)
+  assert.match(scriptTags[0], /\bdefer\b/)
+  assert.doesNotMatch(scriptTags[0], /src="https?:|src="\/\//)
+
+  const forms = {
+    'email-form': fakeForm('email-form'),
+    'code-form': fakeForm('code-form'),
+  }
+  const document = {
+    getElementById(id) {
+      return forms[id] ?? null
+    },
+    createElement(tagName) {
+      assert.equal(tagName, 'input', 'params.js must only create input elements')
+      return { type: '', name: '', value: '' }
+    },
+  }
+  vm.runInNewContext(source('./params.js'), { document, location: { search, hash }, URLSearchParams }, { filename: 'params.js' })
+  return { emailForm: forms['email-form'], codeForm: forms['code-form'] }
+}
+
+function fakeForm(id) {
+  return {
+    id,
+    action: '',
+    children: [],
+    appendChild(child) {
+      this.children.push(child)
+    },
+  }
+}
+
+function hiddenInputs(form) {
+  return form.children.filter((child) => child.type === 'hidden')
+}
+
+function hiddenMap(form) {
+  const map = new Map()
+  for (const input of hiddenInputs(form)) {
+    assert.equal(map.has(input.name), false, `duplicate hidden input name: ${input.name}`)
+    map.set(input.name, input.value)
+  }
+  return map
+}
+
+// Representative OAuth authorization request the server redirects to the
+// static page (its own carried-field semantics: every non-credential param).
+function representativeParams(extra = {}) {
+  return new URLSearchParams({
+    client_id: 'ci-client-9x7',
+    redirect_uri: 'https://app.example/callback?from=connector&step=1',
+    response_type: 'code',
+    code_challenge: 'challenge-value-42',
+    code_challenge_method: 'S256',
+    scope: 'mcp',
+    resource: 'https://morsel.supabase.co/functions/v1/mcp',
+    state: 'state-123',
+    ...extra,
+  })
+}
+
+describe('static Vercel authorization page (issue #69)', () => {
+  it('uses neutral "Connect to Morsel" copy with no client-specific or credential label anywhere', () => {
     const html = source('./index.html')
     assert.match(html, /Connect to Morsel/)
     assert.match(html, /An MCP client is requesting access to your Morsel account/)
@@ -43,98 +139,194 @@ describe('static two-step authorization page (issue #60)', () => {
     }
   })
 
-  it('is a no-JavaScript page: no script elements, no inline handlers, no runtime APIs', () => {
-    const html = source('./index.html')
-    const css = source('./authorization.css')
-    assert.doesNotMatch(html, /<script/i)
-    assert.doesNotMatch(html, /on(?:click|load|submit)=/i)
-    for (const forbidden of [
-      'innerHTML', 'outerHTML', 'insertAdjacentHTML', 'document.write', 'eval(',
-      'fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'document.cookie',
-      'console.', 'analytics', 'x-upstream-url', 'UPSTREAM_AUTHORIZE_URL',
-    ]) {
-      assert.equal(`${html}\n${css}`.includes(forbidden), false, `forbidden runtime token: ${forbidden}`)
-    }
-    // The directory carries no runtime JavaScript at all, so the no-JS
-    // contract cannot silently regress by re-adding a module.
-    const files = readdirSync(new URL('.', import.meta.url)).filter((name) => name.endsWith('.js'))
-    assert.deepEqual(files, ['authorization.test.js'])
-  })
-
-  it('keeps both stages as action-less method-preserving form posts that carry the current URL query', () => {
-    const html = source('./index.html')
-    const forms = [...html.matchAll(/<form\b[^>]*>/g)].map((match) => match[0])
-    assert.equal(forms.length, 2)
-    for (const form of forms) {
-      // No action attribute: the browser posts to the document URL, so the
-      // OAuth query parameters and the sealed transaction envelope travel
-      // with every submission without JavaScript (verified in a real browser:
-      // an action-less POST preserves the full query string).
-      assert.doesNotMatch(form, /\baction=/)
-      assert.match(form, /method="post"/)
-    }
-    assert.match(html, /<input[^>]+type="email"[^>]+name="email"[^>]+autocomplete="username"[^>]+required/)
-    assert.match(html, /<input[^>]+name="code"[^>]+inputmode="numeric"[^>]+autocomplete="one-time-code"[^>]+pattern="\[0-9\]\{6\}"[^>]+maxlength="6"[^>]+required/)
-  })
-
-  it('switches stages with pure CSS on the #code-entry fragment and links back to the email stage', () => {
+  it('preserves the visible two-stage surface: stage copy, ids, inputs, links, and CSS-only fragment switch', () => {
     const html = source('./index.html')
     const css = source('./authorization.css')
     assert.match(html, /id="email-stage"/)
     assert.match(html, /id="code-entry"/)
+    assert.match(html, /<form id="email-form" method="post">/)
+    assert.match(html, /<form id="code-form" method="post">/)
+    assert.match(html, /<input[^>]+type="email"[^>]+name="email"[^>]+autocomplete="username"[^>]+required/)
+    assert.match(html, /<input[^>]+name="code"[^>]+inputmode="numeric"[^>]+autocomplete="one-time-code"[^>]+pattern="\[0-9\]\{6\}"[^>]+maxlength="6"[^>]+required/)
     assert.match(html, /<a[^>]+href="#email-stage"/)
+    assert.match(html, /Request a code/)
+    assert.match(html, /Enter the 6-digit code from the email/)
+    // Neither form carries a static action: the script sets the cross-origin
+    // Supabase action at runtime, and removing that wiring must fail tests.
+    for (const form of [...html.matchAll(/<form\b[^>]*>/g)].map((match) => match[0])) {
+      assert.doesNotMatch(form, /\baction=/)
+      assert.match(form, /method="post"/)
+    }
     assert.match(cssRule(css, '#code-entry'), /display:\s*none/)
     assert.match(cssRule(css, 'body:has(#code-entry:target) #code-entry'), /display:\s*block/)
     assert.match(cssRule(css, 'body:has(#code-entry:target) #email-stage'), /display:\s*none/)
   })
 
-  it('keeps the static CSP restrictive and script-free', () => {
+  it('loads exactly one local same-origin deferred script and no other runtime surface', () => {
     const html = source('./index.html')
-    assert.match(html, /default-src 'none'/)
-    assert.match(html, /style-src 'self'/)
-    assert.match(html, /connect-src 'none'/)
-    assert.match(html, /img-src 'none'/)
-    assert.match(html, /font-src 'none'/)
-    assert.match(html, /frame-ancestors 'none'/)
-    assert.match(html, /object-src 'none'/)
-    assert.match(html, /base-uri 'none'/)
-    // Tighter than the pre-#60 page: script-src is gone because no script may
-    // ever run. form-action stays absent in this archived markup (kept
-    // byte-stable); no active flow depends on the directive anymore.
-    assert.doesNotMatch(html, /script-src/)
-    assert.doesNotMatch(html, /form-action/)
+    const css = source('./authorization.css')
+    const script = source('./params.js')
+    assert.doesNotMatch(html, /on(?:click|load|submit|change)=/i)
+    // The directory carries exactly the one runtime module beside the test.
+    const files = readdirSync(new URL('.', import.meta.url)).filter((name) => name.endsWith('.js'))
+    assert.deepEqual(files, ['authorization.test.js', 'params.js'])
+    // No dynamic/remote loading, fetch, storage, analytics, logging, or
+    // credential/secret handling anywhere in the page assets. (The prose
+    // negatives "no analytics / no logging" appear in comments, so the ban
+    // targets mechanisms, not words.)
+    for (const forbidden of [
+      'innerHTML', 'outerHTML', 'insertAdjacentHTML', 'document.write', 'eval(',
+      'fetch(', 'XMLHttpRequest', 'localStorage', 'sessionStorage', 'document.cookie',
+      'console.', 'WebSocket', 'EventSource', 'sendBeacon', 'import(', 'createElement("script"',
+    ]) {
+      assert.equal(`${html}\n${css}\n${script}`.includes(forbidden), false, `forbidden runtime token: ${forbidden}`)
+    }
   })
 
-  it('serves the archived page for /authorize with no form-post forwarding route (issue #66)', () => {
+  it('keeps the static CSP restrictive, allows only the local script, and pins the identical deployed header', () => {
+    const html = source('./index.html')
     const routing = JSON.parse(source('./vercel.json'))
-    assert.equal(routing.routes.length, 1)
-    assert.deepEqual(routing.routes[0], {
-      src: '/authorize',
-      dest: '/index.html',
-    })
-    // No legacy external-destination POST route may return: Vercel legacy
-    // routes cannot forward to external hosts, so the route was inert and
-    // the page is no longer the consent surface.
-    assert.equal(routing.routes.some((route) => Array.isArray(route.methods)), false)
-    assert.equal(JSON.stringify(routing).includes('supabase.co'), false)
-    assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
+    const meta = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)?.[1]
+    assert.equal(meta, DEPLOYED_CSP, 'meta CSP must be the pinned restrictive policy with script-src \'self\'')
+    assert.match(meta, /script-src 'self'/)
+    assert.match(meta, /default-src 'none'/)
+    assert.match(meta, /style-src 'self'/)
+    assert.match(meta, /connect-src 'none'/)
+    assert.match(meta, /img-src 'none'/)
+    assert.match(meta, /font-src 'none'/)
+    assert.match(meta, /frame-ancestors 'none'/)
+    assert.match(meta, /object-src 'none'/)
+    assert.match(meta, /base-uri 'none'/)
+    // No broader source: nothing but the one 'self' script allowance is added.
+    for (const forbidden of ['unsafe-inline', 'unsafe-eval', 'https:', 'data:', '*', 'form-action']) {
+      assert.equal(meta.includes(forbidden), false, `forbidden CSP broadening: ${forbidden}`)
+    }
+    // The deployed route object carries the identical policy as its own
+    // headers map (legacy-routes-only form; a top-level `headers` property
+    // cannot coexist with `routes` and would be rejected by vercel build).
+    assert.deepEqual(routing.routes[0].headers, { 'Content-Security-Policy': DEPLOYED_CSP }, 'deployed CSP header must equal the meta CSP')
   })
 
-  it('keeps the archived-page HTML comments free of active-flow claims (issue #66)', () => {
-    const html = source('./index.html')
-    // Stale class 1: present-tense static-page server-redirect /
-    // transaction-stage claims ("The server redirects here with the OAuth
-    // parameters plus a sealed transaction envelope ... to the backend").
-    assert.doesNotMatch(html, /the server redirects here/i)
-    assert.doesNotMatch(html, /(server|backend) (redirects|302s) (back to )?(this|the) page/i)
-    assert.doesNotMatch(html, /sealed transaction envelope in the query/i)
-    // Stale class 2: form posts routed to, carried to, or reaching a backend.
-    assert.doesNotMatch(html, /static host routes POST \/authorize to/i)
-    assert.doesNotMatch(html, /carries? [^.]*to the backend/i)
-    // Positive success claims only: truthful negatives ("never reached") and
-    // attempts ("attempted to reach") are allowed, so only a bounded set of
-    // non-negating fillers may sit between the subject and the verb.
-    assert.doesNotMatch(html, /(form )?posts? (?:from the page |have )?reached (the |a )?[\w. -]*backend/i)
+  it('serves the page for GET /authorize only, with no external-destination or form-post route', () => {
+    const routing = JSON.parse(source('./vercel.json'))
+    assert.deepEqual(routing.routes, [DEPLOYED_ROUTE])
+    assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
+    assert.equal(JSON.stringify(routing).includes('supabase.co'), false, 'vercel.json must not reference the Supabase destination')
+    for (const route of routing.routes) {
+      assert.equal(Array.isArray(route.methods) && route.methods.every((method) => method === 'GET'), true)
+      assert.equal(route.dest.startsWith('https://'), false)
+    }
+  })
+
+  it('rejects the invalid mixed top-level headers shape and pins the route-local CSP (review r1)', () => {
+    const routing = JSON.parse(source('./vercel.json'))
+    // Legacy `routes` cannot coexist with a top-level `headers` property:
+    // vercel build fails with RouteApiError invalid_mixed_routes ("If
+    // rewrites, redirects, headers, cleanUrls or trailingSlash are used,
+    // then routes cannot be present"). The CSP must live ON the GET route.
+    assert.equal(Object.hasOwn(routing, 'headers'), false, 'top-level headers must not coexist with legacy routes')
+    assert.equal(Object.hasOwn(routing, 'rewrites') || Object.hasOwn(routing, 'redirects'), false)
+    assert.deepEqual(Object.keys(routing).sort(), ['$schema', 'routes'])
+    assert.equal(routing.routes.length, 1)
+    assert.equal(routing.routes[0].headers['Content-Security-Policy'], DEPLOYED_CSP, 'route-local CSP must be present with the exact pinned value')
+    // Route-local keys stay minimal: the GET rewrite, the method pin, and the
+    // CSP header — nothing else (no continue/status/headers-on-top-level).
+    assert.deepEqual(Object.keys(routing.routes[0]).sort(), ['dest', 'headers', 'methods', 'src'])
+  })
+
+  // --- Executable DOM contract (real params.js in the harness) -------------
+
+  it('bridges a representative stage-1 query: exact action and every supported non-credential field once with exact values', () => {
+    const params = representativeParams()
+    const { emailForm, codeForm } = loadPage(`?${params.toString()}`)
+    const expected = new Map([...params.entries()])
+    assert.equal(emailForm.action, AUTHORIZE_URL)
+    assert.equal(codeForm.action, AUTHORIZE_URL)
+    assert.deepEqual(hiddenMap(emailForm), expected, 'stage-1 form must carry every allowlisted field exactly once')
+    for (const input of hiddenInputs(codeForm)) {
+      assert.equal(input.type, 'hidden')
+      assert.ok(expected.has(input.name), `code form must not carry unknown field: ${input.name}`)
+      assert.equal(input.value, expected.get(input.name))
+    }
+  })
+
+  it('bridges a stage-2 query with #code-entry: transaction copied once, no credentials or unknown fields', () => {
+    const params = representativeParams({ transaction: 'sealed-envelope-abc' })
+    const { emailForm, codeForm } = loadPage(`?${params.toString()}`, '#code-entry')
+    const expected = new Map([...params.entries()])
+    // The code stage is the active form (#code-entry): it must carry the full
+    // state including the sealed transaction envelope.
+    assert.equal(codeForm.action, AUTHORIZE_URL)
+    assert.deepEqual(hiddenMap(codeForm), expected)
+    // The email stage keeps its stage-1 semantics: no transaction envelope.
+    const stage1 = new Map(expected)
+    stage1.delete('transaction')
+    assert.deepEqual(hiddenMap(emailForm), stage1)
+  })
+
+  it('never bridges email, code, passwords, duplicates, or unrecognized fields (hostile query)', () => {
+    const params = representativeParams({
+      transaction: 'second-transaction',
+      email: 'attacker@evil.example',
+      code: '000000',
+      password: 'hunter2',
+      code_verifier: 'verifier-value',
+      login_hint: 'victim@example.com',
+      audience: 'https://unexpected.example',
+    })
+    // Duplicate keys: the first client_id and state values are repeated.
+    const search = `${params.toString()}&client_id=first-client&client_id=second-client&state=first-state&state=last-state`
+    const { emailForm, codeForm } = loadPage(`?${search}`, '#code-entry')
+    for (const form of [emailForm, codeForm]) {
+      for (const input of hiddenInputs(form)) {
+        assert.equal(['email', 'code', 'password', 'code_verifier', 'login_hint', 'audience'].includes(input.name), false,
+          `credential/unrecognized field bridged: ${input.name}`)
+      }
+    }
+    // Deterministic duplicate handling: one hidden input per key carrying the
+    // LAST query occurrence (the server merges form bodies with
+    // URLSearchParams.set, so the final value is what validation sees).
+    const emailMap = hiddenMap(emailForm)
+    assert.equal(emailMap.get('client_id'), 'second-client')
+    assert.equal(emailMap.get('state'), 'last-state')
+    assert.equal(emailMap.has('transaction'), false, 'stage-1 form never carries a transaction envelope')
+    const codeMap = hiddenMap(codeForm)
+    assert.equal(codeMap.get('transaction'), 'second-transaction')
+    assert.equal(codeMap.get('client_id'), 'second-client')
+  })
+
+  it('fails closed on no query, malformed encodings, and empty values without ever targeting Vercel', () => {
+    for (const search of ['', '?', '?client_id=%E0%A4%A&state=%zz&redirect_uri=https%3A%2F%2Fx%2F%25', '?state=&client_id=abc', '?transaction=&code_challenge=']) {
+      const { emailForm, codeForm } = loadPage(search, '#code-entry')
+      assert.equal(emailForm.action, AUTHORIZE_URL, `action must be Supabase for search ${search}`)
+      assert.equal(codeForm.action, AUTHORIZE_URL)
+      for (const form of [emailForm, codeForm]) {
+        for (const input of hiddenInputs(form)) {
+          assert.ok(!['email', 'code', 'password'].includes(input.name), `credential bridged for ${search}`)
+          assert.equal(input.type, 'hidden')
+        }
+      }
+    }
+    // Empty values are preserved exactly when the key is present.
+    const empty = loadPage('?state=&client_id=abc')
+    assert.equal(empty.emailForm.action, AUTHORIZE_URL)
+    assert.equal(hiddenMap(empty.emailForm).get('state'), '')
+    assert.equal(hiddenMap(empty.emailForm).get('client_id'), 'abc')
+    // No query at all: no hidden inputs, still no Vercel-targeted submission.
+    const bare = loadPage('')
+    assert.equal(hiddenInputs(bare.emailForm).length, 0)
+    assert.equal(hiddenInputs(bare.codeForm).length, 0)
+    assert.equal(bare.emailForm.action, AUTHORIZE_URL)
+    assert.equal(bare.codeForm.action, AUTHORIZE_URL)
+  })
+
+  it('keeps both stage forms posting to the Supabase authorize URL after script execution', () => {
+    const params = representativeParams()
+    const page = loadPage(`?${params.toString()}`, '#code-entry')
+    for (const form of [page.emailForm, page.codeForm]) {
+      assert.equal(form.action, AUTHORIZE_URL)
+      assert.equal(form.action.startsWith('https://morsel-authorize-ui.vercel.app'), false)
+    }
   })
 
   it('enforces approved text and non-text contrast pairs', () => {
@@ -162,33 +354,20 @@ describe('static two-step authorization page (issue #60)', () => {
     ]) assertContrast(name, foreground, background, minimum)
   })
 
-  it('documents the retired page, the function-origin consent path, and the no-JS artifact in the README', () => {
+  it('documents the Vercel skin → direct POST consent flow and the human-gated restore in the README', () => {
     const readme = source('./README.md')
     assert.match(readme, /Connect to Morsel/)
-    assert.match(readme, /no JavaScript|no-JS|without JavaScript/i)
-    assert.match(readme, /action-less|omits? action|current URL/i)
+    assert.match(readme, /params\.js/)
+    assert.match(readme, /cross-origin form POST|direct.*POST|form POST/i)
+    assert.match(readme, /no CORS|without CORS|no fetch/i)
+    assert.match(readme, /text\/plain|HTML content is not supported|cannot serve HTML|shared domain/i)
     assert.match(readme, /#code-entry/)
-    // Issue #66: the README must say the page is not the consent surface and
-    // must not claim any form-post forwarding / active flow through this host.
-    assert.match(readme, /no longer the OAuth consent surface|retired|archived|historical/i)
-    assert.match(readme, /Supabase function origin|server-rendered|function origin/i)
+    assert.match(readme, /human[- ]gate/i)
+    assert.match(readme, /MORSEL_OAUTH_AUTHORIZATION_ENDPOINT/)
     assert.match(readme, /vercel\.json/)
-    assert.match(readme, /human[- ]gate|deploy|probe/i)
-    assert.doesNotMatch(readme, /POST \/authorize/gi)
-    // Active proxy/forwarding claims only: semantic patterns for a host that
-    // proxies/forwards posts to a backend. Historical wording such as
-    // "legacy proxy route ... was inert" stays allowed (no bare /prox/ ban).
     assert.doesNotMatch(readme, /proxies? [^.]*to (the |a )?[\w. -]*backend/i)
     assert.doesNotMatch(readme, /forwards? (the )?(form )?posts? (to|toward)/i)
-    assert.doesNotMatch(readme, /(form )?posts? (are |were )?forwarded to /i)
-    // r2 docs-truth classes: the README may only describe form posts as
-    // attempting to reach a backend (historical), never as reaching it or as
-    // an active redirect/stage chain back to this page. The reach pin is a
-    // positive-claim test: only a bounded set of non-negating fillers may sit
-    // between the subject and "reached", so "never reached" and "attempted to
-    // reach" both stay allowed.
-    assert.doesNotMatch(readme, /(form )?posts? (?:from the page |have )?reached (the |a )?[\w. -]*backend/i)
-    assert.doesNotMatch(readme, /(answers|redirects|302s) [^.]*back to (the|this) page/i)
     assert.doesNotMatch(readme, /Claude connection/)
+    assert.doesNotMatch(readme, /no longer the OAuth consent surface|retired|archived|historical/i)
   })
 })

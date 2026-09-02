@@ -40,16 +40,22 @@ to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-se
 `/.well-known/openid-configuration` (issue #59), `/.well-known/oauth-protected-resource/mcp`,
 `/authorize`, `/token`,
 `/register`) remain on the same canonical Supabase base, and the advertised OAuth
-`resource` is the canonical transport URL itself. Consent is served from that
-same function origin (issue #66): authorization-server metadata advertises the
-Supabase `/authorize` URL as `authorization_endpoint`, and the route renders
-both no-JS email-code stages server-side with self-POST forms. The Edge
-Function never configures an external authorization page — the legacy static
-host could not forward form posts, so the repository no longer sets
-`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` anywhere; the shared server keeps an
-optional `authorizationEndpoint` seam only for embedders that deliberately
-point the browser at their own page. The local Bun entrypoint
-(`server/index.ts`) has no prefix: its canonical transport is the
+`resource` is the canonical transport URL itself. The BROWSER consent surface is
+the static Vercel page again (issue #69): the optional
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` Edge Function environment value names
+`https://morsel-authorize-ui.vercel.app/authorize`, authorization-server
+metadata advertises that page as `authorization_endpoint`, and every
+`/authorize` form response is a bodyless 302 back to it carrying the OAuth
+parameters (plus the sealed transaction envelope and `#code-entry` on stage
+2). Supabase's free shared domain rewrites function `text/html` to
+`text/plain`, so the function origin cannot render consent HTML in production:
+the Vercel page's `params.js` bridges the allowlisted query fields into hidden
+inputs and the browser form-POSTs directly (cross-origin — no CORS, no proxy,
+no fetch) to this `/authorize` route. Restoring the production endpoint secret
+is a human-gated config step. When the endpoint is unset the function keeps
+its server-rendered no-JS email-code stages with self-POST forms (issue #66
+fallback, pinned by `oauth.test.ts` as defense in depth). The local Bun
+entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
 server root `/` with `/mcp` as the alias.
 
 ## Design notes
@@ -95,11 +101,14 @@ server root `/` with `/mcp` as the alias.
   concurrent Edge Function isolates. Refresh-token wrappers remain
   encrypted/signed. `MORSEL_OAUTH_SIGNING_KEY` is required for registration
   and token exchange; set it as an Edge Function secret and never commit it.
-- The optional `authorizationEndpoint` option on the shared server exists
-  only for embedders that deliberately host their own browser page; the
-  deployed Edge Function, CI, and deploy workflow never configure it (issue
-  #66 — consent is served from the Supabase function origin). It never moves
-  the issuer, token, register, resource, challenge, or MCP URLs.
+- The optional `authorizationEndpoint` option on the shared server is wired
+  in the Edge entrypoint to `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` (issue #69):
+  when set, every `/authorize` form response becomes a bodyless 302 to that
+  external page while the issuer, token, register, resource, challenge, and
+  MCP URLs never move. Unset keeps the server-rendered consent fallback
+  (issue #66 hardening). CI exercises the configured mode with a synthetic
+  endpoint; the deploy workflow only VERIFIES the expected endpoint — the
+  production secret restore stays human-gated.
 - Deployments must apply the ordered SQL in `db/migrations/` and then
   `db/seed.sql`; migration `0004_store_assets.sql` provisions the private
   `food-images` bucket and its owner-scoped Storage policies, and migration

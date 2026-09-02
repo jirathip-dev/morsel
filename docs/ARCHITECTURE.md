@@ -61,13 +61,20 @@ OAuth discovery and provider backend routes use the same canonical prefix:
 (issue #59; same authorization-server document for OpenID Connect discovery),
 `/authorize`, `/token`, and `/register`
 are available below `/functions/v1/mcp/`, and the advertised OAuth `resource`
-is the canonical transport URL itself. The authorization-server metadata
-advertises the function-origin `/authorize` URL as `authorization_endpoint`:
-the Edge Function serves both no-JS email-code stages itself and never
-configures an external authorization page (issue #66 — the legacy Vercel
-static page could not forward form posts, so the server-rendered route is the
-repository-supported consent surface, and `/authorize` remains the OAuth
-backend and issuer).
+is the canonical transport URL itself. The BROWSER consent surface is the
+static Vercel page under `authorize-ui/` (issue #69): Supabase's free shared
+domain rewrites Edge Function `text/html` to `text/plain`, so the function
+origin cannot render consent HTML in production. With the optional
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` set, authorization-server metadata
+advertises the Vercel page as `authorization_endpoint`, every `/authorize`
+form response is a bodyless 302 back to it (carrying the OAuth parameters,
+the sealed transaction envelope, and `#code-entry` on stage 2), and the
+page's same-origin `params.js` bridges the allowlisted query fields into
+hidden inputs for a direct cross-origin form POST to `/authorize` — no CORS,
+no fetch, no proxy. Restoring the production endpoint secret is human-gated
+(the deploy workflow only verifies it); while it is unset the function serves
+the two email-code stages itself as the pinned fallback (issue #66
+hardening), and `/authorize` remains the OAuth backend and issuer either way.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use
