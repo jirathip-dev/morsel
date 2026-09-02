@@ -41,11 +41,12 @@
         </form>
       </section>
 
-      <!-- Stage 2: six-digit code. The server redirects here with the OAuth
-           parameters plus a sealed transaction envelope in the query and the
-           #code-entry fragment, which CSS :target turns into the visible
-           stage. The code form also omits action: its POST carries the same
-           query state (envelope included) to the backend. -->
+      <!-- Stage 2: six-digit code. Archived markup only: in the pre-#66 flow
+           the backend landed the browser back here with the #code-entry
+           fragment, which CSS :target turns into the visible stage. No such
+           flow exists anymore: vercel.json keeps no backend route, and the
+           code form below (which omits action like stage 1) self-posts to
+           this page's own URL only. -->
       <section id="code-entry" class="stage" aria-labelledby="code-stage-title">
         <h2 id="code-stage-title" class="stage-title">Enter the code</h2>
         <p class="stage-copy">Enter the 6-digit code from the email. The code is single-use and expires.</p>

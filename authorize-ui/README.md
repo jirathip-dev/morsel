@@ -28,15 +28,15 @@ The consent flow runs entirely on the Supabase function origin:
 
 ## Why the static page was retired
 
-Form posts from the page reached the Supabase backend through a legacy route
-whose destination was an external Supabase URL. Vercel legacy routes do not
-honor external destinations, so that route was inert: form posts to the page
-URL answered `405` with an empty body, and mobile browsers showed a "download
-authorize" sheet instead of the next stage. The #60 server-rendered path
-already implemented the identical two-step contract, so the repository stopped
-configuring the external page (issue #66). Removing the production secret
-(`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`) and any live hosting changes remain
-human-gated; this lane only changes repository code, tests, and docs.
+Form posts from the page attempted to reach the Supabase backend through a
+legacy route whose destination was an external Supabase URL. Vercel legacy
+routes do not honor external destinations, so that route was inert: form posts
+to the page URL answered `405` with an empty body, and mobile browsers showed
+a "download authorize" sheet instead of the next stage. The #60 server-rendered
+path already implemented the identical two-step contract, so the repository
+stopped configuring the external page (issue #66). Removing the production
+secret (`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`) and any live hosting changes
+remain human-gated; this lane only changes repository code, tests, and docs.
 
 ## Routing contract (`vercel.json`)
 

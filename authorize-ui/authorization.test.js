@@ -99,8 +99,8 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.match(html, /object-src 'none'/)
     assert.match(html, /base-uri 'none'/)
     // Tighter than the pre-#60 page: script-src is gone because no script may
-    // ever run. form-action stays absent so the validated 302 redirect chain
-    // from the backend to each registered client callback is not blocked.
+    // ever run. form-action stays absent in this archived markup (kept
+    // byte-stable); no active flow depends on the directive anymore.
     assert.doesNotMatch(html, /script-src/)
     assert.doesNotMatch(html, /form-action/)
   })
@@ -120,12 +120,18 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
   })
 
-  it('keeps the archived-page HTML comment free of the stale POST-proxy claim (issue #66)', () => {
+  it('keeps the archived-page HTML comments free of active-flow claims (issue #66)', () => {
     const html = source('./index.html')
-    // The page is an archived GET-only surface: the top comment may not
-    // claim the static host routes form posts to the Supabase backend
-    // (that claim died with the POST-proxy route in vercel.json).
-    assert.doesNotMatch(html, /static host routes POST \/authorize to\s+the Supabase authorization backend/i)
+    // Stale class 1: present-tense static-page server-redirect /
+    // transaction-stage claims ("The server redirects here with the OAuth
+    // parameters plus a sealed transaction envelope ... to the backend").
+    assert.doesNotMatch(html, /the server redirects here/i)
+    assert.doesNotMatch(html, /(server|backend) (redirects|302s) (back to )?(this|the) page/i)
+    assert.doesNotMatch(html, /sealed transaction envelope in the query/i)
+    // Stale class 2: form posts routed to, carried to, or reaching a backend.
+    assert.doesNotMatch(html, /static host routes POST \/authorize to/i)
+    assert.doesNotMatch(html, /carries? [^.]*to the backend/i)
+    assert.doesNotMatch(html, /reached (the |a )?[\w. -]*backend/i)
   })
 
   it('enforces approved text and non-text contrast pairs', () => {
@@ -167,6 +173,11 @@ describe('static two-step authorization page (issue #60)', () => {
     assert.match(readme, /human[- ]gate|deploy|probe/i)
     assert.doesNotMatch(readme, /POST \/authorize/gi)
     assert.doesNotMatch(readme, /prox|forward.*POST|POST.*forward/i)
+    // r2 docs-truth classes: the README may only describe form posts as
+    // attempting to reach a backend (historical), never as reaching it or as
+    // an active redirect/stage chain back to this page.
+    assert.doesNotMatch(readme, /reached (the |a )?[\w. -]*backend/i)
+    assert.doesNotMatch(readme, /(answers|redirects|302s) [^.]*back to (the|this) page/i)
     assert.doesNotMatch(readme, /Claude connection/)
   })
 })
