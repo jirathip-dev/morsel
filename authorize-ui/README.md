@@ -1,62 +1,137 @@
-# Morsel static authorization page
+# Morsel static authorization page (email one-time code)
 
-This directory is a provider-neutral static page for the browser-facing OAuth authorization step. Supabase remains the OAuth issuer, dynamic registration endpoint, token endpoint, authorization POST processor, grant store, identity provider, protected resource, and MCP backend.
+Provider-neutral, **no-JavaScript** browser consent page for Morsel's OAuth
+authorization flow. The page copy is "Connect to Morsel" plus one line
+explaining that an MCP client is requesting access to the user's Morsel
+account — no client-specific label anywhere. Supabase remains the OAuth
+issuer, dynamic registration endpoint, token endpoint, authorization POST
+processor, grant store, identity provider, protected resource, and MCP
+backend. The page is a static skin over the same two-step email-code contract
+the server-rendered fallback implements (`server/oauth.ts`), so both surfaces
+behave identically.
 
-The page has no server or proxy. It reads `window.location.search`, creates one hidden input per decoded query pair in original order, excludes only query-controlled `email` and `password`, and submits required credential controls directly to the fixed Supabase endpoint:
+## The two-step contract
 
-`https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize`
+1. **Step 1 — email.** The user enters the email on their Morsel account and
+   submits. The backend validates the full OAuth request first, requests a
+   Supabase Auth email one-time code **for an existing user only**
+   (`create_user: false` — the page can never sign a new account up), applies
+   a per-email request rate limit, and answers **uniformly** for existing and
+   unknown accounts so existence is never disclosed. The email, OAuth
+   parameters, and expiry travel inside a confidential, integrity-protected,
+   expiring **server-issued transaction envelope** (AES-GCM + HMAC with
+   `MORSEL_OAUTH_SIGNING_KEY`); nothing sensitive rides in cleartext URLs or
+   logs.
+2. **Step 2 — code.** The user enters the 6-digit code. Wrong, expired,
+   reused, malformed, or cross-transaction codes fail closed and return to
+   code entry with every OAuth parameter intact. A correct code continues the
+   existing stored-grant + authorization-code redirect to the registered
+   client callback, with state/PKCE/resource/client/redirect semantics
+   unchanged.
 
-The page preserves ordered duplicate controls at the browser form layer. The current backend overlays POST fields with `URLSearchParams.set`, so duplicate names are last-wins at the backend; standard OAuth `scope` remains one space-delimited field. Do not rely on end-to-end duplicate preservation.
+## How a static page carries state without JavaScript
 
-It does not validate or sign OAuth values. The Supabase backend validates the signed client ID, exact registered redirect URI, authorization-code response type, S256 PKCE challenge, optional resource, credentials, grant, and token exchange.
+The page never reads the query string, never writes storage, and never fetches.
+It relies on two browser/platform behaviors:
 
-## Files
+- **Action-less form posts preserve the query string.** Each stage form omits
+  `action` and uses `method="post"`, so the browser submits to the document's
+  own URL. Every OAuth parameter (`client_id`, `redirect_uri`, `response_type`,
+  `code_challenge`, `code_challenge_method`, `scope`, `resource`, `state`) and
+  the `transaction` envelope therefore ride the request without any hidden
+  inputs being generated client-side. Verified in a real browser
+  (chrome-headless-shell via CDP): an action-less POST of this page's email
+  form reached the server as `POST /?client_id=…&state=…&scope=…` with the
+  email only in the body.
+- **CSS `:target` staging.** After step 1 the backend `302`s back to this page
+  with the OAuth parameters plus a fresh `transaction` envelope and the
+  `#code-entry` fragment. `#code-stage` is `display:none` by default and both
+  stages are toggled with `body:has(#code-entry:target)` rules — no script.
+  A "Use a different email or request a new code" anchor returns to
+  `#email-stage` (fragment-only navigation keeps the query).
 
-- `index.html` — static form and restrictive CSP declaration.
-- `authorization.css` — same-origin Morsel presentation using existing palette tokens.
-- `authorization.js` — fixed endpoint constant and DOM-only hidden-control wiring.
-- `authorization.test.js` — repository-native Vitest security and wiring contract.
+## Routing contract (`vercel.json`)
 
-There is no fetch/XHR, server runtime, adapter, dynamic upstream, cookie/storage use, analytics, logging, third-party script, or inline secret.
+`POST /authorize` must reach the Supabase backend while every other method
+serves the static page, with the browser URL unchanged (rewrites, not
+redirects):
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    { "src": "/authorize", "dest": "https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize", "methods": ["POST"] },
+    { "src": "/authorize", "dest": "/index.html" }
+  ]
+}
+```
+
+Order is load-bearing: the `methods: ["POST"]` proxy rule wins for form posts,
+and the second rule (no method filter) serves the page for GET and everything
+else. Vercel documents external-destination routing as a reverse proxy that
+forwards requests (method, query, and body) — this file is the
+repository-verifiable statement of that contract and is asserted by
+`authorization.test.js`. The platform behavior itself is not exercisable from
+this repository, so the deploy checklist below re-probes it at activation
+time, exactly like the existing CSP-response-header host gate.
 
 ## Security policy
 
-The deployed response must return this CSP as an HTTP header as well as retaining the document declaration:
+The deployed response must return this CSP as an HTTP header as well as
+retaining the document declaration:
 
 ```text
-default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'
+default-src 'none'; style-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'
 ```
 
-`form-action` is intentionally omitted. Browsers enforce `form-action` on every redirect in a form navigation chain, so restricting it to the Supabase POST URL would block Supabase's validated `302` to each dynamic registered client callback. The initial destination remains pinned independently by the fixed HTML `action`, the same fixed exported JavaScript constant, and the no-injection contract.
+This is **tighter** than the pre-#60 page: `script-src` is gone because no
+script may ever run. `form-action` remains intentionally omitted — the backend
+validates every step and ends the flow with a `302` to each dynamically
+registered client callback, and no CSP directive may block that chain. The
+only two forms are the action-less self-posts above.
 
-Before acceptance, a fresh reviewer must rerun a real-browser redirect-chain probe that exercises the fixed authorization POST followed by a `302` to a different registered callback origin. The browser-free source fixture prevents the known directive from returning, but it cannot replace browser enforcement evidence.
+`frame-ancestors` is not enforced from a meta element, so the static host must
+support the corrected CSP response header before acceptance. Do not broaden
+`connect-src`, style sources, or add any script source.
 
-`frame-ancestors` is not enforced from a meta element, so a future static host must support the corrected CSP response header before acceptance. Do not broaden `connect-src`, script sources, or style sources. Query data must never select the form action.
+## Deploy checklist (human gates — no deployment is authorized from a lane)
 
-## Known blank-credential limitation
+1. Verify the Vercel project serves this directory with `vercel.json`
+   active, then re-probe the routing behavior with a real browser:
+   load `…/authorize?client_id=…&state=…&code_challenge=…&redirect_uri=…&response_type=code`,
+   submit the email form, and confirm the POST reaches Supabase with the full
+   query string and the email in the body only, then follow the returned
+   `302` to `#code-entry`, submit a code, and confirm the final `302` to the
+   registered client callback. If external POST forwarding is not honored by
+   the host, fall back to leaving `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` unset:
+   the server-rendered forms implement the identical two-step contract.
+2. Supabase email template must emit `{{ .Token }}` (a code), not only a
+   magic link — dashboard change, read back before live acceptance.
+3. Apple "Hide My Email" check: if the account email is a
+   `privaterelay.appleid.com` address, Apple only forwards mail from senders
+   registered in the Apple developer portal (Sign in with Apple for Email
+   Communication). Confirm the account uses a real email before acceptance;
+   if it is a relay address, that portal registration becomes a gate. The
+   account email itself is never recorded in this repository.
 
-Both email and password are browser-required. If browser validation is bypassed and a blank credential POST reaches Supabase, the backend re-renders HTML that the default Supabase gateway labels `text/plain`; that retry page will not render normally. Invalid non-blank credentials follow the backend's existing `302 error=access_denied&state=...` path. This bounded artifact is intended only for the first valid-credential Claude test after all human gates are approved.
+## Files
 
-## Future human gates — no deployment is authorized
+- `index.html` — static two-stage page: email form (default), code form
+  (`#code-entry`), restrictive script-free CSP declaration. No JavaScript.
+- `authorization.css` — same-origin Morsel presentation using the existing
+  palette tokens, including the `:target` stage switch.
+- `vercel.json` — method-preserving form-post routing contract (above).
+- `authorization.test.js` — repository-native Vitest contract: neutral copy,
+  no-JS source proof, form/CSP/routing shape, contrast pairs, README pins.
 
-GitHub Pages alone cannot emit arbitrary CSP response headers and is not sufficient for the required `frame-ancestors` acceptance policy. A separately approved static host or fronting layer with response-header support is required. The repository currently has no Pages site. A human must separately approve and perform all account, project, hosting, DNS, and publication work.
-
-After review and merge, integration must be serialized with the exact delivery of #57:
-
-1. Enable an approved static HTTPS host and verify the exact files and CSP header.
-2. Change only OAuth metadata `authorization_endpoint` to the static HTTPS page.
-3. Keep issuer, register, token, protected-resource, resource, and MCP URLs on Supabase.
-4. Deploy the separately reviewed backend metadata change.
-5. Read back dynamic registration → static authorization GET → Supabase POST → token exchange → `get_profile`.
-6. Run one separately approved live Claude `get_profile`-only smoke.
-
-This implementation contract must not deploy, merge, enable hosting, modify GitHub Pages, change Supabase/Auth, or run live acceptance.
+There is no fetch/XHR, server runtime, adapter, dynamic upstream,
+cookie/storage use, analytics, logging, third-party script, or inline secret.
 
 ## Local verification
 
 ```sh
 npx vitest run authorize-ui/*.test.js
-node --check authorize-ui/authorization.js
 ```
 
-The full repository verification additionally runs `npm test`, `npm run lint`, and `npm run typecheck`.
+The full repository verification additionally runs `npm test`, `npm run lint`,
+and `npm run typecheck`.

@@ -13,8 +13,18 @@ export interface OAuthUserSession {
 }
 
 export interface OAuthIdentityService {
-  authenticate(email: string, password: string): Promise<OAuthUserSession>
+  /** Request an email one-time code for an existing account; never creates users. */
+  requestCode(email: string): Promise<void>
+  /** Verify a single-use email one-time code and return the account session. */
+  verifyCode(email: string, code: string): Promise<OAuthUserSession>
   refresh(refreshToken: string): Promise<OAuthUserSession>
+}
+
+export interface EmailCodeRequestPolicy {
+  /** Maximum code requests allowed per email per window. */
+  maxRequests: number
+  /** Fixed window length in seconds. */
+  windowSeconds: number
 }
 
 export interface OAuthAuthorizationGrant {
@@ -42,6 +52,10 @@ export interface MorselOAuthOptions {
   anonKey?: OAuthConfigValue
   publicBaseUrl?: OAuthConfigValue
   authorizationEndpoint?: OAuthConfigValue
+  /** Per-email code-request rate limit (default: 5 per 10 minutes). */
+  emailCodeRequests?: EmailCodeRequestPolicy
+  /** Injectable clock (milliseconds since the epoch) for tests. */
+  now?: () => number
 }
 
 interface OAuthRouteOptions {
@@ -51,6 +65,21 @@ interface OAuthRouteOptions {
   service: OAuthIdentityService
   publicBaseUrl?: OAuthConfigValue
   authorizationEndpoint?: OAuthConfigValue
+  emailCodeRequests?: EmailCodeRequestPolicy
+  now?: () => number
+}
+
+interface OAuthAuthorizationRouteOptions extends OAuthRouteOptions {
+  /** Resolved external static authorization page URL, when configured. */
+  authorizationPage?: string
+  limiter: EmailCodeRateLimiter
+  now: () => number
+}
+
+/** Rate limiter keyed on a confidential digest of the email address. */
+interface EmailCodeRateLimiter {
+  /** Record one code request; returns false when the window is exhausted. */
+  allow(key: string): boolean
 }
 
 type HeaderValues = Record<string, string>
@@ -77,6 +106,24 @@ interface RefreshTokenPayload {
   resource?: string
   expiresAt: number
 }
+
+interface OtpTransactionPayload {
+  typ: 'otp_transaction'
+  email: string
+  clientId: string
+  redirectUri: string
+  codeChallenge: string
+  scope: string
+  resource?: string
+  expiresAt: number
+}
+
+// Email one-time codes are exactly six digits. The sealed transaction
+// envelope carries the request between the two steps; its ten-minute lifetime
+// bounds the code-entry window and keeps failed attempts short-lived.
+const OTP_CODE_SHAPE = /^[0-9]{6}$/
+const OTP_TRANSACTION_TTL_SECONDS = 10 * 60
+const DEFAULT_EMAIL_CODE_REQUEST_POLICY: EmailCodeRequestPolicy = { maxRequests: 5, windowSeconds: 600 }
 
 class OAuthProtocolError extends Error {
   readonly errorCode: string
@@ -548,21 +595,24 @@ async function requestParameters(request: Request): Promise<URLSearchParams> {
   return params
 }
 
-function authorizationForm(request: Request, params: URLSearchParams, message?: string, publicBaseUrl?: OAuthConfigValue): Response {
-  const hiddenFields = Array.from(params.entries())
-    .filter(([name]) => name !== 'email' && name !== 'password')
-    .map(([name, value]) => `<input type="hidden" name="${htmlEscape(name)}" value="${htmlEscape(value)}">`)
-    .join('')
-  const notice = message === undefined ? '' : `<p role="alert">${htmlEscape(message)}</p>`
+// Fields that must never be echoed back into a rendered form or carried
+// through a page redirect: the email lives only inside the sealed transaction
+// envelope, the one-time code is typed per request, and passwords no longer
+// exist. Everything else in the OAuth request survives both steps untouched.
+const CARRY_EXCLUDED_FIELDS = new Set(['code', 'email', 'password', 'transaction'])
+
+function formActionUrl(request: Request, publicBaseUrl: OAuthConfigValue | undefined): string {
   // When an explicit public base is configured the form must post to the
   // callable public authorization URL (the gateway strips /functions/v1 from
   // the raw request pathname). Local/default behavior stays on the request
   // pathname so the browser posts back to the same route it was served from.
   const publicUrl = resolvePublicBaseUrl(publicBaseUrl)
-  const action = publicUrl === undefined
+  return publicUrl === undefined
     ? new URL(request.url).pathname
     : appendPath(publicUrl, 'authorize').href
-  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect Morsel</title></head><body><main><h1>Connect Morsel</h1>${notice}<form method="post" action="${htmlEscape(action)}"><label>Email <input name="email" type="email" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button type="submit">Authorize</button>${hiddenFields}</form></main></body></html>`
+}
+
+function formPage(body: string): Response {
   return new Response(body, {
     status: 200,
     headers: {
@@ -572,6 +622,104 @@ function authorizationForm(request: Request, params: URLSearchParams, message?: 
       'content-type': 'text/html; charset=utf-8',
     },
   })
+}
+
+function carriedFieldInputs(params: URLSearchParams): string {
+  return Array.from(params.entries())
+    .filter(([name]) => !CARRY_EXCLUDED_FIELDS.has(name))
+    .map(([name, value]) => `<input type="hidden" name="${htmlEscape(name)}" value="${htmlEscape(value)}">`)
+    .join('')
+}
+
+// Step 1: accept the email on the Morsel account only. The OAuth request was
+// fully validated before this page is reachable, and every non-credential
+// parameter is preserved as a hidden field for the code step.
+function authorizationForm(request: Request, params: URLSearchParams, message?: string, publicBaseUrl?: OAuthConfigValue): Response {
+  const notice = message === undefined ? '' : `<p role="alert">${htmlEscape(message)}</p>`
+  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect to Morsel</title></head><body><main><h1>Connect to Morsel</h1><p>An MCP client is requesting access to your Morsel account. Enter the email on your Morsel account and a one-time code will be emailed to you.</p>${notice}<form method="post" action="${htmlEscape(formActionUrl(request, publicBaseUrl))}"><label>Email <input name="email" type="email" autocomplete="username" required></label><button type="submit">Send code</button>${carriedFieldInputs(params)}</form></main></body></html>`
+  return formPage(body)
+}
+
+// Step 2: accept exactly the six-digit code plus the protected transaction
+// envelope. Every OAuth parameter remains intact as a hidden field so a
+// failed attempt can be retried without losing the request.
+function codeEntryForm(request: Request, params: URLSearchParams, transaction: string, message?: string, publicBaseUrl?: OAuthConfigValue): Response {
+  const notice = message === undefined ? '' : `<p role="alert">${htmlEscape(message)}</p>`
+  const body = `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Connect to Morsel</title></head><body><main><h1>Connect to Morsel</h1><p>Enter the 6-digit code that was emailed to you. The code is single-use and expires.</p>${notice}<form method="post" action="${htmlEscape(formActionUrl(request, publicBaseUrl))}"><label>Code <input name="code" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code" required></label><button type="submit">Verify and continue</button><input type="hidden" name="transaction" value="${htmlEscape(transaction)}">${carriedFieldInputs(params)}</form></main></body></html>`
+  return formPage(body)
+}
+
+// When an external static page is the configured authorization endpoint every
+// /authorize form response is a 302 back to that page: the static no-JS skin
+// renders both stages from URL state. Without it (local server-rendered
+// fallback) the stages are HTML form pages on this route. The chosen response
+// is identical for existing and unknown accounts so existence is not revealed.
+function externalPageRedirect(authorizationPage: string, params: URLSearchParams, transaction?: string, fragment?: string): Response {
+  const url = new URL(authorizationPage)
+  for (const [name, value] of params.entries()) {
+    if (!CARRY_EXCLUDED_FIELDS.has(name)) {
+      url.searchParams.append(name, value)
+    }
+  }
+  if (transaction !== undefined) {
+    url.searchParams.set('transaction', transaction)
+  }
+  if (fragment !== undefined) {
+    url.hash = fragment
+  }
+  return new Response(null, {
+    status: 302,
+    headers: { 'cache-control': 'no-store', location: url.href },
+  })
+}
+
+function emailStageResponse(request: Request, params: URLSearchParams, message: string | undefined, options: OAuthAuthorizationRouteOptions): Response {
+  if (options.authorizationPage !== undefined) {
+    return externalPageRedirect(options.authorizationPage, params)
+  }
+  return authorizationForm(request, params, message, options.publicBaseUrl)
+}
+
+function codeStageResponse(request: Request, params: URLSearchParams, transaction: string, message: string | undefined, options: OAuthAuthorizationRouteOptions): Response {
+  if (options.authorizationPage !== undefined) {
+    return externalPageRedirect(options.authorizationPage, params, transaction, 'code-entry')
+  }
+  return codeEntryForm(request, params, transaction, message, options.publicBaseUrl)
+}
+
+function createEmailCodeRateLimiter(policy: EmailCodeRequestPolicy, now: () => number): EmailCodeRateLimiter {
+  if (!Number.isInteger(policy.maxRequests) || policy.maxRequests < 1
+    || !Number.isInteger(policy.windowSeconds) || policy.windowSeconds < 1) {
+    throw new OAuthProtocolError('server_error', 'email code request policy is invalid', 500)
+  }
+  const windowMs = policy.windowSeconds * 1_000
+  const buckets = new Map<string, { windowStart: number; count: number }>()
+  const sweep = (current: number): void => {
+    if (buckets.size <= 10_000) {
+      return
+    }
+    for (const [key, bucket] of buckets) {
+      if (current - bucket.windowStart >= windowMs) {
+        buckets.delete(key)
+      }
+    }
+  }
+  return {
+    allow(key) {
+      const current = now()
+      const bucket = buckets.get(key)
+      if (bucket === undefined || current - bucket.windowStart >= windowMs) {
+        sweep(current)
+        buckets.set(key, { windowStart: current, count: 1 })
+        return true
+      }
+      if (bucket.count >= policy.maxRequests) {
+        return false
+      }
+      bucket.count += 1
+      return true
+    },
+  }
 }
 
 function htmlEscape(value: string): string {
@@ -665,10 +813,150 @@ async function tokenResponse(
   return oauthResponse(response, 200, corsHeaders())
 }
 
-async function handleAuthorization(
+interface ValidatedAuthorizationRequest {
+  clientId: string
+  redirectUri: string
+  codeChallenge: string
+  resource: string | undefined
+  params: URLSearchParams
+}
+
+async function openOtpTransaction(secret: string, value: string, nowSeconds: number): Promise<OtpTransactionPayload | undefined> {
+  let payload: Record<string, unknown>
+  try {
+    payload = await openPayload(secret, value)
+  } catch {
+    return undefined
+  }
+  if (payload.typ !== 'otp_transaction'
+    || typeof payload.email !== 'string' || payload.email.trim() === ''
+    || typeof payload.clientId !== 'string' || payload.clientId === ''
+    || typeof payload.redirectUri !== 'string' || payload.redirectUri === ''
+    || typeof payload.codeChallenge !== 'string' || payload.codeChallenge === ''
+    || typeof payload.scope !== 'string'
+    || (payload.resource !== undefined && typeof payload.resource !== 'string')
+    || typeof payload.expiresAt !== 'number' || !Number.isFinite(payload.expiresAt)
+    || payload.expiresAt <= nowSeconds) {
+    return undefined
+  }
+  return {
+    typ: 'otp_transaction',
+    email: payload.email,
+    clientId: payload.clientId,
+    redirectUri: payload.redirectUri,
+    codeChallenge: payload.codeChallenge,
+    scope: payload.scope,
+    ...(payload.resource === undefined ? {} : { resource: payload.resource }),
+    expiresAt: payload.expiresAt,
+  }
+}
+
+// Step 1: accept the email only, validate the full OAuth request first (done
+// by the caller), request a Supabase Auth email one-time code for an existing
+// account without user creation, apply the per-email request rate limit, and
+// hand the transaction to the code stage inside a confidential, integrity-
+// protected, expiring envelope. Existing and unknown accounts receive the
+// same code-stage response so existence is never disclosed.
+async function handleEmailCodeRequest(
   request: Request,
-  options: OAuthRouteOptions,
+  authorization: ValidatedAuthorizationRequest,
+  secret: string,
+  options: OAuthAuthorizationRouteOptions,
 ): Promise<Response> {
+  const email = authorization.params.get('email')
+  if (email === null || email.trim() === '') {
+    return emailStageResponse(request, authorization.params, 'Enter the email on your Morsel account to request a code.', options)
+  }
+  const normalizedEmail = email.trim()
+  if (!options.limiter.allow(await hashValue(normalizedEmail))) {
+    // Defer without revealing anything: the response never names the email.
+    return emailStageResponse(request, authorization.params, 'Too many code requests for this email. Wait a few minutes and try again.', options)
+  }
+  try {
+    await options.service.requestCode(normalizedEmail)
+  } catch {
+    // Uniform response for unknown accounts and provider refusals alike.
+  }
+  const transaction = await sealPayload(secret, {
+    typ: 'otp_transaction',
+    email: normalizedEmail,
+    clientId: authorization.clientId,
+    redirectUri: authorization.redirectUri,
+    codeChallenge: authorization.codeChallenge,
+    scope: authorization.params.get('scope') ?? '',
+    ...(authorization.resource === undefined ? {} : { resource: authorization.resource }),
+    expiresAt: Math.floor(options.now() / 1000) + OTP_TRANSACTION_TTL_SECONDS,
+  } satisfies OtpTransactionPayload)
+  return codeStageResponse(request, authorization.params, transaction, undefined, options)
+}
+
+// Step 2: accept exactly the six-digit code shape plus the protected
+// transaction envelope, verify the code with Supabase Auth, and only then
+// continue the existing stored-grant + authorization-code redirect path.
+// Wrong, expired, reused, malformed, or cross-transaction codes fail closed
+// and keep every OAuth parameter intact for the retry.
+async function handleCodeVerification(
+  request: Request,
+  authorization: ValidatedAuthorizationRequest,
+  secret: string,
+  options: OAuthAuthorizationRouteOptions,
+): Promise<Response> {
+  const params = authorization.params
+  const transaction = params.get('transaction')
+  if (transaction === null) {
+    return emailStageResponse(request, params, 'Your code request expired or is no longer valid. Request a new code.', options)
+  }
+  const payload = await openOtpTransaction(secret, transaction, Math.floor(options.now() / 1000))
+  const scope = params.get('scope') ?? ''
+  if (payload === undefined
+    || payload.clientId !== authorization.clientId
+    || payload.redirectUri !== authorization.redirectUri
+    || payload.codeChallenge !== authorization.codeChallenge
+    || payload.scope !== scope
+    || !resourceMatches(authorization.resource, payload.resource)) {
+    // Missing, expired, tampered, or cross-transaction envelope: fail closed
+    // at the request stage with all OAuth fields intact.
+    return emailStageResponse(request, params, 'Your code request expired or is no longer valid. Request a new code.', options)
+  }
+  const code = params.get('code') ?? ''
+  if (!OTP_CODE_SHAPE.test(code)) {
+    return codeStageResponse(request, params, transaction, 'Enter the 6-digit code from the email.', options)
+  }
+  let session: OAuthUserSession
+  try {
+    session = await options.service.verifyCode(payload.email, code)
+  } catch {
+    return codeStageResponse(request, params, transaction, 'That code is invalid or has expired. Check your email and try again.', options)
+  }
+  const fields = sessionFields(session)
+  if (fields.refreshToken === undefined || fields.refreshToken.trim() === '') {
+    throw new OAuthProtocolError('server_error', 'identity provider did not return a refresh token', 500)
+  }
+  const scopes = payload.scope.split(' ').filter((entry) => entry !== '')
+  const expiresAt = Math.floor(options.now() / 1000) + 5 * 60
+  const codeValue = await sealPayload(secret, {
+    typ: 'authorization_code',
+    clientId: payload.clientId,
+    expiresAt,
+  } satisfies AuthorizationCodePayload)
+  await options.grantStore.create({
+    codeHash: await hashValue(codeValue),
+    clientId: payload.clientId,
+    redirectUri: payload.redirectUri,
+    codeChallenge: payload.codeChallenge,
+    userId: fields.userId,
+    refreshToken: fields.refreshToken,
+    scopes,
+    ...(payload.resource === undefined ? {} : { resource: payload.resource }),
+    expiresAt,
+  }, fields.accessToken)
+  return redirectResponse(payload.redirectUri, {
+    code: codeValue,
+    ...(params.get('state') === null ? {} : { state: params.get('state') ?? '' }),
+  })
+}
+
+async function handleAuthorization(request: Request, options: OAuthAuthorizationRouteOptions): Promise<Response> {
   const params = await requestParameters(request)
   const secret = resolveConfigValue(options.signingKey, 'MORSEL_OAUTH_SIGNING_KEY')
   const clientId = params.get('client_id')
@@ -700,48 +988,14 @@ async function handleAuthorization(
     return oauthErrorResponse(new OAuthProtocolError('invalid_request', 'resource must be a valid URL'))
   }
   if (request.method === 'GET') {
+    // The first visit is always the email step (a GET cannot carry a code).
     return authorizationForm(request, params, undefined, options.publicBaseUrl)
   }
-  const email = params.get('email')
-  const password = params.get('password')
-  if (email === null || password === null || email.trim() === '' || password === '') {
-    return authorizationForm(request, params, 'Email and password are required.', options.publicBaseUrl)
+  const authorization: ValidatedAuthorizationRequest = { clientId, redirectUri, codeChallenge, resource, params }
+  if (!params.has('code')) {
+    return await handleEmailCodeRequest(request, authorization, secret, options)
   }
-  let session: OAuthUserSession
-  try {
-    session = await options.service.authenticate(email.trim(), password)
-  } catch {
-    return redirectResponse(redirectUri, {
-      error: 'access_denied',
-      ...(params.get('state') === null ? {} : { state: params.get('state') ?? '' }),
-    })
-  }
-  const fields = sessionFields(session)
-  if (fields.refreshToken === undefined || fields.refreshToken.trim() === '') {
-    throw new OAuthProtocolError('server_error', 'identity provider did not return a refresh token', 500)
-  }
-  const scopes = (params.get('scope') ?? '').split(' ').filter((scope) => scope !== '')
-  const expiresAt = Math.floor(Date.now() / 1000) + 5 * 60
-  const code = await sealPayload(secret, {
-    typ: 'authorization_code',
-    clientId,
-    expiresAt,
-  } satisfies AuthorizationCodePayload)
-  await options.grantStore.create({
-    codeHash: await hashValue(code),
-    clientId,
-    redirectUri,
-    codeChallenge,
-    userId: fields.userId,
-    refreshToken: fields.refreshToken,
-    scopes,
-    ...(resource === undefined ? {} : { resource }),
-    expiresAt,
-  }, fields.accessToken)
-  return redirectResponse(redirectUri, {
-    code,
-    ...(params.get('state') === null ? {} : { state: params.get('state') ?? '' }),
-  })
+  return await handleCodeVerification(request, authorization, secret, options)
 }
 
 async function handleToken(request: Request, options: OAuthRouteOptions): Promise<Response> {
@@ -1012,11 +1266,24 @@ export function createSupabaseOAuthService(options: {
   }
 
   return {
-    async authenticate(email: string, password: string): Promise<OAuthUserSession> {
-      const result = await client().auth.signInWithPassword({ email, password })
+    async requestCode(email: string): Promise<void> {
+      // Existing accounts only: user creation is explicitly disabled so the
+      // consent page can never sign a new account up.
+      const result = await client().auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: false },
+      })
+      if (result.error !== null) {
+        // The route answers uniformly for unknown accounts and provider
+        // refusals; this error is never exposed to the caller.
+        throw new OAuthProtocolError('access_denied', 'Supabase Auth could not send an email code')
+      }
+    },
+    async verifyCode(email: string, code: string): Promise<OAuthUserSession> {
+      const result = await client().auth.verifyOtp({ email, token: code, type: 'email' })
       const session: unknown = result.data.session
       if (result.error !== null || !isSupabaseSession(session)) {
-        throw new OAuthProtocolError('access_denied', 'Supabase Auth returned an invalid session')
+        throw new OAuthProtocolError('access_denied', 'Supabase Auth did not validate the code')
       }
       return await verifiedSession(session, email)
     },
@@ -1036,6 +1303,13 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   // endpoint is malformed.
   resolvePublicBaseUrl(options.publicBaseUrl)
   const authorizationEndpoint = resolveAuthorizationEndpoint(options.authorizationEndpoint)
+  const now = options.now ?? Date.now
+  const authorizationOptions: OAuthAuthorizationRouteOptions = {
+    ...options,
+    authorizationPage: authorizationEndpoint,
+    limiter: createEmailCodeRateLimiter(options.emailCodeRequests ?? DEFAULT_EMAIL_CODE_REQUEST_POLICY, now),
+    now,
+  }
   app.get('/.well-known/oauth-authorization-server', (context) => {
     try {
       return oauthResponse(authorizationServerMetadata(context.req.raw, options.basePath, options.publicBaseUrl, authorizationEndpoint), 200, corsHeaders())
@@ -1080,7 +1354,7 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   })
   app.on(['GET', 'POST'], '/authorize', async (context) => {
     try {
-      return await handleAuthorization(context.req.raw, options)
+      return await handleAuthorization(context.req.raw, authorizationOptions)
     } catch (error) {
       return oauthErrorResponse(error)
     }

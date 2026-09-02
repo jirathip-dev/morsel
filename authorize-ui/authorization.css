@@ -66,15 +66,6 @@ input {
   margin: 2rem 0 1.5rem;
 }
 
-.eyebrow {
-  margin: 0 0 0.5rem;
-  color: #756955;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
-
 h1 {
   margin: 0;
   font-size: clamp(1.85rem, 7vw, 2.45rem);
@@ -87,6 +78,55 @@ h1 {
   color: #655a4b;
   font-size: 0.95rem;
   line-height: 1.55;
+}
+
+.stage {
+  margin-top: 1.4rem;
+}
+
+.stage-title {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: -0.015em;
+}
+
+.stage-copy {
+  margin: 0.45rem 0 0;
+  color: #655a4b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.stage form {
+  margin-top: 0.9rem;
+}
+
+/* No-JS two-stage switch: the backend redirect appends #code-entry after a
+   code is requested; CSS :target shows the code stage and hides the email
+   stage. Without the fragment the email stage is the default. */
+#code-entry {
+  display: none;
+}
+
+body:has(#code-entry:target) #email-stage {
+  display: none;
+}
+
+body:has(#code-entry:target) #code-entry {
+  display: block;
+}
+
+.stage-switch {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+}
+
+.stage-switch a {
+  color: #2f654b;
+}
+
+.stage-switch a:hover {
+  text-decoration: underline;
 }
 
 form {

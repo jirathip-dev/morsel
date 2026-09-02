@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "routes": [
+    {
+      "src": "/authorize",
+      "dest": "https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/authorize",
+      "dest": "/index.html"
+    }
+  ]
+}

@@ -43,8 +43,11 @@ to it. OAuth discovery and provider routes (`/.well-known/oauth-authorization-se
 `resource` is the canonical transport URL itself. The authorization-server
 metadata may advertise the static HTTPS browser page
 `https://morsel-authorize-ui.vercel.app/authorize` only as
-`authorization_endpoint`; the page posts directly to the Supabase `/authorize`
-route. The local Bun
+`authorization_endpoint`. The page is a no-JavaScript skin of the same
+two-step email one-time-code contract: both stages are method-preserving form
+POSTs to the Supabase `/authorize` route (the static host's routing forwards
+form posts), and the route answers stage transitions with 302s back to the
+page. Without the setting the route serves the same two-step forms itself. The local Bun
 entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
 server root `/` with `/mcp` as the alias.
 
@@ -76,10 +79,15 @@ server root `/` with `/mcp` as the alias.
   only a reference until the storage upload flow is implemented. The URL must
   use HTTPS.
 - OAuth uses stateless dynamic client registration. Client IDs carry their
-  redirect URI allowlist in an HMAC-signed value. `/authorize` signs the user
-  in with Supabase Auth email/password, validates the returned access token
-  with `auth.getUser()`, and stores a short-lived grant in the RLS-protected
-  `oauth_authorization_grants` table. The client-facing authorization code is
+  redirect URI allowlist in an HMAC-signed value. `/authorize` runs a
+  two-step email one-time-code flow for **existing** Supabase Auth accounts
+  only (`signInWithOtp` with `create_user: false`): step 1 accepts the email,
+  requests a code, rate-limits per email, and answers uniformly for known and
+  unknown accounts; step 2 verifies the six-digit code and only then stores a
+  short-lived grant in the RLS-protected `oauth_authorization_grants` table.
+  The email and OAuth request travel between the steps inside a confidential,
+  integrity-protected, expiring transaction envelope sealed with
+  `MORSEL_OAUTH_SIGNING_KEY`; the client-facing authorization code is
   encrypted/signed but contains no Supabase token. `/token` atomically claims
   the grant through `claim_oauth_authorization_grant` before refreshing and
   returning a real Supabase access token; a replay therefore fails across
