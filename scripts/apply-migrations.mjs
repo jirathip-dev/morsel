@@ -1,9 +1,18 @@
 #!/usr/bin/env node
 // Morsel migrations use 000N_name.sql: four-digit zero-padded versions sort lexicographically.
-// Default mode refuses an empty ledger. Blind --adopt was REMOVED (issue #76):
+// Default mode refuses a missing/empty ledger. Blind --adopt was REMOVED (issue #76):
 // historical migrations may only be recorded after scripts/migration-recovery.mjs
 // verifies each migration's complete authoritative end-state contract under an
 // explicit human confirmation.
+//
+// STRUCTURAL SAFETY (pre-review fix at issue #76)
+// - The ledger is NEVER bootstrapped by this script: existence is probed with
+//   a read-only SELECT and a missing or empty ledger fails with ZERO writes.
+// - Each allowed future append runs as ONE Management API request wrapped in
+//   BEGIN..COMMIT with the migration SQL and its ledger insert in the same
+//   transaction, so a crash can never leave DDL applied without its ledger row.
+// - Migration text containing transaction-control statements is rejected
+//   before any write (it could escape the wrapper transaction).
 
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -19,11 +28,38 @@ import {
   appendOnlyDecision,
 } from "./migration-safety.mjs";
 
-const LEDGER_DDL = "create table if not exists public.migration_ledger (name text primary key, applied_at timestamptz not null default now())";
+export const LEDGER_EXISTS_SQL = "select to_regclass('public.migration_ledger')::text as name";
+export const LEDGER_NAMES_SQL = "select name from public.migration_ledger order by name";
 
 export class UsageError extends Error {
   exitCode = 2;
 }
+
+// Remove SQL comments, quoted literals/identifiers, and dollar-quoted bodies
+// so transaction-control scanning only sees executable statements.
+function stripSqlNoise(sql) {
+  return String(sql)
+    .replace(/\$[a-z_]*\$[\s\S]*?\$[a-z_]*\$/g, " ")
+    .replace(/'(?:[^']|'')*'/g, " ")
+    .replace(/"(?:[^"]|"")*"/g, " ")
+    .replace(/--[^\n]*/g, " ")
+    .replace(/\/\*[\s\S]*?\*\//g, " ");
+}
+
+// Transaction-control keywords that could nest/commit/rollback around the
+// wrapper's own BEGIN/COMMIT. Statements are scanned after comment/string/
+// dollar-quote stripping, so `begin`/`end` inside function bodies never trip
+// it, while a real `begin;`/`commit;`/`rollback;`/`savepoint;` at statement
+// level is rejected.
+const TRANSACTION_CONTROL_RE =
+  /\b(?:start\s+transaction|begin(?:\s+work|\s+transaction)?|commit(?:\s+work|\s+transaction)?|rollback(?:\s+work|\s+transaction)?|savepoint|release\s+savepoint|abort(?:\s+work|\s+transaction)?|end(?:\s+work|\s+transaction)?|prepare\s+transaction)\b/i;
+
+export function hasTransactionControl(sql) {
+  return TRANSACTION_CONTROL_RE.test(stripSqlNoise(sql));
+}
+
+const atomicApply = (sqlText, name) =>
+  `begin;\n${sqlText}\ninsert into public.migration_ledger (name) values ('${name}');\ncommit;`;
 
 export async function run({ ref, token, root, queryImpl = null, log = console }) {
   if (!ref) throw new UsageError("SUPABASE_PROJECT_REF is required.");
@@ -40,28 +76,56 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
     return Array.isArray(body) ? body : (body.result ?? body.rows ?? []);
   });
   const local = parseMigrationNames(readdirSync(migrationsDir).filter((file) => file.endsWith(".sql")));
-  await query(LEDGER_DDL, "ledger bootstrap");
-  const recordedNames = async () => new Set((await query("select name from public.migration_ledger", "ledger query")).map((row) => row.name));
+
+  // Read-only ledger probe first: a missing ledger fails with ZERO writes.
+  const existsRow = (await query(LEDGER_EXISTS_SQL, "ledger existence"))[0] ?? {};
+  const ledgerExists = Boolean(existsRow.name);
+  if (!ledgerExists) {
+    throw new Error(
+      "ledger public.migration_ledger does not exist — no migration was applied (zero writes). " +
+        "Create the ledger with scripts/migration-recovery.mjs (human-gated apply with the issue #76 confirmation); " +
+        "for a fresh empty database, apply db/migrations/0001..0009 through the recovery runner first.",
+    );
+  }
+  const recordedNames = async () =>
+    new Set((await query(LEDGER_NAMES_SQL, "ledger query")).map((row) => row.name));
   const recorded = await recordedNames();
+  if (recorded.size === 0) {
+    throw new Error(
+      "ledger is empty — no migration was applied (zero writes); no migration may be recorded without contract verification " +
+        "(blind --adopt was removed for issue #76). Run scripts/migration-recovery.mjs (human-gated apply) to record " +
+        "verified migrations first.",
+    );
+  }
 
   const warning = formatLedgerOnlyWarning([{ label: "project", names: ledgerNamesWithoutLocalFiles(local, recorded) }]);
   if (warning) log.log(`${warning}\n`);
-  if (recorded.size === 0) {
-    throw new Error(
-      "ledger is empty — no migration may be recorded without contract verification (blind --adopt was removed for issue #76). " +
-        "For a manually provisioned schema, run scripts/migration-recovery.mjs (human-gated apply with the issue #76 confirmation). " +
-        "For a fresh empty database, apply db/migrations/0001..0009 in order first.",
-    );
-  }
   const decision = appendOnlyDecision(local, recorded);
   if (!decision.pending.length) {
     log.log(localMigrationsRecordedMessage(local.length, ref));
     return { applied: [] };
   }
   if (!decision.allowed) throw new Error(`${decision.historical.length} unrecorded migration(s) are OLDER than the newest recorded one (${decision.newestApplied}); NEVER re-run these. Reconcile the ledger with scripts/migration-recovery.mjs instead.`);
+
+  // Validate every pending migration text BEFORE the first write: any
+  // transaction-control that could escape the wrapper fails the whole run
+  // with zero writes.
+  const pendingSql = new Map();
   for (const migration of decision.pending) {
-    await query(readFileSync(join(migrationsDir, migration.file), "utf8"), `apply ${migration.file}`);
-    await query(`insert into public.migration_ledger (name) values ('${migration.name}')`, `ledger insert for ${migration.file}`);
+    const sqlText = readFileSync(join(migrationsDir, migration.file), "utf8");
+    if (hasTransactionControl(sqlText)) {
+      throw new Error(
+        `${migration.file} contains transaction-control statements and cannot be applied by this wrapper; ` +
+          "no migration was applied (zero writes). Migrations must be plain DDL/DML — the wrapper provides the single BEGIN/COMMIT.",
+      );
+    }
+    pendingSql.set(migration.name, sqlText);
+  }
+
+  for (const migration of decision.pending) {
+    // One atomic request per migration: DDL + ledger insert in one
+    // BEGIN..COMMIT transaction.
+    await query(atomicApply(pendingSql.get(migration.name), migration.name), `apply ${migration.file}`);
     log.log(`✓ applied + recorded ${migration.file}`);
   }
   const after = await recordedNames();

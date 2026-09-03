@@ -63,7 +63,11 @@ explicit human dispatch — see
 (read-only plan → reviewed code → human-confirmed dispatch → read-back →
 live-app acceptance) and the issue #76 confirmation phrase. Blind `--adopt`
 was removed: historical migrations may only be recorded after the recovery
-runner verifies each migration's complete end-state contract.
+runner verifies each migration's complete end-state contract. Once the ledger
+exists, future `000N` migrations are appended by
+`node scripts/apply-migrations.mjs`, which executes each migration and its
+ledger insert as ONE atomic `BEGIN..COMMIT` request and never bootstraps the
+ledger (missing/empty ledger → zero writes, fail closed).
 TestFlight is dispatch-only and requires the `testflight` environment's ASC API
 key and iOS distribution certificate secrets.
 The MCP server runs on Fly.io single-process hosting (issue #72): the

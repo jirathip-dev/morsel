@@ -3,8 +3,12 @@
 # SAFETY CONTRACT
 # - workflow_dispatch ONLY: no push/pull_request/schedule event can run this
 #   workflow, so a normal merge to main causes ZERO production SQL.
-# - The production environment gate (required reviewers/approvals configured
-#   on the repository) is the human approval layer.
+# - The job targets the `production` environment. NOTE: repository environment
+#   reviewer protection is NOT currently configured; the current human gate is
+#   PRIVILEGED MANUAL DISPATCH (workflow_dispatch requires write access) plus
+#   the byte-exact confirmation phrase. Enabling environment protection rules
+#   (required reviewers) in repository settings is optional human hardening to
+#   do BEFORE any apply.
 # - Dispatch REQUIRES typing the exact issue #76 confirmation phrase; the
 #   recovery CLI refuses to write without a byte-exact match.
 # - Missing secrets FAIL CLOSED (nonzero exit) — never a green skip.

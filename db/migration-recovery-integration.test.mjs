@@ -1,13 +1,16 @@
 // Morsel issue #76 — local disposable PostgreSQL integration for the schema
-// recovery runner. Never touches a remote project: each scenario runs in its
-// own scratch database on an ephemeral cluster.
+// recovery runner and the atomic apply-migrations append path. Never touches a
+// remote project: each scenario runs in its own scratch database on an
+// ephemeral cluster.
 import { spawnSync } from 'node:child_process'
 import { accessSync, constants, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { run, CONFIRMATION_PHRASE } from '../scripts/migration-recovery.mjs'
+import { run as applyMigrationsRun } from '../scripts/apply-migrations.mjs'
 
 const ROOT = resolve(process.cwd())
 const MIGRATIONS = join(ROOT, 'db', 'migrations')
@@ -373,5 +376,87 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const outcome = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
     expect(outcome.applied).toEqual([])
     expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
+  }, 60_000)
+
+  it('apply-migrations appends atomically on real Postgres: single request, failure leaves no ledger row, retry succeeds', async () => {
+    const name = cluster.createDatabase('rec_applyappend')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    // apply-migrations talks to the Management API's plain row objects: its
+    // ledger probe/name queries are plain SELECTs (no JSON document wrapper).
+    const applyImpl = async (sql) => {
+      const text = cluster.execIn(name, sql).trim()
+      const statement = String(sql).trim()
+      if (statement.startsWith('select to_regclass')) {
+        return text === '' ? [] : [{ name: text }]
+      }
+      if (statement.startsWith('select name from public.migration_ledger')) {
+        return text === '' ? [] : text.split(/\r?\n/).map((line) => ({ name: line }))
+      }
+      return [] // atomic BEGIN..COMMIT writes return command tags only
+    }
+    // Temp checkout-shaped root with a tiny append-only migration set.
+    const tempRoot = await mkdtemp(join(tmpdir(), 'morsel-apply-append-'))
+    try {
+      await mkdir(join(tempRoot, 'db', 'migrations'), { recursive: true })
+      await writeFile(join(tempRoot, 'db', 'migrations', '0001_first.sql'), 'create table if not exists public.t_first (id int);')
+      // Seed the ledger out of band: ledger exists with only 'first' recorded,
+      // mirroring a healthy post-recovery database awaiting future migrations.
+      db.execIn(name, `
+        create table if not exists public.migration_ledger (name text primary key, applied_at timestamptz not null default now());
+        insert into public.migration_ledger (name) values ('first');
+      `)
+      db.execIn(name, 'create table if not exists public.t_first (id int);')
+
+      // (1) success: 0002_second appends in ONE request carrying SQL + insert.
+      await writeFile(join(tempRoot, 'db', 'migrations', '0002_second.sql'), 'create table if not exists public.t_second (id int);')
+      const executed = []
+      const recording = async (sql) => {
+        executed.push(String(sql))
+        return applyImpl(sql)
+      }
+      const applied = await applyMigrationsRun({ ref, token, root: tempRoot, queryImpl: recording, log: quiet })
+      expect(applied.applied).toEqual(['0002_second.sql'])
+      const writes = executed.filter((sql) => !/^select /.test(sql.trim()))
+      expect(writes).toHaveLength(1)
+      expect(writes[0]).toMatch(/^begin;\n/)
+      expect(writes[0]).toContain('create table if not exists public.t_second (id int);')
+      expect(writes[0]).toMatch(/insert into public\.migration_ledger \(name\) values \('second'\);\ncommit;$/)
+      expect(db.execIn(name, `select count(*) from pg_class where relname = 't_second'`).trim()).toBe('1')
+      expect(db.execIn(name, `select count(*) from public.migration_ledger where name = 'second'`).trim()).toBe('1')
+
+      // (2) failure: 0003_bad fails inside its transaction -> NO ledger row.
+      await writeFile(join(tempRoot, 'db', 'migrations', '0003_bad.sql'), 'create table if not exists public.t_bad (id int);\ninsert into public.no_such_relation values (1);\n')
+      await expect(applyMigrationsRun({ ref, token, root: tempRoot, queryImpl: applyImpl, log: quiet })).rejects.toThrow()
+      expect(db.execIn(name, `select count(*) from public.migration_ledger where name = 'bad'`).trim()).toBe('0')
+      expect(db.execIn(name, `select count(*) from pg_class where relname = 't_bad'`).trim()).toBe('0')
+
+      // (3) retry after the fix: same runner instance, file repaired -> row lands.
+      await writeFile(join(tempRoot, 'db', 'migrations', '0003_bad.sql'), 'create table if not exists public.t_bad (id int);')
+      const retried = await applyMigrationsRun({ ref, token, root: tempRoot, queryImpl: applyImpl, log: quiet })
+      expect(retried.applied).toEqual(['0003_bad.sql'])
+      expect(db.execIn(name, `select count(*) from public.migration_ledger where name = 'bad'`).trim()).toBe('1')
+
+      // (4) missing ledger -> zero writes on real Postgres.
+      const emptyName = cluster.createDatabase('rec_applymissing')
+      const emptyDb = { name: emptyName, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(emptyName) }
+      const emptyApplyImpl = async (sql) => {
+        const text = cluster.execIn(emptyName, sql).trim()
+        const statement = String(sql).trim()
+        if (statement.startsWith('select to_regclass')) return text === '' ? [] : [{ name: text }]
+        if (statement.startsWith('select name from public.migration_ledger')) {
+          return text === '' ? [] : text.split(/\r?\n/).map((line) => ({ name: line }))
+        }
+        return []
+      }
+      const executedEmpty = []
+      const recordingEmpty = async (sql) => {
+        executedEmpty.push(String(sql))
+        return emptyApplyImpl(sql)
+      }
+      await expect(applyMigrationsRun({ ref, token, root: tempRoot, queryImpl: recordingEmpty, log: quiet })).rejects.toThrow(/ledger public\.migration_ledger does not exist/)
+      expect(executedEmpty.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
+    } finally {
+      await rm(tempRoot, { recursive: true, force: true })
+    }
   }, 60_000)
 })

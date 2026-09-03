@@ -24,9 +24,10 @@ reporting success.
 ## Confirmation phrase
 
 `morsel-issue-76-prod-schema-reconcile-apply` — byte-exact, tied to issue #76,
-required by `--apply`. This is an anti-footgun token (the real gates are the
-GitHub production-environment approvals and the human dispatch), not a
-credential; it is documented here and pinned in `scripts/migration-recovery.mjs`.
+required by `--apply`. This is an anti-footgun token, not a credential; the
+current human gate is **privileged manual dispatch** (only users with write
+access can dispatch a `workflow_dispatch` run) plus this exact phrase. It is
+documented here and pinned in `scripts/migration-recovery.mjs`.
 
 ## The five phases
 
@@ -61,8 +62,13 @@ runner write path needs `--apply --confirm`.
 ### 3. Explicit human-approved production workflow dispatch (the only write step)
 
 1. Open **Actions → Deploy Migrations (Recovery Apply)** on `main`.
-2. The workflow targets the **`production` environment** (approvals/reviewers
-   configured in repository settings are the human gate).
+2. The job targets the **`production` environment**. Repository environment
+   reviewer protection is **NOT currently configured** (GitHub API
+   `protection_rules=[]`); the current human gate is privileged manual
+   dispatch plus the exact confirmation phrase. As optional human settings
+   hardening BEFORE any apply, enable environment protection rules (required
+   reviewers/approvals) for `production` in repository settings — this is a
+   settings change outside this repository's code.
 3. Type the exact confirmation phrase from above into the required
    `confirmation` input and dispatch.
 4. The job **fails closed** (nonzero) when secrets or the confirmation are
@@ -120,8 +126,17 @@ until a human verifies the app path that errored in issue #76:
 ## Rules for future migrations (000N)
 
 - New migrations are append-only `db/migrations/000N_name.sql`.
-- Once the ledger exists, **`node scripts/apply-migrations.mjs`** applies only
-  migrations newer than the newest recorded row and refuses anything older.
+- Once the ledger exists (created by the recovery runner), **`node
+  scripts/apply-migrations.mjs`** applies only migrations newer than the
+  newest recorded row and refuses anything older. It NEVER bootstraps the
+  ledger: a missing or empty ledger fails with ZERO writes, so it cannot be
+  used to adopt an unverified schema.
+- Each allowed append executes as ONE Management API request: the migration
+  SQL and its ledger insert run inside a single `BEGIN..COMMIT` transaction,
+  so a crash can never leave DDL applied without its ledger row. Migration
+  files containing their own transaction control (`begin`/`commit`/
+  `rollback`/`savepoint`/`end` at statement level) are rejected before any
+  write — plain DDL/DML only, the wrapper owns the transaction.
 - **There is no blind adoption anymore**: `--adopt` was removed in issue #76.
   A migration may be recorded only after the recovery runner verifies its
   complete authoritative end-state contract under the human confirmation.

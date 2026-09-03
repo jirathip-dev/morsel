@@ -5,8 +5,10 @@ starting with [`0001_init.sql`](../db/migrations/0001_init.sql); deployment seed
 data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version.
 
 Applied migrations are recorded in `public.migration_ledger` (`name` primary
-key, `applied_at`), created by `scripts/apply-migrations.mjs` or by the
-recovery runner. Production was provisioned before the ledger existed; the
+key, `applied_at`), created by the recovery runner (never bootstrapped by
+`apply-migrations.mjs`, which appends future migrations and their ledger rows
+in one atomic transaction and fails with zero writes when the ledger is
+missing/empty). Production was provisioned before the ledger existed; the
 human-gated reconciliation flow in
 [`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
 classifies 0001–0009 against their end-state contracts and converges

@@ -467,6 +467,28 @@ describe("read-only reconcile workflow safety (deploy-migrations.yml)", () => {
     expect(yaml).toMatch(/exit 1/);
     expect(yaml).not.toMatch(/exit 0\s*#?.*skip/i);
   });
+
+  it("docs and workflow do not claim configured required-reviewer approvals (protection_rules are empty today)", () => {
+    const yaml = readFileSync(new URL("../.github/workflows/deploy-migrations.yml", import.meta.url), "utf8");
+    const runbook = readFileSync(new URL("../docs/MIGRATION_RECOVERY.md", import.meta.url), "utf8");
+    const readme = readFileSync(new URL("../README.md", import.meta.url), "utf8");
+    // No configured-reviewer/approval claims anywhere.
+    for (const [name, text] of [["workflow", yaml], ["runbook", runbook], ["readme", readme]]) {
+      expect(text, `${name} must not claim configured reviewers`).not.toMatch(
+        /required reviewer(?:s)? (?:approvals? )?configured|reviewers? (?:are|is) configured|approvals? configured/i,
+      );
+      expect(text, `${name} must not claim a configured approval layer`).not.toMatch(/approval layer/i);
+    }
+    // Truthful markers: privileged manual dispatch + phrase is the gate, and
+    // environment reviewer protection is explicitly NOT configured.
+    expect(yaml).toMatch(/environment: production/);
+    expect(yaml).toMatch(/NOT currently configured/);
+    expect(runbook).toMatch(/NOT currently configured/);
+    expect(runbook).toMatch(/privileged manual dispatch/);
+    expect(runbook).toMatch(/protection_rules=\[\]/);
+    // Optional hardening may only be described as optional/future settings work.
+    expect(runbook).toMatch(/optional human settings\s*\n\s*hardening/);
+  });
 });
 
 describe("inspect manifest guard", () => {
