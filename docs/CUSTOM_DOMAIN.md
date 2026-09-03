@@ -1,28 +1,37 @@
 # Custom domain setup (superseded for the MCP endpoint by issue #72)
 
-> **Update (issue #72):** the MCP endpoint moves to Fly.io single-process
+> **Update (issues #72/#75):** the MCP endpoint runs on Fly.io single-process
 > hosting (`server/fly-entrypoint.ts`, `docs/FLY_DEPLOY.md`) — one Bun process
-> on a Fly VM keeps the in-memory MCP session map alive. After the human
-> deploy, the canonical client-facing URL is `https://morsel-mcp.fly.dev/mcp`
-> and this Supabase custom-domain option is no longer the path to a clean MCP
-> endpoint host. The rest of this document is kept as the record of the
-> earlier (never-activated) Supabase custom-domain plan, which still applies
-> if the repository ever serves browser HTML from the function origin again.
+> on a Fly VM keeps the in-memory MCP session map alive. The Fly origin is
+> deployed and canonical: the client-facing URL is
+> `https://morsel-mcp.fly.dev/mcp`, which the app build configuration and the
+> onboarding copy publish (issue #75), so this Supabase custom-domain option
+> is not the path to a clean MCP endpoint host. The rest of this document is
+> kept as the record of the earlier (never-activated) Supabase custom-domain
+> plan, which still applies to the Supabase side if the repository ever
+> serves browser HTML from the Supabase function origin again — a Supabase
+> custom domain would only affect the Supabase side, never the Fly MCP base
+> or `MORSEL_MCP_URL`.
 
-Status: **documentation only.** No DNS record, Supabase custom-domain
-configuration, or production deployment has been performed or authorized from
-the implementation lane. Activation requires explicit human approval after the
-checklist below is complete. Nothing in this document is live.
+Status: **documentation only.** No DNS record or Supabase custom-domain
+configuration has been created, and no custom-domain activation has been
+performed or authorized from an implementation lane. Activation requires
+explicit human approval after the checklist below is complete. Nothing in
+this custom-domain plan is live.
 
 The current browser-authorization path does not require a Supabase custom
 domain: the consent HTML lives on the static Vercel page (`authorize-ui/`,
-issue #69), and the Edge Function answers the OAuth flow with metadata, JSON
-errors, and bodyless 302s back to that page (the optional
-`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret names it; restoring that
-production secret is human-gated). The canonical MCP URL, issuer, OAuth
-backend routes, resource, and challenge URLs remain on the Supabase function
-base. A custom domain would only change the hostname of that same base. This
-document describes a separate future custom-domain option only.
+issues #69/#74), whose forms POST to the Fly origin's `/mcp/authorize`, and
+the Fly origin answers the OAuth flow with metadata, JSON errors, and
+bodyless 302s back to that page (the optional
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret names the Vercel page; restoring
+that production secret is human-gated). The canonical MCP URL, issuer, OAuth
+backend routes, resource, and challenge URLs live on the Fly origin at
+`https://morsel-mcp.fly.dev/mcp` (issues #72/#73/#75). The Supabase Edge
+Function transport is legacy/retained backend compatibility only — it is not
+a client-facing base, and a Supabase custom domain would not change the
+canonical MCP base. This document describes a separate future custom-domain
+option for the Supabase side only.
 
 ## Why a custom domain
 
@@ -32,8 +41,10 @@ certain responses (observed: GET `text/html` becomes `text/plain`, issue #55)
 while the function stays metadata/JSON/302-only. A project-level custom
 domain remains Supabase's supported future path to stable, browser-facing
 behavior for a server-hosted OAuth `/authorize` form (should the repository
-ever move the consent skin back onto the function origin) and a clean
-canonical MCP endpoint host:
+ever move the consent skin back onto the function origin). It is not a path
+to the MCP endpoint host — the canonical client-facing URL is the Fly origin
+`https://morsel-mcp.fly.dev/mcp` (issues #72/#75). The example below is the
+Supabase-side base of that earlier plan:
 
 ```
 https://<owned-custom-subdomain>/functions/v1/mcp
@@ -75,13 +86,19 @@ value reaches it through the build-config Info.plist key.
    - OAuth clients' registered `redirect_uris` (in Morsel, stateless RFC 7591
      registrations) are client-side values — any external client that
      registered a `*.supabase.co`-based redirect needs re-registration or a
-     documented exemption.
+     documented exemption. (Historical scope: since issues #72/#73 the MCP
+     OAuth backend and client registration live on the Fly origin, so this
+     bullet applied while registrations targeted the Supabase function base;
+     it no longer affects MCP OAuth clients.)
 3. **Add the CNAME record** at the DNS provider (no proxying; DNS-only).
 4. **Verify, then activate** the custom domain in the Supabase dashboard.
    Activation is the cutover point for the project's public hostname.
 5. **Update `SUPABASE_URL`** (GitHub repository variable/secret and any local
-   environments) to the custom domain so `fastlane/Fastfile` derives the new
-   canonical `MORSEL_MCP_URL` for the next app build.
+   environments) to the custom domain so the Supabase project (Auth,
+   Postgres/RLS, storage, and the retained legacy Edge Function) uses the
+   custom domain. This does NOT change the app's MCP endpoint: `MORSEL_MCP_URL`
+   is the fixed Fly URL (`CANONICAL_MCP_URL` in `fastlane/Fastfile`, issue
+   #75) and never derives from `SUPABASE_URL`.
 6. **Read-back verification after activation (required, no static-proof
    claims):**
    - `GET https://<domain>/functions/v1/mcp/health` → `200 {"ok":true}`.
