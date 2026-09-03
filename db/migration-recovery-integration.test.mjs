@@ -267,6 +267,56 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(secondExecuted.every((sql) => /^select /.test(sql.trim()))).toBe(true)
   }, 90_000)
 
+  it('0003 converge revokes an explicit anon EXECUTE grant (issue #84 drift class) and records the ledger row', async () => {
+    const name = cluster.createDatabase('rec_anonrevoke')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    // Issue #84 prod evidence: canonical 0001..0009 objects present, but
+    // out-of-band provisioning left an EXPLICIT `grant execute ... to anon`
+    // on log_meal_with_items. The #76 0003 converge set only revoked from
+    // public, so the same-transaction guard aborted the converge (HTTP 400
+    // class) with no ledger row. The converge must revoke the explicit anon
+    // grant too and keep the authenticated grant.
+    applyFiles(db, CANONICAL_FILES)
+    db.execIn(name, `grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to anon;`)
+    // Ledger prefix init/targets recorded (prod state before the 0003
+    // re-dispatch): apply must converge EXACTLY 0003 next.
+    const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
+    db.execIn(name, LEDGER_DDL)
+    db.execIn(name, `insert into public.migration_ledger (name) values ('init'), ('targets')`)
+
+    const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(plan.planBlocked).toBe(false)
+    expect(plan.statuses['0003_atomic_meals_and_users_rls.sql'].state).toBe('REPAIR_REQUIRED')
+
+    const executed = []
+    const recording = async (sql) => {
+      executed.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
+    expect(applied.applied).toEqual(['0003_atomic_meals_and_users_rls.sql'])
+    const anonExec = db.execIn(name, `select count(*) from information_schema.routine_privileges where routine_schema='public' and routine_name='log_meal_with_items' and grantee='anon' and privilege_type='EXECUTE'`).trim()
+    const authExec = db.execIn(name, `select count(*) from information_schema.routine_privileges where routine_schema='public' and routine_name='log_meal_with_items' and grantee='authenticated' and privilege_type='EXECUTE'`).trim()
+    const ledgerRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'atomic_meals_and_users_rls'`).trim()
+    expect({ anonExec, authExec, ledgerRow }).toEqual({ anonExec: '0', authExec: '1', ledgerRow: '1' })
+    // Canonical boundary restored: the post state must verify against every
+    // contract (the runner's own post-apply re-verification also passed).
+    const verify = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    for (const file of CANONICAL_FILES) {
+      expect(verify.statuses[file].state, file).toBe('VERIFIED_PRESENT')
+    }
+    // Second run is a no-op: the converge set is idempotent (revoking an
+    // already-revoked grant is a no-op) and every migration is recorded.
+    const secondExecuted = []
+    const secondRecording = async (sql) => {
+      secondExecuted.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    const second = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: secondRecording, log: quiet })
+    expect(second.applied).toEqual([])
+    expect(secondExecuted.every((sql) => /^select /.test(sql.trim()))).toBe(true)
+  }, 90_000)
+
   it('converges an empty database to the full canonical end state', async () => {
     const name = cluster.createDatabase('rec_empty')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }

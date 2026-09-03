@@ -623,6 +623,25 @@ describe("contract pins and expression normalization", () => {
       expect(CANONICAL_POLICIES[f].length, f).toBeGreaterThan(0);
     }
   });
+
+  it("0003 converge revokes an explicit anon EXECUTE and keeps the authenticated grant (issue #84)", async () => {
+    const { CONVERGE_STATEMENTS } = await import("./migration-recovery-contracts.mjs");
+    const stmts = CONVERGE_STATEMENTS["0003_atomic_meals_and_users_rls.sql"];
+    const revokePublic = "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from public";
+    const revokeAnon = "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from anon";
+    const grantAuthenticated = "grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to authenticated";
+    // Out-of-band provisioning can leave an EXPLICIT direct anon grant (issue
+    // #84 prod drift). The same-transaction guard demands anon EXECUTE absent,
+    // so the converge set must revoke anon (not just public) BEFORE the guard
+    // runs, and the authenticated grant must survive the revoke pair.
+    const idxPublic = stmts.indexOf(revokePublic);
+    const idxAnon = stmts.indexOf(revokeAnon);
+    const idxGrant = stmts.indexOf(grantAuthenticated);
+    expect(idxPublic, "0003 converge must keep the from-public revoke").toBeGreaterThanOrEqual(0);
+    expect(idxGrant, "0003 converge must keep the to-authenticated grant").toBeGreaterThanOrEqual(0);
+    expect(idxAnon, "0003 converge must revoke execute from anon").toBeGreaterThan(idxPublic);
+    expect(idxAnon).toBeLessThan(idxGrant);
+  });
 });
 
 describe("read-only reconcile workflow safety (deploy-migrations.yml)", () => {

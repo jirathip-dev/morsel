@@ -1128,6 +1128,7 @@ export const CONVERGE_STATEMENTS = Object.freeze({
     ...CANONICAL_POLICIES["0003_atomic_meals_and_users_rls.sql"].map((policy) => CONVERGE_POLICY(policy)),
     `${FUNCTION_DEFINITIONS.log_meal_with_items};`,
     "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from public",
+    "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from anon",
     "grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to authenticated",
   ],
   "0004_store_assets.sql": [
