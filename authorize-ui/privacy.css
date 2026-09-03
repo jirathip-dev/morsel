@@ -1,0 +1,50 @@
+/* Static privacy policy page (issue #86). Same palette tokens and card
+   language as the consent page (authorization.css); document typography
+   only, scoped under .privacy-* so the consent page surface is untouched. */
+
+.privacy-shell {
+  align-items: start;
+  padding: 2.5rem 1.25rem;
+}
+
+.privacy-policy {
+  width: min(100%, 44rem);
+}
+
+.privacy-policy > .brand-lockup {
+  margin-bottom: 1.75rem;
+}
+
+.privacy-policy h2 {
+  margin: 1.75rem 0 0.4rem;
+  color: #2a261f;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+}
+
+.privacy-policy p,
+.privacy-policy li {
+  color: #655a4b;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.privacy-policy ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.privacy-policy li {
+  margin: 0.35rem 0;
+}
+
+.privacy-policy strong {
+  color: #2a261f;
+  font-weight: 750;
+}
+
+.privacy-policy a {
+  color: #2f654b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

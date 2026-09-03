@@ -30,6 +30,17 @@ const DEPLOYED_ROUTE = {
   methods: ['GET'],
   headers: { 'Content-Security-Policy': DEPLOYED_CSP },
 }
+// Additive static privacy-policy route (issue #86): Vercel does not serve
+// /privacy from privacy.html without a rewrite (no cleanUrls/trailingSlash
+// settings), so the route mirrors the /authorize GET-rewrite pattern and
+// carries the identical restrictive CSP. The /authorize route object above
+// stays byte-identical and pinned first.
+const PRIVACY_ROUTE = {
+  src: '/privacy',
+  dest: '/privacy.html',
+  methods: ['GET'],
+  headers: { 'Content-Security-Policy': DEPLOYED_CSP },
+}
 
 function source(name) {
   return readFileSync(new URL(name, import.meta.url), 'utf8')
@@ -210,9 +221,11 @@ describe('static Vercel authorization page (issue #69)', () => {
     assert.deepEqual(routing.routes[0].headers, { 'Content-Security-Policy': DEPLOYED_CSP }, 'deployed CSP header must equal the meta CSP')
   })
 
-  it('serves the page for GET /authorize only, with no external-destination or form-post route', () => {
+  it('serves GET /authorize and GET /privacy as static rewrites only, with no external-destination or form-post route (issue #86)', () => {
     const routing = JSON.parse(source('./vercel.json'))
-    assert.deepEqual(routing.routes, [DEPLOYED_ROUTE])
+    assert.equal(routing.routes.length, 2)
+    assert.deepEqual(routing.routes[0], DEPLOYED_ROUTE, '/authorize route must stay byte-identical')
+    assert.deepEqual(routing.routes[1], PRIVACY_ROUTE, '/privacy must be the additive GET rewrite to the static privacy.html')
     assert.equal(routing.$schema, 'https://openapi.vercel.sh/vercel.json')
     assert.equal(JSON.stringify(routing).includes('supabase.co'), false, 'vercel.json must not reference the Supabase destination')
     for (const route of routing.routes) {
@@ -227,14 +240,18 @@ describe('static Vercel authorization page (issue #69)', () => {
     // vercel build fails with RouteApiError invalid_mixed_routes ("If
     // rewrites, redirects, headers, cleanUrls or trailingSlash are used,
     // then routes cannot be present"). The CSP must live ON the GET route.
-    assert.equal(Object.hasOwn(routing, 'headers'), false, 'top-level headers must not coexist with legacy routes')
+        assert.equal(Object.hasOwn(routing, 'headers'), false, 'top-level headers must not coexist with legacy routes')
     assert.equal(Object.hasOwn(routing, 'rewrites') || Object.hasOwn(routing, 'redirects'), false)
     assert.deepEqual(Object.keys(routing).sort(), ['$schema', 'routes'])
-    assert.equal(routing.routes.length, 1)
+    assert.equal(routing.routes.length, 2)
     assert.equal(routing.routes[0].headers['Content-Security-Policy'], DEPLOYED_CSP, 'route-local CSP must be present with the exact pinned value')
-    // Route-local keys stay minimal: the GET rewrite, the method pin, and the
-    // CSP header — nothing else (no continue/status/headers-on-top-level).
-    assert.deepEqual(Object.keys(routing.routes[0]).sort(), ['dest', 'headers', 'methods', 'src'])
+    assert.equal(routing.routes[1].headers['Content-Security-Policy'], DEPLOYED_CSP, 'privacy route CSP must match the pinned value')
+    // Route-local keys stay minimal on every route: the GET rewrite, the
+    // method pin, and the CSP header — nothing else (no continue/status/
+    // headers-on-top-level).
+    for (const route of routing.routes) {
+      assert.deepEqual(Object.keys(route).sort(), ['dest', 'headers', 'methods', 'src'])
+    }
   })
 
   // --- Executable DOM contract (real params.js in the harness) -------------
@@ -381,9 +398,81 @@ describe('static Vercel authorization page (issue #69)', () => {
     assert.match(readme, /human[- ]gate/i)
     assert.match(readme, /MORSEL_OAUTH_AUTHORIZATION_ENDPOINT/)
     assert.match(readme, /vercel\.json/)
+    assert.match(readme, /\/privacy/, 'README must document the additive privacy route')
     assert.doesNotMatch(readme, /proxies? [^.]*to (the |a )?[\w. -]*backend/i)
     assert.doesNotMatch(readme, /forwards? (the )?(form )?posts? (to|toward)/i)
     assert.doesNotMatch(readme, /Claude connection/)
     assert.doesNotMatch(readme, /no longer the OAuth consent surface|retired|archived|historical/i)
+  })
+})
+
+describe('static privacy policy page (issue #86)', () => {
+  it('pins the additive GET /privacy route to the static privacy.html with the restrictive CSP and no cleanUrl-style settings', () => {
+    const routing = JSON.parse(source('./vercel.json'))
+    assert.deepEqual(routing.routes[1], PRIVACY_ROUTE)
+    assert.equal(routing.routes.length, 2)
+    // The privacy rewrite is deterministic: Vercel serves /privacy.html at
+    // its literal path, and /privacy only resolves through the route. No
+    // cleanUrls/trailingSlash/global settings were enabled to fake it.
+    assert.equal(Object.hasOwn(routing, 'cleanUrls'), false)
+    assert.equal(Object.hasOwn(routing, 'trailingSlash'), false)
+    assert.equal(JSON.stringify(routing).includes('"cleanUrls"'), false)
+    assert.equal(JSON.stringify(routing).includes('"trailingSlash"'), false)
+    const html = source('./privacy.html')
+    const meta = html.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)">/)?.[1]
+    assert.equal(meta, DEPLOYED_CSP, 'privacy meta CSP must be the pinned restrictive policy')
+    assert.match(html, /Morsel Privacy Policy/)
+  })
+
+  it('keeps the privacy page free of scripts, forms, fetch, storage, and external resources', () => {
+    const html = source('./privacy.html')
+    const css = source('./privacy.css')
+    const page = `${html}\n${css}`
+    // Exactly the two same-origin stylesheets and nothing else on the page.
+    const links = [...html.matchAll(/<link\b[^>]*>/g)].map((match) => match[0])
+    assert.equal(links.length, 2)
+    for (const link of links) {
+      assert.match(link, /rel="stylesheet"/)
+      assert.match(link, /href="\.\/(?:authorization|privacy)\.css"/)
+      assert.doesNotMatch(link, /href="https?:|href="\/\//)
+    }
+    // No runtime mechanism of any kind: page assets contain no script tags,
+    // event handlers, forms/inputs/buttons, iframes, dynamic loading,
+    // storage, network, or document mutation.
+    for (const forbidden of [
+      '<script', '</script', 'onclick=', 'onload=', 'onsubmit=', 'onchange=',
+      '<form', '<input', '<button', '<iframe', 'fetch(', 'XMLHttpRequest',
+      'localStorage', 'sessionStorage', 'document.cookie', 'sendBeacon',
+      'WebSocket', 'EventSource', 'import(', 'eval(', 'new Function',
+      'innerHTML', 'outerHTML', 'insertAdjacentHTML', 'document.write',
+      'style="', '<style', 'src="https?:', 'src="//', 'href="https?:',
+      'href="//', 'src="data:', 'href="data:', 'url(data:',
+    ]) {
+      assert.equal(page.includes(forbidden), false, `forbidden privacy runtime token: ${forbidden}`)
+    }
+    // Only resource the page may reference cross-protocol: the mailto support link.
+    assert.doesNotMatch(html, /<a\b[^>]*href="(?![^"]*mailto:)[^"]*"[^>]*>/)
+  })
+
+  it('states what Morsel stores, where data lives, non-sharing, no ads/analytics, and the placeholder support contact', () => {
+    const html = source('./privacy.html')
+    assert.match(html, /food log/i)
+    assert.match(html, /weight/i)
+    assert.match(html, /goals/i)
+    assert.match(html, /profile/i)
+    assert.match(html, /scoped to your Morsel account/i)
+    assert.match(html, /Supabase/)
+    assert.match(html, /Postgres/)
+    assert.match(html, /does not share your data with third parties/i)
+    assert.match(html, /no ads/i)
+    assert.match(html, /no analytics/i)
+    assert.match(html, /mailto:support@morsel\.app/)
+    assert.match(html, /PLACEHOLDER/, 'the committed support address must be marked as a placeholder for Guy to confirm')
+    // The only email address anywhere in the page is the placeholder.
+    const emails = [...new Set(html.match(/[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g) ?? [])]
+    assert.deepEqual(emails, ['support@morsel.app'])
+    // No mention of the consent client surface leaking in: the privacy page
+    // is a plain document, not an OAuth skin.
+    assert.doesNotMatch(html, /code-form|email-form|client_id|code_challenge/)
   })
 })
