@@ -106,27 +106,23 @@ store. None of these commands print secret values when run as written.
 
 ## Cutover and legacy URL
 
-- Today the LIVE MCP endpoint remains the Supabase Edge Function URL
-  `https://<project-ref>.supabase.co/functions/v1/mcp`. This merge does NOT
-  deploy or cut over: nothing in this issue changes live configuration.
-- AFTER the deploy steps above pass acceptance, the Fly URL becomes the
-  canonical client-facing endpoint and the Supabase function URL becomes
-  legacy/internal-only (retained as backend compatibility while live).
-  Client publishing already points at the Fly URL: the Fastfile build
-  configuration and the onboarding copy ship the canonical Fly endpoint
-  (issue #75; the next TestFlight build is the human-gated carrier).
-  Retiring the Supabase Edge Function remains a separate human decision.
-- The Vercel consent page keeps serving as `authorization_endpoint` on both
-  origins until consent hosting is explicitly moved.
-- **Vercel skin cutover (deferred, human-gated):** `authorize-ui/params.js`
-  hardcodes the form action
-  `https://<project-ref>.supabase.co/functions/v1/mcp/authorize` (pinned by
-  `authorize-ui/authorization.test.js`). While the Edge Function is live that
-  target is correct, so this merge intentionally does NOT change it. As part
-  of the Fly cutover, switch that constant (and its test) to
-  `https://morsel-mcp.fly.dev/mcp/authorize` and redeploy the Vercel page;
-  until then consent posts keep hitting the live Supabase origin, which is
-  fine because the OAuth backend is still there.
+- The Fly origin is the canonical, deployed MCP endpoint: app builds
+  (Fastfile `CANONICAL_MCP_URL`, issue #75), onboarding copy, and OAuth
+  discovery all publish `https://morsel-mcp.fly.dev/mcp`. Client delivery of
+  that copy and of `MORSEL_MCP_URL` in the built app lands with the next
+  TestFlight build, which is human-gated.
+- The Supabase Edge Function transport is legacy/retained backend
+  compatibility only and is no longer the client-facing URL. It stays
+  available until it is separately retired (a human decision); the
+  pre-#57 `/mcp/mcp` alias is not published to clients.
+- The Vercel consent cutover is complete: `authorize-ui/params.js` posts the
+  consent forms to `https://morsel-mcp.fly.dev/mcp/authorize` (issue #74,
+  PR #77), its test pins that canonical action, and the production Vercel
+  page carries the Fly action.
+- Live acceptance of the canonical endpoint — OAuth sign-in and
+  `get_profile` through a real MCP client (for example re-adding the Morsel
+  connector in Claude) — remains a human-gated check and is not claimed by
+  any code change in this repository.
 
 ## Local/CI verification without Fly
 

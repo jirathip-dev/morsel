@@ -91,4 +91,25 @@ describe('onboarding three-choice + canonical-endpoint contract (issue #75)', ()
       'template = OnboardingContent.chatPrompt',
     ])
   })
+
+  it('wires the rendered Picker to the live enum and defaults the selection to Claude', () => {
+    // Review r1: the exact three-case enum must stay WIRED to the production
+    // UI. The connect step's segmented Picker must enumerate
+    // OnboardingPlatform.allCases (rendering rawValue labels and tagging the
+    // case itself) and the initial selection must be .claude — so an enum
+    // left exact but detached from the UI (or a hardcoded/retired picker
+    // list) cannot false-green.
+    const connectStart = onboardingSource.indexOf('private var connectContent')
+    const coachStart = onboardingSource.indexOf('private var coachContent')
+    expect(connectStart).toBeGreaterThan(-1)
+    expect(coachStart).toBeGreaterThan(connectStart)
+    const connectContent = onboardingSource.slice(connectStart, coachStart)
+
+    expect(connectContent).toContain('Picker("Platform", selection: $platform) {')
+    expect(connectContent).toContain(
+      'ForEach(OnboardingPlatform.allCases, id: \\.self) { Text($0.rawValue).tag($0) }'
+    )
+    expect(connectContent).toContain('.pickerStyle(.segmented)')
+    expect(onboardingSource).toContain('@State private var platform = OnboardingPlatform.claude')
+  })
 })
