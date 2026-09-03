@@ -42,6 +42,7 @@ morsel/
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
 - [CUSTOM_DOMAIN](docs/CUSTOM_DOMAIN.md) — earlier planned Supabase custom-domain setup (superseded for the MCP endpoint by [FLY_DEPLOY](docs/FLY_DEPLOY.md))
 - [FLY_DEPLOY](docs/FLY_DEPLOY.md) — Fly.io single-process MCP hosting (issue #72): entry point, route/metadata contract, deploy runbook (deployed — canonical MCP endpoint)
+- [MIGRATION_RECOVERY](docs/MIGRATION_RECOVERY.md) — production schema reconciliation runbook (issue #76): read-only plan, human-gated apply workflow, confirmation phrase, read-back, acceptance
 - [TARGETS](docs/TARGETS.md) — computed calorie/macro goal from body metrics
 - [IN_CHAT_RENDER](docs/IN_CHAT_RENDER.md) — Tier-1 snapshot rendering inside Claude/GPT
 - [ROADMAP](docs/ROADMAP.md) — milestones
@@ -53,12 +54,20 @@ ESLint + SwiftLint, CI on every PR). Working name `morsel` (rename freely —
 it's a folder + a README).
 
 ## Deployments
-Migrations auto-apply on pushes to `main` after Supabase project setup (#9),
-using the `SUPABASE_PROJECT_REF` variable and `SUPABASE_ACCESS_TOKEN` secret.
-After the one-time manual migration setup, run
-`node scripts/apply-migrations.mjs --adopt` once; it records the existing
-migrations without executing their SQL. A genuinely fresh database must first
-have migrations applied in order, then use the same adoption step.
+Migrations NEVER auto-apply: the apply workflow is `workflow_dispatch`-only
+and targets the `production` environment (issue #76). A merge to `main`
+causes zero production SQL. Production was provisioned out of band and has no
+ledger, so schema repair runs through the verified recovery runner under an
+explicit human dispatch — see
+[docs/MIGRATION_RECOVERY.md](docs/MIGRATION_RECOVERY.md) for the five phases
+(read-only plan → reviewed code → human-confirmed dispatch → read-back →
+live-app acceptance) and the issue #76 confirmation phrase. Blind `--adopt`
+was removed: historical migrations may only be recorded after the recovery
+runner verifies each migration's complete end-state contract. Once the ledger
+exists, future `000N` migrations are appended by
+`node scripts/apply-migrations.mjs`, which executes each migration and its
+ledger insert as ONE atomic `BEGIN..COMMIT` request and never bootstraps the
+ledger (missing/empty ledger → zero writes, fail closed).
 TestFlight is dispatch-only and requires the `testflight` environment's ASC API
 key and iOS distribution certificate secrets.
 The MCP server runs on Fly.io single-process hosting (issue #72): the
