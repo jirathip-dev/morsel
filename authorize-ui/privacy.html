@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <!-- Static privacy policy (issue #86). Plain and truthful; served at
+       /privacy by the additive GET route in vercel.json with the same
+       restrictive CSP as the consent page. No scripts, no forms, no fetch,
+       no external resources, no analytics.
+       #86 submission placeholder: the support address below
+       (support@morsel.app) is a PLACEHOLDER — Guy must confirm the real
+       address before the ChatGPT Apps dashboard submit. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'">
+  <title>Morsel Privacy Policy</title>
+  <link rel="stylesheet" href="./authorization.css">
+  <link rel="stylesheet" href="./privacy.css">
+</head>
+<body>
+  <main class="authorization-shell privacy-shell">
+    <article class="authorization-card privacy-policy" aria-labelledby="privacy-title">
+      <div class="brand-lockup" aria-label="Morsel">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span>Morsel</span>
+      </div>
+
+      <h1 id="privacy-title">Morsel Privacy Policy</h1>
+      <p class="lede">Last updated: September 4, 2026. Morsel is an MCP-first,
+      camera-first food tracker: you log meals and photos through an AI
+      assistant such as ChatGPT, and Morsel keeps your nutrition data for
+      you.</p>
+
+      <h2>What Morsel stores</h2>
+      <ul>
+        <li><strong>Your profile</strong> — the body metrics you set (sex,
+        age, height, weight, activity level) and your nutrition goals.</li>
+        <li><strong>Your food log</strong> — meals and items you log, the
+        nutrition values recorded for them, and photos you upload when
+        logging from a camera.</li>
+        <li><strong>Your weight and activity history</strong> — only if you
+        connect an Apple Health body-mass or active-energy series on
+        iOS.</li>
+        <li><strong>Your email</strong> — used to send one-time sign-in
+        codes and to contact you about your account.</li>
+      </ul>
+      <p>Everything is scoped to your Morsel account: each account can only
+      read and write its own data.</p>
+
+      <h2>Where your data lives</h2>
+      <p>Morsel stores your data in Supabase (Postgres database, Auth, and
+      object storage for photos). The Morsel service runs on Fly.io,
+      sign-in emails are sent through a transactional email provider, and
+      this page is hosted on Vercel. Your data is hosted by these
+      infrastructure providers on Morsel's behalf; it is not rented, sold,
+      or shared with third parties for their own purposes.</p>
+
+      <h2>How Morsel uses your data</h2>
+      <ul>
+        <li>To log, store, summarize, and return your food and nutrition
+        data when you ask.</li>
+        <li>To email you the one-time codes used to sign in.</li>
+        <li>To respond to support requests.</li>
+      </ul>
+      <p>Morsel shows no ads and runs no analytics or tracking. When you use
+      Morsel through an AI assistant (for example, ChatGPT), the assistant
+      sends Morsel only the log requests you make with your connection;
+      Morsel never reads your conversations.</p>
+
+      <h2>Sharing</h2>
+      <p>Morsel does not share your data with third parties for marketing,
+      advertising, or any purpose other than operating the service through
+      the infrastructure providers listed above. Disconnecting Morsel from
+      an assistant immediately stops that assistant's access.</p>
+
+      <h2>Retention and your controls</h2>
+      <p>Morsel keeps your account data while your account is active. You
+      can delete individual entries in the app at any time, and you can ask
+      Morsel to delete your data or account by emailing the address below;
+      deletion requests are honored.</p>
+
+      <h2>Contact</h2>
+      <p>Questions about this policy or your data:
+      <a href="mailto:support@morsel.app">support@morsel.app</a>.</p>
+    </article>
+  </main>
+</body>
+</html>

@@ -8,6 +8,14 @@
       "headers": {
         "Content-Security-Policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
       }
+    },
+    {
+      "src": "/privacy",
+      "dest": "/privacy.html",
+      "methods": ["GET"],
+      "headers": {
+        "Content-Security-Policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+      }
     }
   ]
 }

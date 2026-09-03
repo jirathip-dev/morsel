@@ -77,6 +77,14 @@ clients' browsers at this Vercel page again:
       "headers": {
         "Content-Security-Policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
       }
+    },
+    {
+      "src": "/privacy",
+      "dest": "/privacy.html",
+      "methods": ["GET"],
+      "headers": {
+        "Content-Security-Policy": "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
+      }
     }
   ]
 }
@@ -90,7 +98,10 @@ and the header is not attached implicitly — pinning it on the route object is
 the only valid way to ship the deployed-header CSP alongside the GET rewrite.
 The CSP value is byte-for-byte the same restrictive policy as the page's
 `<meta>` (`script-src 'self'` admits only `params.js`); `form-action` stays
-absent so the cross-origin form POST to the Fly backend remains allowed.
+absent so the cross-origin form POST to the Fly backend remains allowed. The
+`/privacy` route (issue #86) mirrors the same GET-rewrite + route-local CSP
+pattern for the static privacy policy page; the `/authorize` route block
+above is unchanged and pinned first.
 
 ## Files
 
@@ -103,12 +114,21 @@ absent so the cross-origin form POST to the Fly backend remains allowed.
 - `authorization.css` — same-origin Morsel presentation using the existing
   palette tokens, including the `:target` stage switch.
 - `vercel.json` — GET-only `/authorize` page route plus the CSP header;
-  no external-destination route, function, or proxy.
+  no external-destination route, function, or proxy. Issue #86 adds a second
+  GET-only route (`/privacy` → `privacy.html`) with the identical restrictive
+  CSP; `cleanUrls`/`trailingSlash`/top-level `headers` stay off.
+- `privacy.html` + `privacy.css` — static privacy policy page (issue #86),
+  served at `/privacy` by the additive GET route. Plain document reusing the
+  consent shell's palette and card language: no scripts, no forms, no fetch,
+  no external resources, no analytics. The support address it publishes
+  (`support@morsel.app`) is a placeholder marked in the file and must be
+  confirmed before any marketplace dashboard submit.
 - `authorization.test.js` — repository-native Vitest contract: neutral copy,
   single-script/CSP/route pins, executable DOM tests that run the real
   `params.js` in a `node:vm` harness (no new dependency), contrast pairs,
-  and README/route pins. Removing the script, weakening the credential
-  exclusion, or pointing a form back at Vercel fails these tests RED.
+  privacy-page pins (issue #86), and README/route pins. Removing the script,
+  weakening the credential exclusion, or pointing a form back at Vercel fails
+  these tests RED.
 
 There is no fetch/XHR, server runtime, adapter, dynamic upstream,
 cookie/storage use, analytics, logging, third-party script, inline script,
