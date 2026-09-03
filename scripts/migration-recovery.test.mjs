@@ -410,6 +410,11 @@ describe("classification and conflict logic", () => {
     expect(status.state).toBe("BLOCKED_AMBIGUOUS");
   });
 
+  it("classifies a 0009 lossy-conversion data dependency as BLOCKED_AMBIGUOUS", () => {
+    const status = classifyMigration("0009_goals_fractional_calories.sql", snapshotOf(), new Set(), true);
+    expect(status.state).toBe("BLOCKED_AMBIGUOUS");
+  });
+
   // Canonical 0008 end-state snapshot (full contract) used by the exactness
   // (extra-drift) tests below.
   function energyCanonical() {
@@ -568,6 +573,25 @@ describe("contract pins and expression normalization", () => {
       // fixed dollar-quote tags and plpgsql variables).
       expect(guard).not.toMatch(/\$\{/);
     }
+  });
+
+  it("guards embed the same-transaction exactness clauses (extra columns/constraints/unique indexes/policies/routine overloads)", async () => {
+    const { FULL_GUARD_SQL } = await import("./migration-recovery-guards.mjs");
+    const g0001 = FULL_GUARD_SQL["0001_init.sql"];
+    // extra columns on an owned canonical table
+    expect(g0001).toMatch(/information_schema\.columns c where c\.table_schema='public' and c\.table_name='users' and c\.column_name <> ALL/);
+    // extra constraints on an owned canonical table
+    expect(g0001).toMatch(/pg_constraint c where c\.conrelid = 'public\.users'::regclass and c\.conname <> ALL/);
+    // extra unique indexes (non-unique performance indexes stay tolerated)
+    expect(g0001).toMatch(/i\.indexdef ilike 'create unique index%' and i\.indexname <> ALL/);
+    // extra policy names on exact-policy tables (attributed to the policy owner file)
+    const g0003 = FULL_GUARD_SQL["0003_atomic_meals_and_users_rls.sql"];
+    expect(g0003).toMatch(/pg_policies p where p\.schemaname='public' and p\.tablename='users' and p\.policyname <> ALL/);
+    // extra overloads/signatures of canonical routine names
+    const g0002 = FULL_GUARD_SQL["0002_targets.sql"];
+    expect(g0002).toMatch(/p\.proname = 'compute_targets' and pg_get_function_identity_arguments\(p\.oid\) <> /);
+    const g0006 = FULL_GUARD_SQL["0006_food_catalog_provider_cache.sql"];
+    expect(g0006).toMatch(/p\.proname = 'upsert_food_catalog' and pg_get_function_identity_arguments\(p\.oid\) <> /);
   });
 
   it("FUNCTION_DEFINITIONS bodies are byte-identical to the migration files", () => {

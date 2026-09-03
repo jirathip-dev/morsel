@@ -130,6 +130,8 @@ export const RECOVERY_QUERIES = Object.freeze({
     `select coalesce(json_agg(json_build_object('dup', dup)), '[]'::json) as result from (select 1 as dup from public.${table} group by user_id, ${column} having count(*) > 1 limit 1) s`,
   nonPositiveKg:
     "select coalesce(json_agg(json_build_object('found', found)), '[]'::json) as result from (select 1 as found from public.weight_logs where kg <= 0 limit 1) s",
+  caloriePrecisionLoss:
+    "select coalesce(json_agg(json_build_object('found', found)), '[]'::json) as result from (select 1 as found from public.goals g cross join lateral (select c.data_type from information_schema.columns c where c.table_schema = 'public' and c.table_name = 'goals' and c.column_name = 'calorie_target_kcal') t where g.calorie_target_kcal is not null and (t.data_type not in ('smallint', 'integer', 'bigint', 'numeric') or abs(g.calorie_target_kcal::numeric) > 9999999999.9 or (abs(g.calorie_target_kcal::numeric) <= 9999999999.9 and (g.calorie_target_kcal::numeric)::numeric(10,1) <> g.calorie_target_kcal::numeric)) limit 1) s",
 });
 
 export const ALLOWED_READ_QUERIES = Object.freeze([
@@ -152,6 +154,7 @@ export const ALLOWED_READ_QUERIES = Object.freeze([
   RECOVERY_QUERIES.duplicateRows("weight_logs", "logged_at"),
   RECOVERY_QUERIES.duplicateRows("energy_burned_logs", "burned_at"),
   RECOVERY_QUERIES.nonPositiveKg,
+  RECOVERY_QUERIES.caloriePrecisionLoss,
 ]);
 
 const readQuerySet = new Set(ALLOWED_READ_QUERIES);
@@ -852,6 +855,21 @@ export async function dataDependencies({ snapshots, counts, query }) {
     const dup = (await query(RECOVERY_QUERIES.duplicateRows("energy_burned_logs", "burned_at"), "energy duplicate preflight"))[0];
     if (dup && Number(dup.dup) === 1) {
       deps.push({ label: "energy_burned_logs data", reason: "duplicate (user_id, burned_at) rows exist; the canonical unique constraint cannot be added without deleting data", migration: "0008_energy_burned_logs.sql" });
+    }
+  }
+  // 0009 lossy-conversion guard: numeric(10,1) rounds values with more than
+  // one decimal and overflows beyond 9,999,999,999.9. Block BEFORE any write
+  // so no value is ever silently changed. The fixed query only casts values
+  // of supported numeric-family types (unsupported observed types with rows
+  // fail closed) and never outputs row values.
+  if (snapshots.tables.has("goals") && snapshots.columnsByTable.get("goals")?.has("calorie_target_kcal")) {
+    const lossy = (await query(RECOVERY_QUERIES.caloriePrecisionLoss, "goals calorie precision preflight"))[0];
+    if (lossy && Number(lossy.found) === 1) {
+      deps.push({
+        label: "goals data",
+        reason: "calorie_target_kcal values would change or overflow under the canonical numeric(10,1) type; the conversion is lossy and is blocked before any write",
+        migration: "0009_goals_fractional_calories.sql",
+      });
     }
   }
   return deps;

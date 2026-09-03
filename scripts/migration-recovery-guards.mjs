@@ -34,8 +34,7 @@ import {
   CANONICAL_POLICIES,
   CANONICAL_RLS,
   CANONICAL_ROUTINES,
-  CONVERGE_STATEMENTS,
-  EXACT_UNIQUE_TABLES,
+  EXACT_POLICY_TABLES,
   FOOD_IMAGES_BUCKET,
   FUNCTION_DEFINITIONS,
   ROUTINE_GRANTS,
@@ -344,6 +343,58 @@ const literal = (text) => {
 
 const q = (text) => `'${text.replaceAll("'", "''")}'`;
 
+// Canonical manifest name lookups used by the exactness clauses below.
+function canonicalColumnsFor(table) {
+  const names = new Set();
+  for (const columns of Object.values(CANONICAL_COLUMNS)) {
+    for (const column of columns[table] ?? []) names.add(column.name);
+  }
+  // Explicitly modeled transitional columns (e.g. weight_logs.logged_at
+  // pre-rename) are expected input to the modeled repair, not drift; their
+  // end-state absence is enforced by the absent-column clause.
+  for (const qualified of Object.values(ABSENT_COLUMNS).flat()) {
+    if (qualified.startsWith(`${table}.`)) names.add(qualified.split(".")[1]);
+  }
+  return names;
+}
+
+function canonicalConstraintsFor(table) {
+  const names = new Set();
+  for (const tables of Object.values(CANONICAL_CONSTRAINTS)) {
+    for (const constraint of tables[table] ?? []) names.add(constraint.name);
+  }
+  return names;
+}
+
+function canonicalPlainIndexesFor(table) {
+  const names = new Set();
+  for (const [indexName, indexTable] of Object.entries(CANONICAL_INDEX_TABLE)) {
+    if (indexTable === table) names.add(indexName);
+  }
+  return names;
+}
+
+function canonicalPublicPoliciesFor(table) {
+  const names = new Set();
+  for (const policies of Object.values(CANONICAL_POLICIES)) {
+    for (const policy of policies) {
+      if (policy.schema === "public" && policy.table === table) names.add(policy.name);
+    }
+  }
+  return names;
+}
+
+// First migration file that owns a public policy on the table (mirror of the
+// JS classifier's extra-policy attribution).
+function publicPolicyOwnerFile(table) {
+  for (const file of CANONICAL_FILES) {
+    for (const policy of CANONICAL_POLICIES[file] ?? []) {
+      if (policy.schema === "public" && policy.table === table) return file;
+    }
+  }
+  return null;
+}
+
 // ---- violation-condition builders -----------------------------------------
 // Every builder returns a boolean SQL expression that is TRUE when the
 // contract is violated (guard must then fail the transaction).
@@ -462,21 +513,6 @@ const routineGrantViolation = (routineName, expectations) => {
 const bucketViolation = () =>
   `not exists (select 1 from storage.buckets b where b.id = ${q(FOOD_IMAGES_BUCKET.id)} and b.name = ${q(FOOD_IMAGES_BUCKET.name)} and b.public = false and b.file_size_limit = ${FOOD_IMAGES_BUCKET.fileSizeLimit} and b.allowed_mime_types = ARRAY[${FOOD_IMAGES_BUCKET.allowedMimeTypes.map((m) => literal(m)).join(", ")}]::text[])`;
 
-const exactUniqueIndexViolation = (table) => {
-  const excluded = new Set();
-  for (const tables of Object.values(CANONICAL_CONSTRAINTS)) {
-    for (const [t, constraints] of Object.entries(tables)) {
-      if (t !== table) continue;
-      for (const c of constraints) excluded.add(c.name);
-    }
-  }
-  for (const indexName of Object.keys(CANONICAL_INDEX_TABLE)) {
-    if (CANONICAL_INDEX_TABLE[indexName] === table) excluded.add(indexName);
-  }
-  const excludedSql = excluded.size === 0 ? "false" : `i.indexname not in (${[...excluded].map((x) => literal(x)).join(", ")})`;
-  return `exists (select 1 from pg_indexes i where i.schemaname='public' and i.tablename = ${q(table)} and ${excludedSql} and i.indexdef ilike 'create unique index%')`;
-};
-
 // ---- guard assembly --------------------------------------------------------
 
 function guardConditionsFor(file) {
@@ -529,13 +565,51 @@ function guardConditionsFor(file) {
     );
   }
 
-  // Exact-unique tables (extra unique index on these tables is drift).
-  if (file === "0007_weight_logs.sql" || file === "0008_energy_burned_logs.sql") {
-    for (const table of EXACT_UNIQUE_TABLES) {
-      if ((table === "weight_logs" && file === "0007_weight_logs.sql") || (table === "energy_burned_logs" && file === "0008_energy_burned_logs.sql")) {
-        violations.push(exactUniqueIndexViolation(table));
-      }
+  // Exactness on canonical tables owned by this migration: unexpected
+  // columns, constraints, or unique indexes are drift and must fail the
+  // transaction (a concurrent add between preflight and this tx cannot be
+  // ledger-recorded). Extra NON-unique performance indexes stay explicitly
+  // tolerated.
+  for (const [table, ownerFile] of Object.entries(TABLE_OWNER)) {
+    if (ownerFile !== file) continue;
+    const allowedColumns = canonicalColumnsFor(table);
+    if (allowedColumns.size > 0) {
+      violations.push(
+        `exists (select 1 from information_schema.columns c where c.table_schema='public' and c.table_name=${q(table)} and c.column_name <> ALL (ARRAY[${[...allowedColumns].map((name) => q(name)).join(", ")}]::text[]))`,
+      );
     }
+    const allowedConstraints = canonicalConstraintsFor(table);
+    if (allowedConstraints.size > 0) {
+      violations.push(
+        `exists (select 1 from pg_constraint c where c.conrelid = 'public.${table}'::regclass and c.conname <> ALL (ARRAY[${[...allowedConstraints].map((name) => q(name)).join(", ")}]::text[]))`,
+      );
+    }
+    const allowedIndexNames = new Set([...canonicalConstraintsFor(table), ...canonicalPlainIndexesFor(table)]);
+    if (allowedIndexNames.size > 0) {
+      violations.push(
+        `exists (select 1 from pg_indexes i where i.schemaname='public' and i.tablename=${q(table)} and i.indexdef ilike 'create unique index%' and i.indexname <> ALL (ARRAY[${[...allowedIndexNames].map((name) => q(name)).join(", ")}]::text[]))`,
+      );
+    }
+  }
+
+  // Exact-policy public tables: unexpected policy names fail the guard (a
+  // permissive extra policy added after preflight must abort before the
+  // ledger insert). Attribution mirrors the JS classifier.
+  for (const table of EXACT_POLICY_TABLES) {
+    if (publicPolicyOwnerFile(table) !== file) continue;
+    const allowedPolicies = canonicalPublicPoliciesFor(table);
+    if (allowedPolicies.size === 0) continue;
+    violations.push(
+      `exists (select 1 from pg_policies p where p.schemaname='public' and p.tablename=${q(table)} and p.policyname <> ALL (ARRAY[${[...allowedPolicies].map((name) => q(name)).join(", ")}]::text[]))`,
+    );
+  }
+
+  // Routines owned by this migration: any overload/signature other than the
+  // single canonical identity fails the guard.
+  for (const routine of CANONICAL_ROUTINES[file] ?? []) {
+    violations.push(
+      `exists (select 1 from pg_proc p where p.pronamespace = 'public'::regnamespace and p.proname = ${q(routine.name)} and pg_get_function_identity_arguments(p.oid) <> ${literal(routine.identityArguments)})`,
+    );
   }
 
   // Routines owned by this migration.

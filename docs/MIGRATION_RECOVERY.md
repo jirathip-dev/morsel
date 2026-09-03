@@ -49,6 +49,18 @@ table for 0001..0009 with object-level reasons and row counts, and exits:
   or gapped ledger rows);
 - `2` — usage error (missing/malformed env or arguments).
 
+Read-only data dependencies block BEFORE any write when a repair would
+silently change or destroy data, including: duplicate `(user_id, timestamp)`
+rows or non-positive `kg` before 0007/0008 constraints, and — for 0009 —
+`goals.calorie_target_kcal` values that would change or overflow under the
+canonical `numeric(10,1)` type (e.g. `100.05` would round to `100.1`;
+magnitudes above `9,999,999,999.9` overflow). The dependency query is a fixed
+allowlisted `SELECT` that only counts rows, never outputs values, and only
+casts values of supported numeric-family types (any other observed type with
+rows fails closed). A blocked 0009 means a human must reconcile the offending
+values to one-decimal precision (or remove them) before apply; the conversion
+itself then stays lossless.
+
 Secrets and response contents never appear in output; raw env values with
 leading/trailing whitespace or control characters are rejected before any
 request. This phase is safe to run from any checkout.
@@ -112,6 +124,14 @@ select count(*) from public.energy_burned_logs;                    -- unchanged
 
 The plan-mode report (`node scripts/migration-recovery.mjs`) is the cheapest
 post-apply proof: every migration must read `VERIFIED_PRESENT`.
+
+If 0009 was blocked pre-apply by the precision data dependency, the read-back
+must confirm the reconciled `goals.calorie_target_kcal` values survived
+unchanged (one-decimal values; nothing rounded by the conversion):
+
+```sql
+select user_id, calorie_target_kcal from public.goals order by user_id;
+```
 
 ### 5. Human live-app acceptance (NOT automatic)
 

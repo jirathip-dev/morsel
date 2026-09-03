@@ -299,30 +299,176 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
   }, 60_000)
 
-  it('a converging DDL failure leaves no ledger row and a later run resumes (retry after interruption)', async () => {
-    const name = cluster.createDatabase('rec_ddlfail')
+  it('0009 lossy numeric conversion is a read-only data dependency: blocks BEFORE any write and resumes losslessly after a human fix', async () => {
+    const name = cluster.createDatabase('rec_goaldep')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Full canonical end state except 0009: goals.calorie_target_kcal is
-    // bigint with a value beyond numeric(10,1) capacity -> the 0009 converge
-    // alter-type fails inside its transaction.
+    // Full canonical end state except 0009: calorie_target_kcal is bigint
+    // with a value beyond numeric(10,1) capacity -> overflow would abort the
+    // alter, so the data dependency must block BEFORE any write.
     applyFiles(db, CANONICAL_FILES.slice(0, 8))
     db.execIn(name, `
       alter table public.goals alter column calorie_target_kcal type bigint;
       insert into public.users (id, email) values ('00000000-0000-4000-8000-000000000101', 'one@example.com');
       insert into public.goals (user_id, calorie_target_kcal, source) values ('00000000-0000-4000-8000-000000000101', 100000000000000000, 'computed');
     `)
-    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })).rejects.toThrow(/re-verification|query error/)
-    const ledgerRows = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
-    const calorie = db.execIn(name, `select count(*) from information_schema.columns where table_schema='public' and table_name='goals' and column_name='calorie_target_kcal' and data_type='bigint'`).trim()
-    expect(ledgerRows).toBe('8') // 0001..0008 recorded; 0009 never
-    expect(calorie).toBe('1') // 0009 converge rolled back
+    const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(plan.planBlocked).toBe(true)
+    expect(plan.blockers.some((b) => b.label === 'goals data')).toBe(true)
+    expect(plan.statuses['0009_goals_fractional_calories.sql'].state).toBe('BLOCKED_AMBIGUOUS')
+    const executed = []
+    const recording = async (sql) => {
+      executed.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/blocked/)
+    expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0) // zero writes
+    expect(db.execIn(name, `select count(*) from pg_class where relname = 'migration_ledger'`).trim()).toBe('0')
+    const preserved = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
+    expect(preserved).toBe('100000000000000000') // original value untouched
 
-    // Human fixes the data hazard; the next apply resumes at 0009 only.
+    // Lossless fix: delete the overflowing row; the conversion then succeeds
+    // and every migration converges exactly once.
     db.execIn(name, `delete from public.goals; alter table public.goals alter column calorie_target_kcal type integer;`)
+    db.execIn(name, `insert into public.goals (user_id, calorie_target_kcal, source) values ('00000000-0000-4000-8000-000000000101', 2200, 'computed');`)
     const retried = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
-    expect(retried.applied).toEqual(['0009_goals_fractional_calories.sql'])
+    expect(retried.applied).toEqual(['0009_goals_fractional_calories.sql']) // only 0009 needed converge
     const finalLedger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(finalLedger).toBe('9')
+    const finalValue = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
+    expect(finalValue).toBe('2200.0') // integer -> numeric(10,1) is lossless (scale rendering only)
+  }, 90_000)
+
+  it('0009 higher-precision values (100.05) block with zero writes and are preserved; one-decimal values convert losslessly', async () => {
+    const name = cluster.createDatabase('rec_goalprecision')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES.slice(0, 8))
+    db.execIn(name, `
+      alter table public.goals alter column calorie_target_kcal type numeric(10,2);
+      insert into public.users (id, email) values ('00000000-0000-4000-8000-000000000101', 'one@example.com');
+      insert into public.goals (user_id, calorie_target_kcal, source) values ('00000000-0000-4000-8000-000000000101', 100.05, 'computed');
+    `)
+    const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(plan.planBlocked).toBe(true)
+    expect(plan.blockers.some((b) => b.label === 'goals data')).toBe(true)
+    const executed = []
+    const recording = async (sql) => {
+      executed.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/blocked/)
+    expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
+    expect(db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()).toBe('100.05') // never rounded
+
+    // One-decimal value is lossless under numeric(10,1): apply proceeds.
+    db.execIn(name, `update public.goals set calorie_target_kcal = 100.1;`)
+    const ok = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
+    expect(ok.applied).toEqual(['0009_goals_fractional_calories.sql'])
+    const value = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
+    const scale = db.execIn(name, `select numeric_scale from information_schema.columns where table_schema='public' and table_name='goals' and column_name='calorie_target_kcal'`).trim()
+    expect(value).toBe('100.1')
+    expect(scale).toBe('1')
+  }, 90_000)
+
+  it('ledger-only race: an extra nullable column added between preflight and the owner record aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_raceextracol')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("migration_ledger (name) values ('init')")) {
+        drifted = true
+        db.execIn(name, 'alter table public.users add column race_extra boolean;')
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    expect(db.execIn(name, `select count(*) from public.migration_ledger`).trim()).toBe('0')
+  }, 90_000)
+
+  it('ledger-only race: an extra CHECK and an extra UNIQUE index added between preflight and the owner record abort with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_raceextracon')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("migration_ledger (name) values ('init')")) {
+        drifted = true
+        db.execIn(name, `alter table public.users add constraint users_email_lower_check check (email = lower(email));`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    expect(db.execIn(name, `select count(*) from public.migration_ledger`).trim()).toBe('0')
+    // Separate race on the unique-index clause.
+    const name2 = cluster.createDatabase('rec_raceextraidx')
+    const db2 = { name: name2, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name2) }
+    applyFiles(db2, CANONICAL_FILES)
+    let drifted2 = false
+    const racing2 = async (sql) => {
+      const text = String(sql)
+      if (!drifted2 && /^begin;/.test(text.trim()) && text.includes("migration_ledger (name) values ('init')")) {
+        drifted2 = true
+        db2.execIn(name2, 'create unique index users_email_lower_uq on public.users (lower(email));')
+      }
+      return db2.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing2, log: quiet })).rejects.toThrow()
+    expect(drifted2).toBe(true)
+    expect(db2.execIn(name2, `select count(*) from public.migration_ledger`).trim()).toBe('0')
+  }, 90_000)
+
+  it('ledger-only race: a permissive extra policy added between preflight and the owner record aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_raceextrapolicy')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
+    db.execIn(name, LEDGER_DDL)
+    db.execIn(name, `insert into public.migration_ledger (name) values ('init')`)
+    db.execIn(name, `insert into public.migration_ledger (name) values ('targets')`)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('atomic_meals_and_users_rls')")) {
+        drifted = true
+        db.execIn(name, `create policy "users_select_any_public" on public.users for select using (true);`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
+    const driftedRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'atomic_meals_and_users_rls'`).trim()
+    expect(ledger).toBe('2')
+    expect(driftedRow).toBe('0')
+  }, 90_000)
+
+  it('ledger-only race: an extra overload of a canonical routine added between preflight and the owner record aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_raceoverload')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
+    db.execIn(name, LEDGER_DDL)
+    const prefix = ['init', 'targets', 'atomic_meals_and_users_rls', 'store_assets', 'oauth_authorization_grants']
+    for (const n of prefix) db.execIn(name, `insert into public.migration_ledger (name) values ('${n}')`)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('food_catalog_provider_cache')")) {
+        drifted = true
+        db.execIn(name, `create function public.upsert_food_catalog(p_name text) returns void language sql as $fn$ select 1 $fn$;`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
+    const driftedRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'food_catalog_provider_cache'`).trim()
+    expect(ledger).toBe('5')
+    expect(driftedRow).toBe('0')
   }, 90_000)
 
   it('blocks apply when weight rows would violate the canonical unique constraint (data dependency)', async () => {
