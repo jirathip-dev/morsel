@@ -309,56 +309,59 @@ future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
 ## Remote authentication
 
 The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
-access token issued by the provider in the same Edge Function. The canonical
-client-facing transport URL is the Edge Function root,
-`https://<public-host>/functions/v1/mcp` (issue #57); the nested
-`…/functions/v1/mcp/mcp` path remains only as a compatibility alias for clients
-provisioned before the route change and is never published to users. OAuth
-clients discover the provider through `/.well-known/oauth-protected-resource`
-(the path-specific `/.well-known/oauth-protected-resource/mcp` is also served),
+access token issued by the provider. The canonical client-facing transport
+URL is the deployed Fly origin, `https://morsel-mcp.fly.dev/mcp` (issues
+#72/#73/#75). OAuth clients discover the provider through
+`/.well-known/oauth-protected-resource` (the path-specific
+`/.well-known/oauth-protected-resource/mcp` is also served),
 `/.well-known/oauth-authorization-server`, and
 `/.well-known/openid-configuration` (OpenID Connect discovery), all under the
 canonical base. The OIDC route serves the same authorization-server document —
 same `issuer`, endpoints, CORS, and cache behavior — and adds no OIDC claims
-the provider cannot back. Because the issuer is a path (`/functions/v1/mcp`),
-spec-compliant MCP clients try three discovery URLs: the two host-root
-prefixes (`/.well-known/oauth-authorization-server/functions/v1/mcp` and
-`/.well-known/openid-configuration/functions/v1/mcp`) are intercepted by the
-Supabase gateway before reaching the function, and the canonical URL that
-succeeds is the issuer-relative
-`https://<public-host>/functions/v1/mcp/.well-known/openid-configuration`.
+the provider cannot back. Because the issuer is a path (`/mcp` on the Fly
+origin), spec-compliant MCP clients append the OIDC path to the issuer, and
+the canonical discovery URL that succeeds is the issuer-relative
+`https://morsel-mcp.fly.dev/mcp/.well-known/openid-configuration`.
 The advertised OAuth `resource` is the canonical transport URL itself.
 
-> **Issue #72 (single-process hosting):** this Edge Function URL is the
-> deployment that is LIVE today. The repository now also ships
-> `server/fly-entrypoint.ts`, a single Bun process for Fly.io
-> (`docs/FLY_DEPLOY.md`) whose session map survives across requests; after the
-> human deploy it becomes the canonical client-facing transport at
-> `https://morsel-mcp.fly.dev/mcp` with the same route semantics directly
-> under `/mcp` (no `/functions/v1`, no `/mcp/mcp`), and this Supabase function
-> URL is marked legacy/internal-only. Nothing in that change deploys or cuts
-> over. The OAuth discovery, registration, and consent behavior described
-> below is identical on both origins.
+> **Legacy Edge compatibility (issues #57/#72/#75):** before the Fly
+> deployment, the Supabase Edge Function served the client-facing transport
+> at the function root, `https://<public-host>/functions/v1/mcp` (issue #57);
+> the nested `…/functions/v1/mcp/mcp` path remained only as a compatibility
+> alias for clients provisioned before the route change and was never
+> published to users. Because that issuer is a path, spec-compliant clients
+> tried three discovery URLs: the two host-root prefixes
+> (`/.well-known/oauth-authorization-server/functions/v1/mcp` and
+> `/.well-known/openid-configuration/functions/v1/mcp`) were intercepted by
+> the Supabase gateway before reaching the function, so the URL that
+> succeeded was the issuer-relative
+> `https://<public-host>/functions/v1/mcp/.well-known/openid-configuration`.
+> The Edge Function transport is retained as legacy/local-gateway
+> compatibility and is no longer the canonical client-facing base. The OAuth
+> discovery, registration, and consent behavior described below is identical
+> on the Fly origin.
 
 The provider supports dynamic RFC 7591 registration, the authorization-code
-grant, and refresh tokens. The Supabase `/authorize` route is the OAuth
-backend and consent runs as a two-step email one-time-code sign-in: **sign in
-with the email on the Morsel account; a code is emailed to you.** Step 1
-requests a Supabase Auth email OTP for an existing account only (no account
-creation) and answers uniformly for known and unknown emails; step 2 verifies
-the 6-digit code before the authorization code is issued. The BROWSER consent
-surface is the static Vercel page under `authorize-ui/` (issue #69):
-Supabase's free shared domain rewrites Edge Function `text/html` to
-`text/plain`, so the function origin cannot render consent HTML in
-production. When the optional `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret is
-set, authorization-server metadata advertises the Vercel page as
+grant, and refresh tokens. The `/authorize` route on the Fly origin is the
+OAuth backend and consent runs as a two-step email one-time-code sign-in:
+**sign in with the email on the Morsel account; a code is emailed to you.**
+Step 1 requests a Supabase Auth email OTP for an existing account only (no
+account creation) and answers uniformly for known and unknown emails; step 2
+verifies the 6-digit code before the authorization code is issued. The
+BROWSER consent surface is the static Vercel page under `authorize-ui/`
+(issue #69; the page exists because Supabase's free shared domain rewrites
+Edge Function `text/html` to `text/plain`, so the function origin could not
+render consent HTML — and it remains the consent surface after the move to
+Fly, issue #72). `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is set on the deployed
+Fly app: authorization-server metadata advertises the Vercel page as
 `authorization_endpoint` and every `/authorize` form response is a bodyless
 302 back to it; the page's same-origin `params.js` copies the allowlisted
 OAuth query fields into hidden inputs and each stage form POSTs directly
-(cross-origin — no CORS, no proxy) to the function. Restoring that production
-secret is human-gated (the deploy workflow only verifies it); unset, the
-route renders the two no-JS email/code forms server-side as self-POSTs as the
-pinned fallback (issue #66 hardening). `/token` requires PKCE with
+(cross-origin — no CORS, no proxy) to the Fly origin's `/mcp/authorize`
+(issue #74). Changing that production secret is human-gated (the deploy
+workflow only verifies it); unset, the route renders the two no-JS email/code
+forms server-side as self-POSTs as the pinned fallback (issue #66 hardening).
+`/token` requires PKCE with
 `code_challenge_method=S256` and rejects `plain`. Access tokens are the real
 Supabase Auth session access tokens, validated with `auth.getUser()` before
 issuance, so existing RLS policies continue to scope every tool call to the
@@ -367,5 +370,6 @@ a short-lived user-owned grant in the RLS-protected `oauth_authorization_grants`
 table. The client-facing code is an encrypted/signed envelope containing no
 Supabase token. `/token` atomically claims the grant through
 `claim_oauth_authorization_grant` before minting a Supabase access token, so
-replay fails across concurrent Edge Function isolates. Refresh-token wrappers
-remain encrypted/signed; no long-lived server-side OAuth sessions are used.
+replay fails even when claims race across concurrent isolates or processes.
+Refresh-token wrappers remain encrypted/signed; no long-lived server-side
+OAuth sessions are used.

@@ -24,9 +24,11 @@ domain: the consent HTML lives on the static Vercel page (`authorize-ui/`,
 issues #69/#74), whose forms POST to the Fly origin's `/mcp/authorize`, and
 the Fly origin answers the OAuth flow with metadata, JSON errors, and
 bodyless 302s back to that page (the optional
-`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret names the Vercel page; restoring
-that production secret is human-gated). The canonical MCP URL, issuer, OAuth
-backend routes, resource, and challenge URLs live on the Fly origin at
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` secret names the Vercel page; it is set
+on the deployed Fly app — live authorization-server metadata advertises the
+Vercel page — and any future change is human-gated). The canonical MCP URL,
+issuer, OAuth backend routes, resource, and challenge URLs live on the Fly
+origin at
 `https://morsel-mcp.fly.dev/mcp` (issues #72/#73/#75). The Supabase Edge
 Function transport is legacy/retained backend compatibility only — it is not
 a client-facing base, and a Supabase custom domain would not change the
