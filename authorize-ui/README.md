@@ -1,18 +1,19 @@
 # Morsel static authorization page (Vercel consent skin)
 
-Status (issue #69): **this page is the browser consent surface again.** The
-two-step email-code authorization runs on this Vercel static page while the
-OAuth backend stays on the Supabase Edge Function, which answers only with
-metadata, JSON errors, and bodyless redirects — never consent HTML.
+Status (issue #69): **this page is the browser consent surface.** The
+two-step email-code authorization runs on this Vercel static page, and both
+stage forms post directly to the single-process Fly OAuth backend's
+`/mcp/authorize` endpoint (issues #72/#74), which answers with metadata, JSON
+errors, and bodyless redirects — never consent HTML. Supabase remains the
+Auth/Postgres/RLS provider behind the Fly process; its Edge Function
+authorize route is no longer the destination for this page's form posts.
 
-> **Issue #72 note (single-process hosting):** the MCP/OAuth backend gains a
-> second origin — `server/fly-entrypoint.ts` on Fly.io (`docs/FLY_DEPLOY.md`).
-> This merge does not deploy or cut over, so the page's hardcoded form action
-> (`params.js` `AUTHORIZE_URL`) still targets the LIVE Supabase Edge Function
-> and is intentionally unchanged. As part of the human Fly cutover, retarget
-> that constant (and `authorization.test.js`) to
-> `https://morsel-mcp.fly.dev/mcp/authorize` and redeploy this page; the OAuth
-> semantics on the new origin are identical.
+> **Issue #74 note (consent destination cutover):** the page's hardcoded form
+> action (`params.js` `AUTHORIZE_URL`) now targets the deployed Fly origin
+> `https://morsel-mcp.fly.dev/mcp/authorize` (the #72
+> `server/fly-entrypoint.ts` single-process backend, `docs/FLY_DEPLOY.md`).
+> OAuth semantics on the new origin are identical to the old Edge route; the
+> Vercel page auto-deploys from `main` on merge.
 
 ## Why the page exists (and why the function cannot serve it)
 
@@ -46,14 +47,14 @@ clients' browsers at this Vercel page again:
    (`client_id`, `redirect_uri`, `response_type`, `code_challenge`,
    `code_challenge_method`, `scope`, `resource`, `state`, and — on the code
    stage — `transaction`) into hidden inputs and points both stage forms at
-   the fixed Supabase
-   `https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize`
+   the fixed Fly
+   `https://morsel-mcp.fly.dev/mcp/authorize`
    URL. It never copies `email`, `code`, `password`, duplicate values beyond
    the deterministic last-wins rule, unrecognized fields, or fragment data,
    and it performs no fetch/XHR, storage, analytics, logging, dynamic
    loading, or credential handling.
-3. Submitting a stage form is a direct **cross-origin form POST** to the
-   Supabase function — HTML form POSTs need no CORS and no proxy. The server
+3. Submitting a stage form is a direct **cross-origin form POST** to the Fly
+   OAuth backend — HTML form POSTs need no CORS and no proxy. The server
    validates the request (`requestParameters` accepts query or form body),
    requests/verifies the email one-time code, and 302s back to this page for
    the next stage or to the registered client with the authorization code.
@@ -89,7 +90,7 @@ and the header is not attached implicitly — pinning it on the route object is
 the only valid way to ship the deployed-header CSP alongside the GET rewrite.
 The CSP value is byte-for-byte the same restrictive policy as the page's
 `<meta>` (`script-src 'self'` admits only `params.js`); `form-action` stays
-absent so the cross-origin form POST to Supabase remains allowed.
+absent so the cross-origin form POST to the Fly backend remains allowed.
 
 ## Files
 
