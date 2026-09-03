@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-# REQUIRED BUILT-ARTIFACT GATE for issue #32 (r2): proves the three Supabase
+# REQUIRED BUILT-ARTIFACT GATE for issue #32 (r2): proves the three Morsel
 # runtime keys land in the BUILT Morsel.app/Info.plist through the real
 # no-log delivery (the Fastfile populates the target-scoped Info.plist
 # template FILE, never a command line), and that the explicit target-scoped
-# INFOPLIST_FILE no longer contaminates SPM resource bundles.
+# INFOPLIST_FILE no longer contaminates SPM resource bundles. MORSEL_MCP_URL
+# is the canonical Fly transport constant (issue #75) rather than a
+# SUPABASE_URL-derived Edge Function URL.
 #
 # Asserts:
 #   - every Info.plist under Morsel.app is enumerated;
@@ -59,6 +61,9 @@ load FASTFILE
 FIXTURE_URL = "https://fixture.supabase.co"
 FIXTURE_ANON_KEY = "fixture-anon-key"
 FIXTURE_BUILD = 42
+# Canonical Fly MCP transport (issue #75): what the build must publish in
+# MORSEL_MCP_URL regardless of the SUPABASE_URL fixture above.
+CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp"
 CONTROL = "FIXTUREPROBE"
 # Keys Xcode derives from the build machine/SDK; allowed to differ between
 # runs of the same unsigned build and ignored in semantic comparisons.
@@ -166,7 +171,7 @@ class BuiltPlistTest < Minitest::Test
 
     assert_equal FIXTURE_URL, plist_value(plist, "MorselSupabaseURL")
     assert_equal FIXTURE_ANON_KEY, plist_value(plist, "MorselSupabaseAnonKey")
-    assert_equal "#{FIXTURE_URL}/functions/v1/mcp", plist_value(plist, "MORSEL_MCP_URL")
+    assert_equal CANONICAL_MCP_URL, plist_value(plist, "MORSEL_MCP_URL")
   ensure
     FileUtils.remove_entry(derived) if derived && File.exist?(derived)
   end
@@ -180,8 +185,8 @@ class BuiltPlistTest < Minitest::Test
       "fixture anon key must never appear in xcodebuild output"
     refute_includes output, FIXTURE_URL,
       "fixture URL must never appear in xcodebuild output"
-    refute_includes output, "#{FIXTURE_URL}/functions/v1/mcp",
-      "fixture MCP URL must never appear in xcodebuild output"
+    refute_includes output, CANONICAL_MCP_URL,
+      "MCP URL must never appear in xcodebuild output"
   ensure
     FileUtils.remove_entry(derived) if derived && File.exist?(derived)
   end
@@ -232,7 +237,7 @@ class BuiltPlistTest < Minitest::Test
     assert_equal "", base_hash["MorselSupabaseAnonKey"]
     assert_equal FIXTURE_ANON_KEY, lane_hash["MorselSupabaseAnonKey"]
     assert_equal "", base_hash["MORSEL_MCP_URL"]
-    assert_equal "#{FIXTURE_URL}/functions/v1/mcp", lane_hash["MORSEL_MCP_URL"]
+    assert_equal CANONICAL_MCP_URL, lane_hash["MORSEL_MCP_URL"]
   ensure
     FileUtils.remove_entry(derived_lane) if derived_lane && File.exist?(derived_lane)
     FileUtils.remove_entry(derived_base) if derived_base && File.exist?(derived_base)

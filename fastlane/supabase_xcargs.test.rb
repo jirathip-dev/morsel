@@ -2,9 +2,10 @@
 
 # Executable regression coverage for issue #32: native-testflight archives
 # must receive the public Supabase endpoint/anon key from repository secrets
-# with fail-fast, names-only diagnostics, a correctly derived MORSEL_MCP_URL,
-# and a no-log delivery (values live only in the Morsel Info.plist FILE, never
-# on xcodebuild/Fastlane command lines or logs, and the committed no-value
+# with fail-fast, names-only diagnostics, the canonical Fly MORSEL_MCP_URL
+# (issue #75; no SUPABASE_URL-derived Edge URL), and a no-log delivery
+# (values live only in the Morsel Info.plist FILE, never on
+# xcodebuild/Fastlane command lines or logs, and the committed no-value
 # template is restored after success or failure).
 #
 # The real fastlane/Fastfile is loaded with minimal DSL stubs (lane bodies are
@@ -94,17 +95,18 @@ class SupabaseValuesTest < Minitest::Test
       "Missing required TestFlight configuration: SUPABASE_URL"
   end
 
-  def test_derives_mcp_url_from_supabase_url
+  def test_mcp_url_defaults_to_canonical_fly_url
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
     values = morsel_supabase_values
-    assert_equal "https://abcd.supabase.co/functions/v1/mcp", values[:mcp_url]
+    assert_equal "https://morsel-mcp.fly.dev/mcp", values[:mcp_url]
+    refute_includes values[:mcp_url], "supabase.co"
   end
 
-  def test_trailing_slash_does_not_create_double_slash
+  def test_mcp_url_is_independent_of_supabase_url_shape
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co/"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    assert_equal "https://abcd.supabase.co/functions/v1/mcp",
+    assert_equal "https://morsel-mcp.fly.dev/mcp",
       morsel_supabase_values[:mcp_url]
   end
 
@@ -138,7 +140,7 @@ class SupabaseValuesTest < Minitest::Test
     assert_includes seen, "<string>https://abcd.supabase.co</string>"
     assert_includes seen, "<string>anon-key</string>"
     assert_includes seen,
-      "<string>https://abcd.supabase.co/functions/v1/mcp</string>"
+      "<string>https://morsel-mcp.fly.dev/mcp</string>"
   end
 
   def test_shell_sensitive_values_are_never_executed_or_split

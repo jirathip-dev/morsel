@@ -57,9 +57,11 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 }
 
 enum OnboardingContent {
-    // Default setup guidance is client-neutral (#57): paste the canonical MCP
-    // URL into the client's custom MCP/connector field, complete OAuth when
-    // prompted, verify with get_profile. Vendor flows stay labeled below.
+    // Client-neutral setup guidance (issues #57/#75): paste the canonical MCP
+    // URL into the client's own custom MCP/connector field, complete OAuth
+    // when prompted, verify with get_profile. This neutral prompt is the
+    // shared setup prompt for ChatGPT and Others; Claude gets one unified
+    // prompt below (app-or-web connector flow plus an optional CLI line).
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
 1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
@@ -72,22 +74,19 @@ I use Morsel to track my food. Set yourself up as my food logger.
 """
 
     static let signedInMarker = "Signed in ✓"
-    // Optional vendor-specific flow (clearly labeled Claude Code tab).
-    static let claudeCodePrompt = """
-Set up Morsel food tracking with Claude Code.
-1. Add the MCP server: claude mcp add --transport http morsel {{MCP_URL}}
-2. Complete the OAuth browser sign-in when it opens.
-3. Verify by calling get_profile; if empty, ask me for stats, then set_profile.
-4. Confirm: "Morsel connected — send me a photo of your next meal."
-"""
 
-    // Optional vendor-specific flow (clearly labeled Claude Desktop tab).
-    static let claudeDesktopPrompt = """
-Connect Morsel in Claude Desktop.
-1. Open Settings → Connectors → Add custom connector.
-2. Enter the Morsel MCP server URL: {{MCP_URL}}
+    // Unified Claude guidance (issue #75): one Claude story across the app,
+    // the web client, and command-line users — no per-product duplicate tabs.
+    // The optional claude mcp add line lives inside this prompt so its
+    // endpoint goes through the same {{MCP_URL}} substitution as every other
+    // URL occurrence.
+    static let claudePrompt = """
+Set up Morsel food tracking in Claude.
+1. Open Claude (app or web) → Customize → Connectors → add custom connector.
+2. Add the Morsel MCP server with this URL: {{MCP_URL}}
 3. Complete the OAuth browser sign-in when it opens.
-4. Verify by calling get_profile.
+4. Verify by calling get_profile; if empty, ask me for stats, then set_profile.
+CLI users (optional): claude mcp add --transport http morsel {{MCP_URL}}
 """
 
     static func prompt(_ template: String, endpoint: String) -> String {
@@ -96,21 +95,16 @@ Connect Morsel in Claude Desktop.
     }
 
     static func instructions(for platform: String) -> String {
-        let neutral = "Paste the MCP endpoint into your client's custom MCP/connector field, " +
-            "complete OAuth when prompted, and verify with get_profile."
+        let neutral = "Any MCP-capable client: paste the MCP endpoint into its custom " +
+            "MCP/connector field, complete OAuth when prompted, and verify with get_profile."
         switch platform {
-        case "Custom MCP":
-            return neutral
-        case "Claude.ai":
-            return "Optional Claude.ai flow: Customize → Connectors → + → Add custom " +
-                "connector, then paste this setup prompt."
-        case "Claude Desktop":
-            return "Optional Claude Desktop flow: open Settings → Connectors, add a custom " +
-                "connector, then paste this prompt."
+        case "Claude":
+            return "Claude app or web → Customize → Connectors → add custom connector " +
+                "with the endpoint above, then paste the setup prompt below (an optional " +
+                "CLI line is included for command-line users)."
         case "ChatGPT":
-            return "Optional ChatGPT flow: Settings → Apps → Create, then add Morsel with this setup prompt."
-        case "Claude Code":
-            return "Optional Claude Code flow: use the setup prompt below to add Morsel with the claude mcp command."
+            return "ChatGPT flow: Apps → connect Morsel as a supported custom " +
+                "app/connector with the endpoint above and this setup prompt."
         default:
             return neutral
         }
@@ -128,14 +122,14 @@ struct OnboardingEndpoint: Equatable, Sendable {
 }
 
 enum OnboardingPlatform: String, CaseIterable {
-    // Client-neutral default (issue #57): paste the canonical MCP URL into the
-    // client's own custom MCP/connector field; vendor flows below are labeled
-    // optional extras.
-    case custom = "Custom MCP"
-    case claude = "Claude.ai"
-    case desktop = "Claude Desktop"
+    // Issue #75: exactly three client choices — one unified Claude flow
+    // (app or web, optional CLI line), ChatGPT via its Apps connector flow,
+    // and a neutral Others path for any MCP-capable client. Every tab renders
+    // the single configured endpoint through {{MCP_URL}}; there are no
+    // per-product duplicate tabs and no separate neutral tab.
+    case claude = "Claude"
     case chatGPT = "ChatGPT"
-    case code = "Claude Code"
+    case others = "Others"
 }
 
 struct OnboardingStore {
@@ -168,7 +162,7 @@ struct OnboardingView: View {
     let onAuthenticated: (AuthenticatedSession) -> Void
 
     @State private var state = OnboardingState()
-    @State private var platform = OnboardingPlatform.custom
+    @State private var platform = OnboardingPlatform.claude
     @State private var didCopy = false
 
     init(
@@ -336,9 +330,8 @@ struct OnboardingView: View {
     private func prompt(for platform: OnboardingPlatform, endpoint: String) -> String {
         let template: String
         switch platform {
-        case .custom, .claude, .chatGPT: template = OnboardingContent.chatPrompt
-        case .desktop: template = OnboardingContent.claudeDesktopPrompt
-        case .code: template = OnboardingContent.claudeCodePrompt
+        case .claude: template = OnboardingContent.claudePrompt
+        case .chatGPT, .others: template = OnboardingContent.chatPrompt
         }
         return OnboardingContent.prompt(template, endpoint: endpoint)
     }

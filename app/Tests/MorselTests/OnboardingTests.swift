@@ -13,28 +13,25 @@ final class OnboardingTests: XCTestCase {
         XCTAssertEqual(OnboardingContent.signedInMarker, "Signed in ✓")
     }
 
-    func testDefaultSetupGuidanceIsClientNeutral() throws {
-        // Issue #57: the default prompt must work for any MCP client — name the
+    func testNeutralSetupPromptNamesNoClaudeOnlyPath() throws {
+        // Issue #57: the neutral prompt must work for any MCP client — name the
         // client's own MCP/connector field, OAuth sign-in, and get_profile —
         // without Claude-specific paths or invented mobile/plugin capabilities.
+        // Issue #75: it is the shared setup prompt for ChatGPT and Others.
         let prompt = OnboardingContent.prompt(
             OnboardingContent.chatPrompt,
             endpoint: "https://mcp.example.test/mcp"
         )
         XCTAssertTrue(
             prompt.contains("MCP/connector settings"),
-            "Default guidance must name a neutral custom-connector field"
+            "Neutral guidance must name a neutral custom-connector field"
         )
-        XCTAssertTrue(prompt.contains("get_profile"), "Default guidance must include the verification call")
+        XCTAssertTrue(prompt.contains("get_profile"), "Neutral guidance must include the verification call")
         XCTAssertFalse(
             prompt.lowercased().contains("claude"),
-            "Default guidance must not require a Claude-only path"
+            "Neutral guidance must not require a Claude-only path"
         )
-
-        // Vendor-specific flows remain available but only as clearly labeled
-        // optional instructions on their own tabs.
-        XCTAssertTrue(OnboardingContent.claudeCodePrompt.hasPrefix("Set up Morsel food tracking with Claude Code."))
-        XCTAssertTrue(OnboardingContent.claudeDesktopPrompt.hasPrefix("Connect Morsel in Claude Desktop."))
+        XCTAssertFalse(prompt.contains("{{MCP_URL}}"))
     }
 
     func testEndpointConfigurationRejectsEmptyAndNonHTTPSValues() {
@@ -58,17 +55,34 @@ final class OnboardingTests: XCTestCase {
         XCTAssertNil(OnboardingEndpoint(configuredValue: ""))
     }
 
-    func testEachPlatformHasDistinctInstructions() {
-        XCTAssertTrue(OnboardingContent.instructions(for: "Custom MCP").contains("custom MCP/connector field"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude.ai").contains("Optional Claude.ai flow"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "Claude Desktop").contains("Claude Desktop"))
-        XCTAssertTrue(OnboardingContent.instructions(for: "ChatGPT").contains("Optional ChatGPT flow"))
-        let codeInstructions = OnboardingContent.instructions(for: "Claude Code")
-        XCTAssertTrue(codeInstructions.contains("Claude Code"))
-        XCTAssertFalse(codeInstructions.contains("{{MCP_URL}}"))
+    func testPerClientGuidanceIsUnified() {
+        // Issue #75: each of the three clients has exactly ONE guidance set —
+        // the unified Claude story, the ChatGPT Apps flow, and a neutral
+        // Others path — all pointing at the same endpoint card above them.
+        let claudeInstructions = OnboardingContent.instructions(for: "Claude")
+        XCTAssertTrue(claudeInstructions.contains("Customize → Connectors"))
+        XCTAssertTrue(claudeInstructions.contains("add custom connector"))
+        XCTAssertFalse(claudeInstructions.contains("{{MCP_URL}}"))
+
+        let chatGPTInstructions = OnboardingContent.instructions(for: "ChatGPT")
+        XCTAssertTrue(chatGPTInstructions.contains("Apps"))
+        XCTAssertFalse(chatGPTInstructions.contains("{{MCP_URL}}"))
+
+        let othersInstructions = OnboardingContent.instructions(for: "Others")
+        XCTAssertTrue(othersInstructions.contains("MCP-capable client"))
+        XCTAssertTrue(othersInstructions.contains("custom MCP/connector field"))
+        XCTAssertTrue(othersInstructions.contains("get_profile"))
+        XCTAssertFalse(othersInstructions.contains("{{MCP_URL}}"))
     }
 
-    func testDefaultPlatformIsClientNeutralCustomMcp() throws {
+    func testOnboardingPlatformsAreExactlyThreeUnifiedChoices() throws {
+        // Issue #75: the segmented chooser offers exactly Claude / ChatGPT /
+        // Others — one story per client, no duplicate product tabs.
+        XCTAssertEqual(
+            OnboardingPlatform.allCases.map(\.rawValue),
+            ["Claude", "ChatGPT", "Others"]
+        )
+
         let testURL = URL(fileURLWithPath: #filePath)
         let sourceURL = testURL.deletingLastPathComponent()
             .deletingLastPathComponent()
@@ -78,10 +92,12 @@ final class OnboardingTests: XCTestCase {
         let stateStart = try XCTUnwrap(source.range(of: "@State private var platform"))
         let stateLine = String(source[stateStart.lowerBound..<source.index(stateStart.lowerBound, offsetBy: 90)])
         XCTAssertTrue(
-            stateLine.contains("OnboardingPlatform.custom"),
-            "Default onboarding platform must be the client-neutral Custom MCP option"
+            stateLine.contains("OnboardingPlatform.claude"),
+            "Default onboarding platform must be the unified Claude choice"
         )
-        XCTAssertTrue(source.contains("case custom = \"Custom MCP\""))
+        XCTAssertTrue(source.contains("case claude = \"Claude\""))
+        XCTAssertTrue(source.contains("case chatGPT = \"ChatGPT\""))
+        XCTAssertTrue(source.contains("case others = \"Others\""))
     }
 
     func testUnauthenticatedSignInCannotAdvance() {
@@ -151,17 +167,53 @@ final class OnboardingTests: XCTestCase {
         XCTAssertTrue(doneSource.contains("onFinished()"))
     }
 
-    func testClaudeCodePromptKeepsFullTemplateAndEndpoint() {
+    func testClaudeUnifiedPromptEmbedsEndpointInConnectorAndCliLine() {
+        // Issue #75: the single Claude prompt covers the app-or-web connector
+        // flow and carries the optional CLI line; both URL occurrences derive
+        // from the same configured endpoint.
+        let endpoint = "https://mcp.example.test/mcp"
         let prompt = OnboardingContent.prompt(
-            OnboardingContent.claudeCodePrompt,
-            endpoint: "https://mcp.example.test/mcp"
+            OnboardingContent.claudePrompt,
+            endpoint: endpoint
         )
 
-        XCTAssertEqual(prompt.components(separatedBy: "\n").count, 5)
-        XCTAssertTrue(prompt.contains(
-            "claude mcp add --transport http morsel https://mcp.example.test/mcp"
-        ))
+        XCTAssertEqual(
+            prompt.components(separatedBy: endpoint).count - 1, 2,
+            "The unified Claude prompt must publish the endpoint in the connector step and the CLI line"
+        )
+        XCTAssertTrue(prompt.contains("claude mcp add --transport http morsel \(endpoint)"))
+        XCTAssertTrue(prompt.contains("Customize → Connectors"))
         XCTAssertTrue(prompt.contains("Complete the OAuth browser sign-in"))
+        XCTAssertFalse(prompt.contains("{{MCP_URL}}"))
+    }
+
+    func testEveryGeneratedPromptPublishesTheSameConfiguredEndpoint() {
+        // Issue #75: every client prompt derives from the SAME configured
+        // endpoint through the {{MCP_URL}} path — no per-client URL literals.
+        let endpoint = "https://mcp.example.test/mcp"
+        let templates = [OnboardingContent.chatPrompt, OnboardingContent.claudePrompt]
+        for template in templates {
+            XCTAssertTrue(template.contains("{{MCP_URL}}"))
+            let prompt = OnboardingContent.prompt(template, endpoint: endpoint)
+            XCTAssertTrue(prompt.contains(endpoint))
+            XCTAssertFalse(prompt.contains("{{MCP_URL}}"))
+        }
+        XCTAssertFalse(OnboardingContent.chatPrompt.contains("https://"))
+        XCTAssertFalse(OnboardingContent.claudePrompt.contains("https://"))
+    }
+
+    func testOnboardingCopyRetiresPerProductDuplicateLabels() throws {
+        // Issue #75: none of the retired duplicate platform labels may appear
+        // anywhere in the onboarding source — as tabs, guidance, or prompts.
+        let testURL = URL(fileURLWithPath: #filePath)
+        let sourceURL = testURL.deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .deletingLastPathComponent()
+            .appendingPathComponent("Sources/Morsel/Onboarding.swift")
+        let source = try String(contentsOf: sourceURL, encoding: .utf8)
+        for label in ["Custom MCP", "Claude.ai", "Claude Desktop", "Claude Code"] {
+            XCTAssertFalse(source.contains(label), "Retired onboarding label must not appear: \(label)")
+        }
     }
 
     // MARK: - Issue #57 source contracts (canonical endpoint source, no stale alias copy)

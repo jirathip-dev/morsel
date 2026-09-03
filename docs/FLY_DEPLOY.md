@@ -111,9 +111,11 @@ store. None of these commands print secret values when run as written.
   deploy or cut over: nothing in this issue changes live configuration.
 - AFTER the deploy steps above pass acceptance, the Fly URL becomes the
   canonical client-facing endpoint and the Supabase function URL becomes
-  legacy/internal-only. That cutover (publishing the URL to clients,
-  onboarding copy, retiring the Edge Function) is a separate human decision;
-  iOS/onboarding copy changes are deferred and not part of this issue.
+  legacy/internal-only (retained as backend compatibility while live).
+  Client publishing already points at the Fly URL: the Fastfile build
+  configuration and the onboarding copy ship the canonical Fly endpoint
+  (issue #75; the next TestFlight build is the human-gated carrier).
+  Retiring the Supabase Edge Function remains a separate human decision.
 - The Vercel consent page keeps serving as `authorization_endpoint` on both
   origins until consent hosting is explicitly moved.
 - **Vercel skin cutover (deferred, human-gated):** `authorize-ui/params.js`
