@@ -515,6 +515,31 @@ returns void language sql security definer as $fn$ select 1 $fn$;`)
     expect(driftedRow).toBe('0')
   }, 90_000)
 
+  it('ledger-only race: policy qual drift between preflight and the record transaction aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_racepolicy')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
+    db.execIn(name, LEDGER_DDL)
+    db.execIn(name, `insert into public.migration_ledger (name) values ('init')`)
+    db.execIn(name, `insert into public.migration_ledger (name) values ('targets')`)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      // Right before the 0003 record transaction, replace the canonical
+      // SELECT policy with a permissive one of the same name/cmd/roles.
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('atomic_meals_and_users_rls')")) {
+        drifted = true
+        db.execIn(name, `drop policy "users_select_own" on public.users; create policy "users_select_own" on public.users for select using (true);`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    const driftedRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'atomic_meals_and_users_rls'`).trim()
+    expect(driftedRow).toBe('0')
+  }, 90_000)
+
   it('converge-path race: mid-flight drift makes the guard abort the whole converge transaction (no ledger row)', async () => {
     const name = cluster.createDatabase('rec_raceconverge')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
