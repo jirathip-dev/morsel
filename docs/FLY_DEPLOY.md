@@ -1,10 +1,16 @@
 # Morsel MCP on Fly.io — single-process hosting (issue #72)
 
-Status: **deploy materials only.** The Bun entry point, `Dockerfile`,
-`fly.toml`, tests, and this runbook are committed and reviewed, but NOTHING is
-deployed. There is no Fly account/app, no `flyctl` install, no secret
-mutation, and no URL cutover yet — every step below is a **human-only,
-explicitly approved action** (Guy's Fly account/auth + deploy approval).
+Status: **deployed and canonical.** The Fly origin (Bun entry point,
+`Dockerfile`, `fly.toml`, tests) is live: `https://morsel-mcp.fly.dev/mcp`
+is the canonical MCP endpoint that the app build configuration
+(`CANONICAL_MCP_URL`, issue #75), onboarding copy, OAuth discovery, and the
+Vercel consent page (issue #74) target. The deploy steps below are retained
+as the runbook for that deployment and remain the reference for redeploys
+and rollbacks (Guy's Fly account/auth). Remaining human gates: the next
+TestFlight build that carries the canonical copy/URL into the built app,
+live Claude connector acceptance on the canonical URL, and separately
+retiring the Supabase Edge Function transport. No authenticated live
+acceptance is claimed here.
 
 ## Why Fly
 
@@ -31,7 +37,7 @@ No Supabase gateway strips `/functions/v1` on Fly, so the app runs with
 | `/mcp/register`, `/mcp/authorize`, `/mcp/token` | dynamic client registration, consent backend, token exchange |
 
 Deliberately absent: `/mcp/mcp` (the pre-#57 Edge compatibility alias has no
-clients on a fresh origin), `/mcp/health` (health lives at the origin root
+clients on this origin), `/mcp/health` (health lives at the origin root
 only), and origin-root discovery (no metadata duplication). The canonical
 client transport is `https://morsel-mcp.fly.dev/mcp`.
 
@@ -55,15 +61,17 @@ client transport is `https://morsel-mcp.fly.dev/mcp`.
 | --- | --- |
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
 | `SUPABASE_ANON_KEY` | the project anon key |
-| `MORSEL_OAUTH_SIGNING_KEY` | long random value (same one the Edge Function uses today) |
+| `MORSEL_OAUTH_SIGNING_KEY` | long random value (same one the legacy Edge Function uses while it is retained) |
 | `MORSEL_PUBLIC_BASE_URL` | `https://morsel-mcp.fly.dev/mcp` (validated fail-closed: absolute HTTPS, exactly `/mcp` path, no userinfo/query/fragment/whitespace/trailing slash) |
 | `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` (optional) | `https://morsel-authorize-ui.vercel.app/authorize` |
 
 The entry point refuses to start when any required value is missing or
 malformed (fail closed at boot).
 
-## Human-only deploy steps (Guy)
+## Deploy runbook (Guy)
 
+The steps below are the runbook used for the initial Fly deployment (now
+live and canonical) and remain the reference for redeploys and rollbacks.
 All commands are placeholders; replace `<…>` values from the local secret
 store. None of these commands print secret values when run as written.
 
@@ -106,25 +114,23 @@ store. None of these commands print secret values when run as written.
 
 ## Cutover and legacy URL
 
-- Today the LIVE MCP endpoint remains the Supabase Edge Function URL
-  `https://<project-ref>.supabase.co/functions/v1/mcp`. This merge does NOT
-  deploy or cut over: nothing in this issue changes live configuration.
-- AFTER the deploy steps above pass acceptance, the Fly URL becomes the
-  canonical client-facing endpoint and the Supabase function URL becomes
-  legacy/internal-only. That cutover (publishing the URL to clients,
-  onboarding copy, retiring the Edge Function) is a separate human decision;
-  iOS/onboarding copy changes are deferred and not part of this issue.
-- The Vercel consent page keeps serving as `authorization_endpoint` on both
-  origins until consent hosting is explicitly moved.
-- **Vercel skin cutover (deferred, human-gated):** `authorize-ui/params.js`
-  hardcodes the form action
-  `https://<project-ref>.supabase.co/functions/v1/mcp/authorize` (pinned by
-  `authorize-ui/authorization.test.js`). While the Edge Function is live that
-  target is correct, so this merge intentionally does NOT change it. As part
-  of the Fly cutover, switch that constant (and its test) to
-  `https://morsel-mcp.fly.dev/mcp/authorize` and redeploy the Vercel page;
-  until then consent posts keep hitting the live Supabase origin, which is
-  fine because the OAuth backend is still there.
+- The Fly origin is the canonical, deployed MCP endpoint: app builds
+  (Fastfile `CANONICAL_MCP_URL`, issue #75), onboarding copy, and OAuth
+  discovery all publish `https://morsel-mcp.fly.dev/mcp`. Client delivery of
+  that copy and of `MORSEL_MCP_URL` in the built app lands with the next
+  TestFlight build, which is human-gated.
+- The Supabase Edge Function transport is legacy/retained backend
+  compatibility only and is no longer the client-facing URL. It stays
+  available until it is separately retired (a human decision); the
+  pre-#57 `/mcp/mcp` alias is not published to clients.
+- The Vercel consent cutover is complete: `authorize-ui/params.js` posts the
+  consent forms to `https://morsel-mcp.fly.dev/mcp/authorize` (issue #74,
+  PR #77), its test pins that canonical action, and the production Vercel
+  page carries the Fly action.
+- Live acceptance of the canonical endpoint — OAuth sign-in and
+  `get_profile` through a real MCP client (for example re-adding the Morsel
+  connector in Claude) — remains a human-gated check and is not claimed by
+  any code change in this repository.
 
 ## Local/CI verification without Fly
 
@@ -135,8 +141,8 @@ store. None of these commands print secret values when run as written.
   `bun-fly-entrypoint` job with `oven-sh/setup-bun` plus a boot probe of
   `/health`, metadata, and the 401 challenge.
 - `server/fly-entrypoint.test.ts` (plain `npm test`) covers the route/
-  metadata contract, fail-closed env validation, and the deploy-materials
-  static contract with synthetic values only.
+  metadata contract, fail-closed env validation, and the committed
+  deployment-input static contract with synthetic values only.
 - Docker build/run gate (local, no Fly):
   `docker build -t morsel-mcp:local .`
   `docker run --rm -p 8080:8080 -e SUPABASE_URL=… -e SUPABASE_ANON_KEY=… -e MORSEL_OAUTH_SIGNING_KEY=… -e MORSEL_PUBLIC_BASE_URL=http://127.0.0.1:8080/mcp morsel-mcp:local`

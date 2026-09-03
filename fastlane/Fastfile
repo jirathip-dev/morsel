@@ -15,8 +15,17 @@ def morsel_xml_escape(value)
   value.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;").gsub('"', "&quot;")
 end
 
+# Canonical MCP transport published into the built Info.plist (issue #75):
+# the Fly origin from #72/#74. The Supabase Edge Function transport
+# (previously derived from SUPABASE_URL) is legacy/retained backend
+# compatibility and is no longer the client-facing endpoint.
+CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp".freeze
+
 # Read and validate the Supabase TestFlight configuration. Fails fast with
 # names-only diagnostics when a value is missing or empty; never prints values.
+# SUPABASE_URL/SUPABASE_ANON_KEY feed the Supabase runtime keys; MORSEL_MCP_URL
+# is the constant canonical Fly transport above (a public endpoint, delivered
+# through the plist FILE like every other value).
 def morsel_supabase_values
   supabase_url = ENV.fetch("SUPABASE_URL", "").strip
   anon_key = ENV.fetch("SUPABASE_ANON_KEY", "").strip
@@ -29,8 +38,7 @@ def morsel_supabase_values
       "Set the SUPABASE_URL and SUPABASE_ANON_KEY repository secrets."
     )
   end
-  mcp_url = "#{supabase_url.sub(%r{/+\z}, '')}/functions/v1/mcp"
-  { url: supabase_url, anon_key: anon_key, mcp_url: mcp_url }
+  { url: supabase_url, anon_key: anon_key, mcp_url: CANONICAL_MCP_URL }
 end
 
 # Yield with the Morsel Info.plist source populated with the Supabase values,

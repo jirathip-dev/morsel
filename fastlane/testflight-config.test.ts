@@ -13,12 +13,13 @@ import { fileURLToPath } from 'node:url'
 // by fastlane/built-plist.test.rb and the runtime helpers by
 // fastlane/supabase_xcargs.test.rb):
 //   - app/project.yml scopes INFOPLIST_FILE to the Morsel app target only,
-//     keeping the three Supabase config defaults empty;
+//     keeping the three Morsel runtime config defaults empty;
 //   - fastlane/Morsel-Info.plist is the committed no-value template carrying
 //     $(MORSEL_*) placeholders plus all project-level keys;
 //   - the Fastfile populates that template FILE transiently
 //     (with_morsel_supabase_plist) and restores it in an ensure block, so
-//     values never appear in gym xcargs / xcodebuild command lines.
+//     values never appear in gym xcargs / xcodebuild command lines;
+//   - MORSEL_MCP_URL defaults to the canonical Fly transport (issue #75).
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const workflowPath = join(repoRoot, '.github', 'workflows', 'native-testflight.yml')
@@ -43,8 +44,8 @@ describe('native-testflight Supabase configuration injection (issue #32, r2)', (
   })
 
   it('scopes INFOPLIST_FILE to the Morsel app target and keeps config defaults empty', () => {
-    // The Morsel target carries the explicit template; the three Supabase
-    // defaults stay empty (never committed values).
+    // The Morsel target carries the explicit template; the three Morsel
+    // runtime defaults stay empty (never committed values).
     expect(projectYml).toMatch(/INFOPLIST_FILE: \.\.\/fastlane\/Morsel-Info\.plist/)
     expect(projectYml).toMatch(/INFOPLIST_KEY_MorselSupabaseURL: ""/)
     expect(projectYml).toMatch(/INFOPLIST_KEY_MorselSupabaseAnonKey: ""/)
@@ -93,12 +94,14 @@ describe('native-testflight Supabase configuration injection (issue #32, r2)', (
     expect(diagnostic).not.toMatch(/UI\.message|puts\s/)
   })
 
-  it('derives MORSEL_MCP_URL from SUPABASE_URL with a single slash separator', () => {
-    // Issue #57: the derived URL IS the canonical MCP transport (the Edge
-    // Function root). The nested /mcp/mcp path is a compatibility alias only
-    // and must never be published by the build configuration.
-    expect(fastfile).toContain('/functions/v1/mcp')
-    expect(fastfile).toContain('/+\\z')
+  it('defaults MORSEL_MCP_URL to the canonical Fly transport (issue #75)', () => {
+    // Issue #75: the build configuration publishes the canonical Fly MCP URL
+    // instead of deriving a SUPABASE_URL Edge Function URL. The Supabase Edge
+    // transport is legacy/retained backend compatibility only and must not
+    // reappear in the build pipeline.
+    expect(fastfile).toContain('CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp"')
+    expect(fastfile).toContain('mcp_url: CANONICAL_MCP_URL')
+    expect(fastfile).not.toContain('/functions/v1/mcp')
   })
 
   it('never publishes the nested /mcp/mcp compatibility alias in the build pipeline', () => {

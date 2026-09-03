@@ -23,7 +23,8 @@ upload image bytes yet; it keeps HTTPS image references in
 
 ## OAuth connector configuration
 
-The Edge Function reads these values at request time:
+The deployed Fly process reads these values at request time; the retained
+legacy Edge Function reads the same names from its own environment:
 
 - `SUPABASE_URL` — the project URL.
 - `SUPABASE_ANON_KEY` — the publishable/anonymous key used for Supabase Auth
@@ -38,10 +39,11 @@ The Edge Function reads these values at request time:
   static consent skin (`https://morsel-authorize-ui.vercel.app/authorize`);
   when set, authorization-server metadata advertises it as
   `authorization_endpoint` and every `/authorize` form response becomes a
-  bodyless 302 back to it. Restoring this production secret is human-gated:
-  CI exercises the configured mode with a synthetic endpoint and the deploy
-  workflow verifies the expected endpoint without creating or overwriting
-  the secret. Unset keeps the server-rendered function fallback below.
+  bodyless 302 back to it. It is set on the deployed Fly app (live
+  authorization-server metadata advertises the Vercel page); changing it is
+  human-gated: CI exercises the configured mode with a synthetic endpoint and
+  the deploy workflow verifies the expected endpoint without creating or
+  overwriting the secret. Unset keeps the server-rendered fallback below.
 
 The provider supports dynamic RFC 7591 registration, authorization-code OAuth
 with S256 PKCE, and refresh tokens. Consent is a two-step email one-time-code
@@ -55,18 +57,21 @@ server-issued envelope — no email, code, or token value is logged or echoed.
 The BROWSER surface is the Vercel static skin under `authorize-ui/` (issue
 #69): Supabase's free shared domain rewrites Edge Function `text/html` to
 `text/plain`, so the function origin cannot render consent HTML in
-production. The function therefore only serves metadata, JSON errors, and
+production. The origin therefore only serves metadata, JSON errors, and
 bodyless 302s back to the page; the page's same-origin `params.js` bridges
 the allowlisted OAuth query fields into hidden inputs and each stage form
-POSTs directly (cross-origin — no CORS, no fetch, no proxy) to
-`…/functions/v1/mcp/authorize`. When `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is
+POSTs directly (cross-origin — no CORS, no fetch, no proxy) to the Fly
+origin's `/mcp/authorize`
+(`https://morsel-mcp.fly.dev/mcp/authorize`, issues #72/#74). When
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is
 unset, the `/authorize` route renders the two no-JS email/code forms
 server-side as the fallback (issue #66 hardening, defense in depth). `/token`
 claims the stored authorization grant
 exactly once, then refreshes the Supabase session and returns the real access
 token only after `auth.getUser()` validates it, so MCP requests retain normal
-RLS behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a Supabase secret; do
-not put its value in this repository.
+RLS behavior. Configure `MORSEL_OAUTH_SIGNING_KEY` as a server secret on the
+deployed origin (Fly; the legacy Edge Function used it too) and do not put
+its value in this repository.
 
 Two human-owned configuration gates remain before live acceptance (no account
 email is recorded in this repository): the Supabase email template must emit
@@ -103,8 +108,11 @@ For local OAuth registration/token probes, pass an env file containing
 because the Edge Runtime does not inherit arbitrary shell variables.
 
 In another terminal, expect `200` and `{"ok":true}` from the public health
-route, then expect `401` from the unauthenticated MCP transport. The canonical
-client-facing transport is the function root `…/functions/v1/mcp`; the nested
+route, then expect `401` from the unauthenticated MCP transport. These probes
+exercise the LOCAL Edge Function in its retained legacy shape: the
+client-facing canonical transport for clients is the deployed Fly origin
+`https://morsel-mcp.fly.dev/mcp` (issues #72/#75), while the local function
+root `…/functions/v1/mcp` mirrors the legacy Edge deployment; the nested
 `…/functions/v1/mcp/mcp` path remains only as the pre-#57 compatibility alias
 (it answers identically but must not be given to clients):
 
