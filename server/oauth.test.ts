@@ -87,6 +87,42 @@ function normalizedFormPage(html: string): string {
   return html.replace(/name="transaction" value="[^"]+"/g, 'name="transaction" value="<envelope>"')
 }
 
+// Issue #67: a character-level flip of the final encoded envelope character
+// is nondeterministic. Base64URL omits '=' padding, so the last character can
+// carry unused padding bits; flipping only those bits decodes to the original
+// bytes and verification legitimately succeeds (an unexpected redirect).
+// Tampering therefore happens at the decoded-byte level: decode the sealed
+// body, flip one stable byte of the authenticated bytes, and re-encode
+// canonically. The envelope shape is `<body>.<signature>` where body =
+// base64url(iv || AES-GCM ciphertext || tag).
+function base64UrlDecode(value: string): Uint8Array {
+  const padded = value.replace(/-/g, '+').replace(/_/g, '/') + '='.repeat((4 - (value.length % 4)) % 4)
+  const binary = atob(padded)
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0))
+}
+
+function base64UrlEncode(value: Uint8Array): string {
+  let binary = ''
+  for (const byte of value) {
+    binary += String.fromCharCode(byte)
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '')
+}
+
+// Deterministic tamper fixture: flip the final byte of the decoded body (part
+// of the AES-GCM tag) and re-encode canonically, keeping the original
+// signature. Byte-level mutation guarantees the decoded envelope differs from
+// the original for every Base64URL padding shape, so verification can never
+// succeed.
+function tamperTransactionEnvelope(transaction: string): string {
+  const separator = transaction.lastIndexOf('.')
+  const body = base64UrlDecode(transaction.slice(0, separator))
+  // The sealed body always ends in the AES-GCM tag (iv || ciphertext || tag).
+  const lastIndex = body.length - 1
+  body[lastIndex] = (body[lastIndex] ?? 0) ^ 0x01
+  return `${base64UrlEncode(body)}.${transaction.slice(separator + 1)}`
+}
+
 interface TestGrantStore extends OAuthGrantStore {
   grants: Map<string, OAuthAuthorizationGrant>
 }
@@ -1266,8 +1302,18 @@ describe('email one-time-code authorization (issue #60)', () => {
     expect(missing.status).toBe(200)
     expectEmailStage(await missing.text(), 'expired or is no longer valid')
 
-    // Tampered envelope: integrity check fails closed.
-    const tampered = transaction.slice(0, -1) + (transaction.endsWith('a') ? 'b' : 'a')
+    // Tampered envelope: integrity check fails closed. The fixture tampers at
+    // the decoded-byte level (issue #67): a source-string-only flip can leave
+    // the decoded bytes intact when it lands on unused Base64URL padding bits,
+    // letting verification legitimately succeed.
+    const tampered = tamperTransactionEnvelope(transaction)
+    // Direct regression: the tampered envelope's decoded body must differ from
+    // the original's. The final decoded byte (AES-GCM tag) is always flipped.
+    const separator = transaction.lastIndexOf('.')
+    const originalBody = base64UrlDecode(transaction.slice(0, separator))
+    const tamperedBody = base64UrlDecode(tampered.slice(0, separator))
+    expect(tamperedBody).toHaveLength(originalBody.length)
+    expect(tamperedBody[tamperedBody.length - 1]).not.toBe(originalBody[originalBody.length - 1])
     const tamperedResponse = await submitCode(app, primary, tampered, '123456')
     expect(tamperedResponse.status).toBe(200)
     expectEmailStage(await tamperedResponse.text(), 'expired or is no longer valid')
@@ -1289,6 +1335,33 @@ describe('email one-time-code authorization (issue #60)', () => {
     const callback = new URL(recovery.headers.get('location') ?? '')
     expect(callback.searchParams.get('state')).toBe('state-a')
     expect(grantStore.grants.size).toBe(1)
+  })
+
+  it('changes the decoded envelope bytes for every tampered transaction shape (#67)', async () => {
+    // The tamper fixture must change the DECODED authenticated bytes for any
+    // envelope, not merely the encoded string: Base64URL omits padding, so a
+    // character-level flip can land on unused padding bits and decode back to
+    // the original bytes (the pre-#67 flake). Representative envelope shapes
+    // exercise differing payload lengths — hence differing Base64URL padding
+    // remainders — plus a fresh random IV on every request.
+    const app = createTestApp()
+    const clientId = await registerTestClient(app, [TEST_REDIRECT_URI, 'https://client.example/other-callback'])
+    const shapes = [
+      oauthParams(clientId, { state: 'state-a' }),
+      oauthParams(clientId, { state: 'state-b', redirect_uri: 'https://client.example/other-callback', scope: 'mcp' }),
+      oauthParams(clientId, { state: 'x'.repeat(120) }),
+    ]
+    for (const params of shapes) {
+      const { transaction } = await requestCode(app, params, 'test@example.com')
+      const tampered = tamperTransactionEnvelope(transaction)
+      expect(tampered).not.toBe(transaction)
+      const separator = transaction.lastIndexOf('.')
+      const originalBody = base64UrlDecode(transaction.slice(0, separator))
+      const tamperedBody = base64UrlDecode(tampered.slice(0, separator))
+      expect(tamperedBody).toHaveLength(originalBody.length)
+      expect(tamperedBody[tamperedBody.length - 1]).not.toBe(originalBody[originalBody.length - 1])
+      expect(tamperedBody.some((byte, index) => byte !== originalBody[index])).toBe(true)
+    }
   })
 
   it('survives duplicate and hostile extra fields while preserving scope and state', async () => {
