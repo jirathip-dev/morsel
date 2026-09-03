@@ -358,6 +358,117 @@ jobs:
       - name: Build
         run: npm run build
 
+  bun-fly-entrypoint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pinned Bun runtime for the Fly single-process entry point (issue #72).
+      # No flyctl install and no deployment happen here: the job proves the
+      # committed real-HTTP session regression executes under Bun and that
+      # the entry point boots and serves /health + metadata.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.2.23
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bun entry point session regression over real HTTP
+        run: bun test ./server/fly-entrypoint.bun-test.ts
+
+      - name: Boot Bun entry point and probe health and metadata
+        run: |
+          server_log="$(mktemp)"
+          health_file="$(mktemp)"
+          metadata_file="$(mktemp)"
+          challenge_file="$(mktemp)"
+          serve_pid=""
+          cleanup() {
+            if [ -n "$serve_pid" ]; then
+              kill "$serve_pid" 2>/dev/null || true
+              wait "$serve_pid" 2>/dev/null || true
+            fi
+            rm -f "$server_log" "$health_file" "$metadata_file" "$challenge_file"
+          }
+          trap cleanup EXIT
+          # Synthetic non-secret values only; http://127.0.0.1 is a loopback
+          # base, which the entry point's fail-closed URL check allows.
+          SUPABASE_URL=https://supabase.invalid \
+          SUPABASE_ANON_KEY=ci-anon-key \
+          MORSEL_OAUTH_SIGNING_KEY=ci-signing-key \
+          MORSEL_PUBLIC_BASE_URL=http://127.0.0.1:8080/mcp \
+          PORT=8080 \
+            bun server/fly-entrypoint.ts >"$server_log" 2>&1 &
+          serve_pid=$!
+          for attempt in $(seq 1 60); do
+            if ! kill -0 "$serve_pid" 2>/dev/null; then
+              printf '%s\n' 'Bun entry point exited early:' >&2
+              cat "$server_log" >&2
+              exit 1
+            fi
+            if health_status="$(curl --silent --show-error --output "$health_file" --write-out '%{http_code}' \
+              http://127.0.0.1:8080/health)"; then
+              if [ "$health_status" = 200 ]; then
+                break
+              fi
+            fi
+            if [ "$attempt" -eq 60 ]; then
+              printf '%s\n' 'Bun entry point /health probe never returned 200' >&2
+              cat "$server_log" >&2
+              exit 1
+            fi
+            sleep 1
+          done
+          printf 'Bun /health status: %s\n' "$health_status"
+          cat "$health_file"
+          printf '\n'
+          if ! metadata_status="$(curl --silent --show-error --output "$metadata_file" --write-out '%{http_code}' \
+            http://127.0.0.1:8080/mcp/.well-known/oauth-authorization-server)"; then
+            printf '%s\n' 'Metadata probe failed' >&2
+            cat "$server_log" >&2
+            exit 1
+          fi
+          printf 'Bun metadata status: %s\n' "$metadata_status"
+          cat "$metadata_file"
+          printf '\n'
+          if [ "$metadata_status" != 200 ]; then
+            printf '%s\n' 'Expected metadata status 200' >&2
+            exit 1
+          fi
+          python3 - "$metadata_file" <<'PY'
+          import json
+          import sys
+
+          with open(sys.argv[1]) as handle:
+              metadata = json.load(handle)
+          if metadata.get('issuer') != 'http://127.0.0.1:8080/mcp':
+              raise SystemExit('metadata issuer must be the configured loopback public base')
+          if metadata.get('token_endpoint') != 'http://127.0.0.1:8080/mcp/token':
+              raise SystemExit('metadata token_endpoint must stay on the configured public base')
+          print('Bun metadata issuer/token_endpoint on the configured public base')
+          PY
+          if ! challenge_status="$(curl --silent --show-error --output "$challenge_file" --write-out '%{http_code}' \
+            --request POST \
+            --header 'content-type: application/json' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}' \
+            http://127.0.0.1:8080/mcp)"; then
+            printf '%s\n' 'MCP challenge probe failed' >&2
+            cat "$server_log" >&2
+            exit 1
+          fi
+          printf 'Bun MCP challenge status: %s\n' "$challenge_status"
+          if [ "$challenge_status" != 401 ]; then
+            printf '%s\n' 'Expected unauthenticated MCP challenge status 401' >&2
+            cat "$challenge_file" >&2
+            exit 1
+          fi
+
   swiftlint:
     runs-on: ubuntu-latest
     steps:

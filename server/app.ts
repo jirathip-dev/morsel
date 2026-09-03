@@ -31,6 +31,19 @@ export interface MorselAppOptions {
   now?: () => Date
   enableJsonResponse?: boolean
   basePath?: string
+  /** Serve `/health` on the raw origin root instead of below `basePath`.
+   * Default false keeps the historical route (below basePath on prefixed
+   * deployments such as the Edge Function). A Fly single-process origin has
+   * no gateway prefix to strip, so its health check must live at `/health`;
+   * when this option is set the basePath-relative health route is NOT
+   * registered (no `/mcp/health` duplicate). No-op without a basePath. */
+  originHealth?: boolean
+  /** Register the pre-#57 nested `/mcp` transport compatibility alias
+   * (basePath-relative `/mcp`, i.e. runtime `/mcp/mcp` on prefixed
+   * deployments). Default true keeps Edge Function behavior unchanged; a new
+   * Fly origin has no legacy clients, so its entry point disables the alias
+   * and never exposes a doubled `/mcp/mcp` path. */
+  legacyTransportAlias?: boolean
   oauth?: MorselOAuthOptions
 }
 
@@ -190,7 +203,15 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     }
   }
 
-  routes.get('/health', (context) => context.json({ ok: true }))
+  const healthHandler = (context: Context) => context.json({ ok: true })
+  if (options.originHealth === true && routes !== app) {
+    // Fly single-process origin: no gateway strips a function prefix, so the
+    // health check is served at the raw origin root and the basePath-relative
+    // route is omitted (no /mcp/health duplication).
+    app.get('/health', healthHandler)
+  } else {
+    routes.get('/health', healthHandler)
+  }
 
   // Only the preflight handshake: real MCP requests still go through the same
   // bearer-token authentication as before.
@@ -282,8 +303,12 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   // /functions/v1/mcp/mcp) and to /mcp on the local root server. It serves
   // the same transport state and never advertises metadata of its own;
   // nothing user-facing links to it. Retire once provisioned clients migrate.
-  routes.options('/mcp', mcpPreflight)
-  routes.all('/mcp', handleMcpTransport)
+  // A fresh Fly origin has no such clients: its entry point disables the
+  // alias so a doubled /mcp/mcp path never exists there.
+  if (options.legacyTransportAlias !== false) {
+    routes.options('/mcp', mcpPreflight)
+    routes.all('/mcp', handleMcpTransport)
+  }
 
   return routes
 }

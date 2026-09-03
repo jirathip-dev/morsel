@@ -1,0 +1,28 @@
+# Morsel MCP server — Fly.io single-process hosting (issue #72).
+#
+# One machine runs one Bun process (Dockerfile) that owns the in-memory MCP
+# session map; Supabase stays the Auth/Postgres/RLS store and Vercel stays the
+# consent page. THE MACHINE COUNT IS OPERATIONAL STATE, NOT TOML STATE: keep
+# it at exactly one with `fly scale count 1` after launch/deploy (see
+# docs/FLY_DEPLOY.md). This file intentionally contains no secrets and no
+# autoscaling/multi-process configuration.
+app = "morsel-mcp"
+primary_region = "nrt"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Always-on single machine: Fly Proxy must never stop the process that
+  # holds live MCP sessions (auto_stop_machines = false == "off").
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+
+# Health check against the raw origin root; the Bun entry point serves
+# /health there (server/app.ts originHealth; Fly has no gateway prefix).
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "15s"
+  method = "GET"
+  timeout = "3s"
+  path = "/health"

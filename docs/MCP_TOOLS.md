@@ -329,6 +329,17 @@ succeeds is the issuer-relative
 `https://<public-host>/functions/v1/mcp/.well-known/openid-configuration`.
 The advertised OAuth `resource` is the canonical transport URL itself.
 
+> **Issue #72 (single-process hosting):** this Edge Function URL is the
+> deployment that is LIVE today. The repository now also ships
+> `server/fly-entrypoint.ts`, a single Bun process for Fly.io
+> (`docs/FLY_DEPLOY.md`) whose session map survives across requests; after the
+> human deploy it becomes the canonical client-facing transport at
+> `https://morsel-mcp.fly.dev/mcp` with the same route semantics directly
+> under `/mcp` (no `/functions/v1`, no `/mcp/mcp`), and this Supabase function
+> URL is marked legacy/internal-only. Nothing in that change deploys or cuts
+> over. The OAuth discovery, registration, and consent behavior described
+> below is identical on both origins.
+
 The provider supports dynamic RFC 7591 registration, the authorization-code
 grant, and refresh tokens. The Supabase `/authorize` route is the OAuth
 backend and consent runs as a two-step email one-time-code sign-in: **sign in
