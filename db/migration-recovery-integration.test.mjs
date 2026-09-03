@@ -459,7 +459,10 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       const text = String(sql)
       if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('food_catalog_provider_cache')")) {
         drifted = true
-        db.execIn(name, `create function public.upsert_food_catalog(p_name text) returns void language sql as $fn$ select 1 $fn$;`)
+        // Overload with its default PUBLIC execute revoked: only the extra
+        // signature itself is drift (no other guard clause can see it).
+        db.execIn(name, `create function public.upsert_food_catalog(p_name text) returns void language sql as $fn$ select 1 $fn$;
+revoke execute on function public.upsert_food_catalog(text) from public;`)
       }
       return db.queryImpl(sql)
     }
