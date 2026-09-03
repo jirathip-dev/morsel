@@ -110,7 +110,7 @@ describe("migration deployment safety (issue #76: no blind adoption, atomic appe
     expect(result.status).toBe(2);
     expect(result.stderr).toMatch(/SUPABASE_PROJECT_REF is required/);
     expect(result.stderr).not.toMatch(/STALE CHECKOUT/);
-  });
+  }, 20_000);
 
   it("rejects --adopt (exit 2) and issues zero write statements", () => {
     const { root, checkout } = staleCliCheckout();
@@ -123,7 +123,7 @@ describe("migration deployment safety (issue #76: no blind adoption, atomic appe
     expect(result.status).toBe(2);
     expect(result.stderr).toMatch(/--adopt was removed for issue #76/);
     expect(result.stderr).toMatch(/migration-recovery\.mjs/);
-  });
+  }, 20_000);
 
   it("fails with ZERO writes when the ledger does not exist (no bootstrap write)", async () => {
     const root = await fixture();

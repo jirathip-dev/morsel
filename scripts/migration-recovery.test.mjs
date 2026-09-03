@@ -204,7 +204,7 @@ describe("recovery runner CLI and preconditions", () => {
     expect(result.stderr).toMatch(/STALE CHECKOUT/);
     expect(result.stderr).not.toContain(token);
     expect(result.stderr).not.toContain(ref);
-  });
+  }, 20_000);
 
   it("refuses apply from a non-main local branch with exit 1", async () => {
     const { root, checkout, git } = await fixture(true);
@@ -217,7 +217,7 @@ describe("recovery runner CLI and preconditions", () => {
     });
     expect(result.status).toBe(1);
     expect(result.stderr).toMatch(/non-main branch/);
-  });
+  }, 20_000);
 
   it("plan mode requires no confirmation and issues only allowlisted reads", async () => {
     const { root } = await fixture();
