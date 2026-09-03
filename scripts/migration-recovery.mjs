@@ -38,6 +38,7 @@ import {
   CANONICAL_CONSTRAINTS,
   CANONICAL_FILES,
   CANONICAL_INDEX_COLUMNS,
+  CANONICAL_INDEX_TABLE,
   CANONICAL_INDEXES,
   CANONICAL_NAMES,
   CANONICAL_POLICIES,
@@ -46,7 +47,6 @@ import {
   CANONICAL_TABLES,
   CONVERGE_STATEMENTS,
   EXACT_POLICY_TABLES,
-  EXACT_UNIQUE_TABLES,
   FOOD_IMAGES_BUCKET,
   FUNCTION_DEFINITIONS,
   LEDGER_DDL,
@@ -57,6 +57,7 @@ import {
   SUPERSEDED_INDEXES,
   TABLE_GRANTS,
 } from "./migration-recovery-contracts.mjs";
+import { FULL_GUARD_SQL } from "./migration-recovery-guards.mjs";
 
 export const CONFIRMATION_PHRASE = "morsel-issue-76-prod-schema-reconcile-apply";
 
@@ -163,105 +164,33 @@ export function assertKnownRead(sql) {
 
 // ---- per-step transaction assembly (static pieces only) --------------------
 
-const GUARD_SQL = Object.freeze({
-  "0001_init.sql": `do $recovery$
-begin
-  if (select count(*) from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relname in ('users','goals','meal_logs','meal_items','water_logs','weight_logs','food_catalog') and c.relkind = 'r') < 7 then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0002_targets.sql": `do $recovery$
-begin
-  if not exists (select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relname = 'profiles' and c.relkind = 'r')
-     or not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'goals' and column_name = 'source') then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0003_atomic_meals_and_users_rls.sql": `do $recovery$
-begin
-  if not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'users' and policyname = 'users_select_own')
-     or not exists (select 1 from pg_proc where oid = to_regprocedure('public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb)')) then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0004_store_assets.sql": `do $recovery$
-begin
-  if not exists (select 1 from storage.buckets where id = 'food-images' and public = false)
-     or not exists (select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname in ('food_images_insert_own','food_images_select_own','food_images_update_own','food_images_delete_own'))
-     or not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'food_catalog' and policyname = 'food_catalog_select_authenticated') then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0005_oauth_authorization_grants.sql": `do $recovery$
-begin
-  if not exists (select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relname = 'oauth_authorization_grants' and c.relkind = 'r')
-     or not exists (select 1 from pg_proc where oid = to_regprocedure('public.claim_oauth_authorization_grant(text, text)'))
-     or not exists (select 1 from pg_indexes where schemaname = 'public' and tablename = 'oauth_authorization_grants' and indexname = 'oauth_authorization_grants_expires_at_idx') then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0006_food_catalog_provider_cache.sql": `do $recovery$
-begin
-  if not exists (select 1 from pg_proc where oid = to_regprocedure('public.upsert_food_catalog(jsonb)')) then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0007_weight_logs.sql": `do $recovery$
-begin
-  if exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'weight_logs' and column_name = 'logged_at')
-     or not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'weight_logs' and column_name = 'measured_at')
-     or not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'weight_logs' and column_name = 'source')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.weight_logs'::regclass and conname = 'weight_logs_source_check' and contype = 'c')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.weight_logs'::regclass and conname = 'weight_logs_kg_positive' and contype = 'c')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.weight_logs'::regclass and conname = 'weight_logs_user_measured_unique' and contype = 'u')
-     or not exists (select 1 from pg_indexes where schemaname = 'public' and tablename = 'weight_logs' and indexname = 'weight_logs_user_measured_idx')
-     or exists (select 1 from pg_indexes where schemaname = 'public' and tablename = 'weight_logs' and indexname = 'weight_logs_user_idx') then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0008_energy_burned_logs.sql": `do $recovery$
-begin
-  if not exists (select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and c.relname = 'energy_burned_logs' and c.relkind = 'r')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.energy_burned_logs'::regclass and conname = 'energy_burned_logs_kcal_positive' and contype = 'c')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.energy_burned_logs'::regclass and conname = 'energy_burned_logs_source_check' and contype = 'c')
-     or not exists (select 1 from pg_constraint where conrelid = 'public.energy_burned_logs'::regclass and conname = 'energy_burned_logs_user_burned_unique' and contype = 'u')
-     or not exists (select 1 from pg_indexes where schemaname = 'public' and tablename = 'energy_burned_logs' and indexname = 'energy_burned_logs_user_burned_idx')
-     or not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'energy_burned_logs' and policyname = 'energy_burned_logs_all_own') then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-  "0009_goals_fractional_calories.sql": `do $recovery$
-begin
-  if not exists (select 1 from information_schema.columns where table_schema = 'public' and table_name = 'goals' and column_name = 'calorie_target_kcal' and data_type = 'numeric' and numeric_scale = 1) then
-    raise exception 'recovery postcondition failed';
-  end if;
-end
-$recovery$`,
-});
+// ---- per-step transaction assembly (static pieces only) --------------------
+//
+// Every record/converge transaction embeds the migration's COMPLETE static
+// SQL guard (FULL_GUARD_SQL, see migration-recovery-guards.mjs) BEFORE the
+// ledger insert: the guard re-verifies every contract dimension the JS
+// classifier accepted, inside the SAME transaction, so drift between the
+// preflight inventory and the write (or an incomplete converge outcome)
+// aborts with NO ledger row. Guards are allowlist members like everything
+// else here — fixed strings assembled at module load, never interpolated
+// with runtime values.
 
 const ledgerBootstrapTx = `begin;
 ${LEDGER_DDL};
 commit;`;
-const ledgerRecordTx = (name) => `begin;
+const ledgerRecordTx = (file, name) => `begin;
+${FULL_GUARD_SQL[file]};
 insert into public.migration_ledger (name) values ('${name}') on conflict (name) do nothing;
 commit;`;
 const convergeTx = (file, name) => `begin;
 ${CONVERGE_STATEMENTS[file].join(";\n")};
-${GUARD_SQL[file]};
+${FULL_GUARD_SQL[file]};
 insert into public.migration_ledger (name) values ('${name}') on conflict (name) do nothing;
 commit;`;
 
 const writeTxSet = new Set([
   ledgerBootstrapTx,
-  ...CANONICAL_NAMES.map((name) => ledgerRecordTx(name)),
+  ...CANONICAL_FILES.map((file, index) => ledgerRecordTx(file, CANONICAL_NAMES[index])),
   ...CANONICAL_FILES.map((file, index) => convergeTx(file, CANONICAL_NAMES[index])),
 ]);
 
@@ -491,13 +420,49 @@ export function verifyMigration(file, snapshots) {
       }
     }
   }
-  for (const table of EXACT_UNIQUE_TABLES) {
-    if (!((table === "weight_logs" && file === "0007_weight_logs.sql") || (table === "energy_burned_logs" && file === "0008_energy_burned_logs.sql"))) continue;
-    const constraintNames = new Set(canonicalConstraintFor(table).map((c) => c.name));
+  // Exactness on canonical tables owned by this migration: unexpected
+  // columns, constraints, or unique indexes are structural drift and must
+  // classify BLOCKED_AMBIGUOUS (never ledger-recorded). Extra NON-unique
+  // performance indexes stay explicitly tolerated (informational only —
+  // they do not change the canonical end-state classification).
+  for (const table of CANONICAL_TABLES) {
+    if (TABLE_OWNER[table] !== file) continue;
+    const allowedColumns = new Set();
+    for (const f of CANONICAL_FILES) {
+      for (const column of CANONICAL_COLUMNS[f]?.[table] ?? []) allowedColumns.add(column.name);
+    }
+    for (const f of CANONICAL_FILES) {
+      for (const qualified of ABSENT_COLUMNS[f] ?? []) {
+        // Old-modeled columns (e.g. weight_logs.logged_at pre-rename) are
+        // expected input to the modeled repair, not unexpected drift; their
+        // end-state absence is enforced by the absent-column check.
+        if (qualified.startsWith(`${table}.`)) allowedColumns.add(qualified.split(".")[1]);
+      }
+    }
+    const observedColumns = snapshots.columnsByTable.get(table);
+    if (observedColumns) {
+      for (const name of observedColumns.keys()) {
+        if (!allowedColumns.has(name)) {
+          bad("column", `${table}.${name}`, `unexpected column (not part of the canonical manifest for public.${table})`);
+        }
+      }
+    }
+    const canonicalConstraintNames = new Set(canonicalConstraintFor(table).map((c) => c.name));
+    for (const observed of snapshots.constraintsByTable.get(table) ?? []) {
+      if (!canonicalConstraintNames.has(observed.conname)) {
+        bad("constraint", `${table}.${observed.conname}`, `unexpected constraint (not part of the canonical manifest for public.${table})`);
+      }
+    }
+    const canonicalPlainIndexNames = new Set(
+      Object.entries(CANONICAL_INDEX_TABLE)
+        .filter(([, t]) => t === table)
+        .map(([name]) => name),
+    );
     for (const index of snapshots.indexes.filter((i) => i.table_name === table)) {
-      if (constraintNames.has(index.index_name)) continue; // constraint-backed
+      if (canonicalConstraintNames.has(index.index_name)) continue; // constraint-backed
+      if (canonicalPlainIndexNames.has(index.index_name)) continue; // canonical plain index
       if (/^create unique index/i.test(index.indexdef ?? "")) {
-        bad("index", `${table}.${index.index_name}`, "non-canonical unique index present");
+        bad("index", `${table}.${index.index_name}`, `unexpected unique index (not part of the canonical manifest for public.${table})`);
       }
     }
   }
@@ -973,7 +938,7 @@ export async function run({ ref, token, root, apply = false, confirm = null, que
       applied.push(file);
       log.log(`✓ converged + recorded ${file}`);
     } else if (status.state === "VERIFIED_PRESENT") {
-      await write(ledgerRecordTx(name), `ledger record ${file}`);
+      await write(ledgerRecordTx(file, name), `ledger record ${file}`);
       log.log(`✓ recorded ${file} (verified present, no converge needed)`);
     }
   }

@@ -11,6 +11,8 @@ import { join, resolve } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { run, CONFIRMATION_PHRASE } from '../scripts/migration-recovery.mjs'
 import { run as applyMigrationsRun } from '../scripts/apply-migrations.mjs'
+import { CANONICAL_CONSTRAINTS, CANONICAL_POLICIES, normalizeExpr } from '../scripts/migration-recovery-contracts.mjs'
+import { RECOVERY_NORM_BODY } from '../scripts/migration-recovery-guards.mjs'
 
 const ROOT = resolve(process.cwd())
 const MIGRATIONS = join(ROOT, 'db', 'migrations')
@@ -459,4 +461,155 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       await rm(tempRoot, { recursive: true, force: true })
     }
   }, 60_000)
+
+  it('ledger-only race: schema drift between preflight and the record transaction aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_raceschema')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      // Interfere only between preflight and the FIRST record transaction
+      // (0001 init): drop a load-bearing nullable column mid-flight.
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("migration_ledger (name) values ('init')")) {
+        drifted = true
+        db.execIn(name, 'alter table public.users drop column display_name;')
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    // The in-transaction guard fired: NO ledger row was recorded and the
+    // failed transaction rolled back completely.
+    const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
+    const ledgerTableStillThere = db.execIn(name, `select count(*) from pg_class where relname = 'migration_ledger'`).trim()
+    expect(ledger).toBe('0')
+    expect(ledgerTableStillThere).toBe('1')
+  }, 90_000)
+
+  it('ledger-only race: security/function drift between preflight and the record transaction aborts with NO ledger row', async () => {
+    const name = cluster.createDatabase('rec_racefunc')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
+    db.execIn(name, LEDGER_DDL)
+    const prefix = ['init', 'targets', 'atomic_meals_and_users_rls', 'store_assets', 'oauth_authorization_grants']
+    for (const n of prefix) db.execIn(name, `insert into public.migration_ledger (name) values ('${n}')`)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      // The next record is 0006 (food_catalog_provider_cache): replace the
+      // canonical SECURITY DEFINER body right before its ledger transaction.
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('food_catalog_provider_cache')")) {
+        drifted = true
+        db.execIn(name, `create or replace function public.upsert_food_catalog(p_rows jsonb)
+returns void language sql security definer as $fn$ select 1 $fn$;`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
+    const driftedRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'food_catalog_provider_cache'`).trim()
+    expect(ledger).toBe('5') // prefix rows only; the raced record never landed
+    expect(driftedRow).toBe('0')
+  }, 90_000)
+
+  it('converge-path race: mid-flight drift makes the guard abort the whole converge transaction (no ledger row)', async () => {
+    const name = cluster.createDatabase('rec_raceconverge')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, ['0001_init.sql', '0002_targets.sql', '0003_atomic_meals_and_users_rls.sql', '0004_store_assets.sql', '0005_oauth_authorization_grants.sql', '0006_food_catalog_provider_cache.sql'])
+    // Old-only weight_logs (0001 shape, 0007 not applied) = modeled 0007 repair.
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      // Between preflight (old-only REPAIR) and the 0007 converge transaction,
+      // a concurrent actor creates measured_at: the converge rename becomes a
+      // no-op and the end state would keep logged_at -> the guard must abort.
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("values ('weight_logs')")) {
+        drifted = true
+        db.execIn(name, 'alter table public.weight_logs add column measured_at timestamptz not null default now();')
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    const ledger = db.execIn(name, `select count(*) from public.migration_ledger where name = 'weight_logs'`).trim()
+    expect(ledger).toBe('0')
+    const sourceCol = db.execIn(name, `select count(*) from information_schema.columns where table_schema='public' and table_name='weight_logs' and column_name='source'`).trim()
+    expect(sourceCol).toBe('0') // the aborted converge rolled back its own statements
+  }, 90_000)
+
+  it('plan blocks an extra nullable column / extra CHECK / extra FK on a canonical table (never ledger-recorded)', async () => {
+    const name = cluster.createDatabase('rec_extras')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, ['0001_init.sql'])
+    db.execIn(name, `
+      alter table public.users add column notify_prefs jsonb;
+      alter table public.goals add constraint goals_calorie_max_check check (calorie_target_kcal <= 10000);
+      alter table public.meal_logs add constraint meal_logs_extra_fkey foreign key (user_id) references public.users(id);
+    `)
+    const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(plan.planBlocked).toBe(true)
+    expect(plan.statuses['0001_init.sql'].state).toBe('BLOCKED_AMBIGUOUS')
+    const labels = plan.statuses['0001_init.sql'].entries.filter((e) => !e.ok).map((e) => e.label)
+    expect(labels.some((l) => l.includes('users.notify_prefs'))).toBe(true)
+    expect(labels.some((l) => l.includes('goals_calorie_max_check'))).toBe(true)
+    expect(labels.some((l) => l.includes('meal_logs_extra_fkey'))).toBe(true)
+    const executed = []
+    const recording = async (sql) => {
+      executed.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/blocked/)
+    expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
+    expect(db.execIn(name, `select count(*) from pg_class where relname = 'migration_ledger'`).trim()).toBe('0')
+  }, 60_000)
+
+  it('JS normalizeExpr and the SQL recovery_norm guard normalizer agree on the canonical corpus and live renderings', async () => {
+    const name = cluster.createDatabase('rec_normpin')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, CANONICAL_FILES)
+    // Public copy in the disposable scratch DB so each psql session can use
+    // it (pg_temp is per-session; the guard creates its own inside the tx).
+    db.execIn(name, `create or replace function public.recovery_norm_sql(p text) returns text
+language plpgsql immutable as $norm$
+${RECOVERY_NORM_BODY}
+$norm$;`)
+    const sqlNorm = (text) => db.execIn(name, `select public.recovery_norm_sql($qt$${text}$qt$)`).trim()
+    const corpus = []
+    for (const policies of Object.values(CANONICAL_POLICIES)) {
+      for (const policy of policies) {
+        if (policy.qual !== undefined) corpus.push(policy.qual)
+        if (policy.withCheck !== undefined) corpus.push(policy.withCheck)
+      }
+    }
+    for (const tables of Object.values(CANONICAL_CONSTRAINTS)) {
+      for (const constraints of Object.values(tables)) {
+        for (const constraint of constraints) {
+          if (constraint.kind === 'c') corpus.push(constraint.def)
+        }
+      }
+    }
+    expect(corpus.length).toBeGreaterThan(30)
+    for (const text of corpus) {
+      expect(sqlNorm(text), `SQL norm diverges for [${text}]`).toBe(normalizeExpr(text))
+    }
+    // Live deparse renderings must normalize identically in SQL and JS and to
+    // the canonical authored forms.
+    const renderings = [
+      '(( SELECT auth.uid() AS uid) = user_id)',
+      '(( SELECT auth.uid() AS uid) = ( SELECT meal_logs.user_id\n  FROM meal_logs\n WHERE (meal_logs.id = meal_items.meal_log_id)))',
+      "((bucket_id = 'food-images'::text) AND ((storage.foldername(name))[1] = ( SELECT (auth.uid())::text AS uid)))",
+      "CHECK ((source = ANY (ARRAY['manual'::text, 'apple_health'::text])))",
+      'CHECK (((height_cm >= (100)::numeric) AND (height_cm <= (250)::numeric)))',
+    ]
+    for (const rendering of renderings) {
+      expect(sqlNorm(rendering)).toBe(normalizeExpr(rendering))
+    }
+    // And a discriminating pair that must NEVER collapse in SQL either.
+    const sqlDistinct = sqlNorm('a = 1 and (b = 2 or c = 3)')
+    expect(sqlDistinct).not.toBe(sqlNorm('(a = 1 and b = 2) or c = 3'))
+    expect(sqlDistinct).not.toBe(normalizeExpr('(a = 1 and b = 2) or c = 3'))
+  }, 90_000)
 })

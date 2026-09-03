@@ -64,7 +64,7 @@ async function fixture(checkout = false) {
     git(checkoutDir, "add", "db");
     git(checkoutDir, "commit", "-m", "migrations");
     git(checkoutDir, "push", "origin", "main");
-    for (const script of ["migration-recovery.mjs", "migration-recovery-contracts.mjs", "migration-safety.mjs"]) {
+    for (const script of ["migration-recovery.mjs", "migration-recovery-contracts.mjs", "migration-recovery-guards.mjs", "migration-safety.mjs"]) {
       cpSync(fileURLToPath(new URL(`./${script}`, import.meta.url)), join(checkoutDir, "scripts", script));
     }
     return { root, checkout: checkoutDir, git, remote };
@@ -409,6 +409,90 @@ describe("classification and conflict logic", () => {
     const status = classifyMigration("0007_weight_logs.sql", snapshots, new Set(), true);
     expect(status.state).toBe("BLOCKED_AMBIGUOUS");
   });
+
+  // Canonical 0008 end-state snapshot (full contract) used by the exactness
+  // (extra-drift) tests below.
+  function energyCanonical() {
+    const snapshots = snapshotOf();
+    snapshots.tables.add("energy_burned_logs");
+    const cols = new Map([
+      ["id", { data_type: "uuid", is_nullable: "NO", column_default: "gen_random_uuid()" }],
+      ["user_id", { data_type: "uuid", is_nullable: "NO", column_default: "" }],
+      ["burned_at", { data_type: "timestamp with time zone", is_nullable: "NO", column_default: "" }],
+      ["active_kcal", { data_type: "numeric", is_nullable: "NO", column_default: "" }],
+      ["source", { data_type: "text", is_nullable: "NO", column_default: "'manual'::text" }],
+    ]);
+    snapshots.columnsByTable.set("energy_burned_logs", cols);
+    snapshots.constraintsByTable.set("energy_burned_logs", [
+      { conname: "energy_burned_logs_pkey", contype: "p", columns: ["id"], definition: "PRIMARY KEY (id)", ref_table: null, confdeltype: null },
+      { conname: "energy_burned_logs_user_id_fkey", contype: "f", columns: ["user_id"], definition: "FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE", ref_table: "users", confdeltype: "c" },
+      { conname: "energy_burned_logs_kcal_positive", contype: "c", columns: ["active_kcal"], definition: "CHECK ((active_kcal > (0)::numeric))", ref_table: null, confdeltype: null },
+      { conname: "energy_burned_logs_source_check", contype: "c", columns: ["source"], definition: "CHECK ((source = ANY (ARRAY['manual'::text, 'apple_health'::text])))", ref_table: null, confdeltype: null },
+      { conname: "energy_burned_logs_user_burned_unique", contype: "u", columns: ["user_id", "burned_at"], definition: "UNIQUE (user_id, burned_at)", ref_table: null, confdeltype: null },
+    ]);
+    snapshots.indexes = [
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_pkey", indexdef: "CREATE UNIQUE INDEX energy_burned_logs_pkey ON public.energy_burned_logs USING btree (id)" },
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_user_id_fkey", indexdef: "CREATE INDEX energy_burned_logs_user_id_fkey ON public.energy_burned_logs USING btree (user_id)" },
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_kcal_positive", indexdef: "CREATE INDEX energy_burned_logs_kcal_positive ON public.energy_burned_logs USING btree (active_kcal)" },
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_source_check", indexdef: "CREATE INDEX energy_burned_logs_source_check ON public.energy_burned_logs USING btree (source)" },
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_user_burned_unique", indexdef: "CREATE UNIQUE INDEX energy_burned_logs_user_burned_unique ON public.energy_burned_logs USING btree (user_id, burned_at)" },
+      { table_name: "energy_burned_logs", index_name: "energy_burned_logs_user_burned_idx", indexdef: "CREATE INDEX energy_burned_logs_user_burned_idx ON public.energy_burned_logs USING btree (user_id, burned_at DESC)" },
+    ];
+    snapshots.rls.set("energy_burned_logs", { rls_enabled: true });
+    snapshots.policies = [
+      { schema: "public", table_name: "energy_burned_logs", policy_name: "energy_burned_logs_all_own", command: "ALL", roles: ["public"], qual: "auth.uid() = user_id", with_check: "auth.uid() = user_id" },
+    ];
+    return snapshots;
+  }
+
+  it("classifies the canonical 0008 end state as VERIFIED_PRESENT", () => {
+    const status = classifyMigration("0008_energy_burned_logs.sql", energyCanonical(), new Set(), false);
+    expect(status.state).toBe("VERIFIED_PRESENT");
+    expect(status.entries.filter((e) => !e.ok)).toHaveLength(0);
+  });
+
+  it("blocks a harmless-looking extra nullable column (never ledger-recorded)", () => {
+    const snapshots = energyCanonical();
+    snapshots.columnsByTable.get("energy_burned_logs").set("flagged", { data_type: "boolean", is_nullable: "YES", column_default: "" });
+    const status = classifyMigration("0008_energy_burned_logs.sql", snapshots, new Set(), false);
+    expect(status.state).toBe("BLOCKED_AMBIGUOUS");
+    const extra = status.entries.find((e) => e.label === "energy_burned_logs.flagged");
+    expect(extra?.reason).toMatch(/unexpected column/);
+  });
+
+  it("blocks an extra restrictive CHECK and an extra FK constraint", () => {
+    const withExtra = classifyMigration(
+      "0008_energy_burned_logs.sql",
+      energyCanonical(),
+      new Set(),
+      false,
+    );
+    expect(withExtra.state).toBe("VERIFIED_PRESENT");
+    const snapshots = energyCanonical();
+    snapshots.constraintsByTable.get("energy_burned_logs").push(
+      { conname: "energy_burned_logs_active_kcal_max", contype: "c", columns: ["active_kcal"], definition: "CHECK ((active_kcal <= (5000)::numeric))", ref_table: null, confdeltype: null },
+      { conname: "energy_burned_logs_extra_fkey", contype: "f", columns: ["id"], definition: "FOREIGN KEY (id) REFERENCES meal_logs(id) ON DELETE CASCADE", ref_table: "meal_logs", confdeltype: "c" },
+    );
+    const status = classifyMigration("0008_energy_burned_logs.sql", snapshots, new Set(), false);
+    expect(status.state).toBe("BLOCKED_AMBIGUOUS");
+    expect(status.entries.some((e) => e.label?.includes("energy_burned_logs_active_kcal_max"))).toBe(true);
+    expect(status.entries.some((e) => e.label?.includes("energy_burned_logs_extra_fkey"))).toBe(true);
+  });
+
+  it("blocks an extra unique index on a canonical table but tolerates a non-unique one", () => {
+    const blocked = energyCanonical();
+    blocked.indexes.push({ table_name: "energy_burned_logs", index_name: "energy_burned_logs_user_burned_uq2", indexdef: "CREATE UNIQUE INDEX energy_burned_logs_user_burned_uq2 ON public.energy_burned_logs USING btree (user_id, burned_at)" });
+    const status = classifyMigration("0008_energy_burned_logs.sql", blocked, new Set(), false);
+    expect(status.state).toBe("BLOCKED_AMBIGUOUS");
+    expect(status.entries.some((e) => e.label?.includes("energy_burned_logs_user_burned_uq2"))).toBe(true);
+
+    // Explicitly tolerated: extra NON-unique performance indexes do not
+    // change the end-state classification.
+    const tolerated = energyCanonical();
+    tolerated.indexes.push({ table_name: "energy_burned_logs", index_name: "energy_burned_logs_source_lookup_idx", indexdef: "CREATE INDEX energy_burned_logs_source_lookup_idx ON public.energy_burned_logs USING btree (source)" });
+    const ok = classifyMigration("0008_energy_burned_logs.sql", tolerated, new Set(), false);
+    expect(ok.state).toBe("VERIFIED_PRESENT");
+  });
 });
 
 describe("contract pins and expression normalization", () => {
@@ -421,6 +505,69 @@ describe("contract pins and expression normalization", () => {
     expect(normalizeExpr("CHECK (((height_cm >= (100)::numeric) AND (height_cm <= (250)::numeric)))")).toBe(
       normalizeExpr("height_cm >= 100 and height_cm <= 250"),
     );
+    expect(normalizeExpr("CHECK (((age_years >= 10) AND (age_years <= 100)))")).toBe(
+      normalizeExpr("age_years >= 10 and age_years <= 100"),
+    );
+  });
+
+  it("preserves semantic grouping: a and (b or c) never equals (a and b) or c", () => {
+    expect(normalizeExpr("(a and (b or c))")).not.toBe(normalizeExpr("((a and b) or c)"));
+    expect(normalizeExpr("a and (b or c)")).not.toBe(normalizeExpr("(a and b) or c"));
+    expect(normalizeExpr("(a or b) and c")).not.toBe(normalizeExpr("a or (b and c)"));
+    expect(normalizeExpr("not (a = b and c = d)")).not.toBe(normalizeExpr("(not a = b) and c = d"));
+  });
+
+  it("never rewrites string-literal contents and never conflates literals", () => {
+    expect(normalizeExpr("name = 'a))b'")).toBe("name='a))b'");
+    expect(normalizeExpr("name = 'a(b'")).toBe("name='a(b'");
+    expect(normalizeExpr("name = 'x = y' and user_id = 1")).toBe("name='x = y'anduser_id=1");
+    expect(normalizeExpr("source = 'manual'")).not.toBe(normalizeExpr("source = 'apple_health'"));
+    expect(normalizeExpr("unit in ('g', 'ml')")).not.toBe(normalizeExpr("unit in ('g', 'mg')"));
+  });
+
+  it("keeps near-match drift expressions distinct (operator/function/role changes)", () => {
+    // operator change
+    expect(normalizeExpr("active_kcal > 0")).not.toBe(normalizeExpr("active_kcal >= 0"));
+    // function-call change (authorization semantics)
+    expect(normalizeExpr("(select auth.uid()) = user_id")).not.toBe(
+      normalizeExpr("(select current_setting('request.jwt.claim.sub', true))::uuid = user_id"),
+    );
+    // role/subject change inside the same shape
+    expect(normalizeExpr("(select auth.uid()) = user_id")).not.toBe(normalizeExpr("(select auth.uid()) = id"));
+    expect(normalizeExpr("auth.uid() = user_id")).not.toBe(normalizeExpr("auth.uid() = owner_id"));
+    // boolean connective change
+    expect(normalizeExpr("bucket_id = 'food-images' and (storage.foldername(name))[1] = (select auth.uid()::text)")).not.toBe(
+      normalizeExpr("bucket_id = 'food-images' or (storage.foldername(name))[1] = (select auth.uid()::text)"),
+    );
+  });
+
+  it("equalizes only proven deparse noise (aliases, literal casts, call parens, wraps)", () => {
+    // alias + whole-expression wrap noise
+    expect(normalizeExpr("(( SELECT auth.uid() AS uid) = ( SELECT meal_logs.user_id\n  FROM meal_logs\n WHERE (meal_logs.id = meal_items.meal_log_id)))")).toBe(
+      normalizeExpr("(select auth.uid()) = (select meal_logs.user_id from meal_logs where meal_logs.id = meal_items.meal_log_id)"),
+    );
+    // storage render: literal casts, call parens, alias, wraps
+    expect(normalizeExpr("((bucket_id = 'food-images'::text) AND ((storage.foldername(name))[1] = ( SELECT (auth.uid())::text AS uid)))")).toBe(
+      normalizeExpr("bucket_id = 'food-images' and (storage.foldername(name))[1] = (select auth.uid()::text)"),
+    );
+    // no-arg call parens alone
+    expect(normalizeExpr("(auth.uid()) = user_id")).toBe(normalizeExpr("auth.uid() = user_id"));
+    // redundant comparison grouping parens
+    expect(normalizeExpr("(auth.uid() = user_id)")).toBe(normalizeExpr("auth.uid() = user_id"));
+  });
+
+  it("SQL guard normalizer is assembled from the same static pieces (guards module loads)", async () => {
+    const guards = await import("./migration-recovery-guards.mjs");
+    const { FULL_GUARD_SQL, RECOVERY_NORM_BODY } = guards;
+    for (const file of CANONICAL_FILES) {
+      const guard = FULL_GUARD_SQL[file];
+      expect(guard).toContain("recovery postcondition failed");
+      expect(guard).toContain("pg_temp.recovery_norm");
+      expect(guard).toContain(RECOVERY_NORM_BODY.trim().slice(0, 60));
+      // Static only: no runtime interpolation surface ($ markers beyond the
+      // fixed dollar-quote tags and plpgsql variables).
+      expect(guard).not.toMatch(/\$\{/);
+    }
   });
 
   it("FUNCTION_DEFINITIONS bodies are byte-identical to the migration files", () => {

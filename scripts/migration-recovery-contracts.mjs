@@ -5,11 +5,20 @@
 // explicit apply confirmation). Nothing here is a migration file: 0001–0009
 // stay byte-immutable and are never executed by the recovery runner.
 //
-// SQL expression expectations are authored in deparse-stable form and compared
-// with normalizeExpr() (lowercase, alias/cast/whitespace/paren-insensitive,
-// IN-list canonicalization), so server-rendering differences (e.g. PG 15 vs
-// 17 subquery alias text, redundant parens, literal casts) do not produce
-// false BLOCKED_AMBIGUOUS classifications.
+// SQL expression expectations are authored in file form and compared with
+// normalizeExpr(), a CONSERVATIVE normalizer that preserves semantic grouping
+// (it never deletes parentheses wholesale and never rewrites string-literal
+// contents). It absorbs only proven parser/deparser noise: whitespace/case,
+// deparse subquery aliases ("AS uid"), literal type casts introduced by the
+// deparser, parentheses deparse adds around no-arg function calls, plain
+// comparison operands and whole expressions, and the = ANY (ARRAY[...]) IN
+// rendering. Everything else — grouping parens, operators, identifiers,
+// literals — survives byte-for-byte, so expressions whose grouping changes
+// authorization/constraint semantics (a AND (b OR c) vs (a AND b) OR c) or
+// whose literals differ can never compare equal. The same pass structure is
+// implemented in SQL (RECOVERY_NORM in migration-recovery-guards.mjs) for the
+// in-transaction guards; the suites cross-pin both implementations against
+// real PostgreSQL renderings.
 
 export const CANONICAL_NAMES = [
   "init",
@@ -40,25 +49,266 @@ export const LEDGER_DDL =
 
 // ---- normalization ---------------------------------------------------------
 
-// Normalize a SQL expression/definition fragment so canonical-authored text
-// and server-deparsed text compare equal despite rendering differences.
+// Conservative expression normalization shared by classification, the
+// in-transaction SQL guards (mirror implementation RECOVERY_NORM), and the
+// unit/integration suites. Rules (quote-aware; string-literal contents are
+// never rewritten):
+//   1. drop a leading constraint-kind marker (CHECK/UNIQUE/PRIMARY KEY/...)
+//   2. lowercase outside literals; drop whitespace
+//   3. drop deparse subquery aliases: "as <ident>"
+//   4. drop deparser literal casts ('x'::text, (0)::numeric)
+//   5. drop parentheses deparse adds around no-arg calls: (auth.uid())
+//   6. drop parentheses around plain comparisons (no boolean keyword inside)
+//   7. drop balanced whole-expression wraps (<= 3)
+//   8. rewrite deparse IN rendering: x = any(array['a','b']) => x in('a','b')
+const WORD = /^[a-zA-Z0-9_]+$/;
+const NORM_CAST_TYPES = new Set(["text", "numeric", "integer", "bigint", "smallint", "boolean"]);
+const NUM_CAST_TYPES = new Set(["numeric", "integer", "bigint", "smallint"]);
+
+function isWordBoundaryBefore(original, index) {
+  if (index <= 0) return true;
+  return !/^[a-zA-Z0-9_]$/.test(original[index - 1]);
+}
+
+// Quote-aware helpers shared by the passes below.
+function scanQuotedLiteral(original, start) {
+  // original[start] === "'": return index just past the closing quote.
+  let i = start + 1;
+  while (i < original.length) {
+    if (original[i] === "'") {
+      if (i + 1 < original.length && original[i + 1] === "'") {
+        i += 1;
+      } else {
+        return i + 1;
+      }
+    }
+    i += 1;
+  }
+  return original.length;
+}
+
+function findMatchingParen(original, open) {
+  // original[open] === "(": quote-aware depth walk; returns close index or -1.
+  let depth = 1;
+  let i = open + 1;
+  let inLiteral = false;
+  while (i < original.length) {
+    const c = original[i];
+    if (!inLiteral && c === "'") {
+      i = scanQuotedLiteral(original, i);
+      continue;
+    }
+    if (c === "(") depth += 1;
+    else if (c === ")") {
+      depth -= 1;
+      if (depth === 0) return i;
+    }
+    i += 1;
+  }
+  return -1;
+}
+
+function parenContentInfo(original, open, close) {
+  // Inspect content original[open+1 .. close-1]: does it contain a
+  // top-level comparison operator and/or a top-level boolean keyword?
+  // Runs on whitespace-preserving text so keyword boundaries are real.
+  let hasComparison = false;
+  let hasBoolWord = false;
+  let depth = 0;
+  let i = open + 1;
+  while (i < close) {
+    const c = original[i];
+    if (c === "'") {
+      i = scanQuotedLiteral(original, i);
+      continue;
+    }
+    if (c === "(") depth += 1;
+    else if (c === ")") depth -= 1;
+    else if (depth === 0 && !hasComparison && c === "=") hasComparison = true;
+    else if (depth === 0 && !hasComparison && c === ">") hasComparison = true;
+    else if (depth === 0 && !hasComparison && c === "<") hasComparison = true;
+    else if (depth === 0 && !hasComparison && c === "!") hasComparison = true;
+    else if (depth === 0 && !hasComparison && c === "~") hasComparison = true;
+    else if (depth === 0 && !hasBoolWord && /^[a-zA-Z]$/.test(c)) {
+      const wordMatch = /^[a-zA-Z0-9_]+/.exec(original.slice(i, close));
+      const word = wordMatch ? wordMatch[0] : c;
+      const lower = word.toLowerCase();
+      if (lower === "and" || lower === "or" || lower === "not") hasBoolWord = true;
+      i += Math.max(word.length - 1, 0);
+    }
+    i += 1;
+  }
+  return { hasComparison, hasBoolWord };
+}
+
+// Drop parentheses deparse adds around plain comparisons. Parentheses whose
+// content groups with and/or/not are preserved (semantic grouping survives).
+function stripComparisonParens(input) {
+  let s = input;
+  let changed = true;
+  let passes = 0;
+  while (changed && passes < 8) {
+    changed = false;
+    passes += 1;
+    for (let i = 0; i < s.length; i += 1) {
+      if (s[i] !== "(") continue;
+      const close = findMatchingParen(s, i);
+      if (close < 0) break;
+      if (close <= i + 1) {
+        i = close;
+        continue;
+      }
+      const { hasComparison, hasBoolWord } = parenContentInfo(s, i, close);
+      if (hasComparison && !hasBoolWord) {
+        s = s.slice(0, i) + s.slice(i + 1, close) + s.slice(close + 1);
+        changed = true;
+        break;
+      }
+    }
+  }
+  return s;
+}
+
 export function normalizeExpr(text) {
   if (text === null || text === undefined) return null;
   let s = String(text).trim();
-  // leading constraint-kind marker (observed pg_get_constraintdef output)
-  s = s.replace(/^(check|unique|primary key|foreign key)\s+/i, "");
-  // deparse-injected subquery aliases: "( SELECT auth.uid() AS uid)" etc.
-  s = s.replace(/\bas\s+[a-z0-9_]+/gi, "");
-  s = s.toLowerCase();
-  s = s.replace(/\s+/g, "");
-  // literal type casts introduced by deparse
-  s = s.replace(/::(?:text|numeric|integer|bigint|smallint|boolean|uuid|jsonb|timestamptz|timestamp)/g, "");
-  // IN-list canonicalization: "x = ANY (ARRAY['a','b'])" => "x in('a','b')"
-  s = s.replace(/=any\(\s*array\[/g, "in(");
-  s = s.replace(/\]\)/g, ")");
-  // strip all grouping parentheses (both sides receive the same transform)
-  s = s.replace(/[()]/g, "");
-  return s;
+
+  // 1. leading constraint-kind marker (observed pg_get_constraintdef output)
+  const kindMatch = /^([a-z_]+)(?:\s+|$)/i.exec(s);
+  if (kindMatch) {
+    const kind = kindMatch[1].toLowerCase();
+    if (kind === "check" || kind === "unique") {
+      s = s.slice(kindMatch[0].length).trim();
+    } else if (kind === "primary" || kind === "foreign") {
+      const rest = s.slice(kindMatch[0].length).trim();
+      const keyMatch = /^([a-z_]+)(?:\s+|$)/i.exec(rest);
+      if (keyMatch && keyMatch[1].toLowerCase() === "key") {
+        s = rest.slice(keyMatch[0].length).trim();
+      }
+    }
+  }
+
+  // 6. drop parentheses around plain comparisons (deparse grouping noise).
+  // Runs BEFORE whitespace collapse so boolean keywords keep word
+  // boundaries; and/or/not grouping parens are preserved.
+  s = stripComparisonParens(s);
+
+  // 2/3/4/5. single character scan (quote-aware)
+  let out = "";
+  let i = 0;
+  while (i < s.length) {
+    const c = s[i];
+    if (c === "'") {
+      const end = scanQuotedLiteral(s, i);
+      out += s.slice(i, end);
+      i = end;
+      // literal cast introduced by deparse: 'x'::text / 'x'::numeric ...
+      const cast = /^::([a-z]+)/i.exec(s.slice(i));
+      if (cast && NORM_CAST_TYPES.has(cast[1].toLowerCase())) {
+        i += cast[0].length;
+      }
+      continue;
+    }
+    if (/\s/.test(c)) {
+      i += 1;
+      continue;
+    }
+    if (c.toLowerCase() === "a" && isWordBoundaryBefore(s, i)) {
+      const wordMatch = /^[a-zA-Z0-9_]+/.exec(s.slice(i));
+      const word = wordMatch ? wordMatch[0] : c;
+      const afterWord = s.slice(i + word.length);
+      if (word.toLowerCase() === "as" && /^\s+[a-zA-Z0-9_]+/.test(afterWord)) {
+        const aliasMatch = /^\s+([a-zA-Z0-9_]+)/.exec(afterWord);
+        i += word.length + aliasMatch[0].length;
+        continue;
+      }
+      out += c.toLowerCase();
+      i += 1;
+      continue;
+    }
+    if (c === "(" && i + 1 < s.length && /^[0-9]$/.test(s[i + 1])) {
+      const digits = /^[0-9]+/.exec(s.slice(i + 1));
+      const afterDigits = s.slice(i + 1 + digits[0].length);
+      if (afterDigits.startsWith(")") && /^::([a-z]+)/i.test(afterDigits.slice(1))) {
+        const cast = /^::([a-z]+)/i.exec(afterDigits.slice(1));
+        if (NUM_CAST_TYPES.has(cast[1].toLowerCase())) {
+          out += digits[0];
+          i += 1 + digits[0].length + 1 + cast[0].length;
+          continue;
+        }
+      }
+      out += c;
+      i += 1;
+      continue;
+    }
+    if (c === "(") {
+      // parentheses deparse adds around a no-arg function call: (auth.uid())
+      const identMatch = /^[a-zA-Z0-9_.]+/.exec(s.slice(i + 1));
+      if (identMatch && s[i + 1 + identMatch[0].length] === "(" && s[i + 2 + identMatch[0].length] === ")") {
+        const close = i + 2 + identMatch[0].length;
+        if (s[close + 1] === ")") {
+          out += identMatch[0].toLowerCase() + "()";
+          i = close + 2;
+          continue;
+        }
+      }
+      out += c;
+      i += 1;
+      continue;
+    }
+    out += c.toLowerCase();
+    i += 1;
+  }
+  s = out;
+
+  // 7. balanced whole-expression wraps (deparse wraps BoolExprs)
+  for (let k = 0; k < 3; k += 1) {
+    if (s.length < 2 || s[0] !== "(" || s[s.length - 1] !== ")") break;
+    let depth = 0;
+    let balanced = true;
+    for (i = 1; i < s.length - 1; i += 1) {
+      const c = s[i];
+      if (c === "'") {
+        i = scanQuotedLiteral(s, i) - 1;
+        continue;
+      }
+      if (c === "(") depth += 1;
+      else if (c === ")") {
+        depth -= 1;
+        if (depth < 0) {
+          balanced = false;
+          break;
+        }
+      }
+    }
+    if (!balanced || depth !== 0) break;
+    s = s.slice(1, -1);
+  }
+
+  // 8. deparse IN-list rendering: x = any(array['a','b']) => x in('a','b')
+  out = "";
+  i = 0;
+  while (i < s.length) {
+    const c = s[i];
+    if (c === "'") {
+      out += s.slice(i, scanQuotedLiteral(s, i));
+      i = scanQuotedLiteral(s, i);
+      continue;
+    }
+    if (s.startsWith("=any(array[", i)) {
+      out += "in(";
+      i += "=any(array[".length;
+      continue;
+    }
+    if (c === "]" && s[i + 1] === ")") {
+      out += ")";
+      i += 2;
+      continue;
+    }
+    out += c;
+    i += 1;
+  }
+  return out;
 }
 
 // Normalize a pg_indexes.indexdef into its trailing column list form, e.g.
@@ -90,6 +340,16 @@ export const CANONICAL_INDEXES = {
   "0005_oauth_authorization_grants.sql": ["oauth_authorization_grants_expires_at_idx"],
   "0007_weight_logs.sql": ["weight_logs_user_measured_idx"],
   "0008_energy_burned_logs.sql": ["energy_burned_logs_user_burned_idx"],
+};
+
+// Canonical plain index -> owning table (fixed manifest mapping).
+export const CANONICAL_INDEX_TABLE = {
+  meal_logs_user_eaten_idx: "meal_logs",
+  meal_items_log_idx: "meal_items",
+  water_logs_user_idx: "water_logs",
+  oauth_authorization_grants_expires_at_idx: "oauth_authorization_grants",
+  weight_logs_user_measured_idx: "weight_logs",
+  energy_burned_logs_user_burned_idx: "energy_burned_logs",
 };
 
 // Indexes that the canonical end state requires to be ABSENT.
