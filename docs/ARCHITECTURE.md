@@ -1,10 +1,16 @@
 # Architecture
 
 ## Decision
-**Supabase Edge Function + Supabase store.** We host the MCP endpoint as a
-Deno Edge Function (canonical transport at the function root,
-`https://<public-host>/functions/v1/mcp`, issue #57) and host the store on
-Supabase; we do not build a chat app, a feed, or an AI.
+**Supabase store + MCP server hosted as a single process on Fly.io (issue #72;
+canonical target after a human deploy) — currently live as a Supabase Edge
+Function.** The store stays on Supabase (Postgres + RLS); the MCP endpoint
+moves from a Deno Edge Function (canonical transport at the function root,
+`https://<public-host>/functions/v1/mcp`, issue #57) to one long-lived Bun
+process on Fly so the in-memory MCP session map survives across requests —
+Supabase Edge Function isolates cannot hold sessions (issue #71; the live
+initialize → notifications/initialized → tools/list breakage). The future
+canonical transport is `https://morsel-mcp.fly.dev/mcp` (see
+`docs/FLY_DEPLOY.md`); nothing is deployed or cut over by the code change.
 
 ## Why hosted (not self-hosted)
 The user's agent runs in Claude/ChatGPT's cloud, so the MCP server must be an
@@ -47,10 +53,10 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
 5. Dashboard renders it live.
 
 ## Deployment
-The production entrypoint is `supabase/functions/mcp/index.ts`, a Supabase Edge
-Function running Hono and the MCP SDK on Deno. `GET /health` is public; the
-function disables the platform JWT check so the app can validate the per-request
-bearer token required by the MCP transport. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
+The production entrypoint is currently `supabase/functions/mcp/index.ts`, a
+Supabase Edge Function running Hono and the MCP SDK on Deno. `GET /health` is
+public; the function disables the platform JWT check so the app can validate
+the per-request bearer token required by the MCP transport. `SUPABASE_URL` and `SUPABASE_ANON_KEY` are read
 from the function environment at request time. The gateway strips `/functions/v1`,
 so inside the Edge runtime routes register under the function name `mcp` while
 publicly exposing the **canonical MCP transport at the function root**,
@@ -75,6 +81,21 @@ no fetch, no proxy. Restoring the production endpoint secret is human-gated
 (the deploy workflow only verifies it); while it is unset the function serves
 the two email-code stages itself as the pinned fallback (issue #66
 hardening), and `/authorize` remains the OAuth backend and issuer either way.
+
+**Fly single-process deployment (issue #72, deploy materials committed,
+NOT deployed):** `server/fly-entrypoint.ts` serves the same `createMorselApp`
+from one Bun process on Fly (`Dockerfile` + `fly.toml`, one machine, region
+`nrt`, `/health` check) so the in-memory session map survives across requests.
+On Fly there is no `/functions/v1` gateway prefix, so the app mounts with
+`basePath: '/mcp'` — canonical transport `/mcp`, discovery/OAuth routes below
+`/mcp/`, `/health` at the raw origin root, and no `/mcp/mcp` alias and no
+`/functions/v1` artifacts. `issuer`/`resource`/endpoints derive from the
+configured `MORSEL_PUBLIC_BASE_URL` (e.g. `https://morsel-mcp.fly.dev/mcp`),
+never from the request Host header; `authorization_endpoint` stays the Vercel
+page. After the human deploy steps in `docs/FLY_DEPLOY.md` pass acceptance,
+the Fly URL becomes the canonical client-facing endpoint and the Supabase
+function URL becomes legacy/internal-only; until then the Edge Function above
+remains live and unchanged.
 
 ## Auth
 - **Agent side:** remote MCP connectors (Claude.ai custom connector, ChatGPT) use
@@ -115,11 +136,15 @@ hardening), and `/authorize` remains the OAuth backend and issuer either way.
 - **We do NOT host:** chat, feeds, social, content moderation, recommendation engines.
 
 ## Hosting alternatives considered
-1. **Supabase + thin hand-written MCP server** (chosen) — most control; the path
-   `nutrition-mcp` proved.
+1. **Supabase + thin hand-written MCP server** — the Edge Function deployment
+   that is LIVE today; the store always stays on Supabase. Edge Function
+   isolates cannot hold in-memory MCP sessions (issue #71), so the MCP server
+   PROCESS moves to Fly.io (issue #72) — see option 3 and `docs/FLY_DEPLOY.md`.
 2. **Supabase + auto-generated MCP tools from schema** — least code, less control
    over tool naming/semantics. Look at `supabase-mcp-server` if we go this way.
 3. **Fly.io + managed Postgres** — more control over the long-running server,
-   with more deployment and operations work.
+   with more deployment and operations work. Now chosen for the MCP server
+   process only: ONE Bun VM keeps the session map alive (issue #72);
+   Postgres/Auth/RLS remain on Supabase.
 4. **Cloudflare Workers + D1** — cheapest ops / serverless. Revisit if hosting
    cost or always-uptime becomes a concern.

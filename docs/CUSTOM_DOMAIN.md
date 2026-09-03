@@ -1,4 +1,13 @@
-# Custom domain setup (planned; not activated)
+# Custom domain setup (superseded for the MCP endpoint by issue #72)
+
+> **Update (issue #72):** the MCP endpoint moves to Fly.io single-process
+> hosting (`server/fly-entrypoint.ts`, `docs/FLY_DEPLOY.md`) — one Bun process
+> on a Fly VM keeps the in-memory MCP session map alive. After the human
+> deploy, the canonical client-facing URL is `https://morsel-mcp.fly.dev/mcp`
+> and this Supabase custom-domain option is no longer the path to a clean MCP
+> endpoint host. The rest of this document is kept as the record of the
+> earlier (never-activated) Supabase custom-domain plan, which still applies
+> if the repository ever serves browser HTML from the function origin again.
 
 Status: **documentation only.** No DNS record, Supabase custom-domain
 configuration, or production deployment has been performed or authorized from

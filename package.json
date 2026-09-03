@@ -9,6 +9,8 @@
     "dev": "bun --watch server/index.ts",
     "lint": "eslint .",
     "server": "bun run server/index.ts",
+    "server:fly": "bun run server/fly-entrypoint.ts",
+    "test:fly": "bun test ./server/fly-entrypoint.bun-test.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:postgres": "vitest run db/postgres-integration.test.ts",

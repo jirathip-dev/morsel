@@ -1,0 +1,25 @@
+# Keep the Docker build context to the runtime source: server/, packages/,
+# and the lockfiles. Everything else is development/evidence material that
+# must never land in an image layer (no .git, worktrees, logs, env files).
+.git
+.gitignore
+.brief.md
+*.md
+*.log
+node_modules
+.env*
+app
+authorize-ui
+db
+docs
+fastlane
+scripts
+skills
+supabase
+.github
+Gemfile
+Gemfile.lock
+deno.json
+deno.lock
+tsconfig.json
+eslint.config.js

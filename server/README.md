@@ -1,8 +1,12 @@
 # Morsel MCP server
 
 This directory contains the shared Hono server logic for Morsel's remote MCP
-endpoint. The local entrypoint is Bun; production runs the same app from
-`supabase/functions/mcp/index.ts` as a Supabase Edge Function on Deno. It uses
+endpoint. The local entrypoint is Bun; production currently runs the same app
+from `supabase/functions/mcp/index.ts` as a Supabase Edge Function on Deno.
+Issue #72 adds a second production entry point — `server/fly-entrypoint.ts`,
+a single-process Bun server for Fly.io — which becomes the canonical
+client-facing endpoint AFTER a human deploy (see `docs/FLY_DEPLOY.md`; this
+merge does not deploy or cut over). It uses
 the official `@modelcontextprotocol/sdk` streamable HTTP transport and creates
 one authenticated service/repository boundary per MCP session.
 
@@ -22,7 +26,7 @@ npm run server
 The MCP endpoint is `POST /mcp`; `GET /health` is an unauthenticated health
 check. `npm run dev` starts Bun's file-watching development server.
 
-## Supabase Edge Function
+## Supabase Edge Function (live until the Fly cutover)
 
 The deployed function keeps `GET /health` public and handles per-request bearer
 authentication for the streamable MCP transport endpoint. Supabase's gateway
@@ -57,6 +61,31 @@ its server-rendered no-JS email-code stages with self-POST forms (issue #66
 fallback, pinned by `oauth.test.ts` as defense in depth). The local Bun
 entrypoint (`server/index.ts`) has no prefix: its canonical transport is the
 server root `/` with `/mcp` as the alias.
+
+## Fly single-process entry point (issue #72; post-human-deploy canonical)
+
+`server/fly-entrypoint.ts` runs the SAME `createMorselApp` as ONE Bun process
+so the in-memory MCP session map survives across requests (Supabase Edge
+Function isolates cannot hold sessions — issue #71). It requires nonblank
+`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `MORSEL_OAUTH_SIGNING_KEY`, and
+`MORSEL_PUBLIC_BASE_URL` (validated fail-closed: absolute HTTPS — loopback
+http allowed for local probes — exactly `/mcp` path, no
+userinfo/query/fragment/whitespace/trailing slash), accepts the optional
+`MORSEL_OAUTH_AUTHORIZATION_ENDPOINT`, and wires the Supabase authenticator,
+repository, and OAuth options exactly like the Edge entry point. Because Fly
+has no `/functions/v1` gateway, the app is mounted with `basePath: '/mcp'`:
+the canonical transport is `/mcp`; `/health` is served at the raw origin root
+(the new `originHealth` app option — no `/mcp/health`); the pre-#57 nested
+alias is disabled (the new `legacyTransportAlias: false` app option — no
+`/mcp/mcp` on a fresh origin); discovery, `/register`, `/authorize`, and
+`/token` hang off the same `/mcp` base, matching the metadata issuer
+(`https://morsel-mcp.fly.dev/mcp` once configured). `server/fly-entrypoint.ts`
+is importable without starting a server (`import.meta.main` guards `Bun.serve`
+on `0.0.0.0:PORT`, default 8080, with SIGTERM/SIGINT graceful shutdown), which
+lets the real-HTTP session regression (`server/fly-entrypoint.bun-test.ts`,
+`npm run test:fly`) start it over a real localhost listener. Deploy materials,
+human-only steps, verification, and rollback live in `docs/FLY_DEPLOY.md`.
+Run `npm run server:fly` for a local Fly-shaped server.
 
 ## Design notes
 

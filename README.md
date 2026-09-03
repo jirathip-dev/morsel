@@ -40,7 +40,8 @@ morsel/
 - [ARCHITECTURE](docs/ARCHITECTURE.md) — components, data flow, auth, backend decision
 - [DATA_MODEL](docs/DATA_MODEL.md) — tables, enums, RLS
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
-- [CUSTOM_DOMAIN](docs/CUSTOM_DOMAIN.md) — planned custom-domain setup for the canonical MCP endpoint (not activated; human-gated)
+- [CUSTOM_DOMAIN](docs/CUSTOM_DOMAIN.md) — earlier planned Supabase custom-domain setup (superseded for the MCP endpoint by [FLY_DEPLOY](docs/FLY_DEPLOY.md))
+- [FLY_DEPLOY](docs/FLY_DEPLOY.md) — Fly.io single-process MCP hosting (issue #72): entry point, route/metadata contract, human-only deploy steps (not deployed)
 - [TARGETS](docs/TARGETS.md) — computed calorie/macro goal from body metrics
 - [IN_CHAT_RENDER](docs/IN_CHAT_RENDER.md) — Tier-1 snapshot rendering inside Claude/GPT
 - [ROADMAP](docs/ROADMAP.md) — milestones
@@ -60,6 +61,13 @@ migrations without executing their SQL. A genuinely fresh database must first
 have migrations applied in order, then use the same adoption step.
 TestFlight is dispatch-only and requires the `testflight` environment's ASC API
 key and iOS distribution certificate secrets.
+The MCP server currently runs as a Supabase Edge Function. Issue #72 adds
+deploy-ready Fly.io single-process hosting (Bun entry point, Dockerfile,
+fly.toml, and docs) so the in-memory MCP session map survives across requests;
+NOTHING is deployed by that change — the Fly URL becomes the canonical
+client-facing endpoint only after the explicit human deploy steps in
+[docs/FLY_DEPLOY.md](docs/FLY_DEPLOY.md), and the Supabase function URL is then
+marked legacy/internal-only. Vercel remains the browser consent page.
 
 ## License
 MIT — see [LICENSE](LICENSE).

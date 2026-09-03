@@ -5,6 +5,15 @@ two-step email-code authorization runs on this Vercel static page while the
 OAuth backend stays on the Supabase Edge Function, which answers only with
 metadata, JSON errors, and bodyless redirects — never consent HTML.
 
+> **Issue #72 note (single-process hosting):** the MCP/OAuth backend gains a
+> second origin — `server/fly-entrypoint.ts` on Fly.io (`docs/FLY_DEPLOY.md`).
+> This merge does not deploy or cut over, so the page's hardcoded form action
+> (`params.js` `AUTHORIZE_URL`) still targets the LIVE Supabase Edge Function
+> and is intentionally unchanged. As part of the human Fly cutover, retarget
+> that constant (and `authorization.test.js`) to
+> `https://morsel-mcp.fly.dev/mcp/authorize` and redeploy this page; the OAuth
+> semantics on the new origin are identical.
+
 ## Why the page exists (and why the function cannot serve it)
 
 Supabase's free shared domain does not support serving HTML from Edge
