@@ -25,14 +25,14 @@ async function fixture(extra = []) {
   return root;
 }
 
-function database() {
-  const ledger = new Set();
+function database(initialLedger = []) {
+  const ledger = new Set(initialLedger);
   const sql = [];
   const query = async (statement) => {
     sql.push(statement);
     if (statement.startsWith("select name")) return [...ledger].map((name) => ({ name }));
-    const adoption = statement.match(/insert into public\.migration_ledger \(name\) values \('([^']+)'\)(?: on conflict.*)?/);
-    if (adoption) ledger.add(adoption[1]);
+    const insert = statement.match(/insert into public\.migration_ledger \(name\) values \('([^']+)'\)/);
+    if (insert) ledger.add(insert[1]);
     return [];
   };
   return { ledger, sql, query };
@@ -72,14 +72,21 @@ function staleCliCheckout() {
   return { root, checkout };
 }
 
-describe("migration deployment safety", () => {
+function invokeMain(scriptPath, args, { cwd, env }) {
+  return spawnSync(process.execPath, ["--input-type=module", "-e", `import(${JSON.stringify(scriptPath)}).then(({ main }) => main(${JSON.stringify(args)})).then((code) => process.exit(code))`], {
+    cwd,
+    encoding: "utf8",
+    env,
+  });
+}
+
+describe("migration deployment safety (issue #76: no blind adoption)", () => {
   it("returns usage exit 2 for missing ref before stale-checkout exit 1", () => {
     const { root, checkout } = staleCliCheckout();
     dirs.push(root);
     const script = join(checkout, "scripts/apply-migrations.mjs");
-    const result = spawnSync(process.execPath, ["--input-type=module", "-e", `import(${JSON.stringify(script)}).then(({ main }) => main()).then((code) => process.exit(code))`], {
+    const result = invokeMain(script, [], {
       cwd: checkout,
-      encoding: "utf8",
       env: { ...process.env, HOME: root, SUPABASE_PROJECT_REF: "", SUPABASE_ACCESS_TOKEN: "" },
     });
     expect(result.status).toBe(2);
@@ -87,42 +94,45 @@ describe("migration deployment safety", () => {
     expect(result.stderr).not.toMatch(/STALE CHECKOUT/);
   });
 
-  it("refuses an empty ledger in default mode", async () => {
-    const root = await fixture();
-    const db = database();
-    await expect(run({ ref: "ref", token: "token", root, queryImpl: db.query, log: quiet })).rejects.toThrow(/ledger is empty.*--adopt/);
-    expect(db.sql).toHaveLength(2);
+  it("rejects --adopt (exit 2) and issues zero write statements", () => {
+    const { root, checkout } = staleCliCheckout();
+    dirs.push(root);
+    const script = join(checkout, "scripts/apply-migrations.mjs");
+    const result = invokeMain(script, ["--adopt"], {
+      cwd: checkout,
+      env: { ...process.env, HOME: root, SUPABASE_PROJECT_REF: "abcdefghijklmnopqrst", SUPABASE_ACCESS_TOKEN: "sbp_test0123456789abcdef" },
+    });
+    expect(result.status).toBe(2);
+    expect(result.stderr).toMatch(/--adopt was removed for issue #76/);
+    expect(result.stderr).toMatch(/migration-recovery\.mjs/);
   });
 
-  it("adopts all local names without executing migration SQL", async () => {
+  it("refuses an empty ledger in default mode without suggesting --adopt", async () => {
     const root = await fixture();
     const db = database();
-    const result = await run({ ref: "ref", token: "token", root, adopt: true, queryImpl: db.query, log: quiet });
-    expect(result.adopted).toBe(6);
-    expect([...db.ledger]).toEqual(files.map((file) => file.slice(5, -4)));
-    expect(db.sql.every((statement) => statement.includes("migration_ledger") || statement.startsWith("select name"))).toBe(true);
-  });
-
-  it("makes adoption idempotent", async () => {
-    const root = await fixture();
-    const db = database();
-    await run({ ref: "ref", token: "token", root, adopt: true, queryImpl: db.query, log: quiet });
-    await expect(run({ ref: "ref", token: "token", root, adopt: true, queryImpl: db.query, log: quiet })).resolves.toMatchObject({ adopted: 6 });
-    expect(db.ledger.size).toBe(6);
+    await expect(run({ ref: "ref", token: "token", root, queryImpl: db.query, log: quiet })).rejects.toThrow(/blind --adopt was removed/);
+    expect(db.sql).toHaveLength(2); // ledger bootstrap + ledger query only
   });
 
   it("applies only a new append and rejects an older unrecorded file", async () => {
     const root = await fixture();
-    const db = database();
-    await run({ ref: "ref", token: "token", root, adopt: true, queryImpl: db.query, log: quiet });
+    const db = database(files.map((file) => file.slice(5, -4)));
     await writeFile(join(root, "db", "migrations", "0007_new_feature.sql"), "-- 0007_new_feature.sql");
     await expect(run({ ref: "ref", token: "token", root, queryImpl: db.query, log: quiet })).resolves.toMatchObject({ applied: ["0007_new_feature.sql"] });
     expect(db.sql.some((statement) => statement === "-- 0007_new_feature.sql")).toBe(true);
+    expect(db.ledger.has("new_feature")).toBe(true);
 
-    const older = database();
-    older.ledger.add("init");
-    older.ledger.add("atomic_meals_and_users_rls");
+    const older = database(["init", "atomic_meals_and_users_rls"]);
     await expect(run({ ref: "ref", token: "token", root, queryImpl: older.query, log: quiet })).rejects.toThrow(/OLDER/);
     expect(older.sql.some((statement) => statement.includes("0002_targets"))).toBe(false);
+  });
+
+  it("reports when every local migration is already recorded", async () => {
+    const root = await fixture();
+    const db = database(files.map((file) => file.slice(5, -4)));
+    const result = await run({ ref: "ref", token: "token", root, queryImpl: db.query, log: quiet });
+    expect(result.applied).toEqual([]);
+    const statements = db.sql.filter((statement) => !/^select name/.test(statement) && !statement.includes("create table if not exists"));
+    expect(statements).toHaveLength(0);
   });
 });
