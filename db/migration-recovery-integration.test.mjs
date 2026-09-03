@@ -183,7 +183,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
 
   afterAll(() => {
     if (cluster !== undefined) cluster.stop()
-  })
+  }, 30_000)
 
   it('classifies the full canonical end state VERIFIED_PRESENT', async () => {
     const name = cluster.createDatabase('rec_canonical')
