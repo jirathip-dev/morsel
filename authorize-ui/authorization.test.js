@@ -5,16 +5,19 @@ import vm from 'node:vm'
 import { describe, it } from 'vitest'
 
 // The static Vercel consent page (issue #69) is the production browser skin:
-// it renders the two email-code stages and posts straight to the Supabase
-// Edge Function /authorize route. Supabase's free shared domain rewrites Edge
-// text/html to text/plain, so the function never serves consent HTML — the
+// it renders the two email-code stages and posts straight to the
+// single-process Fly OAuth backend's /mcp/authorize route (issues #72/#74).
+// Supabase's free shared domain rewrites Edge Function text/html to
+// text/plain, so the consent HTML could never come from an Edge Function; the
 // page's only JavaScript (params.js) bridges the allowlisted OAuth query
-// fields into hidden inputs and points both stage forms at the function URL.
+// fields into hidden inputs and points both stage forms at the Fly authorize
+// URL. Supabase remains the Auth/Postgres/RLS provider behind the Fly process;
+// its Edge Function authorize URL is retired for this browser form path.
 // Tests below execute the real params.js against a minimal node:vm DOM
 // harness (no jsdom dependency) so the DOM the page would produce is what is
 // asserted, not just source strings.
 
-const AUTHORIZE_URL = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'
+const AUTHORIZE_URL = 'https://morsel-mcp.fly.dev/mcp/authorize'
 const DEPLOYED_CSP = "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
 // Valid legacy-routes-only Vercel shape (review r1): the restrictive CSP
 // rides on the GET route object itself. A top-level `headers` key cannot be
@@ -152,7 +155,7 @@ describe('static Vercel authorization page (issue #69)', () => {
     assert.match(html, /Request a code/)
     assert.match(html, /Enter the 6-digit code from the email/)
     // Neither form carries a static action: the script sets the cross-origin
-    // Supabase action at runtime, and removing that wiring must fail tests.
+    // Fly action at runtime, and removing that wiring must fail tests.
     for (const form of [...html.matchAll(/<form\b[^>]*>/g)].map((match) => match[0])) {
       assert.doesNotMatch(form, /\baction=/)
       assert.match(form, /method="post"/)
@@ -298,7 +301,7 @@ describe('static Vercel authorization page (issue #69)', () => {
   it('fails closed on no query, malformed encodings, and empty values without ever targeting Vercel', () => {
     for (const search of ['', '?', '?client_id=%E0%A4%A&state=%zz&redirect_uri=https%3A%2F%2Fx%2F%25', '?state=&client_id=abc', '?transaction=&code_challenge=']) {
       const { emailForm, codeForm } = loadPage(search, '#code-entry')
-      assert.equal(emailForm.action, AUTHORIZE_URL, `action must be Supabase for search ${search}`)
+      assert.equal(emailForm.action, AUTHORIZE_URL, `action must be the Fly authorize URL for search ${search}`)
       assert.equal(codeForm.action, AUTHORIZE_URL)
       for (const form of [emailForm, codeForm]) {
         for (const input of hiddenInputs(form)) {
@@ -320,13 +323,26 @@ describe('static Vercel authorization page (issue #69)', () => {
     assert.equal(bare.codeForm.action, AUTHORIZE_URL)
   })
 
-  it('keeps both stage forms posting to the Supabase authorize URL after script execution', () => {
+  it('keeps both stage forms posting to the Fly /mcp/authorize URL after script execution', () => {
     const params = representativeParams()
     const page = loadPage(`?${params.toString()}`, '#code-entry')
     for (const form of [page.emailForm, page.codeForm]) {
       assert.equal(form.action, AUTHORIZE_URL)
       assert.equal(form.action.startsWith('https://morsel-authorize-ui.vercel.app'), false)
     }
+  })
+
+  it('keeps the retired Supabase Edge authorize URL out of the executable page bridge source', () => {
+    // The bridge's only executable source is params.js; the old Supabase Edge
+    // authorize URL must never come back there. Historical/docs references
+    // outside the executable page surface remain legitimate, so the ban is
+    // deliberately focused on this one file.
+    const script = source('./params.js')
+    assert.equal(
+      script.includes('https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'),
+      false,
+      'params.js must not reference the retired Supabase Edge authorize URL; the Fly /mcp/authorize backend is the only form destination'
+    )
   })
 
   it('enforces approved text and non-text contrast pairs', () => {

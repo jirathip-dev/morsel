@@ -5,17 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
   <!-- Consent skin (issue #69): this Vercel static page IS the browser
-       authorization surface again. Supabase's free shared domain rewrites
-       Edge Function text/html responses to text/plain, so the function origin
-       cannot render consent HTML; it only serves metadata, JSON errors, and
-       bodyless 302s back to this page. The server's 302s carry the OAuth
-       parameters in the query string (plus the sealed transaction envelope
-       and #code-entry fragment on stage 2), and params.js below bridges the
-       allowlisted query fields into hidden inputs on the stage forms and
-       points every form at the Supabase /authorize route: the browser makes a
-       direct cross-origin form POST — no CORS, no fetch, no proxy, no
-       storage, no analytics, no logging. vercel.json routes GET /authorize to
-       this page only and serves no form-post or proxy route. -->
+       authorization surface. Supabase's free shared domain rewrites Edge
+       Function text/html responses to text/plain, so consent HTML cannot be
+       served from a Supabase Edge Function; the OAuth backend is the
+       single-process Fly server (issues #72/#74), which serves metadata, JSON
+       errors, and bodyless 302s back to this page. The server's 302s carry
+       the OAuth parameters in the query string (plus the sealed transaction
+       envelope and #code-entry fragment on stage 2), and params.js below
+       bridges the allowlisted query fields into hidden inputs on the stage
+       forms and points every form at the Fly /mcp/authorize route: the
+       browser makes a direct cross-origin form POST — no CORS, no fetch, no
+       proxy, no storage, no analytics, no logging. vercel.json routes GET
+       /authorize to this page only and serves no form-post or proxy route. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'">
   <title>Connect to Morsel</title>
   <link rel="stylesheet" href="./authorization.css">
@@ -34,8 +35,8 @@
         <p class="lede">An MCP client is requesting access to your Morsel account.</p>
       </div>
 
-      <!-- Stage 1: email only. params.js sets both forms' action to the
-           Supabase /authorize route on load and copies the allowlisted OAuth
+      <!-- Stage 1: email only. params.js sets both forms' action to the Fly
+           /mcp/authorize route on load and copies the allowlisted OAuth
            query fields (never email or code values, duplicates, unknown
            fields, or fragment data) into this form as hidden inputs, so the
            submission reaches the backend with the complete request. -->
@@ -53,7 +54,7 @@
            #code-entry fragment (CSS :target shows this stage and hides the
            email stage). params.js also copies the sealed transaction envelope
            into this form, so the code submission completes the request at the
-           Supabase function. -->
+           Fly OAuth backend. -->
       <section id="code-entry" class="stage" aria-labelledby="code-stage-title">
         <h2 id="code-stage-title" class="stage-title">Enter the code</h2>
         <p class="stage-copy">Enter the 6-digit code from the email. The code is single-use and expires.</p>

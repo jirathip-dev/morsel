@@ -2,12 +2,14 @@
 //
 // Supabase's free shared domain rewrites text/html Edge Function responses to
 // text/plain, so the consent HTML lives on this Vercel static skin while the
-// OAuth backend stays on the Supabase Edge Function. This same-origin script
-// is the only JavaScript on the page: it copies the allowlisted OAuth query
-// fields into hidden inputs on the stage forms and points every form at the
-// Supabase /authorize route. The browser then performs a direct cross-origin
-// form POST — no fetch/XHR, no CORS, no proxy, no storage, no analytics, no
-// logging, and no credential handling.
+// OAuth backend runs as the single-process Fly server (issues #72/#74).
+// Supabase remains the Auth/Postgres/RLS provider behind that process, but its
+// Edge Function authorize URL is retired for this browser form path. This
+// same-origin script is the only JavaScript on the page: it copies the
+// allowlisted OAuth query fields into hidden inputs on the stage forms and
+// points every form at the Fly /mcp/authorize endpoint. The browser then
+// performs a direct cross-origin form POST — no fetch/XHR, no CORS, no proxy,
+// no storage, no analytics, no logging, and no credential handling.
 //
 // Stage identity is per form (not per fragment): #email-form is the stage-1
 // submission and #code-form the stage-2 submission; the #code-entry fragment
@@ -21,7 +23,7 @@
 (function () {
   'use strict'
 
-  var AUTHORIZE_URL = 'https://anuerofnnewbsumukhqq.supabase.co/functions/v1/mcp/authorize'
+  var AUTHORIZE_URL = 'https://morsel-mcp.fly.dev/mcp/authorize'
 
   // Closed allowlist of OAuth fields the server actually supports. Query
   // fields outside this list, fragment data, and credentials (email, code,
@@ -49,7 +51,7 @@
   var codeForm = globalThis.document.getElementById('code-form')
 
   // Once the bridge runs, no stage form may submit to the static host: both
-  // forms post straight to the Supabase authorize route.
+  // forms post straight to the single-process Fly /mcp/authorize backend.
   emailForm.action = AUTHORIZE_URL
   codeForm.action = AUTHORIZE_URL
 
