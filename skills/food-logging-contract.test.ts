@@ -21,21 +21,27 @@ const skillPath = join(dirname(fileURLToPath(import.meta.url)), 'food-logging', 
 const skill = readFileSync(skillPath, 'utf8')
 
 // Double-counting forms: eaten calories minus active burn/energy must never be
-// instructed. Bans use word boundaries; "eaten vs goal" / "eaten minus goal"
-// prose is the CORRECT semantics and does not match any of these.
+// instructed. The noun class spans the natural-language vocabulary for active
+// energy (activity, workout, exercise, burned, ...) and the shapes allow the
+// interposed words people actually use ("the", "calories", fillers) — so an
+// equivalent paraphrase ("subtract your activity calories from the goal",
+// "calories eaten minus calories burned", ...) still trips. Bans use word
+// boundaries; "eaten vs goal" / "eaten minus goal" prose is the CORRECT
+// semantics and does not match any of these.
+const NOUN = '(?:active|activity|burn|burned|burns|energy|exercise|workout)'
 const STALE_DOUBLE_COUNTING = [
   /\bnet intake\b/i,
-  /minus\s+active/i,
-  /\bminus\s+(?:burned?|energy)\b/i,
-  /\b(?:subtract|deduct)\w*\s+(?:active|burned?|energy)\b/i,
-  /\beaten\s*[-−–]\s*(?:active|burned?|energy)\b/i,
+  new RegExp(`\\bminus\\s+(?:the\\s+)?(?:calories\\s+)?${NOUN}`, 'i'),
+  new RegExp(`\\b(?:subtract|deduct)\\w*(?:\\s+\\w+){0,2}\\s+${NOUN}`, 'i'),
+  new RegExp(`\\beaten\\s*[-−–]\\s*(?:the\\s+)?(?:calories\\s+)?${NOUN}`, 'i'),
   /double-?count/i,
 ]
 
 describe('food-logging skill — TDEE eaten-vs-goal semantics (issue #93)', () => {
   it('bans the stale net intake = eaten − active burn instruction and equivalents', () => {
     for (const re of STALE_DOUBLE_COUNTING) {
-      expect(skill, `stale double-counting wording reintroduced: ${re}`).not.toMatch(re)
+      const hit = skill.match(re)
+      expect(hit, `stale double-counting wording reintroduced: ${re}` + (hit ? `\n  matched excerpt: ${JSON.stringify(hit[0])}` : '')).toBeNull()
     }
   })
 
