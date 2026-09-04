@@ -79,6 +79,9 @@ store. None of these commands print secret values when run as written.
    `fly auth login` (and confirm the org with `fly orgs list`).
 2. Create the app once (name must match `fly.toml` `app`):
    `fly apps create morsel-mcp --org <fly-org>`
+   New-stack creation (fresh-project recreation, issue #78) uses the guarded
+   `infra/fly/app-create.sh <new-app-name> --org <fly-org> [--apply]` —
+   dry-run by default and refuses the live app name `morsel-mcp`.
 3. Set secrets WITHOUT printing them — prepare a local file (outside the
    repo, from the existing secret store) named e.g. `fly-morsel.env` with
    `KEY=VALUE` lines for the five names above, then import:
@@ -90,6 +93,8 @@ store. None of these commands print secret values when run as written.
    `fly deploy -a morsel-mcp`
 5. Machine count is operational state — pin it to exactly one:
    `fly scale count 1 -a morsel-mcp`
+   Then prove it with the read-only check:
+   `infra/fly/check-machine-count.sh` → `OK: exactly one started machine`.
 6. Verify (read-back, not static claims):
    - `curl https://morsel-mcp.fly.dev/health` → `200 {"ok":true}`
    - `curl https://morsel-mcp.fly.dev/mcp/.well-known/oauth-authorization-server`
@@ -111,6 +116,29 @@ store. None of these commands print secret values when run as written.
    `fly deploy -a morsel-mcp --image registry.fly.io/morsel-mcp:deployment-<sha>`
    then re-verify step 6. (Fly may prune old images; for long-term rollback
    insurance push builds to an owned registry.)
+
+## Reproducibility tooling (issue #78)
+
+This runbook is part of the committed infra-as-code set (`infra/` + `docs/`):
+
+- `infra/fly/app-create.sh` — guarded app creation for a NEW stack (dry-run
+  by default; refuses the live app name `morsel-mcp`); the scripted
+  equivalent of step 2.
+- `infra/fly/check-machine-count.sh` — READ-ONLY machine-count drift check
+  (exit 0 = exactly one started machine); run after every deploy to prove
+  the step-5 guard held. Full drift policy: `docs/DRIFT.md`.
+- `docs/INFRA_DECISIONS.md` — decision log (D6: machine count is operational
+  state, not toml state). Companion runbooks:
+  `docs/SUPABASE_OPERATIONS.md`, `docs/VERCEL_OPERATIONS.md`; from-scratch
+  recreation dry run: `docs/FRESH_PROJECT_DRY_RUN.md`.
+- Verification checklists matching the live probes: step 6 below (Fly
+  origin: health, metadata, 401 challenge, session regression), the consent
+  POST-target probe in `docs/VERCEL_OPERATIONS.md`, the Supabase config
+  read-back asserts in `docs/SUPABASE_OPERATIONS.md`, and the full
+  acceptance list in `docs/FRESH_PROJECT_DRY_RUN.md` §S5.
+- Merging these files cannot mutate Fly: no workflow invokes them, and the
+  only mutating commands (`fly apps create`, `fly secrets import`, `fly
+  deploy`, `fly scale count 1`) are runbook steps executed by a human.
 
 ## Cutover and legacy URL
 
