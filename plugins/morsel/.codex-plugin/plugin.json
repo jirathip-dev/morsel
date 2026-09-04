@@ -1,0 +1,41 @@
+{
+  "name": "morsel",
+  "version": "0.1.0",
+  "description": "Morsel MCP food tracker — remote app connection plus the corrected food-logging skill (eaten vs TDEE goal).",
+  "author": {
+    "name": "Guy (jirathip-k)"
+  },
+  "homepage": "https://github.com/jirathip-dev/morsel",
+  "repository": "https://github.com/jirathip-dev/morsel",
+  "license": "MIT",
+  "keywords": [
+    "morsel",
+    "food-logging",
+    "nutrition",
+    "calorie-tracking",
+    "mcp",
+    "food-tracker"
+  ],
+  "skills": "./skills/",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "Morsel",
+    "shortDescription": "Snap meals, log nutrition",
+    "longDescription": "Morsel is a food tracker that lives in your ChatGPT conversation. Log meals as you eat — type what you had, or share a photo of your plate — and Morsel records the food, matches it to real nutrition data, and keeps your personal food log up to date.\n\nUse the bundled food-logging skill for meal logging, history readback, and progress against your daily goal: calories eaten are compared with the effective TDEE-based goal, and Apple Health activity appears only as a separate note.\n\nYour data stays yours: everything is scoped to your Morsel account and shared with no one. Disconnect the plugin at any time and access stops immediately.",
+    "developerName": "Guy (jirathip-k)",
+    "category": "Healthcare",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/jirathip-dev/morsel",
+    "privacyPolicyURL": "https://morsel-authorize-ui.vercel.app/privacy",
+    "defaultPrompt": [
+      "Log my lunch: a grilled chicken sandwich, a side salad, and a sparkling water.",
+      "Show my day so far: meals, calories, and protein remaining versus my goal.",
+      "I took a photo of my dinner plate — log the meal from the photo."
+    ],
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "apps": {
+    "morsel": {
+      "id": "CHATGPT_TECHNICAL_APP_ID__GUY_INPUT",
+      "required": true
+    }
+  }
+}
