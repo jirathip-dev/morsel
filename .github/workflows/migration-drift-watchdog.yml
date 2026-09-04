@@ -1,0 +1,83 @@
+# Morsel issue #83 — migration drift watchdog.
+#
+# Scheduled daily (and dispatchable on demand) READ-ONLY reconcile of the
+# live project's public.migration_ledger against main's migration manifest
+# (scripts/migration-reconcile.mjs fixed-SELECT surface + the watchdog
+# evaluation in scripts/migration-drift-watchdog.mjs). Stays SILENT on a
+# clean state (DRIFT=false, exit 0, no issue). When the live project drifts
+# from main's migration end-state it opens an issue titled "Morsel migration
+# drift: prod ledger out of sync with main's migrations" (or refreshes the
+# existing open one with a comment, so a recurring drift does not spam
+# duplicate issues).
+#
+# SAFETY CONTRACT
+# - No migration SQL, no ledger write, and no apply can happen from this
+#   workflow: the reconcile is read-only by construction and the drift report
+#   contains no secrets, tokens, refs, or row/user contents.
+# - Missing secrets FAIL CLOSED (nonzero exit) — never a green skip.
+name: Migration Drift Watchdog
+
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: migration-drift-watchdog
+  cancel-in-progress: false
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Reconcile and evaluate drift (read-only)
+        id: detect
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "::error::Missing required secret SUPABASE_ACCESS_TOKEN. Migration drift watchdog FAILED CLOSED."
+            exit 1
+          fi
+          if [ -z "$SUPABASE_PROJECT_REF" ]; then
+            echo "::error::Missing required secret SUPABASE_PROJECT_REF. Migration drift watchdog FAILED CLOSED."
+            exit 1
+          fi
+
+          out="$(node scripts/migration-drift-watchdog.mjs)"
+          printf '%s\n' "$out"
+          if printf '%s\n' "$out" | grep -q '^DRIFT=true'; then
+            echo "drift=true" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "$out" | sed '0,/^DRIFT=true/d' > .drift-report.txt
+          else
+            echo "drift=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or refresh the drift issue
+        if: steps.detect.outputs.drift == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          title="Morsel migration drift: prod ledger out of sync with main's migrations"
+          number="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "\"$title\" in:title" --json number --jq '.[0].number // empty')"
+          if [ -n "$number" ]; then
+            gh issue comment "$number" --repo "$GITHUB_REPOSITORY" --body-file .drift-report.txt
+            echo "Refreshed existing drift issue #$number with the latest reconcile summary."
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file .drift-report.txt
+          fi
