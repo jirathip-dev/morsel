@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "surface": "supabase-auth-config",
+  "description": "Canonical Supabase Auth config for the Morsel stack (issue #78). Mirrors the Management API auth-config keys (GET/PUT /v1/projects/{ref}/config/auth). Values here are NOT secrets. The SMTP password (the Resend API key) is deliberately absent: it is a secret VALUE that lives only in the local store under the name RESEND_API_KEY_MORSEL and is supplied by the operator at apply time via that environment name.",
+  "pinned": {
+    "smtp_host": "smtp.resend.com",
+    "smtp_port": 465,
+    "smtp_user": "resend",
+    "smtp_admin_email": "onboarding@resend.dev",
+    "smtp_sender_name": "Morsel",
+    "mailer_otp_length": 6,
+    "rate_limit_email_sent": 30,
+    "mailer_subjects_magic_link": "Your Morsel sign-in code"
+  },
+  "templateInvariant": {
+    "field": "mailer_templates_magic_link_content",
+    "contains": "{{ .Token }}"
+  },
+  "neverInConfig": ["smtp_pass"]
+}
