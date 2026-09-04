@@ -927,67 +927,67 @@ SwiftDriver ConcurrencyExtras normal arm64 com.apple.xcode.tools.swift.compiler 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ ConcurrencyExtras (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 EmitSwiftModule normal arm64 (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Result.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Result.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Result.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ UncheckedBox.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Internal/UncheckedBox.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Internal/UncheckedBox.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ AsyncStream.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AsyncStream.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AsyncStream.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Locking.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Internal/Locking.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Internal/Locking.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ LockIsolated.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/LockIsolated.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/LockIsolated.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ ActorIsolated.swift,\ AnyHashableSendable.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/ActorIsolated.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AnyHashableSendable.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/ActorIsolated.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AnyHashableSendable.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Task.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Task.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/Task.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ UncheckedSendable.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/UncheckedSendable.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/UncheckedSendable.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ IssueReporting (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
 EmitSwiftModule normal arm64 (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ HTTPTypes (in target 'HTTPTypes' from project 'swift-http-types')
 
 EmitSwiftModule normal arm64 (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for ConcurrencyExtras (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
@@ -995,7 +995,7 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ Crypto (in target 'Crypto' f
 
 EmitSwiftModule normal arm64 (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for HTTPTypes (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1013,11 +1013,11 @@ SwiftCompile normal arm64 Compiling\ TestContext.swift,\ Unimplemented.swift /Vo
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/TestContext.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Unimplemented.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/HTTPTypes-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/swift-http-types.build/Debug-iphonesimulator/HTTPTypes.build/Objects-normal/arm64/HTTPTypes-Swift.h (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types
@@ -1067,31 +1067,31 @@ SwiftCompile normal arm64 Compiling\ IsTesting.swift,\ IssueReporter.swift /Volu
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IsTesting.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ ReportIssue.swift,\ _Test.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/ReportIssue.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Symbolic\ Links/IssueReportingPackageSupport/_Test.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/ReportIssue.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Symbolic\ Links/IssueReportingPackageSupport/_Test.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Warn.swift,\ XCTest.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/Warn.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/XCTest.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/Warn.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/XCTest.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling UncheckedSendable.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
@@ -1099,11 +1099,11 @@ SwiftCompile normal arm64 Compiling\ FatalErrorReporter.swift,\ IssueSeverity.sw
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporters/FatalErrorReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueSeverity.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for IssueReporting (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1160,11 +1160,11 @@ Copy /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Prod
 SwiftCompile normal arm64 Compiling\ BreakpointReporter.swift,\ DefaultReporter.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporters/BreakpointReporter.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporters/DefaultReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporters/BreakpointReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/IssueReporters/DefaultReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling FatalErrorReporter.swift, IssueSeverity.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1172,11 +1172,11 @@ SwiftCompile normal arm64 Compiling\ WithExpectedIssue.swift,\ WithIssueContext.
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/WithExpectedIssue.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/WithIssueContext.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling ReportIssue.swift, _Test.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1184,25 +1184,25 @@ SwiftCompile normal arm64 Compiling\ SwiftTesting.swift,\ UncheckedSendable.swif
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/SwiftTesting.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/UncheckedSendable.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ FailureObserver.swift,\ LockIsolated.swift,\ Rethrows.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/FailureObserver.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/LockIsolated.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/Rethrows.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/FailureObserver.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/LockIsolated.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/Rethrows.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling TestContext.swift, Unimplemented.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1210,15 +1210,15 @@ SwiftCompile normal arm64 Compiling\ ErrorReporting.swift,\ AppHostWarning.swift
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/ErrorReporting.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/AppHostWarning.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/IssueReporting/Internal/Deprecations.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling WithExpectedIssue.swift, WithIssueContext.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1227,7 +1227,7 @@ SwiftDriverJobDiscovery normal arm64 Compiling Locking.swift (in target 'Concurr
 SwiftCompile normal arm64 Compiling\ HTTPFields.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPFields.swift (in target 'HTTPTypes' from project 'swift-http-types')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPFields.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling AsyncStream.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
@@ -1235,13 +1235,13 @@ SwiftCompile normal arm64 Compiling\ NIOLock.swift /Volumes/NVMe2TB/DerivedData/
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/NIOLock.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ HTTPParsedFields.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPParsedFields.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPParsedFields.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Warn.swift, XCTest.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1249,7 +1249,7 @@ SwiftCompile normal arm64 Compiling\ HTTPField.swift /Volumes/NVMe2TB/DerivedDat
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPField.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling LockIsolated.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
@@ -1257,7 +1257,7 @@ SwiftCompile normal arm64 Compiling\ HTTPRequest+URL.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPRequest+URL.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling SwiftTesting.swift, UncheckedSendable.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1267,13 +1267,13 @@ SwiftCompile normal arm64 Compiling\ ISOLatin1String.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/ISOLatin1String.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ HTTPRequest.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPRequest.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPRequest.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Task.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
 
@@ -1281,7 +1281,7 @@ SwiftCompile normal arm64 Compiling\ HTTPResponse.swift /Volumes/NVMe2TB/Derived
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPResponse.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling FailureObserver.swift, LockIsolated.swift, Rethrows.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1289,7 +1289,7 @@ SwiftCompile normal arm64 Compiling\ HTTPFieldName.swift /Volumes/NVMe2TB/Derive
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-http-types/Sources/HTTPTypes/HTTPFieldName.swift (in target 'HTTPTypes' from project 'swift-http-types')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling ErrorReporting.swift, AppHostWarning.swift, Deprecations.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1299,43 +1299,43 @@ SwiftCompile normal arm64 Compiling\ ASN1Boolean.swift,\ ASN1Identifier.swift,\ 
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Boolean.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Identifier.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Integer.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Null.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1OctetString.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Strings.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ArraySliceBigint.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/GeneralizedTime.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ObjectIdentifier.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/ECDSASignature.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling BreakpointReporter.swift, DefaultReporter.swift (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
 
@@ -1343,39 +1343,39 @@ SwiftCompile normal arm64 Compiling\ MLKEM_boring.swift,\ MLKEM_wrapper.swift,\ 
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/BoringSSL/MLKEM_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/BoringSSL/MLKEM_wrapper.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/BoringSSL/XWing_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/KEM-Errors.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/KEM.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/MLKEM.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/KEM/XWing.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Agreement/BoringSSL/ECDH_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Agreement/DH.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriver\ Compilation IssueReporting normal arm64 com.apple.xcode.tools.swift.compiler (in target 'IssueReporting' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
@@ -1387,80 +1387,80 @@ SwiftCompile normal arm64 Compiling\ PEMDocument.swift,\ PKCS8PrivateKey.swift,\
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/PEMDocument.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/PKCS8PrivateKey.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/SEC1PrivateKey.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/SubjectPublicKeyInfo.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/CryptoError_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/CryptoKitErrors.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/BoringSSL/Digest_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/Digest.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/Digests.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/HashFunctions.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Optional+withUnsafeBytes_boring.swift,\ RNG_boring.swift,\ SafeCompare_boring.swift,\ Zeroization_boring.swift,\ _CryptoModuleAnchor.swift,\ PrettyBytes.swift,\ SafeCompare.swift,\ SecureBytes.swift,\ Zeroization.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/Optional+withUnsafeBytes_boring.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/RNG_boring.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/SafeCompare_boring.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/Zeroization_boring.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/_CryptoModuleAnchor.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/PrettyBytes.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/SafeCompare.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/SecureBytes.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/Zeroization.swift (in target 'Crypto' from project 'swift-crypto')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/Optional+withUnsafeBytes_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/RNG_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/SafeCompare_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/Zeroization_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/_CryptoModuleAnchor.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/PrettyBytes.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/SafeCompare.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/SecureBytes.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/Zeroization.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPParsedFields.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1468,39 +1468,39 @@ SwiftCompile normal arm64 Compiling\ Ed25519Keys.swift,\ NISTCurvesKeys.swift,\ 
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/Ed25519Keys.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/NISTCurvesKeys.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/X25519Keys.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/Symmetric/SymmetricKeys.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Message\ Authentication\ Codes/HMAC/HMAC.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Message\ Authentication\ Codes/MACFunctions.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Message\ Authentication\ Codes/MessageAuthenticationCode.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/PRF/AES.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/BoringSSL/ECDSASignature_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPRequest+URL.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1508,39 +1508,39 @@ SwiftCompile normal arm64 Compiling\ ECDH.swift,\ ANSIx963.swift,\ HKDF.swift,\ 
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Agreement/ECDH.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Derivation/ANSIx963.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Derivation/HKDF.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Wrapping/AESWrap.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Key\ Wrapping/BoringSSL/AESWrap_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/BoringSSL/Ed25519_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/BoringSSL/NISTCurvesKeys_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/BoringSSL/X25519Keys_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Keys/EC/Curve25519.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling ASN1Boolean.swift, ASN1Identifier.swift, ASN1Integer.swift, ASN1Null.swift, ASN1OctetString.swift, ASN1Strings.swift, ArraySliceBigint.swift, GeneralizedTime.swift, ObjectIdentifier.swift, ECDSASignature.swift (in target 'Crypto' from project 'swift-crypto')
 
@@ -1548,43 +1548,43 @@ SwiftCompile normal arm64 Compiling\ resource_bundle_accessor.swift,\ AES-GCM.sw
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/swift-crypto.build/Debug-iphonesimulator/Crypto.build/DerivedSources/resource_bundle_accessor.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/AES/GCM/AES-GCM.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/AES/GCM/BoringSSL/AES-GCM_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/ChachaPoly/BoringSSL/ChaChaPoly_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/ChachaPoly/ChaChaPoly.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/Cipher.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/AEADs/Nonces.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/ASN1.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1Any.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/ASN1/Basic\ ASN1\ Types/ASN1BitString.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPFieldName.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1592,43 +1592,43 @@ SwiftCompile normal arm64 Compiling\ HPKE-KEM-Curve25519.swift,\ HPKE-NIST-EC-KE
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/KEM/Conformances/HPKE-KEM-Curve25519.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/KEM/Conformances/HPKE-NIST-EC-KEMs.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/KEM/HPKE-KEM.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/HPKE-Errors.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/HPKE.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Key\ Schedule/HPKE-Context.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Key\ Schedule/HPKE-KeySchedule.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Modes/HPKE-Modes.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Insecure/Insecure.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Insecure/Insecure_HashFunctions.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPField.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1636,43 +1636,43 @@ SwiftCompile normal arm64 Compiling\ HashFunctions_SHA2.swift,\ HashFunctions_SH
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/HashFunctions_SHA2.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/HashFunctions_SHA3.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Digests/XKCP/Digest_xkcp.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-AEAD.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-Ciphersuite.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-KDF.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-KexKeyDerivation.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-LabeledExtract.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/HPKE-Utils.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/HPKE/Ciphersuite/KEM/Conformances/DHKEM.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling MLKEM_boring.swift, MLKEM_wrapper.swift, XWing_boring.swift, KEM-Errors.swift, KEM.swift, MLKEM.swift, XWing.swift, ECDH_boring.swift, DH.swift (in target 'Crypto' from project 'swift-crypto')
 
@@ -1680,39 +1680,39 @@ SwiftCompile normal arm64 Compiling\ ECDSA_boring.swift,\ EdDSA_boring.swift,\ M
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/BoringSSL/ECDSA_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/BoringSSL/EdDSA_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/BoringSSL/MLDSA_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/BoringSSL/MLDSA_wrapper.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/ECDSA.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/Ed25519.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/MLDSA.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Signatures/Signature.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-crypto/Sources/Crypto/Util/BoringSSL/CryptoKitErrors_boring.swift (in target 'Crypto' from project 'swift-crypto')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PEMDocument.swift, PKCS8PrivateKey.swift, SEC1PrivateKey.swift, SubjectPublicKeyInfo.swift, CryptoError_boring.swift, CryptoKitErrors.swift, Digest_boring.swift, Digest.swift, Digests.swift, HashFunctions.swift (in target 'Crypto' from project 'swift-crypto')
 
@@ -1722,7 +1722,7 @@ SwiftCompile normal arm64 Compiling\ AsyncThrowingStream.swift /Volumes/NVMe2TB/
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/AsyncThrowingStream.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HPKE-KEM-Curve25519.swift, HPKE-NIST-EC-KEMs.swift, HPKE-KEM.swift, HPKE-Errors.swift, HPKE.swift, HPKE-Context.swift, HPKE-KeySchedule.swift, HPKE-Modes.swift, Insecure.swift, Insecure_HashFunctions.swift (in target 'Crypto' from project 'swift-crypto')
 
@@ -1730,7 +1730,7 @@ SwiftCompile normal arm64 Compiling\ MainSerialExecutor.swift /Volumes/NVMe2TB/D
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-concurrency-extras/Sources/ConcurrencyExtras/MainSerialExecutor.swift (in target 'ConcurrencyExtras' from project 'swift-concurrency-extras')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPRequest.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1790,24 +1790,24 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ XCTestDynamicOverlay (in tar
 
 EmitSwiftModule normal arm64 (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Deprecations.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Deprecations.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Deprecations.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Exports.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Exports.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Exports.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Fail.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Fail.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay/Sources/XCTestDynamicOverlay/Internal/Fail.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling HTTPResponse.swift (in target 'HTTPTypes' from project 'swift-http-types')
 
@@ -1865,48 +1865,48 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ Clocks (in target 'Clocks' f
 
 EmitSwiftModule normal arm64 (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ UnimplementedClock.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/UnimplementedClock.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/UnimplementedClock.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ AnyClock.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/AnyClock.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/AnyClock.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ _AsyncTimerSequence.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Internal/_AsyncTimerSequence.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Internal/_AsyncTimerSequence.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Lock.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Internal/Lock.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Internal/Lock.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ SwiftUI.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/SwiftUI.swift (in target 'Clocks' from project 'swift-clocks')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/SwiftUI.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Timer.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Timer.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/Timer.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ ImmediateClock.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/ImmediateClock.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/ImmediateClock.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Optional+withUnsafeBytes_boring.swift, RNG_boring.swift, SafeCompare_boring.swift, Zeroization_boring.swift, _CryptoModuleAnchor.swift, PrettyBytes.swift, SafeCompare.swift, SecureBytes.swift, Zeroization.swift (in target 'Crypto' from project 'swift-crypto')
 
@@ -1914,7 +1914,7 @@ SwiftCompile normal arm64 Compiling\ TestClock.swift /Volumes/NVMe2TB/DerivedDat
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/swift-clocks/Sources/Clocks/TestClock.swift (in target 'Clocks' from project 'swift-clocks')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Lock.swift (in target 'Clocks' from project 'swift-clocks')
 
@@ -1980,89 +1980,89 @@ SwiftCompile normal arm64 Compiling\ EventEmitter.swift,\ FoundationExtensions.s
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/EventEmitter.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/FoundationExtensions.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPClient.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ APIKeyFormat.swift,\ AnyJSON+Codable.swift,\ AnyJSON.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/APIKeyFormat.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/AnyJSON/AnyJSON+Codable.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/AnyJSON/AnyJSON.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/APIKeyFormat.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/AnyJSON/AnyJSON+Codable.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/AnyJSON/AnyJSON.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Base64URL.swift,\ Codable.swift,\ DateFormatter.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Base64URL.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Codable.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/DateFormatter.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Base64URL.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Codable.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/DateFormatter.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ RetryRequestInterceptor.swift,\ JWT.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/RetryRequestInterceptor.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/JWT.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/RetryRequestInterceptor.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/JWT.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ HTTPFields.swift,\ HTTPRequest.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPFields.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPRequest.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPFields.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPRequest.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ HTTPResponse.swift,\ LoggerInterceptor.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPResponse.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/LoggerInterceptor.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/HTTPResponse.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/HTTP/LoggerInterceptor.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ Helpers (in target 'Helpers' from project 'Supabase')
 
 EmitSwiftModule normal arm64 (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ OSLogSupabaseLogger.swift,\ SupabaseLogger.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Logger/OSLogSupabaseLogger.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Logger/SupabaseLogger.swift (in target 'Helpers' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Logger/OSLogSupabaseLogger.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Logger/SupabaseLogger.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Deprecations.swift (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
 
@@ -2076,11 +2076,11 @@ SwiftCompile normal arm64 Compiling\ TaskLocalHelpers.swift,\ Version.swift /Vol
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/TaskLocalHelpers.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Version.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 Ld /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Products/Debug-iphonesimulator/XCTestDynamicOverlay.o normal (in target 'XCTestDynamicOverlay' from project 'xctest-dynamic-overlay')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/xctest-dynamic-overlay
@@ -2092,11 +2092,11 @@ SwiftCompile normal arm64 Compiling\ PostgrestError.swift,\ Task+withTimeout.swi
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/SharedModels/PostgrestError.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/Task+withTimeout.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Helpers (in target 'Helpers' from project 'Supabase')
 
@@ -2104,11 +2104,11 @@ SwiftCompile normal arm64 Compiling\ PostgRESTFilterValue.swift,\ HTTPError.swif
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/PostgRESTFilterValue.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Helpers/SharedModels/HTTPError.swift (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriver\ Compilation\ Requirements Helpers normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Helpers' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
@@ -2180,31 +2180,31 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ Storage (in target 'Storage'
 
 EmitSwiftModule normal arm64 (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ StorageVectorsClient.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageVectorsClient.swift (in target 'Storage' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageVectorsClient.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ VectorBucketClient.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/VectorBucketClient.swift (in target 'Storage' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/VectorBucketClient.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ PostgREST (in target 'PostgREST' from project 'Supabase')
 
 EmitSwiftModule normal arm64 (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ Functions (in target 'Functions' from project 'Supabase')
 
 EmitSwiftModule normal arm64 (in target 'Functions' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgRESTFilterValue.swift, HTTPError.swift (in target 'Helpers' from project 'Supabase')
 
@@ -2212,11 +2212,11 @@ SwiftCompile normal arm64 Compiling\ MultipartFormData.swift,\ StorageApi.swift 
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/MultipartFormData.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageApi.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgrestError.swift, Task+withTimeout.swift (in target 'Helpers' from project 'Supabase')
 
@@ -2224,17 +2224,17 @@ SwiftCompile normal arm64 Compiling\ StorageFileApi.swift,\ StorageHTTPClient.sw
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageFileApi.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageHTTPClient.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ RealtimeV2 (in target 'RealtimeV2' from project 'Supabase')
 
 EmitSwiftModule normal arm64 (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling OSLogSupabaseLogger.swift, SupabaseLogger.swift (in target 'Helpers' from project 'Supabase')
 
@@ -2242,16 +2242,16 @@ SwiftCompile normal arm64 Compiling\ Codable.swift,\ Deprecated.swift /Volumes/N
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Codable.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Deprecated.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ Auth (in target 'Auth' from project 'Supabase')
 EmitSwiftModule normal arm64 (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Functions (in target 'Functions' from project 'Supabase')
 
@@ -2309,12 +2309,12 @@ SwiftCompile normal arm64 Compiling\ SupabaseStorage.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/SupabaseStorage.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Types.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Types.swift (in target 'Storage' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Types.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling SupabaseStorage.swift (in target 'Storage' from project 'Supabase')
 
@@ -2322,7 +2322,7 @@ SwiftCompile normal arm64 Compiling\ VectorIndexClient.swift /Volumes/NVMe2TB/De
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/VectorIndexClient.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling StorageVectorsClient.swift (in target 'Storage' from project 'Supabase')
 
@@ -2330,11 +2330,11 @@ SwiftCompile normal arm64 Compiling\ StorageBucketApi.swift,\ StorageError.swift
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageBucketApi.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/StorageError.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Storage (in target 'Storage' from project 'Supabase')
 
@@ -2348,11 +2348,11 @@ SwiftCompile normal arm64 Compiling\ Exports.swift,\ Helpers.swift /Volumes/NVMe
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Exports.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Storage/Helpers.swift (in target 'Storage' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/Storage-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Supabase.build/Debug-iphonesimulator/Storage.build/Objects-normal/arm64/Storage-Swift.h (in target 'Storage' from project 'Supabase')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift
@@ -2383,15 +2383,15 @@ SwiftDriver\ Compilation\ Requirements RealtimeV2 normal arm64 com.apple.xcode.t
 SwiftCompile normal arm64 Compiling\ RealtimeClient+HeartbeatStatus.swift,\ RealtimeClient+Status.swift,\ RealtimeClientV2.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClient+HeartbeatStatus.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClient+Status.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClientV2.swift (in target 'RealtimeV2' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClient+HeartbeatStatus.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClient+Status.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeClientV2.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/RealtimeV2-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Supabase.build/Debug-iphonesimulator/RealtimeV2.build/Objects-normal/arm64/RealtimeV2-Swift.h (in target 'RealtimeV2' from project 'Supabase')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift
@@ -2418,25 +2418,25 @@ Copy /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Prod
 SwiftCompile normal arm64 Compiling\ RealtimeChannel+AsyncAwait.swift,\ RealtimeChannel+Status.swift,\ RealtimeChannelV2.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannel+AsyncAwait.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannel+Status.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannelV2.swift (in target 'RealtimeV2' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannel+AsyncAwait.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannel+Status.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeChannelV2.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ URLSessionWebSocket.swift,\ WebSocket.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/WebSocket/URLSessionWebSocket.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/WebSocket/WebSocket.swift (in target 'RealtimeV2' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/WebSocket/URLSessionWebSocket.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/WebSocket/WebSocket.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Exports.swift, Helpers.swift (in target 'Storage' from project 'Supabase')
 
@@ -2444,11 +2444,11 @@ SwiftCompile normal arm64 Compiling\ RealtimeLifecycleManager.swift,\ RealtimeMe
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeLifecycleManager.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeMessageV2.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling MultipartFormData.swift, StorageApi.swift (in target 'Storage' from project 'Supabase')
 
@@ -2458,29 +2458,29 @@ SwiftCompile normal arm64 Compiling\ ConnectionManager.swift,\ Exports.swift,\ P
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/ConnectionManager.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/Exports.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PostgresAction.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ PostgresActionData.swift,\ PresenceAction.swift,\ PushV2.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PostgresActionData.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PresenceAction.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PushV2.swift (in target 'RealtimeV2' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PostgresActionData.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PresenceAction.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/PushV2.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling VectorIndexClient.swift (in target 'Storage' from project 'Supabase')
 
@@ -2488,11 +2488,11 @@ SwiftCompile normal arm64 Compiling\ RealtimePostgresFilter.swift,\ RealtimePost
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimePostgresFilter.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimePostgresFilterValue.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling StorageFileApi.swift, StorageHTTPClient.swift (in target 'Storage' from project 'Supabase')
 
@@ -2500,37 +2500,37 @@ SwiftCompile normal arm64 Compiling\ RealtimeSerializer.swift,\ Types.swift /Vol
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeSerializer.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/Types.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling RealtimeLifecycleManager.swift, RealtimeMessageV2.swift (in target 'RealtimeV2' from project 'Supabase')
 
 SwiftCompile normal arm64 Compiling\ RealtimeError.swift,\ RealtimeJoinConfig.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeError.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeJoinConfig.swift (in target 'RealtimeV2' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeError.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/RealtimeJoinConfig.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling SwiftUI.swift (in target 'Clocks' from project 'swift-clocks')
 
 SwiftCompile normal arm64 Compiling\ CallbackManager.swift,\ ChannelEvent.swift,\ ChannelStateManager.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/CallbackManager.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/ChannelEvent.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/ChannelStateManager.swift (in target 'RealtimeV2' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/CallbackManager.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/ChannelEvent.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/RealtimeV2/ChannelStateManager.swift (in target 'RealtimeV2' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Auth (in target 'Auth' from project 'Supabase')
 
@@ -2544,7 +2544,7 @@ SwiftCompile normal arm64 Compiling\ Deprecated.swift /Volumes/NVMe2TB/DerivedDa
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/Deprecated.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/Auth-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Supabase.build/Debug-iphonesimulator/Auth.build/Objects-normal/arm64/Auth-Swift.h (in target 'Auth' from project 'Supabase')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift
@@ -2572,13 +2572,13 @@ SwiftCompile normal arm64 Compiling\ PostgrestBuilder.swift /Volumes/NVMe2TB/Der
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestBuilder.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ PostgrestFilterBuilder.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestFilterBuilder.swift (in target 'PostgREST' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestFilterBuilder.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Types.swift (in target 'Storage' from project 'Supabase')
 
@@ -2592,13 +2592,13 @@ SwiftCompile normal arm64 Compiling\ Exports.swift /Volumes/NVMe2TB/DerivedData/
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/Exports.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ PostgrestQueryBuilder.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestQueryBuilder.swift (in target 'PostgREST' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestQueryBuilder.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling ConnectionManager.swift, Exports.swift, PostgresAction.swift (in target 'RealtimeV2' from project 'Supabase')
 
@@ -2608,13 +2608,13 @@ SwiftCompile normal arm64 Compiling\ PostgrestFilterValue.swift /Volumes/NVMe2TB
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestFilterValue.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Defaults.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/Defaults.swift (in target 'PostgREST' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/Defaults.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgresActionData.swift, PresenceAction.swift, PushV2.swift (in target 'RealtimeV2' from project 'Supabase')
 
@@ -2622,7 +2622,7 @@ SwiftCompile normal arm64 Compiling\ Types.swift /Volumes/NVMe2TB/DerivedData/Mo
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/Types.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Defaults.swift (in target 'PostgREST' from project 'Supabase')
 
@@ -2630,14 +2630,14 @@ SwiftCompile normal arm64 Compiling\ PostgrestClient.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestClient.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling RealtimeClient+HeartbeatStatus.swift, RealtimeClient+Status.swift, RealtimeClientV2.swift (in target 'RealtimeV2' from project 'Supabase')
 
 SwiftCompile normal arm64 Compiling\ PostgrestTransformBuilder.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestTransformBuilder.swift (in target 'PostgREST' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/PostgREST/PostgrestTransformBuilder.swift (in target 'PostgREST' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling RealtimeSerializer.swift, Types.swift (in target 'RealtimeV2' from project 'Supabase')
 
@@ -2651,20 +2651,20 @@ SwiftCompile normal arm64 Compiling\ Exports.swift /Volumes/NVMe2TB/DerivedData/
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Functions/Exports.swift (in target 'Functions' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Types.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Functions/Types.swift (in target 'Functions' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Functions/Types.swift (in target 'Functions' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling RealtimeChannel+AsyncAwait.swift, RealtimeChannel+Status.swift, RealtimeChannelV2.swift (in target 'RealtimeV2' from project 'Supabase')
 
 SwiftCompile normal arm64 Compiling\ FunctionsClient.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Functions/FunctionsClient.swift (in target 'Functions' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Functions/FunctionsClient.swift (in target 'Functions' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgrestBuilder.swift (in target 'PostgREST' from project 'Supabase')
 
@@ -2675,19 +2675,19 @@ SwiftDriver\ Compilation Clocks normal arm64 com.apple.xcode.tools.swift.compile
 SwiftCompile normal arm64 Compiling\ AuthError.swift,\ AuthMFA.swift,\ AuthOAuthServer.swift,\ AuthStateChangeListener.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthError.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthMFA.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthOAuthServer.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthStateChangeListener.swift (in target 'Auth' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthError.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthMFA.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthOAuthServer.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthStateChangeListener.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgrestQueryBuilder.swift (in target 'PostgREST' from project 'Supabase')
 
@@ -2700,15 +2700,15 @@ SwiftDriverJobDiscovery normal arm64 Compiling PostgrestFilterBuilder.swift (in 
 SwiftCompile normal arm64 Compiling\ AuthMFA+WebAuthn.swift,\ WebAuthnAuthenticator.swift,\ WebAuthnTypes.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthMFA+WebAuthn.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/WebAuthnAuthenticator.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/WebAuthnTypes.swift (in target 'Auth' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthMFA+WebAuthn.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/WebAuthnAuthenticator.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/WebAuthnTypes.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling RealtimeError.swift, RealtimeJoinConfig.swift (in target 'RealtimeV2' from project 'Supabase')
 
@@ -2716,15 +2716,15 @@ SwiftCompile normal arm64 Compiling\ AuthLocalStorage.swift,\ KeychainLocalStora
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Storage/AuthLocalStorage.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Storage/KeychainLocalStorage.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Storage/WinCredLocalStorage.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Exports.swift (in target 'Functions' from project 'Supabase')
 
@@ -2734,46 +2734,46 @@ SwiftCompile normal arm64 Compiling\ CodeVerifierStorage.swift,\ Constants.swift
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/CodeVerifierStorage.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/Constants.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/Dependencies.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/EventEmitter.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Types.swift,\ AuthAdmin+Passkey.swift,\ AuthClient+Passkey.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Types.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthAdmin+Passkey.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthClient+Passkey.swift (in target 'Auth' from project 'Supabase')
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Types.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthAdmin+Passkey.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/WebAuthn/AuthClient+Passkey.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ SessionManager.swift,\ SessionStorage.swift,\ URLOpener.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/SessionManager.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/SessionStorage.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/URLOpener.swift (in target 'Auth' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/SessionManager.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/SessionStorage.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/URLOpener.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling AuthLocalStorage.swift, KeychainLocalStorage.swift, WinCredLocalStorage.swift (in target 'Auth' from project 'Supabase')
 
@@ -2781,19 +2781,19 @@ SwiftCompile normal arm64 Compiling\ AuthAdmin.swift,\ AuthAdminOAuth.swift,\ Au
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthAdmin.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthAdminOAuth.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthClient.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/AuthClientConfiguration.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PostgrestClient.swift (in target 'PostgREST' from project 'Supabase')
 
@@ -2801,15 +2801,15 @@ SwiftCompile normal arm64 Compiling\ JWTAlgorithm.swift,\ Keychain.swift,\ PKCE.
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/JWTAlgorithm.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/Keychain.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/PKCE.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Types.swift (in target 'Functions' from project 'Supabase')
 
@@ -2817,15 +2817,15 @@ SwiftCompile normal arm64 Compiling\ FixedWidthInteger+Random.swift,\ Helpers.sw
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/FixedWidthInteger+Random.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/Helpers.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/JWK+RSA.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling CallbackManager.swift, ChannelEvent.swift, ChannelStateManager.swift (in target 'RealtimeV2' from project 'Supabase')
 
@@ -2843,19 +2843,19 @@ SwiftCompile normal arm64 Compiling\ Defaults.swift,\ Deprecated.swift,\ Exports
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Defaults.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Deprecated.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Exports.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Auth/Internal/APIClient.swift (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling FunctionsClient.swift (in target 'Functions' from project 'Supabase')
 
@@ -2887,23 +2887,23 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ Realtime (in target 'Realtim
 
 EmitSwiftModule normal arm64 (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Defaults.swift,\ Delegated.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Defaults.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Delegated.swift (in target 'Realtime' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Defaults.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Delegated.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Push.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Push.swift (in target 'Realtime' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Push.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling JWTAlgorithm.swift, Keychain.swift, PKCE.swift (in target 'Auth' from project 'Supabase')
 
@@ -2911,11 +2911,11 @@ SwiftCompile normal arm64 Compiling\ Deprecated.swift,\ HeartbeatTimer.swift /Vo
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Deprecated.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/HeartbeatTimer.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling FixedWidthInteger+Random.swift, Helpers.swift, JWK+RSA.swift (in target 'Auth' from project 'Supabase')
 
@@ -2923,7 +2923,7 @@ SwiftCompile normal arm64 Compiling\ RealtimeClient.swift /Volumes/NVMe2TB/Deriv
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/RealtimeClient.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling AuthError.swift, AuthMFA.swift, AuthOAuthServer.swift, AuthStateChangeListener.swift (in target 'Auth' from project 'Supabase')
 
@@ -2931,7 +2931,7 @@ SwiftCompile normal arm64 Compiling\ Presence.swift /Volumes/NVMe2TB/DerivedData
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/Presence.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Defaults.swift, Deprecated.swift, Exports.swift, APIClient.swift (in target 'Auth' from project 'Supabase')
 
@@ -2939,7 +2939,7 @@ SwiftCompile normal arm64 Compiling\ PhoenixTransport.swift /Volumes/NVMe2TB/Der
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/PhoenixTransport.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling SessionManager.swift, SessionStorage.swift, URLOpener.swift (in target 'Auth' from project 'Supabase')
 
@@ -2947,7 +2947,7 @@ SwiftCompile normal arm64 Compiling\ Exports.swift /Volumes/NVMe2TB/DerivedData/
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Exports.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Realtime (in target 'Realtime' from project 'Supabase')
 
@@ -2961,7 +2961,7 @@ SwiftCompile normal arm64 Compiling\ RealtimeChannel.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/RealtimeChannel.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/GeneratedModuleMaps-iphonesimulator/Realtime-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Supabase.build/Debug-iphonesimulator/Realtime.build/Objects-normal/arm64/Realtime-Swift.h (in target 'Realtime' from project 'Supabase')
     cd /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift
@@ -2989,7 +2989,7 @@ SwiftCompile normal arm64 Compiling\ TimeoutTimer.swift /Volumes/NVMe2TB/Derived
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/TimeoutTimer.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Push.swift (in target 'Realtime' from project 'Supabase')
 
@@ -2997,7 +2997,7 @@ SwiftCompile normal arm64 Compiling\ RealtimeMessage.swift /Volumes/NVMe2TB/Deri
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Realtime/Deprecated/RealtimeMessage.swift (in target 'Realtime' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Defaults.swift, Delegated.swift (in target 'Realtime' from project 'Supabase')
 
@@ -3085,43 +3085,43 @@ SwiftCompile normal arm64 Compiling\ Deprecated.swift /Volumes/NVMe2TB/DerivedDa
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Deprecated.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Constants.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Constants.swift (in target 'Supabase' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Constants.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Exports.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Exports.swift (in target 'Supabase' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Exports.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ SupabaseClient.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/SupabaseClient.swift (in target 'Supabase' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/SupabaseClient.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Tracing.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Tracing.swift (in target 'Supabase' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Tracing.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ Supabase (in target 'Supabase' from project 'Supabase')
 
 EmitSwiftModule normal arm64 (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftCompile normal arm64 Compiling\ Types.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Types.swift (in target 'Supabase' from project 'Supabase')
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/SourcePackages/checkouts/supabase-swift/Sources/Supabase/Types.swift (in target 'Supabase' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling Exports.swift (in target 'Supabase' from project 'Supabase')
 
@@ -3211,121 +3211,121 @@ SwiftCompile normal arm64 Compiling\ MockRepository.swift,\ Models.swift,\ Morse
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MockRepository.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Models.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MorselApp.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftEmitModule normal arm64 Emitting\ module\ for\ Morsel (in target 'Morsel' from project 'Morsel')
 
 EmitSwiftModule normal arm64 (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ HealthKitWeightImporter.swift,\ HistoryLedgerViews.swift,\ HistoryModels.swift,\ HistoryRepository.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HealthKitWeightImporter.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryLedgerViews.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryModels.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryRepository.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HealthKitWeightImporter.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryLedgerViews.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryModels.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryRepository.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ HistoryView.swift,\ JournalFocus.swift,\ JournalNavigation.swift,\ JournalPaperTexture.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryView.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalFocus.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalNavigation.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalPaperTexture.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/HistoryView.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalFocus.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalNavigation.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalPaperTexture.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ Views.swift,\ WeightTrendView.swift,\ GeneratedAssetSymbols.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Views.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/WeightTrendView.swift /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/Morsel.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Views.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/WeightTrendView.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/Morsel.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ Auth.swift,\ AuthView.swift,\ DesignSystem.swift,\ GoalsEditor.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Auth.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/AuthView.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/DesignSystem.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/GoalsEditor.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Auth.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/AuthView.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/DesignSystem.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/GoalsEditor.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ PreviewData.swift,\ Repository.swift,\ SettingsView.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/PreviewData.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Repository.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/SettingsView.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/PreviewData.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Repository.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/SettingsView.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ JournalUI.swift,\ MealCapture.swift,\ MealCaptureView.swift,\ MealCorrections.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalUI.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCapture.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCaptureView.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCorrections.swift (in target 'Morsel' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/JournalUI.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCapture.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCaptureView.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealCorrections.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling AuthAdmin.swift, AuthAdminOAuth.swift, AuthClient.swift, AuthClientConfiguration.swift (in target 'Auth' from project 'Supabase')
 
@@ -3333,15 +3333,15 @@ SwiftCompile normal arm64 Compiling\ MealItemEditSheet.swift,\ MealRepository.sw
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealItemEditSheet.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealRepository.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MealThumbnail.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for Morsel (in target 'Morsel' from project 'Morsel')
 
@@ -3355,15 +3355,15 @@ SwiftCompile normal arm64 Compiling\ MorselAppearance.swift,\ Onboarding.swift,\
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/MorselAppearance.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/Onboarding.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/PaperFields.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/Morsel.build/DerivedSources/Morsel-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/Morsel.build/Objects-normal/arm64/Morsel-Swift.h (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
@@ -3391,15 +3391,15 @@ SwiftCompile normal arm64 Compiling\ SupabaseMealMutations.swift,\ TodayLogViews
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/SupabaseMealMutations.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/TodayLogViews.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Sources/Morsel/ViewModel.swift (in target 'Morsel' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling PreviewData.swift, Repository.swift, SettingsView.swift (in target 'Morsel' from project 'Morsel')
 
@@ -3437,37 +3437,37 @@ SwiftEmitModule normal arm64 Emitting\ module\ for\ MorselTests (in target 'Mors
 
 EmitSwiftModule normal arm64 (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ OnboardingTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/OnboardingTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/OnboardingTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ MealCaptureTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/MealCaptureTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/MealCaptureTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ MealCorrectionsTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/MealCorrectionsTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/MealCorrectionsTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ WeightImportTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/WeightImportTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/WeightImportTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ DashboardMathTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/DashboardMathTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/DashboardMathTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling MorselAppearance.swift, Onboarding.swift, PaperFields.swift (in target 'Morsel' from project 'Morsel')
 
@@ -3475,7 +3475,7 @@ SwiftCompile normal arm64 Compiling\ AppearanceThemeTests.swift /Users/jirathip/
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/AppearanceThemeTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Emitting module for MorselTests (in target 'MorselTests' from project 'Morsel')
 
@@ -3489,7 +3489,7 @@ SwiftCompile normal arm64 Compiling\ JournalFollowUpTests.swift /Users/jirathip/
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/JournalFollowUpTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftMergeGeneratedHeaders /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/MorselTests.build/DerivedSources/MorselTests-Swift.h /Volumes/NVMe2TB/DerivedData/Morsel-eydvhrsmpxqyybargekjpgwsyxhz/Build/Intermediates.noindex/Morsel.build/Debug-iphonesimulator/MorselTests.build/Objects-normal/arm64/MorselTests-Swift.h (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
@@ -3517,13 +3517,13 @@ SwiftCompile normal arm64 Compiling\ JournalSemanticsTests.swift /Users/jirathip
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/JournalSemanticsTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftCompile normal arm64 Compiling\ HealthSyncCopyTests.swift /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/HealthSyncCopyTests.swift (in target 'MorselTests' from project 'Morsel')
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/HealthSyncCopyTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriverJobDiscovery normal arm64 Compiling AppearanceThemeTests.swift (in target 'MorselTests' from project 'Morsel')
 
@@ -3533,7 +3533,7 @@ SwiftCompile normal arm64 Compiling\ GoalsEditorTests.swift /Users/jirathip/.her
 
 SwiftCompile normal arm64 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Tests/MorselTests/GoalsEditorTests.swift (in target 'MorselTests' from project 'Morsel')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app
-    
+
 
 SwiftDriver\ Compilation Auth normal arm64 com.apple.xcode.tools.swift.compiler (in target 'Auth' from project 'Supabase')
     cd /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup/app/Morsel.xcodeproj
