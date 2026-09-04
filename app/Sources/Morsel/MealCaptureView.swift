@@ -133,14 +133,10 @@ struct AddMealView: View {
                 eatenAtRow
                     .padding(.bottom, 14)
                 JournalPaperField(
-                    label: "Notes",
-                    text: $notes,
-                    focus: $focusedField,
-                    key: .notes,
-                    prompt: "Notes (optional)",
-                    axis: .vertical,
-                    keyboardType: .default,
-                    hint: "Optional notes about the meal"
+                                  label: "Notes", text: $notes, focus: $focusedField,
+                                  key: .notes, prompt: "Notes (optional)", axis: .vertical,
+                                  keyboardType: .default,
+                                  hint: "Optional notes about the meal"
                 )
 
                 JournalRule()
@@ -148,26 +144,16 @@ struct AddMealView: View {
                 SectionHeading(title: "Food")
                     .padding(.bottom, 10)
                 JournalPaperField(
-                    label: "Food name",
-                    text: $itemName,
-                    focus: $focusedField,
-                    key: .name,
-                    prompt: "Food name",
-                    keyboardType: .default,
-                    hint: "Required"
+                                  label: "Food name", text: $itemName, focus: $focusedField, key: .name,
+                                  prompt: "Food name", keyboardType: .default, hint: "Required"
                 )
                 .padding(.bottom, 14)
 
                 HStack(alignment: .top, spacing: 14) {
                     JournalPaperField(
-                        label: "Quantity",
-                        text: $quantity,
-                        focus: $focusedField,
-                        key: .quantity,
-                        keyboardType: .decimalPad,
-                        monospacedValue: true,
-                        prominent: true,
-                        hint: "Positive number"
+                                  label: "Quantity", text: $quantity, focus: $focusedField, key: .quantity,
+                                  keyboardType: .decimalPad, monospacedValue: true,
+                                  prominent: true, hint: "Positive number"
                     )
                     .frame(maxWidth: 130)
                     unitColumn
@@ -198,13 +184,15 @@ struct AddMealView: View {
             .ignoresSafeArea()
         }
     }
+}
 
+// Issue #105 helpers (same-file extension keeps the type-body budget).
+private extension AddMealView {
     private var canSave: Bool {
         !isSubmitting
             && !isProcessingPhoto
             && !itemName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
-
     private var mealTypeRow: some View {
         HStack {
             Text("Meal type")
@@ -222,7 +210,6 @@ struct AddMealView: View {
         }
         .morselResignsKeyboardOnTap()
     }
-
     private var eatenAtRow: some View {
         HStack {
             Text("Eaten at")
@@ -239,7 +226,6 @@ struct AddMealView: View {
         }
         .morselResignsKeyboardOnTap()
     }
-
     private var unitColumn: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Unit")
@@ -266,7 +252,6 @@ struct AddMealView: View {
         .morselResignsKeyboardOnTap()
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-
     private func nutritionGrid(
         calories: Binding<String>,
         protein: Binding<String>,
@@ -276,50 +261,26 @@ struct AddMealView: View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .top, spacing: 14) {
                 JournalPaperField(
-                    label: "Calories",
-                    text: calories,
-                    focus: $focusedField,
-                    key: .calories,
-                    unit: "kcal",
-                    prompt: "Optional",
-                    keyboardType: .decimalPad,
-                    monospacedValue: true,
-                    hint: "Zero or greater"
+                                  label: "Calories", text: calories, focus: $focusedField, key: .calories,
+                                  unit: "kcal", prompt: "Optional", keyboardType: .decimalPad, monospacedValue: true,
+                                  hint: "Zero or greater"
                 )
                 JournalPaperField(
-                    label: "Protein",
-                    text: protein,
-                    focus: $focusedField,
-                    key: .protein,
-                    unit: "g",
-                    prompt: "Optional",
-                    keyboardType: .decimalPad,
-                    monospacedValue: true,
-                    hint: "Zero or greater"
+                                  label: "Protein", text: protein, focus: $focusedField, key: .protein,
+                                  unit: "g", prompt: "Optional", keyboardType: .decimalPad, monospacedValue: true,
+                                  hint: "Zero or greater"
                 )
             }
             HStack(alignment: .top, spacing: 14) {
                 JournalPaperField(
-                    label: "Carbs",
-                    text: carbs,
-                    focus: $focusedField,
-                    key: .carbs,
-                    unit: "g",
-                    prompt: "Optional",
-                    keyboardType: .decimalPad,
-                    monospacedValue: true,
-                    hint: "Zero or greater"
+                                  label: "Carbs", text: carbs, focus: $focusedField, key: .carbs,
+                                  unit: "g", prompt: "Optional", keyboardType: .decimalPad, monospacedValue: true,
+                                  hint: "Zero or greater"
                 )
                 JournalPaperField(
-                    label: "Fat",
-                    text: fat,
-                    focus: $focusedField,
-                    key: .fat,
-                    unit: "g",
-                    prompt: "Optional",
-                    keyboardType: .decimalPad,
-                    monospacedValue: true,
-                    hint: "Zero or greater"
+                                  label: "Fat", text: fat, focus: $focusedField, key: .fat,
+                                  unit: "g", prompt: "Optional", keyboardType: .decimalPad, monospacedValue: true,
+                                  hint: "Zero or greater"
                 )
             }
         }
@@ -433,52 +394,5 @@ struct AddMealView: View {
             throw MorselError.invalidInput("\(label) must be zero or greater.")
         }
         return value
-    }
-}
-
-struct CameraPicker: UIViewControllerRepresentable {
-    let onCapture: (UIImage) -> Void
-    let onCancel: () -> Void
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-
-    func makeUIViewController(context: Context) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = .camera
-        picker.allowsEditing = false
-        return picker
-    }
-
-    func updateUIViewController(_ picker: UIImagePickerController, context: Context) {
-        _ = picker
-        _ = context
-    }
-
-    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        private let parent: CameraPicker
-
-        init(_ parent: CameraPicker) {
-            self.parent = parent
-        }
-
-        func imagePickerController(
-            _ picker: UIImagePickerController,
-            didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-        ) {
-            if let image = info[.originalImage] as? UIImage {
-                parent.onCapture(image)
-            } else {
-                parent.onCancel()
-            }
-            picker.dismiss(animated: true)
-        }
-
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            parent.onCancel()
-            picker.dismiss(animated: true)
-        }
     }
 }

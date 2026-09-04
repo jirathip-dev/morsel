@@ -230,10 +230,7 @@ private struct AuthenticatedDashboardView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 JournalTabBar(pager: pager)
             }
-            // Issue #105 AC3: Add Meal is a full journal page inside the flow
-            // (route, never the primary .sheet). The cover turns in from the
-            // trailing edge like the next journal leaf; Reduce Motion and
-            // VoiceOver get the plain fade fallback.
+            // Issue #105 AC3: Add Meal is a journal page route, not a .sheet.
             if routeModel.isPresentingAddMeal {
                 MorselActionTint {
                     AddMealView(viewModel: viewModel, onClose: closeAddMeal)
@@ -242,10 +239,8 @@ private struct AuthenticatedDashboardView: View {
                 .zIndex(1)
             }
         }
-        .animation(
-            reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
-            value: routeModel.isPresentingAddMeal
-        )
+        .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
+                   value: routeModel.isPresentingAddMeal)
         .task {
             await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
@@ -257,10 +252,7 @@ private struct AuthenticatedDashboardView: View {
                 themePreferenceKey: MorselAppearance.themePreferenceKey,
                 mcpEndpoint: mcpEndpoint,
                 replay: { showingSettings = false; showingOnboarding = true },
-                onSignOut: {
-                    showingSettings = false
-                    onSignOut()
-                },
+                onSignOut: { showingSettings = false; onSignOut() },
                 close: { showingSettings = false },
                 weightImportError: viewModel.weightImportError
             )
@@ -271,26 +263,18 @@ private struct AuthenticatedDashboardView: View {
                     userID: viewModel.userID,
                     endpoint: mcpEndpoint,
                     session: session,
-                    onFinished: {
-                        OnboardingStore().markCompleted(for: viewModel.userID)
-                        showingOnboarding = false
-                    },
-                    onSkip: {
-                        OnboardingStore().markCompleted(for: viewModel.userID)
-                        showingOnboarding = false
-                    }
+                    onFinished: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false },
+                    onSkip: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false }
                 )
             }
         }
         .onChange(of: pager.selection) { oldTab, newTab in
-            // A tab change while the Add Meal cover is up returns to the
-            // tabbed journal (defensive; the cover hides the bar).
+            // A tab change under the cover returns to the tabbed journal.
             if routeModel.isPresentingAddMeal {
                 routeModel.closeAddMeal()
             }
-            // Page-turn revisit reloads the destination page (the #94 shell
-            // recreated pages per tab visit; the persistent pager reloads
-            // explicitly so History's today row and Goals stay fresh).
+            // Revisit reloads the destination page (persistent pager parity
+            // with the #94 recreate-per-visit shell).
             if oldTab != newTab {
                 tabReloadCounts[newTab, default: 0] += 1
                 if newTab == .today {
@@ -300,27 +284,16 @@ private struct AuthenticatedDashboardView: View {
         }
     }
 
-    private func closeAddMeal() {
-        routeModel.closeAddMeal()
-    }
-
-    /// Single selection binding for the pager: bar taps, swipe settlements,
-    /// and the Reduce-Motion content swap all funnel through the model so the
-    /// page content and the active tab word update in one state pass (AC1).
+    private func closeAddMeal() { routeModel.closeAddMeal() }
+    /// Pager selection binding: bar taps, swipes, and the Reduce-Motion swap
+    /// all funnel through the model — content and tab word update together.
     private var selectionBinding: Binding<JournalTab> {
-        Binding(
-            get: { pager.selection },
-            set: { pager.select($0) }
-        )
+        Binding(get: { pager.selection }, set: { pager.select($0) })
     }
-
-    /// The journal page-turn pager (AC1/AC2): the three primary pages sit in
-    /// a native page-style TabView so a horizontal swipe on page content
-    /// moves to the adjacent tab with the same transition a tab tap
-    /// animates. Content order equals `JournalTab.allCases` (pinned by
-    /// AppearanceThemeTests), so page-turn direction and the tab bar always
-    /// agree. Under Reduce Motion / VoiceOver the pager collapses to a plain
-    /// content swap — no 3D or sliding page behavior.
+    /// Page-turn pager (AC1/AC2): three primary pages in a native page-style
+    /// TabView — tab taps and horizontal swipes use the same directional
+    /// transition, ordered by `JournalTab.allCases`. Reduce Motion / VoiceOver
+    /// get a plain content swap (no 3D or slide).
     @ViewBuilder
     private var pageContent: some View {
         if reduceMotion {
@@ -335,35 +308,28 @@ private struct AuthenticatedDashboardView: View {
         }
     }
 
-    /// One pager page per primary tab (MorselActionTint keeps every tab's
-    /// actions on the V1 orange anchor).
+    /// One pager page per tab (orange action tint per page).
     @ViewBuilder
     private func journalPage(for tab: JournalTab) -> some View {
         switch tab {
         case .today:
             MorselActionTint {
-                TodayView(
-                    viewModel: viewModel,
-                    showSettings: { showingSettings = true },
-                    addMeal: { routeModel.openAddMeal() }
-                )
+                TodayView(viewModel: viewModel,
+                          showSettings: { showingSettings = true },
+                          addMeal: { routeModel.openAddMeal() })
             }
         case .history:
             MorselActionTint {
-                HistoryView(
-                    repository: viewModel.repository,
-                    userID: viewModel.userID,
-                    reloadKey: tabReloadCounts[.history] ?? 0
-                )
+                HistoryView(repository: viewModel.repository,
+                            userID: viewModel.userID,
+                            reloadKey: tabReloadCounts[.history] ?? 0)
             }
         case .goals:
             MorselActionTint {
-                GoalsView(
-                    repository: viewModel.repository,
-                    userID: viewModel.userID,
-                    onSaved: { await viewModel.load() },
-                    seeToday: { pager.select(.today) }
-                )
+                GoalsView(repository: viewModel.repository,
+                          userID: viewModel.userID,
+                          onSaved: { await viewModel.load() },
+                          seeToday: { pager.select(.today) })
             }
         }
     }
@@ -385,11 +351,9 @@ private struct MorselActionTint<Content: View>: View {
     }
 }
 
-/// V1 bottom navigation: three hand-lettered words on the paper ground with a
-/// hairline rule above and a marker-stroke under the active tab. Native
-/// SwiftUI behavior, no browser pill. Taps route through the shared pager
-/// model (single selection source for content and indicator — AC1) and resign
-/// any open keyboard (AC6: a tab tap clears focus).
+/// V1 bottom navigation: three hand-lettered words above a marker-stroke on
+/// the active tab. Taps route through the shared pager model (AC1 single
+/// source) and resign any open keyboard (AC6).
 private struct JournalTabBar: View {
     @ObservedObject var pager: JournalPagerModel
 

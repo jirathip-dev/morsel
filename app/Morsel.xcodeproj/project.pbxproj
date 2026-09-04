@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		015286DBE751D3D95FAEA01F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E736D53085F8CAFBC52583 /* Models.swift */; };
+		03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C591525368CD6908A9FE189E /* JournalPaperTexture.swift */; };
 		0587A79CF555FEB145A5F89E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1096DD7210666ACB8358567E /* Repository.swift */; };
 		1C3544EFCD76B05F2B1CC354 /* HealthKitWeightImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */; };
 		23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A12A89F0EF310480905F84 /* DashboardMathTests.swift */; };
@@ -115,6 +116,7 @@
 		B1B5C42479945B7A48EC226F /* WeightImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightImportTests.swift; sourceTree = "<group>"; };
 		B3E736D53085F8CAFBC52583 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
+		C591525368CD6908A9FE189E /* JournalPaperTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPaperTexture.swift; sourceTree = "<group>"; };
 		C5A366D637ADF15B1E4A652F /* HistoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
 		D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemEditSheet.swift; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				F5C1508E0A84C6910048A9A9 /* HistoryView.swift */,
 				E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */,
 				02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */,
+				C591525368CD6908A9FE189E /* JournalPaperTexture.swift */,
 				9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */,
 				1887F4CC3E98C8E906CFF203 /* MealCapture.swift */,
 				C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */,
@@ -358,6 +361,7 @@
 				EE9ABF0FBF5AF86E17E29C63 /* HistoryView.swift in Sources */,
 				99BFA9B5CB12D391C28F129D /* JournalFocus.swift in Sources */,
 				9EA70A8DE2210DF2EEDAA6E4 /* JournalNavigation.swift in Sources */,
+				03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */,
 				3872B517C57088FC4B4115C7 /* JournalUI.swift in Sources */,
 				FE17E12C974B163DFB73D3E4 /* MealCapture.swift in Sources */,
 				F7C5F8D5F24ADC69D8A2C091 /* MealCaptureView.swift in Sources */,

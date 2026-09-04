@@ -14,7 +14,6 @@ enum GoalDirection: String, CaseIterable, Sendable {
         case .bulk: "Bulk"
         }
     }
-
     var subtitle: String {
         switch self {
         case .cut: "steady loss"
@@ -55,14 +54,12 @@ final class GoalsEditorViewModel: ObservableObject {
         self.onSaved = onSaved
         self.onSeeToday = onSeeToday
     }
-
     var isValid: Bool {
         [calories, protein, carbs, fat].allSatisfy { value in
             guard let number = Double(value) else { return false }
             return number.isFinite && number >= 0 && Self.isOnTenthGrid(number)
         }
     }
-
     var sourceIndicator: String {
         "writes source: \(sources.values.contains(.manual) ? "manual" : "computed")"
     }
@@ -219,21 +216,12 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 }
 
-// Issue #94: Goals is a PRIMARY tab — the journal editor page below, never a
-// secondary route. See-it jumps to Today.
-
-/// Editable goal fields, keyed for the shared AC6 focus contract.
-private enum GoalsFieldKey: Hashable {
-    case calories, protein, carbs, fat
-}
-
+// Issue #94: Goals is a PRIMARY tab (journal editor page). See-it -> Today.
+private enum GoalsFieldKey: Hashable { case calories, protein, carbs, fat }
 struct GoalsView: View {
     @StateObject private var viewModel: GoalsEditorViewModel
-    /// Issue #105: page-turn revisit bump — the persistent pager keeps pages
-    /// mounted, so returning to Goals reloads when this key changes.
-    private let reloadKey: Int
+    private let reloadKey: Int  // Issue #105: pager-revisit reload bump
     @FocusState private var focusedField: GoalsFieldKey?
-
     init(
         repository: any DashboardRepository,
         userID: UUID,
@@ -340,7 +328,6 @@ struct GoalsView: View {
         }
         .padding(.bottom, 6)
     }
-
     private var directions: some View {
         HStack(spacing: 6) {
             ForEach(GoalDirection.allCases, id: \.self) { direction in
@@ -389,10 +376,7 @@ private struct GoalJournalField<Key: Hashable>: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            // Issue #105: shared ruled paper field (label, inkline rule, mono
-            // value, unit readout, error on the rule) — the same component
-            // Add Meal and Edit Item use.
-            JournalPaperField(
+            JournalPaperField(  // Issue #105: shared ruled paper field
                 label: label,
                 text: $value,
                 focus: focus,
@@ -407,7 +391,6 @@ private struct GoalJournalField<Key: Hashable>: View {
             )
             HStack {
                 ProvenanceLabel(text: "source: \(source?.rawValue ?? "—")")
-                Spacer()
             }
         }
     }

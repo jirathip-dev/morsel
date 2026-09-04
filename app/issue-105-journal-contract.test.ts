@@ -17,6 +17,7 @@ const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8'
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
 const views = read('app/Sources/Morsel/Views.swift')
 const journalUI = read('app/Sources/Morsel/JournalUI.swift')
+const journalTexture = read('app/Sources/Morsel/JournalPaperTexture.swift')
 const journalNav = read('app/Sources/Morsel/JournalNavigation.swift')
 const journalFocus = read('app/Sources/Morsel/JournalFocus.swift')
 const paperFields = read('app/Sources/Morsel/PaperFields.swift')
@@ -71,9 +72,9 @@ describe('issue #105 AC3: Add Meal is a journal page route, not the primary shee
 
 describe('issue #105 AC4/AC5: paper ground and paper-native inputs', () => {
   it('draws the deterministic restrained grain + ruled sheet on every journal page', () => {
-    expect(journalUI).toContain('struct JournalPaperTexture')
+    expect(journalTexture).toContain('struct JournalPaperTexture')
     expect(journalUI).toContain('morselJournalPaperUnderlay()')
-    expect(journalUI).toContain('MorselPalette.inkline')
+    expect(journalTexture).toContain('MorselPalette.inkline')
     expect(journalUI).toContain('struct JournalPageFurniture')
     // Bound-edge crease wash next to the spine.
     expect(journalUI).toContain('Bound-edge crease')
