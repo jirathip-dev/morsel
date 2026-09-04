@@ -132,26 +132,18 @@ struct JournalPageHeader: View {
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 8) {
-            Button(action: leadingAction) {
-                Text(leadingTitle)
-                    .font(.morselBodyStrong)
-                    .foregroundStyle(Color.morselForest)
-            }
-            .buttonStyle(.plain)
-            .morselResignsKeyboardOnTap()
-            .frame(width: 88, alignment: .leading)
-            .accessibilityHint("Closes this page")
-
-            Spacer(minLength: 0)
-            Text(title)
-                .font(.morselDisplay)
-                .foregroundStyle(Color.morselInk)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
-            Spacer(minLength: 0)
-
-            Group {
+        ZStack(alignment: .center) {
+            HStack {
+                Button(action: leadingAction) {
+                    Text(leadingTitle)
+                        .font(.morselBodyStrong)
+                        .foregroundStyle(Color.morselForest)
+                }
+                .buttonStyle(.plain)
+                .morselResignsKeyboardOnTap()
+                .fixedSize()
+                .accessibilityHint("Closes this page")
+                Spacer(minLength: 0)
                 if let trailingTitle, let trailingAction {
                     Button(action: trailingAction) {
                         Text(trailingTitle)
@@ -161,9 +153,17 @@ struct JournalPageHeader: View {
                     .buttonStyle(.plain)
                     .disabled(trailingDisabled)
                     .morselResignsKeyboardOnTap()
+                    .fixedSize()
                 }
             }
-            .frame(width: 88, alignment: .trailing)
+            // Hand-lettered page title floats centered OVER the two words so
+            // script glyphs are never truncated by side columns (the words
+            // stay at the true screen edges like a journal heading).
+            Text(title)
+                .font(.morselDisplay)
+                .foregroundStyle(Color.morselInk)
+                .padding(.horizontal, 10)
+                .allowsHitTesting(false)
         }
         .padding(.bottom, 14)
     }
