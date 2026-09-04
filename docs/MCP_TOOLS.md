@@ -373,3 +373,28 @@ Supabase token. `/token` atomically claims the grant through
 replay fails even when claims race across concurrent isolates or processes.
 Refresh-token wrappers remain encrypted/signed; no long-lived server-side
 OAuth sessions are used.
+
+### ChatGPT per-tool OAuth metadata and re-auth challenge (issue #96)
+
+Every protected tool additionally declares the OpenAI/ChatGPT per-tool OAuth
+metadata ChatGPT requires for tool discovery: each tool's `_meta` carries
+`securitySchemes: [{ "type": "oauth2", "scopes": ["mcp"] }]` — the same single
+OAuth contract described above (`scopes_supported: ["mcp"]` in both the
+authorization-server and protected-resource documents); there is no second
+issuer or credential system. The field rides in tool `_meta` because the
+installed MCP SDK emits tool-level `_meta` in `tools/list` while dropping
+unknown top-level config keys.
+
+When transport authentication fails on an ESTABLISHED session, a `tools/call`
+is answered with a structured JSON-RPC result (`isError: true`) whose
+`_meta["mcp/www_authenticate"]` carries the same bearer/resource challenge the
+HTTP 401 advertises, so ChatGPT surfaces its account-linking UI:
+
+```
+Bearer resource_metadata="https://morsel-mcp.fly.dev/mcp/.well-known/oauth-protected-resource/mcp", error="invalid_token", error_description="Authentication required: reconnect the Morsel account to continue."
+```
+
+Discovery/first-contact requests (no session id) keep the plain HTTP 401 +
+WWW-Authenticate challenge. The challenge text is fixed and backend-free: no
+Supabase, Postgres, stack, token, email, or other raw backend detail is ever
+echoed to the model or user.

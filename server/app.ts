@@ -81,6 +81,108 @@ function httpError(error: unknown, request?: Request, basePath?: string, publicB
   })
 }
 
+// Issue #96: the OpenAI/ChatGPT tool-level re-auth contract. The text is
+// deliberately fixed and backend-free: it never carries stack, provider,
+// token, email, or account detail, so a hostile client cannot coax the
+// server into echoing anything past the canonical public metadata URL.
+const AUTHENTICATION_REQUIRED_TEXT = 'Authentication required: reconnect the Morsel account to continue.'
+
+function isAuthenticationFailure(error: unknown): boolean {
+  return error instanceof MorselError && error.code === 'authentication_failed'
+}
+
+function toolAuthenticationChallenge(metadataUrl: string): string {
+  return `Bearer resource_metadata="${metadataUrl}", error="invalid_token", error_description="${AUTHENTICATION_REQUIRED_TEXT}"`
+}
+
+/**
+ * ChatGPT per-tool re-auth signal (issue #96): when transport authentication
+ * fails on an ESTABLISHED session, a tools/call is answered with a structured
+ * JSON-RPC RESULT — isError plus `_meta["mcp/www_authenticate"]` carrying the
+ * same bearer challenge the transport 401 advertises — instead of a plain
+ * HTTP 401, because ChatGPT only surfaces its account-linking UI when the
+ * challenge arrives inside the MCP response. No session or repository state
+ * is touched, so nothing is granted to the unauthenticated caller.
+ *
+ * Returns undefined when the request is not a JSON-RPC tools/call request
+ * with an id (notifications, unparseable bodies, and other methods keep the
+ * transport 401 path unchanged).
+ */
+async function toolCallAuthenticationChallengeResponse(
+  request: Request,
+  basePath: string | undefined,
+  publicBaseUrl: OAuthConfigValue | undefined,
+): Promise<Response | undefined> {
+  if (request.method !== 'POST') {
+    return undefined
+  }
+  const contentType = (request.headers.get('content-type') ?? '').toLowerCase()
+  if (!contentType.includes('application/json')) {
+    return undefined
+  }
+  const body = await request.clone().text()
+  if (body.trim() === '') {
+    return undefined
+  }
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(body)
+  } catch {
+    return undefined
+  }
+  if (!isRecord(parsed) || parsed.method !== 'tools/call') {
+    return undefined
+  }
+  const id = parsed.id
+  if (typeof id !== 'string' && typeof id !== 'number') {
+    return undefined
+  }
+  const challenge = toolAuthenticationChallenge(protectedResourceMetadataUrl(request, basePath, publicBaseUrl))
+  const payload = {
+    jsonrpc: '2.0',
+    id,
+    result: {
+      content: [{ type: 'text', text: AUTHENTICATION_REQUIRED_TEXT }],
+      _meta: { 'mcp/www_authenticate': [challenge] },
+      isError: true,
+    },
+  }
+  return new Response(JSON.stringify(payload), {
+    status: 200,
+    headers: {
+      'content-type': 'application/json',
+      // Browser-based MCP clients need CORS to read the challenge result.
+      'access-control-allow-origin': '*',
+    },
+  })
+}
+
+/**
+ * Authenticate the transport request, answering established-session
+ * tools/call failures with the ChatGPT re-auth challenge result above.
+ * Resolves to the authenticated user, or to the challenge Response when the
+ * request qualifies; any other failure is rethrown for the httpError path.
+ */
+async function authenticateTransportRequest(
+  request: Request,
+  sessionId: string | undefined,
+  basePath: string | undefined,
+  publicBaseUrl: OAuthConfigValue | undefined,
+  authenticate: Authenticate,
+): Promise<AuthenticatedUser | Response> {
+  try {
+    return await authenticate(bearerToken(request.headers.get('authorization') ?? undefined))
+  } catch (error) {
+    if (sessionId !== undefined && isAuthenticationFailure(error)) {
+      const challengeResponse = await toolCallAuthenticationChallengeResponse(request, basePath, publicBaseUrl)
+      if (challengeResponse !== undefined) {
+        return challengeResponse
+      }
+    }
+    throw error
+  }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
@@ -228,9 +330,22 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   const handleMcpTransport = async (context: Context): Promise<Response> => {
     try {
       pruneSessions(Date.now())
-      const token = bearerToken(context.req.header('authorization'))
-      const user = await authenticate(token)
+      // Read the session id BEFORE authenticating: transport auth failing on
+      // an established session is a mid-session credential expiry (issue #96)
+      // and tools/call gets the ChatGPT re-auth challenge result instead of a
+      // bare transport 401.
       const sessionId = context.req.header('mcp-session-id')
+      const authenticatedOrChallenge = await authenticateTransportRequest(
+        context.req.raw,
+        sessionId,
+        options.basePath,
+        oauthPublicBaseUrl,
+        authenticate,
+      )
+      if (authenticatedOrChallenge instanceof Response) {
+        return authenticatedOrChallenge
+      }
+      const user = authenticatedOrChallenge
       if (sessionId !== undefined) {
         const session = sessions.get(sessionId)
         if (session === undefined) {

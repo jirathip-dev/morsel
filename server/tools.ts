@@ -122,12 +122,25 @@ export function createMcpServer(service: MorselService): McpServer {
     openWorldHint: true,
   }
 
+  // OpenAI/ChatGPT per-tool OAuth metadata (issue #96): every Morsel tool is
+  // protected by the server's SINGLE OAuth contract, so each tool declares
+  // the same oauth2 scheme with the scope the existing authorization-server
+  // and protected-resource metadata advertise (scopes_supported: ['mcp']) —
+  // no second issuer or credential system. The array rides in tool `_meta`
+  // because the installed MCP SDK (1.30.0) emits tool-level `_meta` in
+  // tools/list but silently drops unknown top-level config keys such as a
+  // first-class `securitySchemes` (OpenAI SEP-1488 draft, unshipped).
+  const OAUTH2_SECURITY_SCHEMES: Array<{ type: 'oauth2'; scopes: string[] }> = [
+    { type: 'oauth2', scopes: ['mcp'] },
+  ]
+
   server.registerTool('log_meal', {
     title: 'Log a meal',
     description: 'Record one meal and all of its food items. An image URL is stored as the current image_path value; the server does not upload media.',
     inputSchema: LogMealInputSchema,
     outputSchema: LogMealOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.logMeal(input)))
 
   server.registerTool('get_day', {
@@ -136,6 +149,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: GetDayInputSchema,
     outputSchema: GetDayOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getDay(input)))
 
   server.registerTool('search_food', {
@@ -144,6 +158,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: SearchFoodInputSchema,
     outputSchema: SearchFoodOutputSchema,
     annotations: OPEN_WORLD_SEARCH_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.searchFood(input)))
 
   server.registerTool('get_profile', {
@@ -152,6 +167,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: EmptyInputSchema,
     outputSchema: GetProfileOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getProfile(input)))
 
   server.registerTool('set_profile', {
@@ -160,6 +176,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: SetProfileInputSchema,
     outputSchema: SetProfileOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.setProfile(input)))
 
   server.registerTool('compute_targets', {
@@ -168,6 +185,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: EmptyInputSchema,
     outputSchema: ComputeTargetsOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.computeTargets(input)))
 
   server.registerTool('get_goals', {
@@ -176,6 +194,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: EmptyInputSchema,
     outputSchema: GetGoalsOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getGoals(input)))
 
   server.registerTool('set_goals', {
@@ -184,6 +203,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: SetGoalsInputSchema,
     outputSchema: SetGoalsOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.setGoals(input)))
 
   server.registerTool('update_meal_item', {
@@ -192,6 +212,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: UpdateMealItemInputSchema,
     outputSchema: UpdateMealItemOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.updateMealItem(input)))
 
   server.registerTool('delete_meal_log', {
@@ -200,6 +221,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: DeleteMealLogInputSchema,
     outputSchema: DeleteMealLogOutputSchema,
     annotations: DESTRUCTIVE_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.deleteMealLog(input)))
 
   server.registerTool('get_weight_trend', {
@@ -208,6 +230,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: GetWeightTrendInputSchema,
     outputSchema: GetWeightTrendOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getWeightTrend(input)))
 
   server.registerTool('get_energy_burned', {
@@ -216,6 +239,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: GetEnergyBurnedInputSchema,
     outputSchema: GetEnergyBurnedOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getEnergyBurned(input)))
 
   server.registerTool('get_dashboard_summary', {
@@ -224,6 +248,7 @@ export function createMcpServer(service: MorselService): McpServer {
     inputSchema: GetDashboardSummaryInputSchema,
     outputSchema: GetDashboardSummaryOutputSchema,
     annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getDashboardSummary(input)))
 
   return server
