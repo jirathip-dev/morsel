@@ -138,20 +138,27 @@ private struct MorselRootView: View {
                     }
                 )
             } else if sessionStore.isSetupDeferred {
-                SignInView(auth: auth) { session in
-                    sessionStore.authenticate(session)
+                // Issue #54: every unauthenticated surface carries the V1
+                // orange action tint so tint-dependent controls never fall
+                // back to iOS system blue.
+                MorselActionTint {
+                    SignInView(auth: auth) { session in
+                        sessionStore.authenticate(session)
+                    }
                 }
             } else {
-                OnboardingView(
-                    userID: pendingSession?.userID ?? UUID(),
-                    endpoint: mcpEndpoint,
-                    auth: auth,
-                    onAuthenticated: { pendingSession = $0 },
-                    onFinished: {
-                        if let pendingSession { sessionStore.authenticate(pendingSession) }
-                    },
-                    onSkip: { sessionStore.deferSetup() }
-                )
+                MorselActionTint {
+                    OnboardingView(
+                        userID: pendingSession?.userID ?? UUID(),
+                        endpoint: mcpEndpoint,
+                        auth: auth,
+                        onAuthenticated: { pendingSession = $0 },
+                        onFinished: {
+                            if let pendingSession { sessionStore.authenticate(pendingSession) }
+                        },
+                        onSkip: { sessionStore.deferSetup() }
+                    )
+                }
             }
         }
         .task {
