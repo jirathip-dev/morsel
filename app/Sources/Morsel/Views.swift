@@ -1,68 +1,57 @@
 import SwiftUI
 
+// Issue #94 — Today: V1 journal hero (inked ring + wash macro strips),
+// honest states, and the journaled meal log. Net-energy display paths are
+// gone (eat-vs-goal is the only readout).
+
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
+    let showSettings: () -> Void
+
     @State private var editingItem: MealItem?
     @State private var mealToDelete: MealRecord?
     @State private var isShowingAddMeal = false
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    HStack(alignment: .center) {
-                        TodayHeader(date: viewModel.snapshot?.date ?? Date())
-                        Spacer(minLength: 12)
-                        // #89: iOS 26 glass wraps every ToolbarItem (white
-                        // halo), so '+' lives here with ONE background:
-                        // accent fill + ink label (DESIGN.md btn-confirm).
-                        Button {
-                            isShowingAddMeal = true
-                        } label: {
-                            Label("Add meal", systemImage: "plus")
-                                .font(.morselBodyStrong).foregroundStyle(Color.morselInk)
-                                .padding(.horizontal, 14).frame(minHeight: 40)
-                                .background(Color.morselAccent, in: RoundedRectangle(cornerRadius: 8))
-                        }
-                        .buttonStyle(.plain)
+        JournalPage(date: viewModel.snapshot?.date ?? Date()) {
+            TodayHeader(
+                date: viewModel.snapshot?.date ?? Date(),
+                showSettings: showSettings
+            ) {
+                isShowingAddMeal = true
+            }
+            .padding(.bottom, 18)
+
+            if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
+                ErrorNotice(message: errorMessage) {
+                    Task { await viewModel.load() }
+                }
+            } else if viewModel.isLoading && viewModel.snapshot == nil {
+                LoadingNotice()
+            } else {
+                VStack(alignment: .leading, spacing: 0) {
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                            .font(.morselBody)
+                            .foregroundStyle(Color.morselOver)
+                            .padding(.bottom, 10)
                     }
-                    if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
-                        ErrorNotice(message: errorMessage) {
-                            Task { await viewModel.load() }
-                        }
-                    } else if viewModel.isLoading && viewModel.snapshot == nil {
-                        LoadingNotice()
-                    } else {
-                        if let errorMessage = viewModel.errorMessage ?? viewModel.weightImportError {
-                            Text(errorMessage)
-                                .font(.morselBody)
-                                .foregroundStyle(Color.morselOver)
-                        }
-                        GaugeCard(totals: viewModel.totals, goal: viewModel.snapshot?.goal)
-                        NetEnergyNotice(net: viewModel.netEnergy, goal: viewModel.snapshot?.goal)
-                        if let weightTrend = viewModel.snapshot?.weightTrend, !weightTrend.isEmpty {
-                            WeightTrendView(points: weightTrend)
-                        }
-                        TodayLogSection(
-                            viewModel: viewModel,
-                            onEdit: { editingItem = $0 },
-                            onDelete: { mealToDelete = $0 }
-                        )
-                        if !viewModel.reviewItems.isEmpty {
-                            NeedsReviewSection(items: viewModel.reviewItems) { item in
-                                editingItem = item
-                            }
+                    JournalHeroView(viewModel: viewModel)
+                    JournalRule()
+                        .padding(.vertical, 18)
+                    TodayLogSection(
+                        viewModel: viewModel,
+                        onAddMeal: { isShowingAddMeal = true },
+                        onEdit: { editingItem = $0 },
+                        onDelete: { mealToDelete = $0 }
+                    )
+                    if !viewModel.reviewItems.isEmpty {
+                        NeedsReviewSection(items: viewModel.reviewItems) { item in
+                            editingItem = item
                         }
                     }
                 }
-                .padding(.horizontal, 18)
-                .padding(.top, 24)
-                .padding(.bottom, 96)
             }
-            .scrollIndicators(.hidden)
-            .background(Color.morselBackground.ignoresSafeArea())
-            .toolbarBackground(.visible, for: .tabBar)
-            .toolbarBackground(.regularMaterial, for: .tabBar)
         }
         .task {
             await viewModel.load()
@@ -106,23 +95,131 @@ struct TodayView: View {
     }
 }
 
+// MARK: - Header (date line, hand title, add tab + toothed cog)
+
 private struct TodayHeader: View {
     let date: Date
+    let showSettings: () -> Void
+    let addMeal: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("morsel")
-                .font(.morselData)
-                .foregroundStyle(Color.morselForest)
-            Text("Today")
-                .font(.morselDisplay)
-                .foregroundStyle(Color.morselInk)
-            Text(date.formatted(.dateTime.weekday(.wide).month(.wide).day()))
-                .font(.morselBody)
-                .foregroundStyle(Color.morselInkTwo)
+        HStack(alignment: .top, spacing: 8) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(date.formatted(.dateTime.weekday(.wide).month(.wide).day()))
+                    .font(.morselFootnote)
+                    .foregroundStyle(Color.morselInkThree)
+                Text("Today")
+                    .font(.morselDisplay)
+                    .foregroundStyle(Color.morselInk)
+            }
+            Spacer(minLength: 8)
+            Button(action: showSettings) {
+                ToothedCog()
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Settings")
+            .padding(.top, 2)
+            Button(action: addMeal) {
+                AddMealTab()
+            }
+            .buttonStyle(.plain)
         }
     }
 }
+
+// MARK: - Hero: ring + readout + macro wash strips + activity margin note
+
+private struct JournalHeroView: View {
+    @ObservedObject var viewModel: DashboardViewModel
+
+    private var goal: DashboardGoal? { viewModel.snapshot?.goal }
+
+    private var status: GoalStatus {
+        DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: goal?.calorieTargetKcal)
+    }
+
+    private var remaining: String? {
+        guard let goal else { return nil }
+        let delta = viewModel.totals.caloriesKcal - goal.calorieTargetKcal
+        if delta > 0 {
+            return "\(MorselFormat.number(delta)) kcal over"
+        }
+        return "\(MorselFormat.number(-delta)) kcal left"
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            HStack(alignment: .center, spacing: 16) {
+                JournalCalorieRing(
+                    eaten: viewModel.totals.caloriesKcal,
+                    goal: goal?.calorieTargetKcal,
+                    status: status
+                )
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Eaten · Goal")
+                        .morselSectionLabel()
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text(MorselFormat.number(viewModel.totals.caloriesKcal))
+                            .font(.morselHero)
+                            .foregroundStyle(Color.morselInk)
+                            .monospacedDigit()
+                        if let goal {
+                            Text("/ \(MorselFormat.number(goal.calorieTargetKcal)) kcal")
+                                .font(.morselBody)
+                                .foregroundStyle(Color.morselInkTwo)
+                        }
+                    }
+                    if let remaining {
+                        Text(remaining)
+                            .font(.morselTitle)
+                            .foregroundStyle(Color.morselInk)
+                    } else {
+                        Text("Goal unavailable")
+                            .font(.morselTitle)
+                            .foregroundStyle(Color.morselInkThree)
+                    }
+                    if let goal {
+                        ProvenanceLabel(text: "source: \(goal.source.rawValue)")
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+
+            VStack(alignment: .leading, spacing: 11) {
+                MacroWashStrip(
+                    label: "Protein",
+                    value: viewModel.totals.proteinG,
+                    target: goal?.proteinG,
+                    wash: .morselProteinWash
+                )
+                MacroWashStrip(
+                    label: "Carbs",
+                    value: viewModel.totals.carbsG,
+                    target: goal?.carbsG,
+                    wash: .morselCarbsWash
+                )
+                MacroWashStrip(
+                    label: "Fat",
+                    value: viewModel.totals.fatG,
+                    target: goal?.fatG,
+                    wash: .morselFatWash
+                )
+            }
+
+            if viewModel.snapshot?.activeEnergyBurned ?? 0 > 0 {
+                // V1 locked semantics: activity is a margin note; it never
+                // feeds the eaten readout.
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("moved \(MorselFormat.number(viewModel.snapshot?.activeEnergyBurned)) kcal today")
+                        .font(.morselFootnote)
+                        .foregroundStyle(Color.morselInkTwo)
+                    MarkerStroke(color: Color.morselInkLine.opacity(0.8), width: 150, height: 2)
+                }
+            }
+        }
+    }
+}
+
 private struct LoadingNotice: View {
     var body: some View {
         HStack(spacing: 10) {
@@ -135,6 +232,7 @@ private struct LoadingNotice: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
+
 private struct ErrorNotice: View {
     let message: String
     let retry: () -> Void
@@ -147,254 +245,12 @@ private struct ErrorNotice: View {
             Button("Try again", action: retry)
                 .buttonStyle(MorselGhostButtonStyle())
         }
-        .padding(16)
+        .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.morselEnergySoft, in: RoundedRectangle(cornerRadius: 12))
-    }
-}
-private struct TodayLogSection: View {
-    @ObservedObject var viewModel: DashboardViewModel
-    let onEdit: (MealItem) -> Void
-    let onDelete: (MealRecord) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(
-                title: "Today's log",
-                detail: "\(viewModel.snapshot?.meals.count ?? 0) meals · "
-                    + "\(MorselFormat.number(viewModel.totals.caloriesKcal)) kcal"
-            )
-            if viewModel.mealGroups.isEmpty {
-                Text("No meals logged for this date.")
-                    .font(.morselBody)
-                    .foregroundStyle(Color.morselInkTwo)
-                    .padding(.vertical, 8)
-            } else {
-                ForEach(viewModel.mealGroups) { group in
-                    MealGroupView(
-                        group: group,
-                        repository: viewModel.repository,
-                        userID: viewModel.userID,
-                        onEdit: onEdit,
-                        onDelete: onDelete
-                    )
-                }
-            }
-        }
-    }
-}
-
-struct SectionHeading: View {
-    let title: String
-    let detail: String?
-
-    init(title: String, detail: String? = nil) {
-        self.title = title
-        self.detail = detail
-    }
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(title)
-                .morselSectionLabel()
-            Spacer()
-            if let detail {
-                Text(detail)
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-            }
-        }
-    }
-}
-private struct MealGroupView: View {
-    let group: MealGroup
-    let repository: any DashboardRepository
-    let userID: UUID
-    let onEdit: (MealItem) -> Void
-    let onDelete: (MealRecord) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .center, spacing: 12) {
-                if let imagePath = group.meals.compactMap({ $0.imagePath }).first {
-                    MealThumbnailView(repository: repository, userID: userID, path: imagePath)
-                }
-                HStack(alignment: .firstTextBaseline) {
-                    Text(group.type.title)
-                        .font(.morselBodyStrong)
-                        .foregroundStyle(Color.morselInk)
-                    if let firstMealTime = group.firstMealTime {
-                        Text(firstMealTime.formatted(date: .omitted, time: .shortened))
-                            .font(.morselData)
-                            .foregroundStyle(Color.morselInkThree)
-                    }
-                    Spacer()
-                    Text("\(MorselFormat.number(group.totalCalories)) kcal")
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselEnergy)
-                }
-                if group.meals.count == 1, let meal = group.meals.first {
-                    Button {
-                        onDelete(meal)
-                    } label: {
-                        Image(systemName: "trash")
-                            .frame(width: 40, height: 40)
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(Color.morselInkTwo)
-                    .accessibilityLabel("Delete \(meal.mealType.title) meal")
-                }
-            }
-            .padding(.bottom, 4)
-
-            ForEach(group.meals) { meal in
-                if group.meals.count > 1 {
-                    HStack {
-                        Text(meal.eatenAt.formatted(date: .omitted, time: .shortened))
-                            .font(.morselData)
-                            .foregroundStyle(Color.morselInkTwo)
-                        Spacer()
-                        Button {
-                            onDelete(meal)
-                        } label: {
-                            Image(systemName: "trash")
-                                .frame(width: 40, height: 40)
-                        }
-                        .buttonStyle(.plain)
-                        .foregroundStyle(Color.morselInkTwo)
-                        .accessibilityLabel("Delete \(meal.mealType.title) meal")
-                    }
-                }
-                ForEach(meal.items) { item in
-                    MealItemRow(item: item, onEdit: onEdit)
-                    if item.id != meal.items.last?.id {
-                        Divider()
-                            .overlay(Color.morselLine)
-                    }
-                }
-            }
-        }
-    }
-}
-
-private struct MealItemRow: View {
-    let item: MealItem
-    let onEdit: (MealItem) -> Void
-
-    private var badge: ConfidenceBadge {
-        DashboardMath.confidenceBadge(for: item.confidence)
-    }
-
-    private var needsReview: Bool {
-        item.needsReview
-    }
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            VStack(alignment: .leading, spacing: 5) {
-                Text(item.name)
-                    .font(.morselBodyStrong)
-                    .foregroundStyle(Color.morselInk)
-                Text(MorselFormat.portion(quantity: item.quantity, unit: item.unit))
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-                Text(MorselFormat.macroLine(for: item))
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-                HStack(spacing: 6) {
-                    Text(item.provenance.rawValue)
-                        .morselTag(foreground: Color.morselInkTwo, background: Color.morselSurface)
-                    ConfidenceTag(badge: badge, value: item.confidence)
-                    if needsReview {
-                        Button {
-                            onEdit(item)
-                        } label: {
-                            Text("verify")
-                                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Correct \(item.name)")
-                    }
-                }
-            }
-            Spacer(minLength: 8)
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(MorselFormat.number(item.caloriesKcal))
-                    .font(.morselTitle)
-                    .foregroundStyle(Color.morselEnergy)
-                Text("kcal")
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-                Button {
-                    onEdit(item)
-                } label: {
-                    Label("Edit", systemImage: "pencil")
-                }
-                .buttonStyle(MorselGhostButtonStyle())
-                .accessibilityLabel("Edit \(item.name)")
-            }
-        }
-        .padding(.vertical, 10)
-        .padding(.horizontal, needsReview ? 8 : 0)
-        .background(needsReview ? Color.morselEnergySoft : Color.morselBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 6))
-    }
-}
-private struct ConfidenceTag: View {
-    let badge: ConfidenceBadge
-    let value: Double?
-
-    var body: some View {
-        switch badge {
-        case .high:
-            Text(MorselFormat.confidence(value))
-                .morselTag(foreground: Color.morselForest, background: Color.morselLeafSoft)
-        case .low:
-            Text(MorselFormat.confidence(value))
-                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
-        case .missing:
-            Text("confidence —")
-                .morselTag(foreground: Color.morselReview, background: Color.morselAccentSoft)
-        }
-    }
-}
-private struct NeedsReviewSection: View {
-    let items: [MealItem]
-    let onReview: (MealItem) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(title: "Needs review")
-            VStack(alignment: .leading, spacing: 12) {
-                ForEach(items) { item in
-                    HStack(alignment: .top, spacing: 12) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text(item.name)
-                                .font(.morselBodyStrong)
-                                .foregroundStyle(Color.morselInk)
-                            Text("\(MorselFormat.confidence(item.confidence)) confidence")
-                                .font(.morselData)
-                                .foregroundStyle(Color.morselLow)
-                            if let notes = item.notes, !notes.isEmpty {
-                                Text("// agent: \(notes)")
-                                    .font(.morselData)
-                                    .foregroundStyle(Color.morselInkTwo)
-                            }
-                        }
-                        Spacer(minLength: 4)
-                        Button("Correct") {
-                            onReview(item)
-                        }
-                        .buttonStyle(MorselGhostButtonStyle())
-                    }
-                }
-            }
-            .padding(12)
-            .background(Color.morselEnergySoft, in: RoundedRectangle(cornerRadius: 12))
-            .overlay {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.morselLine, lineWidth: 1)
-            }
+        .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.morselInkLine.opacity(0.5), lineWidth: 1)
         }
     }
 }

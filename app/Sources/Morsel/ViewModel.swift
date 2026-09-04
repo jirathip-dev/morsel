@@ -46,15 +46,6 @@ final class DashboardViewModel: ObservableObject {
         DashboardMath.totals(for: snapshot?.meals ?? [])
     }
 
-    var netEnergy: Double {
-        DashboardMath.netEnergy(intake: totals.caloriesKcal, activeBurn: snapshot?.activeEnergyBurned ?? 0)
-    }
-
-    var netEnergyDeltaFromGoal: Double? {
-        guard let goal = snapshot?.goal else { return nil }
-        return netEnergy - goal.calorieTargetKcal
-    }
-
     var mealGroups: [MealGroup] {
         guard let meals = snapshot?.meals else {
             return []
@@ -115,7 +106,7 @@ final class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             return
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
 
@@ -130,7 +121,7 @@ final class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             return false
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
     }
@@ -143,7 +134,7 @@ final class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             return false
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
     }
@@ -159,7 +150,7 @@ final class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             return false
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
     }
@@ -175,7 +166,7 @@ final class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             return false
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
     }

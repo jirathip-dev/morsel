@@ -27,6 +27,21 @@ final class MockDashboardRepository: DashboardRepository {
         return storedGoal
     }
 
+    private(set) var historyOverview = HistoryOverview(days: [], goal: nil, weightTrend: [])
+
+    func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
+        _ = userID
+        _ = end
+        _ = days
+        return historyOverview
+    }
+
+    /// Seed History data for tests/harness. Days outside the requested window
+    /// are ignored by the view model's range slices.
+    func seed(history: HistoryOverview) {
+        historyOverview = history
+    }
+
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal {
         _ = userID
         let dietGoal: ProfileDietGoal = switch direction {

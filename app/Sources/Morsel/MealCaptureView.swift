@@ -172,7 +172,7 @@ struct AddMealView: View {
                 let mimeType = item.supportedContentTypes.first?.preferredMIMEType ?? ""
                 photo = try FoodImageCompressor.prepare(data: data, mimeType: mimeType)
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isProcessingPhoto = false
         }
@@ -185,7 +185,7 @@ struct AddMealView: View {
             do {
                 photo = try FoodImageCompressor.compress(image)
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isProcessingPhoto = false
         }
@@ -204,7 +204,7 @@ struct AddMealView: View {
                     message = viewModel.errorMessage ?? "The meal could not be saved."
                 }
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isSubmitting = false
         }

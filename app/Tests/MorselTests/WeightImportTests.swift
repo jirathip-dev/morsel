@@ -70,7 +70,10 @@ final class WeightImportTests: XCTestCase {
         ])
     }
 
-    func testNetEnergyDayViewOverUnder() async throws {
+    // Issue #94: active energy is a margin note, never an operand of the
+    // readout. The legacy "net energy" day-view path is gone; the delta the
+    // app displays is eaten minus goal only.
+    func testEatenReadoutIgnoresActiveBurn() async throws {
         let goal = DashboardGoal(calorieTargetKcal: 2_000, proteinG: 0, carbsG: 0, fatG: 0, source: .manual)
         let item = MealItem(itemID: UUID(), name: "oats", quantity: 1, unit: .serving,
                             caloriesKcal: 1_800, proteinG: 0, carbsG: 0, fatG: 0,
@@ -83,12 +86,13 @@ final class WeightImportTests: XCTestCase {
 
         await viewModel.load()
 
-        XCTAssertEqual(viewModel.netEnergy, 1_500)
-        XCTAssertEqual(viewModel.netEnergyDeltaFromGoal, -500)
-        XCTAssertEqual(NetEnergyNotice.message(net: 1_500, goal: goal), "Net energy: 1,500 kcal · 500 kcal under")
-
-        XCTAssertEqual(NetEnergyNotice.message(net: 2_300, goal: goal), "Net energy: 2,300 kcal · 300 kcal over")
-        XCTAssertEqual(NetEnergyNotice.message(net: 2_000, goal: goal), "Net energy: 2,000 kcal · 0 kcal under")
+        // 1,800 eaten stays 1,800: the 300 kcal burn never becomes a net 1,500.
+        XCTAssertEqual(viewModel.totals.caloriesKcal, 1_800)
+        XCTAssertEqual(viewModel.snapshot?.activeEnergyBurned, 300)
+        XCTAssertEqual(
+            DashboardMath.eatenMinusGoal(eaten: viewModel.totals.caloriesKcal, goal: goal.calorieTargetKcal),
+            -200
+        )
     }
 
     func testActiveEnergyObserverTriggersImportAndSuccessReload() async throws {

@@ -217,8 +217,24 @@ enum GoalStatus: Equatable, Sendable {
 enum DashboardMath {
     static let lowConfidenceThreshold = 0.8
     static let nearGoalThreshold = 0.85
+    /// V1 goal tolerance: the History "soft ±50 kcal" band — a day within ±50
+    /// of the target reads "on target"; beyond it reads under/over.
+    static let onTargetToleranceKcal = 50.0
 
-    static func netEnergy(intake: Double, activeBurn: Double) -> Double { intake - activeBurn }
+    /// The ONE displayed delta semantics (issue #94): eaten minus goal. Active
+    /// energy is never subtracted — it is context only.
+    static func eatenMinusGoal(eaten: Double, goal: Double?) -> Double? {
+        guard let goal, goal.isFinite, goal > 0 else { return nil }
+        return eaten - goal
+    }
+
+    /// Signed state word for a day delta: under / on target / over (±50).
+    static func comparison(delta: Double?) -> DayComparison {
+        guard let delta, delta.isFinite else { return .onTarget }
+        if delta > onTargetToleranceKcal { return .over }
+        if delta < -onTargetToleranceKcal { return .under }
+        return .onTarget
+    }
 
     static func totals(for meals: [MealRecord]) -> DashboardTotals {
         meals.reduce(into: DashboardTotals(caloriesKcal: 0, proteinG: 0, carbsG: 0, fatG: 0)) { totals, meal in
@@ -329,6 +345,7 @@ enum DashboardMath {
         }
         return min(max(eaten / goal, 0), 1)
     }
+
 }
 
 enum MorselError: LocalizedError, Equatable {
@@ -341,13 +358,31 @@ enum MorselError: LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .configurationMissing:
-            return "Supabase is not configured for this build."
+            return "Morsel is not configured for this build."
         case let .invalidInput(message), let .invalidData(message):
             return message
-        case let .requestFailed(status, message):
-            return "Supabase request failed (\(status)): \(message)"
+        // #94 (AC5): the friendly boundary. Status/backend payloads never
+        // reach users — the request error is a human "try again", never raw
+        // Supabase/Postgres text.
+        case .requestFailed:
+            return "The request could not be completed. Try again."
         case .decodingFailed:
-            return "Supabase returned data in an unexpected format."
+            return "The response could not be read. Try again."
         }
+    }
+}
+
+/// #94 (AC5): the friendly user-facing boundary for dashboard flows. Morsel
+/// errors keep their curated copy; anything else (transport/decoding details)
+/// becomes a human message — raw Supabase/Postgres/backend text never reaches
+/// users.
+enum DashboardUserMessage {
+    static let unexpected = "Something went wrong. Please try again."
+
+    static func userMessage(for error: Error) -> String {
+        if let morselError = error as? MorselError {
+            return morselError.errorDescription ?? unexpected
+        }
+        return unexpected
     }
 }

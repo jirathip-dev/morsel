@@ -95,7 +95,7 @@ struct MealItemEditSheet: View {
                     message = "The item could not be updated."
                 }
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isSaving = false
         }

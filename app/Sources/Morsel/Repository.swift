@@ -8,6 +8,7 @@ let mealItemColumns = [
 
 protocol DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
+    func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview
     func confirmMealItem(userID: UUID, itemID: UUID) async throws
     func updateMealItem(userID: UUID, update: MealItemUpdate) async throws
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws
@@ -70,7 +71,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func loadMealLogs(
+    func loadMealLogs(
         _ client: SupabaseClient,
         userID: UUID,
         start: Date,
@@ -87,7 +88,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .value
     }
 
-    private func loadMealItems(
+    func loadMealItems(
         _ client: SupabaseClient,
         logs: [MealLogResponse]
     ) async throws -> [MealItemResponse] {
@@ -104,7 +105,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .value
     }
 
-    private func loadGoals(_ client: SupabaseClient, userID: UUID) async throws -> [GoalResponse] {
+    func loadGoals(_ client: SupabaseClient, userID: UUID) async throws -> [GoalResponse] {
         try await client
             .from("goals")
             .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source")
@@ -114,7 +115,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .value
     }
 
-    private func loadProfiles(_ client: SupabaseClient, userID: UUID) async throws -> [ProfileResponse] {
+    func loadProfiles(_ client: SupabaseClient, userID: UUID) async throws -> [ProfileResponse] {
         try await client
             .from("profiles")
             .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg")
@@ -124,7 +125,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .value
     }
 
-    private func loadWeightTrend(
+    func loadWeightTrend(
         _ client: SupabaseClient, userID: UUID, start: Date, end: Date
     ) async throws -> [WeightResponse] {
         try await client.from("weight_logs")
@@ -136,7 +137,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .execute().value
     }
 
-    private func parseWeight(_ response: WeightResponse) -> WeightTrendPoint? {
+    func parseWeight(_ response: WeightResponse) -> WeightTrendPoint? {
         guard let date = MorselDate.date(response.measuredAt), response.kilograms.isFinite,
               response.kilograms > 0 else { return nil }
         return WeightTrendPoint(date: date, kilograms: response.kilograms)
@@ -276,7 +277,7 @@ enum MorselDate {
     }
 }
 
-private struct MealLogResponse: Decodable {
+struct MealLogResponse: Decodable {
     let id: String
     let eatenAt: String
     let mealType: String
@@ -348,7 +349,7 @@ struct GoalResponse: Decodable {
     }
 }
 
-private struct WeightResponse: Decodable {
+struct WeightResponse: Decodable {
     let measuredAt: String
     let kilograms: Double
 
