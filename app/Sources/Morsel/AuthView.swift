@@ -1,9 +1,17 @@
 import AuthenticationServices
 import SwiftUI
+import UIKit
 
 struct SignInView: View {
     let auth: any SupabaseAuthenticating
     let onAuthenticated: (AuthenticatedSession) -> Void
+
+    /// Editable keys for the shared AC6 focus contract (email + code).
+    private enum AuthFieldKey: Hashable {
+        case email, code
+    }
+
+    @FocusState private var focusedField: AuthFieldKey?
 
     @State private var email = ""
     @State private var code = ""
@@ -31,6 +39,7 @@ struct SignInView: View {
                     SignInWithAppleButton(.signIn, onRequest: configureApple, onCompletion: completeApple)
                         .frame(height: 40)
                         .disabled(isWorking)
+                        .morselResignsKeyboardOnTap()
 
                     HStack(spacing: 12) {
                         Rectangle()
@@ -47,20 +56,33 @@ struct SignInView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("EMAIL")
                             .morselSectionLabel()
-                        TextField("you@example.com", text: $email)
-                            .textInputAutocapitalization(.never)
-                            .keyboardType(.emailAddress)
-                            .textFieldStyle(.roundedBorder)
-                            .disabled(step == .code || isWorking)
+                        JournalPaperField(
+                            label: "",
+                            text: $email,
+                            focus: $focusedField,
+                            key: .email,
+                            prompt: "you@example.com",
+                            keyboardType: .emailAddress,
+                            accessibilityLabelOverride: "Email address"
+                        )
+                        .disabled(step == .code || isWorking)
+                        .opacity(step == .code || isWorking ? 0.6 : 1)
 
                         if step == .code {
                             Text("CODE")
                                 .morselSectionLabel()
                                 .padding(.top, 6)
-                            TextField("Six-digit code", text: $code)
-                                .keyboardType(.numberPad)
-                                .textFieldStyle(.roundedBorder)
-                                .disabled(isWorking)
+                            JournalPaperField(
+                                label: "",
+                                text: $code,
+                                focus: $focusedField,
+                                key: .code,
+                                prompt: "Six-digit code",
+                                keyboardType: .numberPad,
+                                accessibilityLabelOverride: "Sign-in code"
+                            )
+                            .disabled(isWorking)
+                            .opacity(isWorking ? 0.6 : 1)
                             Button("Use a different email") {
                                 step = .email
                                 code = ""
@@ -68,6 +90,7 @@ struct SignInView: View {
                             }
                             .font(.morselData)
                             .foregroundStyle(Color.morselForest)
+                            .morselResignsKeyboardOnTap()
                         }
                     }
 
@@ -87,12 +110,25 @@ struct SignInView: View {
                     .buttonStyle(MorselPrimaryButtonStyle())
                     .frame(maxWidth: .infinity)
                     .disabled(isWorking)
+                    .morselResignsKeyboardOnTap()
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 32)
+                .morselBlankSpaceDismissesKeyboard()
             }
             .scrollIndicators(.hidden)
+            .scrollDismissesKeyboard(.immediately)
             .background(Color.morselBackground.ignoresSafeArea())
+        }
+        .morselNumericDoneBar(focused: $focusedField, keyboardType: keyboardType(for:))
+    }
+
+    private func keyboardType(for key: AuthFieldKey) -> UIKeyboardType {
+        switch key {
+        case .email:
+            return .emailAddress
+        case .code:
+            return .numberPad
         }
     }
 

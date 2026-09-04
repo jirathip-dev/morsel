@@ -186,9 +186,12 @@ enum JournalTab: String, CaseIterable, Hashable {
 
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
-    @State private var selectedTab: JournalTab = .today
+    @StateObject private var pager = JournalPagerModel()
+    @StateObject private var routeModel = JournalRouteModel()
     @State private var showingSettings = false
     @State private var showingOnboarding = false
+    @State private var tabReloadCounts: [JournalTab: Int] = [:]
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
@@ -225,9 +228,24 @@ private struct AuthenticatedDashboardView: View {
             VStack(spacing: 0) {
                 pageContent
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                JournalTabBar(selection: $selectedTab)
+                JournalTabBar(pager: pager)
+            }
+            // Issue #105 AC3: Add Meal is a full journal page inside the flow
+            // (route, never the primary .sheet). The cover turns in from the
+            // trailing edge like the next journal leaf; Reduce Motion and
+            // VoiceOver get the plain fade fallback.
+            if routeModel.isPresentingAddMeal {
+                MorselActionTint {
+                    AddMealView(viewModel: viewModel, onClose: closeAddMeal)
+                }
+                .transition(reduceMotion ? .opacity : .move(edge: .trailing))
+                .zIndex(1)
             }
         }
+        .animation(
+            reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
+            value: routeModel.isPresentingAddMeal
+        )
         .task {
             await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
@@ -264,21 +282,79 @@ private struct AuthenticatedDashboardView: View {
                 )
             }
         }
+        .onChange(of: pager.selection) { oldTab, newTab in
+            // A tab change while the Add Meal cover is up returns to the
+            // tabbed journal (defensive; the cover hides the bar).
+            if routeModel.isPresentingAddMeal {
+                routeModel.closeAddMeal()
+            }
+            // Page-turn revisit reloads the destination page (the #94 shell
+            // recreated pages per tab visit; the persistent pager reloads
+            // explicitly so History's today row and Goals stay fresh).
+            if oldTab != newTab {
+                tabReloadCounts[newTab, default: 0] += 1
+                if newTab == .today {
+                    Task { await viewModel.load() }
+                }
+            }
+        }
     }
 
+    private func closeAddMeal() {
+        routeModel.closeAddMeal()
+    }
+
+    /// Single selection binding for the pager: bar taps, swipe settlements,
+    /// and the Reduce-Motion content swap all funnel through the model so the
+    /// page content and the active tab word update in one state pass (AC1).
+    private var selectionBinding: Binding<JournalTab> {
+        Binding(
+            get: { pager.selection },
+            set: { pager.select($0) }
+        )
+    }
+
+    /// The journal page-turn pager (AC1/AC2): the three primary pages sit in
+    /// a native page-style TabView so a horizontal swipe on page content
+    /// moves to the adjacent tab with the same transition a tab tap
+    /// animates. Content order equals `JournalTab.allCases` (pinned by
+    /// AppearanceThemeTests), so page-turn direction and the tab bar always
+    /// agree. Under Reduce Motion / VoiceOver the pager collapses to a plain
+    /// content swap — no 3D or sliding page behavior.
     @ViewBuilder
     private var pageContent: some View {
-        switch selectedTab {
+        if reduceMotion {
+            journalPage(for: pager.selection)
+        } else {
+            TabView(selection: selectionBinding) {
+                journalPage(for: .today).tag(JournalTab.today)
+                journalPage(for: .history).tag(JournalTab.history)
+                journalPage(for: .goals).tag(JournalTab.goals)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+    }
+
+    /// One pager page per primary tab (MorselActionTint keeps every tab's
+    /// actions on the V1 orange anchor).
+    @ViewBuilder
+    private func journalPage(for tab: JournalTab) -> some View {
+        switch tab {
         case .today:
             MorselActionTint {
                 TodayView(
                     viewModel: viewModel,
-                    showSettings: { showingSettings = true }
+                    showSettings: { showingSettings = true },
+                    addMeal: { routeModel.openAddMeal() }
                 )
             }
         case .history:
             MorselActionTint {
-                HistoryView(repository: viewModel.repository, userID: viewModel.userID)
+                HistoryView(
+                    repository: viewModel.repository,
+                    userID: viewModel.userID,
+                    reloadKey: tabReloadCounts[.history] ?? 0
+                )
             }
         case .goals:
             MorselActionTint {
@@ -286,7 +362,7 @@ private struct AuthenticatedDashboardView: View {
                     repository: viewModel.repository,
                     userID: viewModel.userID,
                     onSaved: { await viewModel.load() },
-                    seeToday: { selectedTab = .today }
+                    seeToday: { pager.select(.today) }
                 )
             }
         }
@@ -311,9 +387,11 @@ private struct MorselActionTint<Content: View>: View {
 
 /// V1 bottom navigation: three hand-lettered words on the paper ground with a
 /// hairline rule above and a marker-stroke under the active tab. Native
-/// SwiftUI behavior, no browser pill.
+/// SwiftUI behavior, no browser pill. Taps route through the shared pager
+/// model (single selection source for content and indicator — AC1) and resign
+/// any open keyboard (AC6: a tab tap clears focus).
 private struct JournalTabBar: View {
-    @Binding var selection: JournalTab
+    @ObservedObject var pager: JournalPagerModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -323,14 +401,15 @@ private struct JournalTabBar: View {
             HStack(spacing: 0) {
                 ForEach(JournalTab.allCases, id: \.self) { tab in
                     Button {
-                        selection = tab
+                        pager.select(tab)
+                        JournalKeyboardDismisser.resign()
                     } label: {
                         tabLabel(tab)
                     }
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity)
                     .accessibilityLabel(tab.title)
-                    .accessibilityAddTraits(selection == tab ? .isSelected : [])
+                    .accessibilityAddTraits(pager.selection == tab ? .isSelected : [])
                 }
             }
             .padding(.top, 10)
@@ -341,7 +420,7 @@ private struct JournalTabBar: View {
     }
 
     private func tabLabel(_ tab: JournalTab) -> some View {
-        let active = selection == tab
+        let active = pager.selection == tab
         return VStack(spacing: 3) {
             Text(tab.title)
                 .font(Font.morselHand(size: 20))

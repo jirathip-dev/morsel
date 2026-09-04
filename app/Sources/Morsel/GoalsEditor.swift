@@ -221,15 +221,27 @@ final class GoalsEditorViewModel: ObservableObject {
 
 // Issue #94: Goals is a PRIMARY tab — the journal editor page below, never a
 // secondary route. See-it jumps to Today.
+
+/// Editable goal fields, keyed for the shared AC6 focus contract.
+private enum GoalsFieldKey: Hashable {
+    case calories, protein, carbs, fat
+}
+
 struct GoalsView: View {
     @StateObject private var viewModel: GoalsEditorViewModel
+    /// Issue #105: page-turn revisit bump — the persistent pager keeps pages
+    /// mounted, so returning to Goals reloads when this key changes.
+    private let reloadKey: Int
+    @FocusState private var focusedField: GoalsFieldKey?
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
+        reloadKey: Int = 0,
         onSaved: @escaping () async -> Void = {},
         seeToday: @escaping () -> Void = {}
     ) {
+        self.reloadKey = reloadKey
         _viewModel = StateObject(
             wrappedValue: GoalsEditorViewModel(
                 repository: repository, userID: userID, onSaved: onSaved, onSeeToday: seeToday
@@ -255,14 +267,16 @@ struct GoalsView: View {
                     label: "Calories",
                     unit: "kcal",
                     value: $viewModel.calories,
+                    focus: $focusedField,
+                    key: .calories,
                     source: viewModel.sources["calories"],
                     error: viewModel.fieldError("calories"),
                     prominent: true
                 ) { viewModel.edit("calories", value: $0) }
                 HStack(alignment: .top, spacing: 14) {
-                    GoalJournalField(label: "Protein", unit: "g", value: $viewModel.protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
-                    GoalJournalField(label: "Carbs", unit: "g", value: $viewModel.carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
-                    GoalJournalField(label: "Fat", unit: "g", value: $viewModel.fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
+                    GoalJournalField(label: "Protein", unit: "g", value: $viewModel.protein, focus: $focusedField, key: .protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
+                    GoalJournalField(label: "Carbs", unit: "g", value: $viewModel.carbs, focus: $focusedField, key: .carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
+                    GoalJournalField(label: "Fat", unit: "g", value: $viewModel.fat, focus: $focusedField, key: .fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
                 }
                 if !viewModel.isValid {
                     Text("One more pass…")
@@ -280,6 +294,7 @@ struct GoalsView: View {
                         .font(.morselBodyStrong)
                 }
                 Button(viewModel.didSave ? "Goals saved ✓" : "Use these goals") {
+                    JournalKeyboardDismisser.resign()
                     Task { await viewModel.save() }
                 }
                 .buttonStyle(MorselPrimaryButtonStyle())
@@ -300,10 +315,12 @@ struct GoalsView: View {
                     }
                 }
                 .buttonStyle(.plain)
+                .morselResignsKeyboardOnTap()
                 .accessibilityLabel("See today's readout")
             }
         }
-        .task { await viewModel.load() }
+        .morselNumericDoneBar(focused: $focusedField) { _ in .numbersAndPunctuation }
+        .task(id: reloadKey) { await viewModel.load() }
     }
 
     private var header: some View {
@@ -352,46 +369,45 @@ struct GoalsView: View {
                     .padding(.vertical, 4)
                 }
                 .buttonStyle(.plain)
+                .morselResignsKeyboardOnTap()
                 .accessibilityAddTraits(viewModel.selectedDirection == direction ? .isSelected : [])
             }
         }
     }
 }
 
-private struct GoalJournalField: View {
+private struct GoalJournalField<Key: Hashable>: View {
     let label: String
     let unit: String
     @Binding var value: String
+    var focus: FocusState<Key?>.Binding
+    var key: Key
     let source: GoalSource?
     let error: String?
     var prominent = false
     let onEdit: (String) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label).font(.morselBodyStrong).foregroundStyle(Color.morselInk)
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Spacer(minLength: 4)
-                TextField(label, text: Binding(get: { value }, set: { value = $0; onEdit($0) }))
-                    .keyboardType(.numbersAndPunctuation)
-                    .font(prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17))
-                    .multilineTextAlignment(.trailing)
-                    .foregroundStyle(Color.morselInk)
-                Text(unit)
-                    .font(.morselBody)
-                    .foregroundStyle(Color.morselInkTwo)
-            }
-            Rectangle()
-                .fill(error == nil ? Color.morselInkLine.opacity(0.7) : Color.morselOver)
-                .frame(height: error == nil ? 1 : 1.4)
+        VStack(alignment: .leading, spacing: 6) {
+            // Issue #105: shared ruled paper field (label, inkline rule, mono
+            // value, unit readout, error on the rule) — the same component
+            // Add Meal and Edit Item use.
+            JournalPaperField(
+                label: label,
+                text: $value,
+                focus: focus,
+                key: key,
+                unit: unit,
+                keyboardType: .numbersAndPunctuation,
+                monospacedValue: true,
+                prominent: prominent,
+                trailingValue: true,
+                error: error,
+                onEdit: onEdit
+            )
             HStack {
                 ProvenanceLabel(text: "source: \(source?.rawValue ?? "—")")
                 Spacer()
-                if let error {
-                    Text(error)
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselOver)
-                }
             }
         }
     }

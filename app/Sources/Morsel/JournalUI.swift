@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // Issue #94: V1 field-journal native chrome. Everything here draws through
 // the DesignSystem dual tokens (Paper/Night-ink) — no HTML/CSS geometry or
@@ -34,6 +35,8 @@ struct MarkerStroke: View {
 
 /// Full-height left spine + rotated gutter date of a journal page. The spine
 /// sits at x≈26; screens keep a leading inset so content clears the margin.
+/// Issue #105 adds the bound-edge crease wash (a soft inkline gradient right
+/// of the spine) so the page reads as a bound journal leaf, not a card.
 struct JournalPageFurniture: View {
     let date: Date
 
@@ -54,6 +57,14 @@ struct JournalPageFurniture: View {
             Rectangle()
                 .fill(Color.morselInkLine.opacity(0.5))
                 .frame(width: 1)
+            // Bound-edge crease: restrained inkline wash that fades away from
+            // the spine (token-only; Night ink renders it as a fold highlight).
+            LinearGradient(
+                colors: [Color.morselInkLine.opacity(0.22), Color.morselInkLine.opacity(0)],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .frame(width: 7)
             Spacer(minLength: 0)
         }
         .allowsHitTesting(false)
@@ -66,6 +77,64 @@ struct JournalPageFurniture: View {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "dd.MMM.yyyy"
         return formatter.string(from: date).uppercased()
+    }
+}
+
+// MARK: - Paper ground (grain + ruled sheet, deterministic and token-only)
+
+/// The #105 paper ground treatment: warm page ground (existing token), faint
+/// horizontal sheet rules, and a deterministic restrained grain. Both are
+/// baked once per theme into a seamless 44pt tile so scrolling never
+/// recomputes speckles (performance-safe), every launch renders the same
+/// grain (deterministic — seeded LCG), and nothing draws outside the token
+/// system (inkline only, never a new hue; the darkest speck is capped well
+/// below the WCAG floors — see docs/evidence/issue-105/README.md).
+struct JournalPaperTexture: View {
+    @Environment(\.colorScheme) private var colorScheme
+
+    var body: some View {
+        Image(uiImage: Self.tile(night: colorScheme == .dark))
+            .resizable(resizingMode: .tile)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
+    }
+
+    private static var tileCache: [Bool: UIImage] = [:]
+
+    /// 44pt seamless tile: one sheet rule at the bottom edge plus a fixed set
+    /// of inkline specks from a seeded LCG (seed 105 — issue #105).
+    static func tile(night: Bool) -> UIImage {
+        if let cached = tileCache[night] { return cached }
+        let tileSize = CGFloat(44)
+        let renderer = UIGraphicsImageRenderer(
+            size: CGSize(width: tileSize, height: tileSize)
+        )
+        let inkHex = night ? MorselPalette.inkline.night : MorselPalette.inkline.paper
+        let ink = UIColor(morselHex: inkHex)
+        let image = renderer.image { context in
+            // Sheet rule (0.5pt) at the tile bottom — repeated every 44pt.
+            ink.withAlphaComponent(night ? 0.16 : 0.12).setFill()
+            context.fill(CGRect(x: 0, y: tileSize - 0.5, width: tileSize, height: 0.5))
+            // Deterministic restrained grain: ~12 specks per tile from a
+            // seeded LCG (fixed seed → identical speckle every launch).
+            var state: UInt64 = 105
+            func next() -> Double {
+                state = state &* 6364136223846793005 &+ 1442695040888963407
+                return Double((state >> 33) % 1_000_000) / 1_000_000
+            }
+            let speckAlpha: CGFloat = night ? 0.10 : 0.08
+            for _ in 0..<12 {
+                let x = next() * Double(tileSize)
+                let y = next() * Double(tileSize)
+                let radius = 0.4 + next() * 0.5
+                ink.withAlphaComponent(speckAlpha * (next() > 0.8 ? 1.6 : 1.0)).setFill()
+                context.cgContext.fillEllipse(
+                    in: CGRect(x: x - radius, y: y - radius, width: radius * 2, height: radius * 2)
+                )
+            }
+        }
+        tileCache[night] = image
+        return image
     }
 }
 
@@ -289,8 +358,23 @@ struct JournalCalorieRing: View {
 
 // MARK: - Journal page wrapper
 
-/// Standard journal page: warm ground + spine furniture + leading content
-/// inset. `content` scrolls; the bottom inset clears the floating tab bar.
+extension View {
+    /// Scrolls the deterministic paper texture (sheet rules + grain) under
+    /// this content. Drawn as a ZStack underlay — not a `.background` view —
+    /// so the chrome byte contract (one `.background` in the journal file)
+    /// stays intact while the paper scrolls with its content.
+    func morselJournalPaperUnderlay() -> some View {
+        ZStack {
+            JournalPaperTexture()
+            self
+        }
+    }
+}
+
+/// Standard journal page: warm paper ground (with the #105 grain + sheet
+/// rules), spine furniture + leading content inset. `content` scrolls; the
+/// bottom inset clears the floating tab bar. The page scrolls the paper with
+/// its content and dismisses the keyboard on vertical scroll (AC6).
 struct JournalPage<Content: View>: View {
     let date: Date
     let bottomInset: CGFloat
@@ -312,8 +396,11 @@ struct JournalPage<Content: View>: View {
                     .padding(.bottom, bottomInset)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .morselJournalPaperUnderlay()
+            .morselBlankSpaceDismissesKeyboard()
         }
         .scrollIndicators(.hidden)
+        .scrollDismissesKeyboard(.immediately)
         .background(Color.morselBackground.ignoresSafeArea())
         .overlay(alignment: .leading) {
             JournalPageFurniture(date: date)

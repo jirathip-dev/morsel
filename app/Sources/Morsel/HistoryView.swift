@@ -136,8 +136,12 @@ final class HistoryViewModel: ObservableObject {
 
 struct HistoryView: View {
     @StateObject private var viewModel: HistoryViewModel
+    /// Issue #105: page-turn revisit bump — the persistent pager keeps pages
+    /// mounted, so returning to History reloads when this key changes.
+    private let reloadKey: Int
 
-    init(repository: any DashboardRepository, userID: UUID) {
+    init(repository: any DashboardRepository, userID: UUID, reloadKey: Int = 0) {
+        self.reloadKey = reloadKey
         _viewModel = StateObject(
             wrappedValue: HistoryViewModel(repository: repository, userID: userID)
         )
@@ -160,7 +164,7 @@ struct HistoryView: View {
                 historyContent
             }
         }
-        .task {
+        .task(id: reloadKey) {
             await viewModel.load()
         }
     }
