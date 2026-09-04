@@ -186,9 +186,12 @@ enum JournalTab: String, CaseIterable, Hashable {
 
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
-    @State private var selectedTab: JournalTab = .today
+    @StateObject private var pager = JournalPagerModel()
+    @StateObject private var routeModel = JournalRouteModel()
     @State private var showingSettings = false
     @State private var showingOnboarding = false
+    @State private var tabReloadCounts: [JournalTab: Int] = [:]
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
@@ -225,9 +228,19 @@ private struct AuthenticatedDashboardView: View {
             VStack(spacing: 0) {
                 pageContent
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                JournalTabBar(selection: $selectedTab)
+                JournalTabBar(pager: pager)
+            }
+            // Issue #105 AC3: Add Meal is a journal page route, not a .sheet.
+            if routeModel.isPresentingAddMeal {
+                MorselActionTint {
+                    AddMealView(viewModel: viewModel, onClose: closeAddMeal)
+                }
+                .transition(reduceMotion ? .opacity : .move(edge: .trailing))
+                .zIndex(1)
             }
         }
+        .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
+                   value: routeModel.isPresentingAddMeal)
         .task {
             await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
@@ -239,10 +252,7 @@ private struct AuthenticatedDashboardView: View {
                 themePreferenceKey: MorselAppearance.themePreferenceKey,
                 mcpEndpoint: mcpEndpoint,
                 replay: { showingSettings = false; showingOnboarding = true },
-                onSignOut: {
-                    showingSettings = false
-                    onSignOut()
-                },
+                onSignOut: { showingSettings = false; onSignOut() },
                 close: { showingSettings = false },
                 weightImportError: viewModel.weightImportError
             )
@@ -253,41 +263,73 @@ private struct AuthenticatedDashboardView: View {
                     userID: viewModel.userID,
                     endpoint: mcpEndpoint,
                     session: session,
-                    onFinished: {
-                        OnboardingStore().markCompleted(for: viewModel.userID)
-                        showingOnboarding = false
-                    },
-                    onSkip: {
-                        OnboardingStore().markCompleted(for: viewModel.userID)
-                        showingOnboarding = false
-                    }
+                    onFinished: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false },
+                    onSkip: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false }
                 )
+            }
+        }
+        .onChange(of: pager.selection) { oldTab, newTab in
+            // A tab change under the cover returns to the tabbed journal.
+            if routeModel.isPresentingAddMeal {
+                routeModel.closeAddMeal()
+            }
+            // Revisit reloads the destination page (persistent pager parity
+            // with the #94 recreate-per-visit shell).
+            if oldTab != newTab {
+                tabReloadCounts[newTab, default: 0] += 1
+                if newTab == .today {
+                    Task { await viewModel.load() }
+                }
             }
         }
     }
 
+    private func closeAddMeal() { routeModel.closeAddMeal() }
+    /// Pager selection binding: bar taps, swipes, and the Reduce-Motion swap
+    /// all funnel through the model — content and tab word update together.
+    private var selectionBinding: Binding<JournalTab> {
+        Binding(get: { pager.selection }, set: { pager.select($0) })
+    }
+    /// Page-turn pager (AC1/AC2): three primary pages in a native page-style
+    /// TabView — tab taps and horizontal swipes use the same directional
+    /// transition, ordered by `JournalTab.allCases`. Reduce Motion / VoiceOver
+    /// get a plain content swap (no 3D or slide).
     @ViewBuilder
     private var pageContent: some View {
-        switch selectedTab {
+        if reduceMotion {
+            journalPage(for: pager.selection)
+        } else {
+            TabView(selection: selectionBinding) {
+                journalPage(for: .today).tag(JournalTab.today)
+                journalPage(for: .history).tag(JournalTab.history)
+                journalPage(for: .goals).tag(JournalTab.goals)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+    }
+
+    /// One pager page per tab (orange action tint per page).
+    @ViewBuilder
+    private func journalPage(for tab: JournalTab) -> some View {
+        switch tab {
         case .today:
             MorselActionTint {
-                TodayView(
-                    viewModel: viewModel,
-                    showSettings: { showingSettings = true }
-                )
+                TodayView(viewModel: viewModel,
+                          showSettings: { showingSettings = true },
+                          addMeal: { routeModel.openAddMeal() })
             }
         case .history:
             MorselActionTint {
-                HistoryView(repository: viewModel.repository, userID: viewModel.userID)
+                HistoryView(repository: viewModel.repository,
+                            userID: viewModel.userID,
+                            reloadKey: tabReloadCounts[.history] ?? 0)
             }
         case .goals:
             MorselActionTint {
-                GoalsView(
-                    repository: viewModel.repository,
-                    userID: viewModel.userID,
-                    onSaved: { await viewModel.load() },
-                    seeToday: { selectedTab = .today }
-                )
+                GoalsView(repository: viewModel.repository,
+                          userID: viewModel.userID,
+                          onSaved: { await viewModel.load() },
+                          seeToday: { pager.select(.today) })
             }
         }
     }
@@ -309,11 +351,11 @@ private struct MorselActionTint<Content: View>: View {
     }
 }
 
-/// V1 bottom navigation: three hand-lettered words on the paper ground with a
-/// hairline rule above and a marker-stroke under the active tab. Native
-/// SwiftUI behavior, no browser pill.
+/// V1 bottom navigation: three hand-lettered words above a marker-stroke on
+/// the active tab. Taps route through the shared pager model (AC1 single
+/// source) and resign any open keyboard (AC6).
 private struct JournalTabBar: View {
-    @Binding var selection: JournalTab
+    @ObservedObject var pager: JournalPagerModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -323,14 +365,15 @@ private struct JournalTabBar: View {
             HStack(spacing: 0) {
                 ForEach(JournalTab.allCases, id: \.self) { tab in
                     Button {
-                        selection = tab
+                        pager.select(tab)
+                        JournalKeyboardDismisser.resign()
                     } label: {
                         tabLabel(tab)
                     }
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity)
                     .accessibilityLabel(tab.title)
-                    .accessibilityAddTraits(selection == tab ? .isSelected : [])
+                    .accessibilityAddTraits(pager.selection == tab ? .isSelected : [])
                 }
             }
             .padding(.top, 10)
@@ -341,7 +384,7 @@ private struct JournalTabBar: View {
     }
 
     private func tabLabel(_ tab: JournalTab) -> some View {
-        let active = selection == tab
+        let active = pager.selection == tab
         return VStack(spacing: 3) {
             Text(tab.title)
                 .font(Font.morselHand(size: 20))

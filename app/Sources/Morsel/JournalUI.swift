@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // Issue #94: V1 field-journal native chrome. Everything here draws through
 // the DesignSystem dual tokens (Paper/Night-ink) — no HTML/CSS geometry or
@@ -34,6 +35,8 @@ struct MarkerStroke: View {
 
 /// Full-height left spine + rotated gutter date of a journal page. The spine
 /// sits at x≈26; screens keep a leading inset so content clears the margin.
+/// Issue #105 adds the bound-edge crease wash (a soft inkline gradient right
+/// of the spine) so the page reads as a bound journal leaf, not a card.
 struct JournalPageFurniture: View {
     let date: Date
 
@@ -54,6 +57,14 @@ struct JournalPageFurniture: View {
             Rectangle()
                 .fill(Color.morselInkLine.opacity(0.5))
                 .frame(width: 1)
+            // Bound-edge crease: restrained inkline wash that fades away from
+            // the spine (token-only; Night ink renders it as a fold highlight).
+            LinearGradient(
+                colors: [Color.morselInkLine.opacity(0.22), Color.morselInkLine.opacity(0)],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .frame(width: 7)
             Spacer(minLength: 0)
         }
         .allowsHitTesting(false)
@@ -289,8 +300,10 @@ struct JournalCalorieRing: View {
 
 // MARK: - Journal page wrapper
 
-/// Standard journal page: warm ground + spine furniture + leading content
-/// inset. `content` scrolls; the bottom inset clears the floating tab bar.
+/// Standard journal page: warm paper ground (with the #105 grain + sheet
+/// rules), spine furniture + leading content inset. `content` scrolls; the
+/// bottom inset clears the floating tab bar. The page scrolls the paper with
+/// its content and dismisses the keyboard on vertical scroll (AC6).
 struct JournalPage<Content: View>: View {
     let date: Date
     let bottomInset: CGFloat
@@ -312,8 +325,11 @@ struct JournalPage<Content: View>: View {
                     .padding(.bottom, bottomInset)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .morselJournalPaperUnderlay()
+            .morselBlankSpaceDismissesKeyboard()
         }
         .scrollIndicators(.hidden)
+        .scrollDismissesKeyboard(.immediately)
         .background(Color.morselBackground.ignoresSafeArea())
         .overlay(alignment: .leading) {
             JournalPageFurniture(date: date)

@@ -1,9 +1,22 @@
 import SwiftUI
+import UIKit
+
+// Issue #105 — Edit Item stays a modal (issue AC3 permits it) but now reads
+// as the journal contract: paper ground, spine furniture, ruled paper fields
+// (AC5), and the shared focus/keyboard rules (AC6) instead of stock Form
+// cells.
 
 struct MealItemEditSheet: View {
     @Environment(\.dismiss) private var dismiss
     let item: MealItem
     let onSave: (MealItemUpdate) async -> Bool
+
+    /// Editable keys for the shared AC6 focus contract.
+    private enum EditItemFieldKey: Hashable {
+        case name, quantity, calories, protein, carbs, fat
+    }
+
+    @FocusState private var focusedField: EditItemFieldKey?
 
     @State private var name: String
     @State private var quantity: String
@@ -26,64 +39,132 @@ struct MealItemEditSheet: View {
     }
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section("Food") {
-                    TextField("Food name", text: $name)
-                    HStack {
-                        TextField("Quantity", text: $quantity)
-                            .keyboardType(.decimalPad)
-                        Text("\(item.unit.rawValue)")
-                            .font(.morselData)
-                            .foregroundStyle(Color.morselInkTwo)
-                    }
-                }
-
-                Section("Nutrition") {
-                    TextField("Calories (optional)", text: $calories)
-                        .keyboardType(.decimalPad)
-                    TextField("Protein grams (optional)", text: $protein)
-                        .keyboardType(.decimalPad)
-                    TextField("Carbs grams (optional)", text: $carbs)
-                        .keyboardType(.decimalPad)
-                    TextField("Fat grams (optional)", text: $fat)
-                        .keyboardType(.decimalPad)
-                }
-
-                Section("Provenance") {
-                    Text("source: \(item.provenance.rawValue)")
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselInkTwo)
-                }
+        JournalPage(date: Date(), bottomInset: 24) {
+            VStack(alignment: .leading, spacing: 0) {
+                JournalPageHeader(
+                    title: "Edit item",
+                    leadingTitle: "Cancel",
+                    leadingAction: cancel,
+                    trailingTitle: isSaving ? "Saving…" : "Save",
+                    trailingDisabled: isSaving,
+                    trailingAction: save
+                )
 
                 if let message {
-                    Section {
-                        Text(message)
-                            .font(.morselBody)
-                            .foregroundStyle(Color.morselOver)
-                    }
+                    Text(message)
+                        .font(.morselBody)
+                        .foregroundStyle(Color.morselOver)
+                        .padding(.bottom, 10)
                 }
-            }
-            .scrollContentBackground(.hidden)
-            .background(Color.morselBackground)
-            .navigationTitle("Edit item")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                        .disabled(isSaving)
+
+                SectionHeading(title: "Food")
+                    .padding(.bottom, 10)
+                JournalPaperField(
+                    label: "Food name",
+                    text: $name,
+                    focus: $focusedField,
+                    key: .name,
+                    keyboardType: .default,
+                    hint: "Required"
+                )
+                .padding(.bottom, 14)
+                HStack(alignment: .top, spacing: 14) {
+                    JournalPaperField(
+                        label: "Quantity",
+                        text: $quantity,
+                        focus: $focusedField,
+                        key: .quantity,
+                        unit: item.unit.rawValue,
+                        keyboardType: .decimalPad,
+                        monospacedValue: true,
+                        prominent: true,
+                        hint: "Positive number"
+                    )
+                    .frame(maxWidth: 180)
+                    Spacer(minLength: 0)
                 }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(isSaving ? "Saving…" : "Save") {
-                        save()
-                    }
-                    .disabled(isSaving)
+                .padding(.bottom, 14)
+
+                SectionHeading(title: "Nutrition")
+                    .padding(.bottom, 10)
+                HStack(alignment: .top, spacing: 14) {
+                    JournalPaperField(
+                        label: "Calories",
+                        text: $calories,
+                        focus: $focusedField,
+                        key: .calories,
+                        unit: "kcal",
+                        prompt: "Optional",
+                        keyboardType: .decimalPad,
+                        monospacedValue: true,
+                        hint: "Zero or greater"
+                    )
+                    JournalPaperField(
+                        label: "Protein",
+                        text: $protein,
+                        focus: $focusedField,
+                        key: .protein,
+                        unit: "g",
+                        prompt: "Optional",
+                        keyboardType: .decimalPad,
+                        monospacedValue: true,
+                        hint: "Zero or greater"
+                    )
                 }
+                .padding(.bottom, 14)
+                HStack(alignment: .top, spacing: 14) {
+                    JournalPaperField(
+                        label: "Carbs",
+                        text: $carbs,
+                        focus: $focusedField,
+                        key: .carbs,
+                        unit: "g",
+                        prompt: "Optional",
+                        keyboardType: .decimalPad,
+                        monospacedValue: true,
+                        hint: "Zero or greater"
+                    )
+                    JournalPaperField(
+                        label: "Fat",
+                        text: $fat,
+                        focus: $focusedField,
+                        key: .fat,
+                        unit: "g",
+                        prompt: "Optional",
+                        keyboardType: .decimalPad,
+                        monospacedValue: true,
+                        hint: "Zero or greater"
+                    )
+                }
+
+                JournalRule()
+                    .padding(.vertical, 16)
+                SectionHeading(title: "Provenance")
+                    .padding(.bottom, 8)
+                ProvenanceLabel(text: "source: \(item.provenance.rawValue)")
             }
         }
         .presentationDetents([.large])
+        .presentationDragIndicator(.hidden)
+        .morselNumericDoneBar(focused: $focusedField, keyboardType: keyboardType(for:))
+    }
+
+    private func keyboardType(for key: EditItemFieldKey) -> UIKeyboardType {
+        switch key {
+        case .name:
+            return .default
+        case .quantity, .calories, .protein, .carbs, .fat:
+            return .decimalPad
+        }
+    }
+
+    private func cancel() {
+        JournalKeyboardDismisser.resign()
+        dismiss()
     }
 
     private func save() {
+        JournalKeyboardDismisser.resign()
         isSaving = true
         message = nil
         Task { @MainActor in

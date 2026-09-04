@@ -85,6 +85,6 @@ private enum PreviewData {
         repository: MockDashboardRepository(snapshot: PreviewData.snapshot),
         userID: PreviewData.userID
     )
-    TodayView(viewModel: viewModel, showSettings: {})
+    TodayView(viewModel: viewModel, showSettings: {}, addMeal: {})
 }
 #endif

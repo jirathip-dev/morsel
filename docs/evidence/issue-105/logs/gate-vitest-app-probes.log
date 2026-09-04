@@ -1,0 +1,17 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-105-journal-followup
+
+ ✓ app/version-metadata.test.ts (4 tests) 13ms
+ ✓ app/unauth-action-tint.test.ts (7 tests) 58ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 65ms
+ ✓ app/onboarding-contract.test.ts (6 tests) 5ms
+ ✓ app/hotfix-89-contract.test.ts (9 tests) 41ms
+ ✓ app/warm-palette.test.ts (14 tests) 235ms
+ ✓ app/v1-journal-contract.test.ts (10 tests) 132ms
+
+ Test Files  7 passed (7)
+      Tests  62 passed (62)
+   Start at  00:50:06
+   Duration  4.65s (transform 4.82s, setup 0ms, collect 8.66s, tests 549ms, environment 4ms, prepare 8.51s)
+
+VITEST RAW EXIT: 0

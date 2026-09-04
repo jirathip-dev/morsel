@@ -126,6 +126,6 @@ describe('issue #54: unauthenticated sign-in/onboarding surfaces carry the V1 or
     // did not displace the bar or its forest word from the shell).
     const bar = mustSlice(morselApp, 'private struct JournalTabBar')
     expect(bar).toContain('Color.morselForest')
-    expect(morselApp).toContain('JournalTabBar(selection: $selectedTab)')
+    expect(morselApp).toContain('JournalTabBar(pager: pager)')
   })
 })

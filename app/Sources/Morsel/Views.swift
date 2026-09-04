@@ -7,19 +7,20 @@ import SwiftUI
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
     let showSettings: () -> Void
+    /// Issue #105 AC3: Add Meal opens as a journal page route (the shell
+    /// presents it in-flow) — never a `.sheet` from Today.
+    let addMeal: () -> Void
 
     @State private var editingItem: MealItem?
     @State private var mealToDelete: MealRecord?
-    @State private var isShowingAddMeal = false
 
     var body: some View {
         JournalPage(date: viewModel.snapshot?.date ?? Date()) {
             TodayHeader(
                 date: viewModel.snapshot?.date ?? Date(),
-                showSettings: showSettings
-            ) {
-                isShowingAddMeal = true
-            }
+                showSettings: showSettings,
+                addMeal: addMeal
+            )
             .padding(.bottom, 18)
 
             if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
@@ -41,7 +42,7 @@ struct TodayView: View {
                         .padding(.vertical, 18)
                     TodayLogSection(
                         viewModel: viewModel,
-                        onAddMeal: { isShowingAddMeal = true },
+                        onAddMeal: addMeal,
                         onEdit: { editingItem = $0 },
                         onDelete: { mealToDelete = $0 }
                     )
@@ -89,9 +90,6 @@ struct TodayView: View {
                 Text("This removes \(meal.items.count) items and recalculates today's totals.")
             }
         }
-        .sheet(isPresented: $isShowingAddMeal) {
-            AddMealView(viewModel: viewModel)
-        }
     }
 }
 
@@ -123,6 +121,8 @@ private struct TodayHeader: View {
                 AddMealTab()
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Add meal")
+            .accessibilityHint("Opens the Add Meal journal page")
         }
     }
 }

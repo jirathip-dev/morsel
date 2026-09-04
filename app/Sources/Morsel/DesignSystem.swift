@@ -84,7 +84,7 @@ extension Color {
     }
 }
 
-private extension UIColor {
+extension UIColor {
     convenience init(morselHex hex: String) {
         let value = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
         var rgb: UInt64 = 0
