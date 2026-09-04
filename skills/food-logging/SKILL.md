@@ -57,9 +57,13 @@ Always follow these rules:
 - `source` is assigned by the server; never send it. A photo URL makes the
   server use `photo_vision`, a barcode without a photo makes it use `barcode`,
   and otherwise it uses `manual`.
-- For “how am I doing” or target questions, read `get_energy_burned` when
-  available and report net intake (food minus active burn) with the explicit
-  kcal over/under amount against the effective goal.
+- For “how am I doing” or target questions, compare the day's eaten calories
+  with the effective goal from `get_day` (or `get_goals` when a standalone
+  target is needed) and report the signed difference (eaten minus goal) as
+  under, on target, or over. The effective goal is TDEE-based and
+  activity-inclusive — activity is already factored in — so progress is eaten
+  vs goal. `get_energy_burned` may be read for context and shown as a separate
+  activity note; it is never subtracted from the goal.
 - `eaten_at` means when the meal happened, not when the photo was uploaded. If
   it is unknown, omit it and let the server use now.
 - Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
@@ -235,9 +239,11 @@ Measurements are user-scoped and `latest` is the final point in the sorted serie
 
 Input: `{ days?: positive integer <= 366 }`; default is `30`.
 Output: `{ series: [{ date: YYYY-MM-DD, active_kcal: finite number }] }`.
-For “how am I doing?” or target questions, read this alongside `get_day` and
-report net intake as calories eaten minus active burn, with the explicit kcal
-amount over or under the goal.
+For “how am I doing?” or target questions, treat this series as context only:
+active energy is a separate activity note and is never subtracted from the
+goal. Compare `get_day` totals with the effective goal (TDEE-based,
+activity-inclusive) and report the signed difference (eaten minus goal) as
+under, on target, or over.
 
 ### `get_dashboard_summary`
 
@@ -366,8 +372,9 @@ not create a second log for the same sitting.
 ## Common read and correction flows
 
 - "Did I hit today's target?": call `get_day` first for today's UTC calendar
-  date; use its `goal` and `remaining_kcal` when present, and report consumed
-  versus the effective target, remaining or overage, and macro totals. If the
+  date; use its `goal` and `remaining_kcal` when present, and report the
+  signed difference (eaten minus goal) as under, on target, or over, with the
+  remaining or overage and macro totals. If the
   goal is omitted, there is neither a profile nor a complete manual goal; offer
   `set_profile` or provide all four values to `set_goals`. A complete manual goal
   can also be read with `get_goals` without a profile. "Today" means UTC here;
