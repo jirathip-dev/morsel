@@ -11,12 +11,15 @@
 		0587A79CF555FEB145A5F89E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1096DD7210666ACB8358567E /* Repository.swift */; };
 		1C3544EFCD76B05F2B1CC354 /* HealthKitWeightImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */; };
 		23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A12A89F0EF310480905F84 /* DashboardMathTests.swift */; };
+		2808F3E724E23AF3328D63F1 /* MorselAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC158F912C87F239097416E4 /* MorselAppearance.swift */; };
 		37161EEB054B0EC5322B63C6 /* MealCorrections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E934A83609248C24192AB339 /* MealCorrections.swift */; };
+		46D8D3FBE6EFB11D522B3554 /* HealthSyncCopyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */; };
 		474515288390A81C4A1198B2 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B945E15B916830A85CE5BA3 /* AuthView.swift */; };
 		5B8E82996339A8A7FC5594CB /* MealItemEditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */; };
 		5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8B5270DDA7AA045CA6901 /* Onboarding.swift */; };
 		775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */; };
 		7E6281B200D4C09B8854BB63 /* WeightTrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71181F42D2D74093AED142DC /* WeightTrendView.swift */; };
+		85D118FEF37BE605DA8C66CC /* LightSchemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F0182E8FBD743A70661DC4 /* LightSchemeTests.swift */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
 		93B200FE6687B5CE5F31A364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62826381660BDBE9BBB4CA2F /* Assets.xcassets */; };
 		9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C1C0258B7A800F46DCEDFB /* Views.swift */; };
@@ -67,10 +70,12 @@
 		71181F42D2D74093AED142DC /* WeightTrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightTrendView.swift; sourceTree = "<group>"; };
 		7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditor.swift; sourceTree = "<group>"; };
 		7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCorrectionsTests.swift; sourceTree = "<group>"; };
+		79F0182E8FBD743A70661DC4 /* LightSchemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightSchemeTests.swift; sourceTree = "<group>"; };
 		7A0DDA5C9C79E66C218B00C8 /* Morsel.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A85C2813FC9527332F6200F /* MorselTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MorselTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureTests.swift; sourceTree = "<group>"; };
 		87A0D70887CCCCA564A9B7CC /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSyncCopyTests.swift; sourceTree = "<group>"; };
 		8B945E15B916830A85CE5BA3 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitWeightImporter.swift; sourceTree = "<group>"; };
 		9507E44AD8780775C30E2891 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -82,6 +87,7 @@
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealMutations.swift; sourceTree = "<group>"; };
 		E934A83609248C24192AB339 /* MealCorrections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCorrections.swift; sourceTree = "<group>"; };
+		FC158F912C87F239097416E4 /* MorselAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselAppearance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,7 @@
 				315E731961ED8D1653921F25 /* MockRepository.swift */,
 				B3E736D53085F8CAFBC52583 /* Models.swift */,
 				300178E9A1C65132F9460803 /* MorselApp.swift */,
+				FC158F912C87F239097416E4 /* MorselAppearance.swift */,
 				98E8B5270DDA7AA045CA6901 /* Onboarding.swift */,
 				9507E44AD8780775C30E2891 /* PreviewData.swift */,
 				1096DD7210666ACB8358567E /* Repository.swift */,
@@ -166,6 +173,8 @@
 			children = (
 				37A12A89F0EF310480905F84 /* DashboardMathTests.swift */,
 				D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */,
+				8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */,
+				79F0182E8FBD743A70661DC4 /* LightSchemeTests.swift */,
 				83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */,
 				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
 				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
@@ -280,6 +289,7 @@
 				BAEEBDD9CE34464B93736C34 /* MockRepository.swift in Sources */,
 				015286DBE751D3D95FAEA01F /* Models.swift in Sources */,
 				DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */,
+				2808F3E724E23AF3328D63F1 /* MorselAppearance.swift in Sources */,
 				5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */,
 				EFADB9757DE22C7C88F697FB /* PreviewData.swift in Sources */,
 				0587A79CF555FEB145A5F89E /* Repository.swift in Sources */,
@@ -296,6 +306,8 @@
 			files = (
 				23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */,
 				C47A15D126448944F05AAB3A /* GoalsEditorTests.swift in Sources */,
+				46D8D3FBE6EFB11D522B3554 /* HealthSyncCopyTests.swift in Sources */,
+				85D118FEF37BE605DA8C66CC /* LightSchemeTests.swift in Sources */,
 				E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */,
 				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,
 				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,

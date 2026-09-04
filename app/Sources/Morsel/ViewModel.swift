@@ -81,13 +81,15 @@ final class DashboardViewModel: ObservableObject {
                 Task { @MainActor in await self?.load() }
             }, onError: { [weak self] error in
                 Task { @MainActor in
-                    self?.weightImportError = error.localizedDescription
+                    // #89: never surface raw system/entitlement text.
+                    self?.weightImportError = HealthSyncUserMessage.userMessage(for: error)
                 }
             })
         } catch is CancellationError {
             return
         } catch {
-            weightImportError = error.localizedDescription
+            // #89: never surface raw system/entitlement text.
+            weightImportError = HealthSyncUserMessage.userMessage(for: error)
         }
     }
 
