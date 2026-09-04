@@ -44,7 +44,7 @@ function fullSchema() {
       { table_name: "weight_logs", column_name: "source", data_type: "text" },
       { table_name: "energy_burned_logs", column_name: "active_kcal", data_type: "numeric" },
     ],
-    routines: ["compute_targets", "log_meal_with_items", "claim_oauth_authorization_grant", "upsert_food_catalog"],
+    routines: ["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog"],
     policies: [
       { schemaname: "public", tablename: "goals", policyname: "goals_select_own" },
       { schemaname: "public", tablename: "meal_logs", policyname: "meal_logs_select_own" },
@@ -121,14 +121,14 @@ describe("migration reconciliation report", () => {
 
   it("marks every expected sentinel PRESENT when the live inventory matches", async () => {
     const db = fakeDatabase({
-      ledgerNames: ["init", "targets", "atomic_meals_and_users_rls", "store_assets", "oauth_authorization_grants", "food_catalog_provider_cache", "weight_logs", "energy_burned_logs", "goals_fractional_calories"],
+      ledgerNames: ["init", "targets", "atomic_meals_and_users_rls", "store_assets", "oauth_authorization_grants", "food_catalog_provider_cache", "weight_logs", "energy_burned_logs", "goals_fractional_calories", "meal_outbox_client_ids"],
     });
     const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
     expect(result.ledgerExists).toBe(true);
-    expect(result.ledgerNames).toHaveLength(9);
+    expect(result.ledgerNames).toHaveLength(10);
     expect(result.report).toContain("ledger public.migration_ledger");
-    expect(result.report).toContain("9 recorded");
+    expect(result.report).toContain("10 recorded");
     expect(result.report).toContain("Morsel migration ledger reconciliation — READ-ONLY");
     expect(result.report).toContain("coverage:");
     expect(result.report).toContain("0009_goals_fractional_calories.sql");

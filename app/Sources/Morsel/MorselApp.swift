@@ -20,15 +20,9 @@ struct MorselApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // Issue #94: the root consumes the appearance seam — Paper forces
-            // Light (the default), Night ink forces Dark, Follow system does
-            // not force. Every native token resolves through the trait, so the
-            // whole journal re-inks from DesignSystem.swift (no plist route —
-            // the fastlane INFOPLIST_FILE template is release tooling).
             MorselRootView(
                 sessionStore: sessionStore,
                 auth: SupabaseAuthClient(client: supabaseClient),
-                repository: SupabaseDashboardRepository(client: supabaseClient),
                 supabaseClient: supabaseClient,
                 mcpEndpoint: mcpEndpoint
             )
@@ -67,10 +61,6 @@ struct MorselConfiguration {
 
 @MainActor
 final class SessionStore: ObservableObject {
-    /// Explicit app routes when no session exists. `initialSetup` presents
-    /// onboarding; `setupDeferred` is the honest post-"Set up later" state:
-    /// it never invents a session, only offers sign-in (which re-enters
-    /// onboarding with the resulting real session).
     enum NoSessionRoute: Equatable, Sendable {
         case initialSetup
         case setupDeferred
@@ -79,13 +69,8 @@ final class SessionStore: ObservableObject {
     @Published private(set) var session: AuthenticatedSession?
     @Published private(set) var pendingRoute: NoSessionRoute = .initialSetup
 
-    /// True once "Set up later" deferred the initial onboarding (the honest
-    /// no-session state that offers sign-in).
     var isSetupDeferred: Bool { pendingRoute == .setupDeferred }
 
-    /// "Set up later" on the initial (unauthenticated) onboarding: leave the
-    /// presentation and land in the explicit deferred state. No session is
-    /// created and no authenticated repository/network call is made.
     func deferSetup() {
         pendingRoute = .setupDeferred
     }
@@ -95,8 +80,6 @@ final class SessionStore: ObservableObject {
         pendingRoute = .initialSetup
     }
 
-    /// Signs out of Supabase (when configured) and returns to the sign-in
-    /// route. The friendly no-session state never invents a session.
     func signOut(using auth: any SupabaseAuthenticating) async {
         try? await auth.signOut()
         session = nil
@@ -114,7 +97,6 @@ final class SessionStore: ObservableObject {
 private struct MorselRootView: View {
     @ObservedObject var sessionStore: SessionStore
     let auth: any SupabaseAuthenticating
-    let repository: any DashboardRepository
     let supabaseClient: SupabaseClient?
     let mcpEndpoint: String
     @State private var pendingSession: AuthenticatedSession?
@@ -123,14 +105,8 @@ private struct MorselRootView: View {
         Group {
             if let session = sessionStore.session {
                 AuthenticatedDashboardView(
-                    repository: repository,
-                    userID: session.userID,
+                    supabaseClient: supabaseClient,
                     session: session,
-                    weightImporter: supabaseClient.flatMap {
-                        try? HealthKitWeightImporter(
-                            store: SupabaseWeightLogStore(client: $0, userID: session.userID)
-                        )
-                    },
                     mcpEndpoint: mcpEndpoint,
                     auth: auth,
                     onSignOut: {
@@ -138,10 +114,7 @@ private struct MorselRootView: View {
                     }
                 )
             } else if sessionStore.isSetupDeferred {
-                // Issue #54: every unauthenticated surface carries the V1
-                // orange action tint so tint-dependent controls never fall
-                // back to iOS system blue.
-                MorselActionTint {
+                                                                MorselActionTint {
                     SignInView(auth: auth) { session in
                         sessionStore.authenticate(session)
                     }
@@ -167,9 +140,7 @@ private struct MorselRootView: View {
     }
 }
 
-// Issue #94: Today, History, and Goals are the THREE primary tabs (goals is
-// not behind a secondary route anymore); Settings sits behind the toothed
-// cog on the Today page.
+// Three primary journal tabs (Settings stays behind the Today cog).
 enum JournalTab: String, CaseIterable, Hashable {
     case today
     case history
@@ -192,34 +163,56 @@ private struct AuthenticatedDashboardView: View {
     @State private var showingOnboarding = false
     @State private var tabReloadCounts: [JournalTab: Int] = [:]
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.scenePhase) private var scenePhase
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
-    let weightImporter: HealthKitWeightImporter?
     let auth: any SupabaseAuthenticating
     let onSignOut: () -> Void
+    /// Per-account local-first stack; remote-only fallback when unavailable.
+    private let reliability: AccountReliabilityServices?
+    private let fallbackImporter: HealthKitWeightImporter?
 
     init(
-        repository: any DashboardRepository,
-        userID: UUID,
+        supabaseClient: SupabaseClient?,
         session: AuthenticatedSession,
-        weightImporter: HealthKitWeightImporter?,
         mcpEndpoint: String,
         auth: any SupabaseAuthenticating,
         onSignOut: @escaping () -> Void
     ) {
         self.mcpEndpoint = mcpEndpoint
         self.session = session
-        self.weightImporter = weightImporter
         self.auth = auth
         self.onSignOut = onSignOut
-        _viewModel = StateObject(
-            wrappedValue: DashboardViewModel(
-                repository: repository,
-                userID: userID,
-                weightImporter: weightImporter
+        let services = AccountReliabilityServices(client: supabaseClient, userID: session.userID)
+        reliability = services
+        let fallback: HealthKitWeightImporter?
+        if let services {
+            fallback = nil
+            _viewModel = StateObject(
+                wrappedValue: DashboardViewModel(
+                    repository: services.repository,
+                    userID: session.userID,
+                    weightImporter: services.importer,
+                    healthStore: services.healthStore,
+                    syncEngine: services.engine
+                )
             )
-        )
+        } else {
+            let remote = SupabaseDashboardRepository(client: supabaseClient)
+            let importer = supabaseClient.flatMap {
+                try? HealthKitWeightImporter(store: SupabaseWeightLogStore(client: $0, userID: session.userID))
+            }
+            fallback = importer
+            _viewModel = StateObject(
+                wrappedValue: DashboardViewModel(
+                    repository: remote,
+                    userID: session.userID,
+                    weightImporter: importer
+                )
+            )
+        }
+        fallbackImporter = fallback
     }
 
     var body: some View {
@@ -230,7 +223,6 @@ private struct AuthenticatedDashboardView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 JournalTabBar(pager: pager)
             }
-            // Issue #105 AC3: Add Meal is a journal page route, not a .sheet.
             if routeModel.isPresentingAddMeal {
                 MorselActionTint {
                     AddMealView(viewModel: viewModel, onClose: closeAddMeal)
@@ -242,10 +234,27 @@ private struct AuthenticatedDashboardView: View {
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
         .task {
-            await viewModel.importWeights()
+            async let health: Void = viewModel.importWeights()
+            await viewModel.load()
+            _ = await health
+            reliability?.engine.onSyncCompleted = { [weak viewModel] in
+                Task { @MainActor in
+                    await viewModel?.load()
+                    await viewModel?.refreshHealthCalmStatus()
+                }
+            }
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
                 showingOnboarding = true
             }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active {
+                reliability?.engine.syncNow()
+                Task { await viewModel.load() }
+            }
+        }
+        .onDisappear {
+            reliability?.shutdownAndClear()
         }
         .fullScreenCover(isPresented: $showingSettings) {
             SettingsJournalView(
@@ -254,7 +263,11 @@ private struct AuthenticatedDashboardView: View {
                 replay: { showingSettings = false; showingOnboarding = true },
                 onSignOut: { showingSettings = false; onSignOut() },
                 close: { showingSettings = false },
-                weightImportError: viewModel.weightImportError
+                weightImportError: viewModel.weightImportError,
+                healthStatusCopy: viewModel.healthStatus.copy,
+                onRetryHealthSync: {
+                    Task { await viewModel.retryHealthSync() }
+                }
             )
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
@@ -269,12 +282,9 @@ private struct AuthenticatedDashboardView: View {
             }
         }
         .onChange(of: pager.selection) { oldTab, newTab in
-            // A tab change under the cover returns to the tabbed journal.
             if routeModel.isPresentingAddMeal {
                 routeModel.closeAddMeal()
             }
-            // Revisit reloads the destination page (persistent pager parity
-            // with the #94 recreate-per-visit shell).
             if oldTab != newTab {
                 tabReloadCounts[newTab, default: 0] += 1
                 if newTab == .today {
@@ -285,15 +295,10 @@ private struct AuthenticatedDashboardView: View {
     }
 
     private func closeAddMeal() { routeModel.closeAddMeal() }
-    /// Pager selection binding: bar taps, swipes, and the Reduce-Motion swap
-    /// all funnel through the model — content and tab word update together.
     private var selectionBinding: Binding<JournalTab> {
         Binding(get: { pager.selection }, set: { pager.select($0) })
     }
-    /// Page-turn pager (AC1/AC2): three primary pages in a native page-style
-    /// TabView — tab taps and horizontal swipes use the same directional
-    /// transition, ordered by `JournalTab.allCases`. Reduce Motion / VoiceOver
-    /// get a plain content swap (no 3D or slide).
+    /// Three primary pages in a native page-style TabView.
     @ViewBuilder
     private var pageContent: some View {
         if reduceMotion {
@@ -308,7 +313,6 @@ private struct AuthenticatedDashboardView: View {
         }
     }
 
-    /// One pager page per tab (orange action tint per page).
     @ViewBuilder
     private func journalPage(for tab: JournalTab) -> some View {
         switch tab {
@@ -335,9 +339,8 @@ private struct AuthenticatedDashboardView: View {
     }
 }
 
-/// Scoped orange action tint for tab content: actions/links keep the V1
-/// orange identity anchor; the journal tab bar draws its own forest active
-/// word (never a green wash over descendants).
+/// Scoped orange action tint — tab content keeps the V1 orange identity
+/// anchor (never a green wash over descendants).
 private struct MorselActionTint<Content: View>: View {
     let content: () -> Content
 
@@ -351,9 +354,6 @@ private struct MorselActionTint<Content: View>: View {
     }
 }
 
-/// V1 bottom navigation: three hand-lettered words above a marker-stroke on
-/// the active tab. Taps route through the shared pager model (AC1 single
-/// source) and resign any open keyboard (AC6).
 private struct JournalTabBar: View {
     @ObservedObject var pager: JournalPagerModel
 

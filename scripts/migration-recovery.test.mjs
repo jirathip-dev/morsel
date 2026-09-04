@@ -598,6 +598,7 @@ describe("contract pins and expression normalization", () => {
     const expected = {
       compute_targets: "0002_targets.sql",
       log_meal_with_items: "0003_atomic_meals_and_users_rls.sql",
+      log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
       claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
       upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
     };

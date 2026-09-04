@@ -81,6 +81,122 @@ private struct UploadedMealImage {
     let objectPath: String
 }
 
+// MARK: - Issue #106 outbox remote writer
+
+extension SupabaseDashboardRepository: RemoteMealWriting {
+    /// Idempotent photo upload: the object path is derived from the meal's
+    /// client identity, so a retried delivery uploads the SAME object (never
+    /// an orphaned duplicate) and can safely upsert over a half-committed
+    /// previous attempt.
+    func uploadMealPhoto(userID: UUID, mealID: UUID, photo: QueuedMealPhoto) async throws -> String {
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        _ = try await requireSession(client, userID: userID)
+        try FoodImageStore.validate(data: photo.data, mimeType: photo.mimeType)
+        let bucketPath = FoodImageStore.bucketPath(userID: userID, imageID: mealID)
+        let objectPath = try FoodImageStore.validate(bucketPath: bucketPath, for: userID)
+        let response = try await client.storage.from(FoodImageStore.bucket).upload(
+            objectPath,
+            data: photo.data,
+            options: FileOptions(contentType: photo.mimeType, upsert: true)
+        )
+        guard response.fullPath == bucketPath else {
+            throw MorselError.invalidData("Supabase returned an unexpected meal photo path.")
+        }
+        return bucketPath
+    }
+
+    /// Authenticated, idempotent meal commit: the client-generated meal id is
+    /// the server primary key (migration 0010 conflict guard), so a retry
+    /// after a server-side commit reads back the existing authoritative row
+    /// instead of inserting a duplicate.
+    func commitMeal(userID: UUID, meal: QueuedMeal, imagePath: String?) async throws {
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        let authenticatedUserID: UUID
+        do {
+            authenticatedUserID = try await requireSession(client, userID: userID)
+        } catch {
+            throw classifyRemoteMealError(error)
+        }
+        let response: [LogMealResponse]
+        do {
+            response = try await client
+                .rpc(
+                    "log_meal_with_items_client",
+                    params: LogMealParameters(
+                        userID: authenticatedUserID,
+                        eatenAt: MorselDate.iso8601(meal.eatenAt),
+                        mealType: meal.mealType.rawValue,
+                        source: meal.source.rawValue,
+                        imagePath: imagePath,
+                        notes: meal.notes,
+                        items: meal.draft.items.map(LogMealItemParameters.init),
+                        clientMealID: meal.mealID
+                    )
+                )
+                .execute()
+                .value
+        } catch {
+            throw classifyRemoteMealError(error)
+        }
+        guard let returnedID = response.first.flatMap({ UUID(uuidString: $0.mealLogID) }) else {
+            throw MealDeliveryError.permanent(.server)
+        }
+        guard returnedID == meal.mealID else {
+            // The server must return the row for OUR client id — anything
+            // else means the commit did not target this queued meal.
+            throw MealDeliveryError.permanent(.server)
+        }
+    }
+
+    func removeRemotePhoto(userID: UUID, bucketPath: String) async throws {
+        guard let client else { return }
+        if let objectPath = try? FoodImageStore.validate(bucketPath: bucketPath, for: userID) {
+            _ = try? await client.storage.from(FoodImageStore.bucket).remove(paths: [objectPath])
+        }
+    }
+}
+
+/// Maps raw Supabase/transport errors to retry-policy categories. Raw system
+/// text is never persisted or surfaced — only the friendly category copy.
+func classifyRemoteMealError(_ error: Error) -> MealDeliveryError {
+    if let delivery = error as? MealDeliveryError {
+        return delivery
+    }
+    if let postgrest = error as? PostgrestError {
+        // Postgres SQLSTATE: 42xxx = auth/RLS refusal (42501 raised by the
+        // security-invoker meal function), 22xxx = validation refusal.
+        let code = postgrest.code ?? ""
+        if code == "42501" {
+            return .permanent(.auth)
+        }
+        if code.hasPrefix("42") || code.hasPrefix("22") || code == "P0001" {
+            return .permanent(.validation)
+        }
+        return .permanent(.server)
+    }
+    if let morselError = error as? MorselError {
+        switch morselError {
+        case .invalidInput, .invalidData:
+            return .permanent(.validation)
+        case let .requestFailed(status, _):
+            return (400..<500).contains(status) ? .permanent(.auth) : .transient(.server)
+        default:
+            return .transient(.network)
+        }
+    }
+    if error is URLError {
+        return .transient(.network)
+    }
+    if error is FoodImageError {
+        return .permanent(.photo)
+    }
+    return .transient(.network)
+}
+
 private struct LogMealResponse: Decodable {
     let mealLogID: String
 
@@ -97,6 +213,7 @@ private struct LogMealParameters: Encodable {
     let imagePath: String?
     let notes: String?
     let items: [LogMealItemParameters]
+    let clientMealID: String?
 
     enum CodingKeys: String, CodingKey {
         case userID = "p_user_id"
@@ -106,6 +223,7 @@ private struct LogMealParameters: Encodable {
         case imagePath = "p_image_path"
         case notes = "p_notes"
         case items = "p_items"
+        case clientMealID = "p_client_meal_id"
     }
 
     init(
@@ -115,7 +233,8 @@ private struct LogMealParameters: Encodable {
         source: String,
         imagePath: String?,
         notes: String?,
-        items: [LogMealItemParameters]
+        items: [LogMealItemParameters],
+        clientMealID: UUID? = nil
     ) {
         self.userID = userID.uuidString
         self.eatenAt = eatenAt
@@ -124,6 +243,7 @@ private struct LogMealParameters: Encodable {
         self.imagePath = imagePath
         self.notes = notes
         self.items = items
+        self.clientMealID = clientMealID?.uuidString
     }
 
     func encode(to encoder: Encoder) throws {
@@ -135,6 +255,7 @@ private struct LogMealParameters: Encodable {
         try container.encode(imagePath, forKey: .imagePath)
         try container.encode(notes, forKey: .notes)
         try container.encode(items, forKey: .items)
+        try container.encodeIfPresent(clientMealID, forKey: .clientMealID)
     }
 }
 

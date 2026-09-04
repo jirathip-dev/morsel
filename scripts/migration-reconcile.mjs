@@ -156,6 +156,13 @@ export const EXPECTED_SENTINELS = {
     routines: [],
     policies: [],
   },
+  "0010_meal_outbox_client_ids.sql": {
+    tables: [],
+    columns: [],
+    // Issue #106: idempotent client-id meal RPC for the native outbox.
+    routines: ["log_meal_with_items_client"],
+    policies: [],
+  },
 };
 
 export class UsageError extends Error {

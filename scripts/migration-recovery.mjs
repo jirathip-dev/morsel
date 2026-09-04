@@ -111,7 +111,7 @@ export const RECOVERY_QUERIES = Object.freeze({
   indexes:
     `select coalesce(json_agg(json_build_object('table_name', tablename, 'index_name', indexname, 'indexdef', indexdef) order by tablename, indexname), '[]'::json) as result from pg_indexes where schemaname = 'public' and tablename = any(${TABLE_LIST})`,
   routines:
-    `select coalesce(json_agg(json_build_object('routine_name', p.proname, 'identity_arguments', pg_get_function_identity_arguments(p.oid), 'language', l.lanname, 'security_definer', p.prosecdef, 'config', p.proconfig, 'body', p.prosrc) order by p.proname), '[]'::json) as result from pg_proc p join pg_namespace n on n.oid = p.pronamespace join pg_language l on l.oid = p.prolang where n.nspname = 'public' and p.proname = any(array['compute_targets', 'log_meal_with_items', 'claim_oauth_authorization_grant', 'upsert_food_catalog'])`,
+    `select coalesce(json_agg(json_build_object('routine_name', p.proname, 'identity_arguments', pg_get_function_identity_arguments(p.oid), 'language', l.lanname, 'security_definer', p.prosecdef, 'config', p.proconfig, 'body', p.prosrc) order by p.proname), '[]'::json) as result from pg_proc p join pg_namespace n on n.oid = p.pronamespace join pg_language l on l.oid = p.prolang where n.nspname = 'public' and p.proname = any(array['compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog'])`,
   policies:
     "select coalesce(json_agg(json_build_object('schema', schemaname, 'table_name', tablename, 'policy_name', policyname, 'command', cmd::text, 'roles', roles, 'qual', qual, 'with_check', with_check) order by schemaname, tablename, policyname), '[]'::json) as result from pg_policies where schemaname in ('public', 'storage')",
   rls:
@@ -119,7 +119,7 @@ export const RECOVERY_QUERIES = Object.freeze({
   tableGrants:
     `select coalesce(json_agg(json_build_object('table_name', table_name, 'grantee', grantee, 'privilege_type', privilege_type) order by table_name, grantee, privilege_type), '[]'::json) as result from information_schema.role_table_grants where table_schema = 'public' and table_name in ('oauth_authorization_grants', 'food_catalog') and grantee in ('anon', 'authenticated', 'service_role')`,
   routinePrivileges:
-    `select coalesce(json_agg(json_build_object('routine_name', routine_name, 'grantee', grantee, 'privilege_type', privilege_type) order by routine_name, grantee, privilege_type), '[]'::json) as result from information_schema.routine_privileges where routine_schema = 'public' and routine_name in ('compute_targets', 'log_meal_with_items', 'claim_oauth_authorization_grant', 'upsert_food_catalog') and grantee in ('anon', 'authenticated', 'service_role', 'PUBLIC')`,
+    `select coalesce(json_agg(json_build_object('routine_name', routine_name, 'grantee', grantee, 'privilege_type', privilege_type) order by routine_name, grantee, privilege_type), '[]'::json) as result from information_schema.routine_privileges where routine_schema = 'public' and routine_name in ('compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog') and grantee in ('anon', 'authenticated', 'service_role', 'PUBLIC')`,
   storageBucketsExists:
     "select coalesce(json_agg(json_build_object('name', to_regclass('storage.buckets')::text)), '[]'::json) as result",
   bucketRow:
@@ -282,6 +282,7 @@ const ROUTINE_OWNER = {
   log_meal_with_items: "0003_atomic_meals_and_users_rls.sql",
   claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
   upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
+  log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
 };
 
 // ---- verification ----------------------------------------------------------
@@ -756,7 +757,7 @@ export async function inspect({ root, query }) {
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
   if (localSet.size !== CANONICAL_FILES.length || !CANONICAL_FILES.every((f) => localSet.has(f))) {
-    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0009");
+    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0010");
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};
@@ -976,7 +977,7 @@ export async function run({ ref, token, root, apply = false, confirm = null, que
   if (!allVerified || afterBlockers.length > 0 || !countsHeld) {
     throw new StepFailedError("post-apply re-verification failed; no success claim. Inspect the schema before retrying.");
   }
-  log.log(`✓ post-apply re-verification passed: every 0001..0009 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
+  log.log(`✓ post-apply re-verification passed: every 0001..0010 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
   return {
     mode: "apply",
     applied,

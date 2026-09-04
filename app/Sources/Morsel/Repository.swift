@@ -17,6 +17,17 @@ protocol DashboardRepository {
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal?
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal
     func saveGoals(userID: UUID, goal: DashboardGoal) async throws
+    func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot?
+    func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview?
+    func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord?
+}
+
+extension DashboardRepository {
+    func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot? { nil }
+
+    func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview? { nil }
+
+    func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? { nil }
 }
 
 struct SupabaseDashboardRepository: DashboardRepository {

@@ -187,9 +187,16 @@ describe('issue #94: V1 journal hierarchy is implemented natively', () => {
     expect(todayLog).toContain('No meals logged for this date.')
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
     expect(hero).toContain('Goal unavailable')
-    // Friendly-boundary copy: never raw Supabase text in UI.
+    // Friendly-boundary copy: never raw Supabase text in UI. Issue #106:
+    // MealRepository.swift classifies the SDK's PostgrestError SQLSTATE
+    // codes into retry categories (permanent auth/validation vs transient)
+    // — the type name is backend plumbing, never user-facing copy.
+    const rawTokenAllowlist = new Set(['MealRepository.swift'])
     for (const [text, where] of shippedSwiftSources) {
-      expect(text, `${where} must not embed raw backend error copy`).not.toMatch(/PostgREST|status_code|connection refused|Network request failed/i)
+      const banned = rawTokenAllowlist.has(where)
+        ? /status_code|connection refused|Network request failed/i
+        : /PostgREST|status_code|connection refused|Network request failed/i
+      expect(text, `${where} must not embed raw backend error copy`).not.toMatch(banned)
       expect(text, `${where} must not embed raw URL errors`).not.toMatch(/supabase\.co\/rest/i)
     }
   })

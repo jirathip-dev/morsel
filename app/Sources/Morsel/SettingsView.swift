@@ -12,6 +12,8 @@ struct SettingsJournalView: View {
     let onSignOut: () -> Void
     let close: () -> Void
     let weightImportError: String?
+    let healthStatusCopy: String?
+    let onRetryHealthSync: (() -> Void)?
 
     @AppStorage(MorselAppearance.themePreferenceKey)
     private var themePreferenceRaw = MorselAppearance.defaultThemePreference.rawValue
@@ -22,7 +24,9 @@ struct SettingsJournalView: View {
         replay: @escaping () -> Void,
         onSignOut: @escaping () -> Void,
         close: @escaping () -> Void,
-        weightImportError: String? = nil
+        weightImportError: String? = nil,
+        healthStatusCopy: String? = nil,
+        onRetryHealthSync: (() -> Void)? = nil
     ) {
         self.themePreferenceKey = themePreferenceKey
         self.mcpEndpoint = mcpEndpoint
@@ -30,6 +34,8 @@ struct SettingsJournalView: View {
         self.onSignOut = onSignOut
         self.close = close
         self.weightImportError = weightImportError
+        self.healthStatusCopy = healthStatusCopy
+        self.onRetryHealthSync = onRetryHealthSync
     }
 
     var body: some View {
@@ -153,6 +159,22 @@ struct SettingsJournalView: View {
                 Text(weightImportError)
                     .font(.morselBody)
                     .foregroundStyle(Color.morselOver)
+            }
+            if let healthStatusCopy {
+                Text(healthStatusCopy)
+                    .font(.morselBody)
+                    .foregroundStyle(Color.morselInkTwo)
+            }
+            // Issue #106: user-invokable retry/reconnect for HealthKit.
+            if let onRetryHealthSync {
+                Button(action: onRetryHealthSync) {
+                    Text("Sync Apple Health now")
+                        .font(.morselBodyStrong)
+                        .foregroundStyle(Color.morselForest)
+                        .padding(.top, 2)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Sync Apple Health now")
             }
         }
     }

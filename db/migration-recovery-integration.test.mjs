@@ -21,6 +21,7 @@ const CANONICAL_FILES = [
   '0004_store_assets.sql', '0005_oauth_authorization_grants.sql',
   '0006_food_catalog_provider_cache.sql', '0007_weight_logs.sql',
   '0008_energy_burned_logs.sql', '0009_goals_fractional_calories.sql',
+  '0010_meal_outbox_client_ids.sql',
 ]
 
 const BOOTSTRAP = `
@@ -203,7 +204,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     // Issue #76 live evidence: 0001/0002/0003/0005 objects present out of
     // band; 0004 assets, 0006 cache routine, 0007 weight end state, 0008
     // energy table, and 0009 fractional calories never applied; no ledger.
-    applyFiles(db, ['0001_init.sql', '0002_targets.sql', '0003_atomic_meals_and_users_rls.sql', '0005_oauth_authorization_grants.sql'])
+    applyFiles(db, ['0001_init.sql', '0002_targets.sql', '0003_atomic_meals_and_users_rls.sql', '0005_oauth_authorization_grants.sql', '0010_meal_outbox_client_ids.sql'])
     seedRows(db)
     db.execIn(name, `insert into public.goals (user_id, calorie_target_kcal, source) values ('00000000-0000-4000-8000-000000000101', 2200, 'computed');`)
 
@@ -219,6 +220,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       '0007_weight_logs.sql': 'REPAIR_REQUIRED',
       '0008_energy_burned_logs.sql': 'REPAIR_REQUIRED',
       '0009_goals_fractional_calories.sql': 'REPAIR_REQUIRED',
+      '0010_meal_outbox_client_ids.sql': 'VERIFIED_PRESENT',
     }
     for (const file of CANONICAL_FILES) {
       expect(before.statuses[file].state, file).toBe(expected[file])
@@ -321,11 +323,11 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const name = cluster.createDatabase('rec_empty')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
     const outcome = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
-    expect(outcome.applied.length).toBe(9)
+    expect(outcome.applied.length).toBe(10)
     const tables = db.execIn(name, `select count(*) from information_schema.tables where table_schema = 'public'`).trim()
     const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(tables).toBe('11') // 10 canonical tables + migration_ledger
-    expect(ledger).toBe('9')
+    expect(ledger).toBe('10')
     const verify = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
     for (const file of CANONICAL_FILES) {
       expect(verify.statuses[file].state, file).toBe('VERIFIED_PRESENT')
@@ -355,7 +357,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     // Full canonical end state except 0009: calorie_target_kcal is bigint
     // with a value beyond numeric(10,1) capacity -> overflow would abort the
     // alter, so the data dependency must block BEFORE any write.
-    applyFiles(db, CANONICAL_FILES.slice(0, 8))
+    applyFiles(db, CANONICAL_FILES.filter((file) => file !== '0009_goals_fractional_calories.sql'))
     db.execIn(name, `
       alter table public.goals alter column calorie_target_kcal type bigint;
       insert into public.users (id, email) values ('00000000-0000-4000-8000-000000000101', 'one@example.com');
@@ -383,7 +385,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const retried = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
     expect(retried.applied).toEqual(['0009_goals_fractional_calories.sql']) // only 0009 needed converge
     const finalLedger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
-    expect(finalLedger).toBe('9')
+    expect(finalLedger).toBe('10')
     const finalValue = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
     expect(finalValue).toBe('2200.0') // integer -> numeric(10,1) is lossless (scale rendering only)
   }, 90_000)
@@ -391,7 +393,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
   it('0009 higher-precision values (100.05) block with zero writes and are preserved; one-decimal values convert losslessly', async () => {
     const name = cluster.createDatabase('rec_goalprecision')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    applyFiles(db, CANONICAL_FILES.slice(0, 8))
+    applyFiles(db, CANONICAL_FILES.filter((file) => file !== '0009_goals_fractional_calories.sql'))
     db.execIn(name, `
       alter table public.goals alter column calorie_target_kcal type numeric(10,2);
       insert into public.users (id, email) values ('00000000-0000-4000-8000-000000000101', 'one@example.com');
