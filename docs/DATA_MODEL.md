@@ -69,6 +69,22 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
   `(user_id, measured_at)` is unique so background sync is idempotent. Its
   `source` is `manual` or `apple_health`.
 
+## Idempotent meal writes (native offline outbox, issue #106)
+
+`public.log_meal_with_items_client` (migration `0010_meal_outbox_client_ids.sql`)
+is the native app's idempotent meal write. The app generates the meal row
+identity client-side and passes it as `p_client_meal_id`; a retried delivery
+after a server-side commit conflicts on `meal_logs.id` (`on conflict (id) do
+nothing`) and returns the already-committed row instead of inserting a
+duplicate — duplicates are never deduped only in the client. The item insert
+runs only when the client id was NOT already committed, and an id that exists
+under a different `user_id` raises `42501`, so a foreign client id can never
+write through the authenticated path. The original `log_meal_with_items`
+(server/MCP path) keeps its server-generated identity and is untouched.
+The native app's local cache/outbox lives in a per-account SQLite store
+(`Application Support/Morsel/<user_id>/`) and is NOT part of the server data
+model; see `docs/APP_DATA_RELIABILITY.md`.
+
 ## Row-level security
 
 Every user-scoped table is guarded by `auth.uid() = user_id`. `meal_items` is

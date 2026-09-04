@@ -22,7 +22,7 @@ enum DayComparison: Equatable, Sendable {
 
 /// One calendar day of the History ledger. `logged` is true when at least one
 /// meal was recorded that day; `eatenKcal` is that day's total.
-struct HistoryDay: Identifiable, Equatable, Sendable {
+struct HistoryDay: Identifiable, Equatable, Sendable, Codable {
     let date: Date
     let eatenKcal: Double
     let logged: Bool
@@ -33,7 +33,7 @@ struct HistoryDay: Identifiable, Equatable, Sendable {
 /// A History range payload: per-day totals + the effective goal + the weight
 /// trend across the trailing 30 days (the trend spans a fixed 30-day window,
 /// matching the approved V1 History page).
-struct HistoryOverview: Equatable, Sendable {
+struct HistoryOverview: Equatable, Sendable, Codable {
     let days: [HistoryDay]
     let goal: DashboardGoal?
     let weightTrend: [WeightTrendPoint]

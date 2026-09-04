@@ -1,0 +1,174 @@
+
+> morsel@0.0.0 test
+> vitest run
+
+
+ RUN  v3.2.7 /private/tmp/morsel-base
+
+ ✓ authorize-ui/authorization.test.js (17 tests) 79ms
+ ✓ app/warm-palette.test.ts (14 tests) 79ms
+stderr | scripts/migration-recovery.test.mjs > recovery runner CLI and preconditions > rejects --confirm without --apply and --apply without --confirm (exit 2)
+✗ SUPABASE_PROJECT_REF is required.
+
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-LHkodo/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-LHkodo/remote.git
+ * [new branch]      main -> main
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-LHkodo/remote.git
+   81a442d..39e4c47  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-37Ij7B/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+ ✓ plugins/morsel-contract.test.ts (9 tests) 163ms
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-37Ij7B/remote.git
+ * [new branch]      main -> main
+ ✓ server/fly-entrypoint.test.ts (21 tests) 386ms
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-37Ij7B/remote.git
+   c6ffed2..cf4e1c7  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-37Ij7B/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-37Ij7B/remote.git
+   cf4e1c7..cc94f38  main -> main
+ ✓ scripts/migration-reconcile.test.mjs (34 tests) 4342ms
+   ✓ reconcile mode fail-closed behavior > fails closed with exit 2 when SUPABASE_ACCESS_TOKEN is missing  341ms
+   ✓ reconcile mode fail-closed behavior > rejects --adopt and any other CLI argument  582ms
+   ✓ reconcile mode fail-closed behavior > CLI rejects malformed ref/token with fixed messages that omit the input  749ms
+   ✓ reconcile mode fail-closed behavior > CLI rejects raw env values with leading/trailing whitespace (exit 2, no input echo)  1481ms
+   ✓ read-only mutation probes > never prints the project ref or token in the report, stdout, or errors  739ms
+ ✓ server/oauth.test.ts (64 tests) 2059ms
+   ✓ OAuth discovery and MCP authentication > canonical root transport (#57) > keeps an MCP client session usable across the root transport and the alias  557ms
+   ✓ email one-time-code authorization (issue #60) > answers uniformly for existing and unknown accounts and never requests user creation  411ms
+   ✓ email one-time-code authorization (issue #60) > changes the decoded envelope bytes for every tampered transaction shape (#67)  358ms
+ ✓ server/supabase-repository.test.ts (10 tests) 751ms
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-Hh8rSk/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-Hh8rSk/remote.git
+ * [new branch]      main -> main
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-Hh8rSk/remote.git
+   80b1d43..6749486  main -> main
+Switched to a new branch 'feature-x'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-Hh8rSk/remote.git
+ * [new branch]      feature-x -> feature-x
+ ✓ server/tool-classification.test.ts (6 tests) 3308ms
+   ✓ annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched  1126ms
+   ✓ annotation classification vs real behavior > search_food is not advertised read-only because a provider miss persists shared-cache rows  825ms
+   ✓ annotation classification vs real behavior > delete_meal_log irreversibly removes the owned record and its items  418ms
+   ✓ annotation classification vs real behavior > cross-user operations stay rejected and annotations cannot widen access  624ms
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-omwdPm/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+ ✓ scripts/migration-recovery.test.mjs (39 tests) 6272ms
+   ✓ recovery runner CLI and preconditions > rejects malformed env values with fixed messages that never echo input  484ms
+   ✓ recovery runner CLI and preconditions > usage exit 2 wins over the stale-checkout guard when ref is missing  1337ms
+   ✓ recovery runner CLI and preconditions > refuses apply from a stale checkout with exit 1 before any query  2209ms
+   ✓ recovery runner CLI and preconditions > refuses apply from a non-main local branch with exit 1  1663ms
+Switched to a new branch 'main'
+ ✓ server/render.test.ts (5 tests) 133ms
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-omwdPm/remote.git
+ * [new branch]      main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-omwdPm/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-omwdPm/remote.git
+   93b5b62..6488897  main -> main
+ ✓ server/service.test.ts (17 tests) 632ms
+   ✓ MorselService > atomically creates one meal and its items, then totals them for a day  335ms
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-818kNf/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+ ✓ app/v1-journal-contract.test.ts (10 tests) 186ms
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-818kNf/remote.git
+ * [new branch]      main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-818kNf/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-818kNf/remote.git
+   76bf891..919732c  main -> main
+stdout | infra/supabase/config.test.mjs > writeAuthConfig HTTP method pinning (fix r1: PATCH, never PUT) > applies the auth config with PATCH against a /config/auth URL
+apply: PATCH auth config for project method-pin-probe-ref (changed keys: none)
+
+stdout | infra/supabase/config.test.mjs > writeAuthConfig HTTP method pinning (fix r1: PATCH, never PUT) > applies the auth config with PATCH against a /config/auth URL
+apply: postcondition re-check
+OK: no drift — all pinned Supabase auth config values match (SMTP host/user, OTP length 6, template {{ .Token }}, rate limit 30).
+
+ ✓ infra/supabase/config.test.mjs (17 tests) 310ms
+ ✓ server/chatgpt-tool-oauth.test.ts (5 tests) 1968ms
+   ✓ ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > emits the OpenAI oauth2 securitySchemes metadata for every protected tool on the tools/list wire  692ms
+   ✓ ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > surfaces the securitySchemes metadata to a real SDK client through listTools  1020ms
+ ✓ scripts/apply-migrations.test.mjs (11 tests) 3668ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > returns usage exit 2 for missing ref before stale-checkout exit 1  1685ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > rejects --adopt (exit 2) and issues zero write statements  1741ms
+ ✓ scripts/ci-edge-probe-contract.test.mjs (6 tests) 82ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 19ms
+ ✓ server/http.test.ts (4 tests) 2034ms
+   ✓ MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase  1634ms
+ ✓ fastlane/testflight-config.test.ts (8 tests) 7ms
+ ✓ scripts/migration-cd-classifier.test.mjs (14 tests) 59ms
+ ✓ app/hotfix-89-contract.test.ts (9 tests) 90ms
+ ✓ app/unauth-action-tint.test.ts (7 tests) 115ms
+ ✓ app/version-metadata.test.ts (4 tests) 92ms
+ ✓ app/onboarding-contract.test.ts (6 tests) 35ms
+ ✓ scripts/migration-cd-pr-gate.test.mjs (11 tests) 30ms
+ ✓ db/migrations.test.ts (5 tests) 88ms
+stdout | server/tools.test.ts > MCP tool registration metadata (tools/list) > emits the metadata a local inspector receives (evidence dump)
+MCP_LIST_TOOLS_EVIDENCE [{"name":"log_meal","title":"Log a meal","description":"Record one meal and all of its food items. An image URL is stored as the current image_path value; the server does not upload media.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["meal_type","items"],"outputRequired":["meal_log_id","recorded"]},{"name":"get_day","title":"Get a day of meals","description":"Read meals, nutrition totals, and the effective goal for one calendar day.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["date"],"outputRequired":["date","meals","totals","render"]},{"name":"search_food","title":"Search the food catalog","description":"Find catalog foods by name or barcode before estimating macros.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":true},"inputRequired":["query"],"outputRequired":["results"]},{"name":"get_profile","title":"Get the body profile","description":"Read the body metrics used to compute nutrition targets.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["sex","age_years","height_cm","weight_kg","activity_level","diet_goal"]},{"name":"set_profile","title":"Set the body profile","description":"Create or replace the body metrics used to compute nutrition targets.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["sex","age_years","height_cm","weight_kg","activity_level","diet_goal"],"outputRequired":["ok","saved"]},{"name":"compute_targets","title":"Compute nutrition targets","description":"Compute BMR, TDEE, calories, and macros from the saved profile; uses the latest imported weight when available.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["bmr_kcal","tdee_kcal","calorie_target_kcal","protein_g","carbs_g","fat_g"]},{"name":"get_goals","title":"Get the effective goal","description":"Read the effective computed or manually overridden nutrition goal.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["calorie_target_kcal","protein_g","carbs_g","fat_g","source"]},{"name":"set_goals","title":"Set manual goals","description":"Set one or more manual nutrition goal values; omitted values retain the effective target.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["ok","source"]},{"name":"update_meal_item","title":"Update one meal item","description":"Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["item_id"],"outputRequired":["ok","updated"]},{"name":"delete_meal_log","title":"Delete a meal log","description":"Delete one meal log and its items owned by the caller.","annotations":{"readOnlyHint":false,"destructiveHint":true,"idempotentHint":false,"openWorldHint":false},"inputRequired":["meal_log_id"],"outputRequired":["ok","deleted"]},{"name":"get_weight_trend","title":"Get the weight trend","description":"Read imported body-mass measurements and the latest weight.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["series"]},{"name":"get_energy_burned","title":"Get energy burned","description":"Read daily active-energy burned measurements imported from Apple Health.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["series"]},{"name":"get_dashboard_summary","title":"Get the dashboard summary","description":"Summarize average calories, streak, macros, and weight trend over the requested number of days.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["avg_calories_kcal","streak_days","macro_split","weight_trend","render"]}]
+
+ ✓ server/tools.test.ts (3 tests) 1690ms
+   ✓ MCP tool registration metadata (tools/list) > registers exactly the 13 contract tools with unchanged names  879ms
+   ✓ MCP tool registration metadata (tools/list) > emits title, existing description, explicit schemas, and the exact full annotation set for every tool  421ms
+   ✓ MCP tool registration metadata (tools/list) > emits the metadata a local inspector receives (evidence dump)  383ms
+ ✓ scripts/migration-drift-watchdog.test.mjs (7 tests) 13ms
+ ✓ db/postgres-integration.test.ts (1 test) 13667ms
+   ✓ local PostgreSQL migrations and RLS > applies migrations and enforces Supabase-like auth, RPC, and rollback behavior  13665ms
+ ✓ skills/food-logging-contract.test.ts (4 tests) 5ms
+ ✓ server/auth.test.ts (3 tests) 73ms
+ ✓ packages/schema/food-types.test.ts (5 tests) 136ms
+ ✓ server/nutrition-provider.test.ts (3 tests) 210ms
+ ✓ db/migration-recovery-integration.test.mjs (21 tests) 153678ms
+   ✓ schema recovery runner against a disposable PostgreSQL > classifies the full canonical end state VERIFIED_PRESENT  2910ms
+   ✓ schema recovery runner against a disposable PostgreSQL > prod-like partial schema: precise plan, apply to canonical end state with row-count preservation, idempotent second run  12818ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0003 converge revokes an explicit anon EXECUTE grant (issue #84 drift class) and records the ledger row  10790ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converges an empty database to the full canonical end state  7219ms
+   ✓ schema recovery runner against a disposable PostgreSQL > fails closed (zero writes) when both logged_at and measured_at exist  1713ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 lossy numeric conversion is a read-only data dependency: blocks BEFORE any write and resumes losslessly after a human fix  10522ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 higher-precision values (100.05) block with zero writes and are preserved; one-decimal values convert losslessly  15075ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra nullable column added between preflight and the owner record aborts with NO ledger row  5069ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra CHECK and an extra UNIQUE index added between preflight and the owner record abort with NO ledger row  12164ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: a permissive extra policy added between preflight and the owner record aborts with NO ledger row  4877ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra overload of a canonical routine added between preflight and the owner record aborts with NO ledger row  3914ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks apply when weight rows would violate the canonical unique constraint (data dependency)  3440ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks when a recorded migration drifts from its contract  3547ms
+   ✓ schema recovery runner against a disposable PostgreSQL > complete schema + ledger is a verified no-op for apply  4716ms
+   ✓ schema recovery runner against a disposable PostgreSQL > apply-migrations appends atomically on real Postgres: single request, failure leaves no ledger row, retry succeeds  2886ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: schema drift between preflight and the record transaction aborts with NO ledger row  8349ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: security/function drift between preflight and the record transaction aborts with NO ledger row  5762ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: policy qual drift between preflight and the record transaction aborts with NO ledger row  3856ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converge-path race: mid-flight drift makes the guard abort the whole converge transaction (no ledger row)  6101ms
+   ✓ schema recovery runner against a disposable PostgreSQL > plan blocks an extra nullable column / extra CHECK / extra FK on a canonical table (never ledger-recorded)  5019ms
+   ✓ schema recovery runner against a disposable PostgreSQL > JS normalizeExpr and the SQL recovery_norm guard normalizer agree on the canonical corpus and live renderings  9225ms
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 1 unhandled error during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: [vitest-worker]: Timeout calling "onTaskUpdate"
+ ❯ Object.onTimeoutError node_modules/vitest/dist/chunks/rpc.-pEldfrD.js:53:10
+ ❯ Timeout._onTimeout node_modules/vitest/dist/chunks/index.B521nVV-.js:59:62
+ ❯ listOnTimeout node:internal/timers:585:17
+ ❯ processTimers node:internal/timers:521:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  34 passed (34)
+      Tests  412 passed (412)
+     Errors  1 error
+   Start at  03:42:41
+   Duration  157.51s (transform 4.85s, setup 0ms, collect 33.27s, tests 196.46s, environment 183ms, prepare 18.18s)
+
+BASE-NPM=1

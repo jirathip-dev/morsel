@@ -1,6 +1,6 @@
 import Foundation
 
-struct MealItem: Identifiable, Equatable, Sendable {
+struct MealItem: Identifiable, Equatable, Sendable, Codable {
     let itemID: UUID
     let name: String
     let quantity: Double
@@ -60,7 +60,7 @@ struct MealItem: Identifiable, Equatable, Sendable {
     }
 }
 
-enum FoodUnit: String, CaseIterable, Sendable {
+enum FoodUnit: String, CaseIterable, Sendable, Codable {
     case gram = "g"
     case milliliter = "ml"
     case serving
@@ -68,7 +68,7 @@ enum FoodUnit: String, CaseIterable, Sendable {
     case cup
 }
 
-enum MealSource: String, CaseIterable, Sendable {
+enum MealSource: String, CaseIterable, Sendable, Codable {
     case manual
     case manualEdit = "manual_edit"
     case photoVision = "photo_vision"
@@ -77,12 +77,12 @@ enum MealSource: String, CaseIterable, Sendable {
     case voice
 }
 
-enum ProfileSex: String, Sendable {
+enum ProfileSex: String, Sendable, Codable {
     case male
     case female
 }
 
-enum ProfileActivityLevel: String, Sendable {
+enum ProfileActivityLevel: String, Sendable, Codable {
     case sedentary
     case light
     case moderate
@@ -90,13 +90,13 @@ enum ProfileActivityLevel: String, Sendable {
     case veryActive = "very_active"
 }
 
-enum ProfileDietGoal: String, Sendable {
+enum ProfileDietGoal: String, Sendable, Codable {
     case lose
     case maintain
     case gain
 }
 
-struct DashboardProfile: Equatable, Sendable {
+struct DashboardProfile: Equatable, Sendable, Codable {
     let sex: ProfileSex
     let ageYears: Int
     let heightCm: Double
@@ -106,7 +106,7 @@ struct DashboardProfile: Equatable, Sendable {
     let goalWeightKg: Double?
 }
 
-enum MealType: String, CaseIterable, Sendable {
+enum MealType: String, CaseIterable, Sendable, Codable {
     case breakfast
     case lunch
     case dinner
@@ -117,13 +117,17 @@ enum MealType: String, CaseIterable, Sendable {
     }
 }
 
-struct MealRecord: Identifiable, Equatable, Sendable {
+struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     let mealLogID: UUID
     let mealType: MealType
     let eatenAt: Date
     let source: MealSource
     let imagePath: String?
     let items: [MealItem]
+    /// Issue #106 — honest local sync state. `synced` rows come from the
+    /// authoritative remote snapshot; queued rows carry `pending sync` or
+    /// `needs attention` until the server result is read back.
+    let syncState: MealSyncState
 
     init(
         mealLogID: UUID,
@@ -131,7 +135,8 @@ struct MealRecord: Identifiable, Equatable, Sendable {
         eatenAt: Date,
         source: MealSource,
         imagePath: String? = nil,
-        items: [MealItem]
+        items: [MealItem],
+        syncState: MealSyncState = .synced
     ) {
         self.mealLogID = mealLogID
         self.mealType = mealType
@@ -139,6 +144,7 @@ struct MealRecord: Identifiable, Equatable, Sendable {
         self.source = source
         self.imagePath = imagePath
         self.items = items
+        self.syncState = syncState
     }
 
     var id: UUID { mealLogID }
@@ -151,18 +157,18 @@ struct DashboardTotals: Equatable, Sendable {
     let fatG: Double
 }
 
-struct WeightTrendPoint: Equatable, Sendable, Identifiable {
+struct WeightTrendPoint: Equatable, Sendable, Identifiable, Codable {
     let date: Date
     let kilograms: Double
     var id: Date { date }
 }
 
-enum GoalSource: String, Sendable {
+enum GoalSource: String, Sendable, Codable {
     case computed
     case manual
 }
 
-struct DashboardGoal: Equatable, Sendable {
+struct DashboardGoal: Equatable, Sendable, Codable {
     let calorieTargetKcal: Double
     let proteinG: Double
     let carbsG: Double
@@ -170,7 +176,7 @@ struct DashboardGoal: Equatable, Sendable {
     let source: GoalSource
 }
 
-struct StoredDashboardGoal: Equatable, Sendable {
+struct StoredDashboardGoal: Equatable, Sendable, Codable {
     let calorieTargetKcal: Double?
     let proteinG: Double?
     let carbsG: Double?
@@ -178,7 +184,7 @@ struct StoredDashboardGoal: Equatable, Sendable {
     let source: GoalSource
 }
 
-struct DashboardSnapshot: Equatable, Sendable {
+struct DashboardSnapshot: Equatable, Sendable, Codable {
     let date: Date
     let meals: [MealRecord]
     let goal: DashboardGoal?

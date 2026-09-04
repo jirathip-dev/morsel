@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 const migrationPath = resolve(process.cwd(), 'db/migrations/0003_atomic_meals_and_users_rls.sql')
 const oauthMigrationPath = resolve(process.cwd(), 'db/migrations/0005_oauth_authorization_grants.sql')
 const weightMigrationPath = resolve(process.cwd(), 'db/migrations/0007_weight_logs.sql')
+const outboxMigrationPath = resolve(process.cwd(), 'db/migrations/0010_meal_outbox_client_ids.sql')
 
 function migrationSql(): string {
   return readFileSync(migrationPath, 'utf8')
@@ -53,6 +54,31 @@ describe('migration 0003 security and transaction contract', () => {
     expect(functionSql).toContain('insert into public.meal_items')
     expect(functionSql).toContain('jsonb_to_recordset(p_items)')
     expect(functionSql).toMatch(/grant execute on function public\.log_meal_with_items\([\s\S]*\) to authenticated;/i)
+  })
+})
+
+describe('migration 0010 meal outbox idempotency contract', () => {
+  it('adds a client-id meal RPC with the idempotency conflict guard', () => {
+    const sql = readFileSync(outboxMigrationPath, 'utf8')
+
+    expect(sql).toMatch(/create or replace function public\.log_meal_with_items_client\(/i)
+    expect(sql).toMatch(
+      /create or replace function public\.log_meal_with_items_client\([\s\S]*?p_client_meal_id uuid/i
+    )
+    expect(sql).toContain('security invoker')
+    expect(sql).not.toMatch(/security definer/i)
+    expect(sql).toContain('auth.uid() is distinct from p_user_id')
+    // A retry after a server-side commit must find the existing row.
+    expect(sql).toMatch(/insert into public\.meal_logs \([\s\S]*?on conflict \(id\) do nothing/i)
+    expect(sql).toContain("v_inserted := found")
+    // Items are only inserted when THIS client id was not already committed.
+    expect(sql).toMatch(/if v_inserted then[\s\S]*?insert into public\.meal_items/i)
+    // A foreign client id must never write through the authenticated path.
+    expect(sql).toMatch(/raise exception 'meal id does not match authenticated user'[\s\S]*?errcode = '42501'/i)
+    expect(sql).toMatch(/revoke execute on function public\.log_meal_with_items_client\([\s\S]*?jsonb, uuid\s*\) from public;/i)
+    expect(sql).toMatch(/grant execute on function public\.log_meal_with_items_client\([\s\S]*?jsonb, uuid\s*\) to authenticated;/i)
+    // The original server/MCP RPC is untouched (separate name).
+    expect(sql).not.toMatch(/log_meal_with_items\(/i)
   })
 })
 

@@ -114,6 +114,10 @@ final class MealCaptureTests: XCTestCase {
 
         let didAdd = await viewModel.addMeal(draft: draft, photo: upload)
         XCTAssertTrue(didAdd)
+        // Issue #106: addMeal must not block on a second full loadToday —
+        // the local-first repository paints the queued row immediately; a
+        // mock (remote-only) repository converges on the next load.
+        await viewModel.load()
         let meal = try XCTUnwrap(viewModel.snapshot?.meals.first)
 
         XCTAssertEqual(meal.imagePath, repository.uploadedImagePaths.first)
@@ -129,6 +133,7 @@ final class MealCaptureTests: XCTestCase {
 
         await viewModel.load()
         let didAdd = await viewModel.addMeal(draft: mealDraft(), photo: nil)
+        await viewModel.load()
         let meal = try XCTUnwrap(viewModel.snapshot?.meals.first)
 
         XCTAssertTrue(didAdd)

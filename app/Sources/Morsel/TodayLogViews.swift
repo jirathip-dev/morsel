@@ -82,6 +82,9 @@ struct MealGroupView: View {
                                 .font(.morselData)
                                 .foregroundStyle(Color.morselInkThree)
                         }
+                        if group.meals.count == 1, let meal = group.meals.first {
+                            MealSyncMarker(meal: meal)
+                        }
                     }
                     Text("\(MorselFormat.number(group.totalCalories)) kcal")
                         .font(.morselDataMedium)
@@ -107,6 +110,7 @@ struct MealGroupView: View {
                         Text(meal.eatenAt.formatted(date: .omitted, time: .shortened))
                             .font(.morselData)
                             .foregroundStyle(Color.morselInkThree)
+                        MealSyncMarker(meal: meal)
                         Spacer()
                         Button {
                             onDelete(meal)
@@ -196,6 +200,25 @@ struct MealItemRow: View {
             "\(MorselFormat.number(item.caloriesKcal)) kilocalories"
         )
         .accessibilityHint("Opens the correction sheet")
+    }
+}
+
+// MARK: - Sync marker (issue #106)
+
+/// Honest `pending sync` / `needs attention` journal marker for rows that
+/// left the local outbox but have not yet been reconciled with the
+/// authoritative server state.
+struct MealSyncMarker: View {
+    let meal: MealRecord
+
+    var body: some View {
+        if let copy = meal.syncState.rowCopy {
+            Text(copy)
+                .font(.morselFootnote)
+                .foregroundStyle(
+                    meal.syncState == .needsAttention ? Color.morselOver : Color.morselForest
+                )
+        }
     }
 }
 
