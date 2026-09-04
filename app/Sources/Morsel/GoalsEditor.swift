@@ -277,7 +277,13 @@ struct GoalsEditorView: View {
                     viewModel.seeToday()
                 }
                 .buttonStyle(MorselGhostButtonStyle())
-            }.padding(18)
+            }
+            // v0.4 hotfix (#89): the floating tab bar overlays scrolled
+            // content, so the last control needs a bottom content inset
+            // (same 96pt clearance the Today screen uses) — never covered.
+            .padding(.horizontal, 18)
+            .padding(.top, 18)
+            .padding(.bottom, 96)
         }
         .background(Color.morselBackground.ignoresSafeArea())
         .navigationTitle("Daily goals")

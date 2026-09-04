@@ -16,6 +16,13 @@ struct MorselApp: App {
 
     var body: some Scene {
         WindowGroup {
+            // v0.4 hotfix (#89): the app is LIGHT-ONLY until the night-ink
+            // theme (#90) ships. The root modifier forces the whole scene
+            // (onboarding, tabs, sheets, covers) to the light palette even
+            // when the device is in Dark appearance. A plist-based
+            // UIUserInterfaceStyle would need the fastlane template (the
+            // INFOPLIST_FILE carries explicit $(INFOPLIST_KEY_*) entries),
+            // which is release tooling — out of scope for this hotfix.
             MorselRootView(
                 sessionStore: sessionStore,
                 auth: SupabaseAuthClient(client: supabaseClient),
@@ -23,6 +30,7 @@ struct MorselApp: App {
                 supabaseClient: supabaseClient,
                 mcpEndpoint: mcpEndpoint
             )
+            .preferredColorScheme(.light)
         }
     }
 }
@@ -244,7 +252,7 @@ private struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Goals") {
+                Section {
                     NavigationLink("Daily goals") {
                         GoalsEditorView(
                             repository: repository,
@@ -253,13 +261,23 @@ private struct SettingsView: View {
                             onSeeToday: showToday
                         )
                     }
+                    .foregroundStyle(Color.morselInk)
+                } header: {
+                    Text("Goals").morselSectionLabel()
                 }
-                Section("Agent") {
+                Section {
                     Text(mcpEndpoint.isEmpty ? "MCP endpoint is not configured." : mcpEndpoint)
                         .font(.morselData)
+                        .foregroundStyle(Color.morselInkTwo)
                     Button("Replay onboarding", action: replay)
+                } header: {
+                    Text("Agent").morselSectionLabel()
                 }
             }
+            // v0.4 hotfix (#89): never the stock system Form — paper ground
+            // with the app's ink palette so Settings matches every screen.
+            .scrollContentBackground(.hidden)
+            .background(Color.morselBackground.ignoresSafeArea())
             .navigationTitle("Settings")
         }
     }

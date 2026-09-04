@@ -10,8 +10,22 @@ struct TodayView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    TodayHeader(date: viewModel.snapshot?.date ?? Date())
-
+                    HStack(alignment: .center) {
+                        TodayHeader(date: viewModel.snapshot?.date ?? Date())
+                        Spacer(minLength: 12)
+                        // #89: iOS 26 glass wraps every ToolbarItem (white
+                        // halo), so '+' lives here with ONE background:
+                        // accent fill + ink label (DESIGN.md btn-confirm).
+                        Button {
+                            isShowingAddMeal = true
+                        } label: {
+                            Label("Add meal", systemImage: "plus")
+                                .font(.morselBodyStrong).foregroundStyle(Color.morselInk)
+                                .padding(.horizontal, 14).frame(minHeight: 40)
+                                .background(Color.morselAccent, in: RoundedRectangle(cornerRadius: 8))
+                        }
+                        .buttonStyle(.plain)
+                    }
                     if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
                         ErrorNotice(message: errorMessage) {
                             Task { await viewModel.load() }
@@ -49,16 +63,6 @@ struct TodayView: View {
             .background(Color.morselBackground.ignoresSafeArea())
             .toolbarBackground(.visible, for: .tabBar)
             .toolbarBackground(.regularMaterial, for: .tabBar)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isShowingAddMeal = true
-                    } label: {
-                        Label("Add meal", systemImage: "plus")
-                    }
-                    .buttonStyle(MorselGhostButtonStyle())
-                }
-            }
         }
         .task {
             await viewModel.load()
@@ -119,7 +123,6 @@ private struct TodayHeader: View {
         }
     }
 }
-
 private struct LoadingNotice: View {
     var body: some View {
         HStack(spacing: 10) {
@@ -203,7 +206,6 @@ struct SectionHeading: View {
         }
     }
 }
-
 private struct MealGroupView: View {
     let group: MealGroup
     let repository: any DashboardRepository
@@ -338,7 +340,6 @@ private struct MealItemRow: View {
         .clipShape(RoundedRectangle(cornerRadius: 6))
     }
 }
-
 private struct ConfidenceTag: View {
     let badge: ConfidenceBadge
     let value: Double?
@@ -357,7 +358,6 @@ private struct ConfidenceTag: View {
         }
     }
 }
-
 private struct NeedsReviewSection: View {
     let items: [MealItem]
     let onReview: (MealItem) -> Void

@@ -122,6 +122,21 @@ enum HealthKitWeightImporterError: LocalizedError {
     var errorDescription: String? { "Apple Health body-mass data is unavailable." }
 }
 
+/// User-facing copy table for the weight-import surface (v0.4 hotfix #89).
+/// Raw system error text — entitlement strings, HealthKit domain
+/// descriptions, any `localizedDescription` passthrough — must NEVER reach
+/// the UI. The only app-authored importer error keeps its own human copy;
+/// every foreign/system error maps to one honest background-sync notice.
+enum HealthSyncUserMessage {
+    static let backgroundSyncUnavailable =
+        "Background Health sync is unavailable — open the app to refresh."
+
+    static func userMessage(for error: Error) -> String {
+        (error as? HealthKitWeightImporterError)?.errorDescription
+            ?? backgroundSyncUnavailable
+    }
+}
+
 final class HealthKitWeightReader: WeightSampleReading {
     private let healthStore: HKHealthStore
     private let bodyMassType: HKQuantityType
