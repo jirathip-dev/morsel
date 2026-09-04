@@ -1,0 +1,37 @@
+# Morsel issue #83 — append-only PR shape gate for db/migrations (READ-ONLY).
+#
+# Runs on pull requests that touch db/migrations/**. It performs NO hosted
+# query and uses NO secrets (safe on untrusted/fork PRs): it compares the PR
+# delta against the merge-base manifest with local git only
+# (scripts/migration-cd-pr-gate.mjs) and fails the PR when the delta is not a
+# clean forward-only append — edits, deletes, or renames of already-merged
+# migration files and additions at versions not strictly newer than the newest
+# merged version are repair/retro-edit material that can NEVER auto-apply and
+# must go through the manual recovery path.
+name: Migration CD PR Shape Gate (Read-Only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "db/migrations/**"
+
+permissions:
+  contents: read
+
+jobs:
+  shape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Verify append-only forward-only delta
+        run: node scripts/migration-cd-pr-gate.mjs ${{ github.event.pull_request.base.sha }}

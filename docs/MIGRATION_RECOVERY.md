@@ -163,6 +163,92 @@ until a human verifies the app path that errored in issue #76:
 - The recovery runner refuses any checkout whose manifest is not exactly
   0001..0009; extending the canonical set is a reviewed code change.
 
+## Migration CD (issue #83) — merge → auto-apply (forward-only, once enabled) | manual apply (repairs)
+
+Runbook: **merge → auto-apply (forward-only, once enabled) | manual apply (repairs)**.
+
+Issue #83 ships the CD machinery for future forward-only migrations
+(`db/migrations/0010+`). It is **BUILD-ONLY**: the production apply step is
+**disabled by default**, no environment-protection rule is configured by any
+repository code, and the merged diff as-is **cannot write to production**.
+Everything below describes behavior once the lane's PR is on `main`.
+
+### Three new pieces
+
+1. **`Migration CD PR Shape Gate (Read-Only)`** — runs on every pull request
+   that touches `db/migrations/**` (`.github/workflows/migration-cd-pr-shape.yml` +
+   `scripts/migration-cd-pr-gate.mjs`). It uses **no secrets and no hosted
+   query** (safe on untrusted/fork PRs): with local git only it fails the PR
+   when the delta is not a clean forward-only append — edits, deletes, or
+   renames of already-merged migration files, or additions at versions not
+   strictly newer than the newest merged version. Those are repair/retro-edit
+   material that can never auto-apply.
+2. **`Migration CD (Auto-Apply Disabled by Default)`** — runs on every merge
+   to `main` (push) and is manually dispatchable on `main`
+   (`.github/workflows/migration-cd.yml` + `scripts/migration-cd-classifier.mjs`):
+   - `classify` job: hosted **read-only** reconcile (the fixed-SELECT surface
+     of `scripts/migration-reconcile.mjs`) + the CD classifier; prints the
+     verdict and, for a clean delta with the flag OFF, exactly what Guy must
+     enable (below). Writes nothing.
+   - `apply` job: targets the **`production` environment** and is **OFF by
+     default** — it can only run on `refs/heads/main` when BOTH the
+     classifier verdict is `clean-forward-only` AND a human enabled the flag
+     (repository variable `MIGRATION_CD_APPLY_ENABLED=true` or the
+     `workflow_dispatch` input `apply_enabled=true`, which defaults to
+     `false`). It runs `scripts/apply-migrations.mjs`, which refuses a
+     missing/empty ledger and applies only migrations strictly newer than the
+     newest recorded row, one atomic `BEGIN..COMMIT` request per migration.
+3. **`Migration Drift Watchdog`** — scheduled daily (01:30 UTC) and
+   dispatchable (`.github/workflows/migration-drift-watchdog.yml` +
+   `scripts/migration-drift-watchdog.mjs`). It runs the same read-only
+   reconcile and stays **silent** when the live ledger matches `main`'s
+   migration end-state. On drift (ledger missing, live project ahead of or
+   behind `main`, unknown ledger entries) it opens an issue titled `Morsel
+   migration drift: prod ledger out of sync with main's migrations`, or
+   refreshes the existing open one with a comment (no duplicate issues for a
+   recurring drift). Schema-sentinel drift remains the issue #12 read-only
+   reconcile's scope; this watchdog watches the migration end-state.
+
+### Classifier decision table
+
+The classifier compares the live `public.migration_ledger` end-state with
+the `db/migrations/**` manifest at the pushed `main` SHA (and, on push, the
+list of `db/migrations` files changed by that merge):
+
+| verdict | meaning | CD plan |
+|---|---|---|
+| `clean-forward-only` | every unrecorded migration is a new version strictly newer than the newest recorded one; no recorded file changed by the merge | auto-apply eligible (apply job runs only once enabled) |
+| `repair-required` | an unrecorded migration is not newer than the newest recorded version (backward/repair edit) | manual dispatch-only — never auto-applied |
+| `retro-edit` | the merge edited an already-recorded migration file (or a changed file not newer than the newest recorded version) | manual dispatch-only — never auto-applied |
+| `ambiguous` | ledger missing/empty, unknown ledger entries, or recorded entries matching no local file | manual reconcile first — never auto-applied |
+| `up-to-date` | nothing pending | nothing to apply |
+
+Any non-`clean-forward-only` verdict prints the manual path: **Deploy
+Migrations (Recovery Apply)** (`workflow_dispatch` + the issue #76
+confirmation phrase), which stays as-is and byte-exact. With the flag OFF the
+merge run writes nothing; the `classify` job prints the enable steps below.
+
+### Exactly what Guy must enable for auto-apply (outside this repository diff)
+
+In order, before any auto-apply can happen:
+
+1. **Production environment protection** — GitHub Settings → Environments →
+   `production` → **Required reviewers**: add at least one required reviewer.
+   No environment-protection rule can be shipped in repository code; this PR
+   configures none. Until this exists, flipping the flag would let the apply
+   job run without a human approval backstop — do not do that.
+2. **Repository variable `MIGRATION_CD_APPLY_ENABLED=true`** — GitHub
+   Settings → Secrets and variables → Actions → Variables. The variable does
+   not exist by default, which is what keeps the merged diff write-free.
+3. **Re-run** the latest `Migration CD (Auto-Apply Disabled by Default)` run
+   on `main` (or dispatch it with `apply_enabled=true`), then confirm in the
+   run that the `apply` job executed and the post-apply ledger matches `main`
+   (watchdog stays silent).
+
+Repairs and retro-edits stay manual forever: the classifier (and the PR shape
+gate) block them from the auto path by construction; a human dispatches
+**Deploy Migrations (Recovery Apply)**.
+
 ## Guardrails
 
 - `scripts/migration-reconcile.mjs` stays read-only (fixed SELECT allowlist).

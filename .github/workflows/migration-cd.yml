@@ -1,0 +1,155 @@
+# Morsel issue #83 — Migration CD (BUILD-ONLY: the production apply step is
+# DISABLED by default and no environment-protection rule is configured by
+# this file — see docs/MIGRATION_RECOVERY.md for what Guy must enable).
+#
+# SAFETY CONTRACT
+# - pull_request events never reach this workflow, so untrusted PRs cannot
+#   trigger any hosted query or apply.
+# - On merge to main (push) or an explicit workflow_dispatch on main, the
+#   classify job runs the READ-ONLY reconcile (scripts/migration-reconcile.mjs
+#   fixed-SELECT surface) + the CD classifier and prints the decision.
+# - The apply job is OFF BY DEFAULT (grep-able default: the workflow_dispatch
+#   apply_enabled input defaults to false AND the repository variable
+#   MIGRATION_CD_APPLY_ENABLED is absent until a human creates it). It can
+#   only run on refs/heads/main, only when the classifier verdict is
+#   clean-forward-only, and only when a human has enabled the flag. With the
+#   merged diff as-is the variable is unset, so the apply job is always
+#   skipped: zero production writes are possible.
+# - Repairs/retro-edits/ambiguous states NEVER auto-apply: the classifier
+#   reports the manual path (Deploy Migrations (Recovery Apply)
+#   workflow_dispatch with the issue #76 confirmation phrase).
+# - The apply step itself is scripts/apply-migrations.mjs, which refuses a
+#   missing/empty ledger and applies only migrations strictly newer than the
+#   newest recorded row, one atomic BEGIN..COMMIT request per migration.
+# - Missing secrets FAIL CLOSED (nonzero exit) — never a green skip.
+name: Migration CD (Auto-Apply Disabled by Default)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      apply_enabled:
+        description: "Enable the production apply step for THIS run (default OFF; still requires a clean-forward-only verdict)"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  # Shared with the manual recovery-apply workflow so a CD apply and a human
+  # recovery apply can never run concurrently against production.
+  group: deploy-migrations-main
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Classify migration delta (read-only reconcile)
+        id: classify
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+          MIGRATION_CD_APPLY_ENABLED: ${{ vars.MIGRATION_CD_APPLY_ENABLED }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then
+            echo "::error::Missing required secret SUPABASE_ACCESS_TOKEN. Migration CD classification FAILED CLOSED (no live read, no apply)."
+            exit 1
+          fi
+          if [ -z "${SUPABASE_PROJECT_REF:-}" ]; then
+            echo "::error::Missing required secret SUPABASE_PROJECT_REF. Migration CD classification FAILED CLOSED (no live read, no apply)."
+            exit 1
+          fi
+
+          if [ "${GITHUB_EVENT_NAME:-}" = "push" ] && [ -n "${GITHUB_EVENT_BEFORE:-}" ] \
+            && [ "${GITHUB_EVENT_BEFORE}" != "0000000000000000000000000000000000000000" ]; then
+            changed="$(git diff --name-only "${GITHUB_EVENT_BEFORE}" "${GITHUB_SHA}" -- db/migrations || true)"
+            printf '%s\n' "db/migrations files changed by this merge:"
+            printf '%s\n' "${changed:-<none>}"
+            export MIGRATION_CD_CHANGED_FILES="$changed"
+          fi
+
+          output="$(node scripts/migration-cd-classifier.mjs)"
+          printf '%s\n' "$output"
+
+          verdict="$(printf '%s\n' "$output" | sed -n 's/^verdict=//p' | tail -n 1)"
+          auto_apply="$(printf '%s\n' "$output" | sed -n 's/^autoApply=//p' | tail -n 1)"
+          apply_plan="$(printf '%s\n' "$output" | sed -n 's/^applyPlan=//p' | tail -n 1)"
+          printf 'verdict=%s\n' "$verdict" >> "$GITHUB_OUTPUT"
+          printf 'autoApply=%s\n' "$auto_apply" >> "$GITHUB_OUTPUT"
+          printf 'applyPlan=%s\n' "$apply_plan" >> "$GITHUB_OUTPUT"
+
+          printf '%s\n' "apply gate: MIGRATION_CD_APPLY_ENABLED='${MIGRATION_CD_APPLY_ENABLED:-}' (empty/absent = DISABLED, the default). Nothing was written to production."
+
+      - name: What to enable for auto-apply (informational)
+        if: steps.classify.outputs.autoApply == 'true'
+        run: |
+          echo "Clean forward-only delta detected, but the production apply step is DISABLED (default OFF)."
+          echo "This run wrote NOTHING to production."
+          echo ""
+          echo "To enable auto-apply, Guy must do this OUTSIDE this repository diff, in order:"
+          echo "  1) Configure the production environment protection rule (required reviewers) —"
+          echo "     GitHub Settings > Environments > production > Required reviewers."
+          echo "  2) Create the repository Actions variable MIGRATION_CD_APPLY_ENABLED=true —"
+          echo "     GitHub Settings > Secrets and variables > Actions > Variables."
+          echo "  3) Re-run this workflow on main (or dispatch it with apply_enabled=true)."
+          echo "Full checklist: docs/MIGRATION_RECOVERY.md (issue #83 'Migration CD' section)."
+
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    needs: classify
+    # OFF BY DEFAULT. The merged diff creates no repository variable, so
+    # `vars.MIGRATION_CD_APPLY_ENABLED` is empty and this job is skipped on
+    # every push until a human explicitly enables the flag AND the classifier
+    # reports a clean forward-only delta. workflow_dispatch runs need the
+    # apply_enabled input (default false) AND must target main.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      needs.classify.outputs.autoApply == 'true' &&
+      (vars.MIGRATION_CD_APPLY_ENABLED == 'true' ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.apply_enabled == 'true'))
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
+
+      - name: Apply pending forward-only migrations (ledger-guarded, append-only)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "::error::Missing required secret SUPABASE_ACCESS_TOKEN. Migration CD apply FAILED CLOSED."
+            exit 1
+          fi
+          if [ -z "$SUPABASE_PROJECT_REF" ]; then
+            echo "::error::Missing required secret SUPABASE_PROJECT_REF. Migration CD apply FAILED CLOSED."
+            exit 1
+          fi
+
+          node scripts/apply-migrations.mjs
