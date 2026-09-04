@@ -5,10 +5,14 @@ import SwiftUI
 @main
 struct MorselApp: App {
     @StateObject private var sessionStore = SessionStore()
+    @AppStorage(MorselAppearance.themePreferenceKey)
+    private var themePreference = MorselAppearance.defaultThemePreference.rawValue
+
     private let supabaseClient: SupabaseClient?
     private let mcpEndpoint: String
 
     init() {
+        MorselFontCatalog.register()
         let configuration = MorselConfiguration(bundle: .main)
         supabaseClient = configuration.makeClient()
         mcpEndpoint = configuration.mcpEndpoint
@@ -16,14 +20,11 @@ struct MorselApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // v0.4 hotfix (#89): the app is LIGHT-ONLY until the night-ink
-            // theme (#90) ships. MorselAppearance.scheme is the testable
-            // seam for the root forced-light mechanism (asserted in
-            // LightSchemeTests and pinned to this WindowGroup root by the
-            // hosted contract probe). A plist-based UIUserInterfaceStyle
-            // would need the fastlane template (the INFOPLIST_FILE carries
-            // explicit $(INFOPLIST_KEY_*) entries), which is release
-            // tooling — out of scope for this hotfix.
+            // Issue #94: the root consumes the appearance seam — Paper forces
+            // Light (the default), Night ink forces Dark, Follow system does
+            // not force. Every native token resolves through the trait, so the
+            // whole journal re-inks from DesignSystem.swift (no plist route —
+            // the fastlane INFOPLIST_FILE template is release tooling).
             MorselRootView(
                 sessionStore: sessionStore,
                 auth: SupabaseAuthClient(client: supabaseClient),
@@ -31,7 +32,9 @@ struct MorselApp: App {
                 supabaseClient: supabaseClient,
                 mcpEndpoint: mcpEndpoint
             )
-            .preferredColorScheme(MorselAppearance.scheme)
+            .preferredColorScheme(
+                MorselAppearance.scheme(for: MorselThemePreference(rawValue: themePreference) ?? .paper)
+            )
         }
     }
 }
@@ -92,6 +95,14 @@ final class SessionStore: ObservableObject {
         pendingRoute = .initialSetup
     }
 
+    /// Signs out of Supabase (when configured) and returns to the sign-in
+    /// route. The friendly no-session state never invents a session.
+    func signOut(using auth: any SupabaseAuthenticating) async {
+        try? await auth.signOut()
+        session = nil
+        pendingRoute = .setupDeferred
+    }
+
     func restore(using auth: any SupabaseAuthenticating) async {
         guard session == nil else {
             return
@@ -120,7 +131,11 @@ private struct MorselRootView: View {
                             store: SupabaseWeightLogStore(client: $0, userID: session.userID)
                         )
                     },
-                    mcpEndpoint: mcpEndpoint
+                    mcpEndpoint: mcpEndpoint,
+                    auth: auth,
+                    onSignOut: {
+                        Task { await sessionStore.signOut(using: auth) }
+                    }
                 )
             } else if sessionStore.isSetupDeferred {
                 SignInView(auth: auth) { session in
@@ -145,30 +160,49 @@ private struct MorselRootView: View {
     }
 }
 
-private enum DashboardTab: Hashable {
+// Issue #94: Today, History, and Goals are the THREE primary tabs (goals is
+// not behind a secondary route anymore); Settings sits behind the toothed
+// cog on the Today page.
+enum JournalTab: String, CaseIterable, Hashable {
     case today
-    case settings
+    case history
+    case goals
+
+    var title: String {
+        switch self {
+        case .today: return "Today"
+        case .history: return "History"
+        case .goals: return "Goals"
+        }
+    }
 }
 
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
+    @State private var selectedTab: JournalTab = .today
+    @State private var showingSettings = false
     @State private var showingOnboarding = false
-    @State private var selectedTab: DashboardTab = .today
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
     let weightImporter: HealthKitWeightImporter?
+    let auth: any SupabaseAuthenticating
+    let onSignOut: () -> Void
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
         session: AuthenticatedSession,
         weightImporter: HealthKitWeightImporter?,
-        mcpEndpoint: String
+        mcpEndpoint: String,
+        auth: any SupabaseAuthenticating,
+        onSignOut: @escaping () -> Void
     ) {
         self.mcpEndpoint = mcpEndpoint
         self.session = session
         self.weightImporter = weightImporter
+        self.auth = auth
+        self.onSignOut = onSignOut
         _viewModel = StateObject(
             wrappedValue: DashboardViewModel(
                 repository: repository,
@@ -179,33 +213,32 @@ private struct AuthenticatedDashboardView: View {
     }
 
     var body: some View {
-        TabView(selection: $selectedTab) {
-            MorselActionTint {
-                TodayView(viewModel: viewModel)
-            }
-            .tag(DashboardTab.today)
-            .tabItem {
-                Label("Today", systemImage: "chart.bar")
-            }
-            MorselActionTint {
-                SettingsView(
-                    mcpEndpoint: mcpEndpoint, repository: viewModel.repository,
-                    userID: viewModel.userID, dashboardViewModel: viewModel,
-                    showToday: { selectedTab = .today },
-                    replay: { showingOnboarding = true }
-                )
-            }
-            .tag(DashboardTab.settings)
-            .tabItem {
-                Label("Settings", systemImage: "gearshape")
+        ZStack {
+            Color.morselBackground.ignoresSafeArea()
+            VStack(spacing: 0) {
+                pageContent
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                JournalTabBar(selection: $selectedTab)
             }
         }
-        .tint(Color.morselForest)
         .task {
             await viewModel.importWeights()
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
                 showingOnboarding = true
             }
+        }
+        .fullScreenCover(isPresented: $showingSettings) {
+            SettingsJournalView(
+                themePreferenceKey: MorselAppearance.themePreferenceKey,
+                mcpEndpoint: mcpEndpoint,
+                replay: { showingSettings = false; showingOnboarding = true },
+                onSignOut: {
+                    showingSettings = false
+                    onSignOut()
+                },
+                close: { showingSettings = false },
+                weightImportError: viewModel.weightImportError
+            )
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
             MorselActionTint {
@@ -214,21 +247,48 @@ private struct AuthenticatedDashboardView: View {
                     endpoint: mcpEndpoint,
                     session: session,
                     onFinished: {
-                    OnboardingStore().markCompleted(for: viewModel.userID)
-                    showingOnboarding = false
+                        OnboardingStore().markCompleted(for: viewModel.userID)
+                        showingOnboarding = false
                     },
                     onSkip: {
-                    OnboardingStore().markCompleted(for: viewModel.userID)
-                    showingOnboarding = false
-                })
+                        OnboardingStore().markCompleted(for: viewModel.userID)
+                        showingOnboarding = false
+                    }
+                )
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var pageContent: some View {
+        switch selectedTab {
+        case .today:
+            MorselActionTint {
+                TodayView(
+                    viewModel: viewModel,
+                    showSettings: { showingSettings = true }
+                )
+            }
+        case .history:
+            MorselActionTint {
+                HistoryView(repository: viewModel.repository, userID: viewModel.userID)
+            }
+        case .goals:
+            MorselActionTint {
+                GoalsView(
+                    repository: viewModel.repository,
+                    userID: viewModel.userID,
+                    onSaved: { await viewModel.load() },
+                    seeToday: { selectedTab = .today }
+                )
             }
         }
     }
 }
 
-/// Scoped orange action tint for tab content: the TabView tint itself is V1
-/// forest (active navigation reads forest), while every descendant action
-/// control keeps the V1 orange identity/action anchor.
+/// Scoped orange action tint for tab content: actions/links keep the V1
+/// orange identity anchor; the journal tab bar draws its own forest active
+/// word (never a green wash over descendants).
 private struct MorselActionTint<Content: View>: View {
     let content: () -> Content
 
@@ -242,44 +302,49 @@ private struct MorselActionTint<Content: View>: View {
     }
 }
 
-private struct SettingsView: View {
-    let mcpEndpoint: String
-    let repository: any DashboardRepository
-    let userID: UUID
-    @ObservedObject var dashboardViewModel: DashboardViewModel
-    let showToday: () -> Void
-    let replay: () -> Void
+/// V1 bottom navigation: three hand-lettered words on the paper ground with a
+/// hairline rule above and a marker-stroke under the active tab. Native
+/// SwiftUI behavior, no browser pill.
+private struct JournalTabBar: View {
+    @Binding var selection: JournalTab
 
     var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    NavigationLink("Daily goals") {
-                        GoalsEditorView(
-                            repository: repository,
-                            userID: userID,
-                            onSaved: { await dashboardViewModel.load() },
-                            onSeeToday: showToday
-                        )
+        VStack(spacing: 0) {
+            Rectangle()
+                .fill(Color.morselInkLine.opacity(0.55))
+                .frame(height: 1)
+            HStack(spacing: 0) {
+                ForEach(JournalTab.allCases, id: \.self) { tab in
+                    Button {
+                        selection = tab
+                    } label: {
+                        tabLabel(tab)
                     }
-                    .foregroundStyle(Color.morselInk)
-                } header: {
-                    Text("Goals").morselSectionLabel()
-                }
-                Section {
-                    Text(mcpEndpoint.isEmpty ? "MCP endpoint is not configured." : mcpEndpoint)
-                        .font(.morselData)
-                        .foregroundStyle(Color.morselInkTwo)
-                    Button("Replay onboarding", action: replay)
-                } header: {
-                    Text("Agent").morselSectionLabel()
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: .infinity)
+                    .accessibilityLabel(tab.title)
+                    .accessibilityAddTraits(selection == tab ? .isSelected : [])
                 }
             }
-            // v0.4 hotfix (#89): never the stock system Form — paper ground
-            // with the app's ink palette so Settings matches every screen.
-            .scrollContentBackground(.hidden)
-            .background(Color.morselBackground.ignoresSafeArea())
-            .navigationTitle("Settings")
+            .padding(.top, 10)
+            .padding(.bottom, 6)
+            .frame(height: 44)
         }
+        .background(Color.morselBackground.ignoresSafeArea())
+    }
+
+    private func tabLabel(_ tab: JournalTab) -> some View {
+        let active = selection == tab
+        return VStack(spacing: 3) {
+            Text(tab.title)
+                .font(Font.morselHand(size: 20))
+                .foregroundStyle(active ? Color.morselForest : Color.morselInkTwo)
+            MarkerStroke(
+                color: active ? Color.morselForest : .clear,
+                width: 40,
+                height: 4
+            )
+        }
+        .padding(.vertical, 2)
     }
 }

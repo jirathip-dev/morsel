@@ -19,6 +19,11 @@ targets:
     sources:
       - path: Sources/Morsel
       - path: Assets.xcassets
+      # OFL-licensed journal fonts bundled for the V1 hand/serif/mono voices
+      # (registered at launch by MorselFontCatalog — the fastlane plist
+      # template cannot carry UIAppFonts without release-tooling edits).
+      - path: Fonts
+        buildPhase: resources
     dependencies:
       - package: Supabase
         product: Supabase

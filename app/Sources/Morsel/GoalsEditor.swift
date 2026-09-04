@@ -94,7 +94,7 @@ final class GoalsEditorViewModel: ObservableObject {
                   let fat = stored.fatG else { return }
             apply(DashboardGoal(calorieTargetKcal: calories, proteinG: protein, carbsG: carbs, fatG: fat, source: stored.source), source: stored.source)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
 
@@ -105,7 +105,7 @@ final class GoalsEditorViewModel: ObservableObject {
             selectedDirection = direction
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
 
@@ -174,7 +174,7 @@ final class GoalsEditorViewModel: ObservableObject {
             await onSaved()
             return true
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
     }
@@ -219,97 +219,180 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 }
 
-struct GoalsEditorView: View {
-    @Environment(\.dismiss) private var dismiss
+// Issue #94: Goals is a PRIMARY tab — the journal editor page below, never a
+// secondary route. See-it jumps to Today.
+struct GoalsView: View {
     @StateObject private var viewModel: GoalsEditorViewModel
 
     init(
         repository: any DashboardRepository,
         userID: UUID,
         onSaved: @escaping () async -> Void = {},
-        onSeeToday: @escaping () -> Void = {}
+        seeToday: @escaping () -> Void = {}
     ) {
         _viewModel = StateObject(
             wrappedValue: GoalsEditorViewModel(
-                repository: repository, userID: userID, onSaved: onSaved, onSeeToday: onSeeToday
+                repository: repository, userID: userID, onSaved: onSaved, onSeeToday: seeToday
             )
         )
     }
 
     var body: some View {
-        ScrollView {
+        JournalPage(date: Date(), bottomInset: 56) {
             VStack(alignment: .leading, spacing: 18) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("morsel · agent voice").font(.morselData).foregroundStyle(Color.morselForest)
-                    Text(viewModel.sourceIndicator).font(.morselData).foregroundStyle(Color.morselInkTwo)
+                header
+                Text("What are we aiming for?")
+                    .font(Font.morselHand(size: 30))
+                    .foregroundStyle(Color.morselInk)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                Text("Pick a direction, then change any number before I save it.")
+                    .font(.morselBody)
+                    .foregroundStyle(Color.morselInkTwo)
+                directions
+                Text("Your target").morselSectionLabel()
+                GoalJournalField(
+                    label: "Calories",
+                    unit: "kcal",
+                    value: $viewModel.calories,
+                    source: viewModel.sources["calories"],
+                    error: viewModel.fieldError("calories"),
+                    prominent: true
+                ) { viewModel.edit("calories", value: $0) }
+                HStack(alignment: .top, spacing: 14) {
+                    GoalJournalField(label: "Protein", unit: "g", value: $viewModel.protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
+                    GoalJournalField(label: "Carbs", unit: "g", value: $viewModel.carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
+                    GoalJournalField(label: "Fat", unit: "g", value: $viewModel.fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
                 }
-                .padding(12)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .overlay { RoundedRectangle(cornerRadius: 10).stroke(Color.morselAccent, lineWidth: 1) }
-                Text("What are we aiming for?").font(.morselDisplay)
-                Text("Pick a direction, then change any number before I save it.").font(.morselBody).foregroundStyle(Color.morselInkTwo)
-                HStack(spacing: 8) {
-                    ForEach(GoalDirection.allCases, id: \.self) { direction in
-                        Button { Task { await viewModel.choose(direction) } } label: {
-                            VStack { Text(direction.title); Text(direction.subtitle).font(.morselData) }
-                                .frame(maxWidth: .infinity, minHeight: 48)
-                        }
-                        .buttonStyle(MorselGhostButtonStyle())
-                        .overlay { RoundedRectangle(cornerRadius: 8).stroke(viewModel.selectedDirection == direction ? Color.morselAccent : .clear, lineWidth: 2) }
+                if !viewModel.isValid {
+                    Text("One more pass…")
+                        .foregroundStyle(Color.morselOver)
+                        .font(.morselBody)
+                }
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundStyle(Color.morselOver)
+                        .font(.morselBody)
+                }
+                if viewModel.didSave {
+                    Text("Goals saved ✓")
+                        .foregroundStyle(Color.morselForest)
+                        .font(.morselBodyStrong)
+                }
+                Button(viewModel.didSave ? "Goals saved ✓" : "Use these goals") {
+                    Task { await viewModel.save() }
+                }
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .frame(maxWidth: .infinity)
+                .disabled(!viewModel.isValid || viewModel.isSaving)
+                Text("What changes").morselSectionLabel()
+                Text(viewModel.whatChangesText)
+                    .font(.morselBody)
+                    .foregroundStyle(Color.morselInkTwo)
+                Button {
+                    viewModel.seeToday()
+                } label: {
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("See it")
+                            .font(.morselFootnote)
+                            .foregroundStyle(Color.morselForest)
+                        MarkerStroke(color: Color.morselForest, width: 40, height: 2)
                     }
                 }
-                Text("YOUR TARGET").morselSectionLabel()
-                GoalField(label: "Calories", unit: "kcal", value: $viewModel.calories, source: viewModel.sources["calories"], error: viewModel.fieldError("calories")) { viewModel.edit("calories", value: $0) }
-                HStack {
-                    GoalField(label: "Protein", unit: "g", value: $viewModel.protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
-                    GoalField(label: "Carbs", unit: "g", value: $viewModel.carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
-                    GoalField(label: "Fat", unit: "g", value: $viewModel.fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
-                }
-                if !viewModel.isValid { Text("One more pass…").foregroundStyle(Color.morselOver).font(.morselBody) }
-                if let errorMessage = viewModel.errorMessage { Text(errorMessage).foregroundStyle(Color.morselOver).font(.morselBody) }
-                if viewModel.didSave { Text("Goals saved ✓").foregroundStyle(Color.morselAccent).font(.morselBodyStrong) }
-                Button(viewModel.didSave ? "Goals saved ✓" : "Use these goals") { Task { await viewModel.save() } }
-                    .buttonStyle(.borderedProminent).tint(Color.morselAccent).disabled(!viewModel.isValid || viewModel.isSaving)
-                Text("WHAT CHANGES").morselSectionLabel()
-                Text(viewModel.whatChangesText).font(.morselBody).foregroundStyle(Color.morselInkTwo)
-                Button("See it") {
-                    dismiss()
-                    viewModel.seeToday()
-                }
-                .buttonStyle(MorselGhostButtonStyle())
+                .buttonStyle(.plain)
+                .accessibilityLabel("See today's readout")
             }
-            // v0.4 hotfix (#89): the floating tab bar overlays scrolled
-            // content, so the last control needs a bottom content inset
-            // (same 96pt clearance the Today screen uses) — never covered.
-            .padding(.horizontal, 18)
-            .padding(.top, 18)
-            .padding(.bottom, 96)
         }
-        .background(Color.morselBackground.ignoresSafeArea())
-        .navigationTitle("Daily goals")
         .task { await viewModel.load() }
+    }
+
+    private var header: some View {
+        HStack(alignment: .firstTextBaseline) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Daily goals")
+                    .font(.morselFootnote)
+                    .foregroundStyle(Color.morselInkThree)
+                Text(viewModel.sourceIndicator)
+                    .font(.morselFootnote)
+                    .foregroundStyle(Color.morselInkThree)
+            }
+            Spacer()
+            Text("morsel · agent voice")
+                .font(.morselFootnote)
+                .foregroundStyle(Color.morselInkThree)
+        }
+        .padding(.bottom, 6)
+    }
+
+    private var directions: some View {
+        HStack(spacing: 6) {
+            ForEach(GoalDirection.allCases, id: \.self) { direction in
+                Button {
+                    Task { await viewModel.choose(direction) }
+                } label: {
+                    VStack(spacing: 2) {
+                        Text(direction.title)
+                            .font(Font.morselHand(size: 20))
+                            .foregroundStyle(
+                                viewModel.selectedDirection == direction ? Color.morselForest : Color.morselInk
+                            )
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .background(
+                                viewModel.selectedDirection == direction
+                                    ? Color.morselForest.opacity(0.14)
+                                    : Color.clear,
+                                in: RoundedRectangle(cornerRadius: 6)
+                            )
+                        Text(direction.subtitle)
+                            .font(.morselFootnote)
+                            .foregroundStyle(Color.morselInkTwo)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 4)
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(viewModel.selectedDirection == direction ? .isSelected : [])
+            }
+        }
     }
 }
 
-private struct GoalField: View {
+private struct GoalJournalField: View {
     let label: String
     let unit: String
     @Binding var value: String
     let source: GoalSource?
     let error: String?
+    var prominent = false
     let onEdit: (String) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(label).font(.morselBodyStrong)
-            HStack {
+            Text(label).font(.morselBodyStrong).foregroundStyle(Color.morselInk)
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Spacer(minLength: 4)
                 TextField(label, text: Binding(get: { value }, set: { value = $0; onEdit($0) }))
-                    .keyboardType(.numbersAndPunctuation).font(.morselData).multilineTextAlignment(.trailing)
-                Text(unit).font(.morselData).foregroundStyle(Color.morselInkThree)
-            }.padding(10).background(Color.morselSurfaceTwo).clipShape(RoundedRectangle(cornerRadius: 8))
-                .overlay { RoundedRectangle(cornerRadius: 8).stroke(error == nil ? .clear : Color.morselOver, lineWidth: 1) }
-            Text("source: \(source?.rawValue ?? "—")").font(.morselData).foregroundStyle(Color.morselInkThree)
-            if let error { Text(error).font(.morselData).foregroundStyle(Color.morselOver) }
+                    .keyboardType(.numbersAndPunctuation)
+                    .font(prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17))
+                    .multilineTextAlignment(.trailing)
+                    .foregroundStyle(Color.morselInk)
+                Text(unit)
+                    .font(.morselBody)
+                    .foregroundStyle(Color.morselInkTwo)
+            }
+            Rectangle()
+                .fill(error == nil ? Color.morselInkLine.opacity(0.7) : Color.morselOver)
+                .frame(height: error == nil ? 1 : 1.4)
+            HStack {
+                ProvenanceLabel(text: "source: \(source?.rawValue ?? "—")")
+                Spacer()
+                if let error {
+                    Text(error)
+                        .font(.morselData)
+                        .foregroundStyle(Color.morselOver)
+                }
+            }
         }
     }
 }

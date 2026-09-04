@@ -22,10 +22,20 @@ protocol SupabaseAuthenticating {
     func requestEmailOTP(email: String) async throws
     func verifyEmailOTP(email: String, code: String) async throws -> AuthenticatedSession
     func signInWithApple(identityToken: String, nonce: String?) async throws -> AuthenticatedSession
+    func signOut() async throws
+}
+
+extension SupabaseAuthenticating {
+    /// Default no-op keeps test doubles compiling; real clients override.
+    func signOut() async throws {}
 }
 
 struct SupabaseAuthClient: SupabaseAuthenticating {
     let client: SupabaseClient?
+
+    func signOut() async throws {
+        try await client?.auth.signOut()
+    }
 
     func restoreSession() async throws -> AuthenticatedSession? {
         guard let client else {

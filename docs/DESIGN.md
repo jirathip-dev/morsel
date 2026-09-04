@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Morsel
-description: A readout, not a showcase — data store + read-only dashboard + agent skill. Warm paper ground, orange identity/action anchor (ink label, never white), sage/forest support, mustard highlights. Approved V1 "Orange Hearth + Sage" (issue #32).
+description: A readout, not a showcase — data store + read-only dashboard + agent skill. Approved V1 naturalist field-journal (issue #90): warm paper ground + Night-ink theme, orange identity/action anchor (ink label, never white), sage/forest support, hand-inked calorie ring with wash fill, macro wash strips, Today · History · Goals primary tabs, eaten-vs-goal semantics.
 colors:
   ink: "#2A261F"
   ink2: "#655A4B"
@@ -20,31 +20,31 @@ colors:
   mustardDeep: "#A5750B"
   review: "#7A3D2B"
   over: "#9C3A2F"
+  inkline: "#8B7355"
 typography:
   display:
-    fontFamily: Nunito Sans
-    fontSize: 22px
-    fontWeight: 800
-    letterSpacing: "-0.02em"
+    fontFamily: Caveat
+    fontSize: 34px
+    fontWeight: 400
   title:
-    fontFamily: Nunito Sans
-    fontSize: 16px
-    fontWeight: 800
+    fontFamily: EB Garamond
+    fontSize: 17px
+    fontWeight: 600
   body:
-    fontFamily: Nunito Sans
-    fontSize: 14.5px
+    fontFamily: EB Garamond
+    fontSize: 15px
     fontWeight: 400
     lineHeight: 1.4
   label:
-    fontFamily: Nunito Sans
-    fontSize: 12px
-    fontWeight: 700
+    fontFamily: EB Garamond
+    fontSize: 11px
+    fontWeight: 600
     letterSpacing: "0.08em"
     textTransform: uppercase
   data:
     fontFamily: IBM Plex Mono
     fontSize: 11px
-    fontWeight: 500
+    fontWeight: 400
     fontFeature: tnum
 rounded:
   sm: 6px
@@ -55,22 +55,14 @@ spacing:
   md: 16px
   lg: 24px
 components:
-  gauge:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    padding: 16px
-  gauge-ring:
-    trackColor: "{colors.surface2}"
-    fillColor: "{colors.forest}"
-    fillColorNear: "{colors.mustardDeep}"
-    fillColorOver: "{colors.over}"
-  macro-track:
-    backgroundColor: "{colors.surface2}"
-  macro-line:
-    proteinColor: "{colors.coral}"
-    carbsColor: "{colors.mustardDeep}"
-    fatColor: "{colors.leaf}"
+  journal-ring:
+    trackColor: "{colors.inkline}"
+    fillColor: "{colors.accent}"
+    wash: today wash
+  macro-wash:
+    proteinWash: "{colors.coral}"
+    carbsWash: "{colors.mustardDeep}"
+    fatWash: "{colors.leaf}"
   tag:
     textColor: "{colors.ink2}"
     backgroundColor: "{colors.surface}"
@@ -104,50 +96,73 @@ talk to), plus a read-only iOS dashboard. So the dashboard's job is *not* to
 persuade or entertain — it is to **render the record honestly** and make it
 correctable.
 
-The design consequence: the UI reads like an **instrument**, not a marketing
-mockup. No phone-bezel theater, no fake status bar, no decorative cards. The
-visual weight sits on the **data the agent wrote** — `source`, `confidence`,
-`unit`, per-item macros — and on the **trust affordance** that surfaces
-low-confidence estimates for a one-tap correction.
+The approved V1 presentation (issue #90, implemented by issue #94) is a
+**naturalist's field journal**: warm paper (or Night-ink charcoal) pages with
+hand-lettered headings, inkline contours, wash pigment fills, and mono data
+vocabulary. The visual weight sits on the data the agent wrote — `source`,
+`confidence`, `unit`, per-item macros — and on the trust affordance that
+surfaces low-confidence estimates for a one-tap correction.
 
-The reference implementation is `./prototype.html` (this repo, `docs/`). This
-file is the normative token spec the SwiftUI app and the server snapshot
-renderer should follow.
+The approved V1 contract (390×844 proofs per state × Paper/Night) is committed
+at `docs/evidence/issue-90/` (README + token map + PNGs). This file is the
+normative token spec the SwiftUI app follows. The prototype (HTML) is a web
+reference only: HTML geometry, CSS gradients, and browser controls are never
+copied into SwiftUI.
 
-## Colors (approved V1 — Orange Hearth + Sage)
+## Themes (Paper and Night ink)
 
-- **ink (#2A261F)** — warm near-black for primary copy and the dark label on
+Two ink themes plus "Follow system", switched in Settings → Appearance and
+applied at the root (`MorselAppearance.scheme(for:)` + dynamic native tokens):
+
+- **Paper** (default) — page `bg #FFF7E8`, ink copy, warm surfaces.
+- **Night ink** — the palette pigments resolved over the ink ground
+  `#2A261F`: page `ink`, copy cream, secondary `surface2`, hairline `ink3`,
+  pigments invert to their soft family (Protein wash `accentSoft`, Carbs wash
+  `mustard`, Fat wash `leafSoft`, positive text `leafSoft`, review text
+  `accentSoft` on `review` wash, over text cream — the hatch carries the over
+  mark). Exact resolved hexes live in `docs/evidence/issue-90/tokens.md` and
+  `app/Sources/Morsel/DesignSystem.swift` (each token ships a paper + night
+  pair; no other hex authority for native).
+- Strict text pairs stay ≥ 4.5:1 and marks ≥ 3:1 worst-case-over-grain in
+  both themes (measured tables in the promoted contract).
+
+## Colors (approved V1 — Orange Hearth + Sage, plus inkline)
+
+- **ink (#2A261F)** — warm near-black primary copy and the dark label on
   identity hues. Orange never carries a white label.
+- **inkline (#8B7355)** — warm sepia hand-ruled lines, plate/ring contours,
+  goal ticks, and page furniture; never body text (3.77:1 on paper, 4.04:1 in
+  night — marks/contours ≥ 3:1).
 - **accent (#E66A2C)** — the orange **identity/action anchor**: confirm
-  buttons, calorie figures, slider thumbs, focus states. It takes
-  dark **ink**, never white.
+  buttons, the today ring wash, focus states. It takes dark **ink**, never
+  white. Orange pigment washes are the measured-data wash treatment below,
+  never new scalar colors.
 - **forest (#2F654B) / leafSoft (#E1E9D7)** — stable/on-track support and
-  high-confidence tags; **forest** is also the active-navigation text.
-  **leaf (#5E7E57)** is the leafy supporting data color. Surfaces stay warm —
-  the sage family supports status, it never green-washes backgrounds.
+  high-confidence tags; **forest** is also the active-tab word and the
+  history bar ink. In Night ink the positive family reads light
+  (leafSoft/leaf washes on charcoal).
 - **review (#7A3D2B) on accentSoft (#FBE1C9)** — needs-review/low-confidence
   names uncertainty without treating it as an error. **coral (#B94738)**
-  supports protein/correction and warm over-goal families; **over (#9C3A2F)**
-  is over-goal/error text.
+  supports protein/correction; **over (#9C3A2F)** is over-goal/error text on
+  paper (cream in Night ink; the hatch is the over mark).
 - **mustard (#D6A62C)** — non-text highlight; **mustardDeep (#A5750B)** is
-  the accessible data stroke (carbs).
+  the accessible data stroke (carbs tick/near-goal).
 - **Neutrals** — bg (#FFF7E8) warm paper, surface (#FFFCF5), surface2
   (#F2E9D9) field/track, line (#E3D2BA) hairline, ink2 (#655A4B) secondary,
   ink3 (#756955) metadata/section labels.
 
 Color is discipline: one orange action anchor, a sage/forest support family,
-a warm review family, and mustard highlights. Measured data graphics keep
-their documented measured-data gradients (below); everything else is matte
-and near-flat. Add a color to the token table first, never an ad-hoc hex in a
-component.
+a warm review family, and mustard highlights. Add a color to the token table
+first, never an ad-hoc hex in a component.
 
-## Charts & gradients (measured-data treatment)
+## Charts & washes (measured-data treatment)
 
-Gradients apply **only** to measured data and the single readout card — they
-are the documented measured-data treatment from the approved token artifacts,
-never new scalar/background decoration. Values are defined once — in the
-prototype CSS and a SwiftUI `LinearGradient` extension — **not** in the
-`colors:` block, which only takes single CSS colors:
+Wash fills apply **only** to measured data (ring, macro strips, history bars,
+weight trend). Pigments are palette tokens rendered as translucent washes
+(Paper ~0.92 over the page with an inkline contour and pooled edge; Night at
+full strength over charcoal) — see `tokens.md` for the wash role map. The
+legacy measured-data gradient stops remain documented for the renderer/SVG
+parity:
 
 ```css
 --grad-protein: linear-gradient(90deg,#C9513D,#A63A32);
@@ -157,157 +172,127 @@ prototype CSS and a SwiftUI `LinearGradient` extension — **not** in the
 --grad-card:    linear-gradient(180deg,#FFFCF5,#FFF5E5);
 ```
 
-- **Macro bars** — `gradProtein` (coral), `gradCarbs` (mustardDeep family),
-  `gradFat` (leaf family), rounded caps, ~6px tall on a surface2 track, each
-  verified ≥3:1 against its track. The macro dot uses the same gradient.
-- **Calorie ring** — the rendered on-track ring is the measured leaf→forest
-  `gradGauge` (the `gauge-ring.fillColor` scalar `forest` is only the
-  single-color fallback). Near-goal uses `mustardDeep`, over-goal uses
-  `over`. Every bar/ring keeps an adjacent
-  numeric value, label, and track — the gradient carries *feel*, text carries
-  the precise value, so gradient degeneracy never blinds a readout.
-- **Cards** — a faint `gradCard` (surface → #FFF5E5) on the gauge readout
-  surface only.
-
-On native, map them to SwiftUI `LinearGradient` styling.
+- **Macro strips** — wash pigment along a faint denominator rail with an
+  inkline goal tick and mono `value / goalg` readout; Protein
+  coral/accentSoft, Carbs mustardDeep/mustard, Fat leaf/leafSoft by theme.
+- **Calorie ring** — hand-inked contour + stippled guide with a wash band
+  from 12 o'clock (today wash = accent; near-goal = mustardDeep; over =
+  over wash + cream/ink hatch). Numeric readout sits beside the ring; the
+  ring itself stays empty (values live in the readout column).
+- Every bar/ring keeps an adjacent numeric value and label — the wash
+  carries *feel*, mono text carries the precise value.
 
 ## Typography
 
-- **Copy + numerals:** Nunito Sans (400/600/700/800). Humanist, warm, food-friendly.
-  Numerals use tabular figures (`font-variant-numeric: tabular-nums`) so calorie
-  counts align in lists.
-- **Data vocabulary:** IBM Plex Mono (400/500). Reserved for the things the agent
-  wrote — `source` (photo_vision / manual), `confidence` (0.90), gram targets
-  (`69 / 156g`), and per-item macro lines (`P24 C30 F9`). Mono is the "the app is
-  showing you raw data" signal. Never use mono for headings or body copy.
-- Hierarchy comes from weight + size + spacing, not boxes: section labels are
-  12px 700 uppercase (ink3), item names 14.5px 700, headline kcal 14px 800
-  in accent, the gauge number 26px 800.
+- **Hand lettering:** Caveat (OFL) — page titles, annotations, tab words,
+  hand margin notes. Never use it for data.
+- **Serif body + labels:** EB Garamond (OFL) — copy, item names, section
+  labels (uppercase, tracked).
+- **Italic captions:** EB Garamond Italic — `source:`, provenance
+  (`manual`, `photo vision`), "moved 386 kcal today".
+- **Figures:** IBM Plex Mono `tnum` (OFL) — every visible number: totals,
+  item calories, macro grams, dates/times, confidence, chart labels, folios.
+- Fonts are bundled in the app (`app/Fonts/`, OFL licenses) and registered
+  at launch (`MorselFontCatalog`); no network fetch, no UIAppFonts plist
+  route (the fastlane INFOPLIST_FILE template is release tooling).
 
 ## Layout
 
-- App column: `max-width: 430px`, centered; `padding: 24px 18px`. On small
-  screens `20px 16px`. Fixed bottom nav (4 items max) with a subtle top hairline.
-  Active nav text uses forest.
-- **The gauge** is the only card; everything below is a hairline-divided
-  **list** (the log), not a grid of cards. Group items by `meal_type`
-  (breakfast/lunch/dinner/snack); each group has a header row (type, time,
-  group kcal) then item rows.
-- Each **item row**: name + portion (left), headline kcal (right), and below the
-  name a mono macro line + a tag row (source + confidence). This is the primary
-  composition. A **low-confidence** row gets a soft accentSoft tint + a `verify`
-  tag; it is *not* given a left accent rail (that reads as decoration, not
-  hierarchy).
+- Journal page: full-height left margin line (inkline) + rotated gutter date
+  + hand rules; warm paper ground (Paper) or charcoal (Night ink); content
+  clears the margin (~46pt) and the floating bottom bar (96pt inset).
+- Bottom navigation: **Today · History · Goals** — three primary tabs, hand
+  words with an ink marker stroke under the active tab. Goals is a primary
+  tab (issue #94), never a secondary route. Settings sits behind the toothed
+  cog on Today.
+- **Today** — header (date line + hand title + add tab + cog), hero (ring +
+  `EATEN · GOAL` readout + `886 kcal left`/`over` + `source:`), three macro
+  wash strips, the activity margin note, then a hairline-divided meal log.
+  No weight chart on Today.
+- **History** — `Calories vs goal` ledger: 7/30-day range (hand words),
+  per-day wash bars against the goal's ±50 kcal tolerance band with orange
+  hatch on the overshoot, summary strip (avg kcal / days over / logged /
+  streak / `today · partial`), `DAYS VS GOAL` list (signed mono delta +
+  state word), tap-a-day drill-down (macros + items), and the real-dated
+  weight trend (`the line, not one day`).
+- **Goals** — journal editor as a tab: direction choices (Cut / Maintain /
+  Bulk), one-decimal mono target fields with inkline underlines, `Use these
+  goals` / `Goals saved ✓`, `WHAT CHANGES`, `See it` back to Today.
+- Each meal group: name + mono time, kcal; item rows: name, mono portion +
+  macro line, italic provenance + mono confidence box, kcal. Low-confidence
+  rows carry the soft review wash + `verify` tag (never a left rail).
+  Remove uses the ink strike × (native swipe removal also allowed); Settings
+  keeps Appearance, MCP endpoint, Replay onboarding, Health (margin-note
+  copy), Sign out, and the version folio.
 
 ## Elevation & Depth
 
-Matte and near-flat. Cards carry a 1px hairline (line) border on surface; no
-drop-shadow stacks. Hairlines and warm/sage tints do the separation work. The
-fixed bottom nav uses a near-opaque surface backdrop so scrolled content
-recedes — not a glassy banner. Depth is earned through tint and border, not
-shadow.
+Matte and near-flat. Journal hairlines (inkline/line at low alpha) and warm
+washes do the separation; no cards, no drop-shadow stacks, no stock
+table-view chrome. The bottom bar sits on the page ground behind a hairline.
 
-## Shapes
+## Semantics (locked — never regressed)
 
-No shape-system change. `rounded.sm` (6px) micro elements, `rounded.md`
-(8px) buttons/tags, `rounded.lg` (12px) the gauge card. Macro dots stay 9px
-squares (2px radius). The approved bitten smiling-onigiri geometry (wrap,
-bite, face) remains byte-for-byte the control — only its three scalar fills
-map to this palette.
-
-## Components
-
-- **Gauge** — small ring (left) with remaining kcal centered; right side shows
-  `Eaten · Goal · X left` and three macro lines (label, 4px track with progress,
-  `value / targetg`). Ring fill: the measured `gradGauge`; near-goal
-  `mustardDeep`, over `over`.
-- **Goal source** — the gauge's `Goal` is the **computed** target from the profile
-  (Mifflin-St Jeor → TDEE → diet goal; see `TARGETS.md`), not a manual number. The
-  Targets screen shows the computed value and lets the user **confirm or adjust**;
-  adjusting flips `goals.source` to `manual`.
-- **Targets screen** — a short profile form (sex, age, height, weight, activity,
-  diet goal: mono upper-case labels + number inputs on surface2 + segmented
-  toggles) above a computed readout (big `t-kcal` number, `BMR … · TDEE … ·
-  <goal>` meta line, mono macro line, `source: computed` tag). Actions:
-  **Looks right** (confirm → lock, `source: computed`) and **Adjust** (reveals
-  the manual kcal/macro sliders → `source: manual`); a `Use computed` ghost
-  returns to the computed value.
-- **Tag** — monospace, 5px radius, surface bg + hairline border, ink2 text.
-  `tag-conf-high` (forest on leafSoft), `tag-conf-low` (review on accentSoft).
-- **btn-confirm** (accent with ink label) and **btn-ghost** (surface2, ink2) —
-  40px tall, 8px radius. Confirmation is the high-emphasis action; there is
-  exactly one confirm per correction card. Hover stays legible: ink on
-  accentSoft.
-- **row-low** — the low-confidence item row (accentSoft tint, 6px radius). It
-  must always carry a `verify` tag so the tint is never the only signal.
-- **Review card** — `// agent: <reason>` note in mono plus editable kcal/P/C/F
-  fields (mono inputs on surface2) with `Keep guess` (ghost) and `Looks right`
-  `(confirm)`. Confirming flips the confidence tag to `1.00` high.
-- **History screen** — a `calories vs goal` bar chart with a **7 / 30 day**
-  range toggle (bars scaled to the range's max, dashed goal line at the computed
-  target), a summary
-  strip (avg kcal, days over, day streak), and a **Days vs goal** list where each
-  day shows kcal vs goal and a signed mono **delta** with a state word
-  (**under / on target / over**) — the over/under framing, not "over/under eat".
-  **Tap a day to open it** (drill-down: that day's kcal, macro split, and items
-  for today; past-day macros derive from the total via the 30/45/25 split).
-- **Tab bar** — the bottom nav is the floating translucent pill pinned to the
-  bottom of the app column; content scrolls behind it; active item text uses
-  forest.
+- The Today hero and every delta read **eaten vs goal** (TDEE-based computed
+  or manual target). Displayed status words: "kcal left" / "kcal over" on
+  Today; History state words are the signed **under / on target / over**
+  within a ±50 kcal tolerance band.
+- **Active/active energy is context only** ("moved 386 kcal today"), a margin
+  note that is **never subtracted** from eaten calories; there is no "net
+  intake"/net-energy display in the app.
+- Empty/loading/unavailable-goal/low-confidence states are honest and
+  readable; no invented values; raw Supabase/Postgres/backend text never
+  reaches users (friendly copy tables only).
 
 ## Do's and Don'ts
 
 **Do**
 - Show exactly what the agent wrote: source, confidence, unit, per-item macros.
 - Make the trust affordance (needs-review / verify) a first-class element.
-- Use mono only for data vocabulary; use tabular numerals for all numbers.
-- Use orange for identity/action, sage/forest for stable support, coral for
-  correction, mustard for measured highlights, and generous cream breathing room.
-- Separate with hairlines and tints, not shadows and decorations.
-- Keep measured-data gradients verified ≥3:1 against their tracks and every
-  text pair ≥4.5:1.
+- Use mono only for data figures; use hand lettering for headings only.
+- Use orange for identity/action + today wash, sage/forest for stable
+  support, mustard for measured highlights, warm paper breathing room.
+- Separate with ink hairlines and washes, not shadows.
+- Keep every strict text pair ≥4.5:1 and marks ≥3:1 in BOTH themes.
 
 **Don't**
 - Don't build a chat UI, a feed, or any in-app AI surface — out of scope by design.
-- Don't add a fake phone bezel, fake status bar, or mock OS chrome.
-- Don't reach for a card-per-thing or a 3-feature grid; the day is a log.
+- Don't copy HTML geometry, web gradients, or browser controls into SwiftUI.
+- Don't subtract activity from eaten calories or display a "net" readout.
 - Don't invent colors ad-hoc — add the token, then use it.
 - Don't put white on the orange button; ink is the label.
-- Don't turn every surface sage; green supports status, it doesn't paint the app.
-- Don't copy botanical geometry; the approved onigiri geometry is the control.
+- Don't render a white/light surface in Night ink that would blind the page.
 - Don't collapse review and over-goal into one state — review (#7A3D2B on
   accentSoft) and over (#9C3A2F) stay distinct.
-- Don't decorate low-confidence with an accent rail or an icon; a tint +
+- Don't decorate low-confidence with an accent rail or an icon; a wash tint +
   `verify` tag + the reason is the honest treatment.
 
 ## Native implementation (SwiftUI)
 
-This prototype is a **web reference**, not the shipped UI. The real Morsel
-dashboard is a **SwiftUI** native app (`app/`) and must use **SwiftUI + Apple
-native components** so it reads as a platform app — not a ported web mockup.
-Map each design element to its native equivalent:
+The prototype is a **web reference**, not the shipped UI. The real Morsel
+dashboard is the **SwiftUI** app (`app/`) and uses **SwiftUI + Apple native
+components** so it reads as a platform app — not a ported web mockup:
 
 | Design (this doc) | SwiftUI implementation |
 |---|---|
-| Tab bar | `TabView` with a `toolbarBackground`, or a custom `.regularMaterial` capsule overlay; SF Symbols for icons (`chart.bar`, `list.bullet`, `checkmark.seal`, `slider.horizontal.3`) |
-| Calorie gauge / ring | `Circle` stroke with `trim(to:)` progress arc + `Text` center |
-| Macro split | `HStack` of label/value rows, or a `Gauge`/`ProgressView` per macro |
-| Meals log | `List` / `ScrollView` + `LazyVStack` with `Divider` hairlines |
-| Confidence tag | small `Text` capsule (`.caption` mono) — use `monospaced()` for data |
-| Item row | `HStack` (name + portion, macro `Text`, kcal) |
-| Needs-review / verify | coloured row tint + `Button` ("Looks right") |
-| Profile / Targets | `Form` or `ScrollView`: segmented `Picker` for sex & diet goal, `TextField` (`.numberPad`) for age/height/weight, `Picker` for activity, live confirm/adjust `Button`s |
-| Range toggle 7/30 | segmented `Picker` |
-| Day drill-down | a `Sheet`/`NavigationLink` per day, or an expandable row |
+| Journal page furniture | `JournalPage`/`JournalPageFurniture` (spine rule + rotated mono date), inkline `JournalRule` dividers, `MarkerStroke` underlines |
+| Tab bar (Today · History · Goals) | custom native `JournalTabBar` (hand words + marker stroke), `JournalTab` shell switch |
+| Calorie ring | `JournalCalorieRing` (inkline contour + stipple, wash `trim` band, 12 o'clock tick) beside the mono readout column |
+| Macro wash strips | `MacroWashStrip` (rail + `WashEdgeShape` pigment + inkline goal tick + mono readout) |
+| Meals log | `ScrollView` + `LazyVStack` with inkline hairlines, `JournalRule` group separators |
+| Provenance/confidence | italic serif label + mono outline `ConfidenceBox` |
+| Needs-review / verify | wash row tint + `verify` tag + correction sheet |
+| Goals editor | `GoalsView` primary tab (hand directions, one-decimal mono fields, inkline underlines) |
+| History ledger | `HistoryView`/`HistoryViewModel` (7/30 bars, summary, list, drill-down, `V1WeightTrendView` Swift Charts) |
+| Settings | `SettingsJournalView` full-page cover behind the toothed cog |
 
-Keep the **design tokens** in this file as the single source; expose them to
-SwiftUI via an asset catalog / `Color`+`Font` extension so the native app and the
-web reference stay in lockstep. The app is **read-only** (no chat, no AI) — it
-renders the store the agent wrote.
+Design tokens live in `app/Sources/Morsel/DesignSystem.swift` (dual paper/night
+pairs) with this file as the normative spec; the web reference stays in
+lockstep for the server snapshot renderer.
 
 ## Server snapshot renderer (Tier 1)
 
-`get_dashboard_summary` (and `get_day`) should emit this same chart as the
+`get_dashboard_summary` (and `get_day`) should emit the History chart as the
 `image` content block (`{ type:"image", data:<base64 SVG>, mimeType:"image/svg+xml" }`)
 per `IN_CHAT_RENDER.md`, so the in-chat chart and the app agree without native
 rasterization dependencies. The renderer output should match the **History
