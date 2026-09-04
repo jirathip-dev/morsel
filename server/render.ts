@@ -16,6 +16,13 @@ const palette = {
   coral: '#B94738',
   mustard: '#D6A62C',
   mustardDeep: '#A5750B',
+  // Measured amber data-gradient stops (issue #53): the #D6A62C start on the
+  // surface2 track measured ~1.86:1, below the 3:1 data-graphic gate. These
+  // stops are the DESIGN.md Charts & washes --grad-carbs treatment
+  // (#B07A13 → #875A02) held by the prototype gauge/carbs bars and the native
+  // carbs gradient; every visible endpoint holds ≥3:1 on surface2 (3.09/4.99).
+  mustardGradStart: '#B07A13',
+  mustardGradEnd: '#875A02',
   review: '#7A3D2B',
   over: '#9C3A2F',
 }
@@ -177,14 +184,14 @@ function renderSvg(summary: DashboardRenderSummary, goal: RangeGoal | undefined)
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 ${svgNumber(height)}" role="img" aria-label="Morsel nutrition summary for ${escapeXml(dateLabel(summary))}">`,
     '<defs>',
     `<linearGradient id="ring-on" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
-    `<linearGradient id="ring-near" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="ring-near" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.mustardGradStart}"/><stop offset="100%" stop-color="${palette.mustardGradEnd}"/></linearGradient>`,
     `<linearGradient id="ring-over" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
     `<linearGradient id="macro-protein" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
-    `<linearGradient id="macro-carbs" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="macro-carbs" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustardGradStart}"/><stop offset="100%" stop-color="${palette.mustardGradEnd}"/></linearGradient>`,
     `<linearGradient id="macro-fat" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
-    `<linearGradient id="trend-under" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.mustardDeep}"/></linearGradient>`,
+    `<linearGradient id="trend-under" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustardGradStart}"/><stop offset="100%" stop-color="${palette.mustardGradEnd}"/></linearGradient>`,
     `<linearGradient id="trend-on" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.leaf}"/><stop offset="100%" stop-color="${palette.forest}"/></linearGradient>`,
-    `<linearGradient id="trend-near" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustard}"/><stop offset="100%" stop-color="${palette.accent}"/></linearGradient>`,
+    `<linearGradient id="trend-near" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.mustardGradStart}"/><stop offset="100%" stop-color="${palette.mustardGradEnd}"/></linearGradient>`,
     `<linearGradient id="trend-over" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="${palette.coral}"/><stop offset="100%" stop-color="${palette.over}"/></linearGradient>`,
     '</defs>',
     `<rect width="720" height="${svgNumber(height)}" fill="${palette.bg}"/>`,
