@@ -8,8 +8,11 @@ bottom inset clear of the floating tab bar.
 
 ## Mechanism (item 1 — forced light)
 
-- Chosen: root `.preferredColorScheme(.light)` on the `WindowGroup` content
-  in `MorselApp.swift` (issue-spec-sanctioned alternative).
+- Chosen: root `.preferredColorScheme(MorselAppearance.scheme)` on the
+  `WindowGroup` content in `MorselApp.swift`, where `MorselAppearance.scheme`
+  (app/Sources/Morsel/MorselAppearance.swift) is the small internal seam
+  asserting `.light` (issue-spec-sanctioned alternative). r1 review added the
+  seam so an XCTest can compile against the real mechanism.
 - The plist route was tried first and rejected with proof: this target uses
   `INFOPLIST_FILE: ../fastlane/Morsel-Info.plist` (a custom template that
   references every runtime key explicitly via `$(INFOPLIST_KEY_*)`
@@ -58,10 +61,12 @@ white label"); the old surface2 ghost pill measured ~1.1:1 against the page
   root `.preferredColorScheme(.light)` and tab shell (TabView +
   `MorselActionTint` + floating bar) with the REAL `TodayView`,
   `SettingsView`, and `GoalsEditorView` backed by the DEBUG
-  `MockDashboardRepository` — no Supabase client, no credentials, no network.
-  Harness removed after capture: at the evidence commit
-  `git diff <base> -- app/Sources/Morsel/MorselApp.swift` is empty and no
-  `CAPTURE-HARNESS-ACTIVE`/`MorselCaptureApp` string remains.
+  MockDashboardRepository` — no Supabase client, no credentials, no network.
+  Harness removed after capture: the code-vs-evidence commit split proves it —
+  `git diff 754dfdc 8618731 -- app/Sources/Morsel/MorselApp.swift` is empty
+  (the source fix itself lives in 754dfdc, so comparing against the issue
+  base 44e77f8 is NOT empty) and no `CAPTURE-HARNESS-ACTIVE`/
+  `MorselCaptureApp` string remains.
 - `xcrun simctl ui <UDID> appearance dark` before each launch;
   `xcrun simctl io <UDID> screenshot <file>` after launch settle; appearance
   restored to light afterwards.

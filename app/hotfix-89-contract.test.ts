@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -30,15 +30,29 @@ const goalsEditor = read('app/Sources/Morsel/GoalsEditor.swift')
 const importer = read('app/Sources/Morsel/HealthKitWeightImporter.swift')
 const viewModel = read('app/Sources/Morsel/ViewModel.swift')
 
-// Swift sources shipped to the UI surface — raw system/entitlement tokens
-// are banned here (the entitlement plist lives outside the Swift sources).
-const shippedSwiftSources: Array<[string, string]> = [
-  [views, 'Views.swift'],
-  [morselApp, 'MorselApp.swift'],
-  [goalsEditor, 'GoalsEditor.swift'],
-  [importer, 'HealthKitWeightImporter.swift'],
-  [viewModel, 'ViewModel.swift'],
-]
+// r1 review: the token ban must cover EVERY shipped Morsel Swift source —
+// enumerate the whole app/Sources/Morsel tree (the xcodegen target includes
+// the whole directory), never a hardcoded subset. A banned token injected
+// into any previously-unlisted file must RED.
+function swiftFilesUnder(relativeDir: string): string[] {
+  const absoluteDir = join(repoRoot, relativeDir)
+  const files: string[] = []
+  for (const entry of readdirSync(absoluteDir, { withFileTypes: true })) {
+    const relative = join(relativeDir, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...swiftFilesUnder(relative))
+    } else if (entry.name.endsWith('.swift')) {
+      files.push(relative)
+    }
+  }
+  return files.sort()
+}
+
+const shippedSwiftFiles = swiftFilesUnder('app/Sources/Morsel')
+const shippedSwiftSources: Array<[string, string]> = shippedSwiftFiles.map((file) => [
+  read(file),
+  file.replace('app/Sources/Morsel/', ''),
+])
 
 // ── WCAG contrast helpers (same math as warm-palette.test.ts) ─────────────
 function luminance(hex: string): number {
@@ -58,12 +72,29 @@ function contrastRatio(foreground: string, background: string): number {
 }
 
 describe('issue #89 hotfix: forced-light appearance contract', () => {
-  it('forces the light scheme at the app root in MorselApp.swift', () => {
+  it('forces the light scheme at the WindowGroup root through the appearance seam', () => {
+    // r1 review: pin ROOT placement — the modifier must be attached to the
+    // WindowGroup's root content (MorselRootView), not merely present
+    // somewhere in the file (a root→Settings relocation must RED here).
     const appStart = morselApp.indexOf('struct MorselApp: App {')
     expect(appStart, 'MorselApp entry must exist').toBeGreaterThan(-1)
-    const appBody = morselApp.slice(appStart)
-    expect(appBody, 'WindowGroup content must force light').toContain('.preferredColorScheme(.light)')
-    expect(appBody, 'root must never force dark').not.toContain('.preferredColorScheme(.dark)')
+    const windowGroup = morselApp.indexOf('WindowGroup {', appStart)
+    expect(windowGroup, 'MorselApp must own a WindowGroup').toBeGreaterThan(-1)
+    const sliceEnd = morselApp.indexOf('struct MorselConfiguration', windowGroup)
+    expect(sliceEnd, 'WindowGroup root slice must have an end anchor').toBeGreaterThan(windowGroup)
+    const rootSlice = morselApp.slice(windowGroup, sliceEnd)
+    expect(rootSlice, 'root content must consume the appearance seam').toMatch(
+      /MorselRootView\([\s\S]*?\)\s*\.preferredColorScheme\(MorselAppearance\.scheme\)/
+    )
+    expect(rootSlice, 'root must never force dark').not.toContain('.preferredColorScheme(.dark)')
+  })
+
+  it('declares the MorselAppearance seam as light', () => {
+    const appearance = read('app/Sources/Morsel/MorselAppearance.swift')
+    expect(appearance, 'seam must declare the light scheme').toContain(
+      'static let scheme: ColorScheme = .light'
+    )
+    expect(appearance, 'seam must never declare dark').not.toContain('= .dark')
   })
 
   it('renders the Settings screen on the paper token, never the stock Form background', () => {
@@ -120,6 +151,10 @@ describe('issue #89 hotfix: HealthKit error-to-copy mapping contract', () => {
   })
 
   it('bans raw entitlement/domain tokens from every shipped Swift source', () => {
+    // r1 review: the enumeration above covers the WHOLE app/Sources/Morsel
+    // target (all tracked/target .swift files), not a hardcoded subset —
+    // an injected token in any file must RED.
+    expect(shippedSwiftFiles.length, 'shipped Swift source enumeration must not be empty').toBeGreaterThanOrEqual(20)
     for (const [text, where] of shippedSwiftSources) {
       expect(text, `${where} must not contain an entitlement string`).not.toContain('com.apple.developer')
       expect(text, `${where} must not contain an HKError token`).not.toContain('HKError')

@@ -17,12 +17,13 @@ struct MorselApp: App {
     var body: some Scene {
         WindowGroup {
             // v0.4 hotfix (#89): the app is LIGHT-ONLY until the night-ink
-            // theme (#90) ships. The root modifier forces the whole scene
-            // (onboarding, tabs, sheets, covers) to the light palette even
-            // when the device is in Dark appearance. A plist-based
-            // UIUserInterfaceStyle would need the fastlane template (the
-            // INFOPLIST_FILE carries explicit $(INFOPLIST_KEY_*) entries),
-            // which is release tooling — out of scope for this hotfix.
+            // theme (#90) ships. MorselAppearance.scheme is the testable
+            // seam for the root forced-light mechanism (asserted in
+            // LightSchemeTests and pinned to this WindowGroup root by the
+            // hosted contract probe). A plist-based UIUserInterfaceStyle
+            // would need the fastlane template (the INFOPLIST_FILE carries
+            // explicit $(INFOPLIST_KEY_*) entries), which is release
+            // tooling — out of scope for this hotfix.
             MorselRootView(
                 sessionStore: sessionStore,
                 auth: SupabaseAuthClient(client: supabaseClient),
@@ -30,7 +31,7 @@ struct MorselApp: App {
                 supabaseClient: supabaseClient,
                 mcpEndpoint: mcpEndpoint
             )
-            .preferredColorScheme(.light)
+            .preferredColorScheme(MorselAppearance.scheme)
         }
     }
 }
