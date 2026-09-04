@@ -59,5 +59,5 @@ the design and `docs/DATA_MODEL.md` for the server contract delta.
   are plain `Text` rows whose copy + wiring are asserted by the native suites
   (e.g. `MealSyncState.rowCopy` pins and snapshot-state tests); pixel capture
   would not add contract coverage and the lane has no device claim.
-- Raw gate logs were whitespace-sanitized before committing (git diff --check
-  clean at the final head).
+- Raw gate logs were whitespace-sanitized and then force-committed past the
+  repo `logs` ignore rule (git diff --check clean at the final head).

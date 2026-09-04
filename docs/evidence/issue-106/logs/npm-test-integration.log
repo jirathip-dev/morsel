@@ -1,0 +1,32 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-106-data-reliability
+
+ ✓ db/migration-recovery-integration.test.mjs (21 tests) 67727ms
+   ✓ schema recovery runner against a disposable PostgreSQL > classifies the full canonical end state VERIFIED_PRESENT  1537ms
+   ✓ schema recovery runner against a disposable PostgreSQL > prod-like partial schema: precise plan, apply to canonical end state with row-count preservation, idempotent second run  5543ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0003 converge revokes an explicit anon EXECUTE grant (issue #84 drift class) and records the ledger row  8640ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converges an empty database to the full canonical end state  3067ms
+   ✓ schema recovery runner against a disposable PostgreSQL > fails closed (zero writes) when both logged_at and measured_at exist  797ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 lossy numeric conversion is a read-only data dependency: blocks BEFORE any write and resumes losslessly after a human fix  3771ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 higher-precision values (100.05) block with zero writes and are preserved; one-decimal values convert losslessly  7996ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra nullable column added between preflight and the owner record aborts with NO ledger row  3321ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra CHECK and an extra UNIQUE index added between preflight and the owner record abort with NO ledger row  5909ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: a permissive extra policy added between preflight and the owner record aborts with NO ledger row  3014ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra overload of a canonical routine added between preflight and the owner record aborts with NO ledger row  2421ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks apply when weight rows would violate the canonical unique constraint (data dependency)  1200ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks when a recorded migration drifts from its contract  1402ms
+   ✓ schema recovery runner against a disposable PostgreSQL > complete schema + ledger is a verified no-op for apply  2442ms
+   ✓ schema recovery runner against a disposable PostgreSQL > apply-migrations appends atomically on real Postgres: single request, failure leaves no ledger row, retry succeeds  1009ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: schema drift between preflight and the record transaction aborts with NO ledger row  1535ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: security/function drift between preflight and the record transaction aborts with NO ledger row  2490ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: policy qual drift between preflight and the record transaction aborts with NO ledger row  2076ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converge-path race: mid-flight drift makes the guard abort the whole converge transaction (no ledger row)  1796ms
+   ✓ schema recovery runner against a disposable PostgreSQL > plan blocks an extra nullable column / extra CHECK / extra FK on a canonical table (never ledger-recorded)  1269ms
+   ✓ schema recovery runner against a disposable PostgreSQL > JS normalizeExpr and the SQL recovery_norm guard normalizer agree on the canonical corpus and live renderings  2356ms
+
+ Test Files  1 passed (1)
+      Tests  21 passed (21)
+   Start at  03:34:05
+   Duration  70.33s (transform 269ms, setup 0ms, collect 517ms, tests 67.73s, environment 0ms, prepare 222ms)
+
+INT-EXIT=0
