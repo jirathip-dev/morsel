@@ -12,7 +12,8 @@
 //   diff   (READ-ONLY) — same GET, prints intended vs live for drifted keys
 //          (exit 0 when the read succeeds; informational).
 //   apply  (MUTATING, HUMAN-GATED) — GET live config, overlay the pinned
-//          canonical keys, PUT it back, then re-GET and re-run the check.
+//          canonical keys, PATCH it back (PATCH is the Management API
+//          auth-config verb), then re-GET and re-run the check.
 //          REQUIRES the literal --yes flag and a readable SMTP password:
 //          env RESEND_API_KEY_MORSEL (the store name; value from the local
 //          store) or an existing live smtp_pass to preserve.
@@ -25,7 +26,7 @@
 //   SUPABASE_PROJECT_REF and SUPABASE_ACCESS_TOKEN.
 // - smtp_pass is never read from config.json (a guard rejects it) and is
 //   never compared by drift checks; it is a secret.
-// - apply refuses to run without --yes and refuses to PUT a config whose
+// - apply refuses to run without --yes and refuses to PATCH a config whose
 //   smtp_pass would be blanked.
 
 import { readFileSync } from "node:fs";
@@ -122,8 +123,10 @@ async function readAuthConfig(ref, token) {
 }
 
 async function writeAuthConfig(ref, token, config) {
+  // PATCH is the Supabase Management API auth-config verb; PUT is not
+  // registered on this route (pinned by config.test.mjs).
   const response = await fetch(authConfigUrl(ref), {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -132,10 +135,10 @@ async function writeAuthConfig(ref, token, config) {
   });
   if (!response.ok) {
     throw new SanitizedError(
-      `PUT auth config failed with status ${response.status} (details suppressed)`,
+      `PATCH auth config failed with status ${response.status} (details suppressed)`,
     );
   }
-  // The PUT response body is not consumed: it is not needed and must not be
+  // The PATCH response body is not consumed: it is not needed and must not be
   // logged. The postcondition re-GET in apply is the source of truth.
   return undefined;
 }
@@ -199,13 +202,13 @@ export async function main(argv = process.argv.slice(2)) {
       const overlay = overlayForApply(canonical, live, smtpPass);
       if (!overlay) {
         throw new UsageError(
-          `No SMTP password available: set ${SMTP_PASS_ENV} (value from the local store, by name) or leave the live smtp_pass in place. Refusing to PUT a config without it.`,
+          `No SMTP password available: set ${SMTP_PASS_ENV} (value from the local store, by name) or leave the live smtp_pass in place. Refusing to PATCH a config without it.`,
         );
       }
       const changedKeys = Object.keys(canonical.pinned).filter(
         (key) => String(overlay[key]) !== String(live[key]),
       );
-      console.log(`apply: PUT auth config for project ${ref} (changed keys: ${changedKeys.join(", ") || "none"})`);
+      console.log(`apply: PATCH auth config for project ${ref} (changed keys: ${changedKeys.join(", ") || "none"})`);
       await writeAuthConfig(ref, token, overlay);
       const after = await readAuthConfig(ref, token);
       const entries = driftEntries(canonical, after);

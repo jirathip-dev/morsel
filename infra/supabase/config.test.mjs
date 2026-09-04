@@ -7,6 +7,7 @@ import { describe, expect, it } from "vitest";
 import {
   driftEntries,
   loadCanonical,
+  main,
   overlayForApply,
   validateCanonical,
 } from "./config.mjs";
@@ -202,5 +203,43 @@ describe("secret store parsing + resolution", () => {
     expect(missing).toEqual(["MORSEL_OAUTH_SIGNING_KEY"]);
     expect(payload.map((entry) => entry.name)).toEqual(["SUPABASE_URL", "SUPABASE_ANON_KEY"]);
     expect(payload.every((entry) => typeof entry.value === "string")).toBe(true);
+  });
+});
+
+describe("writeAuthConfig HTTP method pinning (fix r1: PATCH, never PUT)", () => {
+  it("applies the auth config with PATCH against a /config/auth URL", async () => {
+    const realFetch = globalThis.fetch;
+    const realEnv = {
+      ref: process.env.SUPABASE_PROJECT_REF,
+      token: process.env.SUPABASE_ACCESS_TOKEN,
+      smtp: process.env.RESEND_API_KEY_MORSEL,
+    };
+    const calls = [];
+    const okResponse = { ok: true, status: 200, json: async () => liveLike() };
+    globalThis.fetch = async (url, init) => {
+      calls.push({ url: String(url), init });
+      return okResponse;
+    };
+    process.env.SUPABASE_PROJECT_REF = "method-pin-probe-ref";
+    process.env.SUPABASE_ACCESS_TOKEN = "method-pin-probe-token";
+    process.env.RESEND_API_KEY_MORSEL = "method-pin-probe-pass";
+    try {
+      await expect(main(["apply", "--yes"])).resolves.toBe(0);
+    } finally {
+      globalThis.fetch = realFetch;
+      for (const [name, value] of Object.entries(realEnv)) {
+        if (value === undefined) {
+          delete process.env[name];
+        } else {
+          process.env[name] = value;
+        }
+      }
+    }
+    // apply performs GET -> write -> GET; the write is the only call that
+    // carries an explicit method. It must be PATCH, never PUT.
+    const write = calls.find((call) => call.init?.method !== undefined);
+    expect(write).toBeTruthy();
+    expect(write.init.method).toBe("PATCH");
+    expect(write.url).toMatch(/\/config\/auth$/);
   });
 });
