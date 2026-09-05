@@ -25,8 +25,9 @@ description, explicit input and output schemas, and an explicit SDK
 | `get_profile` | Get the body profile | read | Body metrics (sex, age, height, weight, activity, diet goal). | `readOnlyHint` |
 | `set_profile` | Set the body profile | write | Upsert body metrics. | — |
 | `compute_targets` | Compute nutrition targets | read | BMR/TDEE + kcal + macro split derived from profile. | `readOnlyHint` |
-| `get_goals` | Get the effective goal | read | **Effective** targets (computed default, else manual override) + `source`. | `readOnlyHint` |
+| `get_goals` | Get the effective goal | read | **Effective** targets — "latest update wins" (computed default; manual override only while at least as new as the profile, else `superseded_manual`) + `source`. | `readOnlyHint` |
 | `set_goals` | Set manual goals | write | Manual override (marks `source='manual'`). | — |
+| `reset_goals` | Reset manual goals | write | Discard the stored manual override; effective target returns to computed. | — |
 | `get_weight_trend` | Get the weight trend | read | Apple Health body-mass series and latest measurement. | `readOnlyHint` |
 | `get_energy_burned` | Get energy burned | read | Apple Health daily active-energy burn series. | `readOnlyHint` |
 
@@ -61,8 +62,11 @@ fields are explicit `false`: the tool claims no safety class. The claim rules:
   rows cascade-delete with it (foreign key `on delete cascade`, migration
   0001). There is no archive, soft-delete, or restore path, so the effect is
   irreversible. The other write tools (`log_meal`, `set_profile`, `set_goals`,
-  `update_meal_item`) assert `destructiveHint: false`: they create or overwrite
-  owned rows and remove nothing.
+  `reset_goals`, `update_meal_item`) assert `destructiveHint: false`: they
+  create or overwrite owned rows and remove nothing — `reset_goals` rewrites
+  the `goals` row to `source='computed'` with its values cleared (no `DELETE`),
+  and the manual numbers it replaces are returned in the earlier `get_goals`
+  / `set_profile` `superseded_manual` payloads when clients need them.
 - `idempotentHint: false` — asserted on **every** tool: the server makes no
   retry-safety promise. `log_meal` inserts a new meal log on every call, so a
   blind retry duplicates data; `delete_meal_log` errors with `not_found` once
@@ -257,30 +261,65 @@ markdown is the safe fallback when a client cannot render SVG.
 
 ### `set_profile`
 
-**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }` — **Output** `{ "ok": true, "saved": true }`
+**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }`
+**Output** `{ "ok": true, "saved": true, "effective_goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed", "superseded_manual?" } }`
+
+Saving a profile is the newest user decision, so the output reports the
+effective goal with the just-computed targets (`source: "computed"`, using the
+latest imported weight when one exists). When a complete manual goal existed
+before the save, its old values are returned as
+`superseded_manual: { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "updated_at" }`
+so the agent can tell the user what the new profile replaced.
 
 ### `compute_targets`
 
-**Input** `{}` (uses the profile and latest imported weight when present) — **Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g" }`
-Formula (Mifflin-St Jeor → activity factor → diet goal) in [`TARGETS.md`](TARGETS.md).
+**Input** `{}` (uses the profile and latest imported weight when present)
+**Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "weight_used" }`
+
+`weight_used` reports the body weight the targets were actually derived from:
+`{ "kg", "source": "health" | "profile" }`. When a `weight_logs` measurement
+exists, the latest one (by `measured_at`) feeds the computation and `source`
+is `"health"` with that sample's `measured_at`; with no imported measurement
+the profile's typed `weight_kg` is used and `source` is `"profile"` (no
+`measured_at`). Formula (Mifflin-St Jeor → activity factor → diet goal) in
+[`TARGETS.md`](TARGETS.md).
 
 ### `get_goals`
 
-**Purpose:** the **effective** target the gauge and "did I hit today's target?" use —
-the computed default unless the user set a manual override.
-**Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual" }`
+**Purpose:** the **effective** target the gauge and "did I hit today's target?" use.
+**Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual", "superseded_manual?" }`
 
-A complete manual goal is readable even when no profile has been set. A profile
-is required when the stored goal is computed or incomplete.
+The effective goal follows **"latest update wins"**: the stored manual goal is
+effective only while it is at least as new as the profile
+(`goals.updated_at >= profiles.updated_at`). A profile updated after the manual
+goal makes the **computed** target effective (`source: "computed"`) and the
+response carries the replaced values as `superseded_manual` (with the manual
+row's `updated_at`) so clients can show what was set aside. `get_day`'s `goal`
+and the dashboard render follow the same rule (without the `superseded_manual`
+payload). A complete manual goal is still readable when no profile has been
+set (nothing can supersede it there). A profile is required when the stored
+goal is computed, incomplete, or absent.
 
 ### `set_goals`
 
 **Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
 
-Omitted values retain the current effective values. If no profile or existing
-goal can supply them, provide all four values. Calling `set_goals` permanently
-sets `source='manual'` in v0.1; there is no registered tool to revert it to a
-computed target.
+Omitted values retain the current effective values (following the same
+"latest update wins" rule). If no profile or existing goal can supply them,
+provide all four values. Calling `set_goals` writes the manual override
+(`source='manual'`) as the newest goal write, so it stays effective until the
+profile changes again or `reset_goals` is called.
+
+### `reset_goals`
+
+**Input** `{}` — **Output** `{ "ok": true, "reset": true }`
+
+Discards the stored manual goal override (the goal row is rewritten to
+`source='computed'` with no values). The effective target returns to the
+computed values derived from the profile and latest imported weight — call
+`get_goals` afterwards for the new effective target (a profile is required for
+a computed target). Nothing else changes; `reset_goals` never touches meals,
+weight logs, or the profile.
 
 ## Principles for the agent
 

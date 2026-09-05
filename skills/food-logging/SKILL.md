@@ -72,8 +72,8 @@ Always follow these rules:
 The server registers exactly these tools: `log_meal`, `search_food`,
 `update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
 `get_profile`, `set_profile`, `compute_targets`, `get_goals`, `set_goals`,
-`get_weight_trend`, and `get_energy_burned`. It reads Apple Health imports for
-weight and active-energy context.
+`reset_goals`, `get_weight_trend`, and `get_energy_burned`. It reads Apple
+Health imports for weight and active-energy context.
 
 ### Tool safety classes
 
@@ -87,9 +87,10 @@ authoritative guidance:
   `get_goals`, `get_weight_trend`, `get_energy_burned`,
   `get_dashboard_summary`. Safe to call without confirmation.
 - Writes (create or overwrite the user's data): `log_meal`, `set_profile`,
-  `set_goals`, `update_meal_item`. Confirm with the user when the effect is
-  not already requested; `log_meal` is never retried blindly — every call
-  inserts a new meal.
+  `set_goals`, `reset_goals`, `update_meal_item`. Confirm with the user when
+  the effect is not already requested; `log_meal` is never retried blindly —
+  every call inserts a new meal. `reset_goals` discards the stored manual goal
+  values the user set earlier, so confirm it too.
 - Destructive (irreversible delete): `delete_meal_log` only. Deleting removes
   the meal log and its items permanently — never call it without explicit
   user confirmation.
@@ -294,7 +295,35 @@ logged.
 ```
 
 `set_profile` takes that same object as input and requires every field except
-`goal_weight_kg`. It returns `{ ok: true, saved: true }`.
+`goal_weight_kg`. It returns:
+
+```text
+{
+  ok: true,
+  saved: true,
+  effective_goal: {
+    calorie_target_kcal: non-negative number,
+    protein_g: non-negative number,
+    carbs_g: non-negative number,
+    fat_g: non-negative number,
+    source: "computed",
+    superseded_manual?: {
+      calorie_target_kcal: non-negative number,
+      protein_g: non-negative number,
+      carbs_g: non-negative number,
+      fat_g: non-negative number,
+      updated_at: ISO date-time with an offset
+    }
+  }
+}
+```
+
+Saving a profile is the newest user decision: report the targets it produced
+(the `effective_goal`) instead of only the stored profile. When the save
+replaces a complete manual goal the user set earlier, `effective_goal`
+includes `superseded_manual` with those old values and their `updated_at`;
+tell the user the profile changed their targets and name what the manual
+numbers were.
 
 If no profile exists, `get_profile` errors with `not_found` and
 `compute_targets` errors with `profile_required`. `get_goals` returns a complete
@@ -311,26 +340,51 @@ is neither a profile nor a complete manual goal.
   calorie_target_kcal: non-negative number,
   protein_g: non-negative number,
   carbs_g: non-negative number,
-  fat_g: non-negative number
+  fat_g: non-negative number,
+  weight_used: {
+    kg: positive number,
+    measured_at?: ISO date-time with an offset,
+    source: "health" | "profile"
+  }
 }
 ```
 
+`weight_used` is the body weight the targets were computed from: the latest
+imported Health measurement (`source: "health"`, with the sample's
+`measured_at`) when one exists, otherwise the profile's typed `weight_kg`
+(`source: "profile"`, no `measured_at`). When the user's Health weight is
+newer than the typed value, quote the Health weight as the basis.
+
 `get_goals` takes `{}` and returns the effective target with the same four
 target fields plus `source: "computed" | "manual"`. Use this when a standalone
-target is needed; it returns a complete manual goal without a profile. `get_day`
-includes the same effective goal whenever a profile or complete manual goal
-exists. This is the target that the dashboard gauge and "did I hit today's
+target is needed. The effective goal follows "latest update wins": the stored
+manual goal applies only while it is at least as new as the profile
+(`goals.updated_at >= profiles.updated_at`). When the profile was updated
+after the manual goal, the response is the **computed** target with
+`source: "computed"` and carries the replaced manual values as
+`superseded_manual: { calorie_target_kcal, protein_g, carbs_g, fat_g,
+updated_at }` — tell the user their newer profile changed the targets and
+name the old manual numbers. `get_day` includes the same effective goal
+whenever a profile or complete manual goal exists (without the superseded
+payload). This is the target that the dashboard gauge and "did I hit today's
 target?" should display.
 
 `set_goals` takes an object where every field is optional:
 `calorie_target_kcal?`, `protein_g?`, `carbs_g?`, and `fat_g?` (all
 non-negative numbers). Omitted values retain the current effective values. If
 there is no profile or existing goal to fill them, provide all four values. It
-returns `{ ok: true, source: "manual" }`. Calling `set_goals` permanently
-switches the effective target to `source: "manual"` in v0.1; there is no tool
-to revert it to computed, and later `set_profile` calls will not move that
-manual target. Confirm before calling it, and prefer `set_profile` plus
-`compute_targets` when the user wants targets to track body metrics.
+returns `{ ok: true, source: "manual" }`. Calling `set_goals` writes the
+manual override as the newest goal write, so it stays effective until the
+profile changes again or `reset_goals` is called. Confirm before calling it,
+and prefer `set_profile` plus `compute_targets` when the user wants targets to
+track body metrics.
+
+`reset_goals` takes `{}` and returns `{ ok: true, reset: true }`. Call it when
+the user wants their stored manual goal numbers discarded and targets back to
+the computed values from the profile (for example after `get_goals` shows a
+`superseded_manual` that should stay superseded, or when the user says "stop
+using my manual numbers"). Confirm first; the stored manual values are gone.
+Follow with `get_goals` and report the computed target.
 
 ## End-to-end photo workflow
 
