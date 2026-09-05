@@ -16,36 +16,6 @@ struct MealGroup: Identifiable, Equatable {
     }
 }
 
-/// Issue #106 — calm Apple Health sync status (never raw entitlement/HK
-/// text). `synced` shows the last successful upload time; `pending` means
-/// locally stored rows are waiting for a connection; the other states are
-/// permission/availability with a user-invokable retry path.
-enum HealthCalmStatus: Equatable, Sendable {
-    case unknown
-    case syncing
-    case synced(Date)
-    case pending
-    case permissionRequired
-    case unavailable
-
-    var copy: String {
-        switch self {
-        case .unknown:
-            return "Apple Health sync has not run yet."
-        case .syncing:
-            return "Checking Apple Health…"
-        case let .synced(date):
-            return "Last successful Health sync · \(date.formatted(date: .omitted, time: .shortened))"
-        case .pending:
-            return "Health data is ready — it will sync when a connection is available."
-        case .permissionRequired:
-            return "Allow Apple Health access in Settings to sync body weight and activity."
-        case .unavailable:
-            return "Apple Health is unavailable on this device."
-        }
-    }
-}
-
 @MainActor
 final class DashboardViewModel: ObservableObject {
     @Published private(set) var snapshot: DashboardSnapshot?
@@ -125,81 +95,36 @@ final class DashboardViewModel: ObservableObject {
                 },
                 onError: { [weak self] error in
                     Task { @MainActor in
-                        self?.weightImportError = HealthSyncUserMessage.userMessage(for: error)
-                        self?.updateCalmStatus(bodyMassFailed: true, energyFailed: true)
+                        await self?.handleObserverImportError(error)
                     }
                 }
             )
         }
         var bodyFailed = false
         var energyFailed = false
-
-        // Body mass path (independent).
+        var bodyImported = 0
+        var energyImported = 0
         do {
-            let anchor = try? healthStore?.bodyMassAnchor()
-            let stored = try await weightImporter.importBodyMass(since: anchor)
-            if let latest = stored.map(\.measuredAt).max(), latest > (anchor ?? .distantPast) {
-                try? healthStore?.setBodyMassAnchor(latest)
-            }
+            bodyImported = try await importBodyMassPass()
         } catch is CancellationError {
             return
         } catch {
             bodyFailed = true
             surfaceHealthError(error)
         }
-
-        // Active energy path (independent — runs even if body mass failed).
         do {
-            let anchor = try? healthStore?.energyAnchor()
-            let stored = try await weightImporter.importActiveEnergy(since: anchor)
-            if let latest = stored.map(\.burnedAt).max(), latest > (anchor ?? .distantPast) {
-                try? healthStore?.setEnergyAnchor(latest)
-            }
+            energyImported = try await importEnergyPass()
         } catch is CancellationError {
             return
         } catch {
             energyFailed = true
             surfaceHealthError(error)
         }
-
-        updateCalmStatus(bodyMassFailed: bodyFailed, energyFailed: energyFailed)
+        await updateCalmStatus(
+            bodyMassFailed: bodyFailed, energyFailed: energyFailed,
+            bodyImported: bodyImported, energyImported: energyImported
+        )
         syncEngine?.syncNow()
-    }
-
-    /// Maps an import failure through the human copy table (never raw text).
-    private func surfaceHealthError(_ error: Error) {
-        weightImportError = HealthSyncUserMessage.userMessage(for: error)
-    }
-
-    /// Calm status derivation: permission/availability come from the typed
-    /// importer error or the per-type authorization state — never from raw
-    /// system text; otherwise the status is `synced` (last successful upload)
-    /// or `pending` (durable rows waiting for a connection).
-    private func updateCalmStatus(bodyMassFailed: Bool, energyFailed: Bool) {
-        guard let weightImporter else {
-            healthStatus = .unavailable
-            return
-        }
-        if bodyMassFailed || energyFailed {
-            let denied = !weightImporter.authorizationStatus(for: .bodyMass)
-                || !weightImporter.authorizationStatus(for: .activeEnergyBurned)
-            if denied {
-                healthStatus = .permissionRequired
-                return
-            }
-        }
-        if let lastUpload = try? healthStore?.lastSuccessfulUpload() {
-            healthStatus = .synced(lastUpload)
-            return
-        }
-        let hasPending = (try? healthStore?.hasPendingUploads()) ?? false
-        healthStatus = hasPending ? .pending : .unknown
-    }
-
-    /// Re-derives the calm status after a sync pass (rows drained → synced
-    /// with the last upload time; otherwise pending).
-    func refreshHealthCalmStatus() {
-        updateCalmStatus(bodyMassFailed: false, energyFailed: false)
     }
 
     func load() async {
@@ -332,5 +257,114 @@ final class DashboardViewModel: ObservableObject {
             errorMessage = DashboardUserMessage.userMessage(for: error)
             return false
         }
+    }
+}
+
+// MARK: - Health pass helpers (issue #112 truthful per-type status)
+
+extension DashboardViewModel {
+    /// One independent body-mass pass (anchor-bounded re-import); returns
+    /// the number of samples durably stored. Throws so the caller can keep
+    /// the two types' cancellation semantics independent.
+    private func importBodyMassPass() async throws -> Int {
+        guard let weightImporter else { return 0 }
+        let anchor = try? healthStore?.bodyMassAnchor()
+        let stored = try await weightImporter.importBodyMass(since: anchor)
+        if let latest = stored.map(\.measuredAt).max(), latest > (anchor ?? .distantPast) {
+            try? healthStore?.setBodyMassAnchor(latest)
+        }
+        return stored.count
+    }
+
+    /// One independent active-energy pass; returns the number of daily rows
+    /// durably stored.
+    private func importEnergyPass() async throws -> Int {
+        guard let weightImporter else { return 0 }
+        let anchor = try? healthStore?.energyAnchor()
+        let stored = try await weightImporter.importActiveEnergy(since: anchor)
+        if let latest = stored.map(\.burnedAt).max(), latest > (anchor ?? .distantPast) {
+            try? healthStore?.setEnergyAnchor(latest)
+        }
+        return stored.count
+    }
+
+    /// Observer callback failure: map through the human copy table and
+    /// re-derive the calm status as if both imports failed with zero rows.
+    private func handleObserverImportError(_ error: Error) async {
+        weightImportError = HealthSyncUserMessage.userMessage(for: error)
+        await updateCalmStatus(
+            bodyMassFailed: true, energyFailed: true,
+            bodyImported: 0, energyImported: 0
+        )
+    }
+
+    /// Maps an import failure through the human copy table (never raw text).
+    private func surfaceHealthError(_ error: Error) {
+        weightImportError = HealthSyncUserMessage.userMessage(for: error)
+    }
+
+    /// Calm status derivation (issue #112 — truthful per type). Read-side
+    /// truth comes from the typed reader seam (getRequestStatusForAuthorization
+    /// — never share status, which stays false for the toShare: [] request):
+    /// a still-pending read prompt means the app cannot make ANY claim for
+    /// that type, so the status is `permissionRequired` — never a green
+    /// "synced". `synced` names only kinds whose per-type upload mark matches
+    /// the last successful pass stamp; a decided read with zero body-mass
+    /// rows anywhere is the calm `noWeightData` state.
+    private func updateCalmStatus(
+        bodyMassFailed: Bool, energyFailed: Bool,
+        bodyImported: Int, energyImported: Int
+    ) async {
+        guard let weightImporter else {
+            healthStatus = .unavailable
+            return
+        }
+        let bodyReadDecided = weightImporter.authorizationStatus(for: .bodyMass)
+        let energyReadDecided = weightImporter.authorizationStatus(for: .activeEnergyBurned)
+
+        if (bodyMassFailed && !bodyReadDecided)
+            || (energyFailed && !energyReadDecided)
+            || (!bodyMassFailed && !bodyReadDecided && bodyImported == 0) {
+            healthStatus = .permissionRequired
+            return
+        }
+        if let lastUpload = try? healthStore?.lastSuccessfulUpload() {
+            let kinds = syncedKinds(matching: lastUpload)
+            if !kinds.isEmpty {
+                healthStatus = .synced(lastUpload, syncedKinds: kinds)
+                return
+            }
+        }
+        let hasPending = (try? healthStore?.hasPendingUploads()) ?? false
+        if hasPending {
+            healthStatus = .pending
+            return
+        }
+        let hasWeightRows = (try? healthStore?.hasWeightSamples()) == true
+        let weightEverUploaded = (try? healthStore?.lastWeightUpload()) != nil
+        if bodyReadDecided, bodyImported == 0, !hasWeightRows, !weightEverUploaded {
+            healthStatus = .noWeightData
+            return
+        }
+        healthStatus = .unknown
+    }
+
+    /// Kinds that uploaded ≥1 row in the pass stamped `stamp`. The sync
+    /// engine writes each per-type mark with the SAME time as the last
+    /// successful upload, so equality identifies the pass (issue #112).
+    private func syncedKinds(matching stamp: Date) -> Set<HealthSyncedKind> {
+        var kinds = Set<HealthSyncedKind>()
+        if (try? healthStore?.lastWeightUpload()) == stamp { kinds.insert(.bodyMass) }
+        if (try? healthStore?.lastEnergyUpload()) == stamp { kinds.insert(.activeEnergy) }
+        return kinds
+    }
+
+    /// Re-derives the calm status after a sync pass (rows drained → synced
+    /// with the last upload time + uploaded kinds; otherwise pending).
+    func refreshHealthCalmStatus() async {
+        await updateCalmStatus(
+            bodyMassFailed: false, energyFailed: false,
+            bodyImported: 0, energyImported: 0
+        )
     }
 }

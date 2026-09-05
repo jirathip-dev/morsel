@@ -18,8 +18,13 @@ protocol WeightSampleReading: AnyObject {
         onError: @escaping (Error) -> Void
     )
     func stopObserving()
-    /// True when the user has authorized reads for the type. Mocks default
-    /// to authorized so existing seams keep working unchanged.
+    /// True when the user has ANSWERED the read prompt for the type
+    /// (getRequestStatusForAuthorization == .unnecessary). Issue #112: this
+    /// is the read-side truth — authorizationStatus(for:) reports SHARE
+    /// status, which never becomes .sharingAuthorized for the toShare: []
+    /// request this app makes. HealthKit deliberately hides grant-vs-deny
+    /// for reads; decided-but-empty is the explicit no-data state. Mocks
+    /// default to decided so existing seams keep working unchanged.
     func authorizationStatus(for kind: HealthKitObserverKind) -> Bool
 }
 
@@ -65,15 +70,28 @@ final class HealthKitWeightReader: WeightSampleReading {
         try await healthStore.requestAuthorization(toShare: [], read: [bodyMassType, activeEnergyType])
     }
 
-    /// Per-type authorization (permission-required status is derived from
-    /// this, never from raw entitlement/HK text).
+    /// Read-side authorization (permission-required status is derived from
+    /// this, never from raw entitlement/HK text). HealthKit reports SHARE
+    /// status from authorizationStatus(for:); with toShare: [] the truthful
+    /// read signal is getRequestStatusForAuthorization — .unnecessary means
+    /// the user answered the read prompt (grant OR deny, which HealthKit
+    /// deliberately hides), .shouldRequest means read access is not granted.
     func authorizationStatus(for kind: HealthKitObserverKind) -> Bool {
+        let type: HKObjectType
         switch kind {
         case .bodyMass:
-            return healthStore.authorizationStatus(for: bodyMassType) == .sharingAuthorized
+            type = bodyMassType
         case .activeEnergyBurned:
-            return healthStore.authorizationStatus(for: activeEnergyType) == .sharingAuthorized
+            type = activeEnergyType
         }
+        var decided = false
+        let gate = DispatchSemaphore(value: 0)
+        healthStore.getRequestStatusForAuthorization(toShare: [], read: [type]) { status, _ in
+            decided = status == .unnecessary
+            gate.signal()
+        }
+        _ = gate.wait(timeout: .now() + 2)
+        return decided
     }
     func samples(since: Date?) async throws -> [WeightLog] {
         let predicate = since.map {
@@ -213,7 +231,8 @@ final class HealthKitWeightImporter {
         } ?? []
     }
 
-    /// Per-type authorization state for calm status derivation.
+    /// Per-type read state for calm status derivation (issue #112: READ
+    /// prompt answered — see WeightSampleReading.authorizationStatus).
     func authorizationStatus(for kind: HealthKitObserverKind) -> Bool {
         reader.authorizationStatus(for: kind)
     }

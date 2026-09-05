@@ -40,6 +40,7 @@
 		717B6F156C65B37544D9BD78 /* AppearanceThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AF693EC63884B471C1E35 /* AppearanceThemeTests.swift */; };
 		71A41B9518BD81078A6E61DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603058D2235FEAF8B5DA6463 /* SettingsView.swift */; };
 		775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */; };
+		78C7940CF5673B7AB4325604 /* HealthCalmStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E16F551240CA0698041E83 /* HealthCalmStatus.swift */; };
 		7C8AA8E6553E70D0B4728FAB /* HistoryLedgerViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BEC84904306790FCC724B03 /* HistoryLedgerViews.swift */; };
 		7E6281B200D4C09B8854BB63 /* WeightTrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71181F42D2D74093AED142DC /* WeightTrendView.swift */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
@@ -62,6 +63,7 @@
 		DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300178E9A1C65132F9460803 /* MorselApp.swift */; };
 		E02C55BAF861D17DE2CDF79E /* LocalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */; };
 		E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */; };
+		E21C0933FC878BBC6848790B /* HealthTruthfulnessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */; };
 		E8097E3FDEB8350477C78A21 /* LocalFirstRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A372A98AF1458720106781 /* LocalFirstRepository.swift */; };
 		EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */; };
 		EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */; };
@@ -90,6 +92,7 @@
 /* Begin PBXFileReference section */
 		02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalNavigation.swift; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
+		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
 		1096DD7210666ACB8358567E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		1129A1722B14081A20D54104 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		17842C63698FF267F75039CA /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -141,6 +144,7 @@
 		B046ED419DD576E854AE9FE8 /* LocalSnapshotCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSnapshotCache.swift; sourceTree = "<group>"; };
 		B1B5C42479945B7A48EC226F /* WeightImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightImportTests.swift; sourceTree = "<group>"; };
 		B3E736D53085F8CAFBC52583 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B6E16F551240CA0698041E83 /* HealthCalmStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCalmStatus.swift; sourceTree = "<group>"; };
 		BB2C1F672A7BEB9344B9B7E0 /* AddMealReliabilityRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealReliabilityRegressionTests.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
 		C591525368CD6908A9FE189E /* JournalPaperTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPaperTexture.swift; sourceTree = "<group>"; };
@@ -214,6 +218,7 @@
 				8B945E15B916830A85CE5BA3 /* AuthView.swift */,
 				4F9E6261C91086065F01D569 /* DesignSystem.swift */,
 				7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */,
+				B6E16F551240CA0698041E83 /* HealthCalmStatus.swift */,
 				9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */,
 				6542DED0DFE7D06D4FABC37C /* HealthLogStores.swift */,
 				1BEC84904306790FCC724B03 /* HistoryLedgerViews.swift */,
@@ -284,6 +289,7 @@
 				D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */,
 				3BB760A6B6FB4D11A85BDB79 /* HealthReliabilityTests.swift */,
 				8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */,
+				08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */,
 				A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */,
 				473CFD249CD566AE38553B80 /* JournalSemanticsTests.swift */,
 				39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */,
@@ -399,6 +405,7 @@
 				474515288390A81C4A1198B2 /* AuthView.swift in Sources */,
 				B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */,
 				775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */,
+				78C7940CF5673B7AB4325604 /* HealthCalmStatus.swift in Sources */,
 				1C3544EFCD76B05F2B1CC354 /* HealthKitWeightImporter.swift in Sources */,
 				3AB7A4D90A481F7A35DA8DE7 /* HealthLogStores.swift in Sources */,
 				7C8AA8E6553E70D0B4728FAB /* HistoryLedgerViews.swift in Sources */,
@@ -452,6 +459,7 @@
 				C47A15D126448944F05AAB3A /* GoalsEditorTests.swift in Sources */,
 				1A372F1D188F4A2BEF17E62A /* HealthReliabilityTests.swift in Sources */,
 				46D8D3FBE6EFB11D522B3554 /* HealthSyncCopyTests.swift in Sources */,
+				E21C0933FC878BBC6848790B /* HealthTruthfulnessTests.swift in Sources */,
 				F5915D64A275682E08A53926 /* JournalFollowUpTests.swift in Sources */,
 				5E355D8D3B6E8290B71653F5 /* JournalSemanticsTests.swift in Sources */,
 				E02C55BAF861D17DE2CDF79E /* LocalStoreTests.swift in Sources */,

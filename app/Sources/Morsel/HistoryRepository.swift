@@ -63,7 +63,7 @@ extension SupabaseDashboardRepository {
         return HistoryOverview(
             days: historyDays,
             goal: goal,
-            weightTrend: weightRows.compactMap(parseWeight)
+            weightTrend: DashboardMath.dedupeWeightTrendByWholeSecond(weightRows.compactMap(parseWeight))
         )
     }
 }

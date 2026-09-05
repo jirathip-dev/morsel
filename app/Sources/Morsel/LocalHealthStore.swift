@@ -21,6 +21,8 @@ final class LocalHealthStore: WeightLogStore {
         static let bodyMassAnchor = "health.anchor.bodyMass"
         static let energyAnchor = "health.anchor.activeEnergyBurned"
         static let lastSync = "health.last_upload_success"
+        static let lastWeightUpload = "health.last_weight_upload_success"
+        static let lastEnergyUpload = "health.last_energy_upload_success"
     }
 
     init(databaseURL: URL) throws {
@@ -170,6 +172,24 @@ final class LocalHealthStore: WeightLogStore {
 
     func lastSuccessfulUpload() throws -> Date? { try anchor(Key.lastSync) }
     func setLastSuccessfulUpload(_ date: Date) throws { try setAnchor(date, Key.lastSync) }
+
+    // Issue #112 — per-type last-upload marks: the engine writes each mark
+    // with the SAME timestamp as the last successful upload, but only when
+    // ≥1 row of THAT type uploaded in the pass, so the calm status can name
+    // exactly the types that truly synced (never a bare weight claim).
+
+    func lastWeightUpload() throws -> Date? { try anchor(Key.lastWeightUpload) }
+    func setLastWeightUpload(_ date: Date) throws { try setAnchor(date, Key.lastWeightUpload) }
+    func lastEnergyUpload() throws -> Date? { try anchor(Key.lastEnergyUpload) }
+    func setLastEnergyUpload(_ date: Date) throws { try setAnchor(date, Key.lastEnergyUpload) }
+
+    /// True when at least one body-mass row exists locally (synced or still
+    /// dirty) — the calm no-data state must never claim "no weight data"
+    /// while rows exist.
+    func hasWeightSamples() throws -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        return try !query("SELECT measured_at FROM weight_samples LIMIT 1", []).isEmpty
+    }
 
     private func anchor(_ key: String) throws -> Date? {
         lock.lock(); defer { lock.unlock() }

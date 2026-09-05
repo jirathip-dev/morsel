@@ -73,13 +73,33 @@ concepts only; no UI/domain copy.
   only its own type; overlapping callbacks coalesce (single-flight per type);
   the HealthKit completion handler is called exactly once per callback and
   observing continues after a failed attempt.
+- Read-side truth (issue #112): `authorizationStatus(for:)` reports SHARE
+  status and never becomes `.sharingAuthorized` for the app's `toShare: []`
+  request, so read state is derived from
+  `getRequestStatusForAuthorization(toShare:read:)` — `.unnecessary` means
+  the user ANSWERED the read prompt (HealthKit deliberately hides
+  grant-vs-deny), `.shouldRequest` means read access is not granted. A
+  denied/unanswered read returns an EMPTY query result with no error, which
+  the status layer treats as an explicit no-data / not-permitted state —
+  never a green "synced".
 - Local rows upload through the authenticated idempotent upserts
   (`weight_logs` conflict `user_id, measured_at`; `energy_burned_logs`
   conflict `user_id, burned_at`) in the same durable worker; failures leave
   rows dirty for the next pass.
-- Calm status surface (Settings): last successful sync / pending /
-  permission-required / unavailable — raw entitlement/HK domain strings never
-  reach the UI, and a user-invokable retry/reconnect path exists.
+- Calm status surface (Settings) is truthful per type (issue #112): the
+  engine stamps a per-type last-upload mark ONLY when ≥1 row of that type
+  uploaded in the pass, and the status names exactly those types ("Last
+  successful Health sync · 7:32 · energy only"); a still-pending read prompt
+  is the permission-required state with Settings › Health guidance; a
+  decided read with no body-mass rows anywhere is the calm "No weight data
+  in the last 30 days" state. Raw entitlement/HK domain strings never reach
+  the UI, and a user-invokable retry/reconnect path exists.
+- Trend identity is the WHOLE SECOND (issue #112): the remote ISO round-trip
+  truncates while HealthKit keeps sub-second time, so remote rows and local
+  rows for the same sample are merged on rounded timestamps and render ONCE;
+  local rows outside the same trailing 30-day window the remote query serves
+  never paint into the trend, and the caption shows the latest value when
+  ≥1 sample exists.
 
 ## Read path
 
@@ -108,6 +128,11 @@ concepts only; no UI/domain copy.
   single-flight coalescing (no concurrent import; exactly one follow-up),
   calm status copy (permission-required etc., never raw system text), durable
   upload drain and failure retention.
+- `HealthTruthfulnessTests` — issue #112: read-denied (empty result, no
+  error) never reads as synced; an energy-only drain names energy only; a
+  whole-second remote row + sub-second local row of the same sample render
+  one trend point; 30 daily samples yield 30 points in the trailing 30-day
+  window (older local rows excluded).
 
 ## Boundaries
 

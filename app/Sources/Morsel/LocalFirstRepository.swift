@@ -203,26 +203,38 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             remoteIDs.insert(row.mealID)
         }
         meals.sort { $0.eatenAt < $1.eatenAt }
+        let trendStart = calendar.date(byAdding: .day, value: -29, to: dayStart)
+        let trendEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)
         return DashboardSnapshot(
             date: snapshot.date,
             meals: meals,
             goal: snapshot.goal,
-            weightTrend: try mergedWeightTrend(snapshot.weightTrend),
+            weightTrend: try mergedWeightTrend(snapshot.weightTrend, from: trendStart, to: trendEnd),
             activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart)
         )
     }
 
-    /// Local body-mass rows awaiting upload extend the trend (same measured
-    /// time never duplicates the remote row).
-    private func mergedWeightTrend(_ remoteTrend: [WeightTrendPoint]) throws -> [WeightTrendPoint] {
+    /// Local body-mass rows awaiting upload extend the trend. Issue #112:
+    /// identity is the WHOLE SECOND (the remote ISO round-trip truncates
+    /// while HealthKit keeps sub-second time, so exact-Date de-dup renders
+    /// the same sample twice at one x) and rows outside the same trailing
+    /// 30-day window the remote query serves are never painted in.
+    private func mergedWeightTrend(
+        _ remoteTrend: [WeightTrendPoint],
+        from windowStart: Date?, to windowEnd: Date?
+    ) throws -> [WeightTrendPoint] {
         guard let healthStore else { return remoteTrend }
-        let remoteDates = Set(remoteTrend.map(\.date))
+        guard let windowStart, let windowEnd else { return remoteTrend }
         let unsynced = try healthStore.unsyncedWeightSamples()
-        var trend = remoteTrend
-        for sample in unsynced where !remoteDates.contains(sample.measuredAt) {
-            trend.append(WeightTrendPoint(date: sample.measuredAt, kilograms: sample.kilograms))
+        var bySecond: [TimeInterval: WeightTrendPoint] = [:]
+        for point in remoteTrend {
+            bySecond[point.date.timeIntervalSince1970.rounded()] = point
         }
-        return trend.sorted { $0.date < $1.date }
+        for sample in unsynced where sample.measuredAt >= windowStart && sample.measuredAt < windowEnd {
+            bySecond[sample.measuredAt.timeIntervalSince1970.rounded()] =
+                WeightTrendPoint(date: sample.measuredAt, kilograms: sample.kilograms)
+        }
+        return bySecond.values.sorted { $0.date < $1.date }
     }
 
     /// A dirty (not yet uploaded) local energy day is fresher than the last
