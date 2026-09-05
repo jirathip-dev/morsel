@@ -29,7 +29,7 @@ import type {
   WeightTrendPoint,
   EnergyBurnedPoint,
 } from '../packages/schema/food-types.ts'
-import type { MealWrite, MorselRepository, StoredGoals } from './repository.ts'
+import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './repository.ts'
 import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
 import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
@@ -119,6 +119,7 @@ const goalsRowSchema = z.object({
   carbs_g: databaseNumber.nullable(),
   fat_g: databaseNumber.nullable(),
   source: z.enum(['computed', 'manual']),
+  updated_at: IsoDateTimeSchema,
 }).strict()
 
 const foodRowSchema = z.object({
@@ -246,6 +247,7 @@ function toGoals(value: unknown): StoredGoals {
   const goals = parseStored(goalsRowSchema, value, 'goals')
   return {
     source: goals.source,
+    updated_at: goals.updated_at,
     ...(goals.calorie_target_kcal === null ? {} : { calorie_target_kcal: goals.calorie_target_kcal }),
     ...(goals.protein_g === null ? {} : { protein_g: goals.protein_g }),
     ...(goals.carbs_g === null ? {} : { carbs_g: goals.carbs_g }),
@@ -454,16 +456,29 @@ export class SupabaseRepository implements MorselRepository {
     })
   }
 
-  async getProfile(userId: string): Promise<Profile | undefined> {
+  async getProfile(userId: string): Promise<StoredProfile | undefined> {
     const response = await this.client
       .from('profiles')
-      .select('sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg')
+      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at')
       .eq('user_id', userId)
       .maybeSingle()
     if (response.error !== null) {
       throw new RepositoryError('profile read failed', response.error)
     }
-    return response.data === null ? undefined : toProfile(response.data)
+    if (response.data === null) {
+      return undefined
+    }
+    const profile = parseStored(profileRpcRowSchema, response.data, 'profile')
+    return {
+      sex: profile.sex,
+      age_years: profile.age_years,
+      height_cm: profile.height_cm,
+      weight_kg: profile.weight_kg,
+      activity_level: profile.activity_level,
+      diet_goal: profile.diet_goal,
+      ...(profile.goal_weight_kg === null ? {} : { goal_weight_kg: profile.goal_weight_kg }),
+      updated_at: profile.updated_at,
+    }
   }
 
   async computeTargets(userId: string, _profile: Profile): Promise<ComputeTargetsOutput> {
@@ -508,7 +523,12 @@ export class SupabaseRepository implements MorselRepository {
     if (row === undefined) {
       throw new RepositoryError('target computation returned no row')
     }
-    return parseStored(ComputeTargetsOutputSchema, row, 'computed targets')
+    return parseStored(ComputeTargetsOutputSchema, {
+      ...row,
+      weight_used: latestWeight === undefined
+        ? { kg: profile.weight_kg, source: 'profile' }
+        : { kg: latestWeight.kg, measured_at: latestWeight.measured_at, source: 'health' },
+    }, 'computed targets')
   }
 
   async setProfile(userId: string, profile: Profile): Promise<Profile> {
@@ -527,7 +547,7 @@ export class SupabaseRepository implements MorselRepository {
   async getGoals(userId: string): Promise<StoredGoals | undefined> {
     const response = await this.client
       .from('goals')
-      .select('calorie_target_kcal,protein_g,carbs_g,fat_g,source')
+      .select('calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at')
       .eq('user_id', userId)
       .maybeSingle()
     if (response.error !== null) {
@@ -547,9 +567,27 @@ export class SupabaseRepository implements MorselRepository {
         fat_g: goals.fat_g ?? null,
         source: goals.source,
       })
-      .select('calorie_target_kcal,protein_g,carbs_g,fat_g,source')
+      .select('calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at')
       .single()
     return toGoals(requireData(response.data, response.error, 'goals save'))
+  }
+
+  async resetGoals(userId: string): Promise<void> {
+    const response = await this.client
+      .from('goals')
+      .upsert({
+        user_id: userId,
+        calorie_target_kcal: null,
+        protein_g: null,
+        carbs_g: null,
+        fat_g: null,
+        source: 'computed',
+      })
+      .select('user_id')
+      .single()
+    if (response.error !== null) {
+      throw new RepositoryError('goals reset failed', response.error)
+    }
   }
 
   async updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean> {

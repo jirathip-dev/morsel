@@ -19,6 +19,8 @@ import {
   SearchFoodInputSchema,
   SearchFoodOutputSchema,
   RenderPayloadSchema,
+  ResetGoalsInputSchema,
+  ResetGoalsOutputSchema,
   SetGoalsInputSchema,
   SetGoalsOutputSchema,
   SetProfileInputSchema,
@@ -205,6 +207,15 @@ export function createMcpServer(service: MorselService): McpServer {
     annotations: UNCLAIMED_ANNOTATIONS,
     _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.setGoals(input)))
+
+  server.registerTool('reset_goals', {
+    title: 'Reset manual goals',
+    description: 'Discard the stored manual goal override so the effective target returns to the computed values from the profile.',
+    inputSchema: ResetGoalsInputSchema,
+    outputSchema: ResetGoalsOutputSchema,
+    annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
+  }, (input) => runTool(() => service.resetGoals(input)))
 
   server.registerTool('update_meal_item', {
     title: 'Update one meal item',

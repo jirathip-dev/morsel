@@ -26,7 +26,12 @@ export interface StoredGoals {
   carbs_g?: number
   fat_g?: number
   source: GoalSummary['source']
+  /** Row write time when a stored goals row exists (recency resolution). */
+  updated_at?: string
 }
+
+/** Profile values plus the row write time when a profile row exists. */
+export type StoredProfile = Profile & { updated_at?: string }
 
 export interface MorselRepository {
   /** Run one authenticated request with its own bearer credential context. */
@@ -40,11 +45,13 @@ export interface MorselRepository {
   createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord>
   getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]>
   searchFood(userId: string, query: string, limit: number): Promise<SearchFoodItem[]>
-  getProfile(userId: string): Promise<Profile | undefined>
+  getProfile(userId: string): Promise<StoredProfile | undefined>
   computeTargets(userId: string, profile: Profile): Promise<ComputeTargetsOutput>
   setProfile(userId: string, profile: Profile): Promise<Profile>
   getGoals(userId: string): Promise<StoredGoals | undefined>
   setGoals(userId: string, goals: SetGoalsInput & { source: 'manual' }): Promise<StoredGoals>
+  /** Clear the stored goal row back to computed (values dropped, source computed). */
+  resetGoals(userId: string): Promise<void>
   updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean>
   deleteMealLog(userId: string, mealLogId: string): Promise<boolean>
   getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]>
