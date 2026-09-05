@@ -27,8 +27,8 @@ import { InMemoryRepository } from './in-memory-repository.js'
 const USER_ID = '00000000-0000-4000-8000-000000000096'
 const VALID_TOKEN = 'issue-96-valid-token'
 const EXPIRED_TOKEN = 'issue-96-expired-token'
-// The deployed Fly origin's canonical base (mirrors fly-entrypoint tests).
-const PUBLIC_BASE_URL = 'https://morsel-mcp.fly.dev/mcp'
+// The canonical deployed origin's base (mirrors fly-entrypoint tests).
+const PUBLIC_BASE_URL = 'https://mcp.morselfood.app/mcp'
 const RESOURCE_METADATA_URL = `${PUBLIC_BASE_URL}/.well-known/oauth-protected-resource/mcp`
 // The same fixed, backend-free text the HTTP 401 challenge never leaks and
 // the structured tool error repeats; deliberately contains no stack, token,

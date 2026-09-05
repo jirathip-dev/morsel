@@ -61,9 +61,11 @@ load FASTFILE
 FIXTURE_URL = "https://fixture.supabase.co"
 FIXTURE_ANON_KEY = "fixture-anon-key"
 FIXTURE_BUILD = 42
-# Canonical Fly MCP transport (issue #75): what the build must publish in
-# MORSEL_MCP_URL regardless of the SUPABASE_URL fixture above.
-CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp"
+# Canonical MCP transport (issue #75; origin = the morselfood.app custom
+# domain since #130): what the build must publish in
+# MORSEL_MCP_URL regardless of the SUPABASE_URL fixture above. The legacy
+# morsel-mcp.fly.dev origin still serves identically during the transition.
+CANONICAL_MCP_URL = "https://mcp.morselfood.app/mcp"
 CONTROL = "FIXTUREPROBE"
 # Keys Xcode derives from the build machine/SDK; allowed to differ between
 # runs of the same unsigned build and ignored in semantic comparisons.

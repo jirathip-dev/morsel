@@ -53,8 +53,9 @@ https://<owned-custom-subdomain>/functions/v1/mcp
 ```
 
 The app publishes the canonical MCP URL from the Fastlane build configuration
-(`CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp"` in `fastlane/Fastfile`,
-issue #75). This replaced the earlier `SUPABASE_URL`-derived Edge Function URL
+(`CANONICAL_MCP_URL = "https://mcp.morselfood.app/mcp"` in `fastlane/Fastfile`,
+issue #75; the origin moved to the morselfood.app custom domain in #130).
+This replaced the earlier `SUPABASE_URL`-derived Edge Function URL
 as the value delivered through `MORSEL_MCP_URL`, so a Supabase custom domain no
 longer flows into app builds; the Supabase Edge transport is retained as
 legacy backend compatibility. The Swift app never hardcodes a hostname — the

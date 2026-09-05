@@ -99,7 +99,7 @@ describe('native-testflight Supabase configuration injection (issue #32, r2)', (
     // instead of deriving a SUPABASE_URL Edge Function URL. The Supabase Edge
     // transport is legacy/retained backend compatibility only and must not
     // reappear in the build pipeline.
-    expect(fastfile).toContain('CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp"')
+    expect(fastfile).toContain('CANONICAL_MCP_URL = "https://mcp.morselfood.app/mcp"')
     expect(fastfile).toContain('mcp_url: CANONICAL_MCP_URL')
     expect(fastfile).not.toContain('/functions/v1/mcp')
   })
