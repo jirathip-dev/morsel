@@ -66,6 +66,19 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
         updated_at: '2026-08-25T12:00:00.000Z',
       })
     }
+    if (request.method === 'GET' && request.url.includes('/rest/v1/goals?select=')) {
+      return jsonResponse({
+        calorie_target_kcal: 2_000,
+        protein_g: 100,
+        carbs_g: 0,
+        fat_g: 0,
+        source: 'manual',
+        updated_at: '2026-08-10T00:00:00.000Z',
+      })
+    }
+    if (request.method === 'POST' && request.url.includes('/rest/v1/goals?')) {
+      return jsonResponse([{ user_id: userId }])
+    }
     if (request.url.includes('/rest/v1/rpc/compute_targets')) {
       return jsonResponse([{
         bmr_kcal: 1_234,
@@ -199,12 +212,44 @@ describe('SupabaseRepository', () => {
         protein_g: 111,
         carbs_g: 222,
         fat_g: 55,
+        weight_used: { kg: 80, source: 'profile' },
       })
     })
 
     const request = requests.find((candidate) => candidate.url.includes('/rest/v1/rpc/compute_targets'))
     expect(request?.method).toBe('POST')
     expect(request?.body).toContain(`"user_id":"${userId}"`)
+  })
+
+  it('reads stored goals with updated_at for recency resolution', async () => {
+    const { repository, requests } = createRepository()
+
+    await withTestToken(repository, async () => {
+      await expect(repository.getGoals(userId)).resolves.toEqual({
+        calorie_target_kcal: 2_000,
+        protein_g: 100,
+        carbs_g: 0,
+        fat_g: 0,
+        source: 'manual',
+        updated_at: '2026-08-10T00:00:00.000Z',
+      })
+    })
+
+    const goalRead = requests.find((candidate) => candidate.method === 'GET' && candidate.url.includes('/rest/v1/goals?select='))
+    expect(goalRead?.url).toContain(`user_id=eq.${userId}`)
+    expect(goalRead?.url).toContain('updated_at')
+  })
+
+  it('reset_goals upserts a computed row (no delete policy required) scoped to the user', async () => {
+    const { repository, requests } = createRepository()
+
+    await withTestToken(repository, () => repository.resetGoals(userId))
+
+    const resetRequest = requests.find((candidate) => candidate.method === 'POST' && candidate.url.includes('/rest/v1/goals?'))
+    expect(resetRequest?.body).toContain(`"user_id":"${userId}"`)
+    expect(resetRequest?.body).toContain('"source":"computed"')
+    expect(resetRequest?.body).toContain('"calorie_target_kcal":null')
+    expect(resetRequest?.body).toContain('"protein_g":null')
   })
 
   it('creates the meal and items through one atomic RPC', async () => {

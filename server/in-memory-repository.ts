@@ -12,7 +12,7 @@ import type {
   WeightTrendPoint,
   EnergyBurnedPoint,
 } from '../packages/schema/food-types.js'
-import type { MealWrite, MorselRepository, StoredGoals } from './repository.js'
+import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
 
 export interface InMemoryRepositoryOptions {
@@ -43,13 +43,16 @@ function inRange(value: string, start: string, end: string): boolean {
 
 export class InMemoryRepository implements MorselRepository {
   private readonly meals = new Map<string, Map<string, MealRecord>>()
-  private readonly profiles = new Map<string, Profile>()
+  private readonly profiles = new Map<string, StoredProfile>()
   private readonly goals = new Map<string, StoredGoals>()
   private readonly foods: SearchFoodItem[]
   private readonly weightsByUser = new Map<string, WeightTrendPoint[]>()
   private readonly energyBurnedByUser = new Map<string, EnergyBurnedPoint[]>()
   private failNextMealItemWrite: boolean
   private readonly nutritionProvider?: NutritionProvider
+  // Monotonic write clock: every row write (or explicit seed time) advances it,
+  // so "latest write wins" comparisons stay deterministic within a repository.
+  private clockMs = 0
 
   constructor(options: InMemoryRepositoryOptions = {}) {
     this.foods = options.foods?.map((food) => ({ ...food })) ?? []
@@ -64,6 +67,15 @@ export class InMemoryRepository implements MorselRepository {
     }
     this.failNextMealItemWrite = options.failNextMealItemWrite ?? false
     this.nutritionProvider = options.nutritionProvider
+  }
+
+  private stampIso(): string {
+    this.clockMs = Math.max(Date.now(), this.clockMs + 1)
+    return new Date(this.clockMs).toISOString()
+  }
+
+  private noteTimestamp(timestamp: string): void {
+    this.clockMs = Math.max(this.clockMs, Date.parse(timestamp))
   }
 
   setFailNextMealItemWrite(): void {
@@ -81,12 +93,16 @@ export class InMemoryRepository implements MorselRepository {
     return action()
   }
 
-  seedProfile(userId: string, profile: Profile): void {
-    this.profiles.set(userId, { ...profile })
+  seedProfile(userId: string, profile: Profile, updatedAt?: string): void {
+    const timestamp = updatedAt ?? this.stampIso()
+    this.noteTimestamp(timestamp)
+    this.profiles.set(userId, { ...profile, updated_at: timestamp })
   }
 
-  seedGoals(userId: string, goals: StoredGoals): void {
-    this.goals.set(userId, cloneGoals(goals))
+  seedGoals(userId: string, goals: StoredGoals, updatedAt?: string): void {
+    const timestamp = updatedAt ?? this.stampIso()
+    this.noteTimestamp(timestamp)
+    this.goals.set(userId, cloneGoals({ ...goals, updated_at: timestamp }))
   }
 
   seedWeightTrend(userId: string, weights: WeightTrendPoint[]): void {
@@ -170,7 +186,7 @@ export class InMemoryRepository implements MorselRepository {
     }
   }
 
-  async getProfile(userId: string): Promise<Profile | undefined> {
+  async getProfile(userId: string): Promise<StoredProfile | undefined> {
     await Promise.resolve()
     const profile = this.profiles.get(userId)
     return profile === undefined ? undefined : { ...profile }
@@ -179,13 +195,19 @@ export class InMemoryRepository implements MorselRepository {
   async computeTargets(userId: string, profile: Profile): Promise<ComputeTargetsOutput> {
     await Promise.resolve()
     const latest = [...(this.weightsByUser.get(userId) ?? [])].sort((left, right) => right.date.localeCompare(left.date))[0]
-    return calculateTargets(latest === undefined ? profile : { ...profile, weight_kg: latest.kg })
+    const targets = calculateTargets(latest === undefined ? profile : { ...profile, weight_kg: latest.kg })
+    return {
+      ...targets,
+      weight_used: latest === undefined
+        ? { kg: profile.weight_kg, source: 'profile' }
+        : { kg: latest.kg, measured_at: `${latest.date}T00:00:00.000Z`, source: 'health' },
+    }
   }
 
   async setProfile(userId: string, profile: Profile): Promise<Profile> {
     await Promise.resolve()
     const savedProfile = { ...profile }
-    this.profiles.set(userId, savedProfile)
+    this.profiles.set(userId, { ...savedProfile, updated_at: this.stampIso() })
     return { ...savedProfile }
   }
 
@@ -199,6 +221,7 @@ export class InMemoryRepository implements MorselRepository {
     await Promise.resolve()
     const savedGoals: StoredGoals = {
       source: goals.source,
+      updated_at: this.stampIso(),
       ...(goals.calorie_target_kcal === undefined ? {} : { calorie_target_kcal: goals.calorie_target_kcal }),
       ...(goals.protein_g === undefined ? {} : { protein_g: goals.protein_g }),
       ...(goals.carbs_g === undefined ? {} : { carbs_g: goals.carbs_g }),
@@ -206,6 +229,11 @@ export class InMemoryRepository implements MorselRepository {
     }
     this.goals.set(userId, savedGoals)
     return cloneGoals(savedGoals)
+  }
+
+  async resetGoals(userId: string): Promise<void> {
+    await Promise.resolve()
+    this.goals.set(userId, { source: 'computed', updated_at: this.stampIso() })
   }
 
   async updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean> {

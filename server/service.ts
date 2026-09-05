@@ -13,10 +13,11 @@ import {
   GetWeightTrendOutputSchema,
   GetEnergyBurnedInputSchema,
   GetEnergyBurnedOutputSchema,
-  GoalSummarySchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   ProfileSchema,
+  ResetGoalsInputSchema,
+  ResetGoalsOutputSchema,
   SearchFoodInputSchema,
   SearchFoodOutputSchema,
   SetGoalsInputSchema,
@@ -30,6 +31,7 @@ import {
 import type {
   ComputeTargetsOutput,
   DeleteMealLogOutput,
+  EffectiveGoal,
   GetDashboardSummaryOutput,
   GetDayOutput,
   GetGoalsOutput,
@@ -39,7 +41,7 @@ import type {
   GoalSummary,
   LogMealOutput,
   ParsedGetDashboardSummaryInput,
-  Profile,
+  ResetGoalsOutput,
   SearchFoodOutput,
   SetGoalsInput,
   SetGoalsOutput,
@@ -48,7 +50,7 @@ import type {
 } from '../packages/schema/food-types.ts'
 import { MorselError } from './errors.ts'
 import { LOW_CONFIDENCE_THRESHOLD, renderDashboardSummary, type DashboardRenderSummary } from './render.ts'
-import type { MorselRepository, StoredGoals } from './repository.ts'
+import type { MorselRepository, StoredGoals, StoredProfile } from './repository.ts'
 
 function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
   const parsed = schema.safeParse(value)
@@ -237,7 +239,7 @@ export class MorselService {
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
-      : await this.getEffectiveGoals(profile, stored)
+      : await this.resolveEffectiveGoalSummary(profile, stored)
     const summary = createRenderSummary(meals, parsed.date, parsed.date, 1, goal)
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
@@ -260,14 +262,45 @@ export class MorselService {
     if (profile === undefined) {
       throw new MorselError('not_found', 'profile is not set')
     }
-    return parseInput(GetProfileOutputSchema, profile, 'get_profile output')
+    return parseInput(GetProfileOutputSchema, {
+      sex: profile.sex,
+      age_years: profile.age_years,
+      height_cm: profile.height_cm,
+      weight_kg: profile.weight_kg,
+      activity_level: profile.activity_level,
+      diet_goal: profile.diet_goal,
+      ...(profile.goal_weight_kg === undefined ? {} : { goal_weight_kg: profile.goal_weight_kg }),
+    }, 'get_profile output')
   }
 
   async setProfile(input: unknown): Promise<SetProfileOutput> {
     const profile = parseInput(SetProfileInputSchema, input, 'set_profile')
+    const stored = await this.repository.getGoals(this.userId)
     const saved = await this.repository.setProfile(this.userId, profile)
     parseInput(ProfileSchema, saved, 'set_profile output')
-    return parseInput(SetProfileOutputSchema, { ok: true, saved: true }, 'set_profile output')
+    // The freshly saved profile is the newest user decision, so any complete
+    // manual goal it replaces is reported as superseded and the computed
+    // targets (from the saved profile + latest imported weight) are effective.
+    const computed = await this.repository.computeTargets(this.userId, saved)
+    const completeManual = toCompleteManualGoal(stored)
+    const superseded = completeManual === undefined || stored?.updated_at === undefined
+      ? undefined
+      : {
+          calorie_target_kcal: completeManual.calorie_target_kcal,
+          protein_g: completeManual.protein_g,
+          carbs_g: completeManual.carbs_g,
+          fat_g: completeManual.fat_g,
+          updated_at: stored.updated_at,
+        }
+    const effectiveGoal: EffectiveGoal = {
+      calorie_target_kcal: computed.calorie_target_kcal,
+      protein_g: computed.protein_g,
+      carbs_g: computed.carbs_g,
+      fat_g: computed.fat_g,
+      source: 'computed',
+      ...(superseded === undefined ? {} : { superseded_manual: superseded }),
+    }
+    return parseInput(SetProfileOutputSchema, { ok: true, saved: true, effective_goal: effectiveGoal }, 'set_profile output')
   }
 
   async computeTargets(input: unknown): Promise<ComputeTargetsOutput> {
@@ -279,22 +312,35 @@ export class MorselService {
   async getGoals(input: unknown): Promise<GetGoalsOutput> {
     parseInput(EmptyInputSchema, omittedInputAsObject(input), 'get_goals')
     const stored = await this.repository.getGoals(this.userId)
-    const manualGoal = toCompleteManualGoal(stored)
-    if (manualGoal !== undefined) {
-      return parseInput(GetGoalsOutputSchema, manualGoal, 'get_goals output')
+    const profile = await this.repository.getProfile(this.userId)
+    if (profile === undefined) {
+      // Without a profile there is nothing computed to compare against: a
+      // complete manual goal is effective as-is; otherwise targets need one.
+      const manualGoal = toCompleteManualGoal(stored)
+      if (manualGoal !== undefined) {
+        return parseInput(GetGoalsOutputSchema, manualGoal, 'get_goals output')
+      }
+      throw new MorselError('profile_required', 'set a profile before computing targets')
     }
-    const profile = await this.requireProfile()
-    return parseInput(GetGoalsOutputSchema, await this.getEffectiveGoals(profile, stored), 'get_goals output')
+    return parseInput(GetGoalsOutputSchema, await this.resolveEffectiveGoal(profile, stored), 'get_goals output')
+  }
+
+  async resetGoals(input: unknown): Promise<ResetGoalsOutput> {
+    parseInput(ResetGoalsInputSchema, omittedInputAsObject(input), 'reset_goals')
+    await this.repository.resetGoals(this.userId)
+    return parseInput(ResetGoalsOutputSchema, { ok: true, reset: true }, 'reset_goals output')
   }
 
   async setGoals(input: unknown): Promise<SetGoalsOutput> {
     const parsed = parseInput(SetGoalsInputSchema, input, 'set_goals')
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
-    const computed = profile === undefined ? undefined : await this.repository.computeTargets(this.userId, profile)
-    const effective = profile === undefined || computed === undefined
+    // Omitted values retain the CURRENT effective values, which follow the
+    // same "latest update wins" rule as get_goals (a stale manual row no
+    // longer seeds the next manual edit).
+    const effective = profile === undefined
       ? undefined
-      : toGoalSummary(computed, stored)
+      : await this.resolveEffectiveGoalSummary(profile, stored)
     const values: SetGoalsInput = {
       calorie_target_kcal: parsed.calorie_target_kcal ?? effective?.calorie_target_kcal ?? (profile === undefined && stored?.source === 'manual' ? stored.calorie_target_kcal : undefined),
       protein_g: parsed.protein_g ?? effective?.protein_g ?? (profile === undefined && stored?.source === 'manual' ? stored.protein_g : undefined),
@@ -355,7 +401,7 @@ export class MorselService {
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
-      : await this.getEffectiveGoals(profile, stored)
+      : await this.resolveEffectiveGoalSummary(profile, stored)
     const summary = createRenderSummary(meals, startDate, today, parsed.days, goal)
     return parseInput(GetDashboardSummaryOutputSchema, {
       avg_calories_kcal: summary.totals.calories_kcal / parsed.days,
@@ -378,9 +424,51 @@ export class MorselService {
     return profile
   }
 
-  private async getEffectiveGoals(profile: Profile, stored?: StoredGoals): Promise<GoalSummary> {
+  /**
+   * "Latest update wins": a stored manual goal is effective only when it is at
+   * least as new as the profile. Otherwise the computed target is effective
+   * and a complete stale manual goal rides along as superseded_manual.
+   */
+  private async resolveEffectiveGoal(profile: StoredProfile, stored?: StoredGoals): Promise<EffectiveGoal> {
     const computed = await this.repository.computeTargets(this.userId, profile)
-    const goals = stored ?? await this.repository.getGoals(this.userId)
-    return parseInput(GoalSummarySchema, toGoalSummary(computed, goals), 'goal')
+    const manualIsCurrent = stored?.source === 'manual'
+      && stored.updated_at !== undefined
+      && (profile.updated_at === undefined || Date.parse(stored.updated_at) >= Date.parse(profile.updated_at))
+    if (manualIsCurrent) {
+      return toGoalSummary(computed, stored)
+    }
+    const goal: EffectiveGoal = {
+      calorie_target_kcal: computed.calorie_target_kcal,
+      protein_g: computed.protein_g,
+      carbs_g: computed.carbs_g,
+      fat_g: computed.fat_g,
+      source: 'computed',
+    }
+    const completeManual = toCompleteManualGoal(stored)
+    if (completeManual !== undefined && stored?.updated_at !== undefined) {
+      return {
+        ...goal,
+        superseded_manual: {
+          calorie_target_kcal: completeManual.calorie_target_kcal,
+          protein_g: completeManual.protein_g,
+          carbs_g: completeManual.carbs_g,
+          fat_g: completeManual.fat_g,
+          updated_at: stored.updated_at,
+        },
+      }
+    }
+    return goal
+  }
+
+  /** The effective values+source (no superseded payload) for day/dashboard reads. */
+  private async resolveEffectiveGoalSummary(profile: StoredProfile, stored?: StoredGoals): Promise<GoalSummary> {
+    const effective = await this.resolveEffectiveGoal(profile, stored)
+    return {
+      calorie_target_kcal: effective.calorie_target_kcal,
+      protein_g: effective.protein_g,
+      carbs_g: effective.carbs_g,
+      fat_g: effective.fat_g,
+      source: effective.source,
+    }
   }
 }

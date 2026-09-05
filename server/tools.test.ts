@@ -87,14 +87,14 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     description: 'Create or replace the body metrics used to compute nutrition targets.',
     annotations: UNCLAIMED,
     inputRequired: ['sex', 'age_years', 'height_cm', 'weight_kg', 'activity_level', 'diet_goal'],
-    outputRequired: ['ok', 'saved'],
+    outputRequired: ['ok', 'saved', 'effective_goal'],
   },
   {
     name: 'compute_targets',
     title: 'Compute nutrition targets',
     description: 'Compute BMR, TDEE, calories, and macros from the saved profile; uses the latest imported weight when available.',
     annotations: READ_ONLY,
-    outputRequired: ['bmr_kcal', 'tdee_kcal', 'calorie_target_kcal', 'protein_g', 'carbs_g', 'fat_g'],
+    outputRequired: ['bmr_kcal', 'tdee_kcal', 'calorie_target_kcal', 'protein_g', 'carbs_g', 'fat_g', 'weight_used'],
   },
   {
     name: 'get_goals',
@@ -109,6 +109,13 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     description: 'Set one or more manual nutrition goal values; omitted values retain the effective target.',
     annotations: UNCLAIMED,
     outputRequired: ['ok', 'source'],
+  },
+  {
+    name: 'reset_goals',
+    title: 'Reset manual goals',
+    description: 'Discard the stored manual goal override so the effective target returns to the computed values from the profile.',
+    annotations: UNCLAIMED,
+    outputRequired: ['ok', 'reset'],
   },
   {
     name: 'update_meal_item',
@@ -181,7 +188,7 @@ async function connectClient(repository: InMemoryRepository): Promise<Client> {
 }
 
 describe('MCP tool registration metadata (tools/list)', () => {
-  it('registers exactly the 13 contract tools with unchanged names', async () => {
+  it('registers exactly the 14 contract tools with unchanged names', async () => {
     const client = await connectClient(new InMemoryRepository())
     try {
       const listed = await client.listTools()

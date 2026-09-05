@@ -82,6 +82,7 @@ describe('MorselService', () => {
       protein_g: 207,
       carbs_g: 310,
       fat_g: 77,
+      weight_used: { kg: 80, source: 'profile' },
     })
     await expect(service.getGoals({})).resolves.toMatchObject({
       calorie_target_kcal: 2759,
@@ -148,6 +149,136 @@ describe('MorselService', () => {
       carbs_g: 310,
       fat_g: 77,
       source: 'manual',
+    })
+  })
+
+  it('reports a profile-updated-after-manual goal as computed with the superseded manual payload (latest update wins)', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedGoals(userId, {
+      source: 'manual',
+      calorie_target_kcal: 2_000,
+      protein_g: 100,
+      carbs_g: 0,
+      fat_g: 0,
+    }, '2026-08-10T00:00:00.000Z')
+    repository.seedProfile(userId, profile, '2026-08-20T00:00:00.000Z')
+    const service = createService(repository)
+
+    await expect(service.getGoals({})).resolves.toEqual({
+      calorie_target_kcal: 2759,
+      protein_g: 207,
+      carbs_g: 310,
+      fat_g: 77,
+      source: 'computed',
+      superseded_manual: {
+        calorie_target_kcal: 2_000,
+        protein_g: 100,
+        carbs_g: 0,
+        fat_g: 0,
+        updated_at: '2026-08-10T00:00:00.000Z',
+      },
+    })
+
+    // The day/dashboard reads share the recency rule: the stale manual goal
+    // no longer drives the daily gauge or remaining-kcal math.
+    await expect(service.getDay({ date: '2026-08-25' })).resolves.toMatchObject({
+      goal: { calorie_target_kcal: 2759, source: 'computed' },
+    })
+  })
+
+  it('keeps a manual goal set after the profile as manual, and a later set_goals still wins', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedProfile(userId, profile, '2026-08-01T00:00:00.000Z')
+    repository.seedGoals(userId, {
+      source: 'manual',
+      calorie_target_kcal: 2_000,
+      protein_g: 100,
+      carbs_g: 200,
+      fat_g: 60,
+    }, '2026-08-15T00:00:00.000Z')
+    const service = createService(repository)
+
+    await expect(service.getGoals({})).resolves.toEqual({
+      calorie_target_kcal: 2_000,
+      protein_g: 100,
+      carbs_g: 200,
+      fat_g: 60,
+      source: 'manual',
+    })
+
+    await expect(service.setGoals({ calorie_target_kcal: 1_800 })).resolves.toEqual({ ok: true, source: 'manual' })
+    await expect(service.getGoals({})).resolves.toEqual({
+      calorie_target_kcal: 1_800,
+      protein_g: 100,
+      carbs_g: 200,
+      fat_g: 60,
+      source: 'manual',
+    })
+  })
+
+  it('reset_goals clears the manual override so the effective goal is computed again', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedProfile(userId, profile, '2026-08-01T00:00:00.000Z')
+    repository.seedGoals(userId, {
+      source: 'manual',
+      calorie_target_kcal: 2_000,
+      protein_g: 100,
+      carbs_g: 0,
+      fat_g: 0,
+    }, '2026-08-10T00:00:00.000Z')
+    const service = createService(repository)
+
+    await expect(service.resetGoals({})).resolves.toEqual({ ok: true, reset: true })
+    await expect(service.getGoals({})).resolves.toEqual({
+      calorie_target_kcal: 2759,
+      protein_g: 207,
+      carbs_g: 310,
+      fat_g: 77,
+      source: 'computed',
+    })
+  })
+
+  it('set_profile output carries the effective goal and supersedes an older complete manual goal', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedGoals(userId, {
+      source: 'manual',
+      calorie_target_kcal: 2_000,
+      protein_g: 100,
+      carbs_g: 0,
+      fat_g: 0,
+    }, '2026-08-10T00:00:00.000Z')
+    const service = createService(repository)
+
+    await expect(service.setProfile(profile)).resolves.toEqual({
+      ok: true,
+      saved: true,
+      effective_goal: {
+        calorie_target_kcal: 2759,
+        protein_g: 207,
+        carbs_g: 310,
+        fat_g: 77,
+        source: 'computed',
+        superseded_manual: {
+          calorie_target_kcal: 2_000,
+          protein_g: 100,
+          carbs_g: 0,
+          fat_g: 0,
+          updated_at: '2026-08-10T00:00:00.000Z',
+        },
+      },
+    })
+  })
+
+  it('set_profile without a stored manual goal reports a computed effective goal and no superseded payload', async () => {
+    const service = createService()
+
+    const saved = await service.setProfile(profile)
+    expect(saved.effective_goal).toEqual({
+      calorie_target_kcal: 2759,
+      protein_g: 207,
+      carbs_g: 310,
+      fat_g: 77,
+      source: 'computed',
     })
   })
 
@@ -234,7 +365,26 @@ describe('MorselService', () => {
     repository.seedWeightTrend(userId, [{ date: '2026-08-25', kg: 70 }])
     const service = createService(repository)
     await service.setProfile(profile)
-    await expect(service.computeTargets({})).resolves.toMatchObject({ bmr_kcal: 1680 })
+    await expect(service.computeTargets({})).resolves.toMatchObject({
+      bmr_kcal: 1680,
+      weight_used: { kg: 70, measured_at: '2026-08-25T00:00:00.000Z', source: 'health' },
+    })
+  })
+
+  it('exposes the imported weight that fed the computed targets (issue #113 amendment A, server half)', async () => {
+    const repository = new InMemoryRepository()
+    repository.seedWeightTrend(userId, [{ date: '2026-08-25', kg: 61.5 }])
+    const service = createService(repository)
+    await service.setProfile({ ...profile, weight_kg: 63 })
+
+    const targets = await service.computeTargets({})
+    // BMR from 61.5 kg (not the typed 63 kg): 10*61.5 + 6.25*180 - 5*30 + 5.
+    expect(targets.bmr_kcal).toBe(1595)
+    expect(targets.weight_used).toEqual({
+      kg: 61.5,
+      measured_at: '2026-08-25T00:00:00.000Z',
+      source: 'health',
+    })
   })
 
   it('returns daily active-energy burned series', async () => {
