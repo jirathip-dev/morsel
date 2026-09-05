@@ -8,6 +8,7 @@ import {
   DietGoalSchema,
   FoodRefIdSchema,
   IsoDateTimeSchema,
+  MealImageRecordSchema,
   MealItemRecordSchema,
   MealTypeSchema,
   MealRecordSchema,
@@ -17,6 +18,10 @@ import {
   UnitSchema,
 } from '../packages/schema/food-types.ts'
 import { InvalidStoredDataError, ProviderUnavailableError, RepositoryError, TransactionError } from './errors.ts'
+import {
+  MEAL_IMAGE_BUCKET,
+  MEAL_IMAGE_SIGNED_URL_TTL_SECONDS,
+} from './meal-image.ts'
 import type {
   ComputeTargetsOutput,
   GoalSummary,
@@ -29,7 +34,7 @@ import type {
   WeightTrendPoint,
   EnergyBurnedPoint,
 } from '../packages/schema/food-types.ts'
-import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './repository.ts'
+import type { MealWrite, MorselRepository, StoredGoals, StoredMealImageUpload, StoredProfile } from './repository.ts'
 import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
 import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
@@ -46,6 +51,7 @@ const mealLogRowSchema = z.object({
   id: z.uuid(),
   eaten_at: IsoDateTimeSchema,
   meal_type: MealTypeSchema,
+  image_path: z.string().nullable().optional(),
 }).strict()
 
 const mealItemRowSchema = z.object({
@@ -150,7 +156,7 @@ const energyBurnedRowSchema = z.object({
   active_kcal: databaseNumber.refine((value) => value >= 0, 'must be non-negative'),
 }).strict()
 
-const mealLogColumns = 'id,eaten_at,meal_type'
+const mealLogColumns = 'id,eaten_at,meal_type,image_path'
 const mealItemColumns = 'id,meal_log_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,confidence,source_notes'
 const foodColumns = 'id,name,brand,barcode,serving_size,serving_unit,calories_kcal,protein_g,carbs_g,fat_g'
 
@@ -196,13 +202,17 @@ function toMealItem(value: unknown): MealItemRecord {
   }, 'meal item')
 }
 
-function toMealRecord(value: unknown, items: MealItemRecord[]): MealRecord {
+function toMealRecord(value: unknown, items: MealItemRecord[], image?: unknown): MealRecord {
   const log = parseStored(mealLogRowSchema, value, 'meal log')
+  const mealImage = image === undefined
+    ? undefined
+    : parseStored(MealImageRecordSchema, image, 'meal image')
   return parseStored(MealRecordSchema, {
     meal_log_id: log.id,
     meal_type: log.meal_type,
     eaten_at: log.eaten_at,
     items,
+    ...(mealImage === undefined ? {} : { image: mealImage }),
   }, 'meal log')
 }
 
@@ -350,6 +360,63 @@ export class SupabaseRepository implements MorselRepository {
     return toRpcMealRecord(row)
   }
 
+  async attachMealImage(userId: string, mealLogId: string, upload: StoredMealImageUpload): Promise<string | undefined> {
+    // Ownership first: a photo is only ever attached to a meal the caller
+    // owns, and nothing is uploaded when the meal is unknown (no orphans).
+    const ownershipResponse = await this.client
+      .from('meal_logs')
+      .select('id')
+      .eq('id', mealLogId)
+      .eq('user_id', userId)
+      .maybeSingle()
+    if (ownershipResponse.error !== null) {
+      throw new RepositoryError('meal image ownership check failed', ownershipResponse.error)
+    }
+    if (ownershipResponse.data === null) {
+      return undefined
+    }
+    const objectPath = `${userId}/${mealLogId}.jpg`
+    let uploaded: Awaited<ReturnType<ReturnType<SupabaseClient<Database>['storage']['from']>['upload']>>
+    try {
+      uploaded = await this.client
+        .storage
+        .from(MEAL_IMAGE_BUCKET)
+        // The object path is derived from the meal id, so attaching again
+        // replaces the photo bytes at the same path (like the app outbox).
+        .upload(objectPath, upload.bytes, { contentType: upload.contentType, upsert: true })
+    } catch (error) {
+      throw new RepositoryError('meal image upload failed', error)
+    }
+    if (uploaded.error !== null) {
+      throw new RepositoryError('meal image upload failed', uploaded.error)
+    }
+    const writeResponse = await this.client
+      .from('meal_logs')
+      .update({ image_path: objectPath })
+      .eq('id', mealLogId)
+      .eq('user_id', userId)
+      .select('id')
+    if (writeResponse.error !== null) {
+      await this.removeStoredMealImage(objectPath)
+      throw new RepositoryError('meal image path write failed', writeResponse.error)
+    }
+    if (writeResponse.data.length === 0) {
+      // The meal vanished between the ownership check and the write (or the
+      // row is no longer owned): never leave an orphaned object behind.
+      await this.removeStoredMealImage(objectPath)
+      return undefined
+    }
+    return objectPath
+  }
+
+  private async removeStoredMealImage(objectPath: string): Promise<void> {
+    try {
+      await this.client.storage.from(MEAL_IMAGE_BUCKET).remove([objectPath])
+    } catch {
+      // Best-effort cleanup only; the attach failure is already reported.
+    }
+  }
+
   async getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]> {
     const logsResponse = await this.client
       .from('meal_logs')
@@ -377,7 +444,40 @@ export class SupabaseRepository implements MorselRepository {
       itemsByMeal.set(row.meal_log_id, mealItems)
     }
 
-    return logs.map((log) => toMealRecord(log, itemsByMeal.get(log.id) ?? []))
+    const meals: MealRecord[] = []
+    for (const log of logs) {
+      const image = log.image_path === undefined || log.image_path === null
+        ? undefined
+        : await this.signedMealImage(log.image_path)
+      meals.push(toMealRecord(log, itemsByMeal.get(log.id) ?? [], image))
+    }
+    return meals
+  }
+
+  /**
+   * Mints the short-lived read URL for a stored photo. The signed URL is
+   * returned per read and never persisted or logged. Storage failures surface
+   * as a typed RepositoryError (the SDK's fetch helpers throw on error).
+   */
+  private async signedMealImage(imagePath: string): Promise<unknown> {
+    let response: Awaited<ReturnType<ReturnType<SupabaseClient<Database>['storage']['from']>['createSignedUrl']>>
+    try {
+      response = await this.client
+        .storage
+        .from(MEAL_IMAGE_BUCKET)
+        .createSignedUrl(imagePath, MEAL_IMAGE_SIGNED_URL_TTL_SECONDS)
+    } catch (error) {
+      throw new RepositoryError('meal image signed URL failed', error)
+    }
+    const signedUrl = response.data?.signedUrl
+    if (signedUrl === undefined) {
+      throw new RepositoryError('meal image signed URL failed')
+    }
+    return {
+      path: imagePath,
+      signed_url: signedUrl,
+      expires_at: new Date(Date.now() + MEAL_IMAGE_SIGNED_URL_TTL_SECONDS * 1_000).toISOString(),
+    }
   }
 
   async searchFood(userId: string, query: string, limit: number): Promise<SearchFoodItem[]> {

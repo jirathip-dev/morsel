@@ -1,5 +1,7 @@
 import { z } from 'zod'
 import {
+  AttachMealImageInputSchema,
+  AttachMealImageOutputSchema,
   ComputeTargetsOutputSchema,
   DeleteMealLogInputSchema,
   EmptyInputSchema,
@@ -29,6 +31,7 @@ import {
   SetProfileOutputSchema,
 } from '../packages/schema/food-types.ts'
 import type {
+  AttachMealImageOutput,
   ComputeTargetsOutput,
   DeleteMealLogOutput,
   EffectiveGoal,
@@ -41,6 +44,7 @@ import type {
   GoalSummary,
   LogMealOutput,
   ParsedGetDashboardSummaryInput,
+  ParsedLogMealInput,
   ResetGoalsOutput,
   SearchFoodOutput,
   SetGoalsInput,
@@ -50,6 +54,13 @@ import type {
 } from '../packages/schema/food-types.ts'
 import { MorselError } from './errors.ts'
 import { LOW_CONFIDENCE_THRESHOLD, renderDashboardSummary, type DashboardRenderSummary } from './render.ts'
+import {
+  decodeMealImageBase64,
+  fetchMealImageBytes,
+  MealImageRejectedError,
+  type MealImageBytes,
+  type MealImageFetcher,
+} from './meal-image.ts'
 import type { MorselRepository, StoredGoals, StoredProfile } from './repository.ts'
 import { addCalendarDays, zonedDateLabel, zonedDayStartInstant, zonedNextDayStartInstant } from './zone-time.ts'
 
@@ -190,34 +201,50 @@ export interface MorselServiceOptions {
   repository: MorselRepository
   userId: string
   now?: () => Date
+  /** Fetch seam for image_url support (injected in tests; defaults to fetch). */
+  imageFetcher?: MealImageFetcher
+}
+
+/** Public reason shown to the caller when a photo could not be stored. */
+const PHOTO_STORE_ERROR = 'the photo could not be stored'
+
+interface PhotoInput {
+  image_base64?: ParsedLogMealInput['image_base64']
+  image_url?: string
 }
 
 export class MorselService {
   private readonly repository: MorselRepository
   private readonly userId: string
   private readonly now: () => Date
+  private readonly imageFetcher: MealImageFetcher
 
   constructor(options: MorselServiceOptions) {
     this.repository = options.repository
     this.userId = options.userId
     this.now = options.now ?? (() => new Date())
+    this.imageFetcher = options.imageFetcher ?? ((input, init) => fetch(input, init))
   }
 
   async logMeal(input: unknown): Promise<LogMealOutput> {
     const parsed = parseInput(LogMealInputSchema, input, 'log_meal')
+    const hasPhoto = parsed.image_base64 !== undefined || parsed.image_url !== undefined
     const eatenAt = parsed.eaten_at === undefined ? this.now().toISOString() : new Date(parsed.eaten_at).toISOString()
     const meal = await this.repository.createMealWithItems(this.userId, {
       eaten_at: eatenAt,
       meal_type: parsed.meal_type,
-      source: parsed.image_url !== undefined
+      source: hasPhoto
         ? 'photo_vision'
         : parsed.items.some((item) => item.barcode !== undefined)
           ? 'barcode'
           : 'manual',
-      image_path: parsed.image_url,
       notes: parsed.notes,
       items: parsed.items,
     })
+    // The photo is attached after the meal row exists: the storage object
+    // path needs the server-assigned meal_log_id. A photo failure is reported
+    // as image_error and never fails the already-logged meal.
+    const imageError = hasPhoto ? await this.attachPhotoError(meal.meal_log_id, parsed) : undefined
     // When eaten_at was omitted the server stamped now; report the local
     // calendar date (and the timezone used) so the agent can echo which local
     // day the meal landed on. Explicit timezone -> profiles.timezone -> UTC.
@@ -226,6 +253,7 @@ export class MorselService {
       return parseInput(LogMealOutputSchema, {
         meal_log_id: meal.meal_log_id,
         recorded: true,
+        ...(imageError === undefined ? {} : { image_error: imageError }),
         timezone,
         date: zonedDateLabel(Date.parse(eatenAt), timezone),
       }, 'log_meal output')
@@ -233,7 +261,90 @@ export class MorselService {
     return parseInput(LogMealOutputSchema, {
       meal_log_id: meal.meal_log_id,
       recorded: true,
+      ...(imageError === undefined ? {} : { image_error: imageError }),
     }, 'log_meal output')
+  }
+
+  async attachMealImage(input: unknown): Promise<AttachMealImageOutput> {
+    const parsed = parseInput(AttachMealImageInputSchema, input, 'attach_meal_image')
+    const photo = await this.resolvePhotoBytes(parsed)
+    if (photo === undefined) {
+      throw new MorselError('not_found', 'meal log was not found')
+    }
+    if ('imageError' in photo) {
+      return parseInput(AttachMealImageOutputSchema, { ok: true, attached: false, image_error: photo.imageError }, 'attach_meal_image output')
+    }
+    const attached = await this.persistPhoto(parsed.meal_log_id, photo.image)
+    if (attached === true) {
+      return parseInput(AttachMealImageOutputSchema, { ok: true, attached: true }, 'attach_meal_image output')
+    }
+    if (typeof attached === 'string') {
+      return parseInput(AttachMealImageOutputSchema, { ok: true, attached: false, image_error: attached }, 'attach_meal_image output')
+    }
+    throw new MorselError('not_found', 'meal log was not found')
+  }
+
+  /**
+   * Attempts to attach the photo named by `input` to an existing meal log.
+   * Resolves to undefined when the photo stored successfully, otherwise to
+   * the public image_error reason (the meal itself is untouched and the
+   * caller may retry or report). image_base64 is preferred over image_url.
+   */
+  private async attachPhotoError(mealLogId: string, input: PhotoInput): Promise<string | undefined> {
+    const photo = await this.resolvePhotoBytes(input)
+    if (photo === undefined) {
+      return PHOTO_STORE_ERROR
+    }
+    if ('imageError' in photo) {
+      return photo.imageError
+    }
+    const attached = await this.persistPhoto(mealLogId, photo.image)
+    if (attached !== true) {
+      return PHOTO_STORE_ERROR
+    }
+    return undefined
+  }
+
+  /**
+   * Turns a photo input into validated, sniffed bytes. Resolves to undefined
+   * when the input carries no photo; a rejection resolves to its public
+   * image_error reason (meal still logs).
+   */
+  private async resolvePhotoBytes(input: PhotoInput): Promise<{ image: MealImageBytes } | { imageError: string } | undefined> {
+    if (input.image_base64 === undefined && input.image_url === undefined) {
+      return undefined
+    }
+    try {
+      if (input.image_base64 !== undefined) {
+        return { image: decodeMealImageBase64(input.image_base64.data, input.image_base64.mime_type) }
+      }
+      if (input.image_url === undefined) {
+        return undefined
+      }
+      return { image: await fetchMealImageBytes(input.image_url, this.imageFetcher) }
+    } catch (error) {
+      if (error instanceof MealImageRejectedError) {
+        return { imageError: error.message }
+      }
+      return { imageError: 'the photo could not be attached' }
+    }
+  }
+
+  /**
+   * Stores validated bytes on a meal row. Resolves to true on success, false
+   * when the meal log is missing (nothing was stored), and a public
+   * image_error reason when storage rejected the upload.
+   */
+  private async persistPhoto(mealLogId: string, image: MealImageBytes): Promise<boolean | string> {
+    try {
+      const path = await this.repository.attachMealImage(this.userId, mealLogId, {
+        bytes: image.bytes,
+        contentType: image.contentType,
+      })
+      return path === undefined ? false : true
+    } catch {
+      return PHOTO_STORE_ERROR
+    }
   }
 
   async getDay(input: unknown): Promise<GetDayOutput> {

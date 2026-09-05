@@ -16,7 +16,8 @@ description, explicit input and output schemas, and an explicit SDK
 
 | Tool | Title | Direction | Purpose | Annotations |
 |---|---|---|---|---|
-| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Photo path uses this. | — |
+| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Real photo bytes attach through this. | — |
+| `attach_meal_image` | Attach a photo to a logged meal | write | Add the photo bytes to an existing meal log (logged without one, or its photo failed to store). | — |
 | `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | `openWorldHint` (see [search_food cache write](#search_food-cache-write)) |
 | `update_meal_item` | Update one meal item | write | Correct one item (wrong macro, wrong portion). | — |
 | `delete_meal_log` | Delete a meal log | write | Remove a whole meal. | `destructiveHint` |
@@ -110,12 +111,20 @@ read-annotated tool nor read or mutate another user's data.
 ### `log_meal`
 
 **Purpose:** record a meal. When the user uploads a food photo, the agent does
-vision → fills `items[]` → calls this. `source` is set internally by the server:
-`photo_vision` when `image_url` is present, `barcode` when an item has a barcode
-but no image, and `manual` otherwise.
+vision → fills `items[]` → calls this with the photo bytes in
+`image_base64` (the preferred input) so the photo is stored, not dropped.
+`source` is set internally by the server: `photo_vision` when a photo input
+(`image_base64` or `image_url`) is present, `barcode` when an item has a barcode
+but no photo, and `manual` otherwise.
 
 The server writes the meal log and every item through one database transaction;
-an RPC failure leaves no partial meal rows.
+an RPC failure leaves no partial meal rows. When a photo was supplied, the
+server then stores the validated bytes in the caller's private `food-images`
+bucket at `{user_id}/{meal_log_id}.jpg` and records the object path on the meal
+row. **A photo that cannot be stored is rejected and reported, never silently
+accepted:** the response carries `image_error` and the meal itself is still
+logged. Send the photo bytes when the client exposes the image; otherwise omit
+the photo inputs entirely.
 
 **Input**
 ```json
@@ -148,7 +157,16 @@ an RPC failure leaves no partial meal rows.
       }
     },
     "notes":     { "type": "string" },
-    "image_url": { "type": "string", "format": "uri", "description": "Public HTTPS URL of the food photo, if any" }
+    "image_base64": {
+      "type": "object",
+      "description": "Preferred photo input: the real image bytes, base64-encoded (JPEG, PNG, or WebP; up to ~5 MB after decoding). When both photo inputs are present this wins.",
+      "properties": {
+        "data":      { "type": "string", "description": "Base64-encoded image bytes (JPEG/PNG/WebP; JPEG is canonical)" },
+        "mime_type": { "type": "string", "enum": ["image/jpeg", "image/png", "image/webp"] }
+      },
+      "required": ["data", "mime_type"]
+    },
+    "image_url": { "type": "string", "format": "uri", "description": "Legacy photo input: a public HTTPS image URL. The server fetches it once (5 s timeout, image-only content, 10 MB cap, no redirects to private ranges) and stores the bytes like image_base64." }
   },
   "required": ["meal_type", "items"]
 }
@@ -162,7 +180,8 @@ an RPC failure leaves no partial meal rows.
     "meal_log_id": { "type": "string", "format": "uuid" },
     "recorded":    { "type": "boolean", "default": true },
     "timezone":    { "type": "string", "description": "IANA zone used for the reported date. Present only when eaten_at was omitted." },
-    "date":        { "type": "string", "description": "Local calendar date (YYYY-MM-DD) the meal was logged to. Present only when eaten_at was omitted." }
+    "date":        { "type": "string", "description": "Local calendar date (YYYY-MM-DD) the meal was logged to. Present only when eaten_at was omitted." },
+    "image_error": { "type": "string", "description": "Present only when a photo was requested but could not be stored; the meal is still logged. Read the photo back with get_day once storage recovers, or attach it later with attach_meal_image." }
   },
   "required": ["meal_log_id", "recorded"]
 }
@@ -185,10 +204,41 @@ log_meal({
     { "name": "Grilled chicken","quantity": 120, "unit": "g", "calories_kcal": 200, "protein_g": 38, "fat_g": 5, "confidence": 0.85 },
     { "name": "Stir-fried veg", "quantity": 1, "unit": "serving", "calories_kcal": 90, "carbs_g": 10, "fiber_g": 4, "confidence": 0.7, "notes": "approx portion" }
   ],
-  "image_url": "https://.../meal-photo.jpg"
+  "image_base64": { "data": "<base64 of the photo bytes>", "mime_type": "image/jpeg" }
 })
 ```
-→ `{ "meal_log_id": "9fce...", "recorded": true }`
+→ `{ "meal_log_id": "9fce...", "recorded": true }` — then confirm with
+`get_day`: the meal carries `image: { "path", "signed_url", "expires_at" }`
+when the photo stored. If the response includes `image_error`, tell the user
+the meal logged without the photo and offer `attach_meal_image` with the same
+bytes once storage is available.
+
+### `attach_meal_image`
+
+**Purpose:** attach the real photo bytes to a meal that was already logged
+without one (the exact case issue #122 hit: a photo dropped at log time), or
+whose photo failed to store. The meal is otherwise untouched.
+
+**Input** `{ "meal_log_id": "uuid", "image_base64": { "data", "mime_type" }? | "image_url": "https://..."? }` —
+**Output** `{ "ok": true, "attached": true | false, "image_error"?: string }`
+
+Provide exactly one photo source (`image_base64` is preferred when both are
+sent). The same validation and storage rules as `log_meal` apply: JPEG/PNG/WebP
+bytes, ~5 MB base64 budget, one HTTPS fetch for `image_url`, storage into
+`food-images/{user_id}/{meal_log_id}.jpg`. `attached: false` with an
+`image_error` means the photo could not be stored and the meal is unchanged —
+report it and retry rather than re-logging the meal. An unknown or
+not-owned `meal_log_id` is a typed `not_found` error.
+
+**Example call (attach after the fact):**
+```
+attach_meal_image({
+  "meal_log_id": "9fce...",
+  "image_base64": { "data": "<base64 of the photo bytes>", "mime_type": "image/jpeg" }
+})
+```
+→ `{ "ok": true, "attached": true }` — read the meal back with `get_day` to
+confirm `image.path` + `image.signed_url`.
 
 ### `search_food`
 
@@ -208,17 +258,31 @@ search, while an unavailable provider returns a typed tool error.
 **Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string" }`
 **Output** `{ "ok": true, "updated": true }`
 
-At least one optional field must be supplied with `item_id`.
+At least one optional field must be supplied with `item_id`. This tool corrects
+item values only — it never changes the meal's photo. A photo belongs to the
+meal, not an item: attach or replace it with `attach_meal_image` (a new photo
+overwrites `meal_logs.image_path`, keeping the byte store consistent).
 
 ### `delete_meal_log`
 
 **Input** `{ "meal_log_id": "uuid" }`
 **Output** `{ "ok": true, "deleted": true }`
 
+Removes the meal log row and its items. Any photo object that was attached to
+the meal stops being returned by reads; it remains an owner-scoped object in
+the private `food-images` bucket until storage cleanup removes it (the row no
+longer references it).
+
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD", "timezone?": "IANA zone" }`
-**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, image: { path, signed_url, expires_at }?, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+
+A meal with a stored photo carries `image` on reads: `path` is the storage
+object path (`food-images/{user_id}/{meal_log_id}.jpg`, what the dashboard
+thumbnail pipeline downloads), `signed_url` is a short-lived URL minted for
+that read (15 minutes; never persisted or logged), and `expires_at` is the
+instant it stops working. Meals without a photo omit `image` entirely.
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal can be used without a profile.
@@ -366,25 +430,47 @@ bucket days as **calendar days in a timezone**, never in a fixed UTC grid.
 - **Don't invent precise macros you can't get.** Use `search_food` to pull exact
   values when you have a name, scale them to the full eaten portion, and set a
   lower `confidence` for honest estimates.
-- **One uploaded photo = one `log_meal`** with one or more `items[]`.
+- **One uploaded photo = one `log_meal`** with one or more `items[]`. Send the
+  photo bytes (`image_base64`) when the client exposes the image; otherwise
+  omit the photo inputs. Never fabricate a photo URL.
 - **Never log twice.** If a same-sitting item was omitted, v0.1 has no
   add-item operation: with confirmation, call `delete_meal_log` once, then call
   `get_day` for the original meal's local date (pass the user's timezone when
   it is not stored) and re-log the full item list only after
   its original `meal_log_id` is absent. If the meal remains or state is
   unknown, stop without retrying or creating a replacement. Log a genuinely
-  separate meal separately.
+  separate meal separately. When only the photo is missing (or it failed to
+  store at log time), `attach_meal_image` adds it without touching the meal.
 - **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
   add a `notes` string. The human corrects it later in the dashboard.
 
-## v0.1 image limitation
+## Photos (real bytes through MCP, issue #122)
 
-The contract calls the field `image_url`, while the existing database column is
-`meal_logs.image_path`. The v0.1 server stores the HTTPS URL string in that
-column as a reference. It does not fetch or upload the image and does not claim
-that the URL is durable. The private `food-images` bucket and its owner-scoped
-Storage policies are provisioned by `db/migrations/0004_store_assets.sql`; a
-future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
+`log_meal` and `attach_meal_image` take the photo **bytes** — `image_base64`
+(`{ data, mime_type }`) is the preferred input and `image_url` is a legacy
+convenience the server **fetches once**. Both paths validate and then store the
+real bytes; a dead URL or reference is never accepted silently.
+
+- **Formats:** JPEG (canonical), PNG, and WebP — the exact allowlist of the
+  private `food-images` bucket (migration `0004`) and the native app's photo
+  picker. The Morsel app converts camera HEIC to JPEG on-device before it ever
+  uploads; the MCP server has no transcoder, so it stores what it receives
+  byte-exact with the true content type (magic-verified, never a mislabeled
+  container) under the canonical object path `{user_id}/{meal_log_id}.jpg`.
+- **Limits:** `image_base64` decodes to at most ~5 MB; an `image_url` fetch is
+  capped at 10 MB with a 5 s timeout, requires an image content type, and its
+  manual redirect loop refuses non-HTTPS or private-range hops.
+- **Storage + RLS:** objects are uploaded with the caller's bearer token, so
+  the owner-scoped Storage policies from `0004` apply — a user can only ever
+  touch objects under their own user ID. The object path is written to
+  `meal_logs.image_path`.
+- **Reject and report:** when a photo cannot be stored the response carries
+  `image_error` and the meal is still logged (or, for `attach_meal_image`, the
+  meal stays unchanged with `attached: false`). Never claim a photo attached
+  when the response does not confirm it.
+- **Read-back:** `get_day` meals carry `image: { path, signed_url, expires_at }`
+  when a photo is stored; confirm attachment with that field. Signed URLs are
+  short-lived per-read values. Image bytes and signed URLs are never logged.
 
 ## Remote authentication
 

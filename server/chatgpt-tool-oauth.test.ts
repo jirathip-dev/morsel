@@ -38,6 +38,7 @@ const EXPECTED_CHALLENGE = `Bearer resource_metadata="${RESOURCE_METADATA_URL}",
 const EXPECTED_SECURITY_SCHEMES = [{ type: 'oauth2', scopes: ['mcp'] }]
 
 const EXPECTED_TOOLS = [
+  'attach_meal_image',
   'compute_targets',
   'delete_meal_log',
   'get_dashboard_summary',

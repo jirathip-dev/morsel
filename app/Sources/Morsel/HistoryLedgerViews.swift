@@ -328,13 +328,30 @@ struct DayDrillDown: View {
         .padding(.vertical, 6)
     }
 
+    private func dayCardHeader(_ snapshot: DashboardSnapshot) -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            Text(snapshot.date.formatted(.dateTime.weekday(.wide).day().month(.wide)))
+                .font(Font.morselHand(size: 24))
+                .foregroundStyle(Color.morselInk)
+            Spacer(minLength: 4)
+            // The day card shows the day's first meal photo (agent-logged or
+            // in-app); the thumbnail pipeline is identical to Today's.
+            if let imagePath = snapshot.meals.compactMap({ $0.imagePath }).first {
+                MealThumbnailView(repository: viewModel.repository, userID: viewModel.userID, path: imagePath)
+                    .frame(width: 44, height: 44)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 7)
+                            .stroke(Color.morselInkLine.opacity(0.6), lineWidth: 1)
+                    }
+            }
+        }
+    }
+
     private func dayContent(_ snapshot: DashboardSnapshot) -> some View {
         let totals = DashboardMath.totals(for: snapshot.meals)
         let goal = snapshot.goal?.calorieTargetKcal
         return VStack(alignment: .leading, spacing: 12) {
-            Text(snapshot.date.formatted(.dateTime.weekday(.wide).day().month(.wide)))
-                .font(Font.morselHand(size: 24))
-                .foregroundStyle(Color.morselInk)
+            dayCardHeader(snapshot)
             HStack(spacing: 6) {
                 Text("\(MorselFormat.number(totals.caloriesKcal)) kcal")
                     .font(.morselDataMedium)
