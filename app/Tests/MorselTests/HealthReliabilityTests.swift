@@ -211,7 +211,9 @@ final class HealthReliabilityTests: XCTestCase {
         await engine.runPass()
 
         XCTAssertEqual(remote.logs, [WeightLog(measuredAt: sample, kilograms: 71)])
-        XCTAssertEqual(remote.energyBurnedLogs, [EnergyBurnedLog(burnedAt: day, activeKilocalories: 320)])
+        // Issue #121 — the drained row carries the LOCAL day's start instant.
+        let localDay = Calendar.autoupdatingCurrent.startOfDay(for: day)
+        XCTAssertEqual(remote.energyBurnedLogs, [EnergyBurnedLog(burnedAt: localDay, activeKilocalories: 320)])
         XCTAssertTrue(try health.unsyncedWeightSamples().isEmpty)
         XCTAssertTrue(try health.dirtyEnergyDays().isEmpty)
         XCTAssertNotNil(try health.lastSuccessfulUpload())

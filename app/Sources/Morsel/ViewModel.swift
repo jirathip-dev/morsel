@@ -198,11 +198,7 @@ final class DashboardViewModel: ObservableObject {
         ) else {
             return
         }
-        let calendar: Calendar = {
-            var calendar = Calendar(identifier: .gregorian)
-            calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-            return calendar
-        }()
+        let calendar = Calendar.autoupdatingCurrent
         let today = calendar.startOfDay(for: dateProvider())
         if let snapshot,
            calendar.startOfDay(for: record.eatenAt) == today,

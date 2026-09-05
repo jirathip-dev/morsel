@@ -98,6 +98,55 @@ final class LocalSnapshotCache {
         try run("DELETE FROM goals_cache")
     }
 
+    // MARK: - Issue #121 one-time local-day re-bucket support
+
+    /// One cached day-keyed row (dashboard or history cache).
+    struct DayKeyedCacheRow: Equatable {
+        let key: String
+        let payload: Data
+        let savedAt: Date
+    }
+
+    func allDashboardCacheRows() throws -> [DayKeyedCacheRow] {
+        try allDayKeyedRows("dashboard_cache", keyColumn: "day_key")
+    }
+
+    func allHistoryCacheRows() throws -> [DayKeyedCacheRow] {
+        try allDayKeyedRows("history_cache", keyColumn: "cache_key")
+    }
+
+    func removeDashboardCache(dayKey: String) throws {
+        try run("DELETE FROM dashboard_cache WHERE day_key = ?", .text(dayKey))
+    }
+
+    func removeHistoryCache(cacheKey: String) throws {
+        try run("DELETE FROM history_cache WHERE cache_key = ?", .text(cacheKey))
+    }
+
+    private func allDayKeyedRows(_ table: String, keyColumn: String) throws -> [DayKeyedCacheRow] {
+        try select(
+            "SELECT \(keyColumn), payload, saved_at FROM \(table) ORDER BY saved_at ASC", []
+        ).compactMap { values in
+            guard let key = textValue(values[keyColumn]),
+                  let savedAt = doubleValue(values["saved_at"]) else {
+                return nil
+            }
+            let payload = textValue(values["payload"]).flatMap { $0.data(using: .utf8) } ?? Data()
+            return DayKeyedCacheRow(key: key, payload: payload, savedAt: Date(timeIntervalSince1970: savedAt))
+        }
+    }
+
+    private func textValue(_ value: SQLiteValue?) -> String? {
+        if case let .text(text)? = value { return text }
+        return nil
+    }
+
+    private func doubleValue(_ value: SQLiteValue?) -> Double? {
+        if case let .double(number)? = value { return number }
+        if case let .int(number)? = value { return Double(number) }
+        return nil
+    }
+
     // MARK: - SQLite helpers
 
     private func run(_ sql: String, _ binds: SQLiteValue...) throws {
@@ -136,6 +185,48 @@ final class LocalSnapshotCache {
         }
         if step == SQLITE_DONE { return nil }
         throw LocalStoreError.sqlite(lastErrorMessage)
+    }
+
+    /// Multi-column select for the cache-migration enumeration.
+    private func select(_ sql: String, _ binds: [SQLiteValue]) throws -> [[String: SQLiteValue]] {
+        let statement = try prepare(sql)
+        defer { sqlite3_finalize(statement) }
+        try bind(statement, binds)
+        var rows: [[String: SQLiteValue]] = []
+        while true {
+            let step = sqlite3_step(statement)
+            if step == SQLITE_ROW {
+                var row: [String: SQLiteValue] = [:]
+                for index in 0..<sqlite3_column_count(statement) {
+                    let name = String(cString: sqlite3_column_name(statement, index))
+                    row[name] = columnValue(statement, column: index)
+                }
+                rows.append(row)
+            } else if step == SQLITE_DONE {
+                break
+            } else {
+                throw LocalStoreError.sqlite(lastErrorMessage)
+            }
+        }
+        return rows
+    }
+
+    private func columnValue(_ statement: OpaquePointer, column: Int32) -> SQLiteValue {
+        switch sqlite3_column_type(statement, column) {
+        case SQLITE_INTEGER:
+            return .int(sqlite3_column_int64(statement, column))
+        case SQLITE_FLOAT:
+            return .double(sqlite3_column_double(statement, column))
+        case SQLITE_TEXT:
+            guard let text = sqlite3_column_text(statement, column) else { return .null }
+            return .text(String(cString: text))
+        case SQLITE_BLOB:
+            guard let bytes = sqlite3_column_blob(statement, column) else { return .null }
+            let count = Int(sqlite3_column_bytes(statement, column))
+            return .blob(Data(bytes: bytes, count: count))
+        default:
+            return .null
+        }
     }
 
     private func prepare(_ sql: String) throws -> OpaquePointer {

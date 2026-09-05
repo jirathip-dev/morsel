@@ -33,6 +33,7 @@ import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './
 import type { NutritionProvider, ProviderFood } from './nutrition-provider.ts'
 import { UsdaFoodDataCentralProvider } from './nutrition-provider.ts'
 import type { ComputeTargetsFunctionInput, Database, LogMealFunctionItem } from './supabase-types.ts'
+import { zonedDateLabel } from './zone-time.ts'
 
 const databaseNumber = z.union([
   z.number(),
@@ -73,6 +74,7 @@ const profileRowSchema = z.object({
   activity_level: ActivityLevelSchema,
   diet_goal: DietGoalSchema,
   goal_weight_kg: databaseNumber.nullable(),
+  timezone: z.string().nullable(),
 }).strict()
 
 const profileRpcRowSchema = profileRowSchema.extend({
@@ -240,6 +242,7 @@ function toProfile(value: unknown): Profile {
     activity_level: profile.activity_level,
     diet_goal: profile.diet_goal,
     ...(profile.goal_weight_kg === null ? {} : { goal_weight_kg: profile.goal_weight_kg }),
+    ...(profile.timezone === null ? {} : { timezone: profile.timezone }),
   }, 'profile')
 }
 
@@ -459,7 +462,7 @@ export class SupabaseRepository implements MorselRepository {
   async getProfile(userId: string): Promise<StoredProfile | undefined> {
     const response = await this.client
       .from('profiles')
-      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at')
+      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,timezone,updated_at')
       .eq('user_id', userId)
       .maybeSingle()
     if (response.error !== null) {
@@ -477,6 +480,7 @@ export class SupabaseRepository implements MorselRepository {
       activity_level: profile.activity_level,
       diet_goal: profile.diet_goal,
       ...(profile.goal_weight_kg === null ? {} : { goal_weight_kg: profile.goal_weight_kg }),
+      ...(profile.timezone === null ? {} : { timezone: profile.timezone }),
       updated_at: profile.updated_at,
     }
   }
@@ -485,7 +489,7 @@ export class SupabaseRepository implements MorselRepository {
     void _profile
     const profileResponse = await this.client
       .from('profiles')
-      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at')
+      .select('user_id,sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,timezone,updated_at')
       .eq('user_id', userId)
       .maybeSingle()
     if (profileResponse.error !== null) {
@@ -538,8 +542,11 @@ export class SupabaseRepository implements MorselRepository {
         user_id: userId,
         ...profile,
         goal_weight_kg: profile.goal_weight_kg ?? null,
+        // Absent timezone keeps the stored value (omitted keys are not part
+        // of the upsert); NULL is never written here.
+        ...(profile.timezone === undefined ? {} : { timezone: profile.timezone }),
       })
-      .select('sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg')
+      .select('sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,timezone')
       .single()
     return toProfile(requireData(response.data, response.error, 'profile save'))
   }
@@ -647,7 +654,7 @@ export class SupabaseRepository implements MorselRepository {
     return response.data.length > 0
   }
 
-  async getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]> {
+  async getWeightTrend(userId: string, start: string, end: string, timeZone: string): Promise<WeightTrendPoint[]> {
     const response = await this.client
       .from('weight_logs')
       .select('measured_at,kg')
@@ -657,14 +664,15 @@ export class SupabaseRepository implements MorselRepository {
       .order('measured_at', { ascending: true })
     const rows = parseStored(z.array(weightRowSchema), requireData(response.data, response.error, 'weight trend read'), 'weight logs')
     return rows.map((row) => {
-      const date = parseStored(CalendarDateSchema, row.measured_at.slice(0, 10), 'weight trend date')
+      // Bucket the measurement instant into the requested zone's local day.
+      const date = parseStored(CalendarDateSchema, zonedDateLabel(Date.parse(row.measured_at), timeZone), 'weight trend date')
       return {
         date,
-      kg: row.kg,
+        kg: row.kg,
       }
     })
   }
-  async getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]> {
+  async getEnergyBurned(userId: string, start: string, end: string, timeZone: string): Promise<EnergyBurnedPoint[]> {
     const response = await this.client
       .from('energy_burned_logs')
       .select('burned_at,active_kcal')
@@ -675,7 +683,9 @@ export class SupabaseRepository implements MorselRepository {
     const rows = parseStored(z.array(energyBurnedRowSchema), requireData(response.data, response.error, 'energy burned read'), 'energy burned logs')
     const totals = new Map<string, number>()
     for (const row of rows) {
-      const date = parseStored(CalendarDateSchema, row.burned_at.slice(0, 10), 'energy burned date')
+      // Bucket each burn instant into the requested zone's local day so a
+      // single +07 day never splits across two UTC rows.
+      const date = parseStored(CalendarDateSchema, zonedDateLabel(Date.parse(row.burned_at), timeZone), 'energy burned date')
       totals.set(date, (totals.get(date) ?? 0) + row.active_kcal)
     }
     return [...totals.entries()].map(([date, active_kcal]) => ({ date, active_kcal }))

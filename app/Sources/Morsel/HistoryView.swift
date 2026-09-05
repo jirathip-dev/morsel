@@ -56,8 +56,8 @@ final class HistoryViewModel: ObservableObject {
     /// Ledger (ascending, oldest first) — the bar chart order.
     var chartDays: [HistoryDay] {
         guard let overview else { return [] }
-        let start = DashboardMath.startOfUTCDay(today)
-        let windowStart = Calendar(identifier: .gregorian)
+        let start = DashboardMath.startOfLocalDay(today)
+        let windowStart = Calendar.autoupdatingCurrent
             .date(byAdding: .day, value: -(range.rawValue - 1), to: start) ?? start
         return overview.days.filter { $0.date >= windowStart && $0.date <= start }
     }
@@ -80,8 +80,8 @@ final class HistoryViewModel: ObservableObject {
     }
 
     var isTodayLogged: Bool {
-        let todayStart = DashboardMath.startOfUTCDay(today)
-        return chartDays.contains { DashboardMath.startOfUTCDay($0.date) == todayStart && $0.logged }
+        let todayStart = DashboardMath.startOfLocalDay(today)
+        return chartDays.contains { DashboardMath.startOfLocalDay($0.date) == todayStart && $0.logged }
     }
 
     var averageKcal: Double? { DashboardMath.averageKcal(chartDays, today: today) }

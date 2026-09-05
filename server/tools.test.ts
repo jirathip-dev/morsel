@@ -64,7 +64,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     description: 'Read meals, nutrition totals, and the effective goal for one calendar day.',
     annotations: READ_ONLY,
     inputRequired: ['date'],
-    outputRequired: ['date', 'meals', 'totals', 'render'],
+    outputRequired: ['date', 'timezone', 'meals', 'totals', 'render'],
   },
   {
     name: 'search_food',
@@ -138,21 +138,21 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     title: 'Get the weight trend',
     description: 'Read imported body-mass measurements and the latest weight.',
     annotations: READ_ONLY,
-    outputRequired: ['series'],
+    outputRequired: ['date', 'timezone', 'series'],
   },
   {
     name: 'get_energy_burned',
     title: 'Get energy burned',
     description: 'Read daily active-energy burned measurements imported from Apple Health.',
     annotations: READ_ONLY,
-    outputRequired: ['series'],
+    outputRequired: ['date', 'timezone', 'series'],
   },
   {
     name: 'get_dashboard_summary',
     title: 'Get the dashboard summary',
     description: 'Summarize average calories, streak, macros, and weight trend over the requested number of days.',
     annotations: READ_ONLY,
-    outputRequired: ['avg_calories_kcal', 'streak_days', 'macro_split', 'weight_trend', 'render'],
+    outputRequired: ['date', 'timezone', 'avg_calories_kcal', 'streak_days', 'macro_split', 'weight_trend', 'render'],
   },
 ]
 

@@ -11,15 +11,17 @@ in one atomic transaction and fails with zero writes when the ledger is
 missing/empty). Production was provisioned before the ledger existed; the
 human-gated reconciliation flow in
 [`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
-classifies 0001–0009 against their end-state contracts and converges
-missing/partial states idempotently before recording them.
+classifies the canonical migration set (currently 0001–0011) against their
+end-state contracts and converges missing/partial states idempotently before
+recording them; later migrations (such as `0011_profiles_timezone.sql`) are
+appended through `apply-migrations.mjs` in the same atomic ledger transaction.
 
 ## Entities
 
 | Table | Purpose | Key link |
 |---|---|---|
 | `users` | one row per account | — |
-| `profiles` | body metrics driving a **computed** target (age, sex, height, weight, activity, diet goal) | `user_id` |
+| `profiles` | body metrics driving a **computed** target (age, sex, height, weight, activity, diet goal) plus the stored IANA `timezone` used for local-day bucketing | `user_id` |
 | `goals` | **effective** calorie/macro targets; computed from profile unless overridden (`source`) | `user_id` |
 | `meal_logs` | a meal session; **one photo = one log** | `user_id` |
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
@@ -37,6 +39,21 @@ users 1 ──▶ N meal_logs 1 ──▶ N meal_items
 This matches the agent's mental model: an uploaded photo of a bowl of rice,
 chicken, and vegetables is ONE `meal_log` with THREE `meal_items`. The `log_meal`
 tool takes an `items[]` array for exactly this reason.
+
+## Local days and timezones (issue #121)
+
+Day-scoped reads (`get_day`, `get_dashboard_summary`, `get_weight_trend`,
+`get_energy_burned`) and the `log_meal` local-date report bucket days as
+**calendar days in a timezone**, never in a fixed UTC grid. The zone is resolved
+per call as: explicit tool `timezone` input → `profiles.timezone` → UTC.
+`profiles.timezone` is a nullable `text` column added by migration
+`0011_profiles_timezone.sql`; the column CHECK only admits the fixed `'UTC'`
+alias or IANA `Area/Location` names (server-side `Intl` validation is the
+authoritative gate before any write). NULL (the default for every existing
+profile) means "UTC as today" — the v0.1 behavior — so existing rows and
+clients without a zone are untouched. Instants (`meal_logs.eaten_at`,
+`weight_logs.measured_at`, `energy_burned_logs.burned_at`) are never changed;
+only the derived day buckets, streak windows, and "today" anchors move.
 
 ## Targets are computed
 

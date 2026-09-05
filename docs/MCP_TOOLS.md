@@ -123,6 +123,7 @@ an RPC failure leaves no partial meal rows.
   "type": "object",
   "properties": {
     "eaten_at":    { "type": "string", "format": "date-time", "description": "When the meal happened (not upload time). Default: now." },
+    "timezone":    { "type": "string", "description": "IANA zone, e.g. \"Asia/Bangkok\". Only used when eaten_at is omitted: the response's date is the local calendar day of the stamped \"now\". Precedence: this input -> profiles.timezone -> UTC." },
     "meal_type":   { "type": "string", "enum": ["breakfast", "lunch", "dinner", "snack"] },
     "items": {
       "type": "array", "minItems": 1,
@@ -159,7 +160,9 @@ an RPC failure leaves no partial meal rows.
   "type": "object",
   "properties": {
     "meal_log_id": { "type": "string", "format": "uuid" },
-    "recorded":    { "type": "boolean", "default": true }
+    "recorded":    { "type": "boolean", "default": true },
+    "timezone":    { "type": "string", "description": "IANA zone used for the reported date. Present only when eaten_at was omitted." },
+    "date":        { "type": "string", "description": "Local calendar date (YYYY-MM-DD) the meal was logged to. Present only when eaten_at was omitted." }
   },
   "required": ["meal_log_id", "recorded"]
 }
@@ -214,40 +217,50 @@ At least one optional field must be supplied with `item_id`.
 
 ### `get_day`
 
-**Input** `{ "date": "YYYY-MM-DD" }`
-**Output** `{ "date", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+**Input** `{ "date": "YYYY-MM-DD", "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal can be used without a profile.
-The v0.1 server interprets `date` as a UTC calendar day.
+The server interprets `date` as a **calendar day in the effective timezone**
+(explicit `timezone` input, then `profiles.timezone`, then UTC — see
+[Local days and timezones](#local-days-and-timezones)); the output echoes the
+requested `date` and the `timezone` that was used.
 
 ### `get_weight_trend`
 
-**Input** `{ "days": { "type": "integer", "default": 30 } }`
-**Output** `{ "series": [ { "date", "kg" } ], "latest": { "date", "kg" }? }`
+**Input** `{ "days": { "type": "integer", "default": 30 }, "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "series": [ { "date", "kg" } ], "latest": { "date", "kg" }? }`
 
 The series is scoped to the authenticated user and sorted by measurement date.
-`latest` is the final series point when one exists. Imported measurements are
-deduplicated by their HealthKit measurement timestamp.
+Every series `date` is the measurement instant's **local calendar day in the
+effective timezone** (explicit input → `profiles.timezone` → UTC); `date` at
+the top level is the local "today" that anchored the window and `timezone` is
+the zone used. `latest` is the final series point when one exists. Imported
+measurements are deduplicated by their HealthKit measurement timestamp.
 
 ### `get_energy_burned`
 
-**Input** `{ "days": { "type": "integer", "default": 30 } }` — **Output** `{ "series": [ { "date": "YYYY-MM-DD", "active_kcal": number } ] }`.
+**Input** `{ "days": { "type": "integer", "default": 30 }, "timezone?": "IANA zone" }` — **Output** `{ "date", "timezone", "series": [ { "date": "YYYY-MM-DD", "active_kcal": number } ] }`.
 
-Reads daily active-energy calories imported from Apple Health. Values are user-scoped and idempotent by `(user_id, burned_at)`.
+Reads daily active-energy calories imported from Apple Health. Values are user-scoped and idempotent by `(user_id, burned_at)`. Each `series` `date` is the
+burn instant's **local calendar day in the effective timezone**, so a single
++07 (or any non-UTC) day is never split across two UTC rows; top-level `date`
+is the local "today" that anchored the window and `timezone` is the zone used.
 
 ### `get_dashboard_summary`
 
-**Input** `{ "days": { "type": "integer", "default": 7 } }`
-**Output** `{ "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "render": { "markdown", "svg" } }`
+**Input** `{ "days": { "type": "integer", "default": 7 }, "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "render": { "markdown", "svg" } }`
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
-consecutive UTC days ending today that contain at least one meal within the
-requested `days` window, so it is at most `days`. `weight_trend` is a supported
-v0.1 output: include it when non-empty and treat an empty array as no weight
-entries in the requested range. No registered v0.1 tool writes `weight_logs`,
-so it may be empty.
+consecutive **local days in the effective timezone** ending on the local
+"today" (returned as `date`, with `timezone` reporting the zone used) that
+contain at least one meal within the requested `days` window, so it is at most
+`days`. `weight_trend` is a supported v0.1 output: include it when non-empty
+and treat an empty array as no weight entries in the requested range. No
+registered v0.1 tool writes `weight_logs`, so it may be empty.
 
 Both read outputs include a `render` payload with markdown and SVG strings. The
 MCP server emits it as two content blocks: `{ type: "text", text:
@@ -257,11 +270,15 @@ markdown is the safe fallback when a client cannot render SVG.
 
 ### `get_profile`
 
-**Input** `{}` — **Output** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }`
+**Input** `{}` — **Output** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?", "timezone?" }`
+
+`timezone` is the stored IANA zone used for day bucketing when a day-scoped
+tool call does not pass an explicit one. It is omitted when the profile has no
+stored zone (meaning UTC).
 
 ### `set_profile`
 
-**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?" }`
+**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?", "timezone?" }`
 **Output** `{ "ok": true, "saved": true, "effective_goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed", "superseded_manual?" } }`
 
 Saving a profile is the newest user decision, so the output reports the
@@ -321,6 +338,29 @@ computed values derived from the profile and latest imported weight — call
 a computed target). Nothing else changes; `reset_goals` never touches meals,
 weight logs, or the profile.
 
+## Local days and timezones
+
+Morsel's day-scoped tools (`get_day`, `get_dashboard_summary`,
+`get_weight_trend`, `get_energy_burned`, and `log_meal`'s local-date report)
+bucket days as **calendar days in a timezone**, never in a fixed UTC grid.
+
+- **Precedence:** an explicit `timezone` on the call wins, then the stored
+  `profiles.timezone` (writable via `set_profile`), then **UTC**.
+- **Backward compatible:** when no timezone exists anywhere, behavior is
+  exactly v0.1 — zero-zone calls stay on the UTC grid with UTC "today".
+- **What changes per zone:** which calendar day an instant belongs to (a
+  dinner at `2026-08-31T23:30:00Z` is Monday Aug 31 in UTC but Tuesday
+  **Sep 1** in `Asia/Bangkok`), which day "today" is, and how streak/energy
+  day rows are grouped. Stored instants (`eaten_at`, `measured_at`,
+  `burned_at`) never change.
+- **Outputs:** every day-scoped read returns the `timezone` it used and the
+  `date` it used (the requested date for `get_day`, the local "today" anchor
+  for windowed tools). `log_meal` reports `timezone` + `date` only when
+  `eaten_at` was omitted and the server stamped "now".
+- Agents should pass the user's IANA timezone (e.g. `Asia/Bangkok`) derived
+  from the conversation, and echo the returned local date when telling the
+  user which day something was logged to.
+
 ## Principles for the agent
 
 - **Don't invent precise macros you can't get.** Use `search_food` to pull exact
@@ -329,7 +369,8 @@ weight logs, or the profile.
 - **One uploaded photo = one `log_meal`** with one or more `items[]`.
 - **Never log twice.** If a same-sitting item was omitted, v0.1 has no
   add-item operation: with confirmation, call `delete_meal_log` once, then call
-  `get_day` for the original UTC date and re-log the full item list only after
+  `get_day` for the original meal's local date (pass the user's timezone when
+  it is not stored) and re-log the full item list only after
   its original `meal_log_id` is absent. If the meal remains or state is
   unknown, stop without retrying or creating a replacement. Log a genuinely
   separate meal separately.

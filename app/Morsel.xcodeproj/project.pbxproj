@@ -28,6 +28,7 @@
 		3AB7A4D90A481F7A35DA8DE7 /* HealthLogStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6542DED0DFE7D06D4FABC37C /* HealthLogStores.swift */; };
 		417A993BFBF27EF58E595E95 /* OFL-IBMPlexMono.txt in Resources */ = {isa = PBXBuildFile; fileRef = A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */; };
 		43C6EDC40A82F8FB59B82FC7 /* OutboxModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24183754C742E858CBA90765 /* OutboxModels.swift */; };
+		45498E2592A5314C86492140 /* LocalDayBucketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */; };
 		46D8D3FBE6EFB11D522B3554 /* HealthSyncCopyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */; };
 		474515288390A81C4A1198B2 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B945E15B916830A85CE5BA3 /* AuthView.swift */; };
 		4B37AB377BEEF5A694BAE7DB /* LocalHealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213B1C3D472C5403A5040BBF /* LocalHealthStore.swift */; };
@@ -43,6 +44,7 @@
 		66CAE95E31704E6E872405DF /* GoalsDirectionProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17910B2CF40361EC1AA86DCF /* GoalsDirectionProfileTests.swift */; };
 		690F6D99875E901FC2892BB2 /* LocalSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB6CF79A74AAB20CEAD21D /* LocalSyncEngine.swift */; };
 		6CE9D9C0555E3EE81082C97B /* OFL-EBGaramond.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5ADF8174D7F6ECB1F6728B8F /* OFL-EBGaramond.txt */; };
+		70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */; };
 		717B6F156C65B37544D9BD78 /* AppearanceThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5AF693EC63884B471C1E35 /* AppearanceThemeTests.swift */; };
 		71A41B9518BD81078A6E61DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603058D2235FEAF8B5DA6463 /* SettingsView.swift */; };
 		775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */; };
@@ -73,8 +75,10 @@
 		E21C0933FC878BBC6848790B /* HealthTruthfulnessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */; };
 		E360E68E0659649BD03B6808 /* GoalsMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63469BF92FA1DB3755CD6795 /* GoalsMath.swift */; };
 		E8097E3FDEB8350477C78A21 /* LocalFirstRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A372A98AF1458720106781 /* LocalFirstRepository.swift */; };
+		E9E9038C79E81AEC9E1AAB3B /* LocalDayMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053F0099A7042AE48E5E37C8 /* LocalDayMigrationTests.swift */; };
 		EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */; };
 		EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */; };
+		ECEAFC049273F676964551E9 /* LocalDayMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8833C18902B690FB43EC8CA /* LocalDayMigration.swift */; };
 		EE9ABF0FBF5AF86E17E29C63 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C1508E0A84C6910048A9A9 /* HistoryView.swift */; };
 		EFADB9757DE22C7C88F697FB /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9507E44AD8780775C30E2891 /* PreviewData.swift */; };
 		F33D5341291D488663F545DC /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212A00520565B422FCE6413D /* SessionStore.swift */; };
@@ -100,6 +104,7 @@
 /* Begin PBXFileReference section */
 		02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalNavigation.swift; sourceTree = "<group>"; };
 		0411F1BBD3F7D5889E508D3B /* MorselStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselStamp.swift; sourceTree = "<group>"; };
+		053F0099A7042AE48E5E37C8 /* LocalDayMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayMigrationTests.swift; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
 		1096DD7210666ACB8358567E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 		212A00520565B422FCE6413D /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		213B1C3D472C5403A5040BBF /* LocalHealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalHealthStore.swift; sourceTree = "<group>"; };
 		24183754C742E858CBA90765 /* OutboxModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutboxModels.swift; sourceTree = "<group>"; };
+		258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTimezoneSync.swift; sourceTree = "<group>"; };
 		286A280A2BE33C0B5B677035 /* MealRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealRepository.swift; sourceTree = "<group>"; };
 		300178E9A1C65132F9460803 /* MorselApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselApp.swift; sourceTree = "<group>"; };
 		315E731961ED8D1653921F25 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
@@ -151,6 +157,7 @@
 		9507E44AD8780775C30E2891 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		98E8B5270DDA7AA045CA6901 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalHealthStore+SQLite.swift"; sourceTree = "<group>"; };
+		9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayBucketTests.swift; sourceTree = "<group>"; };
 		A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBMPlexMono.txt"; sourceTree = "<group>"; };
 		A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFollowUpTests.swift; sourceTree = "<group>"; };
 		AAAFD201F11087454DD4DD63 /* GoalsEditorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorModel.swift; sourceTree = "<group>"; };
@@ -166,6 +173,7 @@
 		D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemEditSheet.swift; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPageTurner.swift; sourceTree = "<group>"; };
+		D8833C18902B690FB43EC8CA /* LocalDayMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayMigration.swift; sourceTree = "<group>"; };
 		DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealMutations.swift; sourceTree = "<group>"; };
 		E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFocus.swift; sourceTree = "<group>"; };
 		E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReliabilityServices.swift; sourceTree = "<group>"; };
@@ -233,6 +241,7 @@
 				87A0D70887CCCCA564A9B7CC /* Auth.swift */,
 				8B945E15B916830A85CE5BA3 /* AuthView.swift */,
 				4F9E6261C91086065F01D569 /* DesignSystem.swift */,
+				258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */,
 				894368A6A65AC2A0C36A007B /* GoalPageContext.swift */,
 				7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */,
 				AAAFD201F11087454DD4DD63 /* GoalsEditorModel.swift */,
@@ -251,6 +260,7 @@
 				9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */,
 				6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */,
 				F1A60B7FF64919D4B155EAB4 /* LocalDataStore+SQLite.swift */,
+				D8833C18902B690FB43EC8CA /* LocalDayMigration.swift */,
 				F4A372A98AF1458720106781 /* LocalFirstRepository.swift */,
 				213B1C3D472C5403A5040BBF /* LocalHealthStore.swift */,
 				994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */,
@@ -316,6 +326,8 @@
 				08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */,
 				A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */,
 				473CFD249CD566AE38553B80 /* JournalSemanticsTests.swift */,
+				9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */,
+				053F0099A7042AE48E5E37C8 /* LocalDayMigrationTests.swift */,
 				39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */,
 				83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */,
 				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
@@ -428,6 +440,7 @@
 				86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */,
 				474515288390A81C4A1198B2 /* AuthView.swift in Sources */,
 				B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */,
+				70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */,
 				026DD14633A14EFD8CB2297B /* GoalPageContext.swift in Sources */,
 				775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */,
 				00CF6ED133C784FEE60127E9 /* GoalsEditorModel.swift in Sources */,
@@ -446,6 +459,7 @@
 				3872B517C57088FC4B4115C7 /* JournalUI.swift in Sources */,
 				BC3FF50B5B6927FE9F7AC191 /* LocalDataStore+SQLite.swift in Sources */,
 				AAD9BFE2CD0C8D62634CB61B /* LocalDataStore.swift in Sources */,
+				ECEAFC049273F676964551E9 /* LocalDayMigration.swift in Sources */,
 				E8097E3FDEB8350477C78A21 /* LocalFirstRepository.swift in Sources */,
 				C33AE13BB3FA48B1FBDF0D77 /* LocalHealthStore+SQLite.swift in Sources */,
 				4B37AB377BEEF5A694BAE7DB /* LocalHealthStore.swift in Sources */,
@@ -494,6 +508,8 @@
 				E21C0933FC878BBC6848790B /* HealthTruthfulnessTests.swift in Sources */,
 				F5915D64A275682E08A53926 /* JournalFollowUpTests.swift in Sources */,
 				5E355D8D3B6E8290B71653F5 /* JournalSemanticsTests.swift in Sources */,
+				45498E2592A5314C86492140 /* LocalDayBucketTests.swift in Sources */,
+				E9E9038C79E81AEC9E1AAB3B /* LocalDayMigrationTests.swift in Sources */,
 				E02C55BAF861D17DE2CDF79E /* LocalStoreTests.swift in Sources */,
 				E0564A1C9E8F58E3B89EBFC8 /* MealCaptureTests.swift in Sources */,
 				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,

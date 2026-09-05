@@ -54,6 +54,11 @@ export interface MorselRepository {
   resetGoals(userId: string): Promise<void>
   updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean>
   deleteMealLog(userId: string, mealLogId: string): Promise<boolean>
-  getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]>
-  getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]>
+  /**
+   * Weight/energy series over instants in [start, end). `timeZone` is the
+   * IANA zone whose local calendar days the returned point dates are
+   * bucketed into (issue #121).
+   */
+  getWeightTrend(userId: string, start: string, end: string, timeZone: string): Promise<WeightTrendPoint[]>
+  getEnergyBurned(userId: string, start: string, end: string, timeZone: string): Promise<EnergyBurnedPoint[]>
 }
