@@ -36,10 +36,13 @@ struct SignInView: View {
                             .foregroundStyle(Color.morselInkTwo)
                     }
 
+                    // Issue #125: SignInWithAppleButton is a UIKit-hosted
+                    // ASAuthorizationAppleIDButton — no resign-tap gesture here
+                    // (a SwiftUI simultaneousGesture on it swallowed the button
+                    // tap). Keyboard dismissal runs in configureApple instead.
                     SignInWithAppleButton(.signIn, onRequest: configureApple, onCompletion: completeApple)
                         .frame(height: 40)
                         .disabled(isWorking)
-                        .morselResignsKeyboardOnTap()
 
                     HStack(spacing: 12) {
                         Rectangle()
@@ -133,6 +136,10 @@ struct SignInView: View {
     }
 
     private func configureApple(_ request: ASAuthorizationAppleIDRequest) {
+        // Issue #125: resign here (the onRequest phase) instead of via
+        // .morselResignsKeyboardOnTap() on the UIKit-hosted button — the
+        // gesture swallowed its tap; dismissal intent (#105 AC6) survives.
+        JournalKeyboardDismisser.resign()
         request.requestedScopes = [.email, .fullName]
         let nonce = AppleNonce.random()
         appleNonce = nonce

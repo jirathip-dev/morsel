@@ -6,6 +6,16 @@ enum GoalDirection: String, CaseIterable, Sendable {
     case maintain
     case bulk
 
+    /// Issue #123 — the phase a profile diet goal implies
+    /// (lose→cut / maintain→maintain / gain→bulk).
+    init(profileDietGoal: ProfileDietGoal) {
+        switch profileDietGoal {
+        case .lose: self = .cut
+        case .maintain: self = .maintain
+        case .gain: self = .bulk
+        }
+    }
+
     var title: String {
         switch self {
         case .cut: "Cut"
@@ -56,76 +66,91 @@ struct GoalsView: View {
                     .font(.morselBody)
                     .foregroundStyle(Color.morselInkTwo)
                 directions
-                Text("Your target").morselSectionLabel()
-                if let supersededNote = viewModel.supersededNote {
-                    // Issue #113: calm one-line note when the profile update
-                    // superseded an older manual goal.
-                    Text(supersededNote)
-                        .font(.morselBody)
-                        .foregroundStyle(Color.morselInkTwo)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                GoalJournalField(
-                    label: "Calories",
-                    unit: "kcal",
-                    value: $viewModel.calories,
-                    focus: $focusedField,
-                    key: .calories,
-                    source: viewModel.sources["calories"],
-                    error: viewModel.fieldError("calories"),
-                    prominent: true
-                ) { viewModel.edit("calories", value: $0) }
-                HStack(alignment: .top, spacing: 14) {
-                    GoalJournalField(label: "Protein", unit: "g", value: $viewModel.protein, focus: $focusedField, key: .protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
-                    GoalJournalField(label: "Carbs", unit: "g", value: $viewModel.carbs, focus: $focusedField, key: .carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
-                    GoalJournalField(label: "Fat", unit: "g", value: $viewModel.fat, focus: $focusedField, key: .fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
-                }
-                if let profileLine = viewModel.profileLine {
-                    // Issue #113 amendment B: read-only profile provenance line.
-                    Text(profileLine)
-                        .font(.morselFootnote)
-                        .foregroundStyle(Color.morselInkTwo)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                if !viewModel.isValid {
-                    Text("One more pass…")
-                        .foregroundStyle(Color.morselOver)
-                        .font(.morselBody)
-                }
-                if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(Color.morselOver)
-                        .font(.morselBody)
-                }
-                if viewModel.didSave {
-                    Text("Goals saved ✓")
-                        .foregroundStyle(Color.morselForest)
-                        .font(.morselBodyStrong)
-                }
-                Button(viewModel.didSave ? "Goals saved ✓" : "Use these goals") {
-                    JournalKeyboardDismisser.resign()
-                    Task { await viewModel.save() }
-                }
-                .buttonStyle(MorselPrimaryButtonStyle())
-                .frame(maxWidth: .infinity)
-                .disabled(!viewModel.isValid || viewModel.isSaving)
-                Text("What changes").morselSectionLabel()
-                Text(viewModel.whatChangesText)
-                    .font(.morselBody)
-                    .foregroundStyle(Color.morselInkTwo)
-                Button {
-                    viewModel.seeToday()
-                } label: {
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("See it")
-                            .font(.morselFootnote)
-                            .foregroundStyle(Color.morselForest)
-                        MarkerStroke(color: Color.morselForest, width: 40, height: 2)
+                if viewModel.isAwaitingFirstGoal {
+                    // Issue #123 — very first load with no cached row yet:
+                    // a calm loading state instead of empty inputs and
+                    // per-field validation.
+                    HStack(spacing: 10) {
+                        ProgressView()
+                            .tint(Color.morselAccent)
+                        Text("Opening your goals…")
+                            .font(.morselBody)
+                            .foregroundStyle(Color.morselInkTwo)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 8)
+                } else {
+                    Text("Your target").morselSectionLabel()
+                    if let supersededNote = viewModel.supersededNote {
+                        // Issue #113: calm one-line note when the profile update
+                        // superseded an older manual goal.
+                        Text(supersededNote)
+                            .font(.morselBody)
+                            .foregroundStyle(Color.morselInkTwo)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    GoalJournalField(
+                        label: "Calories",
+                        unit: "kcal",
+                        value: $viewModel.calories,
+                        focus: $focusedField,
+                        key: .calories,
+                        source: viewModel.sources["calories"],
+                        error: viewModel.fieldError("calories"),
+                        prominent: true
+                    ) { viewModel.edit("calories", value: $0) }
+                    HStack(alignment: .top, spacing: 14) {
+                        GoalJournalField(label: "Protein", unit: "g", value: $viewModel.protein, focus: $focusedField, key: .protein, source: viewModel.sources["protein"], error: viewModel.fieldError("protein")) { viewModel.edit("protein", value: $0) }
+                        GoalJournalField(label: "Carbs", unit: "g", value: $viewModel.carbs, focus: $focusedField, key: .carbs, source: viewModel.sources["carbs"], error: viewModel.fieldError("carbs")) { viewModel.edit("carbs", value: $0) }
+                        GoalJournalField(label: "Fat", unit: "g", value: $viewModel.fat, focus: $focusedField, key: .fat, source: viewModel.sources["fat"], error: viewModel.fieldError("fat")) { viewModel.edit("fat", value: $0) }
+                    }
+                    if let profileLine = viewModel.profileLine {
+                        // Issue #113 amendment B: read-only profile provenance line.
+                        Text(profileLine)
+                            .font(.morselFootnote)
+                            .foregroundStyle(Color.morselInkTwo)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    if !viewModel.isValid {
+                        Text("One more pass…")
+                            .foregroundStyle(Color.morselOver)
+                            .font(.morselBody)
+                    }
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundStyle(Color.morselOver)
+                            .font(.morselBody)
+                    }
+                    if viewModel.didSave {
+                        Text("Goals saved ✓")
+                            .foregroundStyle(Color.morselForest)
+                            .font(.morselBodyStrong)
+                    }
+                    Button(viewModel.didSave ? "Goals saved ✓" : "Use these goals") {
+                        JournalKeyboardDismisser.resign()
+                        Task { await viewModel.save() }
+                    }
+                    .buttonStyle(MorselPrimaryButtonStyle())
+                    .frame(maxWidth: .infinity)
+                    .disabled(!viewModel.isValid || viewModel.isSaving)
+                    Text("What changes").morselSectionLabel()
+                    Text(viewModel.whatChangesText)
+                        .font(.morselBody)
+                        .foregroundStyle(Color.morselInkTwo)
+                    Button {
+                        viewModel.seeToday()
+                    } label: {
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("See it")
+                                .font(.morselFootnote)
+                                .foregroundStyle(Color.morselForest)
+                            MarkerStroke(color: Color.morselForest, width: 40, height: 2)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                    .morselResignsKeyboardOnTap()
+                    .accessibilityLabel("See today's readout")
                 }
-                .buttonStyle(.plain)
-                .morselResignsKeyboardOnTap()
-                .accessibilityLabel("See today's readout")
             }
         }
         .morselNumericDoneBar(focused: $focusedField) { _ in .numbersAndPunctuation }
@@ -152,6 +177,12 @@ struct GoalsView: View {
     private var directions: some View {
         HStack(spacing: 6) {
             ForEach(GoalDirection.allCases, id: \.self) { direction in
+                let isFilled = viewModel.selectedDirection == direction
+                // Issue #123 — when a manual goal is effective nothing is
+                // filled; the phase the profile diet goal implies renders as
+                // this lighter "profile" hint chip instead.
+                let isProfileHint = viewModel.selectedDirection == nil
+                    && viewModel.profileDirection == direction
                 Button {
                     Task { await viewModel.choose(direction) }
                 } label: {
@@ -159,12 +190,14 @@ struct GoalsView: View {
                         Text(direction.title)
                             .font(Font.morselHand(size: 20))
                             .foregroundStyle(
-                                viewModel.selectedDirection == direction ? Color.morselForest : Color.morselInk
+                                isFilled ? Color.morselForest
+                                    : isProfileHint ? Color.morselForest.opacity(0.45)
+                                    : Color.morselInk
                             )
                             .padding(.horizontal, 8)
                             .padding(.vertical, 2)
                             .background(
-                                viewModel.selectedDirection == direction
+                                isFilled
                                     ? Color.morselForest.opacity(0.14)
                                     : Color.clear,
                                 in: RoundedRectangle(cornerRadius: 6)
@@ -178,7 +211,7 @@ struct GoalsView: View {
                 }
                 .buttonStyle(.plain)
                 .morselResignsKeyboardOnTap()
-                .accessibilityAddTraits(viewModel.selectedDirection == direction ? .isSelected : [])
+                .accessibilityAddTraits(isFilled ? .isSelected : [])
             }
         }
     }

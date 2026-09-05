@@ -26,7 +26,7 @@ function liveLike() {
     smtp_host: "smtp.resend.com",
     smtp_port: 465,
     smtp_user: "resend",
-    smtp_admin_email: "onboarding@resend.dev",
+    smtp_admin_email: "sign-in@morselfood.app",
     smtp_sender_name: "Morsel",
     mailer_otp_length: 6,
     rate_limit_email_sent: 30,
@@ -42,11 +42,29 @@ describe("infra/supabase/config.json (canonical config-as-code)", () => {
     expect(CANONICAL.pinned.smtp_host).toBe("smtp.resend.com");
     expect(CANONICAL.pinned.smtp_port).toBe(465);
     expect(CANONICAL.pinned.smtp_user).toBe("resend");
-    expect(CANONICAL.pinned.smtp_admin_email).toBe("onboarding@resend.dev");
+    expect(CANONICAL.pinned.smtp_admin_email).toBe("sign-in@morselfood.app");
     expect(CANONICAL.pinned.smtp_sender_name).toBe("Morsel");
     expect(CANONICAL.pinned.mailer_otp_length).toBe(6);
     expect(CANONICAL.pinned.rate_limit_email_sent).toBe(30);
     expect(CANONICAL.pinned.mailer_subjects_magic_link).toBe("Your Morsel sign-in code");
+  });
+
+  it("never re-pins a Resend sandbox sender (issue #126 regression guard)", () => {
+    expect(CANONICAL.pinned.smtp_admin_email).not.toMatch(/@resend\.dev$/);
+    expect(CANONICAL.pinned.smtp_admin_email).toBe("sign-in@morselfood.app");
+  });
+
+  it("drift check flags a live sandbox sender against the verified-domain pin (issue #126)", () => {
+    const canonical = {
+      pinned: { ...CANONICAL.pinned },
+      templateInvariant: CANONICAL.templateInvariant,
+    };
+    const live = {
+      ...CANONICAL.pinned,
+      smtp_admin_email: "onboarding@resend.dev",
+    };
+    const entries = driftEntries(canonical, live);
+    expect(entries.some((e) => e.includes("smtp_admin_email"))).toBe(true);
   });
 
   it("pins the magic-link template invariant to {{ .Token }}", () => {

@@ -18,6 +18,11 @@ final class GoalsEditorViewModel: ObservableObject {
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var selectedDirection: GoalDirection?
+    /// Issue #123 — the phase the profile diet goal implies
+    /// (lose→cut / maintain→maintain / gain→bulk). While a manual goal is
+    /// effective no chip is filled; this lighter "profile" chip tells which
+    /// phase the numbers belong to. Nil without a profile row.
+    @Published private(set) var profileDirection: GoalDirection?
     @Published private(set) var didSave = false
     @Published private(set) var todayCalories = 0.0
     @Published private(set) var supersededNote: String?
@@ -31,6 +36,10 @@ final class GoalsEditorViewModel: ObservableObject {
     private let userID: UUID
     private let onSaved: () async -> Void
     private let onSeeToday: () -> Void
+    /// Issue #123 — fields the user has edited (even to empty). A pristine
+    /// empty field is the pre-load state, not an error: validation appears
+    /// once the field is edited or carries an invalid value.
+    private var editedFields: Set<String> = []
 
     init(
         repository: any DashboardRepository,
@@ -55,6 +64,13 @@ final class GoalsEditorViewModel: ObservableObject {
         "writes source: \(sources.values.contains(.manual) ? "manual" : "computed")"
     }
 
+    /// Issue #123 — the very first paint has not arrived yet (no cached row
+    /// and the remote load is still in flight): the view shows a calm
+    /// loading state instead of empty fields and validation.
+    var isAwaitingFirstGoal: Bool {
+        isLoading && goal == nil
+    }
+
     static func calorieConsequence(goal: Double, eaten: Double) -> String {
         let remaining = goal - eaten
         return remaining >= 0
@@ -71,6 +87,15 @@ final class GoalsEditorViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
+        // Issue #123 — local-first first paint: the cached stored goal row
+        // (last known remote snapshot) paints immediately so the page never
+        // opens as empty fields with validation errors while the remote
+        // round-trip is in flight. The remote refresh below reconciles.
+        if let cached = try? await repository.cachedGoals(userID: userID) {
+            apply(GoalsPageContext(
+                stored: cached, profile: nil, latestWeight: nil, profileRowRead: false
+            ))
+        }
         do {
             let today = try await repository.loadToday(userID: userID, date: Date())
             todayCalories = DashboardMath.totals(for: today.meals).caloriesKcal
@@ -90,6 +115,7 @@ final class GoalsEditorViewModel: ObservableObject {
         supersededNote = GoalsPageCopy.supersededLine(
             stored: context.stored, profile: context.profile
         )
+        profileDirection = context.profile.map { GoalDirection(profileDietGoal: $0.dietGoal) }
         guard let stored = context.stored else { return }
         guard let effective = DashboardMath.effectiveGoal(
             stored: stored,
@@ -112,9 +138,22 @@ final class GoalsEditorViewModel: ObservableObject {
                 ),
                 source: stored.source
             )
+            selectedDirection = nil
             return
         }
         apply(effective, source: effective.source)
+        // Issue #123 — the filled chip is derived, not tap-only: a computed
+        // effective goal fills the chip matching the profile diet goal
+        // (lose→cut / maintain→maintain / gain→bulk). A current manual goal
+        // fills nothing — its numbers are typed, not chosen — and the
+        // profileDirection chip renders as the lighter hint instead.
+        if effective.source == .manual {
+            selectedDirection = nil
+        } else if let profile = context.profile {
+            selectedDirection = GoalDirection(profileDietGoal: profile.dietGoal)
+        } else {
+            selectedDirection = nil
+        }
     }
 
     func choose(_ direction: GoalDirection) async {
@@ -137,6 +176,7 @@ final class GoalsEditorViewModel: ObservableObject {
         case "fat": fat = value
         default: return
         }
+        editedFields.insert(field)
         sources[field] = .manual
         didSave = false
         supersededNote = nil
@@ -150,6 +190,12 @@ final class GoalsEditorViewModel: ObservableObject {
         case "carbs": value = carbs
         case "fat": value = fat
         default: return nil
+        }
+        // Issue #123 — a pristine empty field is the pre-load state, not an
+        // error: validation appears once the user edits the field (even to
+        // empty) or the field carries an invalid value.
+        if value.isEmpty && !editedFields.contains(field) {
+            return nil
         }
         guard let number = Double(value), number.isFinite, number >= 0 else {
             return "Enter a number of 0 or more."
