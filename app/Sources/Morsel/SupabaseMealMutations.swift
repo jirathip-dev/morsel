@@ -6,7 +6,7 @@ extension SupabaseDashboardRepository {
         guard let client else { throw MorselError.configurationMissing }
         let authenticatedUserID = try await requireSession(client, userID: userID)
         let rows: [GoalResponse] = try await client.from("goals")
-            .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source")
+            .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at")
             .eq("user_id", value: authenticatedUserID.uuidString)
             .limit(1).execute().value
         return try rows.first.map(parseStoredGoal)
@@ -93,7 +93,7 @@ extension SupabaseDashboardRepository {
         guard let client else { throw MorselError.configurationMissing }
         let authenticatedUserID = try await requireSession(client, userID: userID)
         let rows: [ProfileResponse] = try await client.from("profiles")
-            .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg")
+            .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at")
             .eq("user_id", value: authenticatedUserID.uuidString).limit(1).execute().value
         return try rows.first.map(parseProfile)
     }

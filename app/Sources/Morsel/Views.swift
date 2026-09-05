@@ -206,11 +206,15 @@ private struct JournalHeroView: View {
                 )
             }
 
-            if viewModel.snapshot?.activeEnergyBurned ?? 0 > 0 {
+            if let margin = ActiveEnergyMarginNote.line(
+                totalKcal: viewModel.snapshot?.activeEnergyBurned ?? 0,
+                lastImport: viewModel.lastHealthImportDate
+            ) {
                 // V1 locked semantics: activity is a margin note; it never
-                // feeds the eaten readout.
+                // feeds the eaten readout (issue #113 C adds the Apple Health
+                // source + last-import time to the same note).
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("moved \(MorselFormat.number(viewModel.snapshot?.activeEnergyBurned)) kcal today")
+                    Text(margin)
                         .font(.morselFootnote)
                         .foregroundStyle(Color.morselInkTwo)
                     MarkerStroke(color: Color.morselInkLine.opacity(0.8), width: 150, height: 2)

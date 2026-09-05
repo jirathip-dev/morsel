@@ -54,6 +54,14 @@ final class DashboardViewModel: ObservableObject {
         DashboardMath.totals(for: snapshot?.meals ?? [])
     }
 
+    /// Issue #113 amendment C — the SAME #112 calm-status stamp that feeds
+    /// `healthStatus` drives the margin note's time (never a second clock).
+    /// Nil when no Apple Health upload has ever succeeded locally.
+    var lastHealthImportDate: Date? {
+        guard let healthStore else { return nil }
+        return try? healthStore.lastSuccessfulUpload()
+    }
+
     var mealGroups: [MealGroup] {
         guard let meals = snapshot?.meals else {
             return []

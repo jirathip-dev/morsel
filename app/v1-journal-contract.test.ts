@@ -19,6 +19,7 @@ const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8'
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
 const appearance = read('app/Sources/Morsel/MorselAppearance.swift')
 const views = read('app/Sources/Morsel/Views.swift')
+const marginNote = read('app/Sources/Morsel/MorselStamp.swift')
 const todayLogViews = read('app/Sources/Morsel/TodayLogViews.swift')
 const journalUI = read('app/Sources/Morsel/JournalUI.swift')
 const history = read('app/Sources/Morsel/HistoryView.swift')
@@ -128,11 +129,16 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
 
   it('shows the activity margin note that is never an operand', () => {
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
-    expect(hero).toMatch(/moved\b[\s\S]{0,120}?\bkcal today/)
+    // Issue #113 C: the hero renders the note through the shared builder
+    // (moved X kcal [· Apple Health · HH:mm from the #112 stamp]).
+    expect(hero).toMatch(/ActiveEnergyMarginNote\.line\(/)
+    expect(hero).toContain('lastImport: viewModel.lastHealthImportDate')
+    expect(marginNote).toMatch(/moved\b[\s\S]{0,80}?\bkcal/)
+    expect(marginNote, 'the margin note must never be subtracted').not.toMatch(/subtract|minus|intake/i)
     expect(hero, 'the hero must render left/over words against the goal').toMatch(/kcal left/)
     expect(hero).toMatch(/kcal over/)
     expect(hero).toContain('activeEnergyBurned')
-    expect(hero, 'the margin note must never be subtracted').not.toMatch(/subtract|minus|intake/i)
+    expect(hero, 'the hero must never compose the margin copy inline').not.toMatch(/kcal today/)
   })
 
   it('keeps the one-delta math: eaten minus goal with the ±50 state words', () => {

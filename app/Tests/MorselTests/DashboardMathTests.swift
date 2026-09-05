@@ -124,6 +124,140 @@ final class DashboardMathTests: XCTestCase {
         XCTAssertNil(DashboardMath.effectiveGoal(stored: nil, profile: nil))
     }
 
+    // MARK: - Issue #113 recency mirror + latest-weight computed path
+
+    private func date(_ year: Int, _ month: Int, _ day: Int, _ hour: Int) -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone.current
+        return calendar.date(
+            from: DateComponents(year: year, month: month, day: day, hour: hour)
+        ) ?? Date(timeIntervalSince1970: 0)
+    }
+
+    private func profile(
+        weightKg: Double,
+        activity: ProfileActivityLevel = .moderate,
+        diet: ProfileDietGoal = .maintain,
+        updatedAt: Date?
+    ) -> DashboardProfile {
+        DashboardProfile(
+            sex: .male, ageYears: 30, heightCm: 180, weightKg: weightKg,
+            activityLevel: activity, dietGoal: diet, goalWeightKg: nil,
+            updatedAt: updatedAt
+        )
+    }
+
+    func testManualGoalStaysCurrentWhenWrittenAfterProfile() {
+        let stored = StoredDashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70,
+            source: .manual, updatedAt: date(2026, 9, 5, 9)
+        )
+        let profile = self.profile(weightKg: 80, updatedAt: date(2026, 9, 5, 7))
+
+        let goal = DashboardMath.effectiveGoal(stored: stored, profile: profile)
+
+        XCTAssertEqual(
+            goal,
+            DashboardGoal(calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .manual)
+        )
+    }
+
+    func testStaleManualGoalIsSupersededByNewerProfile() {
+        let stored = StoredDashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: 100, carbsG: 0, fatG: 0,
+            source: .manual, updatedAt: date(2026, 9, 5, 7)
+        )
+        let profile = self.profile(weightKg: 80, updatedAt: date(2026, 9, 5, 9))
+
+        let goal = DashboardMath.effectiveGoal(stored: stored, profile: profile)
+
+        XCTAssertEqual(
+            goal,
+            DashboardMath.computedGoal(for: profile, latestWeightKg: nil)
+        )
+        XCTAssertEqual(goal?.source, .computed)
+        XCTAssertEqual(
+            DashboardMath.supersededManual(stored: stored, profile: profile),
+            SupersededManualGoal(
+                calorieTargetKcal: 2_000, proteinG: 100, carbsG: 0, fatG: 0,
+                updatedAt: date(2026, 9, 5, 7)
+            )
+        )
+    }
+
+    func testMissingManualWriteTimeComputesEvenWhenProfileAlsoLacksOne() {
+        // Server parity (service.ts resolveEffectiveGoal): manualIsCurrent
+        // requires stored.updated_at to EXIST — when it is undefined the
+        // manual cannot prove it is newer, so computed wins (the DB stamps
+        // updated_at NOT NULL; this only occurs on legacy/cached rows).
+        let stored = StoredDashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .manual
+        )
+        let profile = self.profile(weightKg: 80, updatedAt: nil)
+
+        let goal = DashboardMath.effectiveGoal(stored: stored, profile: profile)
+
+        XCTAssertEqual(goal?.source, .computed)
+        XCTAssertEqual(goal?.calorieTargetKcal, DashboardMath.computedGoal(for: profile).calorieTargetKcal)
+    }
+
+    func testStaleManualWithoutWriteTimeComputesWhenProfileIsNewer() {
+        let stored = StoredDashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: 100, carbsG: 0, fatG: 0, source: .manual
+        )
+        let profile = self.profile(weightKg: 80, updatedAt: date(2026, 9, 5, 9))
+
+        let goal = DashboardMath.effectiveGoal(stored: stored, profile: profile)
+
+        XCTAssertEqual(goal?.source, .computed)
+        XCTAssertNil(DashboardMath.supersededManual(stored: stored, profile: profile))
+    }
+
+    func testPartialManualGoalIsNotReportedAsSuperseded() {
+        let partial = StoredDashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: nil, carbsG: nil, fatG: nil,
+            source: .manual, updatedAt: date(2026, 9, 5, 7)
+        )
+        let profile = self.profile(weightKg: 80, updatedAt: date(2026, 9, 5, 9))
+
+        XCTAssertNil(DashboardMath.supersededManual(stored: partial, profile: profile))
+        XCTAssertEqual(
+            DashboardMath.effectiveGoal(stored: partial, profile: profile)?.source,
+            .computed
+        )
+    }
+
+    func testLatestSyncedWeightFeedsComputedPath() {
+        // Amendment A: profile 63 kg + newer Health sample 61.5 kg -> the
+        // computed target uses 61.5 on BOTH sides (app mirror == the server
+        // compute_targets weight_used contract).
+        let profile63 = self.profile(weightKg: 63, updatedAt: date(2026, 9, 5, 9))
+        let profile615 = self.profile(weightKg: 61.5, updatedAt: date(2026, 9, 5, 9))
+
+        let fromSample = DashboardMath.computedGoal(for: profile63, latestWeightKg: 61.5)
+        let fromTyped615 = DashboardMath.computedGoal(for: profile615)
+
+        XCTAssertEqual(fromSample, fromTyped615)
+        XCTAssertNotEqual(
+            fromSample,
+            DashboardMath.computedGoal(for: profile63, latestWeightKg: nil),
+            "the newer Health sample must override the typed 63 kg profile weight"
+        )
+    }
+
+    func testComputedGoalFallsBackToProfileWeightWithoutSample() {
+        let profile63 = self.profile(weightKg: 63, updatedAt: nil)
+
+        XCTAssertEqual(
+            DashboardMath.computedGoal(for: profile63, latestWeightKg: nil),
+            DashboardMath.computedGoal(for: profile63)
+        )
+        XCTAssertEqual(
+            DashboardMath.effectiveGoal(stored: nil, profile: profile63, latestWeightKg: nil),
+            DashboardMath.computedGoal(for: profile63)
+        )
+    }
+
     func testAppleNonceHashMatchesSupabaseAppleSignInRequirement() {
         XCTAssertEqual(
             AppleNonce.sha256("abc"),
