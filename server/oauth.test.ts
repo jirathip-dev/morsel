@@ -1421,11 +1421,17 @@ describe('email one-time-code authorization (issue #60)', () => {
     expect(location).not.toContain('supabase-refresh-token')
   })
 
-  it('contains no password flow, no logging, and neutral copy in the server sources', async () => {
+  it('contains no password flow, logs token-endpoint events only, and keeps app sources logging-free', async () => {
     const { readFileSync } = await import('node:fs')
     const source = readFileSync(new URL('./oauth.ts', import.meta.url), 'utf8')
     expect(source).not.toContain('signInWithPassword')
-    expect(source).not.toContain('console.')
+    // Issue #120 fix item 1: token-endpoint events are logged through the
+    // structured console.error/console.warn/console.debug lines — never
+    // console.log, and never token values (asserted at runtime in
+    // oauth-refresh.test.ts).
+    expect(source).toContain('oauth token endpoint failure')
+    expect(source).toContain('oauth token endpoint success')
+    expect(source).not.toContain('console.log(')
     expect(source).toContain('requestCode')
     expect(source).toContain('verifyCode')
     const appSource = readFileSync(new URL('./app.ts', import.meta.url), 'utf8')

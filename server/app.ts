@@ -273,6 +273,7 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
     signingKey: oauthOptions.signingKey ?? (() => environmentValue(['MORSEL_OAUTH_SIGNING_KEY'])),
     emailCodeRequests: oauthOptions.emailCodeRequests,
     now: oauthOptions.now,
+    refreshTokenReuseSeconds: oauthOptions.refreshTokenReuseSeconds,
   })
 
   const closeSession = (sessionId: string): void => {

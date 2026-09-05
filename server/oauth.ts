@@ -56,6 +56,11 @@ export interface MorselOAuthOptions {
   emailCodeRequests?: EmailCodeRequestPolicy
   /** Injectable clock (milliseconds since the epoch) for tests. */
   now?: () => number
+  /** Duplicate-refresh idempotency window in seconds (default: 10). A refresh
+   * with a token whose last refresh completed within this window is answered
+   * with the current session instead of hitting Supabase Auth again with the
+   * already-rotated token. 0 disables the window (issue #120). */
+  refreshTokenReuseSeconds?: number
 }
 
 interface OAuthRouteOptions {
@@ -67,6 +72,7 @@ interface OAuthRouteOptions {
   authorizationEndpoint?: OAuthConfigValue
   emailCodeRequests?: EmailCodeRequestPolicy
   now?: () => number
+  refreshTokenReuseSeconds?: number
 }
 
 interface OAuthAuthorizationRouteOptions extends OAuthRouteOptions {
@@ -124,6 +130,62 @@ interface OtpTransactionPayload {
 const OTP_CODE_SHAPE = /^[0-9]{6}$/
 const OTP_TRANSACTION_TTL_SECONDS = 10 * 60
 const DEFAULT_EMAIL_CODE_REQUEST_POLICY: EmailCodeRequestPolicy = { maxRequests: 5, windowSeconds: 600 }
+const DEFAULT_REFRESH_TOKEN_REUSE_SECONDS = 10
+
+// Issue #120: Supabase Auth rotates refresh tokens on every use. When a client
+// retries (lost response) or a second consumer refreshes with the same sealed
+// OAuth wrapper, the already-rotated inner token is dead upstream. The flight
+// guard makes the refresh grant idempotent per token: concurrent duplicates
+// share one upstream call, and a just-completed refresh is replayed for a
+// short window so the duplicate receives the CURRENT session instead of a 400.
+interface RefreshFlightGuard {
+  refreshOnce(key: string, refresh: () => Promise<OAuthUserSession>): Promise<OAuthUserSession>
+}
+
+interface RefreshFlightCacheEntry {
+  resolvedAt: number
+  session: OAuthUserSession
+}
+
+function createRefreshFlightGuard(reuseWindowMs: number, now: () => number): RefreshFlightGuard {
+  const inFlight = new Map<string, Promise<OAuthUserSession>>()
+  const recent = new Map<string, RefreshFlightCacheEntry>()
+  const sweep = (current: number): void => {
+    if (recent.size <= 10_000) {
+      return
+    }
+    for (const [key, entry] of recent) {
+      if (current - entry.resolvedAt >= reuseWindowMs) {
+        recent.delete(key)
+      }
+    }
+  }
+  return {
+    async refreshOnce(key, refresh) {
+      const cached = recent.get(key)
+      if (cached !== undefined && now() - cached.resolvedAt < reuseWindowMs) {
+        return cached.session
+      }
+      if (cached !== undefined) {
+        recent.delete(key)
+      }
+      const pending = inFlight.get(key)
+      if (pending !== undefined) {
+        return await pending
+      }
+      const attempt = refresh()
+      inFlight.set(key, attempt)
+      try {
+        const session = await attempt
+        sweep(now())
+        recent.set(key, { resolvedAt: now(), session })
+        return session
+      } finally {
+        inFlight.delete(key)
+      }
+    },
+  }
+}
 
 class OAuthProtocolError extends Error {
   readonly errorCode: string
@@ -303,6 +365,54 @@ function oauthErrorResponse(error: unknown): Response {
     ...(protocolError.errorCode === 'invalid_client' ? { 'www-authenticate': 'Basic realm="oauth"' } : {}),
   }
   return oauthResponse({ error: protocolError.errorCode, error_description: protocolError.message }, protocolError.status, headers)
+}
+
+// Issue #120: token-endpoint failures were invisible in production logs. Every
+// failure on /token logs ONE structured JSON line — grant type, OAuth error
+// code + description, the client fingerprint (first 8 chars of a SHA-256, never
+// the raw client id), and resource presence. Upstream Supabase Auth detail
+// rides inside error_description. Token values never appear in any payload.
+function protocolErrorFields(error: unknown): { code: string; description: string } {
+  if (error instanceof OAuthProtocolError) {
+    return { code: error.errorCode, description: error.message }
+  }
+  return { code: 'server_error', description: error instanceof Error ? error.message : 'unknown failure' }
+}
+
+async function clientFingerprint(clientId: string): Promise<string> {
+  return (await hashValue(clientId)).slice(0, 8)
+}
+
+async function logTokenEndpointFailure(
+  error: unknown,
+  grantType: string | null,
+  clientId: string | null,
+  resourcePresent: boolean,
+): Promise<void> {
+  const fields = protocolErrorFields(error)
+  const fingerprint = clientId === null ? null : await clientFingerprint(clientId)
+  console.error(`oauth token endpoint failure ${JSON.stringify({
+    grant_type: grantType,
+    error: fields.code,
+    error_description: fields.description,
+    client_id: fingerprint,
+    resource: resourcePresent,
+  })}`)
+}
+
+async function logTokenEndpointSuccess(grantType: string, clientId: string, resourcePresent: boolean): Promise<void> {
+  console.debug(`oauth token endpoint success ${JSON.stringify({
+    grant_type: grantType,
+    client_id: await clientFingerprint(clientId),
+    resource: resourcePresent,
+  })}`)
+}
+
+async function logRefreshClientRebound(previousClientId: string, clientId: string): Promise<void> {
+  console.warn(`oauth refresh token client rebound ${JSON.stringify({
+    previous_client_id: await clientFingerprint(previousClientId),
+    client_id: await clientFingerprint(clientId),
+  })}`)
 }
 
 // Browser-facing OAuth responses (Claude's connector flow fetches these from
@@ -783,6 +893,52 @@ function resourceMatches(requested: string | undefined, original: string | undef
   }
 }
 
+// RFC 8707 section 3: the client MAY omit the resource parameter on a refresh
+// even when the authorization request carried one (the refreshed token stays
+// bound to the originally authorized resource). Two explicit URLs must still
+// match exactly.
+function refreshResourceMatches(requested: string | undefined, original: string | undefined): boolean {
+  if (requested === undefined) {
+    return true
+  }
+  return resourceMatches(requested, original)
+}
+
+function sameClientRegistration(left: ClientRegistrationPayload, right: ClientRegistrationPayload): boolean {
+  return left.clientName === right.clientName
+    && left.redirectUris.length === right.redirectUris.length
+    && left.redirectUris.every((uri, index) => uri === right.redirectUris[index])
+}
+
+// Issue #120 fix item 4: the client_id inside a sealed refresh token is the
+// registration that MINTED it. When a client re-registers with IDENTICAL
+// metadata (same redirect_uris and client_name) after a token was sealed to
+// its earlier id, it is the same logical client: accept the refresh against
+// the presenting id (and re-seal the rotated wrapper to it) instead of killing
+// the whole session. Registration changes that alter redirect_uris or
+// client_name stay strictly invalid.
+async function resolveRefreshClient(
+  secret: string,
+  presentedClient: ClientRegistrationPayload,
+  sealedClientId: string,
+  presentedClientId: string,
+): Promise<string> {
+  if (sealedClientId === presentedClientId) {
+    return presentedClientId
+  }
+  let sealedClient: ClientRegistrationPayload
+  try {
+    sealedClient = await clientFromId(secret, sealedClientId)
+  } catch {
+    throw new OAuthProtocolError('invalid_grant', 'refresh token is invalid')
+  }
+  if (sameClientRegistration(sealedClient, presentedClient)) {
+    await logRefreshClientRebound(sealedClientId, presentedClientId)
+    return presentedClientId
+  }
+  throw new OAuthProtocolError('invalid_grant', 'refresh token is invalid')
+}
+
 async function tokenResponse(
   secret: string,
   session: OAuthUserSession,
@@ -998,28 +1154,31 @@ async function handleAuthorization(request: Request, options: OAuthAuthorization
   return await handleCodeVerification(request, authorization, secret, options)
 }
 
-async function handleToken(request: Request, options: OAuthRouteOptions): Promise<Response> {
-  const secret = resolveConfigValue(options.signingKey, 'MORSEL_OAUTH_SIGNING_KEY')
-  const params = await requestParameters(request)
-  const clientId = params.get('client_id')
-  if (clientId === null) {
-    return oauthErrorResponse(new OAuthProtocolError('invalid_client', 'client_id is required', 401))
-  }
+async function handleToken(
+  request: Request,
+  options: OAuthRouteOptions & { refreshFlightGuard: RefreshFlightGuard },
+): Promise<Response> {
+  let clientId: string | null = null
+  let grantType: string | null = null
+  let resourcePresent = false
   try {
-    await clientFromId(secret, clientId)
-  } catch (error) {
-    return oauthErrorResponse(error)
-  }
-  const grantType = params.get('grant_type')
-  if (grantType === 'authorization_code') {
-    const code = params.get('code')
-    const verifier = params.get('code_verifier')
-    if (code === null || verifier === null || verifier === '') {
-      return oauthErrorResponse(new OAuthProtocolError('invalid_request', 'code and code_verifier are required'))
+    const secret = resolveConfigValue(options.signingKey, 'MORSEL_OAUTH_SIGNING_KEY')
+    const params = await requestParameters(request)
+    grantType = params.get('grant_type')
+    clientId = params.get('client_id')
+    resourcePresent = params.get('resource') !== null
+    const resource = params.get('resource') ?? undefined
+    if (clientId === null) {
+      throw new OAuthProtocolError('invalid_client', 'client_id is required', 401)
     }
-    let payload: Record<string, unknown>
-    try {
-      payload = await openPayload(secret, code)
+    const client = await clientFromId(secret, clientId)
+    if (grantType === 'authorization_code') {
+      const code = params.get('code')
+      const verifier = params.get('code_verifier')
+      if (code === null || verifier === null || verifier === '') {
+        throw new OAuthProtocolError('invalid_request', 'code and code_verifier are required')
+      }
+      const payload = await openPayload(secret, code)
       ensureUnexpired(payload)
       if (payload.typ !== 'authorization_code' || payload.clientId !== clientId) {
         throw new OAuthProtocolError('invalid_grant', 'authorization code is invalid')
@@ -1036,7 +1195,6 @@ async function handleToken(request: Request, options: OAuthRouteOptions): Promis
       if (redirectUri === null || redirectUri !== grant.redirectUri) {
         throw new OAuthProtocolError('invalid_grant', 'redirect_uri does not match authorization request')
       }
-      const resource = params.get('resource') ?? undefined
       if (!resourceMatches(resource, grant.resource)) {
         throw new OAuthProtocolError('invalid_grant', 'resource does not match authorization request')
       }
@@ -1044,27 +1202,36 @@ async function handleToken(request: Request, options: OAuthRouteOptions): Promis
       if (session.userId !== grant.userId) {
         throw new OAuthProtocolError('invalid_grant', 'authorization code user does not match')
       }
-      return await tokenResponse(secret, session, clientId, grant.scopes, resource)
-    } catch (error) {
-      return oauthErrorResponse(error)
+      const response = await tokenResponse(secret, session, clientId, grant.scopes, resource)
+      await logTokenEndpointSuccess('authorization_code', clientId, resourcePresent)
+      return response
     }
-  }
-  if (grantType === 'refresh_token') {
-    const refreshToken = params.get('refresh_token')
-    if (refreshToken === null || refreshToken === '') {
-      return oauthErrorResponse(new OAuthProtocolError('invalid_request', 'refresh_token is required'))
-    }
-    try {
+    if (grantType === 'refresh_token') {
+      const refreshToken = params.get('refresh_token')
+      if (refreshToken === null || refreshToken === '') {
+        throw new OAuthProtocolError('invalid_request', 'refresh_token is required')
+      }
       const payload = await openPayload(secret, refreshToken)
       ensureUnexpired(payload)
-      if (payload.typ !== 'refresh_token' || payload.clientId !== clientId) {
+      const sealedClientId = payload.clientId
+      if (payload.typ !== 'refresh_token' || typeof sealedClientId !== 'string' || sealedClientId === '') {
         throw new OAuthProtocolError('invalid_grant', 'refresh token is invalid')
       }
-      const resource = params.get('resource') ?? undefined
-      if (!resourceMatches(resource, typeof payload.resource === 'string' ? payload.resource : undefined)) {
+      // Issue #120 fix item 4: tolerate re-registration with identical
+      // metadata (the presenting client is resolved and the rotated wrapper
+      // re-sealed to it); anything else stays strict.
+      const refreshClientId = await resolveRefreshClient(secret, client, sealedClientId, clientId)
+      const originalResource = typeof payload.resource === 'string' ? payload.resource : undefined
+      if (!refreshResourceMatches(resource, originalResource)) {
         throw new OAuthProtocolError('invalid_grant', 'resource does not match authorization request')
       }
-      const session = await options.service.refresh(stringPayloadField(payload, 'refreshToken'))
+      // Issue #120 fix item 3: duplicate refreshes with the same wrapper within
+      // the reuse window are answered with the current session from the
+      // single-flight guard; only a genuinely new rotation reaches Supabase.
+      const session = await options.refreshFlightGuard.refreshOnce(
+        await hashValue(refreshToken),
+        () => options.service.refresh(stringPayloadField(payload, 'refreshToken')),
+      )
       if (session.userId !== stringPayloadField(payload, 'userId')) {
         throw new OAuthProtocolError('invalid_grant', 'refresh token user does not match')
       }
@@ -1072,12 +1239,20 @@ async function handleToken(request: Request, options: OAuthRouteOptions): Promis
       const scopes = requestedScopes === null
         ? stringArrayPayloadField(payload, 'scopes')
         : requestedScopes.split(' ').filter((scope) => scope !== '')
-      return await tokenResponse(secret, session, clientId, scopes, resource)
-    } catch (error) {
-      return oauthErrorResponse(error)
+      // Re-seal with the originally authorized resource when the refresh
+      // omitted it (RFC 8707), so the chain stays bound to that resource.
+      const response = await tokenResponse(secret, session, refreshClientId, scopes, resource ?? originalResource)
+      await logTokenEndpointSuccess('refresh_token', refreshClientId, resourcePresent)
+      return response
     }
+    throw new OAuthProtocolError('unsupported_grant_type', 'grant_type is not supported')
+  } catch (error) {
+    // One structured failure line per token-endpoint failure (issue #120 fix
+    // item 1) — grant type, error, error_description, client fingerprint, and
+    // resource presence; never token values.
+    await logTokenEndpointFailure(error, grantType, clientId, resourcePresent)
+    return oauthErrorResponse(error)
   }
-  return oauthErrorResponse(new OAuthProtocolError('unsupported_grant_type', 'grant_type is not supported'))
 }
 
 async function handleRegistration(request: Request, options: OAuthRouteOptions): Promise<Response> {
@@ -1291,7 +1466,17 @@ export function createSupabaseOAuthService(options: {
       const result = await client().auth.refreshSession({ refresh_token: refreshToken })
       const session: unknown = result.data.session
       if (result.error !== null || !isSupabaseSession(session)) {
-        throw new OAuthProtocolError('invalid_grant', 'Supabase Auth returned an invalid session')
+        // Issue #120 fix item 3: a precise error_description carries the
+        // upstream GoTrue message (and HTTP status when known) so a truly dead
+        // token is distinguishable from a transient provider failure in logs
+        // and in the client-visible error body. No token values are included.
+        const upstream = result.error
+        const upstreamDetail = upstream === null
+          ? 'no session returned'
+          : upstream.status === undefined
+            ? upstream.message
+            : `${upstream.message} (HTTP ${String(upstream.status)})`
+        throw new OAuthProtocolError('invalid_grant', `Supabase Auth rejected the refresh token: ${upstreamDetail}`)
       }
       return await verifiedSession(session)
     },
@@ -1304,6 +1489,17 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   resolvePublicBaseUrl(options.publicBaseUrl)
   const authorizationEndpoint = resolveAuthorizationEndpoint(options.authorizationEndpoint)
   const now = options.now ?? Date.now
+  const reuseSeconds = options.refreshTokenReuseSeconds ?? DEFAULT_REFRESH_TOKEN_REUSE_SECONDS
+  if (!Number.isFinite(reuseSeconds) || reuseSeconds < 0) {
+    throw new OAuthProtocolError('server_error', 'refresh token reuse seconds must be a non-negative number', 500)
+  }
+  // Issue #120: one in-memory single-flight guard per server process (one Fly
+  // VM is deployed), keyed by refresh-token hash, idempotent for the reuse
+  // window. It lives on the token route options only.
+  const tokenOptions: OAuthRouteOptions & { refreshFlightGuard: RefreshFlightGuard } = {
+    ...options,
+    refreshFlightGuard: createRefreshFlightGuard(reuseSeconds * 1_000, now),
+  }
   const authorizationOptions: OAuthAuthorizationRouteOptions = {
     ...options,
     authorizationPage: authorizationEndpoint,
@@ -1362,7 +1558,7 @@ export function registerOAuthRoutes(app: Hono, options: OAuthRouteOptions): void
   app.options('/token', () => new Response(null, { status: 204, headers: corsHeaders() }))
   app.post('/token', async (context) => {
     try {
-      return await handleToken(context.req.raw, options)
+      return await handleToken(context.req.raw, tokenOptions)
     } catch (error) {
       return oauthErrorResponse(error)
     }
