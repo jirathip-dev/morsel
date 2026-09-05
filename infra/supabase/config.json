@@ -6,7 +6,7 @@
     "smtp_host": "smtp.resend.com",
     "smtp_port": 465,
     "smtp_user": "resend",
-    "smtp_admin_email": "onboarding@resend.dev",
+    "smtp_admin_email": "sign-in@morselfood.app",
     "smtp_sender_name": "Morsel",
     "mailer_otp_length": 6,
     "rate_limit_email_sent": 30,
@@ -16,5 +16,7 @@
     "field": "mailer_templates_magic_link_content",
     "contains": "{{ .Token }}"
   },
-  "neverInConfig": ["smtp_pass"]
+  "neverInConfig": [
+    "smtp_pass"
+  ]
 }

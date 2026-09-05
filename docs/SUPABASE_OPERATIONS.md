@@ -39,7 +39,14 @@ Values come from the live-stack inventory in issue #78 and the #60/#74
 decisions (`docs/INFRA_DECISIONS.md` D3/D4):
 
 - SMTP: host `smtp.resend.com`, port `465`, user `resend` (literal), sender
-  `Morsel <onboarding@resend.dev>` (`smtp_sender_name` + `smtp_admin_email`).
+  `Morsel <sign-in@morselfood.app>` (`smtp_sender_name` + `smtp_admin_email`).
+  The sender domain `morselfood.app` is DKIM/SPF-verified in Resend (issue
+  #126): Resend's sandbox sender `onboarding@resend.dev` delivers only to the
+  account owner, so the verified-domain sender is required for any other
+  tester to receive the OTP. The `@resend.dev` address must never be
+  re-pinned: `config.test.mjs` fails if the canonical sender is a sandbox
+  address, and the drift check flags a live sandbox sender against the
+  verified-domain pin.
   The SMTP password is the Resend API key — a SECRET, never in `config.json`;
   `config.mjs` guards against ever pinning it.
 - Email OTP length: `6` (`mailer_otp_length`).
