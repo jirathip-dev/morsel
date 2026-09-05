@@ -1,5 +1,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import {
+  AttachMealImageInputSchema,
+  AttachMealImageOutputSchema,
   ComputeTargetsOutputSchema,
   DeleteMealLogInputSchema,
   DeleteMealLogOutputSchema,
@@ -138,12 +140,21 @@ export function createMcpServer(service: MorselService): McpServer {
 
   server.registerTool('log_meal', {
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. An image URL is stored as the current image_path value; the server does not upload media.',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
     inputSchema: LogMealInputSchema,
     outputSchema: LogMealOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
     _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.logMeal(input)))
+
+  server.registerTool('attach_meal_image', {
+    title: 'Attach a photo to a logged meal',
+    description: 'Attach a food photo to an existing meal log when the meal was logged without one (or its photo failed to store). Send the photo bytes with image_base64; image_error reports a photo that could not be attached.',
+    inputSchema: AttachMealImageInputSchema,
+    outputSchema: AttachMealImageOutputSchema,
+    annotations: UNCLAIMED_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
+  }, (input) => runTool(() => service.attachMealImage(input)))
 
   server.registerTool('get_day', {
     title: 'Get a day of meals',

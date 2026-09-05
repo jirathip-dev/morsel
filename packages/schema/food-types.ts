@@ -47,6 +47,26 @@ export const DietGoalSchema = z.enum(['lose', 'maintain', 'gain'])
 export const SexSchema = z.enum(['male', 'female'])
 export const FoodRefIdSchema = z.uuid()
 
+// Accepted food-photo mime types. This set mirrors the `food-images` bucket
+// allowlist (migration 0004) and the native app's FoodImageStore allowlist —
+// the server stores bytes, so it can only accept what storage accepts.
+export const MealImageMimeTypeValues = ['image/jpeg', 'image/png', 'image/webp'] as const
+export const MealImageMimeTypeSchema = z.enum(MealImageMimeTypeValues)
+export type MealImageMimeType = z.infer<typeof MealImageMimeTypeSchema>
+
+// A food-photo payload sent through MCP as base64 text. The server stores the
+// decoded bytes in the account's private `food-images` bucket, so the accepted
+// mime set mirrors the bucket's allowed_mime_types (migration 0004) and the
+// native app's FoodImageStore allowlist. JPEG is the canonical interchange
+// format (the app re-encodes camera HEIC to JPEG before upload); PNG and WebP
+// are stored byte-exact. The 7,000,000-character cap is a JSON-payload memory
+// bound: the decoded byte budget (~5 MB) is enforced by the server after
+// decode so an oversized photo reports image_error while the meal still logs.
+export const MealImageBase64Schema = z.object({
+  data: z.string().min(1).max(7_000_000),
+  mime_type: MealImageMimeTypeSchema,
+}).strict()
+
 export const MealItemSchema = z.object({
   name: z.string().trim().min(1),
   quantity: positiveNumber.optional().default(1),
@@ -71,6 +91,11 @@ export const LogMealInputSchema = z.object({
   meal_type: MealTypeSchema,
   items: z.array(MealItemSchema).min(1),
   notes: z.string().trim().min(1).optional(),
+  // Preferred photo input: the real bytes, base64-encoded. When both photo
+  // inputs are present image_base64 wins and image_url is ignored.
+  image_base64: MealImageBase64Schema.optional(),
+  // Legacy photo input: the server fetches the HTTPS URL once, validates the
+  // bytes, and stores them like an image_base64 upload.
   image_url: z.string().trim().url().refine((value) => {
     try {
       return new URL(value).protocol === 'https:'
@@ -88,6 +113,9 @@ export const LogMealOutputSchema = z.object({
   // can echo the local day the meal was logged to.
   timezone: TimezoneSchema.optional(),
   date: CalendarDateSchema.optional(),
+  // Present only when a photo was requested but could not be stored: the
+  // meal is still logged (REJECT AND REPORT, never silently drop).
+  image_error: z.string().optional(),
 }).strict()
 
 export const SearchFoodInputSchema = z.object({
@@ -138,6 +166,30 @@ export const DeleteMealLogOutputSchema = z.object({
   deleted: z.literal(true),
 }).strict()
 
+export const AttachMealImageInputSchema = z.object({
+  meal_log_id: z.uuid(),
+  // Preferred photo input: the real bytes (see LogMealInputSchema).
+  image_base64: MealImageBase64Schema.optional(),
+  // Legacy photo input: fetched once and stored like an image_base64 upload.
+  image_url: z.string().trim().url().refine((value) => {
+    try {
+      return new URL(value).protocol === 'https:'
+    } catch {
+      return false
+    }
+  }, 'must use an https URL').optional(),
+}).strict().refine((value) => value.image_base64 !== undefined || value.image_url !== undefined, {
+  message: 'provide image_base64 or image_url',
+})
+
+export const AttachMealImageOutputSchema = z.object({
+  ok: z.literal(true),
+  attached: z.boolean(),
+  // Present only when the photo could not be stored: the meal log is
+  // unchanged and the caller can retry or report (never a silent accept).
+  image_error: z.string().optional(),
+}).strict()
+
 export const MealItemRecordSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
@@ -155,11 +207,22 @@ export const MealItemRecordSchema = z.object({
   notes: z.string().optional(),
 }).strict()
 
+// A stored food photo as returned on reads. `path` is the bucket object path
+// (`{user_id}/{meal_log_id}.jpg`) that the app's thumbnail pipeline downloads;
+// `signed_url` is a short-lived URL minted per read and `expires_at` is the
+// instant it stops working. Absent (key omitted) when the meal has no photo.
+export const MealImageRecordSchema = z.object({
+  path: z.string().min(1),
+  signed_url: z.string().url(),
+  expires_at: IsoDateTimeSchema,
+}).strict()
+
 export const MealRecordSchema = z.object({
   meal_log_id: z.uuid(),
   meal_type: MealTypeSchema,
   eaten_at: IsoDateTimeSchema,
   items: z.array(MealItemRecordSchema),
+  image: MealImageRecordSchema.optional(),
 }).strict()
 
 export const TotalsSchema = z.object({
@@ -365,6 +428,9 @@ export type ParsedUpdateMealItemInput = z.output<typeof UpdateMealItemInputSchem
 export type UpdateMealItemOutput = z.infer<typeof UpdateMealItemOutputSchema>
 export type DeleteMealLogInput = z.infer<typeof DeleteMealLogInputSchema>
 export type DeleteMealLogOutput = z.infer<typeof DeleteMealLogOutputSchema>
+export type AttachMealImageInput = z.infer<typeof AttachMealImageInputSchema>
+export type AttachMealImageOutput = z.infer<typeof AttachMealImageOutputSchema>
+export type MealImageRecord = z.infer<typeof MealImageRecordSchema>
 export type MealItemRecord = z.infer<typeof MealItemRecordSchema>
 export type MealRecord = z.infer<typeof MealRecordSchema>
 export type Totals = z.infer<typeof TotalsSchema>

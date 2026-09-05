@@ -71,11 +71,14 @@ The calorie/macro goal is **derived from the profile**, not a blank manual numbe
 ## Key columns
 
 - `meal_logs.eaten_at` — when the meal happened (agent passes it, not timestamp of upload).
-- `meal_logs.image_path` — normally the `food-images` bucket with object path
-  `{user_id}/{meal_log_id}.jpg` in Supabase Storage. Until the v0.1 upload flow
-  exists, the MCP adapter stores a caller-provided HTTPS `image_url` verbatim in
-  this text column as an external reference; consumers must render HTTPS values
-  directly and only send storage-shaped values through the Storage client.
+- `meal_logs.image_path` — the object path of the meal photo inside the private
+  `food-images` bucket: `{user_id}/{meal_log_id}.jpg`. It is written by the
+  native app's photo upload and by the MCP server after it stores validated
+  photo bytes (`image_base64` uploads or one fetched `image_url`, issue #122).
+  NULL (the usual case) means the meal has no photo. This column is only ever
+  a storage object path — external HTTPS references are never stored in it,
+  and consumers render a photo by downloading the object, not by treating the
+  value as a URL.
 - `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
   should surface in the dashboard as "review me" items.
 - `meal_items.food_ref_id` — an optional UUID linking to `food_catalog`; the MCP
@@ -127,12 +130,29 @@ rows. Because both authenticate to the same store and RLS scopes by the same
 
 ## Images
 
-The intended storage location is the private Supabase Storage bucket
+Meal photos are real bytes in the private Supabase Storage bucket
 `food-images`, object path `{user_id}/{meal_log_id}.jpg`. Migration
-`0004_store_assets.sql` provisions the bucket and allows authenticated users to
+`0004_store_assets.sql` provisions the bucket (10 MB file limit; content types
+`image/jpeg`, `image/png`, `image/webp`) and allows authenticated users to
 insert, read, update, and delete objects only when the first path segment is
-their own user ID. Until the upload flow exists, the MCP server stores a
-caller-provided HTTPS URL reference in `meal_logs.image_path` and does not
-upload bytes.
+their own user ID — every upload/download uses the caller's bearer token, so
+those policies scope both the native app and the MCP server.
+
+Both writers store bytes:
+- the native app re-encodes the camera frame to JPEG on-device before
+  uploading (`FoodImageStore`/`FoodImageCompressor`), and
+- the MCP server stores validated photo bytes from `image_base64`
+  (JPEG/PNG/WebP, ~5 MB cap) or one HTTPS `image_url` fetch (10 MB cap, 5 s
+  timeout, image-only, no redirects to private ranges); it never stores a URL
+  string. When a photo cannot be stored the tool response reports
+  `image_error` and the meal row still commits (issue #122).
+
+The row only records the object path (`meal_logs.image_path`). Reads return a
+short-lived signed URL per request instead of exposing the object directly:
+`get_day` meals carry `image: { path, signed_url, expires_at }` where `path`
+is the object path the app's thumbnail pipeline downloads (`MealThumbnailView`
+loads it through the authenticated Storage client). Deleting a meal removes
+its log row; any photo object stops being returned by reads and remains an
+owner-scoped bucket object until storage cleanup removes it.
 
 The catalog starts with a small deterministic seed in `db/seed.sql` and is extended by the USDA FoodData Central lookup path. Successful external results are cached with `source='usda'`; the server-only cache write path keeps shared catalog data out of caller-controlled writes.

@@ -129,6 +129,7 @@ describe('MCP HTTP server', () => {
     await client.connect(transport)
     const listed = await client.listTools()
     expect(listed.tools.map((tool) => tool.name).sort()).toEqual([
+      'attach_meal_image',
       'compute_targets',
       'delete_meal_log',
       'get_dashboard_summary',
