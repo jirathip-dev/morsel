@@ -153,6 +153,23 @@ export const GoalSummarySchema = z.object({
   source: z.enum(['computed', 'manual']),
 }).strict()
 
+// A stored complete manual goal that a newer profile superseded: the old
+// values ride along so clients can show what was replaced and when it was set.
+export const SupersededManualSchema = z.object({
+  calorie_target_kcal: nonNegativeNumber,
+  protein_g: nonNegativeNumber,
+  carbs_g: nonNegativeNumber,
+  fat_g: nonNegativeNumber,
+  updated_at: IsoDateTimeSchema,
+}).strict()
+
+// The effective goal ("latest update wins"): manual values apply only when the
+// manual row is at least as new as the profile; otherwise the computed target
+// is effective and the stale manual values are reported as superseded_manual.
+export const EffectiveGoalSchema = GoalSummarySchema.extend({
+  superseded_manual: SupersededManualSchema.optional(),
+}).strict()
+
 export const RenderPayloadSchema = z.object({
   markdown: z.string(),
   svg: z.string(),
@@ -230,6 +247,16 @@ export const GetProfileOutputSchema = ProfileSchema
 export const SetProfileOutputSchema = z.object({
   ok: z.literal(true),
   saved: z.literal(true),
+  effective_goal: EffectiveGoalSchema,
+}).strict()
+
+// The weight the computed targets were actually derived from: the latest
+// imported measurement when one exists (source "health", with its sample
+// time), otherwise the typed profile value (source "profile").
+export const WeightUsedSchema = z.object({
+  kg: positiveNumber,
+  measured_at: IsoDateTimeSchema.optional(),
+  source: z.enum(['health', 'profile']),
 }).strict()
 
 export const ComputeTargetsOutputSchema = z.object({
@@ -239,9 +266,10 @@ export const ComputeTargetsOutputSchema = z.object({
   protein_g: nonNegativeNumber,
   carbs_g: nonNegativeNumber,
   fat_g: nonNegativeNumber,
+  weight_used: WeightUsedSchema,
 }).strict()
 
-export const GetGoalsOutputSchema = GoalSummarySchema
+export const GetGoalsOutputSchema = EffectiveGoalSchema
 
 export const SetGoalsInputSchema = z.object({
   calorie_target_kcal: nonNegativeNumber.optional(),
@@ -253,6 +281,12 @@ export const SetGoalsInputSchema = z.object({
 export const SetGoalsOutputSchema = z.object({
   ok: z.literal(true),
   source: z.literal('manual'),
+}).strict()
+
+export const ResetGoalsInputSchema = EmptyInputSchema
+export const ResetGoalsOutputSchema = z.object({
+  ok: z.literal(true),
+  reset: z.literal(true),
 }).strict()
 
 export const LogWaterInputSchema = z.object({
@@ -291,6 +325,8 @@ export type MealItemRecord = z.infer<typeof MealItemRecordSchema>
 export type MealRecord = z.infer<typeof MealRecordSchema>
 export type Totals = z.infer<typeof TotalsSchema>
 export type GoalSummary = z.infer<typeof GoalSummarySchema>
+export type SupersededManual = z.infer<typeof SupersededManualSchema>
+export type EffectiveGoal = z.infer<typeof EffectiveGoalSchema>
 export type RenderPayload = z.infer<typeof RenderPayloadSchema>
 export type GetDayInput = z.infer<typeof GetDayInputSchema>
 export type GetDayOutput = z.infer<typeof GetDayOutputSchema>
@@ -306,10 +342,12 @@ export type Profile = z.infer<typeof ProfileSchema>
 export type SetProfileInput = z.infer<typeof SetProfileInputSchema>
 export type GetProfileOutput = z.infer<typeof GetProfileOutputSchema>
 export type SetProfileOutput = z.infer<typeof SetProfileOutputSchema>
+export type WeightUsed = z.infer<typeof WeightUsedSchema>
 export type ComputeTargetsOutput = z.infer<typeof ComputeTargetsOutputSchema>
 export type Targets = ComputeTargetsOutput & { source: z.infer<typeof GoalSummarySchema>['source'] }
 export type GetGoalsOutput = z.infer<typeof GetGoalsOutputSchema>
 export type SetGoalsInput = z.infer<typeof SetGoalsInputSchema>
 export type SetGoalsOutput = z.infer<typeof SetGoalsOutputSchema>
+export type ResetGoalsOutput = z.infer<typeof ResetGoalsOutputSchema>
 export type LogWaterInput = z.infer<typeof LogWaterInputSchema>
 export type LogWeightInput = z.infer<typeof LogWeightInputSchema>
