@@ -175,7 +175,7 @@ struct SignInView: View {
                 step = .code
                 message = "Check your email for a sign-in code."
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isWorking = false
         }
@@ -189,7 +189,7 @@ struct SignInView: View {
                 let session = try await auth.verifyEmailOTP(email: email, code: code)
                 onAuthenticated(session)
             } catch {
-                message = error.localizedDescription
+                message = DashboardUserMessage.userMessage(for: error)
             }
             isWorking = false
         }
@@ -200,7 +200,7 @@ struct SignInView: View {
             let session = try await auth.signInWithApple(identityToken: token, nonce: nonce)
             onAuthenticated(session)
         } catch {
-            message = error.localizedDescription
+            message = DashboardUserMessage.userMessage(for: error)
         }
         isWorking = false
     }
