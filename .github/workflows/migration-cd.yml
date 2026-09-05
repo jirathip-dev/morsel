@@ -48,6 +48,10 @@ jobs:
   classify:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      verdict: ${{ steps.classify.outputs.verdict }}
+      autoApply: ${{ steps.classify.outputs.autoApply }}
+      applyPlan: ${{ steps.classify.outputs.applyPlan }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -92,9 +96,11 @@ jobs:
           verdict="$(printf '%s\n' "$output" | sed -n 's/^verdict=//p' | tail -n 1)"
           auto_apply="$(printf '%s\n' "$output" | sed -n 's/^autoApply=//p' | tail -n 1)"
           apply_plan="$(printf '%s\n' "$output" | sed -n 's/^applyPlan=//p' | tail -n 1)"
-          printf 'verdict=%s\n' "$verdict" >> "$GITHUB_OUTPUT"
-          printf 'autoApply=%s\n' "$auto_apply" >> "$GITHUB_OUTPUT"
-          printf 'applyPlan=%s\n' "$apply_plan" >> "$GITHUB_OUTPUT"
+          {
+            printf 'verdict=%s\n' "$verdict"
+            printf 'autoApply=%s\n' "$auto_apply"
+            printf 'applyPlan=%s\n' "$apply_plan"
+          } >> "$GITHUB_OUTPUT"
 
           printf '%s\n' "apply gate: MIGRATION_CD_APPLY_ENABLED='${MIGRATION_CD_APPLY_ENABLED:-}' (empty/absent = DISABLED, the default). Nothing was written to production."
 
