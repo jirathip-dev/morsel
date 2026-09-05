@@ -11,6 +11,7 @@
 		02CEF1CFDAB5EC91D4501DBC /* AddMealReliabilityRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C1F672A7BEB9344B9B7E0 /* AddMealReliabilityRegressionTests.swift */; };
 		03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C591525368CD6908A9FE189E /* JournalPaperTexture.swift */; };
 		0587A79CF555FEB145A5F89E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1096DD7210666ACB8358567E /* Repository.swift */; };
+		0C3B24DE51B59630E82496B3 /* JournalPageTurner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */; };
 		1A372F1D188F4A2BEF17E62A /* HealthReliabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB760A6B6FB4D11A85BDB79 /* HealthReliabilityTests.swift */; };
 		1C3544EFCD76B05F2B1CC354 /* HealthKitWeightImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */; };
 		23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A12A89F0EF310480905F84 /* DashboardMathTests.swift */; };
@@ -151,6 +152,7 @@
 		C5A366D637ADF15B1E4A652F /* HistoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
 		D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemEditSheet.swift; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
+		D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPageTurner.swift; sourceTree = "<group>"; };
 		DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealMutations.swift; sourceTree = "<group>"; };
 		E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFocus.swift; sourceTree = "<group>"; };
 		E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReliabilityServices.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				F5C1508E0A84C6910048A9A9 /* HistoryView.swift */,
 				E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */,
 				02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */,
+				D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */,
 				C591525368CD6908A9FE189E /* JournalPaperTexture.swift */,
 				9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */,
 				6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */,
@@ -414,6 +417,7 @@
 				EE9ABF0FBF5AF86E17E29C63 /* HistoryView.swift in Sources */,
 				99BFA9B5CB12D391C28F129D /* JournalFocus.swift in Sources */,
 				9EA70A8DE2210DF2EEDAA6E4 /* JournalNavigation.swift in Sources */,
+				0C3B24DE51B59630E82496B3 /* JournalPageTurner.swift in Sources */,
 				03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */,
 				3872B517C57088FC4B4115C7 /* JournalUI.swift in Sources */,
 				BC3FF50B5B6927FE9F7AC191 /* LocalDataStore+SQLite.swift in Sources */,

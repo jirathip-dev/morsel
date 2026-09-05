@@ -162,6 +162,33 @@ final class JournalFocusPolicyTests: XCTestCase {
     }
 }
 
+// ── Issue #111: hinged page-turn seam (V1 geometry) ────────────────────────
+
+final class JournalHingeSeamTests: XCTestCase {
+    func testForwardTurnHingesOnTheLeadingBindingEdge() {
+        // The approved V1 prototype turns the incoming page in from the
+        // binding edge: hinge on the LEFT (leading), swing −70° → 0°.
+        XCTAssertEqual(JournalTurnSeam.anchor(for: .forward), .leading)
+        XCTAssertEqual(JournalTurnSeam.startAngle(for: .forward), -70)
+    }
+
+    func testBackwardTurnMirrorsTheHingeOnTheTrailingEdge() {
+        // Turning back mirrors the hinge so the direction reads correctly.
+        XCTAssertEqual(JournalTurnSeam.anchor(for: .backward), .trailing)
+        XCTAssertEqual(JournalTurnSeam.startAngle(for: .backward), 70)
+    }
+
+    func testSwingStartsFadedAndSettlesOpaque() {
+        XCTAssertEqual(JournalTurnSeam.startOpacity, 0.2)
+    }
+
+    func testRichSwingMatchesTheApprovedCurveAndDurations() {
+        // .55s cubic-bezier(.2,.7,.2,1); Reduce Motion = .28s ease-out fade.
+        XCTAssertEqual(JournalTurnSeam.richDuration, 0.55)
+        XCTAssertEqual(JournalTurnSeam.reducedDuration, 0.28)
+    }
+}
+
 // ── AC7: theme seam stays trait-driven (regression against a forced scheme) ─
 
 final class JournalThemeImmediacyTests: XCTestCase {

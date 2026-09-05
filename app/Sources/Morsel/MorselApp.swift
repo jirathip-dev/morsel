@@ -197,6 +197,10 @@ private struct AuthenticatedDashboardView: View {
             VStack(spacing: 0) {
                 pageContent
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .animation(
+                        reduceMotion ? .easeOut(duration: JournalTurnSeam.reducedDuration) : nil,
+                        value: pager.selection
+                    )
                 JournalTabBar(pager: pager)
             }
             if routeModel.isPresentingAddMeal {
@@ -273,21 +277,17 @@ private struct AuthenticatedDashboardView: View {
     }
 
     private func closeAddMeal() { routeModel.closeAddMeal() }
-    private var selectionBinding: Binding<JournalTab> {
-        Binding(get: { pager.selection }, set: { pager.select($0) })
-    }
-    /// Three primary pages in a native page-style TabView.
+    /// Three primary journal pages: Reduce Motion swaps with a plain fade;
+    /// the rich path turns each page in on the approved V1 hinge (#111).
     @ViewBuilder
     private var pageContent: some View {
         if reduceMotion {
             journalPage(for: pager.selection)
+                .transition(.opacity)
         } else {
-            TabView(selection: selectionBinding) {
-                journalPage(for: .today).tag(JournalTab.today)
-                journalPage(for: .history).tag(JournalTab.history)
-                journalPage(for: .goals).tag(JournalTab.goals)
+            JournalPageTurner(pager: pager) { tab in
+                journalPage(for: tab)
             }
-            .tabViewStyle(.page(indexDisplayMode: .never))
         }
     }
 

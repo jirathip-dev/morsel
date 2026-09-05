@@ -1,0 +1,10 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-111-hinged-page-turn
+
+ ✓ app/issue-111-hinged-turn-contract.test.ts (7 tests) 2ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 3ms
+
+ Test Files  2 passed (2)
+      Tests  19 passed (19)
+   Start at  11:46:55
+   Duration  848ms (transform 1.30s, setup 0ms, collect 1.30s, tests 4ms, environment 0ms, prepare 91ms)
