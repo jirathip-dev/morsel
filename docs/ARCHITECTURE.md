@@ -115,6 +115,36 @@ client-facing canonical base.
   refreshing and returning a Supabase access token, so replay fails even when
   claims race across concurrent isolates or processes. The refresh-token
   wrapper remains encrypted and signed with `MORSEL_OAUTH_SIGNING_KEY`.
+- **OAuth token lifetimes and refresh (issue #120):** access tokens are the
+  Supabase session access tokens (~1 h, `expires_in`); the client-facing
+  refresh wrapper is sealed for 30 days. Every refresh rotates the Supabase
+  session and re-seals a new wrapper around the rotated refresh token, so a
+  wrapper is single-use upstream: a retry or second consumer of the same
+  wrapper would present an already-rotated token. The server therefore keeps
+  an in-memory single-flight guard per token (one Fly VM is deployed): within
+  the reuse window (10 s by default, `refreshTokenReuseSeconds`) a duplicate
+  refresh is answered with the current session instead of 400, and concurrent
+  duplicates share one upstream call. After the window a truly dead token
+  returns `invalid_grant` with a precise description carrying the upstream
+  Supabase Auth message. The Supabase Auth project "refresh token reuse
+  interval" should be ≥ the server window so a stale duplicate that outlives
+  the in-memory window still maps to the current session upstream (dashboard
+  setting, applied by a human).
+- **One session per client (issue #120):** a sealed refresh wrapper is bound
+  to the client registration that minted it. Re-registering with identical
+  `redirect_uris`/`client_name` (the RFC 7591 client lifecycle) re-binds the
+  wrapper to the new client id — the refresh is accepted and logged with both
+  client fingerprints — while a registration change (different redirect URIs
+  or name) keeps older wrappers strictly invalid so a stolen registration can
+  never ride an old session. Per RFC 8707 the `resource` parameter may be
+  omitted on refresh even when the authorization carried one; two explicit
+  URLs must still match.
+- **OAuth observability (issue #120):** every `/token` failure logs one
+  structured JSON line — `grant_type`, OAuth `error`/`error_description`,
+  client fingerprint (first 8 chars of a SHA-256, never the raw client id),
+  and `resource` presence — and successes log the same fingerprint at debug
+  level. Token values never appear in log payloads, so a rotation chain can be
+  followed from Fly logs without exposing credentials.
 - **OAuth discovery:** protected-resource metadata is served at both
   `/.well-known/oauth-protected-resource` and
   `/.well-known/oauth-protected-resource/mcp` (and the corresponding

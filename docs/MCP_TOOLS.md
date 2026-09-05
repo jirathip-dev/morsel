@@ -413,6 +413,41 @@ replay fails even when claims race across concurrent isolates or processes.
 Refresh-token wrappers remain encrypted/signed; no long-lived server-side
 OAuth sessions are used.
 
+#### Token lifetimes, rotation, and refresh (issue #120)
+
+Access tokens are the real Supabase session access tokens and last about
+**1 hour** (`expires_in`). The client-facing refresh token is a sealed wrapper
+valid for **30 days**; every successful refresh rotates the Supabase session
+and re-seals a new wrapper around the rotated refresh token, so each wrapper
+is single-use upstream. One logical connection therefore keeps exactly **one
+session per client**: reuse the newest refresh token from the latest token
+response and never share it across clients.
+
+The server tolerates the client-side races this rotation creates:
+
+- **Duplicate refresh inside the reuse window (10 s by default):** retries and
+  concurrent duplicates of the same refresh token are answered with the
+  current session (single-flight per token hash on the one Fly VM), never a
+  400 on the already-rotated token.
+- **After the window:** a wrapper whose Supabase token was truly rotated away
+  or revoked returns `invalid_grant` with a precise `error_description`
+  carrying the upstream Supabase Auth message. The Supabase Auth project
+  "refresh token reuse interval" should be set ≥ 10 s so a stale duplicate
+  that outlives the in-memory window still maps to the current session
+  (dashboard setting).
+- **Client re-registration:** `/register` again with identical
+  `redirect_uris`/`client_name` re-binds older refresh wrappers to the new
+  client id (accepted and logged with client fingerprints); a registration
+  whose metadata changed does not, and the client must sign in again.
+- **`resource`:** may be omitted on refresh (RFC 8707) even when the
+  authorization carried it; the refreshed token stays bound to the original
+  resource. Two explicit, different resource URLs remain a mismatch.
+
+Every token-endpoint failure logs one structured JSON line (grant type, OAuth
+error and description, client fingerprint, resource presence); successes log
+the same fingerprint at debug level. Log payloads never contain raw client ids
+or token values.
+
 ### ChatGPT per-tool OAuth metadata and re-auth challenge (issue #96)
 
 Every protected tool additionally declares the OpenAI/ChatGPT per-tool OAuth
