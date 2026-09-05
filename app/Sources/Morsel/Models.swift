@@ -316,16 +316,27 @@ enum MorselError: LocalizedError, Equatable {
     }
 }
 
-/// #94 (AC5): the friendly user-facing boundary for dashboard flows. Morsel
-/// errors keep their curated copy; anything else (transport/decoding details)
-/// becomes a human message — raw Supabase/Postgres/backend text never reaches
-/// users.
+/// #94 (AC5): the friendly user-facing boundary. Morsel errors keep their
+/// curated copy; anything else (transport/decoding/auth details) becomes a
+/// human message — raw Supabase/Postgres/GoTrue text never reaches users.
+/// The sign-in surfaces (#126) map through the same table, so a GoTrue
+/// email-send failure reads as calm, actionable copy.
 enum DashboardUserMessage {
     static let unexpected = "Something went wrong. Please try again."
+
+    /// #126: GoTrue could not send the sign-in confirmation email (e.g. the
+    /// SMTP sender rejected the recipient). Say the send failed and name the
+    /// working alternatives instead of quoting GoTrue's raw error text.
+    static let emailCodeSendFailed =
+        "We couldn't email a code to that address right now — try again in a minute or use Sign in with Apple."
 
     static func userMessage(for error: Error) -> String {
         if let morselError = error as? MorselError {
             return morselError.errorDescription ?? unexpected
+        }
+        let detail = error.localizedDescription
+        if detail.localizedCaseInsensitiveContains("Error sending confirmation email") {
+            return emailCodeSendFailed
         }
         return unexpected
     }
