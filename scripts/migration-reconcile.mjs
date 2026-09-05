@@ -163,6 +163,13 @@ export const EXPECTED_SENTINELS = {
     routines: ["log_meal_with_items_client"],
     policies: [],
   },
+  "0011_profiles_timezone.sql": {
+    tables: [],
+    // Issue #121: stored IANA zone for local-day bucketing (NULL = UTC).
+    columns: ["profiles.timezone"],
+    routines: [],
+    policies: [],
+  },
 };
 
 export class UsageError extends Error {

@@ -6,6 +6,7 @@ const migrationPath = resolve(process.cwd(), 'db/migrations/0003_atomic_meals_an
 const oauthMigrationPath = resolve(process.cwd(), 'db/migrations/0005_oauth_authorization_grants.sql')
 const weightMigrationPath = resolve(process.cwd(), 'db/migrations/0007_weight_logs.sql')
 const outboxMigrationPath = resolve(process.cwd(), 'db/migrations/0010_meal_outbox_client_ids.sql')
+const timezoneMigrationPath = resolve(process.cwd(), 'db/migrations/0011_profiles_timezone.sql')
 
 function migrationSql(): string {
   return readFileSync(migrationPath, 'utf8')
@@ -18,6 +19,21 @@ function oauthMigrationSql(): string {
 function weightMigrationSql(): string {
   return readFileSync(weightMigrationPath, 'utf8')
 }
+
+describe('migration 0011 profile timezone contract', () => {
+  it('adds a nullable profiles.timezone column with an IANA-shape check', () => {
+    const sql = readFileSync(timezoneMigrationPath, 'utf8')
+    expect(sql).toContain('alter table public.profiles')
+    expect(sql).toContain('add column if not exists timezone text')
+    expect(sql).toMatch(/add constraint profiles_timezone_check/)
+    // Null is the default state and means UTC (v0.1 backward compatible).
+    expect(sql).toMatch(/timezone is null/)
+    // Only IANA-shaped values pass: the fixed 'UTC' alias or Area/Location
+    // names with at least one '/'.
+    expect(sql).toMatch(/timezone = 'UTC'/)
+    expect(sql).toMatch(/timezone ~ '\^\[A-Za-z0-9_\+-\]\+\(\/\[A-Za-z0-9_\+-\]\+\)\+\$'/)
+  })
+})
 
 describe('migration 0007 weight log contract', () => {
   it('renames HealthKit timestamps, enforces positive values, and deduplicates measurements', () => {
