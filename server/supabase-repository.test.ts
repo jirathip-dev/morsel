@@ -36,7 +36,12 @@ function mealWrite(): MealWrite {
   }
 }
 
-function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: NutritionProvider, cacheClientFactory?: (() => SupabaseClient<Database> | undefined) | null): { repository: SupabaseRepository; requests: RecordedRequest[] } {
+function createRepository(
+  mode: MealRpcMode = 'success',
+  nutritionProvider?: NutritionProvider,
+  cacheClientFactory?: (() => SupabaseClient<Database> | undefined) | null,
+  energyRows: Array<{ burned_at: string; active_kcal: number }> = [{ burned_at: '2026-08-25T00:00:00.000Z', active_kcal: 300 }],
+): { repository: SupabaseRepository; requests: RecordedRequest[] } {
   const requests: RecordedRequest[] = []
   const fetchMock = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
     const request = input instanceof Request
@@ -63,6 +68,7 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
         activity_level: 'moderate',
         diet_goal: 'maintain',
         goal_weight_kg: null,
+        timezone: null,
         updated_at: '2026-08-25T12:00:00.000Z',
       })
     }
@@ -159,7 +165,7 @@ function createRepository(mode: MealRpcMode = 'success', nutritionProvider?: Nut
       return jsonResponse([])
     }
     if (request.url.includes('/rest/v1/energy_burned_logs?')) {
-      return jsonResponse([{ burned_at: '2026-08-25T00:00:00.000Z', active_kcal: 300 }])
+      return jsonResponse(energyRows)
     }
     return jsonResponse({ message: 'unexpected test request' }, 500)
   }
@@ -359,12 +365,50 @@ describe('SupabaseRepository', () => {
       userId,
       '2026-08-25T00:00:00.000Z',
       '2026-08-26T00:00:00.000Z',
+      'UTC',
     ))
 
     const request = requests.find((candidate) => candidate.url.includes('/rest/v1/energy_burned_logs?'))
     expect(request?.url).toContain(`user_id=eq.${userId}`)
     expect(request?.url).toContain('burned_at=gte.2026-08-25T00%3A00%3A00.000Z')
     expect(request?.url).toContain('burned_at=lt.2026-08-26T00%3A00%3A00.000Z')
+  })
+
+  it('buckets active-energy instants into the requested zone local days across a +07 midnight', async () => {
+    // 2026-08-31T16:59:00Z = 23:59 +07 on Aug 31; 17:00:00Z = 00:00 +07 on
+    // Sep 1. Both instants sit inside one UTC window, but the local-day
+    // contract splits them across the Bangkok midnight.
+    const { repository } = createRepository(
+      'success',
+      undefined,
+      undefined,
+      [
+        { burned_at: '2026-08-31T16:59:00.000Z', active_kcal: 300 },
+        { burned_at: '2026-08-31T17:00:00.000Z', active_kcal: 420 },
+      ],
+    )
+
+    await withTestToken(repository, async () => {
+      await expect(repository.getEnergyBurned(
+        userId,
+        '2026-08-31T00:00:00.000Z',
+        '2026-09-01T00:00:00.000Z',
+        'Asia/Bangkok',
+      )).resolves.toEqual([
+        { date: '2026-08-31', active_kcal: 300 },
+        { date: '2026-09-01', active_kcal: 420 },
+      ])
+      // The same window in UTC keeps both burns on the UTC day (backward
+      // compatible v0.1 bucketing).
+      await expect(repository.getEnergyBurned(
+        userId,
+        '2026-08-31T00:00:00.000Z',
+        '2026-09-01T00:00:00.000Z',
+        'UTC',
+      )).resolves.toEqual([
+        { date: '2026-08-31', active_kcal: 720 },
+      ])
+    })
   })
 
   it('propagates provider outages from the production repository adapter', async () => {

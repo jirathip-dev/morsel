@@ -37,7 +37,7 @@ import type {
   GetGoalsOutput,
   GetProfileOutput,
   GetWeightTrendOutput,
-  EnergyBurnedPoint,
+  GetEnergyBurnedOutput,
   GoalSummary,
   LogMealOutput,
   ParsedGetDashboardSummaryInput,
@@ -51,6 +51,7 @@ import type {
 import { MorselError } from './errors.ts'
 import { LOW_CONFIDENCE_THRESHOLD, renderDashboardSummary, type DashboardRenderSummary } from './render.ts'
 import type { MorselRepository, StoredGoals, StoredProfile } from './repository.ts'
+import { addCalendarDays, zonedDateLabel, zonedDayStartInstant, zonedNextDayStartInstant } from './zone-time.ts'
 
 function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
   const parsed = schema.safeParse(value)
@@ -64,20 +65,8 @@ function omittedInputAsObject(input: unknown): unknown {
   return input === undefined ? {} : input
 }
 
-function dayStart(date: string): string {
-  return `${date}T00:00:00.000Z`
-}
-
-function nextDayStart(date: string): string {
-  return new Date(Date.parse(dayStart(date)) + 86_400_000).toISOString()
-}
-
-function previousDate(date: string): string {
-  return new Date(Date.parse(dayStart(date)) - 86_400_000).toISOString().slice(0, 10)
-}
-
-function addDays(date: string, amount: number): string {
-  return new Date(Date.parse(dayStart(date)) + amount * 86_400_000).toISOString().slice(0, 10)
+function mealDay(meal: Awaited<ReturnType<MorselRepository['getMealsInRange']>>[number], timeZone: string): string {
+  return zonedDateLabel(Date.parse(meal.eaten_at), timeZone)
 }
 
 function sumMealTotals(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): {
@@ -101,13 +90,14 @@ function countStreak(
   meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
   endDate: string,
   maximumDays: number,
+  timeZone: string,
 ): number {
-  const mealDates = new Set(meals.map((meal) => meal.eaten_at.slice(0, 10)))
+  const mealDates = new Set(meals.map((meal) => mealDay(meal, timeZone)))
   let streakDays = 0
   let streakDate = endDate
   while (streakDays < maximumDays && mealDates.has(streakDate)) {
     streakDays += 1
-    streakDate = previousDate(streakDate)
+    streakDate = addCalendarDays(streakDate, -1)
   }
   return streakDays
 }
@@ -116,13 +106,14 @@ function dailyCalories(
   meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
   startDate: string,
   days: number,
+  timeZone: string,
 ): { date: string; calories_kcal: number }[] {
   const totalsByDate = new Map<string, number>()
   for (let offset = 0; offset < days; offset += 1) {
-    totalsByDate.set(addDays(startDate, offset), 0)
+    totalsByDate.set(addCalendarDays(startDate, offset), 0)
   }
   for (const meal of meals) {
-    const date = meal.eaten_at.slice(0, 10)
+    const date = mealDay(meal, timeZone)
     const mealCalories = meal.items.reduce((total, item) => total + (item.calories_kcal ?? 0), 0)
     if (totalsByDate.has(date)) {
       totalsByDate.set(date, (totalsByDate.get(date) ?? 0) + mealCalories)
@@ -143,6 +134,7 @@ function createRenderSummary(
   endDate: string,
   days: number,
   goal: GoalSummary | undefined,
+  timeZone: string,
 ): DashboardRenderSummary {
   const totals = sumMealTotals(meals)
   return {
@@ -151,9 +143,9 @@ function createRenderSummary(
     days,
     totals,
     ...(goal === undefined ? {} : { goal }),
-    streakDays: countStreak(meals, endDate, days),
+    streakDays: countStreak(meals, endDate, days, timeZone),
     mealCount: meals.length,
-    dailyCalories: dailyCalories(meals, startDate, days),
+    dailyCalories: dailyCalories(meals, startDate, days, timeZone),
     lowConfidenceItemCount: lowConfidenceItemCount(meals),
   }
 }
@@ -213,8 +205,9 @@ export class MorselService {
 
   async logMeal(input: unknown): Promise<LogMealOutput> {
     const parsed = parseInput(LogMealInputSchema, input, 'log_meal')
+    const eatenAt = parsed.eaten_at === undefined ? this.now().toISOString() : new Date(parsed.eaten_at).toISOString()
     const meal = await this.repository.createMealWithItems(this.userId, {
-      eaten_at: parsed.eaten_at === undefined ? this.now().toISOString() : new Date(parsed.eaten_at).toISOString(),
+      eaten_at: eatenAt,
       meal_type: parsed.meal_type,
       source: parsed.image_url !== undefined
         ? 'photo_vision'
@@ -225,6 +218,18 @@ export class MorselService {
       notes: parsed.notes,
       items: parsed.items,
     })
+    // When eaten_at was omitted the server stamped now; report the local
+    // calendar date (and the timezone used) so the agent can echo which local
+    // day the meal landed on. Explicit timezone -> profiles.timezone -> UTC.
+    if (parsed.eaten_at === undefined) {
+      const timezone = await this.resolveDayZone(parsed.timezone)
+      return parseInput(LogMealOutputSchema, {
+        meal_log_id: meal.meal_log_id,
+        recorded: true,
+        timezone,
+        date: zonedDateLabel(Date.parse(eatenAt), timezone),
+      }, 'log_meal output')
+    }
     return parseInput(LogMealOutputSchema, {
       meal_log_id: meal.meal_log_id,
       recorded: true,
@@ -233,16 +238,22 @@ export class MorselService {
 
   async getDay(input: unknown): Promise<GetDayOutput> {
     const parsed = parseInput(GetDayInputSchema, input, 'get_day')
-    const meals = await this.repository.getMealsInRange(this.userId, dayStart(parsed.date), nextDayStart(parsed.date))
+    const timezone = await this.resolveDayZone(parsed.timezone)
+    const meals = await this.repository.getMealsInRange(
+      this.userId,
+      zonedDayStartInstant(parsed.date, timezone),
+      zonedNextDayStartInstant(parsed.date, timezone),
+    )
 
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
       : await this.resolveEffectiveGoalSummary(profile, stored)
-    const summary = createRenderSummary(meals, parsed.date, parsed.date, 1, goal)
+    const summary = createRenderSummary(meals, parsed.date, parsed.date, 1, goal, timezone)
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
+      timezone,
       meals,
       totals: summary.totals,
       ...(goal === undefined ? {} : { goal, remaining_kcal: goal.calorie_target_kcal - summary.totals.calories_kcal }),
@@ -270,6 +281,7 @@ export class MorselService {
       activity_level: profile.activity_level,
       diet_goal: profile.diet_goal,
       ...(profile.goal_weight_kg === undefined ? {} : { goal_weight_kg: profile.goal_weight_kg }),
+      ...(profile.timezone === undefined ? {} : { timezone: profile.timezone }),
     }, 'get_profile output')
   }
 
@@ -374,36 +386,62 @@ export class MorselService {
 
   async getWeightTrend(input: unknown): Promise<GetWeightTrendOutput> {
     const parsed = parseInput(GetWeightTrendInputSchema, omittedInputAsObject(input), 'get_weight_trend')
-    const today = this.now().toISOString().slice(0, 10)
-    const startDate = addDays(today, 1 - parsed.days)
-    const series = await this.repository.getWeightTrend(this.userId, dayStart(startDate), nextDayStart(today))
+    const timezone = await this.resolveDayZone(parsed.timezone)
+    const today = zonedDateLabel(this.now().getTime(), timezone)
+    const startDate = addCalendarDays(today, 1 - parsed.days)
+    const series = await this.repository.getWeightTrend(
+      this.userId,
+      zonedDayStartInstant(startDate, timezone),
+      zonedNextDayStartInstant(today, timezone),
+      timezone,
+    )
     return parseInput(GetWeightTrendOutputSchema, {
+      date: today,
+      timezone,
       series,
       ...(series.at(-1) === undefined ? {} : { latest: series.at(-1) }),
     }, 'get_weight_trend output')
   }
 
-  async getEnergyBurned(input: unknown): Promise<{ series: EnergyBurnedPoint[] }> {
+  async getEnergyBurned(input: unknown): Promise<GetEnergyBurnedOutput> {
     const parsed = parseInput(GetEnergyBurnedInputSchema, omittedInputAsObject(input), 'get_energy_burned')
-    const today = this.now().toISOString().slice(0, 10)
-    const startDate = addDays(today, 1 - parsed.days)
-    const series = await this.repository.getEnergyBurned(this.userId, dayStart(startDate), nextDayStart(today))
-    return parseInput(GetEnergyBurnedOutputSchema, { series }, 'get_energy_burned output')
+    const timezone = await this.resolveDayZone(parsed.timezone)
+    const today = zonedDateLabel(this.now().getTime(), timezone)
+    const startDate = addCalendarDays(today, 1 - parsed.days)
+    const series = await this.repository.getEnergyBurned(
+      this.userId,
+      zonedDayStartInstant(startDate, timezone),
+      zonedNextDayStartInstant(today, timezone),
+      timezone,
+    )
+    return parseInput(GetEnergyBurnedOutputSchema, { date: today, timezone, series }, 'get_energy_burned output')
   }
 
   async getDashboardSummary(input: unknown): Promise<GetDashboardSummaryOutput> {
     const parsed: ParsedGetDashboardSummaryInput = parseInput(GetDashboardSummaryInputSchema, omittedInputAsObject(input), 'get_dashboard_summary')
-    const today = this.now().toISOString().slice(0, 10)
-    const startDate = addDays(today, 1 - parsed.days)
-    const meals = await this.repository.getMealsInRange(this.userId, dayStart(startDate), nextDayStart(today))
-    const weightTrend = await this.repository.getWeightTrend(this.userId, dayStart(startDate), nextDayStart(today))
+    const timezone = await this.resolveDayZone(parsed.timezone)
+    const today = zonedDateLabel(this.now().getTime(), timezone)
+    const startDate = addCalendarDays(today, 1 - parsed.days)
+    const meals = await this.repository.getMealsInRange(
+      this.userId,
+      zonedDayStartInstant(startDate, timezone),
+      zonedNextDayStartInstant(today, timezone),
+    )
+    const weightTrend = await this.repository.getWeightTrend(
+      this.userId,
+      zonedDayStartInstant(startDate, timezone),
+      zonedNextDayStartInstant(today, timezone),
+      timezone,
+    )
     const profile = await this.repository.getProfile(this.userId)
     const stored = await this.repository.getGoals(this.userId)
     const goal = profile === undefined
       ? toCompleteManualGoal(stored)
       : await this.resolveEffectiveGoalSummary(profile, stored)
-    const summary = createRenderSummary(meals, startDate, today, parsed.days, goal)
+    const summary = createRenderSummary(meals, startDate, today, parsed.days, goal, timezone)
     return parseInput(GetDashboardSummaryOutputSchema, {
+      date: today,
+      timezone,
       avg_calories_kcal: summary.totals.calories_kcal / parsed.days,
       streak_days: summary.streakDays,
       macro_split: {
@@ -414,6 +452,19 @@ export class MorselService {
       weight_trend: weightTrend,
       render: renderDashboardSummary(summary),
     }, 'get_dashboard_summary output')
+  }
+
+  /**
+   * Day-zone precedence for day-scoped tools: explicit tool input, then the
+   * stored profiles.timezone, then UTC (v0.1 behavior, backward compatible).
+   * Explicit values are already IANA-validated by TimezoneSchema.
+   */
+  private async resolveDayZone(explicit?: string): Promise<string> {
+    if (explicit !== undefined) {
+      return explicit
+    }
+    const profile = await this.repository.getProfile(this.userId)
+    return profile?.timezone ?? 'UTC'
   }
 
   private async requireProfile() {

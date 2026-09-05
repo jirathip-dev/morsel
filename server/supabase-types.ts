@@ -200,6 +200,7 @@ export interface Database {
           activity_level: string
           diet_goal: string
           goal_weight_kg: number | null
+          timezone: string | null
           updated_at: string
         }
         Insert: {
@@ -211,6 +212,7 @@ export interface Database {
           activity_level: string
           diet_goal: string
           goal_weight_kg?: number | null
+          timezone?: string | null
         }
         Update: {
           user_id?: string
@@ -221,6 +223,7 @@ export interface Database {
           activity_level?: string
           diet_goal?: string
           goal_weight_kg?: number | null
+          timezone?: string | null
         }
         Relationships: []
       }

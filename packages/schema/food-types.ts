@@ -382,6 +382,7 @@ export type GetDashboardSummaryOutput = z.infer<typeof GetDashboardSummaryOutput
 export type GetWeightTrendInput = z.input<typeof GetWeightTrendInputSchema>
 export type ParsedGetWeightTrendInput = z.output<typeof GetWeightTrendInputSchema>
 export type GetWeightTrendOutput = z.infer<typeof GetWeightTrendOutputSchema>
+export type GetEnergyBurnedOutput = z.infer<typeof GetEnergyBurnedOutputSchema>
 export type Profile = z.infer<typeof ProfileSchema>
 export type SetProfileInput = z.infer<typeof SetProfileInputSchema>
 export type GetProfileOutput = z.infer<typeof GetProfileOutputSchema>
