@@ -163,8 +163,14 @@ final class OnboardingTests: XCTestCase {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
             .appendingPathComponent("Sources/Morsel")
-        let shellSource = try String(contentsOf: sourceRoot.appendingPathComponent("MorselApp.swift"), encoding: .utf8)
-        let storeSource = try String(contentsOf: sourceRoot.appendingPathComponent("SessionStore.swift"), encoding: .utf8)
+        let shellSource = try String(
+            contentsOf: sourceRoot.appendingPathComponent("MorselApp.swift"),
+            encoding: .utf8
+        )
+        let storeSource = try String(
+            contentsOf: sourceRoot.appendingPathComponent("SessionStore.swift"),
+            encoding: .utf8
+        )
         XCTAssertTrue(
             storeSource.contains("final class SessionStore: ObservableObject"),
             "Expected the SessionStore declaration in SessionStore.swift"
@@ -174,7 +180,10 @@ final class OnboardingTests: XCTestCase {
             "Expected MorselRootView in MorselApp.swift"
         )
         let initialCallStart = try XCTUnwrap(
-            shellSource.range(of: "userID: pendingSession?.userID ?? UUID()", range: rootStart.upperBound..<shellSource.endIndex),
+            shellSource.range(
+                of: "userID: pendingSession?.userID ?? UUID()",
+                range: rootStart.upperBound..<shellSource.endIndex
+            ),
             "Expected the initial no-session OnboardingView call in MorselRootView"
         )
 
