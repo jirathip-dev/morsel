@@ -71,9 +71,13 @@ ledger (missing/empty ledger → zero writes, fail closed).
 TestFlight is dispatch-only and requires the `testflight` environment's ASC API
 key and iOS distribution certificate secrets.
 The MCP server runs on Fly.io single-process hosting (issue #72): the
-canonical client-facing endpoint is `https://morsel-mcp.fly.dev/mcp`
-(deployed; runbook in [docs/FLY_DEPLOY.md](docs/FLY_DEPLOY.md)), so the
-in-memory MCP session map survives across requests. The Supabase Edge
+canonical client-facing endpoint is `https://mcp.morselfood.app/mcp`
+(custom domain over the Fly deployment, issue #130; runbook in
+[docs/FLY_DEPLOY.md](docs/FLY_DEPLOY.md)), so the in-memory MCP session map
+survives across requests. During the transition the legacy
+`https://morsel-mcp.fly.dev/mcp` origin still serves the identical transport
+and metadata — both are valid `MORSEL_PUBLIC_BASE_URL` values and no client
+is forced to migrate. The Supabase Edge
 Function deployment is retained as legacy compatibility. Vercel remains the
 browser consent page and posts to the Fly origin's `/mcp/authorize` (issue
 #74).

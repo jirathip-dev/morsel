@@ -15,11 +15,14 @@ def morsel_xml_escape(value)
   value.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;").gsub('"', "&quot;")
 end
 
-# Canonical MCP transport published into the built Info.plist (issue #75):
-# the Fly origin from #72/#74. The Supabase Edge Function transport
+# Canonical MCP transport published into the built Info.plist (issue #75,
+# origin updated to the morselfood.app custom domain in #130): served by the
+# same Fly deployment as #72/#74. The Supabase Edge Function transport
 # (previously derived from SUPABASE_URL) is legacy/retained backend
-# compatibility and is no longer the client-facing endpoint.
-CANONICAL_MCP_URL = "https://morsel-mcp.fly.dev/mcp".freeze
+# compatibility and is no longer the client-facing endpoint. The legacy
+# https://morsel-mcp.fly.dev/mcp origin still serves identically during the
+# transition (docs/FLY_DEPLOY.md).
+CANONICAL_MCP_URL = "https://mcp.morselfood.app/mcp".freeze
 
 # Read and validate the Supabase TestFlight configuration. Fails fast with
 # names-only diagnostics when a value is missing or empty; never prints values.

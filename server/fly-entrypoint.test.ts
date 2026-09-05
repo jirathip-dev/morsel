@@ -7,10 +7,11 @@ import type { Authenticate } from './auth.js'
 import { InMemoryRepository } from './in-memory-repository.js'
 import type { OAuthAuthorizationGrant, OAuthGrantStore, OAuthIdentityService, OAuthUserSession } from './oauth.js'
 
-// Synthetic, non-secret values: the canonical Fly public base and the Vercel
-// consent page URL are the values production docs will configure. No request
-// in this suite ever leaves the process (Supabase hosts use .invalid).
-const CANONICAL = 'https://morsel-mcp.fly.dev/mcp'
+// Synthetic, non-secret values: the canonical public base (the
+// mcp.morselfood.app custom domain since #130) and the Vercel consent page
+// URL are the values production docs will configure. No request in this
+// suite ever leaves the process (Supabase hosts use .invalid).
+const CANONICAL = 'https://mcp.morselfood.app/mcp'
 const AUTHORIZE_PAGE = 'https://morsel-authorize-ui.vercel.app/authorize'
 const TEST_USER_ID = '00000000-0000-4000-8000-000000000002'
 
@@ -125,7 +126,7 @@ describe('Fly entry point environment validation (fail closed)', () => {
   })
 
   it('rejects non-HTTPS public bases except on loopback hosts', () => {
-    expect(() => createFlyApp(baseEnv({ MORSEL_PUBLIC_BASE_URL: 'http://morsel-mcp.fly.dev/mcp' })))
+    expect(() => createFlyApp(baseEnv({ MORSEL_PUBLIC_BASE_URL: 'http://mcp.morselfood.app/mcp' })))
       .toThrow(/absolute HTTPS \(http is allowed only for loopback hosts\)/)
     const loopback = createFlyApp(baseEnv({ MORSEL_PUBLIC_BASE_URL: 'http://127.0.0.1:8080/mcp' }))
     expect(loopback.config.publicBaseUrl).toBe('http://127.0.0.1:8080/mcp')
@@ -135,10 +136,10 @@ describe('Fly entry point environment validation (fail closed)', () => {
 
   it('rejects userinfo, query strings, fragments, and whitespace in the public base', () => {
     const cases: Array<[string, RegExp]> = [
-      ['https://user:secret@morsel-mcp.fly.dev/mcp', /must not include userinfo/],
-      ['https://morsel-mcp.fly.dev/mcp?region=nrt', /must not include a query string or fragment/],
-      ['https://morsel-mcp.fly.dev/mcp#consent', /must not include a query string or fragment/],
-      ['https://morsel-mcp.fly.dev/m cp', /must not contain whitespace or control characters/],
+      ['https://user:secret@mcp.morselfood.app/mcp', /must not include userinfo/],
+      ['https://mcp.morselfood.app/mcp?region=nrt', /must not include a query string or fragment/],
+      ['https://mcp.morselfood.app/mcp#consent', /must not include a query string or fragment/],
+      ['https://mcp.morselfood.app/m cp', /must not contain whitespace or control characters/],
     ]
     for (const [value, message] of cases) {
       expect(() => createFlyApp(baseEnv({ MORSEL_PUBLIC_BASE_URL: value })), value).toThrow(message)
@@ -150,13 +151,13 @@ describe('Fly entry point environment validation (fail closed)', () => {
     // transport would make metadata advertise routes that are not served, so
     // the entry point refuses to start instead of serving a broken origin.
     const cases: Array<[string, RegExp]> = [
-      ['https://morsel-mcp.fly.dev', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/mcp/', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/mcp/mcp', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/mcp/mcp/', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/functions/v1/mcp', /path must be exactly \/mcp/],
-      ['https://morsel-mcp.fly.dev/mcp-extra', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/mcp/', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/mcp/mcp', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/mcp/mcp/', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/functions/v1/mcp', /path must be exactly \/mcp/],
+      ['https://mcp.morselfood.app/mcp-extra', /path must be exactly \/mcp/],
     ]
     for (const [value, message] of cases) {
       expect(() => createFlyApp(baseEnv({ MORSEL_PUBLIC_BASE_URL: value })), value).toThrow(message)

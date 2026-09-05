@@ -49,7 +49,7 @@ function testEnv(): FlyEntrypointEnv {
     SUPABASE_URL: 'https://supabase.invalid',
     SUPABASE_ANON_KEY: 'test-anon-key',
     MORSEL_OAUTH_SIGNING_KEY: 'test-signing-key',
-    MORSEL_PUBLIC_BASE_URL: 'https://morsel-mcp.fly.dev/mcp',
+    MORSEL_PUBLIC_BASE_URL: 'https://mcp.morselfood.app/mcp',
   }
 }
 
@@ -223,7 +223,7 @@ describe('Fly entry point over a real HTTP listener (single process, one session
   })
 
   it('exposes per-tool oauth2 securitySchemes and answers an expired-auth read-only call with the _meta re-auth challenge (issue #96)', async () => {
-    const resourceMetadataUrl = 'https://morsel-mcp.fly.dev/mcp/.well-known/oauth-protected-resource/mcp'
+    const resourceMetadataUrl = 'https://mcp.morselfood.app/mcp/.well-known/oauth-protected-resource/mcp'
     const requiredText = 'Authentication required: reconnect the Morsel account to continue.'
     const expectedChallenge = `Bearer resource_metadata="${resourceMetadataUrl}", error="invalid_token", error_description="${requiredText}"`
 

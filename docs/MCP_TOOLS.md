@@ -349,8 +349,19 @@ future upload flow can write object paths of `{user_id}/{meal_log_id}.jpg`.
 
 The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
 access token issued by the provider. The canonical client-facing transport
-URL is the deployed Fly origin, `https://morsel-mcp.fly.dev/mcp` (issues
-#72/#73/#75). OAuth clients discover the provider through
+URL is `https://mcp.morselfood.app/mcp` (issue #130 — the morselfood.app
+custom domain over the same Fly deployment first published in issues
+#72/#73/#75).
+
+> **Transition (issue #130):** the legacy `https://morsel-mcp.fly.dev/mcp`
+> origin still serves the identical transport, OAuth metadata, and 401
+> challenges until fully retired — no client is forced to migrate. Both
+> origins remain valid `MORSEL_PUBLIC_BASE_URL` values; the deployed Fly
+> secret currently still names the legacy origin, so discovery documents on
+> both origins advertise the legacy issuer until the human-gated env flip
+> (see `docs/FLY_DEPLOY.md`).
+
+OAuth clients discover the provider through
 `/.well-known/oauth-protected-resource` (the path-specific
 `/.well-known/oauth-protected-resource/mcp` is also served),
 `/.well-known/oauth-authorization-server`, and
@@ -360,7 +371,7 @@ same `issuer`, endpoints, CORS, and cache behavior — and adds no OIDC claims
 the provider cannot back. Because the issuer is a path (`/mcp` on the Fly
 origin), spec-compliant MCP clients append the OIDC path to the issuer, and
 the canonical discovery URL that succeeds is the issuer-relative
-`https://morsel-mcp.fly.dev/mcp/.well-known/openid-configuration`.
+`https://mcp.morselfood.app/mcp/.well-known/openid-configuration`.
 The advertised OAuth `resource` is the canonical transport URL itself.
 
 > **Legacy Edge compatibility (issues #57/#72/#75):** before the Fly
@@ -465,7 +476,7 @@ is answered with a structured JSON-RPC result (`isError: true`) whose
 HTTP 401 advertises, so ChatGPT surfaces its account-linking UI:
 
 ```
-Bearer resource_metadata="https://morsel-mcp.fly.dev/mcp/.well-known/oauth-protected-resource/mcp", error="invalid_token", error_description="Authentication required: reconnect the Morsel account to continue."
+Bearer resource_metadata="https://mcp.morselfood.app/mcp/.well-known/oauth-protected-resource/mcp", error="invalid_token", error_description="Authentication required: reconnect the Morsel account to continue."
 ```
 
 Discovery/first-contact requests (no session id) keep the plain HTTP 401 +

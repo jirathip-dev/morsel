@@ -99,14 +99,14 @@ class SupabaseValuesTest < Minitest::Test
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
     values = morsel_supabase_values
-    assert_equal "https://morsel-mcp.fly.dev/mcp", values[:mcp_url]
+    assert_equal "https://mcp.morselfood.app/mcp", values[:mcp_url]
     refute_includes values[:mcp_url], "supabase.co"
   end
 
   def test_mcp_url_is_independent_of_supabase_url_shape
     ENV["SUPABASE_URL"] = "https://abcd.supabase.co/"
     ENV["SUPABASE_ANON_KEY"] = "anon-key"
-    assert_equal "https://morsel-mcp.fly.dev/mcp",
+    assert_equal "https://mcp.morselfood.app/mcp",
       morsel_supabase_values[:mcp_url]
   end
 
@@ -140,7 +140,7 @@ class SupabaseValuesTest < Minitest::Test
     assert_includes seen, "<string>https://abcd.supabase.co</string>"
     assert_includes seen, "<string>anon-key</string>"
     assert_includes seen,
-      "<string>https://morsel-mcp.fly.dev/mcp</string>"
+      "<string>https://mcp.morselfood.app/mcp</string>"
   end
 
   def test_shell_sensitive_values_are_never_executed_or_split

@@ -3,9 +3,12 @@
 ## Decision
 **Supabase store + MCP server hosted as a single process on Fly.io (issue
 #72): deployed and canonical.** The store stays on Supabase (Postgres +
-RLS); the MCP endpoint runs as one long-lived Bun process on Fly at
-`https://morsel-mcp.fly.dev/mcp` so the in-memory MCP session map survives
-across requests — Supabase Edge Function isolates cannot hold sessions
+RLS); the MCP endpoint runs as one long-lived Bun process on Fly —
+canonical client URL `https://mcp.morselfood.app/mcp` (issue #130, custom
+domain over the deployment), with the legacy `https://morsel-mcp.fly.dev/mcp`
+origin still serving the same app during the transition — so the
+in-memory MCP session map survives across requests — Supabase Edge Function
+isolates cannot hold sessions
 (issue #71; the live initialize → notifications/initialized → tools/list
 breakage). The Fly process replaced the Deno Edge Function (whose transport
 was the function root, `https://<public-host>/functions/v1/mcp`, issue #57)
@@ -56,15 +59,20 @@ REST API for the app — it reads Supabase directly (RLS-scoped).
 
 **Current production (deployed, canonical):** `server/fly-entrypoint.ts`
 serves the shared `createMorselApp` from one Bun process on Fly (issue #72;
-`Dockerfile` + `fly.toml`, one machine, region `nrt`, `/health` check) at
-`https://morsel-mcp.fly.dev/mcp`. `GET /health` is public; each MCP request
+`Dockerfile` + `fly.toml`, one machine, region `nrt`, `/health` check) at the
+canonical client URL `https://mcp.morselfood.app/mcp` (issue #130); the
+legacy `https://morsel-mcp.fly.dev/mcp` origin serves the same deployment and
+serves identically until fully retired. `GET /health` is public; each MCP request
 carries a per-request Supabase bearer token that the process validates with
 `auth.getUser()` before serving the streamable MCP transport. On Fly there is
 no `/functions/v1` gateway prefix, so the app mounts with `basePath: '/mcp'`
 — canonical transport `/mcp`, discovery/OAuth routes below `/mcp/`, `/health`
 at the raw origin root, and no `/mcp/mcp` alias and no `/functions/v1`
 artifacts. `issuer`/`resource`/endpoints derive from the configured
-`MORSEL_PUBLIC_BASE_URL` (`https://morsel-mcp.fly.dev/mcp`), never from the
+`MORSEL_PUBLIC_BASE_URL` (canonical value `https://mcp.morselfood.app/mcp`;
+the deployed secret currently still names the legacy origin until the
+human-gated env flip — both values are valid and metadata on both origins is
+identical), never from the
 request Host header; `authorization_endpoint` is the Vercel consent page. The
 BROWSER consent surface is the static Vercel page under `authorize-ui/`
 (issue #69): the page's same-origin `params.js` bridges the allowlisted query
@@ -154,7 +162,8 @@ client-facing canonical base.
   #59) — the same document with the same issuer/endpoints. With the path
   issuer `/mcp` on the canonical Fly origin, spec clients append the OIDC
   path to the issuer, so the canonical discovery URL is
-  `https://morsel-mcp.fly.dev/mcp/.well-known/openid-configuration`; on the
+  `https://mcp.morselfood.app/mcp/.well-known/openid-configuration` (the
+  legacy origin serves the same document during the transition); on the
   legacy Edge base (issuer `/functions/v1/mcp`) the host-root
   `/.well-known/…/functions/v1/mcp` prefixes never reached the function
   (Supabase gateway). The MCP 401 response points clients at the

@@ -104,7 +104,9 @@ function hasControlOrWhitespace(value: string): boolean {
 
 /**
  * Fail-closed validation of the canonical public base URL
- * (`MORSEL_PUBLIC_BASE_URL`, e.g. `https://morsel-mcp.fly.dev/mcp`).
+ * (`MORSEL_PUBLIC_BASE_URL`, e.g. `https://mcp.morselfood.app/mcp`; the
+ * legacy `https://morsel-mcp.fly.dev/mcp` origin remains a valid value
+ * during the transition).
  *
  * Metadata issuer/resource/endpoints derive from this URL on Fly (never from
  * the incoming Host header), so it must be an absolute URL whose path is
