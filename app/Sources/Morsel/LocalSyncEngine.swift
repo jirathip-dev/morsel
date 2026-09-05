@@ -216,13 +216,24 @@ final class LocalSyncEngine {
         do {
             try await healthUploader.upsert(unsynced)
             try await healthUploader.upsertEnergyBurned(dirtyDays)
+            var uploadedWeight = false
             for sample in unsynced {
                 try? healthStore.markWeightSynced(measuredAt: sample.measuredAt)
+                uploadedWeight = true
             }
+            var uploadedEnergy = false
             for day in dirtyDays {
                 try? healthStore.markEnergyDaySynced(day: day.burnedAt)
+                uploadedEnergy = true
             }
-            try? healthStore.setLastSuccessfulUpload(now())
+            // Issue #112 — the calm status names ONLY the types that actually
+            // uploaded ≥1 row in this pass: each per-type mark shares the
+            // pass stamp, and a type with zero rows gets no mark at all (an
+            // energy-only drain must never read as a weight sync).
+            let stamp = now()
+            try? healthStore.setLastSuccessfulUpload(stamp)
+            if uploadedWeight { try? healthStore.setLastWeightUpload(stamp) }
+            if uploadedEnergy { try? healthStore.setLastEnergyUpload(stamp) }
         } catch {
             // Rows stay dirty — next pass retries the same idempotent upserts.
         }

@@ -48,6 +48,20 @@ struct HistoryOverview: Equatable, Sendable, Codable {
 extension DashboardMath {
     // MARK: History ledger math (issue #94)
 
+    /// Whole-second trend identity (issue #112): the same HealthKit sample
+    /// can surface as a remote row (ISO round-trip: second/ms precision) AND
+    /// a local row (HealthKit sub-second time); whole-second keys render the
+    /// sample ONCE — the later point at the same second wins.
+    static func dedupeWeightTrendByWholeSecond(
+        _ points: [WeightTrendPoint]
+    ) -> [WeightTrendPoint] {
+        var bySecond: [TimeInterval: WeightTrendPoint] = [:]
+        for point in points {
+            bySecond[point.date.timeIntervalSince1970.rounded()] = point
+        }
+        return bySecond.values.sorted { $0.date < $1.date }
+    }
+
     /// Day buckets must be compared on the same UTC-day grid the repository
     /// uses for meal_logs ranges.
     static func startOfUTCDay(_ date: Date) -> Date {

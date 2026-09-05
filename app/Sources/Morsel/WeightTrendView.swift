@@ -107,10 +107,18 @@ struct V1WeightTrendView: View {
         }
     }
 
+    /// Issue #112 — the caption shows the LATEST value whenever ≥1 sample
+    /// exists (a lone or duplicate pair must never read as a fake delta):
+    /// e.g. "kg · 72.4 today · −0.6 over 30 days".
     private var detailText: String {
-        if let delta {
-            return "kg · \(MorselFormat.number(delta)) over 30 days"
+        guard let latest = sortedPoints.last else { return "kg" }
+        var text = "kg · \(MorselFormat.number(latest.kilograms))"
+        if DashboardMath.startOfUTCDay(latest.date) == DashboardMath.startOfUTCDay(today) {
+            text += " today"
         }
-        return "kg"
+        if let delta {
+            text += " · \(MorselFormat.number(delta)) over 30 days"
+        }
+        return text
     }
 }

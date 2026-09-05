@@ -51,9 +51,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let items = try await loadMealItems(client, logs: logs)
         let goalRows = try await loadGoals(client, userID: authenticatedUserID)
         let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
-        let weightRows = try await loadWeightTrend(
-            client, userID: authenticatedUserID, start: trendStart, end: end
-        )
+        let weightRows = try await loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
         let energyRows = try await loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
 
         var itemsByMealID: [String: [MealItem]] = [:]
@@ -77,7 +75,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
         let profile = try profileRows.first.map(parseProfile)
         let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
         return DashboardSnapshot(
-            date: start, meals: meals, goal: goal, weightTrend: weightRows.compactMap(parseWeight),
+            date: start, meals: meals, goal: goal,
+            weightTrend: DashboardMath.dedupeWeightTrendByWholeSecond(weightRows.compactMap(parseWeight)),
             activeEnergyBurned: energyRows.reduce(0) { $0 + $1.activeKilocalories }
         )
     }
