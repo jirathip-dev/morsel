@@ -1,0 +1,81 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-110-settings-theme
+
+ ❯ app/issue-110-settings-theme-contract.test.ts (3 tests | 2 failed) 18ms
+   ✓ issue #110 AC2: the appearance seam is pinned on every presented cover root > re-reads the shared theme key at the shell so cover content re-resolves live 2ms
+   × issue #110 AC2: the appearance seam is pinned on every presented cover root > Settings cover root re-asserts the scheme inside its own fullScreenCover 13ms
+     → expected '.fullScreenCover(isPresented: $showin…' to match /SettingsJournalView\([\s\S]*?\)\s*\.p…/
+   × issue #110 AC2: the appearance seam is pinned on every presented cover root > Onboarding cover root re-asserts the scheme inside its own fullScreenCover 2ms
+     → expected '.fullScreenCover(isPresented: $showin…' to match /MorselActionTint \{[\s\S]*?Onboarding…/
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/issue-110-settings-theme-contract.test.ts > issue #110 AC2: the appearance seam is pinned on every presented cover root > Settings cover root re-asserts the scheme inside its own fullScreenCover
+AssertionError: expected '.fullScreenCover(isPresented: $showin…' to match /SettingsJournalView\([\s\S]*?\)\s*\.p…/
+
+[32m- Expected:[39m
+/SettingsJournalView\([\s\S]*?\)\s*\.preferredColorScheme\(coverColorScheme\)/
+
+[31m+ Received:[39m
+".fullScreenCover(isPresented: $showingSettings) {
+            SettingsJournalView(
+                themePreferenceKey: MorselAppearance.themePreferenceKey,
+                mcpEndpoint: mcpEndpoint,
+                replay: { showingSettings = false; showingOnboarding = true },
+                onSignOut: { showingSettings = false; onSignOut() },
+                close: { showingSettings = false },
+                weightImportError: viewModel.weightImportError,
+                healthStatusCopy: viewModel.healthStatus.copy,
+                onRetryHealthSync: {
+                    Task { await viewModel.retryHealthSync() }
+                }
+            )
+        }
+        "
+
+ ❯ app/issue-110-settings-theme-contract.test.ts:51:27
+     49|     // cover declaration, so an onboarding-site-only modifier cannot s…
+     50|     // this assertion).
+     51|     expect(settingsCover).toMatch(
+       |                           ^
+     52|       /SettingsJournalView\([\s\S]*?\)\s*\.preferredColorScheme\(cover…
+     53|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  app/issue-110-settings-theme-contract.test.ts > issue #110 AC2: the appearance seam is pinned on every presented cover root > Onboarding cover root re-asserts the scheme inside its own fullScreenCover
+AssertionError: expected '.fullScreenCover(isPresented: $showin…' to match /MorselActionTint \{[\s\S]*?Onboarding…/
+
+[32m- Expected:[39m
+/MorselActionTint \{[\s\S]*?OnboardingView\([\s\S]*?\)\s*\}\s*\.preferredColorScheme\(coverColorScheme\)/
+
+[31m+ Received:[39m
+".fullScreenCover(isPresented: $showingOnboarding) {
+            MorselActionTint {
+                OnboardingView(
+                    userID: viewModel.userID,
+                    endpoint: mcpEndpoint,
+                    session: session,
+                    onFinished: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false },
+                    onSkip: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false }
+                )
+            }
+        }
+        "
+
+ ❯ app/issue-110-settings-theme-contract.test.ts:63:29
+     61|     const onboardingCover = shell.slice(onboardingStart, onboardingEnd)
+     62|     expect(onboardingCover).toContain('OnboardingView(')
+     63|     expect(onboardingCover).toMatch(
+       |                             ^
+     64|       /MorselActionTint \{[\s\S]*?OnboardingView\([\s\S]*?\)\s*\}\s*\.…
+     65|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  08:19:31
+   Duration  1.30s (transform 416ms, setup 0ms, collect 416ms, tests 18ms, environment 0ms, prepare 195ms)
+

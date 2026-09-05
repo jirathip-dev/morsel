@@ -1,0 +1,17 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-110-settings-theme
+
+ ✓ app/unauth-action-tint.test.ts (7 tests) 34ms
+ ✓ app/version-metadata.test.ts (4 tests) 10ms
+ ✓ app/issue-110-settings-theme-contract.test.ts (3 tests) 18ms
+ ✓ app/onboarding-contract.test.ts (6 tests) 36ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 64ms
+ ✓ app/warm-palette.test.ts (14 tests) 60ms
+ ✓ app/hotfix-89-contract.test.ts (9 tests) 31ms
+ ✓ app/v1-journal-contract.test.ts (10 tests) 227ms
+
+ Test Files  8 passed (8)
+      Tests  65 passed (65)
+   Start at  08:23:54
+   Duration  3.65s (transform 3.50s, setup 0ms, collect 5.35s, tests 481ms, environment 14ms, prepare 4.99s)
+
