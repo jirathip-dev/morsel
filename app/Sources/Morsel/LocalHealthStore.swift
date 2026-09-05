@@ -120,6 +120,23 @@ final class LocalHealthStore: WeightLogStore {
         }
     }
 
+    /// Newest stored body-mass sample (synced or still dirty) — the live
+    /// weight the computed goal path uses when it is newer than the remote
+    /// row (issue #113 amendment A local overlay).
+    func newestWeightSample() throws -> WeightLog? {
+        lock.lock(); defer { lock.unlock() }
+        return try query("""
+        SELECT measured_at, kg FROM weight_samples
+        ORDER BY measured_at DESC LIMIT 1
+        """, []).compactMap { row -> WeightLog? in
+            guard let measuredAt = row.double("measured_at"),
+                  let kilograms = row.double("kg") else {
+                return nil
+            }
+            return WeightLog(measuredAt: Date(timeIntervalSince1970: measuredAt), kilograms: kilograms)
+        }.first
+    }
+
     func markWeightSynced(measuredAt: Date) throws {
         try runUnsafe("""
         UPDATE weight_samples SET uploaded = 1 WHERE measured_at = ?

@@ -103,6 +103,30 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         }
     }
 
+    /// Issue #113 — full Goals-page context: remote read wins, the goals
+    /// cache refreshes, a newer local weight_sample overlays the remote.
+    /// Offline: cached goals row, no profile claim.
+    func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext {
+        do {
+            var context = try await remote.loadGoalsContext(userID: userID)
+            if let stored = context.stored, let payload = try? Self.encode(stored) {
+                try? snapshotCache.saveGoalsCache(userKey: userID.uuidString, payload: payload)
+            }
+            if let healthStore,
+               let local = try? healthStore.newestWeightSample(),
+               local.measuredAt > (context.latestWeight?.measuredAt ?? .distantPast) {
+                context = context.withLatestWeight(SyncedWeightSample(weightLog: local))
+            }
+            return context
+        } catch {
+            guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else {
+                throw error
+            }
+            let stored = try Self.decode(StoredDashboardGoal.self, payload)
+            return GoalsPageContext(stored: stored, profile: nil, latestWeight: nil, profileRowRead: false)
+        }
+    }
+
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal {
         do {
             let goal = try await remote.computeGoals(userID: userID, direction: direction)

@@ -15,19 +15,12 @@ protocol DashboardRepository {
     func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID
     func loadMealImage(userID: UUID, path: String) async throws -> Data
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal?
+    func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal
     func saveGoals(userID: UUID, goal: DashboardGoal) async throws
     func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot?
     func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview?
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord?
-}
-
-extension DashboardRepository {
-    func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot? { nil }
-
-    func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview? { nil }
-
-    func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? { nil }
 }
 
 struct SupabaseDashboardRepository: DashboardRepository {
@@ -73,7 +66,10 @@ struct SupabaseDashboardRepository: DashboardRepository {
         }
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
-        let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
+        let goal = DashboardMath.effectiveGoal(
+            stored: storedGoal, profile: profile,
+            latestWeightKg: weightRows.compactMap(parseWeight).last?.kilograms
+        )
         return DashboardSnapshot(
             date: start, meals: meals, goal: goal,
             weightTrend: DashboardMath.dedupeWeightTrendByWholeSecond(weightRows.compactMap(parseWeight)),
@@ -118,7 +114,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
     func loadGoals(_ client: SupabaseClient, userID: UUID) async throws -> [GoalResponse] {
         try await client
             .from("goals")
-            .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source")
+            .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at")
             .eq("user_id", value: userID.uuidString)
             .limit(1)
             .execute()
@@ -128,7 +124,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
     func loadProfiles(_ client: SupabaseClient, userID: UUID) async throws -> [ProfileResponse] {
         try await client
             .from("profiles")
-            .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg")
+            .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at")
             .eq("user_id", value: userID.uuidString)
             .limit(1)
             .execute()
@@ -215,7 +211,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             proteinG: try nonNegative(response.proteinG, field: "protein_g"),
             carbsG: try nonNegative(response.carbsG, field: "carbs_g"),
             fatG: try nonNegative(response.fatG, field: "fat_g"),
-            source: source
+            source: source, updatedAt: response.updatedAt.flatMap(MorselDate.date)
         )
     }
 
@@ -238,7 +234,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             weightKg: response.weightKg,
             activityLevel: activityLevel,
             dietGoal: dietGoal,
-            goalWeightKg: response.goalWeightKg
+            goalWeightKg: response.goalWeightKg, updatedAt: response.updatedAt.flatMap(MorselDate.date)
         )
     }
 
@@ -349,6 +345,7 @@ struct GoalResponse: Decodable {
     let carbsG: Double?
     let fatG: Double?
     let source: String
+    var updatedAt: String? = nil // swiftlint:disable:this implicit_optional_initialization
 
     enum CodingKeys: String, CodingKey {
         case calorieTargetKcal = "calorie_target_kcal"
@@ -356,6 +353,7 @@ struct GoalResponse: Decodable {
         case carbsG = "carbs_g"
         case fatG = "fat_g"
         case source
+        case updatedAt = "updated_at"
     }
 }
 
@@ -386,6 +384,7 @@ struct ProfileResponse: Decodable {
     let activityLevel: String
     let dietGoal: String
     let goalWeightKg: Double?
+    var updatedAt: String? = nil // swiftlint:disable:this implicit_optional_initialization
 
     enum CodingKeys: String, CodingKey {
         case sex
@@ -395,5 +394,6 @@ struct ProfileResponse: Decodable {
         case activityLevel = "activity_level"
         case dietGoal = "diet_goal"
         case goalWeightKg = "goal_weight_kg"
+        case updatedAt = "updated_at"
     }
 }

@@ -104,6 +104,9 @@ struct DashboardProfile: Equatable, Sendable, Codable {
     let activityLevel: ProfileActivityLevel
     let dietGoal: ProfileDietGoal
     let goalWeightKg: Double?
+    /// Issue #113 — row write time read from `profiles.updated_at`; drives
+    /// the app-side recency mirror (missing on legacy/cached rows).
+    var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
 }
 
 enum MealType: String, CaseIterable, Sendable, Codable {
@@ -182,6 +185,9 @@ struct StoredDashboardGoal: Equatable, Sendable, Codable {
     let carbsG: Double?
     let fatG: Double?
     let source: GoalSource
+    /// Issue #113 — row write time read from `goals.updated_at`; drives the
+    /// app-side recency mirror (missing on legacy/cached rows).
+    var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
 }
 
 struct DashboardSnapshot: Equatable, Sendable, Codable {
@@ -255,76 +261,8 @@ enum DashboardMath {
         }
     }
 
-    static func effectiveGoal(
-        stored: StoredDashboardGoal?,
-        profile: DashboardProfile?
-    ) -> DashboardGoal? {
-        if let stored,
-           stored.source == .manual,
-           let calorieTargetKcal = stored.calorieTargetKcal,
-           let proteinG = stored.proteinG,
-           let carbsG = stored.carbsG,
-           let fatG = stored.fatG {
-            return DashboardGoal(
-                calorieTargetKcal: calorieTargetKcal,
-                proteinG: proteinG,
-                carbsG: carbsG,
-                fatG: fatG,
-                source: .manual
-            )
-        }
-        guard let profile else {
-            return nil
-        }
-        let computed = computedGoal(for: profile)
-        guard let stored, stored.source == .manual else {
-            return computed
-        }
-        return DashboardGoal(
-            calorieTargetKcal: stored.calorieTargetKcal ?? computed.calorieTargetKcal,
-            proteinG: stored.proteinG ?? computed.proteinG,
-            carbsG: stored.carbsG ?? computed.carbsG,
-            fatG: stored.fatG ?? computed.fatG,
-            source: .manual
-        )
-    }
-
-    static func computedGoal(for profile: DashboardProfile) -> DashboardGoal {
-        let sexOffset: Double = profile.sex == .male ? 5 : -161
-        let weightTerm = 10 * profile.weightKg
-        let heightTerm = 6.25 * profile.heightCm
-        let ageTerm = 5 * Double(profile.ageYears)
-        let bmr = weightTerm + heightTerm - ageTerm + sexOffset
-        let activityFactor: Double = switch profile.activityLevel {
-        case .sedentary:
-            1.2
-        case .light:
-            1.375
-        case .moderate:
-            1.55
-        case .active:
-            1.725
-        case .veryActive:
-            1.9
-        }
-        let tdee = (bmr * activityFactor).rounded()
-        let calorieTarget: Double = switch profile.dietGoal {
-        case .lose:
-            max(1_200, tdee - 500)
-        case .maintain:
-            tdee
-        case .gain:
-            tdee + 300
-        }
-        return DashboardGoal(
-            calorieTargetKcal: calorieTarget,
-            proteinG: (calorieTarget * 0.3 / 4).rounded(),
-            carbsG: (calorieTarget * 0.45 / 4).rounded(),
-            fatG: (calorieTarget * 0.25 / 9).rounded(),
-            source: .computed
-        )
-    }
-
+    /// Effective goal resolution mirrors the server's "latest update wins"
+    /// rule — implemented in GoalsMath.swift (issue #113).
     static func confidenceBadge(for confidence: Double?) -> ConfidenceBadge {
         guard let confidence, confidence.isFinite else {
             return .missing

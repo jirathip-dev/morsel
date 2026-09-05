@@ -33,7 +33,9 @@ extension SupabaseDashboardRepository {
 
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
-        let goal = DashboardMath.effectiveGoal(stored: storedGoal, profile: profile)
+        // Issue #113 — newest synced weight feeds the computed path (profile
+        // weight remains the fallback), like the server's weight_used.
+        let goal = historyEffectiveGoal(stored: storedGoal, profile: profile, weightRows: weightRows)
 
         // Bucket meal logs into UTC calendar days; aggregate item calories.
         var caloriesByMealID: [String: Double] = [:]
@@ -64,6 +66,18 @@ extension SupabaseDashboardRepository {
             days: historyDays,
             goal: goal,
             weightTrend: DashboardMath.dedupeWeightTrendByWholeSecond(weightRows.compactMap(parseWeight))
+        )
+    }
+
+    /// Amendment A helper: newest synced weight feeds the history goal's
+    /// computed path (profile weight remains the fallback), like the
+    /// server's weight_used — kept out of loadHistory's body budget.
+    private func historyEffectiveGoal(
+        stored: StoredDashboardGoal?, profile: DashboardProfile?, weightRows: [WeightResponse]
+    ) -> DashboardGoal? {
+        DashboardMath.effectiveGoal(
+            stored: stored, profile: profile,
+            latestWeightKg: weightRows.compactMap(parseWeight).last?.kilograms
         )
     }
 }

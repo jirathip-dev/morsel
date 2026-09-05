@@ -11,6 +11,9 @@ final class MockDashboardRepository: DashboardRepository {
     private(set) var loadCount = 0
     var failMealLog = false
     private var storedGoal: StoredDashboardGoal?
+    /// Issue #113 — seeded Goals-page context (recency + profile line tests).
+    private var contextProfile: DashboardProfile?
+    private var contextLatestWeight: SyncedWeightSample?
 
     init(snapshot: DashboardSnapshot) {
         currentSnapshot = snapshot
@@ -20,6 +23,34 @@ final class MockDashboardRepository: DashboardRepository {
                 carbsG: $0.carbsG, fatG: $0.fatG, source: $0.source
             )
         }
+    }
+
+    func seedGoalsContext(profile: DashboardProfile?, latestWeight: SyncedWeightSample?) {
+        contextProfile = profile
+        contextLatestWeight = latestWeight
+    }
+
+    /// Issue #113 — seed the stored goals row directly (with a write time
+    /// when recency is under test).
+    func seedStoredGoal(_ stored: StoredDashboardGoal) {
+        storedGoal = stored
+        currentSnapshot = DashboardSnapshot(
+            date: currentSnapshot.date, meals: currentSnapshot.meals,
+            goal: DashboardGoal(
+                calorieTargetKcal: stored.calorieTargetKcal ?? 0,
+                proteinG: stored.proteinG ?? 0, carbsG: stored.carbsG ?? 0,
+                fatG: stored.fatG ?? 0, source: stored.source
+            )
+        )
+    }
+
+    func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext {
+        GoalsPageContext(
+            stored: storedGoal,
+            profile: contextProfile,
+            latestWeight: contextLatestWeight,
+            profileRowRead: true
+        )
     }
 
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? {
@@ -54,7 +85,8 @@ final class MockDashboardRepository: DashboardRepository {
                 sex: profile.sex, ageYears: profile.ageYears, heightCm: profile.heightCm,
                 weightKg: profile.weightKg, activityLevel: profile.activityLevel,
                 dietGoal: dietGoal, goalWeightKg: profile.goalWeightKg
-            )
+            ),
+            latestWeightKg: contextLatestWeight?.kilograms
         )
     }
 
