@@ -11,11 +11,8 @@ import SQLite3
 final class LocalHealthStore: WeightLogStore {
     let database: OpaquePointer
     let lock = NSRecursiveLock()
-    private let calendar: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-        return calendar
-    }()
+    /// Issue #121 — energy day rows bucket on the DEVICE'S LOCAL day.
+    private let calendar = Calendar.autoupdatingCurrent
 
     private enum Key {
         static let bodyMassAnchor = "health.anchor.bodyMass"
@@ -53,9 +50,21 @@ final class LocalHealthStore: WeightLogStore {
             CREATE TABLE IF NOT EXISTS energy_days(
               day_key TEXT PRIMARY KEY,
               total REAL NOT NULL,
-              uploaded_total REAL
+              uploaded_total REAL,
+              upload_burned_at REAL
             )
             """)
+            // Issue #121 one-time re-bucket: legacy files carry the 3-column
+            // shape; add the upload-instant column in place (new files get it
+            // from the CREATE above). upload_burned_at keeps the ORIGINAL
+            // (pre-re-bucket) day-start instant a row was uploaded under, so
+            // corrected totals upsert over the legacy remote row instead of
+            // inserting a duplicate beside it.
+            do {
+                try runUnsafe("ALTER TABLE energy_days ADD COLUMN upload_burned_at REAL")
+            } catch {
+                // Column already present (fresh or previously migrated file).
+            }
             try runUnsafe("CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)")
         } catch {
             sqlite3_close(database)
@@ -86,8 +95,10 @@ final class LocalHealthStore: WeightLogStore {
     }
 
     /// Daily active-energy totals (importer already aggregated + deduped per
-    /// UTC day). A changed total for an already-uploaded day goes dirty so
-    /// the durable pass re-pushes the corrected authoritative day row.
+    /// LOCAL day). A changed total for an already-uploaded day goes dirty so
+    /// the durable pass re-pushes the corrected authoritative day row; the
+    /// re-push keeps the row's original upload instant (upload_burned_at) so
+    /// it replaces the legacy remote row rather than duplicating it.
     func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {
         try lock.lock(); defer { lock.unlock() }
         for log in logs where log.activeKilocalories.isFinite && log.activeKilocalories > 0 {
@@ -144,9 +155,14 @@ final class LocalHealthStore: WeightLogStore {
     }
 
     /// Days whose aggregate changed since the last successful remote push.
+    /// The returned burned-at instant is the row's UPLOAD instant: the local
+    /// day start for rows created after the local-day re-bucket, or the row's
+    /// original pre-re-bucket day-start instant when one was retained — so a
+    /// re-push replaces the legacy remote row (same conflict key) instead of
+    /// inserting a second row for the same local day.
     func dirtyEnergyDays(limit: Int = 60) throws -> [EnergyBurnedLog] {
         try query("""
-        SELECT day_key, total FROM energy_days
+        SELECT day_key, total, upload_burned_at FROM energy_days
         WHERE uploaded_total IS NULL OR uploaded_total <> total
         ORDER BY day_key ASC LIMIT ?
         """, [.int(Int64(limit))]).compactMap { row -> EnergyBurnedLog? in
@@ -155,7 +171,10 @@ final class LocalHealthStore: WeightLogStore {
                   let total = row.double("total") else {
                 return nil
             }
-            return EnergyBurnedLog(burnedAt: day, activeKilocalories: total)
+            let uploadInstant = row.double("upload_burned_at").map {
+                Date(timeIntervalSince1970: $0)
+            } ?? day
+            return EnergyBurnedLog(burnedAt: uploadInstant, activeKilocalories: total)
         }
     }
 
@@ -163,6 +182,54 @@ final class LocalHealthStore: WeightLogStore {
         try runUnsafe("""
         UPDATE energy_days SET uploaded_total = total WHERE day_key = ?
         """, .text(Self.dayKey(calendar.startOfDay(for: day))))
+    }
+
+    // MARK: - Issue #121 one-time local-day re-bucket
+
+    /// Meta key that records the one-shot local-day key migration ran.
+    private static let localDayMigrationKey = "migration.local-day-keys.v1"
+
+    /// True once the account file's day keys were re-bucketed to LOCAL days.
+    func hasLocalDayKeyMigrationRun() -> Bool {
+        lock.lock(); defer { lock.unlock() }
+        return (try? firstString(
+            "SELECT value FROM meta WHERE key = ?", .text(Self.localDayMigrationKey)
+        )) != nil
+    }
+
+    func markLocalDayKeyMigrationRun() {
+        lock.lock(); defer { lock.unlock() }
+        try? runUnsafe("""
+        INSERT INTO meta(key, value) VALUES (?, ?)
+        ON CONFLICT(key) DO UPDATE SET value = excluded.value
+        """, .text(Self.localDayMigrationKey), .text("1"))
+    }
+
+    /// One-shot re-bucket of energy day rows written under UTC day starts:
+    /// each row's day_key becomes the LOCAL day that contains its stored
+    /// instant, and its ORIGINAL key instant is retained as upload_burned_at
+    /// so the row keeps upserting over the same remote row it always did
+    /// (no duplicate remote rows for one local day). Rows that are already
+    /// on a local-day key (e.g. UTC-zone installs) are left untouched.
+    func migrateEnergyDayKeysToLocalDays() throws {
+        lock.lock(); defer { lock.unlock() }
+        let rows = try query(
+            "SELECT day_key, upload_burned_at FROM energy_days", []
+        )
+        for row in rows {
+            guard let oldKey = row.string("day_key"),
+                  let day = Self.date(dayKey: oldKey) else {
+                continue
+            }
+            let newKey = Self.dayKey(calendar.startOfDay(for: day))
+            guard newKey != oldKey else { continue }
+            try runUnsafe("""
+            UPDATE energy_days
+            SET day_key = ?,
+                upload_burned_at = COALESCE(upload_burned_at, ?)
+            WHERE day_key = ?
+            """, .text(newKey), .double(day.timeIntervalSince1970), .text(oldKey))
+        }
     }
 
     /// True when locally stored rows are still awaiting an authenticated

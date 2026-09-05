@@ -148,6 +148,9 @@ private struct AuthenticatedDashboardView: View {
     /// Per-account local-first stack; remote-only fallback when unavailable.
     private let reliability: AccountReliabilityServices?
     private let fallbackImporter: HealthKitWeightImporter?
+    /// Issue #121 — mirrors the device zone to profiles.timezone on launch
+    /// and foreground when it changes (server day math uses the same zone).
+    private let timezoneSync: DeviceTimezoneSync?
 
     init(
         supabaseClient: SupabaseClient?,
@@ -160,6 +163,7 @@ private struct AuthenticatedDashboardView: View {
         self.session = session
         self.auth = auth
         self.onSignOut = onSignOut
+        timezoneSync = supabaseClient.map { DeviceTimezoneSync(client: $0, userID: session.userID) }
         let services = AccountReliabilityServices(client: supabaseClient, userID: session.userID)
         reliability = services
         let fallback: HealthKitWeightImporter?
@@ -214,6 +218,9 @@ private struct AuthenticatedDashboardView: View {
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
         .task {
+            if let timezoneSync {
+                Task { await timezoneSync.syncIfChanged() }
+            }
             async let health: Void = viewModel.importWeights()
             await viewModel.load()
             _ = await health
@@ -229,6 +236,7 @@ private struct AuthenticatedDashboardView: View {
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
+                Task { await timezoneSync?.syncIfChanged() }
                 reliability?.engine.syncNow()
                 Task { await viewModel.load() }
             }

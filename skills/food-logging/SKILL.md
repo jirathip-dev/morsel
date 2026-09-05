@@ -66,6 +66,13 @@ Always follow these rules:
   activity note; it is never subtracted from the goal.
 - `eaten_at` means when the meal happened, not when the photo was uploaded. If
   it is unknown, omit it and let the server use now.
+- Days are the user's LOCAL days: pass the user's IANA `timezone` (for
+  example `Asia/Bangkok` for a user in Bangkok) on `log_meal`, `get_day`,
+  `get_dashboard_summary`, `get_weight_trend`, and `get_energy_burned` when it
+  is not already stored in the profile. Precedence is explicit input →
+  `profiles.timezone` → UTC, and no timezone anywhere behaves exactly like
+  UTC. Echo the returned local date when telling the user which day something
+  was logged to.
 - Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
   not upload or fetch image bytes. Never fabricate a URL.
 
@@ -114,6 +121,7 @@ Required input fields are `meal_type` and `items` (at least one item).
 ```text
 log_meal({
   eaten_at?: ISO date-time with an offset,
+  timezone?: IANA zone (e.g. "Asia/Bangkok"); used only when eaten_at is omitted,
   meal_type: "breakfast" | "lunch" | "dinner" | "snack",
   items: [{
     name: string,                         // required, non-empty
@@ -135,7 +143,9 @@ log_meal({
 })
 ```
 
-The output is `{ meal_log_id: UUID, recorded: true }`. `food_ref_id` must be a
+The output is `{ meal_log_id: UUID, recorded: true }`, plus `timezone` and the
+local `date` (YYYY-MM-DD) it logged to when `eaten_at` was omitted — echo that
+local date to the user. `food_ref_id` must be a
 UUID `id` returned by `search_food`; the v0.1 database column is a UUID. Keep
 each visible food as its own item in the single meal.
 
@@ -189,14 +199,15 @@ Output: `{ ok: true, deleted: true }`.
 
 ### `get_day`
 
-Input: `{ date: valid YYYY-MM-DD }`. The server interprets the date as a UTC
-calendar day.
+Input: `{ date: valid YYYY-MM-DD, timezone?: IANA zone }`. The date is that
+zone's calendar day (explicit `timezone` → `profiles.timezone` → UTC).
 
 Output:
 
 ```text
 {
   date: valid YYYY-MM-DD,
+  timezone: IANA zone used (e.g. "Asia/Bangkok" or "UTC"),
   meals: [{
     meal_log_id: UUID,
     meal_type: "breakfast" | "lunch" | "dinner" | "snack",
@@ -232,15 +243,18 @@ negative `remaining_kcal` means the calorie target has been exceeded.
 
 ### `get_weight_trend`
 
-Input: `{ days?: positive integer <= 366 }`; default is `30`.
-Output: `{ series: [{ date: YYYY-MM-DD, kg: finite number }], latest?: point }`.
-Measurements are user-scoped and `latest` is the final point in the sorted series.
+Input: `{ days?: positive integer <= 366, timezone?: IANA zone }`; default is `30`.
+Output: `{ date: YYYY-MM-DD (local today), timezone: IANA zone used, series: [{ date: YYYY-MM-DD, kg: finite number }], latest?: point }`.
+Every series `date` is the measurement instant's local calendar day in the
+effective timezone; `date` at the top level is the local "today" that anchored
+the window. Measurements are user-scoped and `latest` is the final point in the sorted series.
 
 ### `get_energy_burned`
 
-Input: `{ days?: positive integer <= 366 }`; default is `30`.
-Output: `{ series: [{ date: YYYY-MM-DD, active_kcal: finite number }] }`.
-For “how am I doing?” or target questions, treat this series as context only:
+Input: `{ days?: positive integer <= 366, timezone?: IANA zone }`; default is `30`.
+Output: `{ date: YYYY-MM-DD (local today), timezone: IANA zone used, series: [{ date: YYYY-MM-DD, active_kcal: finite number }] }`.
+Each series `date` is the burn instant's local calendar day in the effective
+timezone. For “how am I doing?” or target questions, treat this series as context only:
 active energy is a separate activity note and is never subtracted from the
 goal. Compare `get_day` totals with the effective goal (TDEE-based,
 activity-inclusive) and report the signed difference (eaten minus goal) as
@@ -248,12 +262,14 @@ under, on target, or over.
 
 ### `get_dashboard_summary`
 
-Input: `{ days?: positive integer <= 366 }`; default `days` is `7`.
+Input: `{ days?: positive integer <= 366, timezone?: IANA zone }`; default `days` is `7`.
 
 Output:
 
 ```text
 {
+  date: valid YYYY-MM-DD (local today),
+  timezone: IANA zone used,
   avg_calories_kcal: finite number,
   streak_days: non-negative integer,
   macro_split: { protein_g: finite number, carbs_g: finite number, fat_g: finite number },
@@ -264,8 +280,10 @@ Output:
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range; `streak_days` counts
-consecutive UTC days ending on the server's UTC today that contain at least one
-meal, within the requested `days` window (so it is at most `days`). In v0.1,
+consecutive local days (in the effective timezone) ending on the local today
+that contain at least one
+meal, within the requested `days` window (so it is at most `days`). `date` and
+`timezone` report the local "today" and zone the window was anchored to. In v0.1,
 `weight_trend` is a supported output: include it in user summaries when it is
 non-empty and omit it when empty. No registered v0.1 tool writes weight logs,
 so the field may be empty.
@@ -290,12 +308,14 @@ logged.
   weight_kg: positive number 30..300,
   activity_level: "sedentary" | "light" | "moderate" | "active" | "very_active",
   diet_goal: "lose" | "maintain" | "gain",
-  goal_weight_kg?: positive number
+  goal_weight_kg?: positive number,
+  timezone?: IANA zone (stored day-bucketing zone; absent means UTC)
 }
 ```
 
 `set_profile` takes that same object as input and requires every field except
-`goal_weight_kg`. It returns:
+`goal_weight_kg` and `timezone`. Pass the user's IANA `timezone` so later
+day-scoped calls without an explicit zone use the user's local days. It returns:
 
 ```text
 {
@@ -401,8 +421,10 @@ Follow with `get_goals` and report the computed target.
    supplied HTTPS photo URL when available. Never send `source`.
 4. Confirm success only when the response contains `recorded: true`; retain
    the returned `meal_log_id` and tell the user what was recorded, including
-   low-confidence items.
-5. Read back the stored result with `get_day` for the meal's UTC date. Use the
+   low-confidence items. When the response also carries `timezone` and `date`
+   (eaten_at was omitted), echo that local date: "logged to Tuesday, Sep 1".
+5. Read back the stored result with `get_day` for the meal's local date (pass
+   the user's timezone when the profile does not store it). Use the
    returned totals, goal, remaining calories, and item rows—not a re-analysis of
    the photo—as the confirmation. For a range/dashboard view, also call
    `get_dashboard_summary` (for example `{ days: 7 }`).
@@ -412,7 +434,7 @@ For text-only logging, follow the same item/search/estimate rules without
 logged, read the day first. v0.1 cannot add an item to an existing meal: with
 the user's confirmation, preserve the original `eaten_at`, `image_url`, and
 meal-level `notes`, then call `delete_meal_log` once. Call `get_day` for the
-original meal's UTC date and check that its `meal_log_id` is absent; re-log the
+original meal's local date and check that its `meal_log_id` is absent; re-log the
 complete item list only when that absence is established. If the meal remains,
 or the delete/read result leaves state unknown, stop without retrying the
 delete or creating a replacement and report the state. `get_day` does not
@@ -425,15 +447,17 @@ not create a second log for the same sitting.
 
 ## Common read and correction flows
 
-- "Did I hit today's target?": call `get_day` first for today's UTC calendar
-  date; use its `goal` and `remaining_kcal` when present, and report the
+- "Did I hit today's target?": call `get_day` first for today's LOCAL calendar
+  date, passing the user's timezone when it is not stored (or omit it and the
+  profile zone applies); use its `goal` and `remaining_kcal` when present, and
+  report the
   signed difference (eaten minus goal) as under, on target, or over, with the
   remaining or overage and macro totals. If the
   goal is omitted, there is neither a profile nor a complete manual goal; offer
   `set_profile` or provide all four values to `set_goals`. A complete manual goal
-  can also be read with `get_goals` without a profile. "Today" means UTC here;
-  if a user's late-evening or early-morning local day looks empty, check the
-  adjacent UTC date too.
+  can also be read with `get_goals` without a profile. "Today" means the
+  user's local day in the effective timezone; `get_day`'s `timezone` output
+  tells you which zone the server used.
 - "Am I on track this week?": call `get_dashboard_summary({ days: 7 })` and
   summarize average calories, streak, and macro grams; include `weight_trend`
   only if it is non-empty. Pass through the returned markdown/image render when
@@ -448,6 +472,6 @@ not create a second log for the same sitting.
 
 If a tool errors, report the exact error and the input shape attempted. If
 `log_meal` fails or times out without a clear rejection, call `get_day` for the
-meal's UTC date before retrying because the write may have committed; only
+meal's local date before retrying because the write may have committed; only
 re-log if the meal is absent. For a clear validation error, correct the input
 once rather than retrying blindly in a loop.

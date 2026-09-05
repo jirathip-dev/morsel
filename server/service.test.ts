@@ -352,6 +352,8 @@ describe('MorselService', () => {
       { date: '2026-08-24', kg: 80.2 },
     ])
     await expect(createService(repository).getWeightTrend({ days: 30 })).resolves.toEqual({
+      date: '2026-08-25',
+      timezone: 'UTC',
       series: [
         { date: '2026-08-24', kg: 80.2 },
         { date: '2026-08-25', kg: 79.8 },
@@ -395,6 +397,8 @@ describe('MorselService', () => {
       ],
     } })
     await expect(createService(repository).getEnergyBurned({ days: 30 })).resolves.toEqual({
+      date: '2026-08-25',
+      timezone: 'UTC',
       series: [
         { date: '2026-08-24', active_kcal: 300 },
         { date: '2026-08-25', active_kcal: 420 },

@@ -113,7 +113,7 @@ struct V1WeightTrendView: View {
     private var detailText: String {
         guard let latest = sortedPoints.last else { return "kg" }
         var text = "kg · \(MorselFormat.number(latest.kilograms))"
-        if DashboardMath.startOfUTCDay(latest.date) == DashboardMath.startOfUTCDay(today) {
+        if DashboardMath.startOfLocalDay(latest.date) == DashboardMath.startOfLocalDay(today) {
             text += " today"
         }
         if let delta {

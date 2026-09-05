@@ -1,6 +1,6 @@
 // Morsel issue #76 — complete in-transaction SQL guards.
 //
-// Each migration (0001..0009) gets one fixed, static SQL guard that re-checks
+// Each migration (0001..0011) gets one fixed, static SQL guard that re-checks
 // EVERY contract dimension the runner's JS classification claims for that
 // migration — table/column shape (types, nullability, defaults, udt,
 // precision/scale where owned), absent columns, constraint kind/columns/

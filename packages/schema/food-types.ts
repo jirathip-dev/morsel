@@ -17,6 +17,22 @@ export const CalendarDateSchema = z.string()
     return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value
   }, 'must be a valid calendar date')
 
+// IANA timezone name (e.g. "Asia/Bangkok", "America/New_York", "Etc/GMT+7").
+// 'UTC' is the canonical default: when neither the tool input nor the stored
+// profile carries a timezone, day-scoped tools bucket days as UTC exactly like
+// v0.1 (backward compatible).
+export const TimezoneSchema = z.string()
+  .trim()
+  .min(1)
+  .refine((value) => {
+    try {
+      new Intl.DateTimeFormat('en-US', { timeZone: value })
+      return true
+    } catch {
+      return false
+    }
+  }, 'must be an IANA timezone name')
+
 export const MealTypeSchema = z.enum(['breakfast', 'lunch', 'dinner', 'snack'])
 export const SourceSchema = z.enum(['manual', 'photo_vision', 'barcode', 'import', 'voice'])
 export const UnitSchema = z.enum(['g', 'ml', 'serving', 'piece', 'cup'])
@@ -49,6 +65,9 @@ export const MealItemSchema = z.object({
 
 export const LogMealInputSchema = z.object({
   eaten_at: IsoDateTimeSchema.optional(),
+  // Optional IANA zone for the response's local date when eaten_at is
+  // omitted. Precedence: explicit input -> profiles.timezone -> UTC.
+  timezone: TimezoneSchema.optional(),
   meal_type: MealTypeSchema,
   items: z.array(MealItemSchema).min(1),
   notes: z.string().trim().min(1).optional(),
@@ -64,6 +83,11 @@ export const LogMealInputSchema = z.object({
 export const LogMealOutputSchema = z.object({
   meal_log_id: z.uuid(),
   recorded: z.boolean(),
+  // Present only when eaten_at was omitted: the server stamped now and
+  // reports the local calendar date (and the timezone it used) so the agent
+  // can echo the local day the meal was logged to.
+  timezone: TimezoneSchema.optional(),
+  date: CalendarDateSchema.optional(),
 }).strict()
 
 export const SearchFoodInputSchema = z.object({
@@ -177,10 +201,14 @@ export const RenderPayloadSchema = z.object({
 
 export const GetDayInputSchema = z.object({
   date: CalendarDateSchema,
+  // Optional IANA zone: the requested date is that zone's calendar day.
+  // Precedence: explicit input -> profiles.timezone -> UTC.
+  timezone: TimezoneSchema.optional(),
 }).strict()
 
 export const GetDayOutputSchema = z.object({
   date: CalendarDateSchema,
+  timezone: TimezoneSchema,
   meals: z.array(MealRecordSchema),
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
@@ -190,6 +218,9 @@ export const GetDayOutputSchema = z.object({
 
 export const GetDashboardSummaryInputSchema = z.object({
   days: z.number().int().positive().max(366).optional().default(7),
+  // Optional IANA zone: window days, streak, and "today" are that zone's
+  // local days. Precedence: explicit input -> profiles.timezone -> UTC.
+  timezone: TimezoneSchema.optional(),
 }).strict()
 
 export const WeightTrendPointSchema = z.object({
@@ -204,6 +235,8 @@ export const MacroSplitSchema = z.object({
 }).strict()
 
 export const GetDashboardSummaryOutputSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema,
   avg_calories_kcal: finiteNumber,
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
@@ -213,9 +246,15 @@ export const GetDashboardSummaryOutputSchema = z.object({
 
 export const GetWeightTrendInputSchema = z.object({
   days: z.number().int().positive().max(366).optional().default(30),
+  // Optional IANA zone: the series day labels and the "today" anchor are
+  // that zone's local days. Precedence: explicit input -> profiles.timezone
+  // -> UTC.
+  timezone: TimezoneSchema.optional(),
 }).strict()
 
 export const GetWeightTrendOutputSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema,
   series: z.array(WeightTrendPointSchema),
   latest: WeightTrendPointSchema.optional(),
 }).strict()
@@ -227,6 +266,8 @@ export const EnergyBurnedPointSchema = z.object({
 
 export const GetEnergyBurnedInputSchema = GetWeightTrendInputSchema
 export const GetEnergyBurnedOutputSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema,
   series: z.array(EnergyBurnedPointSchema),
 }).strict()
 
@@ -238,6 +279,9 @@ export const ProfileSchema = z.object({
   activity_level: ActivityLevelSchema,
   diet_goal: DietGoalSchema,
   goal_weight_kg: positiveNumber.optional(),
+  // Stored IANA zone used for day bucketing when a day-scoped tool call does
+  // not pass an explicit timezone. Absent = UTC (backward compatible).
+  timezone: TimezoneSchema.optional(),
 }).strict()
 
 export const EmptyInputSchema = z.object({}).strict()
@@ -338,6 +382,7 @@ export type GetDashboardSummaryOutput = z.infer<typeof GetDashboardSummaryOutput
 export type GetWeightTrendInput = z.input<typeof GetWeightTrendInputSchema>
 export type ParsedGetWeightTrendInput = z.output<typeof GetWeightTrendInputSchema>
 export type GetWeightTrendOutput = z.infer<typeof GetWeightTrendOutputSchema>
+export type GetEnergyBurnedOutput = z.infer<typeof GetEnergyBurnedOutputSchema>
 export type Profile = z.infer<typeof ProfileSchema>
 export type SetProfileInput = z.infer<typeof SetProfileInputSchema>
 export type GetProfileOutput = z.infer<typeof GetProfileOutputSchema>

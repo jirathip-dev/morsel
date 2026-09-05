@@ -31,6 +31,7 @@ export const CANONICAL_NAMES = [
   "energy_burned_logs",
   "goals_fractional_calories",
   "meal_outbox_client_ids",
+  "profiles_timezone",
 ];
 
 export const CANONICAL_FILES = [
@@ -44,6 +45,7 @@ export const CANONICAL_FILES = [
   "0008_energy_burned_logs.sql",
   "0009_goals_fractional_calories.sql",
   "0010_meal_outbox_client_ids.sql",
+  "0011_profiles_timezone.sql",
 ];
 
 export const LEDGER_DDL =
@@ -492,6 +494,9 @@ export const CANONICAL_COLUMNS = {
   "0009_goals_fractional_calories.sql": {
     goals: [{ name: "calorie_target_kcal", dataType: "numeric", precision: 10, scale: 1, nullable: true, default: [] }],
   },
+  "0011_profiles_timezone.sql": {
+    profiles: [{ name: "timezone", dataType: "text", nullable: true, default: [] }],
+  },
 };
 
 // Columns that must be ABSENT in the canonical end state, keyed by the
@@ -572,6 +577,14 @@ export const CANONICAL_CONSTRAINTS = {
       { name: "energy_burned_logs_kcal_positive", kind: "c", columns: ["active_kcal"], def: "active_kcal > 0" },
       { name: "energy_burned_logs_source_check", kind: "c", columns: ["source"], def: "source in ('manual', 'apple_health')" },
       { name: "energy_burned_logs_user_burned_unique", kind: "u", columns: ["user_id", "burned_at"] },
+    ],
+  },
+  "0011_profiles_timezone.sql": {
+    profiles: [
+      // The (timezone is null) parens mirror PostgreSQL's deparse rendering:
+      // normalizeExpr only strips comparison-grouping parens, and an IS NULL
+      // branch always deparses parenthesized (unlike =, <, >, or ~ clauses).
+      { name: "profiles_timezone_check", kind: "c", columns: ["timezone"], def: "(timezone is null) or timezone = 'UTC' or timezone ~ '^[A-Za-z0-9_+-]+(/[A-Za-z0-9_+-]+)+$'" },
     ],
   },
 };
@@ -1332,5 +1345,9 @@ $recovery$`,
     "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from public",
     "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from anon",
     "grant execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) to authenticated",
+  ],
+  "0011_profiles_timezone.sql": [
+    "alter table public.profiles add column if not exists timezone text",
+    CONVERGE_CONSTRAINT(CANONICAL_CONSTRAINTS["0011_profiles_timezone.sql"].profiles[0], "profiles"),
   ],
 });

@@ -130,8 +130,8 @@ async function snapshot(repository: InMemoryRepository, userId: string): Promise
     meals: await repository.getMealsInRange(userId, start, end),
     profile: await repository.getProfile(userId),
     goals: await repository.getGoals(userId),
-    weights: await repository.getWeightTrend(userId, start, end),
-    energy: await repository.getEnergyBurned(userId, start, end),
+    weights: await repository.getWeightTrend(userId, start, end, 'UTC'),
+    energy: await repository.getEnergyBurned(userId, start, end, 'UTC'),
   }
 }
 

@@ -62,19 +62,18 @@ extension DashboardMath {
         return bySecond.values.sorted { $0.date < $1.date }
     }
 
-    /// Day buckets must be compared on the same UTC-day grid the repository
-    /// uses for meal_logs ranges.
-    static func startOfUTCDay(_ date: Date) -> Date {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-        return calendar.startOfDay(for: date)
+    /// Day buckets are the DEVICE'S LOCAL days (issue #121): the same grid
+    /// the repositories use for meal_logs ranges, snapshot day keys and the
+    /// energy day rollup.
+    static func startOfLocalDay(_ date: Date) -> Date {
+        Calendar.autoupdatingCurrent.startOfDay(for: date)
     }
 
     /// Completed (non-today) logged days in a window.
     static func completedLoggedDays(_ days: [HistoryDay], today: Date) -> [HistoryDay] {
-        let todayStart = startOfUTCDay(today)
+        let todayStart = startOfLocalDay(today)
         return days.filter { day in
-            day.logged && startOfUTCDay(day.date) < todayStart
+            day.logged && startOfLocalDay(day.date) < todayStart
         }
     }
 
@@ -99,13 +98,9 @@ extension DashboardMath {
     /// Trailing streak of consecutive logged days ending today (when today is
     /// logged) or yesterday. Empty window → 0.
     static func loggingStreak(_ days: [HistoryDay], today: Date) -> Int {
-        let calendar: Calendar = {
-            var calendar = Calendar(identifier: .gregorian)
-            calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-            return calendar
-        }()
-        let loggedStarts = Set(days.filter(\.logged).map { startOfUTCDay($0.date) })
-        var cursor = startOfUTCDay(today)
+        let calendar = Calendar.autoupdatingCurrent
+        let loggedStarts = Set(days.filter(\.logged).map { startOfLocalDay($0.date) })
+        var cursor = startOfLocalDay(today)
         if !loggedStarts.contains(cursor) {
             guard let previous = calendar.date(byAdding: .day, value: -1, to: cursor) else { return 0 }
             cursor = previous

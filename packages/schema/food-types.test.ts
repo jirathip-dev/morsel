@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   GetDashboardSummaryOutputSchema,
+  GetDayInputSchema,
   GetDayOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   RenderPayloadSchema,
   SearchFoodOutputSchema,
+  TimezoneSchema,
 } from './food-types'
 
 describe('Morsel tool schemas', () => {
@@ -47,11 +49,14 @@ describe('Morsel tool schemas', () => {
     expect(RenderPayloadSchema.parse(render)).toEqual(render)
     expect(GetDayOutputSchema.parse({
       date: '2026-08-25',
+      timezone: 'UTC',
       meals: [],
       totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
       render,
     })).toMatchObject({ render })
     expect(GetDashboardSummaryOutputSchema.parse({
+      date: '2026-08-25',
+      timezone: 'UTC',
       avg_calories_kcal: 0,
       streak_days: 0,
       macro_split: { protein_g: 0, carbs_g: 0, fat_g: 0 },
@@ -69,6 +74,47 @@ describe('Morsel tool schemas', () => {
       macro_split: { protein_g: 0, carbs_g: 0, fat_g: 0 },
       weight_trend: [],
     }).success).toBe(false)
+  })
+
+  it('accepts optional IANA timezones on day-scoped tool inputs and logs them in outputs', () => {
+    // Day-tool inputs take the optional zone and the output carries the zone
+    // and date the server used.
+    expect(GetDayInputSchema.parse({ date: '2026-08-25', timezone: 'Asia/Bangkok' })).toEqual({
+      date: '2026-08-25',
+      timezone: 'Asia/Bangkok',
+    })
+    expect(GetDayInputSchema.parse({ date: '2026-08-25' })).toEqual({ date: '2026-08-25' })
+    expect(LogMealInputSchema.safeParse({
+      meal_type: 'dinner',
+      timezone: 'Asia/Bangkok',
+      items: [{ name: 'rice' }],
+    }).success).toBe(true)
+    // log_meal output date/timezone are only present when eaten_at was omitted.
+    expect(LogMealOutputSchema.parse({
+      meal_log_id: '00000000-0000-4000-8000-000000000002',
+      recorded: true,
+      timezone: 'Asia/Bangkok',
+      date: '2026-09-01',
+    })).toEqual({
+      meal_log_id: '00000000-0000-4000-8000-000000000002',
+      recorded: true,
+      timezone: 'Asia/Bangkok',
+      date: '2026-09-01',
+    })
+    expect(LogMealOutputSchema.safeParse({
+      meal_log_id: '00000000-0000-4000-8000-000000000002',
+      recorded: true,
+    }).success).toBe(true)
+  })
+
+  it('validates IANA timezone names and rejects non-IANA strings', () => {
+    for (const valid of ['UTC', 'Asia/Bangkok', 'America/New_York', 'Europe/Amsterdam', 'Etc/GMT+7']) {
+      expect(TimezoneSchema.safeParse(valid).success, valid).toBe(true)
+      expect(TimezoneSchema.parse(valid), valid).toBe(valid)
+    }
+    for (const invalid of ['', 'Bangkok', 'Not/AZone', 'UTC+7', 'Asia/Bangkok/Extra/Deep']) {
+      expect(TimezoneSchema.safeParse(invalid).success, invalid).toBe(false)
+    }
   })
 
   it('requires v0.1 search result IDs to be UUIDs', () => {

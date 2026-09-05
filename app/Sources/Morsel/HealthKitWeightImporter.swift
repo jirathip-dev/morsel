@@ -213,8 +213,8 @@ final class HealthKitWeightImporter {
             try await reader.requestAuthorization()
             let samples = try await reader.activeEnergyBurned(since: since)
             var byDate: [Date: (total: Double, samples: Set<String>)] = [:]
-            var calendar = Calendar(identifier: .gregorian)
-            calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
+            // Issue #121 — day totals aggregate on the DEVICE'S LOCAL days.
+            let calendar = Calendar.autoupdatingCurrent
             for sample in samples
                 where sample.activeKilocalories > 0 && sample.activeKilocalories.isFinite {
                 let day = calendar.startOfDay(for: sample.burnedAt)

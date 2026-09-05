@@ -14,6 +14,7 @@ import type {
 } from '../packages/schema/food-types.js'
 import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
+import { zonedDateLabel } from './zone-time.ts'
 
 export interface InMemoryRepositoryOptions {
   foods?: SearchFoodItem[]
@@ -277,19 +278,29 @@ export class InMemoryRepository implements MorselRepository {
     return userMeals?.delete(mealLogId) ?? false
   }
 
-  async getWeightTrend(userId: string, start: string, end: string): Promise<WeightTrendPoint[]> {
+  async getWeightTrend(userId: string, start: string, end: string, timeZone: string): Promise<WeightTrendPoint[]> {
     await Promise.resolve()
     return (this.weightsByUser.get(userId) ?? [])
       .filter((weight) => inRange(`${weight.date}T00:00:00.000Z`, start, end))
+      .map((weight) => ({
+        // Seeded points are date-only; their stored instant is the UTC
+        // midnight of the label, bucketed into the requested zone.
+        date: zonedDateLabel(Date.parse(`${weight.date}T00:00:00.000Z`), timeZone),
+        kg: weight.kg,
+      }))
       .sort((left, right) => left.date.localeCompare(right.date))
-      .map((weight) => ({ ...weight }))
   }
 
-  async getEnergyBurned(userId: string, start: string, end: string): Promise<EnergyBurnedPoint[]> {
+  async getEnergyBurned(userId: string, start: string, end: string, timeZone: string): Promise<EnergyBurnedPoint[]> {
     await Promise.resolve()
     return (this.energyBurnedByUser.get(userId) ?? [])
       .filter((row) => inRange(`${row.date}T00:00:00.000Z`, start, end))
+      .map((row) => ({
+        // Seeded points are date-only; their stored instant is the UTC
+        // midnight of the label, bucketed into the requested zone.
+        date: zonedDateLabel(Date.parse(`${row.date}T00:00:00.000Z`), timeZone),
+        active_kcal: row.active_kcal,
+      }))
       .sort((left, right) => left.date.localeCompare(right.date))
-      .map((row) => ({ ...row }))
   }
 }

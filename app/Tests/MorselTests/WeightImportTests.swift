@@ -50,7 +50,9 @@ final class WeightImportTests: XCTestCase {
     func testActiveEnergyImporterFiltersInvalidAndDeduplicates() async throws {
         try XCTSkipUnless(HKHealthStore.isHealthDataAvailable())
         let date = Date(timeIntervalSince1970: 4_000)
-        let day = Date(timeIntervalSince1970: 0)
+        // Issue #121 — day totals land on the DEVICE'S LOCAL day rows.
+        let day = Calendar.autoupdatingCurrent.startOfDay(for: date)
+        let nextDay = Calendar.autoupdatingCurrent.startOfDay(for: date.addingTimeInterval(86_400))
         let reader = MockWeightReader(energyLogs: [
             EnergyBurnedLog(burnedAt: date, activeKilocalories: 300),
             EnergyBurnedLog(burnedAt: date, activeKilocalories: 420),
@@ -66,7 +68,7 @@ final class WeightImportTests: XCTestCase {
 
         XCTAssertEqual(store.energyBurnedLogs, [
             EnergyBurnedLog(burnedAt: day, activeKilocalories: 720),
-            EnergyBurnedLog(burnedAt: day.addingTimeInterval(86_400), activeKilocalories: 100)
+            EnergyBurnedLog(burnedAt: nextDay, activeKilocalories: 100)
         ])
     }
 
@@ -98,7 +100,8 @@ final class WeightImportTests: XCTestCase {
     func testActiveEnergyObserverTriggersImportAndSuccessReload() async throws {
         try XCTSkipUnless(HKHealthStore.isHealthDataAvailable())
         let date = Date(timeIntervalSince1970: 5_000)
-        let day = Date(timeIntervalSince1970: 0)
+        // Issue #121 — day totals land on the DEVICE'S LOCAL day rows.
+        let day = Calendar.autoupdatingCurrent.startOfDay(for: date)
         let reader = MockWeightReader(energyLogs: [EnergyBurnedLog(burnedAt: date, activeKilocalories: 250)])
         let store = MockWeightLogStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: store)

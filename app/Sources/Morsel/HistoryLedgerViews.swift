@@ -11,7 +11,7 @@ struct HistoryBarRow: View {
     let day: HistoryDay
 
     private var isToday: Bool {
-        DashboardMath.startOfUTCDay(day.date) == DashboardMath.startOfUTCDay(viewModel.today)
+        DashboardMath.startOfLocalDay(day.date) == DashboardMath.startOfLocalDay(viewModel.today)
     }
 
     var body: some View {
@@ -227,7 +227,7 @@ struct HistoryListRow: View {
     let day: HistoryDay
 
     private var isToday: Bool {
-        DashboardMath.startOfUTCDay(day.date) == DashboardMath.startOfUTCDay(viewModel.today)
+        DashboardMath.startOfLocalDay(day.date) == DashboardMath.startOfLocalDay(viewModel.today)
     }
 
     private var delta: Double? {

@@ -578,6 +578,7 @@ function convergeCovers(file, entries, snapshots) {
       // Modeled add-if-not-exists columns only:
       if (file === "0002_targets.sql" && table === "goals" && column === "source") return true;
       if (file === "0007_weight_logs.sql" && table === "weight_logs" && (column === "source" || column === "measured_at")) return true;
+      if (file === "0011_profiles_timezone.sql" && table === "profiles" && column === "timezone") return true;
       return false;
     }
     if (entry.kind === "constraint") return entry.reason === "missing";
@@ -658,7 +659,7 @@ export function formatPlan({ statuses, blockers, ledger, counts, apply, recorded
   lines.push("");
   lines.push(`row counts: weight_logs ${counts.weightLogs ?? "n/a (table absent)"}; energy_burned_logs ${counts.energyBurned ?? "n/a (table absent)"}`);
   lines.push("");
-  lines.push("per-migration classification (0001..0009)");
+  lines.push("per-migration classification (0001..0011)");
   for (const file of CANONICAL_FILES) {
     const status = statuses[file];
     lines.push(`${file}  ${status.state}`);
@@ -757,7 +758,7 @@ export async function inspect({ root, query }) {
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
   if (localSet.size !== CANONICAL_FILES.length || !CANONICAL_FILES.every((f) => localSet.has(f))) {
-    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0010");
+    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0011");
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};
@@ -977,7 +978,7 @@ export async function run({ ref, token, root, apply = false, confirm = null, que
   if (!allVerified || afterBlockers.length > 0 || !countsHeld) {
     throw new StepFailedError("post-apply re-verification failed; no success claim. Inspect the schema before retrying.");
   }
-  log.log(`✓ post-apply re-verification passed: every 0001..0010 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
+  log.log(`✓ post-apply re-verification passed: every 0001..0011 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
   return {
     mode: "apply",
     applied,
