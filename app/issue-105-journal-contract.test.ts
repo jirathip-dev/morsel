@@ -6,10 +6,12 @@ import { fileURLToPath } from 'node:url'
 // Issue #105 — journal follow-up UI contract probe (source-level, hosted so
 // npm test bites Swift edits on ubuntu). Pins the shipped wiring that the
 // native unit tests in app/Tests/MorselTests/JournalFollowUpTests.swift
-// cannot reach from an unhosted bundle: the page-turn pager shell, the Add
-// Meal journal-page route (never the primary .sheet), the paper-native input
-// surfaces (no stock Form cells), the shared keyboard/focus contract sites,
-// and the trait-driven theme seam. A revert of any #105 behavior fails here.
+// cannot reach from an unhosted bundle: the page-turn pager shell (the
+// #111 hinged pager in the rich path, the plain non-3D fade under Reduce
+// Motion), the Add Meal journal-page route (never the primary .sheet), the
+// paper-native input surfaces (no stock Form cells), the shared
+// keyboard/focus contract sites, and the trait-driven theme seam. A revert
+// of any #105 behavior fails here.
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8')
@@ -29,28 +31,32 @@ const settings = read('app/Sources/Morsel/SettingsView.swift')
 const appearance = read('app/Sources/Morsel/MorselAppearance.swift')
 
 describe('issue #105 AC1/AC2: page-turn pager wiring', () => {
-  it('renders the three primary pages in one page-style pager bound to the pager model', () => {
+  it('renders the three primary pages in the hinged pager bound to the pager model', () => {
     const shellStart = morselApp.indexOf('private struct AuthenticatedDashboardView')
     expect(shellStart, 'shell must exist').toBeGreaterThan(-1)
     const shell = morselApp.slice(shellStart)
     expect(shell).toContain('JournalTabBar(pager: pager)')
-    expect(shell).toContain('TabView(selection: selectionBinding)')
-    expect(shell).toContain('.tabViewStyle(.page(indexDisplayMode: .never))')
-    // Tag order = JournalTab.allCases order → swipe direction and the tab
-    // indicator always agree (native JournalTurnRuleTests pin the rules).
-    const pager = shell.slice(shell.indexOf('private var pageContent'))
-    expect(pager).toMatch(
-      /\.tag\(JournalTab\.today\)[\s\S]*?\.tag\(JournalTab\.history\)[\s\S]*?\.tag\(JournalTab\.goals\)/
-    )
+    // #111 replaced the flat page-style TabView slide with the custom hinged
+    // pager; JournalPagerModel stays the ONE selection source so the visible
+    // page and the tab indicator always agree (native JournalTurnRuleTests
+    // pin the direction/adjacent rules; the issue #111 probe pins the hinge).
+    expect(shell).toContain('JournalPageTurner(pager: pager)')
+    expect(shell, 'the page-style TabView slide is gone').not.toContain('.tabViewStyle(')
     expect(shell, 'exactly one pager selection source').toMatch(
       /@StateObject private var pager = JournalPagerModel\(\)/
     )
+    // The pager's page builder renders the real views per tab; the per-tab
+    // switch below keeps Today · History · Goals in JournalTab.allCases order
+    // so content order and the indicator order cannot drift.
+    const pageBuilder = shell.slice(shell.indexOf('JournalPageTurner(pager: pager)'))
+    expect(pageBuilder).toMatch(/JournalPageTurner\(pager: pager\)\s*\{\s*tab in\s*journalPage\(for: tab\)/)
   })
 
-  it('collapses to a plain content swap under Reduce Motion (non-3D fallback)', () => {
+  it('fades to a plain content swap under Reduce Motion (non-3D fallback)', () => {
     expect(morselApp).toContain('@Environment(\\.accessibilityReduceMotion) private var reduceMotion')
     const pager = morselApp.slice(morselApp.indexOf('private var pageContent'))
     expect(pager).toMatch(/if reduceMotion\s*\{[\s\S]*?journalPage\(for: pager\.selection\)/)
+    expect(pager).toMatch(/journalPage\(for: pager\.selection\)[\s\S]*?\.transition\(\.opacity\)/)
   })
 })
 

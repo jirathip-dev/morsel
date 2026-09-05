@@ -1,0 +1,307 @@
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-111-hinged-page-turn
+
+ ❯ app/issue-111-hinged-turn-contract.test.ts (7 tests | 1 failed) 22ms
+   × issue #111 AC1: the journal pager turns pages on the V1 hinge > renders the incoming page through a 3D rotation seam, not a plain offset 16ms
+     → expected 'import Foundation\nimport SwiftUI\n\n…' to contain '.rotation3DEffect('
+   ✓ issue #111 AC1: the journal pager turns pages on the V1 hinge > hinges forward turns on the leading edge and backward turns on the trailing edge 1ms
+   ✓ issue #111 AC1: the journal pager turns pages on the V1 hinge > swings from the signed ±70° start pose with the 0.2 → 1 fade 1ms
+   ✓ issue #111 AC1: the journal pager turns pages on the V1 hinge > animates the swing over ~0.55 s with the cubic-bezier(.2,.7,.2,1) curve 2ms
+   ✓ issue #111 AC1: the journal pager turns pages on the V1 hinge > drives the preview from an interactive drag that respects no-wrap boundaries 0ms
+   ✓ issue #111 AC2: the shell swaps the pager for the Reduce Motion fade > mounts the hinged pager only in the rich path — the flat .page slide is gone 0ms
+   ✓ issue #111 AC2: the shell swaps the pager for the Reduce Motion fade > keeps the Reduce Motion path a non-3D fade driven by the same seam 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  app/issue-111-hinged-turn-contract.test.ts > issue #111 AC1: the journal pager turns pages on the V1 hinge > renders the incoming page through a 3D rotation seam, not a plain offset
+AssertionError: expected 'import Foundation\nimport SwiftUI\n\n…' to contain '.rotation3DEffect('
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- .rotation3DEffect([39m
+[31m+ import Foundation[39m
+[31m+ import SwiftUI[39m
+[31m+[39m
+[31m+ // Issue #111 — hinged journal page turn. #105 shipped the three primary tabs[39m
+[31m+ // in a native page-style TabView (a flat horizontal slide); the approved V1[39m
+[31m+ // prototype turns a page on a hinge: the incoming page swings in from the[39m
+[31m+ // binding edge with a fade (−70° → 0°, opacity 0.2 → 1, ~0.55 s ease-out) and[39m
+[31m+ // a backward turn mirrors the hinge on the trailing edge. JournalPagerModel[39m
+[31m+ // stays the single source of truth: this view swings when the model's[39m
+[31m+ // selection changes, and an interactive horizontal drag previews/swipes the[39m
+[31m+ // adjacent page through the same JournalTabNavigation rules (never wraps at[39m
+[31m+ // the first/last tab). Reduce Motion never mounts this view — the shell[39m
+[31m+ // swaps pages with a plain opacity fade instead.[39m
+[31m+[39m
+[31m+ // MARK: - Hinge seam[39m
+[31m+[39m
+[31m+ /// The approved V1 turn geometry (issue #90 prototype + DESIGN.md): signed[39m
+[31m+ /// start pose and hinge anchor per direction, the swing duration and its[39m
+[31m+ /// cubic-bezier(.2, .7, .2, 1) curve, the start opacity, and the 3D viewer[39m
+[31m+ /// distance. Pinned by JournalHingeSeamTests and the hosted[39m
+[31m+ /// app/issue-111-hinged-turn-contract.test.ts probe.[39m
+[31m+ enum JournalTurnSeam {[39m
+[31m+     /// Signed start angle: forward swings in from −70°; backward mirrors on[39m
+[31m+     /// the trailing hinge (+70°) so the direction reads correctly.[39m
+[31m+     static func startAngle(for direction: PageTurnDirection) -> Double {[39m
+[31m+         switch direction {[39m
+[31m+         case .forward: return -70[39m
+[31m+         case .backward: return 70[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Hinge edge of the incoming page: leading (binding) for a forward[39m
+[31m+     /// turn, trailing for a backward turn.[39m
+[31m+     static func anchor(for direction: PageTurnDirection) -> UnitPoint {[39m
+[31m+         switch direction {[39m
+[31m+         case .forward: return .leading[39m
+[31m+         case .backward: return .trailing[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Opacity of the incoming page at the start of the swing.[39m
+[31m+     static let startOpacity: Double = 0.2[39m
+[31m+[39m
+[31m+     /// Full swing duration (prototype .55s).[39m
+[31m+     static let richDuration: Double = 0.55[39m
+[31m+[39m
+[31m+     /// SwiftUI's equivalent of the prototype cubic-bezier(.2, .7, .2, 1).[39m
+[31m+     static var richAnimation: Animation {[39m
+[31m+         .timingCurve(0.2, 0.7, 0.2, 1, duration: richDuration)[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Viewer distance for the 3D projection (prototype .phone perspective[39m
+[31m+     /// 1400px over the ~390pt design; larger values look flatter).[39m
+[31m+     static let perspective: CGFloat = 1400[39m
+[31m+[39m
+[31m+     /// Reduce-Motion fade duration (prototype .28s ease-out) — the shell's[39m
+[31m+     /// non-3D path shares this seam so both modes stay in lockstep.[39m
+[31m+     static let reducedDuration: Double = 0.28[39m
+[31m+ }[39m
+[31m+[39m
+[31m+ // MARK: - Turn pose[39m
+[31m+[39m
+[31m+ /// Applies the swing pose to the incoming page: rotation around the hinge[39m
+[31m+ /// edge from ±70° → 0° with the 0.2 → 1 fade as `progress` goes 0 → 1.[39m
+[31m+ private struct HingeTurnPose: ViewModifier {[39m
+[31m+     let direction: PageTurnDirection[39m
+[31m+     let progress: Double[39m
+[31m+[39m
+[31m+     func body(content: Content) -> some View {[39m
+[31m+         content[39m
+[31m+             .offset([39m
+[31m+                 .degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress)),[39m
+[31m+                 axis: (x: 0, y: 1, z: 0),[39m
+[31m+                 anchor: JournalTurnSeam.anchor(for: direction),[39m
+[31m+                 perspective: JournalTurnSeam.perspective[39m
+[31m+             )[39m
+[31m+             .opacity(JournalTurnSeam.startOpacity + (1 - JournalTurnSeam.startOpacity) * progress)[39m
+[31m+     }[39m
+[31m+ }[39m
+[31m+[39m
+[31m+ /// A turn in flight: `incoming` swings from the seam's start pose toward[39m
+[31m+ /// flat as `progress` goes 0 → 1. Committed turns settle on completion;[39m
+[31m+ /// uncommitted turns are interactive drag previews that commit or roll back.[39m
+[31m+ private struct JournalTurnState {[39m
+[31m+     let id: UUID[39m
+[31m+     let incoming: JournalTab[39m
+[31m+     let direction: PageTurnDirection[39m
+[31m+     var progress: Double[39m
+[31m+     var committed: Bool[39m
+[31m+ }[39m
+[31m+[39m
+[31m+ // MARK: - Hinged pager[39m
+[31m+[39m
+[31m+ /// Custom journal pager replacing the .page TabView (issue #111). Shows the[39m
+[31m+ /// settled page; while a turn is in flight the incoming page swings in above[39m
+[31m+ /// it on the hinge. All moves flow through JournalPagerModel so the visible[39m
+[31m+ /// page and the tab indicator cannot drift (rapid taps settle on the last[39m
+[31m+ /// requested tab).[39m
+[31m+ struct JournalPageTurner<Page: View>: View {[39m
+[31m+     @ObservedObject var pager: JournalPagerModel[39m
+[31m+     private let makePage: (JournalTab) -> Page[39m
+[31m+[39m
+[31m+     @State private var baseTab: JournalTab[39m
+[31m+     @State private var turn: JournalTurnState?[39m
+[31m+[39m
+[31m+     init(pager: JournalPagerModel, makePage: @escaping (JournalTab) -> Page) {[39m
+[31m+         self.pager = pager[39m
+[31m+         self.makePage = makePage[39m
+[31m+         _baseTab = State(initialValue: pager.selection)[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     var body: some View {[39m
+[31m+         GeometryReader { proxy in[39m
+[31m+             ZStack {[39m
+[31m+                 makePage(baseTab)[39m
+[31m+                 if let turn {[39m
+[31m+                     makePage(turn.incoming)[39m
+[31m+                         .id(turn.id) // new identity per turn: retargets re-insert[39m
+[31m+                         .modifier(HingeTurnPose(direction: turn.direction, progress: turn.progress))[39m
+[31m+                         .zIndex(1)[39m
+[31m+                         .onAppear { startProgrammaticSwing(turn.id) }[39m
+[31m+                 }[39m
+[31m+             }[39m
+[31m+             .contentShape(Rectangle())[39m
+[31m+             .simultaneousGesture(turnGesture(width: proxy.size.width))[39m
+[31m+         }[39m
+[31m+         .clipped()[39m
+[31m+         .onChange(of: pager.selection) { oldTab, newTab in[39m
+[31m+             selectionChanged(from: oldTab, to: newTab)[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+ }[39m
+[31m+[39m
+[31m+ // MARK: - Turn driving[39m
+[31m+[39m
+[31m+ private extension JournalPageTurner {[39m
+[31m+     func turnGesture(width: CGFloat) -> some Gesture {[39m
+[31m+         DragGesture(minimumDistance: 15, coordinateSpace: .local)[39m
+[31m+             .onChanged { value in updateDrag(value, width: width) }[39m
+[31m+             .onEnded { value in finishDrag(value, width: width) }[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Interactive drag preview: only horizontal intent engages, and only[39m
+[31m+     /// when an adjacent page exists (no-wrap boundaries preview nothing).[39m
+[31m+     func updateDrag(_ value: DragGesture.Value, width: CGFloat) {[39m
+[31m+         if let active = turn, active.committed {[39m
+[31m+             return // a committed swing already owns the stage[39m
+[31m+         }[39m
+[31m+         let deltaX = value.translation.width[39m
+[31m+         let deltaY = value.translation.height[39m
+[31m+         guard abs(deltaX) > abs(deltaY) else {[39m
+[31m+             return // vertical page scrolls stay vertical — never stolen[39m
+[31m+         }[39m
+[31m+         let direction: PageTurnDirection = deltaX < 0 ? .forward : .backward[39m
+[31m+         let progress = min(abs(deltaX) / max(width, 1), 1)[39m
+[31m+         guard let adjacent = JournalTabNavigation.adjacent(to: baseTab, turning: direction) else {[39m
+[31m+             turn = nil // boundary drag (or a reversal into one) previews nothing[39m
+[31m+             return[39m
+[31m+         }[39m
+[31m+         if let active = turn, active.incoming == adjacent, active.direction == direction {[39m
+[31m+             var updated = active[39m
+[31m+             updated.progress = progress[39m
+[31m+             turn = updated[39m
+[31m+         } else {[39m
+[31m+             turn = JournalTurnState([39m
+[31m+                 id: UUID(),[39m
+[31m+                 incoming: adjacent,[39m
+[31m+                 direction: direction,[39m
+[31m+                 progress: progress,[39m
+[31m+                 committed: false[39m
+[31m+             )[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Drag end: half a page dragged or a fast flick commits through the[39m
+[31m+     /// model; anything else rolls the preview back to the start pose.[39m
+[31m+     func finishDrag(_ value: DragGesture.Value, width: CGFloat) {[39m
+[31m+         guard let active = turn, !active.committed else { return }[39m
+[31m+         let distance = abs(value.translation.width)[39m
+[31m+         guard distance > 0 else {[39m
+[31m+             turn = nil[39m
+[31m+             return[39m
+[31m+         }[39m
+[31m+         let predicted = abs(value.predictedEndTranslation.width)[39m
+[31m+         let commits = predicted >= width / 2 || distance >= width / 2[39m
+[31m+         if commits {[39m
+[31m+             var updated = active[39m
+[31m+             updated.committed = true[39m
+[31m+             turn = updated[39m
+[31m+             pager.swipe(active.direction) // single source of truth + tab sync[39m
+[31m+             let remaining = JournalTurnSeam.richDuration * (1 - active.progress)[39m
+[31m+             swing(progress: 1, duration: remaining, turnID: active.id, settleAfter: remaining)[39m
+[31m+         } else {[39m
+[31m+             let remaining = JournalTurnSeam.richDuration * active.progress[39m
+[31m+             swing(progress: 0, duration: remaining, turnID: active.id, settleAfter: remaining)[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Tab-bar taps / external selects: swing from the settled page to the[39m
+[31m+     /// requested one. The model already holds the target selection.[39m
+[31m+     func selectionChanged(from oldTab: JournalTab, to newTab: JournalTab) {[39m
+[31m+         guard oldTab != newTab else { return }[39m
+[31m+         if let active = turn {[39m
+[31m+             if active.committed {[39m
+[31m+                 if newTab == active.incoming {[39m
+[31m+                     return // our own drag-commit echo; the settle is running[39m
+[31m+                 }[39m
+[31m+                 // Retarget mid-swing: settle the incoming instantly, then[39m
+[31m+                 // hinge the rest of the way to the newest request.[39m
+[31m+                 baseTab = active.incoming[39m
+[31m+                 turn = nil[39m
+[31m+                 startSwing(from: active.incoming, to: newTab)[39m
+[31m+                 return[39m
+[31m+             }[39m
+[31m+             turn = nil // an uncommitted drag preview yields to the tap[39m
+[31m+         }[39m
+[31m+         guard newTab != baseTab else { return }[39m
+[31m+         startSwing(from: baseTab, to: newTab)[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// Insert a committed swing at the start pose; onAppear animates it.[39m
+[31m+     func startSwing(from outgoing: JournalTab, to incoming: JournalTab) {[39m
+[31m+         guard let direction = JournalTabNavigation.direction(from: outgoing, to: incoming) else {[39m
+[31m+             return[39m
+[31m+         }[39m
+[31m+         turn = JournalTurnState([39m
+[31m+             id: UUID(),[39m
+[31m+             incoming: incoming,[39m
+[31m+             direction: direction,[39m
+[31m+             progress: 0,[39m
+[31m+             committed: true[39m
+[31m+         )[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// First render of a committed swing: animate 0 → 1 with the seam curve.[39m
+[31m+     func startProgrammaticSwing(_ turnID: UUID) {[39m
+[31m+         guard let active = turn, active.id == turnID, active.committed, active.progress == 0 else {[39m
+[31m+             return[39m
+[31m+         }[39m
+[31m+         swing([39m
+[31m+             progress: 1,[39m
+[31m+             duration: JournalTurnSeam.richDuration,[39m
+[31m+             turnID: turnID,[39m
+[31m+             settleAfter: JournalTurnSeam.richDuration[39m
+[31m+         )[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     func swing(progress: Double, duration: Double, turnID: UUID, settleAfter: Double) {[39m
+[31m+         withAnimation(.timingCurve(0.2, 0.7, 0.2, 1, duration: duration)) {[39m
+[31m+             turn?.progress = progress[39m
+[31m+         }[39m
+[31m+         settle(after: settleAfter, turnID: turnID)[39m
+[31m+     }[39m
+[31m+[39m
+[31m+     /// After the swing ends: promote the incoming page to the base (committed[39m
+[31m+     /// turns) or just drop the preview (rollbacks). A stale task for a turn[39m
+[31m+     /// that was retargeted in the meantime does nothing.[39m
+[31m+     func settle(after delay: Double, turnID: UUID) {[39m
+[31m+         Task { @MainActor in[39m
+[31m+             try? await Task.sleep(for: .seconds(delay))[39m
+[31m+             guard let active = turn, active.id == turnID else { return }[39m
+[31m+             if active.committed {[39m
+[31m+                 baseTab = active.incoming[39m
+[31m+             }[39m
+[31m+             turn = nil[39m
+[31m+         }[39m
+[31m+     }[39m
+[31m+ }[39m
+[31m+[39m
+
+ ❯ app/issue-111-hinged-turn-contract.test.ts:25:20
+     23|   it('renders the incoming page through a 3D rotation seam, not a plai…
+     24|     // Mutation target: replacing rotation3DEffect with .offset must f…
+     25|     expect(turner).toContain('.rotation3DEffect(')
+       |                    ^
+     26|     expect(turner).toMatch(/axis: \(x: 0, y: 1, z: 0\)/)
+     27|     expect(turner).toContain('perspective: JournalTurnSeam.perspective…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 passed (7)
+   Start at  11:28:54
+   Duration  734ms (transform 62ms, setup 0ms, collect 51ms, tests 22ms, environment 0ms, prepare 154ms)
