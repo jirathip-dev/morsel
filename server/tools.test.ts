@@ -53,10 +53,18 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'log_meal',
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. An image URL is stored as the current image_path value; the server does not upload media.',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
     annotations: UNCLAIMED,
     inputRequired: ['meal_type', 'items'],
     outputRequired: ['meal_log_id', 'recorded'],
+  },
+  {
+    name: 'attach_meal_image',
+    title: 'Attach a photo to a logged meal',
+    description: 'Attach a food photo to an existing meal log when the meal was logged without one (or its photo failed to store). Send the photo bytes with image_base64; image_error reports a photo that could not be attached.',
+    annotations: UNCLAIMED,
+    inputRequired: ['meal_log_id'],
+    outputRequired: ['ok', 'attached'],
   },
   {
     name: 'get_day',
@@ -188,7 +196,7 @@ async function connectClient(repository: InMemoryRepository): Promise<Client> {
 }
 
 describe('MCP tool registration metadata (tools/list)', () => {
-  it('registers exactly the 14 contract tools with unchanged names', async () => {
+  it('registers exactly the 15 contract tools with unchanged names', async () => {
     const client = await connectClient(new InMemoryRepository())
     try {
       const listed = await client.listTools()

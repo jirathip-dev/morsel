@@ -1,6 +1,7 @@
 import type {
   ComputeTargetsOutput,
   GoalSummary,
+  MealImageMimeType,
   MealRecord,
   ParsedMealItem,
   Profile,
@@ -18,6 +19,12 @@ export interface MealWrite {
   image_path?: string
   notes?: string
   items: ParsedMealItem[]
+}
+
+/** Photo bytes ready for storage: already validated and sniffed (meal-image.ts). */
+export interface StoredMealImageUpload {
+  bytes: Uint8Array
+  contentType: MealImageMimeType
 }
 
 export interface StoredGoals {
@@ -43,6 +50,16 @@ export interface MorselRepository {
    * commit the log and every item or leave no new rows behind.
    */
   createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord>
+  /**
+   * Store a meal photo at food-images/{userId}/{mealLogId}.jpg using the
+   * request's bearer credential (RLS scopes the object to the owner), then
+   * record the object path on the meal row. Returns the object path, or
+   * undefined when the meal log does not exist or is not owned by `userId`
+   * (nothing is uploaded or written in that case). Implementations must
+   * remove the uploaded object when the row write fails so no orphan photo
+   * outlives a failed attach.
+   */
+  attachMealImage(userId: string, mealLogId: string, upload: StoredMealImageUpload): Promise<string | undefined>
   getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]>
   searchFood(userId: string, query: string, limit: number): Promise<SearchFoodItem[]>
   getProfile(userId: string): Promise<StoredProfile | undefined>

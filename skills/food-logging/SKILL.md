@@ -44,17 +44,23 @@ Always follow these rules:
   unknown: seek clarification or, if proceeding, use an explicitly noted
   lower-confidence estimate; never treat the returned macros as one serving.
 - One uploaded photo is one `log_meal` call containing one or more `items[]`.
+  Send the photo bytes (`image_base64`: base64 of a JPEG/PNG/WebP image) when
+  the client exposes the image; otherwise omit the photo inputs. The server
+  stores real bytes in the user's private `food-images` bucket; it never
+  accepts a photo it cannot store without reporting `image_error`.
 - Never log twice. To reread or correct existing data, use `get_day`,
   `update_meal_item`, or `delete_meal_log`. v0.1 has no tool that adds a new
   item to an existing meal: if a forgotten food was part of the same sitting,
   confirm before deleting that meal and re-logging its complete item list once;
   if it was a separate meal, log it separately. Never create a second log for
-  the same sitting.
+  the same sitting. If only the photo is missing (or it failed to store at log
+  time), call `attach_meal_image` with the same bytes instead of touching the
+  meal.
 - Choose the unit honestly: `g` for weighed food, `ml` for measured liquid,
   `serving` for a plate or portion, `piece` for countable food, and `cup` for a
   cup measure. `unit` cannot be changed by `update_meal_item`, so get it right
   on the first call.
-- `source` is assigned by the server; never send it. A photo URL makes the
+- `source` is assigned by the server; never send it. A photo input makes the
   server use `photo_vision`, a barcode without a photo makes it use `barcode`,
   and otherwise it uses `manual`.
 - For “how am I doing” or target questions, compare the day's eaten calories
@@ -73,13 +79,20 @@ Always follow these rules:
   `profiles.timezone` → UTC, and no timezone anywhere behaves exactly like
   UTC. Echo the returned local date when telling the user which day something
   was logged to.
-- Morsel v0.1 stores a caller-supplied HTTPS `image_url` as a reference; it does
-  not upload or fetch image bytes. Never fabricate a URL.
+- Morsel stores the photo BYTES when the client exposes the image: send
+  `image_base64` (`{ "data": "<base64>", "mime_type": "image/jpeg" | "image/png" | "image/webp" }`)
+  with `log_meal`; the server validates the bytes and stores them in the
+  user's private bucket, then `get_day` returns `image.path` + a short-lived
+  `image.signed_url` so attachment is confirmable. When the client does not
+  expose the image bytes, omit the photo inputs entirely — never fabricate a
+  URL or claim a photo was attached. A failed photo store is reported in the
+  response (`image_error`) while the meal itself still logs.
 
-The server registers exactly these tools: `log_meal`, `search_food`,
-`update_meal_item`, `delete_meal_log`, `get_day`, `get_dashboard_summary`,
-`get_profile`, `set_profile`, `compute_targets`, `get_goals`, `set_goals`,
-`reset_goals`, `get_weight_trend`, and `get_energy_burned`. It reads Apple
+The server registers exactly these tools: `log_meal`, `attach_meal_image`,
+`search_food`, `update_meal_item`, `delete_meal_log`, `get_day`,
+`get_dashboard_summary`, `get_profile`, `set_profile`, `compute_targets`,
+`get_goals`, `set_goals`, `reset_goals`, `get_weight_trend`, and
+`get_energy_burned`. It reads Apple
 Health imports for weight and active-energy context.
 
 ### Tool safety classes
@@ -93,10 +106,12 @@ authoritative guidance:
 - Read-only (never write): `get_day`, `get_profile`, `compute_targets`,
   `get_goals`, `get_weight_trend`, `get_energy_burned`,
   `get_dashboard_summary`. Safe to call without confirmation.
-- Writes (create or overwrite the user's data): `log_meal`, `set_profile`,
+- Writes (create or overwrite the user's data): `log_meal`, `attach_meal_image`,
+  `set_profile`,
   `set_goals`, `reset_goals`, `update_meal_item`. Confirm with the user when
   the effect is not already requested; `log_meal` is never retried blindly —
-  every call inserts a new meal. `reset_goals` discards the stored manual goal
+  every call inserts a new meal. `attach_meal_image` overwrites the meal's
+  stored photo when one already exists, so confirm before replacing. `reset_goals` discards the stored manual goal
   values the user set earlier, so confirm it too.
 - Destructive (irreversible delete): `delete_meal_log` only. Deleting removes
   the meal log and its items permanently — never call it without explicit
@@ -139,15 +154,30 @@ log_meal({
     notes?: non-empty string
   }],
   notes?: non-empty string,
-  image_url?: HTTPS URL
+  image_base64?: {
+    data: base64 string of the photo bytes,  // JPEG/PNG/WebP; JPEG is canonical
+    mime_type: "image/jpeg" | "image/png" | "image/webp"
+  },
+  image_url?: HTTPS URL        // legacy: server fetches it once and stores the bytes
 })
 ```
 
 The output is `{ meal_log_id: UUID, recorded: true }`, plus `timezone` and the
 local `date` (YYYY-MM-DD) it logged to when `eaten_at` was omitted — echo that
-local date to the user. `food_ref_id` must be a
+local date to the user. When a photo was requested but could not be stored the
+output also carries `image_error` and the meal is still logged: report it and
+attach the photo later with `attach_meal_image` rather than re-logging.
+`food_ref_id` must be a
 UUID `id` returned by `search_food`; the v0.1 database column is a UUID. Keep
 each visible food as its own item in the single meal.
+
+Photo inputs: send `image_base64` (the real bytes) whenever the client exposes
+the image — it is preferred and `image_url` is only a legacy convenience that
+the server fetches once (HTTPS only, image content only, 10 MB and 5 s caps,
+no redirects to private ranges). The server stores validated bytes at
+`food-images/{user_id}/{meal_log_id}.jpg` under the caller's account; `get_day`
+read-back carries `image.path` and a short-lived `image.signed_url` to confirm.
+When the client does not expose the image, omit both photo inputs.
 
 Macro fields are the total for the item as eaten. The server does not scale them
 from `quantity`, so scale catalog values from their `serving_size` and
@@ -182,12 +212,34 @@ Output:
 An empty `results` array means the catalog did not find a match. Do not turn a
 missing result into made-up exact values.
 
+### `attach_meal_image`
+
+Input requires `meal_log_id: UUID` and exactly one photo source:
+
+```text
+attach_meal_image({
+  meal_log_id: UUID,
+  image_base64?: { data: base64 string of the photo bytes, mime_type: "image/jpeg" | "image/png" | "image/webp" },
+  image_url?: HTTPS URL   // legacy: server fetches it once and stores the bytes
+})
+```
+
+Output: `{ ok: true, attached: true }`. Use it when a meal was logged without a
+photo (or its photo failed to store — the `image_error` case above): it stores
+the photo bytes on the existing meal exactly like `log_meal` does, without
+re-logging anything. `attached: false` with an `image_error` means the photo
+could not be stored and the meal is unchanged — retry or report, never re-log.
+An unknown `meal_log_id` is a `not_found` error. Confirm with `get_day` that
+the meal now carries `image`.
+
 ### `update_meal_item`
 
 Input requires `item_id: UUID` and at least one of these optional fields:
 `name` (non-empty string), `quantity` (positive number), `calories_kcal`,
 `protein_g`, `carbs_g`, or `fat_g` (each a non-negative number). `unit`, fiber,
-sugar, confidence, and notes are not update fields in v0.1.
+sugar, confidence, and notes are not update fields in v0.1. Photos belong to
+the meal, not an item: `update_meal_item` never changes them — use
+`attach_meal_image` to attach or replace a meal photo.
 
 Output: `{ ok: true, updated: true }`.
 
@@ -196,6 +248,11 @@ Output: `{ ok: true, updated: true }`.
 Input: `{ meal_log_id: UUID }`.
 
 Output: `{ ok: true, deleted: true }`.
+
+Deleting removes the meal log and its items permanently — never call it
+without explicit user confirmation. The photo object (if any) stops being
+returned on reads; it stays as an owner-scoped object in the private bucket
+until storage cleanup removes it.
 
 ### `get_day`
 
@@ -212,6 +269,11 @@ Output:
     meal_log_id: UUID,
     meal_type: "breakfast" | "lunch" | "dinner" | "snack",
     eaten_at: ISO date-time with an offset,
+    image?: {
+      path: string,           // food-images/{user_id}/{meal_log_id}.jpg
+      signed_url: HTTPS URL,  // short-lived (15 minutes), minted per read
+      expires_at: ISO date-time with an offset
+    },
     items: [{
       item_id: UUID,
       name: string,
@@ -236,6 +298,12 @@ Output:
   render: { markdown: string, svg: string }
 }
 ```
+
+A meal carries `image` only when a photo is stored: `path` is the bucket object
+path the dashboard thumbnail downloads, `signed_url` is short-lived (15
+minutes) and minted per read, and `expires_at` is when it stops working. Use
+the read-back `image` field to confirm a photo actually attached; its absence
+means the meal has no photo.
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal works without a profile. A
@@ -417,32 +485,43 @@ Follow with `get_goals` and report the computed target.
    `confidence` between 0 and 1, and add an explanatory `notes` value such as
    `approx portion` or `shared plate`.
 3. Make exactly one `log_meal` call with the required `meal_type` and one or
-   more `items[]`. Include the user's meal time when known and the user's
-   supplied HTTPS photo URL when available. Never send `source`.
+   more `items[]`. Include the user's meal time when known. Send the photo
+   bytes as `image_base64` (`{ data: <base64>, mime_type: "image/jpeg" }` for
+   a JPEG; PNG and WebP are also accepted) when the client exposes the image;
+   otherwise omit the photo inputs. Never send `source` and never fabricate a
+   photo URL when the client has no image.
 4. Confirm success only when the response contains `recorded: true`; retain
    the returned `meal_log_id` and tell the user what was recorded, including
    low-confidence items. When the response also carries `timezone` and `date`
    (eaten_at was omitted), echo that local date: "logged to Tuesday, Sep 1".
+   When the response carries `image_error`, the meal logged WITHOUT the photo:
+   say so plainly, and when the client still has the image bytes offer
+   `attach_meal_image` rather than re-logging the meal.
 5. Read back the stored result with `get_day` for the meal's local date (pass
    the user's timezone when the profile does not store it). Use the
    returned totals, goal, remaining calories, and item rows—not a re-analysis of
-   the photo—as the confirmation. For a range/dashboard view, also call
+   the photo—as the confirmation. When a photo was sent, confirm it attached by
+   checking the meal's returned `image` field (`path` + short-lived
+   `signed_url`); if it is absent and no `image_error` was reported, the photo
+   was not stored — do not claim it was. For a range/dashboard view, also call
    `get_dashboard_summary` (for example `{ days: 7 }`).
 
 For text-only logging, follow the same item/search/estimate rules without
-`image_url`. If the user asks to add a component after the meal is already
-logged, read the day first. v0.1 cannot add an item to an existing meal: with
-the user's confirmation, preserve the original `eaten_at`, `image_url`, and
+photo inputs. If the user asks to add a component after the meal is already
+logged, read the day first. If only the photo is missing, call
+`attach_meal_image` with the user's photo (when available) — the meal itself is
+not touched. v0.1 cannot add an item to an existing meal: with the user's
+confirmation, preserve the original `eaten_at` and
 meal-level `notes`, then call `delete_meal_log` once. Call `get_day` for the
 original meal's local date and check that its `meal_log_id` is absent; re-log the
 complete item list only when that absence is established. If the meal remains,
 or the delete/read result leaves state unknown, stop without retrying the
-delete or creating a replacement and report the state. `get_day` does not
-return the image reference or meal notes, so before deleting: warn separately
-if the original meal notes are unavailable and will be lost; if the original
-`image_url` is unavailable, warn that the photo link will be lost and the new
-log's source will be `barcode` if any preserved item has a barcode, otherwise
-`manual`. If the food was a genuinely separate meal, log it as its own log. Do
+delete or creating a replacement and report the state. Before deleting, warn
+that an attached photo will no longer be linked to a log (the stored bytes
+stop appearing in reads) and that the new log will start without a photo unless
+the original image is still available to attach afterwards; `get_day` does not
+return the photo bytes themselves, so the agent cannot re-attach a photo it can
+no longer see. If the food was a genuinely separate meal, log it as its own log. Do
 not create a second log for the same sitting.
 
 ## Common read and correction flows
@@ -469,6 +548,10 @@ not create a second log for the same sitting.
 - Wrong item: call `update_meal_item` with its `item_id` and at least one
   supported correction field. Wrong whole meal: call `delete_meal_log` with its
   `meal_log_id` only when deletion is what the user requested.
+- Missing/wrong photo on a logged meal: call `attach_meal_image` with the
+  photo bytes when the client has them; it attaches (or replaces) the stored
+  photo without touching any item. Confirm with `get_day` that the meal now
+  carries `image`.
 
 If a tool errors, report the exact error and the input shape attempted. If
 `log_meal` fails or times out without a clear rejection, call `get_day` for the

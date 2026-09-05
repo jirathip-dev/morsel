@@ -26,8 +26,9 @@ const BEARER_TOKEN = 'fly-session-regression-token'
 // Auth rejects an expired JWT).
 const EXPIRED_TOKEN = 'fly-session-expired-token'
 
-// The canonical 14-tool contract (same list pinned by http.test.ts).
+// The canonical 15-tool contract (same list pinned by http.test.ts).
 const EXPECTED_TOOLS = [
+  'attach_meal_image',
   'compute_targets',
   'delete_meal_log',
   'get_dashboard_summary',
@@ -233,7 +234,7 @@ describe('Fly entry point over a real HTTP listener (single process, one session
     const sessionId = initializeResponse.headers.get('mcp-session-id') ?? ''
     expect(sessionId).not.toBe('')
 
-    // 2. tools/list on the same session: every one of the 14 tools carries
+    // 2. tools/list on the same session: every one of the 15 tools carries
     // the OpenAI oauth2 securitySchemes metadata in its tool-level _meta,
     // and the safety annotations are still on the wire.
     const toolsResponse = await mcpRequest('/mcp', {

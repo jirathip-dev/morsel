@@ -1,8 +1,10 @@
-import { InvalidStoredDataError, ProviderUnavailableError, TransactionError } from './errors.js'
+import { InvalidStoredDataError, ProviderUnavailableError, RepositoryError, TransactionError } from './errors.js'
 import { calculateTargets } from './targets.js'
+import { MEAL_IMAGE_SIGNED_URL_TTL_SECONDS } from './meal-image.js'
 import type {
   ComputeTargetsOutput,
   GoalSummary,
+  MealImageMimeType,
   MealRecord,
   ParsedMealItem,
   Profile,
@@ -12,7 +14,7 @@ import type {
   WeightTrendPoint,
   EnergyBurnedPoint,
 } from '../packages/schema/food-types.js'
-import type { MealWrite, MorselRepository, StoredGoals, StoredProfile } from './repository.js'
+import type { MealWrite, MorselRepository, StoredGoals, StoredMealImageUpload, StoredProfile } from './repository.js'
 import type { NutritionProvider } from './nutrition-provider.js'
 import { zonedDateLabel } from './zone-time.ts'
 
@@ -49,7 +51,9 @@ export class InMemoryRepository implements MorselRepository {
   private readonly foods: SearchFoodItem[]
   private readonly weightsByUser = new Map<string, WeightTrendPoint[]>()
   private readonly energyBurnedByUser = new Map<string, EnergyBurnedPoint[]>()
+  private readonly mealImages = new Map<string, Map<string, { bytes: Uint8Array; contentType: MealImageMimeType }>>()
   private failNextMealItemWrite: boolean
+  private failNextMealImageWrite: boolean
   private readonly nutritionProvider?: NutritionProvider
   // Monotonic write clock: every row write (or explicit seed time) advances it,
   // so "latest write wins" comparisons stay deterministic within a repository.
@@ -67,6 +71,7 @@ export class InMemoryRepository implements MorselRepository {
       this.energyBurnedByUser.set(userId, rows.map((row) => ({ ...row })))
     }
     this.failNextMealItemWrite = options.failNextMealItemWrite ?? false
+    this.failNextMealImageWrite = false
     this.nutritionProvider = options.nutritionProvider
   }
 
@@ -81,6 +86,15 @@ export class InMemoryRepository implements MorselRepository {
 
   setFailNextMealItemWrite(): void {
     this.failNextMealItemWrite = true
+  }
+
+  setFailNextMealImageWrite(): void {
+    this.failNextMealImageWrite = true
+  }
+
+  /** Test hook: the exact bytes/type stored for a meal, when one was attached. */
+  storedMealImage(userId: string, mealLogId: string): { bytes: Uint8Array; contentType: MealImageMimeType } | undefined {
+    return this.mealImages.get(userId)?.get(mealLogId)
   }
 
   async ensureUser(userId: string, email: string): Promise<void> {
@@ -140,6 +154,22 @@ export class InMemoryRepository implements MorselRepository {
     }
   }
 
+  async attachMealImage(userId: string, mealLogId: string, upload: StoredMealImageUpload): Promise<string | undefined> {
+    await Promise.resolve()
+    const userMeals = this.meals.get(userId)
+    if (userMeals === undefined || !userMeals.has(mealLogId)) {
+      return undefined
+    }
+    if (this.failNextMealImageWrite) {
+      this.failNextMealImageWrite = false
+      throw new RepositoryError('meal image upload failed')
+    }
+    const userImages = this.mealImages.get(userId) ?? new Map<string, { bytes: Uint8Array; contentType: MealImageMimeType }>()
+    userImages.set(mealLogId, { bytes: upload.bytes, contentType: upload.contentType })
+    this.mealImages.set(userId, userImages)
+    return `${userId}/${mealLogId}.jpg`
+  }
+
   async getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]> {
     await Promise.resolve()
     const userMeals = this.meals.get(userId)
@@ -149,7 +179,21 @@ export class InMemoryRepository implements MorselRepository {
     return [...userMeals.values()]
       .filter((meal) => inRange(meal.eaten_at, start, end))
       .sort((left, right) => left.eaten_at.localeCompare(right.eaten_at))
-      .map(cloneMeal)
+      .map((meal) => {
+        const stored = this.mealImages.get(userId)?.get(meal.meal_log_id)
+        if (stored === undefined) {
+          return cloneMeal(meal)
+        }
+        const path = `${userId}/${meal.meal_log_id}.jpg`
+        return cloneMeal({
+          ...meal,
+          image: {
+            path,
+            signed_url: `https://morsel.test/storage/v1/object/sign/food-images/${path}?token=test-signature`,
+            expires_at: new Date(Date.now() + MEAL_IMAGE_SIGNED_URL_TTL_SECONDS * 1_000).toISOString(),
+          },
+        })
+      })
   }
 
   async searchFood(_userId: string, query: string, limit: number): Promise<SearchFoodItem[]> {
