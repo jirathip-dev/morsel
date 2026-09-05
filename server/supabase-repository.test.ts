@@ -398,7 +398,7 @@ describe('SupabaseRepository', () => {
         { date: '2026-08-31', active_kcal: 300 },
         { date: '2026-09-01', active_kcal: 420 },
       ])
-      // The same window in UTC keeps both burns on the UTC day (backward
+      // The same window in UTC keeps both burns on Aug 31 (backward
       // compatible v0.1 bucketing).
       await expect(repository.getEnergyBurned(
         userId,

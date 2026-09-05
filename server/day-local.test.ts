@@ -5,8 +5,8 @@ import { MorselService } from './service.js'
 
 // Issue #121 day-boundary contract: day-scoped tools bucket "days" in the
 // user's local timezone. These tests pin the named RED/GREEN regression: a
-// late-evening +07 meal must land on the LOCAL day (not the UTC day), and no
-// timezone anywhere keeps v0.1 UTC semantics.
+// late-evening +07 meal must land on the LOCAL day (not on the adjacent UTC
+// date), and no timezone anywhere keeps v0.1 UTC semantics.
 
 const userId = '00000000-0000-4000-8000-000000000002'
 const fixedNow = () => new Date('2026-08-25T12:00:00.000Z')
@@ -25,7 +25,7 @@ function createService(repository = new InMemoryRepository()): MorselService {
 }
 
 describe('MorselService local-day bucketing (issue #121)', () => {
-  it('buckets a late-evening +07 meal onto the LOCAL day, not the UTC day (Asia/Bangkok)', async () => {
+  it('buckets a late-evening +07 meal onto the LOCAL day, not onto its UTC date (Asia/Bangkok)', async () => {
     const service = createService()
     // 2026-08-31T23:30Z = Tuesday 2026-09-01 06:30 +07 (a late dinner that
     // UTC would wrongly pin to Monday Aug 31).
@@ -53,7 +53,7 @@ describe('MorselService local-day bucketing (issue #121)', () => {
       items: [{ name: 'rice', calories_kcal: 300 }],
     })
 
-    // No timezone on the call, no profile: v0.1 UTC days apply, so the
+    // No timezone on the call, no profile: v0.1 UTC-grid days apply, so the
     // instant belongs to Aug 31.
     const utcDay = await service.getDay({ date: '2026-08-31' })
     expect(utcDay.timezone).toBe('UTC')
@@ -102,7 +102,7 @@ describe('MorselService local-day bucketing (issue #121)', () => {
     // The server-side "now" stamp lives in the local day window.
     expect(summary.avg_calories_kcal).toBe(200)
 
-    // Without any timezone the anchor stays the UTC day (v0.1): the same
+    // Without any timezone the anchor stays the UTC-grid day (v0.1): the same
     // instant belongs to UTC Aug 25 and its window still contains the meal.
     const utcSummary = await service.getDashboardSummary({ days: 1 })
     expect(utcSummary.timezone).toBe('UTC')
