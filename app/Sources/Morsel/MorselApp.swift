@@ -59,41 +59,6 @@ struct MorselConfiguration {
     }
 }
 
-@MainActor
-final class SessionStore: ObservableObject {
-    enum NoSessionRoute: Equatable, Sendable {
-        case initialSetup
-        case setupDeferred
-    }
-
-    @Published private(set) var session: AuthenticatedSession?
-    @Published private(set) var pendingRoute: NoSessionRoute = .initialSetup
-
-    var isSetupDeferred: Bool { pendingRoute == .setupDeferred }
-
-    func deferSetup() {
-        pendingRoute = .setupDeferred
-    }
-
-    func authenticate(_ session: AuthenticatedSession) {
-        self.session = session
-        pendingRoute = .initialSetup
-    }
-
-    func signOut(using auth: any SupabaseAuthenticating) async {
-        try? await auth.signOut()
-        session = nil
-        pendingRoute = .setupDeferred
-    }
-
-    func restore(using auth: any SupabaseAuthenticating) async {
-        guard session == nil else {
-            return
-        }
-        session = try? await auth.restoreSession()
-    }
-}
-
 private struct MorselRootView: View {
     @ObservedObject var sessionStore: SessionStore
     let auth: any SupabaseAuthenticating
@@ -162,8 +127,19 @@ private struct AuthenticatedDashboardView: View {
     @State private var showingSettings = false
     @State private var showingOnboarding = false
     @State private var tabReloadCounts: [JournalTab: Int] = [:]
+    @AppStorage(MorselAppearance.themePreferenceKey)
+    private var themePreferenceRaw = MorselAppearance.defaultThemePreference.rawValue
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
+
+    /// Issue #110 — a fullScreenCover is a separate UIKit presentation: it
+    /// does not re-resolve the root preferredColorScheme while it is up.
+    /// Re-assert the same preference-derived scheme on each presented cover
+    /// root so a Paper/Night-ink switch made inside Settings re-inks the
+    /// cover itself immediately, not only the window behind it.
+    private var coverColorScheme: ColorScheme? {
+        MorselAppearance.scheme(for: MorselThemePreference(rawValue: themePreferenceRaw) ?? .paper)
+    }
 
     let mcpEndpoint: String
     let session: AuthenticatedSession
@@ -269,6 +245,7 @@ private struct AuthenticatedDashboardView: View {
                     Task { await viewModel.retryHealthSync() }
                 }
             )
+            .preferredColorScheme(coverColorScheme)
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
             MorselActionTint {
@@ -280,6 +257,7 @@ private struct AuthenticatedDashboardView: View {
                     onSkip: { OnboardingStore().markCompleted(for: viewModel.userID); showingOnboarding = false }
                 )
             }
+            .preferredColorScheme(coverColorScheme)
         }
         .onChange(of: pager.selection) { oldTab, newTab in
             if routeModel.isPresentingAddMeal {

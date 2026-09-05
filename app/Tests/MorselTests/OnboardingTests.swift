@@ -159,34 +159,35 @@ final class OnboardingTests: XCTestCase {
 
     func testRootViewWiresInitialSkipToExplicitDeferredRoute() throws {
         let testURL = URL(fileURLWithPath: #filePath)
-        let sourceURL = testURL.deletingLastPathComponent()
+        let sourceRoot = testURL.deletingLastPathComponent()
             .deletingLastPathComponent()
             .deletingLastPathComponent()
-            .appendingPathComponent("Sources/Morsel/MorselApp.swift")
-        let source = try String(contentsOf: sourceURL, encoding: .utf8)
-        let storeStart = try XCTUnwrap(
-            source.range(of: "final class SessionStore"),
-            "Expected the SessionStore declaration in MorselApp.swift"
+            .appendingPathComponent("Sources/Morsel")
+        let shellSource = try String(contentsOf: sourceRoot.appendingPathComponent("MorselApp.swift"), encoding: .utf8)
+        let storeSource = try String(contentsOf: sourceRoot.appendingPathComponent("SessionStore.swift"), encoding: .utf8)
+        XCTAssertTrue(
+            storeSource.contains("final class SessionStore: ObservableObject"),
+            "Expected the SessionStore declaration in SessionStore.swift"
         )
         let rootStart = try XCTUnwrap(
-            source.range(of: "private struct MorselRootView", range: storeStart.upperBound..<source.endIndex),
-            "Expected MorselRootView after SessionStore in MorselApp.swift"
+            shellSource.range(of: "private struct MorselRootView"),
+            "Expected MorselRootView in MorselApp.swift"
         )
         let initialCallStart = try XCTUnwrap(
-            source.range(of: "userID: pendingSession?.userID ?? UUID()", range: rootStart.upperBound..<source.endIndex),
+            shellSource.range(of: "userID: pendingSession?.userID ?? UUID()", range: rootStart.upperBound..<shellSource.endIndex),
             "Expected the initial no-session OnboardingView call in MorselRootView"
         )
 
         XCTAssertTrue(
-            source.contains("OnboardingStore().markCompleted(for: viewModel.userID)"),
+            shellSource.contains("OnboardingStore().markCompleted(for: viewModel.userID)"),
             "Signed-in onboarding must keep its completion persistence"
         )
         XCTAssertEqual(
-            source.components(separatedBy: "sessionStore.deferSetup()").count - 1, 1,
+            shellSource.components(separatedBy: "sessionStore.deferSetup()").count - 1, 1,
             "Exactly one load-bearing initial-skip transition is expected"
         )
         XCTAssertTrue(
-            source[initialCallStart.lowerBound..<source.endIndex].contains("sessionStore.deferSetup()"),
+            shellSource[initialCallStart.lowerBound..<shellSource.endIndex].contains("sessionStore.deferSetup()"),
             "The initial no-session onboarding must defer setup instead of the default no-op"
         )
     }
