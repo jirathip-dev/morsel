@@ -38,6 +38,9 @@ final class AccountReliabilityServices {
             store = try LocalDataStore(databaseURL: url)
             snapshotCache = try LocalSnapshotCache(databaseURL: url)
             healthStore = try LocalHealthStore(databaseURL: url)
+            // Issue #121 — one-time re-bucket of legacy UTC-day cache keys to
+            // the device's local days; best effort (flag retries next launch).
+            try? LocalDayMigration.runIfNeeded(cache: snapshotCache, health: healthStore)
         } catch {
             return nil
         }

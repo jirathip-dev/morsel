@@ -16,11 +16,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     private let healthStore: LocalHealthStore?
     /// Asks the owning coordinator to attempt a durable sync pass now.
     private let requestSync: () -> Void
-    private let calendar: Calendar = {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-        return calendar
-    }()
+    /// Issue #121 — every day window and day key is the device's LOCAL day.
+    private let calendar = Calendar.autoupdatingCurrent
 
     init(
         remote: any DashboardRepository,
@@ -302,9 +299,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     // MARK: - Keys + coding
 
     static func dayKey(_ date: Date) -> String {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-        return String(calendar.startOfDay(for: date).timeIntervalSince1970)
+        String(Calendar.autoupdatingCurrent.startOfDay(for: date).timeIntervalSince1970)
     }
 
     private static func historyKey(end: Date, days: Int) -> String {

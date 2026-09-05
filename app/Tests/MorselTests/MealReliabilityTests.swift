@@ -43,7 +43,7 @@ final class MealReliabilityTests: XCTestCase {
     }
     private func remoteSnapshot(meals: [MealRecord] = []) -> DashboardSnapshot {
         DashboardSnapshot(
-            date: DashboardMath.startOfUTCDay(Date(timeIntervalSince1970: 60)),
+            date: DashboardMath.startOfLocalDay(Date(timeIntervalSince1970: 60)),
             meals: meals,
             goal: nil
         )
@@ -114,7 +114,7 @@ final class MealReliabilityTests: XCTestCase {
 
         let second = try await repository.loadToday(userID: account, date: Date(timeIntervalSince1970: 60))
         XCTAssertEqual(second.meals.count, 0, "cached snapshot survives the remote failure")
-        XCTAssertEqual(second.date, DashboardMath.startOfUTCDay(Date(timeIntervalSince1970: 60)))
+        XCTAssertEqual(second.date, DashboardMath.startOfLocalDay(Date(timeIntervalSince1970: 60)))
         let stillCached = try await repository.cachedToday(userID: account, date: Date(timeIntervalSince1970: 60))
         XCTAssertNotNil(stillCached, "the failed refresh must not erase the cache")
     }
@@ -134,7 +134,7 @@ final class MealReliabilityTests: XCTestCase {
         await viewModel.load()
 
         XCTAssertNotNil(viewModel.snapshot)
-        XCTAssertEqual(viewModel.snapshot?.date, DashboardMath.startOfUTCDay(Date(timeIntervalSince1970: 60)))
+        XCTAssertEqual(viewModel.snapshot?.date, DashboardMath.startOfLocalDay(Date(timeIntervalSince1970: 60)))
     }
 
     // MARK: - Duplicate-safe retries (server conflict guard)

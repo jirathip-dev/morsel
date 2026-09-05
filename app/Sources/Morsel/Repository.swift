@@ -33,11 +33,11 @@ struct SupabaseDashboardRepository: DashboardRepository {
         }
         let authenticatedUserID = try await requireSession(client, userID: userID)
 
-        var utcCalendar = Calendar(identifier: .gregorian)
-        utcCalendar.timeZone = TimeZone(secondsFromGMT: 0) ?? .current
-        let start = utcCalendar.startOfDay(for: date)
-        guard let end = utcCalendar.date(byAdding: .day, value: 1, to: start),
-              let trendStart = utcCalendar.date(byAdding: .day, value: -29, to: start) else {
+        // Issue #121 — the "today" window is the DEVICE'S LOCAL day.
+        let calendar = Calendar.autoupdatingCurrent
+        let start = calendar.startOfDay(for: date)
+        guard let end = calendar.date(byAdding: .day, value: 1, to: start),
+              let trendStart = calendar.date(byAdding: .day, value: -29, to: start) else {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
