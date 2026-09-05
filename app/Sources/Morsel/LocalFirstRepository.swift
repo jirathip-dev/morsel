@@ -319,3 +319,16 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         try JSONDecoder().decode(type, from: data)
     }
 }
+
+// Issue #123 — local-first Goals-page paint: the last cached goals row
+// (refreshed on every remote success) is served immediately so the editor
+// paints before the remote round-trip; the remote read then reconciles.
+// nil when no goals cache exists yet.
+extension LocalFirstDashboardRepository {
+    func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal? {
+        guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else {
+            return nil
+        }
+        return try Self.decode(StoredDashboardGoal.self, payload)
+    }
+}

@@ -49,6 +49,10 @@ extension DashboardRepository {
 
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? { nil }
 
+    /// Issue #123 — no goals cache by default (plain remote repositories);
+    /// the local-first facade overrides with the real snapshot cache.
+    func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
+
     /// Default Goals-page context: the stored row only — no profile or
     /// weight read (test doubles). Supabase and local-first repositories
     /// override with the full recency + profile read.

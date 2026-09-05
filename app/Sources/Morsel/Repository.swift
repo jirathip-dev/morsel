@@ -16,6 +16,7 @@ protocol DashboardRepository {
     func loadMealImage(userID: UUID, path: String) async throws -> Data
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal?
     func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext
+    func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal?
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal
     func saveGoals(userID: UUID, goal: DashboardGoal) async throws
     func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot?
