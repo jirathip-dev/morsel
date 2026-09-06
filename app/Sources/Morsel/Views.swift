@@ -28,7 +28,7 @@ struct TodayView: View {
                     Task { await viewModel.load() }
                 }
             } else if viewModel.isLoading && viewModel.snapshot == nil {
-                LoadingNotice()
+                TodaySkeleton()
             } else {
                 VStack(alignment: .leading, spacing: 0) {
                     if let errorMessage = viewModel.errorMessage {
@@ -52,6 +52,14 @@ struct TodayView: View {
                         }
                     }
                 }
+                .sheet(item: $mealToDelete) { meal in
+                    // Issue #136 — themed paper destructive confirmation (the
+                    // system alert chrome is gone). Cancel dismisses without
+                    // deleting; the red-flagged action owns the delete.
+                    DeleteMealPaperDialog(meal: meal) {
+                        Task { _ = await viewModel.deleteMeal(meal.mealLogID) }
+                    }
+                }
             }
         }
         .task {
@@ -64,30 +72,6 @@ struct TodayView: View {
                     editingItem = nil
                 }
                 return didUpdate
-            }
-        }
-        .confirmationDialog(
-            "Delete this meal?",
-            isPresented: Binding(
-                get: { mealToDelete != nil },
-                set: { isPresented in
-                    if !isPresented {
-                        mealToDelete = nil
-                    }
-                }
-            ),
-            titleVisibility: .visible
-        ) {
-            if let meal = mealToDelete {
-                Button("Delete \(meal.mealType.title)", role: .destructive) {
-                    mealToDelete = nil
-                    Task { _ = await viewModel.deleteMeal(meal.mealLogID) }
-                }
-            }
-            Button("Cancel", role: .cancel) { mealToDelete = nil }
-        } message: {
-            if let meal = mealToDelete {
-                Text("This removes \(meal.items.count) items and recalculates today's totals.")
             }
         }
     }
@@ -224,16 +208,62 @@ private struct JournalHeroView: View {
     }
 }
 
-private struct LoadingNotice: View {
+// MARK: - Issue #136 paper loading skeletons (soft placeholder blocks; no spinners)
+
+/// Fixed-width paper placeholder block (loading shimmer stand-in).
+struct PaperSkeletonBlock: View {
+    let width: CGFloat
+    let height: CGFloat
+    var radius: CGFloat = 3
+
     var body: some View {
-        HStack(spacing: 10) {
-            ProgressView()
-                .tint(Color.morselAccent)
-            Text("Reading today's log…")
-                .font(.morselBody)
-                .foregroundStyle(Color.morselInkTwo)
+        RoundedRectangle(cornerRadius: radius)
+            .fill(Color.morselInkLine.opacity(0.18))
+            .frame(width: width, height: height)
+    }
+}
+
+/// Flexible-width paper placeholder block (fills the proposed width).
+struct PaperSkeletonFill: View {
+    let height: CGFloat
+
+    var body: some View {
+        RoundedRectangle(cornerRadius: 3)
+            .fill(Color.morselInkLine.opacity(0.18))
+            .frame(maxWidth: .infinity)
+            .frame(height: height)
+    }
+}
+
+/// Today's first-load skeleton: journal hero + macro wash + log rows in the
+/// same vertical rhythm as the loaded page (issue #136 — no text spinner).
+private struct TodaySkeleton: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(alignment: .center, spacing: 16) {
+                RoundedRectangle(cornerRadius: 46)
+                    .fill(Color.morselInkLine.opacity(0.12))
+                    .frame(width: 92, height: 92)
+                VStack(alignment: .leading, spacing: 9) {
+                    PaperSkeletonBlock(width: 74, height: 9, radius: 3)
+                    PaperSkeletonBlock(width: 132, height: 24, radius: 4)
+                    PaperSkeletonBlock(width: 96, height: 9, radius: 3)
+                }
+                Spacer(minLength: 0)
+            }
+            .padding(.vertical, 6)
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(0..<3, id: \.self) { _ in
+                    PaperSkeletonFill(height: 9)
+                }
+            }
+            .padding(.top, 20)
+            JournalRule()
+                .padding(.vertical, 18)
+            TodayLogSkeletonRows()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Loading today's journal")
     }
 }
 
@@ -256,5 +286,67 @@ private struct ErrorNotice: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.morselInkLine.opacity(0.5), lineWidth: 1)
         }
+    }
+}
+
+// MARK: - Issue #136 paper delete confirmation (no system alert chrome)
+
+/// Red-flagged destructive action: the over token surface carries the page
+/// cream label in Paper; Night resolves the pair inverted (cream surface,
+/// ink label). Both pairs hold the strict 4.5:1 text contract.
+private struct MorselDestructiveButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.morselBodyStrong)
+            .foregroundStyle(Color.morselBackground)
+            .frame(minHeight: 40)
+            .padding(.horizontal, 14)
+            .background(Color.morselOver, in: RoundedRectangle(cornerRadius: 8))
+            .opacity(configuration.isPressed ? 0.8 : 1)
+    }
+}
+
+/// Themed paper confirmation sheet: cream surface + ink copy, ghost Cancel
+/// and a red-flagged destructive action. Cancel dismisses without deleting;
+/// only the destructive button runs `onDelete`.
+struct DeleteMealPaperDialog: View {
+    let meal: MealRecord
+    let onDelete: () -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Delete this meal?")
+                .font(.morselTitle)
+                .foregroundStyle(Color.morselInk)
+            Text("This removes \(meal.items.count) items and recalculates today's totals.")
+                .font(.morselBody)
+                .foregroundStyle(Color.morselInkTwo)
+            HStack(spacing: 10) {
+                Button("Cancel") { dismiss() }
+                    .buttonStyle(MorselGhostButtonStyle())
+                    .frame(maxWidth: .infinity)
+                Button("Delete \(meal.mealType.title)") {
+                    onDelete()
+                    dismiss()
+                }
+                .buttonStyle(MorselDestructiveButtonStyle())
+                .frame(maxWidth: .infinity)
+            }
+            .padding(.top, 2)
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.morselSurface, in: RoundedRectangle(cornerRadius: 14))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(Color.morselInkLine.opacity(0.7), lineWidth: 1)
+        }
+        .padding(8)
+        .presentationDetents([.height(232)])
+        .presentationBackground(Color.clear)
+        .presentationDragIndicator(.hidden)
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel("Delete this meal?")
     }
 }
