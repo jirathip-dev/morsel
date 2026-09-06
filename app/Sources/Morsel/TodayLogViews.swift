@@ -264,3 +264,30 @@ struct NeedsReviewSection: View {
         }
     }
 }
+
+// MARK: - Issue #136 Today log skeleton rows (paper placeholders, no spinner)
+
+/// Journal log-row placeholders used by Today's first-load skeleton: a
+/// section line plus thumbnail + text rows in the loaded layout's rhythm.
+struct TodayLogSkeletonRows: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            PaperSkeletonBlock(width: 96, height: 11, radius: 3)
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(0..<3, id: \.self) { _ in
+                    HStack(spacing: 10) {
+                        RoundedRectangle(cornerRadius: 7)
+                            .fill(Color.morselInkLine.opacity(0.12))
+                            .frame(width: 44, height: 44)
+                        VStack(alignment: .leading, spacing: 6) {
+                            PaperSkeletonBlock(width: 132, height: 9, radius: 3)
+                            PaperSkeletonBlock(width: 76, height: 8, radius: 3)
+                        }
+                        Spacer(minLength: 0)
+                        PaperSkeletonBlock(width: 46, height: 12, radius: 3)
+                    }
+                }
+            }
+        }
+    }
+}
