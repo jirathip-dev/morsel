@@ -119,18 +119,30 @@ enum FoodImageStore {
         }
     }
 
+    /// Normalizes a stored meal-photo path into the canonical bucket object
+    /// path (`{user_id}/{meal_log_id}.jpg`, the #133/MealRecordSchema form)
+    /// and proves it belongs to `userID`. Both the canonical object path and
+    /// the legacy bucket-qualified form (`food-images/{user_id}/{meal}.jpg`,
+    /// written by app builds before issue #135) are accepted on reads, so
+    /// server-logged and app-logged rows keep rendering; uploads/writes use
+    /// the canonical object path only.
     @discardableResult
     static func validate(bucketPath: String, for userID: UUID) throws -> String {
         let components = bucketPath.split(separator: "/", omittingEmptySubsequences: true)
-        guard components.count == 3,
-              components[0] == Substring(bucket),
-              let ownerID = UUID(uuidString: String(components[1])),
+        let objectComponents: [Substring]
+        if components.count == 3, components[0] == Substring(bucket) {
+            objectComponents = Array(components.dropFirst())
+        } else {
+            objectComponents = components
+        }
+        guard objectComponents.count == 2,
+              let ownerID = UUID(uuidString: String(objectComponents[0])),
               ownerID == userID,
-              components[2].hasSuffix(".jpg"),
-              UUID(uuidString: String(components[2].dropLast(4))) != nil else {
+              objectComponents[1].hasSuffix(".jpg"),
+              UUID(uuidString: String(objectComponents[1].dropLast(4))) != nil else {
             throw FoodImageError.invalidPath
         }
-        return components.dropFirst().map(String.init).joined(separator: "/")
+        return objectComponents.map(String.init).joined(separator: "/")
     }
 }
 

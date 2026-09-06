@@ -133,11 +133,20 @@ final class LocalDataStore {
         """, .text(mealID.uuidString)).first.map { try Self.row($0) }
     }
 
-    /// Records an attempt; permanent refusals → needs-attention (kept).
-    func recordMealAttempt(mealID: UUID, error: OutboxErrorCategory, now: Date = Date()) throws {
+    /// Records an attempt. A transient failure stays retryable (.pending);
+    /// a PERMANENT refusal (auth/validation/photo/server) moves the row to
+    /// the visible needs-attention state and preserves the recoverable
+    /// payload — never a silent green-pending retry loop (issue #135).
+    func recordMealAttempt(
+        mealID: UUID,
+        error: OutboxErrorCategory,
+        permanent: Bool = false,
+        now: Date = Date()
+    ) throws {
         let existing = try queuedMeal(mealID: mealID)
         let attempts = (existing?.attempts ?? 0) + 1
-        let state: MealOutboxState = error == .auth || error == .validation ? .needsAttention : .pending
+        let needsAttention = permanent || error == .auth || error == .validation
+        let state: MealOutboxState = needsAttention ? .needsAttention : .pending
         let category = error.rawValue
         try inTransaction {
             try run("""

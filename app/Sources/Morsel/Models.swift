@@ -14,6 +14,9 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
     let confidence: Double?
     let notes: String?
     let source: MealSource
+    /// The parent meal's photo read contract (issue #135) — carried on the
+    /// item because the journal's edit flow presents items alone.
+    let mealImage: MealImage?
 
     init(
         itemID: UUID,
@@ -28,7 +31,8 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         sugarG: Double?,
         confidence: Double?,
         notes: String?,
-        source: MealSource = .manual
+        source: MealSource = .manual,
+        mealImage: MealImage? = nil
     ) {
         self.itemID = itemID
         self.name = name
@@ -43,9 +47,31 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         self.confidence = confidence
         self.notes = notes
         self.source = source
+        self.mealImage = mealImage
     }
 
     var id: UUID { itemID }
+
+    /// Copy with the parent meal's photo context (issue #135 — hydration
+    /// happens at the read seam where the meal record is known).
+    func withMealImage(_ image: MealImage?) -> MealItem {
+        MealItem(
+            itemID: itemID,
+            name: name,
+            quantity: quantity,
+            unit: unit,
+            caloriesKcal: caloriesKcal,
+            proteinG: proteinG,
+            carbsG: carbsG,
+            fatG: fatG,
+            fiberG: fiberG,
+            sugarG: sugarG,
+            confidence: confidence,
+            notes: notes,
+            source: source,
+            mealImage: image
+        )
+    }
 
     var isManualEdit: Bool {
         notes == MealSource.manualEdit.rawValue
@@ -120,12 +146,41 @@ enum MealType: String, CaseIterable, Sendable, Codable {
     }
 }
 
+/// Read contract for a stored meal photo (MealRecordSchema.image, issue
+/// #133): `path` is the canonical bucket object path
+/// (`{user_id}/{meal_log_id}.jpg`), `signedURL` is the short-lived URL
+/// minted per read, and `expiresAt` is the instant that URL stops working.
+/// Absent when the meal has no photo.
+struct MealImage: Equatable, Sendable, Codable {
+    let path: String
+    let signedURL: URL?
+    let expiresAt: Date?
+
+    init(path: String, signedURL: URL? = nil, expiresAt: Date? = nil) {
+        self.path = path
+        self.signedURL = signedURL
+        self.expiresAt = expiresAt
+    }
+
+    /// A signed URL is only usable before its expiry instant (issue #135 —
+    /// callers must not fetch an expired URL; reads re-mint per refresh).
+    func isExpired(at date: Date = Date()) -> Bool {
+        guard let expiresAt else {
+            return false
+        }
+        return date >= expiresAt
+    }
+}
+
 struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     let mealLogID: UUID
     let mealType: MealType
     let eatenAt: Date
     let source: MealSource
     let imagePath: String?
+    /// #133 image read contract ({path, signed_url, expires_at}); nil when
+    /// the row has no photo (or is still queued with no remote read yet).
+    let image: MealImage?
     let items: [MealItem]
     /// Issue #106 — honest local sync state. `synced` rows come from the
     /// authoritative remote snapshot; queued rows carry `pending sync` or
@@ -138,6 +193,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         eatenAt: Date,
         source: MealSource,
         imagePath: String? = nil,
+        image: MealImage? = nil,
         items: [MealItem],
         syncState: MealSyncState = .synced
     ) {
@@ -146,6 +202,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         self.eatenAt = eatenAt
         self.source = source
         self.imagePath = imagePath
+        self.image = image
         self.items = items
         self.syncState = syncState
     }

@@ -204,20 +204,21 @@ final class MockDashboardRepository: DashboardRepository {
 
     func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID {
         try MealDraftValidation.validate(draft)
-        let imagePath: String?
+        let image: MealImage?
         if let photo {
-            imagePath = try await uploadImage(
+            let imagePath = try await uploadImage(
                 userID: userID,
-                path: FoodImageStore.bucketPath(userID: userID, imageID: UUID()),
+                path: FoodImageStore.objectPath(userID: userID, imageID: UUID()),
                 upload: photo
             )
+            image = MealImage(path: imagePath)
         } else {
-            imagePath = nil
+            image = nil
         }
 
         guard !failMealLog else {
-            if let imagePath {
-                removeImage(at: imagePath)
+            if let path = image?.path {
+                removeImage(at: path)
             }
             throw MorselError.requestFailed(422, "The meal could not be saved.")
         }
@@ -227,7 +228,8 @@ final class MockDashboardRepository: DashboardRepository {
             mealType: draft.mealType,
             eatenAt: draft.eatenAt,
             source: photo == nil ? .manual : .photoVision,
-            imagePath: imagePath,
+            imagePath: image?.path,
+            image: image,
             items: draft.items.map { item in
                 MealItem(
                     itemID: UUID(),
@@ -242,7 +244,8 @@ final class MockDashboardRepository: DashboardRepository {
                     sugarG: item.sugarG,
                     confidence: item.confidence,
                     notes: item.notes,
-                    source: photo == nil ? .manual : .photoVision
+                    source: photo == nil ? .manual : .photoVision,
+                    mealImage: image
                 )
             }
         )
@@ -253,10 +256,15 @@ final class MockDashboardRepository: DashboardRepository {
         )
         return meal.mealLogID
     }
+}
 
+// Image-store doubles (issue #135): keys are the canonical object paths the
+// production pipeline now writes and reads; legacy bucket-qualified inputs
+// are normalized so old tests/rows keep working.
+extension MockDashboardRepository {
     func loadMealImage(userID: UUID, path: String) async throws -> Data {
-        try FoodImageStore.validate(bucketPath: path, for: userID)
-        guard let data = imageData[path] else {
+        let objectPath = try FoodImageStore.validate(bucketPath: path, for: userID)
+        guard let data = imageData[objectPath] else {
             throw MorselError.invalidData("The meal photo is no longer available.")
         }
         return data
@@ -264,15 +272,22 @@ final class MockDashboardRepository: DashboardRepository {
 
     @discardableResult
     func uploadImage(userID: UUID, path: String, upload: FoodImageUpload) async throws -> String {
-        try FoodImageStore.validate(bucketPath: path, for: userID)
+        let objectPath = try FoodImageStore.validate(bucketPath: path, for: userID)
         try FoodImageStore.validate(data: upload.data, mimeType: upload.mimeType)
-        uploadedImagePaths.append(path)
-        imageData[path] = upload.data
-        return path
+        uploadedImagePaths.append(objectPath)
+        imageData[objectPath] = upload.data
+        return objectPath
     }
 
     func removeImage(at path: String) {
-        imageData.removeValue(forKey: path)
-        uploadedImagePaths.removeAll { $0 == path }
+        let components = path.split(separator: "/", omittingEmptySubsequences: true)
+        let key: String
+        if components.count == 3, components[0] == Substring(FoodImageStore.bucket) {
+            key = components.dropFirst().map(String.init).joined(separator: "/")
+        } else {
+            key = path
+        }
+        imageData.removeValue(forKey: key)
+        uploadedImagePaths.removeAll { $0 == key }
     }
 }
