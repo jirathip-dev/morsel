@@ -25,6 +25,7 @@ import {
 import type {
   ComputeTargetsOutput,
   GoalSummary,
+  MealImageRecord,
   MealItemRecord,
   MealRecord,
   Profile,
@@ -214,6 +215,23 @@ function toMealRecord(value: unknown, items: MealItemRecord[], image?: unknown):
     items,
     ...(mealImage === undefined ? {} : { image: mealImage }),
   }, 'meal log')
+}
+
+type MealImageMintOutcome =
+  | { minted: true; image: MealImageRecord }
+  | { minted: false }
+
+function logMealImageUnavailable(mealLogIds: string[]): void {
+  // Structured drift signal only: failure count + per-meal id + category.
+  // Never object paths, signed URLs, or photo bytes (they are not logged
+  // anywhere else in this file), and never throw out of reads.
+  console.error(`meal image signed URL unavailable ${JSON.stringify({
+    count: mealLogIds.length,
+    meal_image_failures: mealLogIds.map((meal_log_id) => ({
+      meal_log_id,
+      category: 'storage_request_failed',
+    })),
+  })}`)
 }
 
 function toRpcMealRecord(value: unknown): MealRecord {
@@ -445,38 +463,60 @@ export class SupabaseRepository implements MorselRepository {
     }
 
     const meals: MealRecord[] = []
+    const unavailableImageMealIds: string[] = []
     for (const log of logs) {
-      const image = log.image_path === undefined || log.image_path === null
-        ? undefined
-        : await this.signedMealImage(log.image_path)
+      let image: MealImageRecord | undefined
+      if (log.image_path !== undefined && log.image_path !== null) {
+        const outcome = await this.signedMealImage(log.image_path)
+        if (outcome.minted) {
+          image = outcome.image
+        } else {
+          // Fail-soft (issue #149): an unreadable photo degrades to no photo
+          // for this meal (MealImageRecordSchema has no error variant) and
+          // never aborts the whole day/summary read. The drift is observable
+          // through one structured log line per read, below.
+          unavailableImageMealIds.push(log.id)
+        }
+      }
       meals.push(toMealRecord(log, itemsByMeal.get(log.id) ?? [], image))
+    }
+    if (unavailableImageMealIds.length > 0) {
+      logMealImageUnavailable(unavailableImageMealIds)
     }
     return meals
   }
 
   /**
    * Mints the short-lived read URL for a stored photo. The signed URL is
-   * returned per read and never persisted or logged. Storage failures surface
-   * as a typed RepositoryError (the SDK's fetch helpers throw on error).
+   * returned per read and never persisted or logged. Fail-soft contract:
+   * an unreadable photo (a storage request failure OR a storage API error
+   * such as a missing object) resolves to `{ minted: false }` — the caller
+   * logs the meal id structurally and the read continues; reads never
+   * throw because one meal image cannot be signed.
    */
-  private async signedMealImage(imagePath: string): Promise<unknown> {
+  private async signedMealImage(imagePath: string): Promise<MealImageMintOutcome> {
     let response: Awaited<ReturnType<ReturnType<SupabaseClient<Database>['storage']['from']>['createSignedUrl']>>
     try {
       response = await this.client
         .storage
         .from(MEAL_IMAGE_BUCKET)
         .createSignedUrl(imagePath, MEAL_IMAGE_SIGNED_URL_TTL_SECONDS)
-    } catch (error) {
-      throw new RepositoryError('meal image signed URL failed', error)
+    } catch {
+      return { minted: false }
     }
-    const signedUrl = response.data?.signedUrl
-    if (signedUrl === undefined) {
-      throw new RepositoryError('meal image signed URL failed')
+    if (response.error !== null) {
+      // Storage API error (e.g. 404 for a missing or expired object — the
+      // #149 defect): the SDK returns { data: null, error } for non-2xx.
+      return { minted: false }
     }
+    const signedUrl = response.data.signedUrl
     return {
-      path: imagePath,
-      signed_url: signedUrl,
-      expires_at: new Date(Date.now() + MEAL_IMAGE_SIGNED_URL_TTL_SECONDS * 1_000).toISOString(),
+      minted: true,
+      image: {
+        path: imagePath,
+        signed_url: signedUrl,
+        expires_at: new Date(Date.now() + MEAL_IMAGE_SIGNED_URL_TTL_SECONDS * 1_000).toISOString(),
+      },
     }
   }
 
