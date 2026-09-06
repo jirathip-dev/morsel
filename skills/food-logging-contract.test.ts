@@ -62,3 +62,21 @@ describe('food-logging skill — TDEE eaten-vs-goal semantics (issue #93)', () =
     expect(skill).toMatch(/under, on target, or over/i)
   })
 })
+
+describe('food-logging skill — named menus contract (issue #152)', () => {
+  it('registers list_menus and teaches one-call create/reuse flows', () => {
+    expect(skill).toMatch(/exactly these tools:[\s\S]*?`list_menus`/i)
+    expect(skill).toMatch(/read-only \(never write\):[\s\S]*?`list_menus`/i)
+    expect(skill).toMatch(/### `list_menus`/)
+    expect(skill).toMatch(/pass `menu_name` and omit `items`/i)
+    expect(skill).toMatch(/creates the menu from those items AND logs the meal/i)
+  })
+
+  it('pins the log_meal menu contract: menu_name optional, items conditional, snapshot semantics', () => {
+    expect(skill).toMatch(/menu_name\?: string\s*,\s*\/\/ named-menu log \(issue #152\)/)
+    expect(skill).toMatch(/\(at least one item\) is required[\s\S]*?except when `menu_name` names a menu/i)
+    expect(skill).toMatch(/menu log is a snapshot copy/i)
+    expect(skill).toMatch(/menu_group_id/)
+    expect(skill).toMatch(/Editing or[\s\S]*?deleting a menu[\s\S]*?NEVER changes past meals/i)
+  })
+})

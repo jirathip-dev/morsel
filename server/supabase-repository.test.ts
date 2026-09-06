@@ -170,6 +170,8 @@ function createRepository(
         food_ref_id: null,
         confidence: null,
         source_notes: null,
+        menu_group_id: null,
+        menu_name: null,
       }])
     }
     if (request.url.includes('/rest/v1/meal_items?select=meal_log_id')) {

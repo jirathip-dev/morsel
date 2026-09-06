@@ -16,9 +16,10 @@ description, explicit input and output schemas, and an explicit SDK
 
 | Tool | Title | Direction | Purpose | Annotations |
 |---|---|---|---|---|
-| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Real photo bytes attach through this. | — |
+| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Real photo bytes attach through this. Optional `menu_name` logs a reusable named menu (issue #152). | — |
 | `attach_meal_image` | Attach a photo to a logged meal | write | Add the photo bytes to an existing meal log (logged without one, or its photo failed to store). | — |
 | `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | `openWorldHint` (see [search_food cache write](#search_food-cache-write)) |
+| `list_menus` | List named menus | read | List the caller's reusable named menus (issue #152) so a bundle can be re-logged under any meal section. | `readOnlyHint` |
 | `update_meal_item` | Update one meal item | write | Correct one item (wrong macro, wrong portion). | — |
 | `delete_meal_log` | Delete a meal log | write | Remove a whole meal. | `destructiveHint` |
 | `get_day` | Get a day of meals | read | One day's meals + totals + remaining vs goal. | `readOnlyHint` |
@@ -126,6 +127,16 @@ accepted:** the response carries `image_error` and the meal itself is still
 logged. Send the photo bytes when the client exposes the image; otherwise omit
 the photo inputs entirely.
 
+**Named menus (issue #152):** passing `menu_name` logs the meal as one grouped
+set under that name — every item row snapshots the menu name plus one shared
+set/grouping id, so menus are meal-type-free templates (a breakfast set can be
+logged as dinner) and later menu edits never change past meals. When the user
+has no menu with that name, the server CREATES the reusable menu from this
+log's items in the same transaction. When the menu already exists and `items`
+is omitted, the log copies the menu's current items; `items` may still be
+passed to log a custom snapshot under the menu's grouping. `items` stays
+required for plain logs and for creating a brand-new menu.
+
 **Input**
 ```json
 {
@@ -134,6 +145,7 @@ the photo inputs entirely.
     "eaten_at":    { "type": "string", "format": "date-time", "description": "When the meal happened (not upload time). Default: now." },
     "timezone":    { "type": "string", "description": "IANA zone, e.g. \"Asia/Bangkok\". Only used when eaten_at is omitted: the response's date is the local calendar day of the stamped \"now\". Precedence: this input -> profiles.timezone -> UTC." },
     "meal_type":   { "type": "string", "enum": ["breakfast", "lunch", "dinner", "snack"] },
+    "menu_name":   { "type": "string", "description": "Named-menu log (issue #152): logs the meal as one grouped set under this menu name. Creates the reusable menu from these items when the user has none with that name; an existing menu is never modified by a log. When the menu exists, items may be omitted and the log copies the menu's current items." },
     "items": {
       "type": "array", "minItems": 1,
       "items": {
@@ -168,7 +180,7 @@ the photo inputs entirely.
     },
     "image_url": { "type": "string", "format": "uri", "description": "Legacy photo input: a public HTTPS image URL. The server fetches it once (5 s timeout, image-only content, 10 MB cap, no redirects to private ranges) and stores the bytes like image_base64." }
   },
-  "required": ["meal_type", "items"]
+  "required": ["meal_type"]
 }
 ```
 
@@ -252,6 +264,21 @@ maps its `foods[].foodNutrients` values into this unchanged contract, and caches
 successful results in `food_catalog`. External IDs are deterministically mapped
 to UUIDs. Unknown food returns empty results; a missing key uses catalog-only
 search, while an unavailable provider returns a typed tool error.
+
+### `list_menus`
+
+**Input** `{}` — **Output** `{ "menus": [ { "menu_id": "uuid", "name": "string", "items": [ { "item_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "barcode", "food_ref_id" } ] } ] }`
+
+Lists the caller's reusable named menus (issue #152), ordered by name. A menu
+is a meal-type-free bundle: the same items can be logged under ANY meal
+section. Re-log a bundle with ONE call by passing its `menu_name` to
+`log_meal` (items may be omitted — the log copies the menu's current items as
+a snapshot). Logging with a `menu_name` the user does not have yet CREATES the
+menu from that log's items. Menus are edited in the app (rename, add/remove
+items); a logged meal is always a snapshot copy, so editing a menu never
+changes meals logged earlier. `get_day` meal items carry the snapshot grouping
+on reads: `menu_name` and `menu_group_id` (one shared id per logged set);
+loose items omit both.
 
 ### `update_meal_item`
 
