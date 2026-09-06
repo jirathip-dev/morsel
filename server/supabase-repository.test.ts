@@ -58,7 +58,7 @@ function createRepository(
     if (request.url.includes('/rest/v1/users')) {
       return jsonResponse({ id: userId })
     }
-    if (request.url.includes('/rest/v1/profiles?')) {
+    if (request.method === 'GET' && request.url.includes('/rest/v1/profiles?')) {
       return jsonResponse({
         user_id: userId,
         sex: 'male',
@@ -72,6 +72,20 @@ function createRepository(
         updated_at: '2026-08-25T12:00:00.000Z',
       })
     }
+    if (request.method === 'POST' && request.url.includes('/rest/v1/profiles?')) {
+      // set_profile's .select() projection: toProfile parses a strict row
+      // schema, so the save response carries exactly the projected columns.
+      return jsonResponse({
+        sex: 'male',
+        age_years: 30,
+        height_cm: 180,
+        weight_kg: 80,
+        activity_level: 'moderate',
+        diet_goal: 'maintain',
+        goal_weight_kg: null,
+        timezone: null,
+      })
+    }
     if (request.method === 'GET' && request.url.includes('/rest/v1/goals?select=')) {
       return jsonResponse({
         calorie_target_kcal: 2_000,
@@ -83,7 +97,16 @@ function createRepository(
       })
     }
     if (request.method === 'POST' && request.url.includes('/rest/v1/goals?')) {
-      return jsonResponse([{ user_id: userId }])
+      // set_goals selects the full goals projection back (toGoals parses a
+      // strict row schema that requires updated_at).
+      return jsonResponse({
+        calorie_target_kcal: 2_000,
+        protein_g: 100,
+        carbs_g: 0,
+        fat_g: 0,
+        source: 'manual',
+        updated_at: '2026-08-10T00:00:00.000Z',
+      })
     }
     if (request.url.includes('/rest/v1/rpc/compute_targets')) {
       return jsonResponse([{
@@ -256,6 +279,45 @@ describe('SupabaseRepository', () => {
     expect(resetRequest?.body).toContain('"source":"computed"')
     expect(resetRequest?.body).toContain('"calorie_target_kcal":null')
     expect(resetRequest?.body).toContain('"protein_g":null')
+  })
+
+  it('set_goals writes an explicit updated_at so an UPDATE of an existing goals row bumps the write time (issue #154)', async () => {
+    const { repository, requests } = createRepository()
+
+    await withTestToken(repository, () => repository.setGoals(userId, {
+      calorie_target_kcal: 2_000,
+      protein_g: 105,
+      carbs_g: 255,
+      fat_g: 60,
+      source: 'manual',
+    }))
+
+    // Supabase `default now()` applies ONLY on INSERT; an upsert that hits an
+    // existing row leaves updated_at untouched unless the payload sets it.
+    // The recency rule compares goals.updated_at against profiles.updated_at,
+    // so the manual write must carry a real write timestamp in the payload.
+    const saveRequest = requests.find((candidate) => candidate.method === 'POST' && candidate.url.includes('/rest/v1/goals?'))
+    expect(saveRequest?.body).toContain('"updated_at":"')
+  })
+
+  it('set_profile writes an explicit updated_at so an UPDATE of an existing profile row bumps the write time (issue #154 parity)', async () => {
+    const { repository, requests } = createRepository()
+    const profile: Profile = {
+      sex: 'male',
+      age_years: 30,
+      height_cm: 180,
+      weight_kg: 80,
+      activity_level: 'moderate',
+      diet_goal: 'maintain',
+    }
+
+    await withTestToken(repository, () => repository.setProfile(userId, profile))
+
+    // Same hole in the other direction: a profile save that does not advance
+    // the profile row's updated_at lets an older manual goal keep winning in
+    // get_goals even though the profile changed after it (#116 rule).
+    const saveRequest = requests.find((candidate) => candidate.method === 'POST' && candidate.url.includes('/rest/v1/profiles?'))
+    expect(saveRequest?.body).toContain('"updated_at":"')
   })
 
   it('creates the meal and items through one atomic RPC', async () => {
