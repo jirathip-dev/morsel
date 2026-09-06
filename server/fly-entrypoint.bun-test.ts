@@ -37,6 +37,7 @@ const EXPECTED_TOOLS = [
   'get_goals',
   'get_profile',
   'get_weight_trend',
+  'list_menus',
   'log_meal',
   'reset_goals',
   'search_food',
