@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Morsel mascot toy likeness, round-two Paper variant">
+  <metadata>Issue 147 round 2 V1. Broad low bun, circular staggered eyes, asymmetric rounded beak nose, blunt U-smile, diffuse cheeks, thin nori, smooth upper-right bite.</metadata>
+  <defs>
+    <pattern id="paper-grain" width="184" height="172" patternUnits="userSpaceOnUse">
+      <circle cx="19" cy="26" r="2.2" fill="#E3D2BA"/>
+      <circle cx="137" cy="42" r="1.7" fill="#E3D2BA"/>
+      <circle cx="82" cy="116" r="2.0" fill="#E3D2BA"/>
+      <circle cx="168" cy="148" r="1.5" fill="#E3D2BA"/>
+      <path d="M37 74 C50 70 61 71 73 68" fill="none" stroke="#E3D2BA" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M118 91 C128 94 141 93 151 96" fill="none" stroke="#E3D2BA" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M4 153 C14 149 24 150 32 147" fill="none" stroke="#E3D2BA" stroke-width="1.7" stroke-linecap="round"/>
+    </pattern>
+    <path id="body-shape" data-bite="top-right" data-bite-style="smooth" d="M512 183 C382 178 263 236 185 352 C115 438 93 548 114 654 C135 762 213 842 345 870 C430 890 595 890 680 870 C812 843 890 763 911 654 C932 548 910 438 840 352 C838 349 837 347 835 345 Q716 314 762 235 C689 194 603 179 512 183 Z"/>
+    <clipPath id="body-clip"><use href="#body-shape"/></clipPath>
+  </defs>
+
+  <rect width="1024" height="1024" fill="#FFF7E8"/>
+  <rect width="1024" height="1024" fill="url(#paper-grain)"/>
+  <path d="M180 866 C286 842 733 842 839 867 C884 878 884 900 836 911 C714 938 303 938 177 911 C131 900 134 877 180 866 Z" fill="#E3D2BA"/>
+
+  <use href="#body-shape" fill="#F0C58F"/>
+  <g clip-path="url(#body-clip)">
+    <g fill="#F7D9B8">
+      <ellipse data-role="rice-grain" cx="292" cy="330" rx="31" ry="13" transform="rotate(-24 292 330)"/>
+      <ellipse data-role="rice-grain" cx="466" cy="252" rx="30" ry="12" transform="rotate(-7 466 252)"/>
+      <ellipse data-role="rice-grain" cx="633" cy="302" rx="30" ry="12" transform="rotate(18 633 302)"/>
+      <ellipse data-role="rice-grain" cx="205" cy="486" rx="29" ry="12" transform="rotate(22 205 486)"/>
+      <ellipse data-role="rice-grain" cx="818" cy="508" rx="31" ry="13" transform="rotate(-24 818 508)"/>
+      <ellipse data-role="rice-grain" cx="684" cy="705" rx="29" ry="12" transform="rotate(13 684 705)"/>
+    </g>
+
+    <path data-role="nori" d="M252 819 C310 807 366 820 420 810 C475 800 525 817 578 807 C634 797 690 813 770 803 L760 859 C704 879 625 887 512 889 C399 889 318 880 263 860 Z" fill="#0B453C" stroke="#2A261F" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M304 839 C367 829 425 839 482 834" fill="none" stroke="#2F654B" stroke-width="10" stroke-linecap="round"/>
+    <path d="M552 834 C613 825 674 835 729 827" fill="none" stroke="#5E7E57" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <g data-role="cheek">
+    <ellipse cx="218" cy="589" rx="69" ry="52" fill="#DE8861" opacity="0.10"/>
+    <ellipse cx="219" cy="589" rx="59" ry="45" fill="#DE8861" opacity="0.17"/>
+    <ellipse cx="220" cy="590" rx="49" ry="37" fill="#DE8861" opacity="0.25"/>
+    <ellipse cx="221" cy="590" rx="38" ry="29" fill="#DE8861" opacity="0.30"/>
+  </g>
+  <g data-role="cheek">
+    <ellipse cx="796" cy="612" rx="76" ry="56" fill="#DE8861" opacity="0.18"/>
+    <ellipse cx="796" cy="612" rx="65" ry="49" fill="#DE8861" opacity="0.28"/>
+    <ellipse cx="795" cy="612" rx="54" ry="41" fill="#DE8861" opacity="0.38"/>
+    <ellipse cx="794" cy="611" rx="42" ry="32" fill="#DE8861" opacity="0.48"/>
+  </g>
+
+  <path data-role="eye" d="M335 476 C313 476 299 492 301 514 C303 537 317 550 337 548 C359 546 372 531 370 509 C368 489 355 476 335 476 Z" fill="#352224"/>
+  <path data-role="eye" d="M631 501 C610 500 595 516 596 538 C597 560 611 573 632 573 C654 573 668 558 667 536 C666 514 652 501 631 501 Z" fill="#352224"/>
+  <path data-role="nose" d="M436 494 C444 491 456 495 468 502 C483 510 500 522 514 543 C516 546 514 549 511 549 C492 550 468 550 449 548 C441 547 437 542 438 535 C440 522 434 505 436 494 Z" fill="#D8644B"/>
+  <path data-role="smile" d="M436 590 C452 630 478 648 510 648 C542 648 568 630 584 590" fill="none" stroke="#352224" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <use href="#body-shape" fill="none" stroke="#2A261F" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
