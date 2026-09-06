@@ -1,0 +1,111 @@
+# Fly deploy CD (issue #137).
+#
+# SAFETY CONTRACT
+# - workflow_dispatch ONLY: no push/pull_request trigger can deploy. Auto-deploy
+#   on merge to main is deliberately OFF (Guy policy, mirrors Migration CD #83).
+#   To opt in later, add: push: { branches: [main] } under `on:` — the gate job
+#   already makes that safe (only green heads deploy).
+# - The gate job reads the dispatched commit's check runs and fails closed:
+#   any failing/pending required check blocks the deploy.
+# - The deploy job FAILS CLOSED when FLY_API_TOKEN is absent (never a green skip).
+# - Post-deploy guard re-pins the machine count to 1 (the #78 HA-machine trap),
+#   then asserts health on BOTH canonical origins before declaring success.
+name: Deploy Fly (morsel-mcp)
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Branch/SHA to deploy (default main)"
+        required: false
+        default: "main"
+        type: string
+
+concurrency:
+  group: deploy-fly-morsel-mcp
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Assert dispatched head is green (fail closed)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          SHA="$(gh api "repos/${{ github.repository }}/commits/${{ inputs.ref }}" --jq '.sha')"
+          echo "gate: checking $SHA"
+          [ -n "$SHA" ]
+          TOTAL="$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name != "[code]smith")] | length')"
+          BAD="$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name != "[code]smith") | select(.conclusion == "failure" or .conclusion == "timed_out" or .conclusion == "cancelled" or .conclusion == null)] | length')"
+          echo "gate: $TOTAL check-runs (excluding [code]smith), $BAD failing/pending"
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "::error::No check runs found for $SHA — CI has not run. Deploy REFUSED (fail closed)."
+            exit 1
+          fi
+          if [ "$BAD" -ne 0 ]; then
+            gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '.check_runs[] | select(.conclusion == "failure" or .conclusion == "timed_out" or .conclusion == "cancelled" or .conclusion == null) | "  OFFENDING: \(.name) -> \(.conclusion // "pending")"' || true
+            echo "::error::Head $SHA has failing/pending checks — deploy REFUSED."
+            exit 1
+          fi
+          echo "gate: PASS — head is green"
+
+  deploy:
+    needs: gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Fail closed without FLY_API_TOKEN
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${FLY_API_TOKEN:-}" ]; then
+            echo "::error::Missing required secret FLY_API_TOKEN (repo secret). Fly deploy FAILED CLOSED."
+            exit 1
+          fi
+
+      - uses: superfly/flyctl-actions/setup-flyctl@fc53d1e3219a4644f262cb3e2a1b0e6e0a9a5e7e
+
+      - name: Deploy morsel-mcp
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: fly deploy -a morsel-mcp --remote-only
+
+      - name: Scale-count guard (exactly one machine)
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          fly scale count 1 --yes -a morsel-mcp
+          N="$(fly machines list -a morsel-mcp --json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const ms=JSON.parse(s);console.log(ms.filter(m=>m.state==="started").length)})')"
+          if [ "$N" != "1" ]; then
+            echo "::error::Expected exactly 1 started machine after scale guard, got $N."
+            exit 1
+          fi
+
+      - name: Health postconditions (both origins)
+        run: |
+          set -euo pipefail
+          ok=0
+          for base in https://mcp.morselfood.app https://morsel-mcp.fly.dev; do
+            H="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$base/health")"
+            C="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 -X POST "$base/mcp")"
+            echo "postcondition: $base -> /health $H, POST /mcp $C"
+            if [ "$H" = "200" ] && [ "$C" = "401" ]; then ok=$((ok+1)); else
+              echo "::error::$base postcondition FAILED (want /health 200 + POST /mcp 401)."
+            fi
+          done
+          [ "$ok" -eq 2 ] || exit 1
+          echo "postconditions: PASS on both origins"
