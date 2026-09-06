@@ -26,6 +26,8 @@ const todayLogViews = read('app/Sources/Morsel/TodayLogViews.swift')
 const historyView = read('app/Sources/Morsel/HistoryView.swift')
 const goalsEditor = read('app/Sources/Morsel/GoalsEditor.swift')
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
+// Issue #152 — the journal tab bar moved to its own file (lint budgets).
+const shellChrome = read('app/Sources/Morsel/JournalShellChrome.swift')
 const designMd = read('docs/DESIGN.md')
 const prototype = read('docs/prototype.html')
 const renderer = read('server/render.ts')
@@ -397,9 +399,9 @@ describe('V1 semantic contracts (Refs #90 approval comment)', () => {
   })
 
   it('wires the active tab word to forest and the shell to three primary tabs', () => {
-    const barStart = morselApp.indexOf('private struct JournalTabBar')
+    const barStart = shellChrome.indexOf('struct JournalTabBar')
     expect(barStart, 'JournalTabBar must exist').toBeGreaterThan(-1)
-    const bar = morselApp.slice(barStart)
+    const bar = shellChrome.slice(barStart)
     expect(bar).toContain('Color.morselForest')
     expect(bar).toContain('Color.morselInkTwo')
     expect(morselApp).toMatch(/enum JournalTab: String, CaseIterable, Hashable/)

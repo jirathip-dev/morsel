@@ -24,6 +24,7 @@ const journalNav = read('app/Sources/Morsel/JournalNavigation.swift')
 const journalFocus = read('app/Sources/Morsel/JournalFocus.swift')
 const paperFields = read('app/Sources/Morsel/PaperFields.swift')
 const mealCapture = read('app/Sources/Morsel/MealCaptureView.swift')
+const shellChrome = read('app/Sources/Morsel/JournalShellChrome.swift')
 const editSheet = read('app/Sources/Morsel/MealItemEditSheet.swift')
 const goals = read('app/Sources/Morsel/GoalsEditor.swift')
 const auth = read('app/Sources/Morsel/AuthView.swift')
@@ -66,7 +67,12 @@ describe('issue #105 AC3: Add Meal is a journal page route, not the primary shee
   })
 
   it('presents the Add Meal page inside the journal flow and closes back to Today', () => {
-    expect(morselApp).toContain('AddMealView(viewModel: viewModel, onClose: closeAddMeal)')
+    // Issue #152 — the Add Meal call site gained the menu library + Menus
+    // route wiring (its presentation is still the in-flow route overlay).
+    expect(morselApp).toContain('AddMealView(')
+    expect(morselApp).toContain('onClose: closeAddMeal,')
+    expect(morselApp).toContain('menuLibrary: menuLibrary,')
+    expect(morselApp).toContain('onOpenMenus: { routeModel.openMenus() }')
     expect(morselApp).toContain('routeModel.openAddMeal()')
     expect(morselApp).toContain('routeModel.isPresentingAddMeal')
     expect(morselApp).toContain('private func closeAddMeal()')
@@ -123,7 +129,7 @@ describe('issue #105 AC6: shared keyboard/focus contract wiring', () => {
   })
 
   it('resigns the keyboard on tab-bar taps and hides it under blank page space', () => {
-    const bar = morselApp.slice(morselApp.indexOf('private struct JournalTabBar'))
+    const bar = shellChrome.slice(shellChrome.indexOf('struct JournalTabBar'))
     expect(bar).toContain('JournalKeyboardDismisser.resign()')
     expect(journalFocus).toContain('morselBlankSpaceDismissesKeyboard()')
     expect(journalUI).toContain('.morselBlankSpaceDismissesKeyboard()')

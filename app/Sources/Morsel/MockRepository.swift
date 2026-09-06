@@ -14,6 +14,8 @@ final class MockDashboardRepository: DashboardRepository {
     /// Issue #113 — seeded Goals-page context (recency + profile line tests).
     private var contextProfile: DashboardProfile?
     private var contextLatestWeight: SyncedWeightSample?
+    /// Issue #152 — in-memory named menus (seeded or created through CRUD).
+    private(set) var menus: [NamedMenu] = []
 
     init(snapshot: DashboardSnapshot) {
         currentSnapshot = snapshot
@@ -134,7 +136,9 @@ final class MockDashboardRepository: DashboardRepository {
                     sugarG: item.sugarG,
                     confidence: 1.0,
                     notes: item.notes,
-                    source: item.source
+                    source: item.source,
+                    menuGroupID: item.menuGroupID,
+                    menuName: item.menuName
                 )
             }
             return MealRecord(
@@ -175,7 +179,9 @@ final class MockDashboardRepository: DashboardRepository {
                     sugarG: item.sugarG,
                     confidence: item.confidence,
                     notes: update.source == .manualEdit ? MealSource.manualEdit.rawValue : item.notes,
-                    source: item.source
+                    source: item.source,
+                    menuGroupID: item.menuGroupID,
+                    menuName: item.menuName
                 )
             }
             return MealRecord(
@@ -202,60 +208,6 @@ final class MockDashboardRepository: DashboardRepository {
         currentSnapshot = DashboardSnapshot(date: currentSnapshot.date, meals: meals, goal: currentSnapshot.goal)
     }
 
-    func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID {
-        try MealDraftValidation.validate(draft)
-        let image: MealImage?
-        if let photo {
-            let imagePath = try await uploadImage(
-                userID: userID,
-                path: FoodImageStore.objectPath(userID: userID, imageID: UUID()),
-                upload: photo
-            )
-            image = MealImage(path: imagePath)
-        } else {
-            image = nil
-        }
-
-        guard !failMealLog else {
-            if let path = image?.path {
-                removeImage(at: path)
-            }
-            throw MorselError.requestFailed(422, "The meal could not be saved.")
-        }
-
-        let meal = MealRecord(
-            mealLogID: UUID(),
-            mealType: draft.mealType,
-            eatenAt: draft.eatenAt,
-            source: photo == nil ? .manual : .photoVision,
-            imagePath: image?.path,
-            image: image,
-            items: draft.items.map { item in
-                MealItem(
-                    itemID: UUID(),
-                    name: item.name,
-                    quantity: item.quantity,
-                    unit: item.unit,
-                    caloriesKcal: item.caloriesKcal,
-                    proteinG: item.proteinG,
-                    carbsG: item.carbsG,
-                    fatG: item.fatG,
-                    fiberG: item.fiberG,
-                    sugarG: item.sugarG,
-                    confidence: item.confidence,
-                    notes: item.notes,
-                    source: photo == nil ? .manual : .photoVision,
-                    mealImage: image
-                )
-            }
-        )
-        currentSnapshot = DashboardSnapshot(
-            date: currentSnapshot.date,
-            meals: currentSnapshot.meals + [meal],
-            goal: currentSnapshot.goal
-        )
-        return meal.mealLogID
-    }
 }
 
 // Image-store doubles (issue #135): keys are the canonical object paths the
@@ -334,5 +286,114 @@ extension MockDashboardRepository {
         }
         imageData.removeValue(forKey: key)
         uploadedImagePaths.removeAll { $0 == key }
+    }
+}
+
+// Issue #152 — named-menu CRUD + seeding (same-file extension).
+extension MockDashboardRepository {
+    func seed(menus: [NamedMenu]) {
+        self.menus = menus.sorted { $0.name < $1.name }
+    }
+
+    func listMenus(userID: UUID) async throws -> [NamedMenu] {
+        _ = userID
+        return menus.sorted { $0.name < $1.name }
+    }
+
+    func createMenu(userID: UUID, editor: MenuEditorDraft) async throws -> NamedMenu {
+        _ = userID
+        guard editor.isValid else {
+            throw MorselError.invalidInput("Give the menu a name and at least one item.")
+        }
+        let menu = NamedMenu(menuID: UUID(), name: editor.trimmedName, items: editor.items)
+        menus.append(menu)
+        return menu
+    }
+
+    func updateMenu(userID: UUID, menuID: UUID, editor: MenuEditorDraft) async throws {
+        _ = userID
+        guard editor.isValid else {
+            throw MorselError.invalidInput("Give the menu a name and at least one item.")
+        }
+        guard menus.contains(where: { $0.menuID == menuID }) else {
+            throw MorselError.invalidData("The menu could not be updated.")
+        }
+        menus = menus.map { menu in
+            menu.menuID == menuID
+                ? NamedMenu(menuID: menuID, name: editor.trimmedName, items: editor.items)
+                : menu
+        }
+    }
+
+    func deleteMenu(userID: UUID, menuID: UUID) async throws {
+        _ = userID
+        guard menus.contains(where: { $0.menuID == menuID }) else {
+            throw MorselError.invalidData("The menu could not be deleted.")
+        }
+        menus.removeAll { $0.menuID == menuID }
+    }
+}
+
+// Issue #152 — logMeal + record builder (same-file extension; keeps the
+// class type body inside the lint budget).
+extension MockDashboardRepository {
+    func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID {
+        try MealDraftValidation.validate(draft)
+        let image: MealImage?
+        if let photo {
+            let imagePath = try await uploadImage(
+                userID: userID,
+                path: FoodImageStore.objectPath(userID: userID, imageID: UUID()),
+                upload: photo
+            )
+            image = MealImage(path: imagePath)
+        } else {
+            image = nil
+        }
+        guard !failMealLog else {
+            if let path = image?.path {
+                removeImage(at: path)
+            }
+            throw MorselError.requestFailed(422, "The meal could not be saved.")
+        }
+        let meal = makeMealRecord(draft: draft, photo: photo, image: image)
+        currentSnapshot = DashboardSnapshot(
+            date: currentSnapshot.date,
+            meals: currentSnapshot.meals + [meal],
+            goal: currentSnapshot.goal
+        )
+        return meal.mealLogID
+    }
+
+    /// Builds the journal record; items carry the #152 menu snapshot stamps.
+    private func makeMealRecord(draft: MealDraft, photo: FoodImageUpload?, image: MealImage?) -> MealRecord {
+        MealRecord(
+            mealLogID: UUID(),
+            mealType: draft.mealType,
+            eatenAt: draft.eatenAt,
+            source: photo == nil ? .manual : .photoVision,
+            imagePath: image?.path,
+            image: image,
+            items: draft.items.map { item in
+                MealItem(
+                    itemID: UUID(),
+                    name: item.name,
+                    quantity: item.quantity,
+                    unit: item.unit,
+                    caloriesKcal: item.caloriesKcal,
+                    proteinG: item.proteinG,
+                    carbsG: item.carbsG,
+                    fatG: item.fatG,
+                    fiberG: item.fiberG,
+                    sugarG: item.sugarG,
+                    confidence: item.confidence,
+                    notes: item.notes,
+                    source: photo == nil ? .manual : .photoVision,
+                    mealImage: image,
+                    menuGroupID: item.menuGroupID,
+                    menuName: item.menuName
+                )
+            }
+        )
     }
 }

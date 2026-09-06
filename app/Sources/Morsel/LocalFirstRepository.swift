@@ -8,9 +8,11 @@ import Foundation
 // cache/outbox — RLS, the security-invoker meal transaction and friendly
 // error boundaries remain authoritative on the server.
 final class LocalFirstDashboardRepository: DashboardRepository {
-    private let remote: any DashboardRepository
+    // remote/snapshotCache are internal (not private) so the cross-file
+    // LocalFirstMenus extension (issue #152) can hydrate/cache menus.
+    let remote: any DashboardRepository
     private let store: LocalDataStore
-    private let snapshotCache: LocalSnapshotCache
+    let snapshotCache: LocalSnapshotCache
     /// Local-first Apple Health store (same account file); optional for tests
     /// that only exercise meal reliability.
     private let healthStore: LocalHealthStore?
@@ -287,7 +289,9 @@ final class LocalFirstDashboardRepository: DashboardRepository {
                 fiberG: item.fiberG,
                 sugarG: item.sugarG,
                 confidence: item.confidence,
-                notes: item.notes
+                notes: item.notes,
+                menuGroupID: item.menuGroupID,
+                menuName: item.menuName
             )
         }
     }
@@ -302,11 +306,13 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         "\(Self.dayKey(end))-\(days)"
     }
 
-    private static func encode<T: Encodable>(_ value: T) throws -> Data {
+    /// Cache/queue codec used by LocalFirstMenus (issue #152) and the
+    /// #123 goals cache; internal so cross-file extensions share it.
+    static func encode<T: Encodable>(_ value: T) throws -> Data {
         try JSONEncoder().encode(value)
     }
 
-    private static func decode<T: Decodable>(_ type: T.Type, _ data: Data) throws -> T {
+    static func decode<T: Decodable>(_ type: T.Type, _ data: Data) throws -> T {
         try JSONDecoder().decode(type, from: data)
     }
 }

@@ -274,6 +274,11 @@ private struct LogMealItemParameters: Encodable {
     let confidence: Double?
     let sourceNotes: String?
 
+    /// Issue #152 — snapshot keys encoded only when present, so loose meals
+    /// (and legacy queued rows) send the same payload shape as before.
+    let menuGroupID: UUID?
+    let menuName: String?
+
     init(_ item: MealItemDraft) {
         name = item.name
         quantity = item.quantity
@@ -286,6 +291,8 @@ private struct LogMealItemParameters: Encodable {
         sugarG = item.sugarG
         confidence = item.confidence
         sourceNotes = item.notes
+        menuGroupID = item.menuGroupID
+        menuName = item.menuName
     }
 
     enum CodingKeys: String, CodingKey {
@@ -300,5 +307,24 @@ private struct LogMealItemParameters: Encodable {
         case sugarG = "sugar_g"
         case confidence
         case sourceNotes = "source_notes"
+        case menuGroupID = "menu_group_id"
+        case menuName = "menu_name"
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(quantity, forKey: .quantity)
+        try container.encode(unit, forKey: .unit)
+        try container.encodeIfPresent(caloriesKcal, forKey: .caloriesKcal)
+        try container.encodeIfPresent(proteinG, forKey: .proteinG)
+        try container.encodeIfPresent(carbsG, forKey: .carbsG)
+        try container.encodeIfPresent(fatG, forKey: .fatG)
+        try container.encodeIfPresent(fiberG, forKey: .fiberG)
+        try container.encodeIfPresent(sugarG, forKey: .sugarG)
+        try container.encodeIfPresent(confidence, forKey: .confidence)
+        try container.encodeIfPresent(sourceNotes, forKey: .sourceNotes)
+        try container.encodeIfPresent(menuGroupID, forKey: .menuGroupID)
+        try container.encodeIfPresent(menuName, forKey: .menuName)
     }
 }

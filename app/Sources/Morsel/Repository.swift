@@ -3,7 +3,8 @@ import Supabase
 
 let mealItemColumns = [
     "id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g",
-    "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes"
+    "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes",
+    "menu_group_id", "menu_name"
 ].joined(separator: ",")
 
 protocol DashboardRepository {
@@ -28,6 +29,13 @@ protocol DashboardRepository {
     func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot?
     func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview?
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord?
+    // Issue #152 — reusable named menus (templates). List reads return the
+    // user's menus; writes create/fully-replace/delete one template. Menu
+    // edits never mutate meals logged earlier (logs are snapshots).
+    func listMenus(userID: UUID) async throws -> [NamedMenu]
+    func createMenu(userID: UUID, editor: MenuEditorDraft) async throws -> NamedMenu
+    func updateMenu(userID: UUID, menuID: UUID, editor: MenuEditorDraft) async throws
+    func deleteMenu(userID: UUID, menuID: UUID) async throws
 }
 
 struct SupabaseDashboardRepository: DashboardRepository {
@@ -176,6 +184,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("Supabase returned an invalid meal item.")
         }
         let confidence = try nonNegative(response.confidence, field: "confidence", maximum: 1)
+        let menuGroupID = response.menuGroupID.flatMap(UUID.init(uuidString:))
         return MealItem(
             itemID: itemID,
             name: response.name,
@@ -189,7 +198,9 @@ struct SupabaseDashboardRepository: DashboardRepository {
             sugarG: try nonNegative(response.sugarG, field: "sugar_g"),
             confidence: confidence,
             notes: response.sourceNotes,
-            source: source
+            source: source,
+            menuGroupID: menuGroupID,
+            menuName: response.menuName
         )
     }
 
@@ -260,20 +271,6 @@ struct SupabaseDashboardRepository: DashboardRepository {
     }
 }
 
-enum MorselDate {
-    static func iso8601(_ date: Date) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter.string(from: date)
-    }
-
-    static func date(_ value: String) -> Date? {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return formatter.date(from: value) ?? ISO8601DateFormatter().date(from: value)
-    }
-}
-
 struct MealLogResponse: Decodable {
     let id: String
     let eatenAt: String
@@ -312,6 +309,8 @@ struct MealItemResponse: Decodable {
     let sugarG: Double?
     let confidence: Double?
     let sourceNotes: String?
+    let menuGroupID: String?
+    let menuName: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -327,6 +326,8 @@ struct MealItemResponse: Decodable {
         case sugarG = "sugar_g"
         case confidence
         case sourceNotes = "source_notes"
+        case menuGroupID = "menu_group_id"
+        case menuName = "menu_name"
     }
 }
 

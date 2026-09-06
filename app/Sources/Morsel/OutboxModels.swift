@@ -74,6 +74,10 @@ struct QueuedMealItem: Codable, Equatable, Sendable {
     let sugarG: Double?
     let confidence: Double?
     let notes: String?
+    /// Issue #152 — named-menu snapshot stamp carried through the outbox so
+    /// the synced rows (and the queued journal record) keep their grouping.
+    let menuGroupID: UUID?
+    let menuName: String?
 
     init(_ draft: MealItemDraft, itemID: UUID = UUID()) {
         self.itemID = itemID
@@ -88,6 +92,8 @@ struct QueuedMealItem: Codable, Equatable, Sendable {
         sugarG = draft.sugarG
         confidence = draft.confidence
         notes = draft.notes
+        menuGroupID = draft.menuGroupID
+        menuName = draft.menuName
     }
 
     init(
@@ -102,7 +108,9 @@ struct QueuedMealItem: Codable, Equatable, Sendable {
         fiberG: Double?,
         sugarG: Double?,
         confidence: Double?,
-        notes: String?
+        notes: String?,
+        menuGroupID: UUID? = nil,
+        menuName: String? = nil
     ) {
         self.itemID = itemID
         self.name = name
@@ -116,6 +124,8 @@ struct QueuedMealItem: Codable, Equatable, Sendable {
         self.sugarG = sugarG
         self.confidence = confidence
         self.notes = notes
+        self.menuGroupID = menuGroupID
+        self.menuName = menuName
     }
 
     func item(source: MealSource) -> MealItem? {
@@ -136,7 +146,9 @@ struct QueuedMealItem: Codable, Equatable, Sendable {
             sugarG: sugarG,
             confidence: confidence,
             notes: notes,
-            source: source
+            source: source,
+            menuGroupID: menuGroupID,
+            menuName: menuName
         )
     }
 }
@@ -204,7 +216,9 @@ struct QueuedMeal: Equatable, Sendable {
                     fiberG: item.fiberG,
                     sugarG: item.sugarG,
                     confidence: item.confidence,
-                    notes: item.notes
+                    notes: item.notes,
+                    menuGroupID: item.menuGroupID,
+                    menuName: item.menuName
                 )
             }
         )

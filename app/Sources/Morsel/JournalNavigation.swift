@@ -95,18 +95,32 @@ final class JournalRouteModel: ObservableObject {
     enum Route: Equatable, Sendable {
         case tabPages
         case addMeal
+        case menus
     }
 
     @Published private(set) var route: Route = .tabPages
 
     var isPresentingAddMeal: Bool { route == .addMeal }
+    /// Issue #152 — the Menus screen overlays the pages like Add Meal does.
+    var isPresentingMenus: Bool { route == .menus }
 
     func openAddMeal() {
         route = .addMeal
     }
 
+    /// Issue #152 — opened from the Add Meal sheet's 'Manage menus' row.
+    func openMenus() {
+        route = .menus
+    }
+
     /// Cancel/back or save-close — returns to the tab pages (Today origin).
     func closeAddMeal() {
+        route = .tabPages
+    }
+
+    /// Back from the Menus screen — returns to the tab pages; the Add Meal
+    /// sheet it was opened from is not restored (its draft is manual state).
+    func closeMenus() {
         route = .tabPages
     }
 }

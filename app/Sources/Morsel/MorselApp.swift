@@ -124,6 +124,7 @@ private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
     @StateObject private var pager = JournalPagerModel()
     @StateObject private var routeModel = JournalRouteModel()
+    @StateObject private var menuLibrary: MenuLibraryModel
     @State private var showingSettings = false
     @State private var showingOnboarding = false
     @State private var tabReloadCounts: [JournalTab: Int] = [:]
@@ -178,6 +179,9 @@ private struct AuthenticatedDashboardView: View {
                     syncEngine: services.engine
                 )
             )
+            _menuLibrary = StateObject(
+                wrappedValue: MenuLibraryModel(repository: services.repository, userID: session.userID)
+            )
         } else {
             let remote = SupabaseDashboardRepository(client: supabaseClient)
             let importer = supabaseClient.flatMap {
@@ -190,6 +194,9 @@ private struct AuthenticatedDashboardView: View {
                     userID: session.userID,
                     weightImporter: importer
                 )
+            )
+            _menuLibrary = StateObject(
+                wrappedValue: MenuLibraryModel(repository: remote, userID: session.userID)
             )
         }
         fallbackImporter = fallback
@@ -209,10 +216,21 @@ private struct AuthenticatedDashboardView: View {
             }
             if routeModel.isPresentingAddMeal {
                 MorselActionTint {
-                    AddMealView(viewModel: viewModel, onClose: closeAddMeal)
+                    AddMealView(
+                        viewModel: viewModel,
+                        onClose: closeAddMeal,
+                        menuLibrary: menuLibrary,
+                        onOpenMenus: { routeModel.openMenus() }
+                    )
                 }
                 .transition(reduceMotion ? .opacity : .move(edge: .trailing))
                 .zIndex(1)
+            }
+            if routeModel.isPresentingMenus {
+                MorselActionTint {
+                    MenusScreen(model: menuLibrary, onClose: routeModel.closeMenus)
+                }
+                .zIndex(2)
             }
         }
         // Issue #153 — the Edit-item sheet (presented from the Today journal
@@ -325,65 +343,5 @@ private struct AuthenticatedDashboardView: View {
                           seeToday: { pager.select(.today) })
             }
         }
-    }
-}
-
-/// Scoped orange action tint — tab content keeps the V1 orange identity
-/// anchor (never a green wash over descendants).
-private struct MorselActionTint<Content: View>: View {
-    let content: () -> Content
-
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-
-    var body: some View {
-        content()
-            .tint(Color.morselAccent)
-    }
-}
-
-private struct JournalTabBar: View {
-    @ObservedObject var pager: JournalPagerModel
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Rectangle()
-                .fill(Color.morselInkLine.opacity(0.55))
-                .frame(height: 1)
-            HStack(spacing: 0) {
-                ForEach(JournalTab.allCases, id: \.self) { tab in
-                    Button {
-                        pager.select(tab)
-                        JournalKeyboardDismisser.resign()
-                    } label: {
-                        tabLabel(tab)
-                    }
-                    .buttonStyle(.plain)
-                    .frame(maxWidth: .infinity)
-                    .accessibilityLabel(tab.title)
-                    .accessibilityAddTraits(pager.selection == tab ? .isSelected : [])
-                }
-            }
-            .padding(.top, 10)
-            .padding(.bottom, 6)
-            .frame(height: 44)
-        }
-        .background(Color.morselBackground.ignoresSafeArea())
-    }
-
-    private func tabLabel(_ tab: JournalTab) -> some View {
-        let active = pager.selection == tab
-        return VStack(spacing: 3) {
-            Text(tab.title)
-                .font(Font.morselHand(size: 20))
-                .foregroundStyle(active ? Color.morselForest : Color.morselInkTwo)
-            MarkerStroke(
-                color: active ? Color.morselForest : .clear,
-                width: 40,
-                height: 4
-            )
-        }
-        .padding(.vertical, 2)
     }
 }
