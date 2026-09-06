@@ -152,7 +152,7 @@ This runbook is part of the committed infra-as-code set (`infra/` + `docs/`):
   available until it is separately retired (a human decision); the
   pre-#57 `/mcp/mcp` alias is not published to clients.
 - The Vercel consent cutover is complete: `authorize-ui/params.js` posts the
-  consent forms to `https://morsel-mcp.fly.dev/mcp/authorize` (issue #74,
+  consent forms to `https://mcp.morselfood.app/mcp/authorize` (issue #74,
   PR #77), its test pins that canonical action, and the production Vercel
   page carries the Fly action.
 - Live acceptance of the canonical endpoint — OAuth sign-in and

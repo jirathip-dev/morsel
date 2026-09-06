@@ -17,7 +17,7 @@ import { describe, it } from 'vitest'
 // harness (no jsdom dependency) so the DOM the page would produce is what is
 // asserted, not just source strings.
 
-const AUTHORIZE_URL = 'https://morsel-mcp.fly.dev/mcp/authorize'
+const AUTHORIZE_URL = 'https://mcp.morselfood.app/mcp/authorize'
 const DEPLOYED_CSP = "default-src 'none'; style-src 'self'; script-src 'self'; connect-src 'none'; img-src 'none'; font-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'"
 // Valid legacy-routes-only Vercel shape (review r1): the restrictive CSP
 // rides on the GET route object itself. A top-level `headers` key cannot be

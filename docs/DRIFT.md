@@ -72,7 +72,7 @@ action, `docs/FLY_DEPLOY.md`). Exit 2 = CLI/auth/parse problem.
 No Vercel token is stored or referenced (none exists on the project), so
 drift detection is the deployed-page probe in `docs/VERCEL_OPERATIONS.md`
 (checklist item 1): the live `/authorize` page must carry the committed Fly
-form action `https://morsel-mcp.fly.dev/mcp/authorize`. Source-level pin:
+form action `https://mcp.morselfood.app/mcp/authorize`. Source-level pin:
 `authorize-ui/authorization.test.js` under `npm test`.
 
 ### Fly origin health/metadata (whole-stack liveness)
