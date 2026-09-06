@@ -170,6 +170,22 @@ export const EXPECTED_SENTINELS = {
     routines: [],
     policies: [],
   },
+  "0012_named_menus.sql": {
+    tables: ["meal_menus", "menu_items"],
+    // Issue #152: named menu templates + snapshot grouping on logged items.
+    columns: ["meal_menus.name", "menu_items.menu_id", "meal_items.menu_name", "meal_items.menu_group_id"],
+    routines: ["log_meal_with_items", "log_meal_with_items_client", "upsert_menu"],
+    policies: [
+      "public.meal_menus:meal_menus_select_own",
+      "public.meal_menus:meal_menus_insert_own",
+      "public.meal_menus:meal_menus_update_own",
+      "public.meal_menus:meal_menus_delete_own",
+      "public.menu_items:menu_items_select_own",
+      "public.menu_items:menu_items_insert_own",
+      "public.menu_items:menu_items_update_own",
+      "public.menu_items:menu_items_delete_own",
+    ],
+  },
 };
 
 export class UsageError extends Error {

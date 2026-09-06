@@ -17,6 +17,7 @@ import {
   GetEnergyBurnedOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
+  ListMenusOutputSchema,
   ProfileSchema,
   ResetGoalsInputSchema,
   ResetGoalsOutputSchema,
@@ -42,9 +43,12 @@ import type {
   GetWeightTrendOutput,
   GetEnergyBurnedOutput,
   GoalSummary,
+  ListMenusOutput,
   LogMealOutput,
+  MenuTemplateItem,
   ParsedGetDashboardSummaryInput,
   ParsedLogMealInput,
+  ParsedMealItem,
   ResetGoalsOutput,
   SearchFoodOutput,
   SetGoalsInput,
@@ -74,6 +78,26 @@ function parseInput<T>(schema: z.ZodType<T>, value: unknown, name: string): T {
 
 function omittedInputAsObject(input: unknown): unknown {
   return input === undefined ? {} : input
+}
+
+/**
+ * Issue #152 — a stored menu template item converted to the log_meal item
+ * input shape (the meal snapshot copies the template's current values).
+ */
+function menuItemToMealInput(item: MenuTemplateItem): ParsedMealItem {
+  return {
+    name: item.name,
+    quantity: item.quantity,
+    unit: item.unit,
+    ...(item.calories_kcal === undefined ? {} : { calories_kcal: item.calories_kcal }),
+    ...(item.protein_g === undefined ? {} : { protein_g: item.protein_g }),
+    ...(item.carbs_g === undefined ? {} : { carbs_g: item.carbs_g }),
+    ...(item.fat_g === undefined ? {} : { fat_g: item.fat_g }),
+    ...(item.fiber_g === undefined ? {} : { fiber_g: item.fiber_g }),
+    ...(item.sugar_g === undefined ? {} : { sugar_g: item.sugar_g }),
+    ...(item.barcode === undefined ? {} : { barcode: item.barcode }),
+    ...(item.food_ref_id === undefined ? {} : { food_ref_id: item.food_ref_id }),
+  }
 }
 
 function mealDay(meal: Awaited<ReturnType<MorselRepository['getMealsInRange']>>[number], timeZone: string): string {
@@ -230,16 +254,35 @@ export class MorselService {
     const parsed = parseInput(LogMealInputSchema, input, 'log_meal')
     const hasPhoto = parsed.image_base64 !== undefined || parsed.image_url !== undefined
     const eatenAt = parsed.eaten_at === undefined ? this.now().toISOString() : new Date(parsed.eaten_at).toISOString()
+    // Issue #152 — named-menu logs resolve to the menu's CURRENT items when
+    // the agent omitted items (re-log a bundle with one call); a menu_name
+    // with no existing menu needs the log's items to create the template.
+    let items = parsed.items
+    if (parsed.menu_name !== undefined) {
+      if (items === undefined) {
+        const menus = await this.repository.listMenus(this.userId)
+        const menu = menus.find((candidate) => candidate.name === parsed.menu_name)
+        if (menu === undefined) {
+          throw new MorselError('not_found', `menu "${parsed.menu_name}" does not exist yet — pass items to create it`)
+        }
+        items = menu.items.map(menuItemToMealInput)
+      }
+    }
+    const menuGroupID = parsed.menu_name === undefined
+      ? undefined
+      : crypto.randomUUID()
     const meal = await this.repository.createMealWithItems(this.userId, {
       eaten_at: eatenAt,
       meal_type: parsed.meal_type,
       source: hasPhoto
         ? 'photo_vision'
-        : parsed.items.some((item) => item.barcode !== undefined)
+        : (items ?? []).some((item) => item.barcode !== undefined)
           ? 'barcode'
           : 'manual',
       notes: parsed.notes,
-      items: parsed.items,
+      items: items ?? [],
+      menu_name: parsed.menu_name,
+      menu_group_id: menuGroupID,
     })
     // The photo is attached after the meal row exists: the storage object
     // path needs the server-assigned meal_log_id. A photo failure is reported
@@ -376,6 +419,12 @@ export class MorselService {
     const parsed = parseInput(SearchFoodInputSchema, input, 'search_food')
     const results = await this.repository.searchFood(this.userId, parsed.query, parsed.limit)
     return parseInput(SearchFoodOutputSchema, { results }, 'search_food output')
+  }
+
+  async listMenus(input: unknown): Promise<ListMenusOutput> {
+    parseInput(EmptyInputSchema, omittedInputAsObject(input), 'list_menus')
+    const menus = await this.repository.listMenus(this.userId)
+    return parseInput(ListMenusOutputSchema, { menus }, 'list_menus output')
   }
 
   async getProfile(input: unknown): Promise<GetProfileOutput> {

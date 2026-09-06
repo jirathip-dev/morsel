@@ -16,6 +16,7 @@ import {
   GetWeightTrendOutputSchema,
   GetEnergyBurnedInputSchema,
   GetEnergyBurnedOutputSchema,
+  ListMenusOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   SearchFoodInputSchema,
@@ -187,6 +188,15 @@ export function createMcpServer(service: MorselService): McpServer {
     annotations: OPEN_WORLD_SEARCH_ANNOTATIONS,
     _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.searchFood(input)))
+
+  server.registerTool('list_menus', {
+    title: 'List named menus',
+    description: 'List the caller\'s reusable named menus (issue #152). A menu is a meal-type-free bundle of items: log it under any meal section by passing its menu_name to log_meal, or seed a new one by logging items with a menu_name the user does not have yet.',
+    inputSchema: EmptyInputSchema,
+    outputSchema: ListMenusOutputSchema,
+    annotations: READ_ONLY_ANNOTATIONS,
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
+  }, (input) => runTool(() => service.listMenus(input)))
 
   server.registerTool('get_profile', {
     title: 'Get the body profile',

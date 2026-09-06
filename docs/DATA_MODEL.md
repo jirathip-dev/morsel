@@ -11,9 +11,9 @@ in one atomic transaction and fails with zero writes when the ledger is
 missing/empty). Production was provisioned before the ledger existed; the
 human-gated reconciliation flow in
 [`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
-classifies the canonical migration set (currently 0001–0011) against their
+classifies the canonical migration set (currently 0001–0012) against their
 end-state contracts and converges missing/partial states idempotently before
-recording them; later migrations (such as `0011_profiles_timezone.sql`) are
+recording them; later migrations (such as `0012_named_menus.sql`) are
 appended through `apply-migrations.mjs` in the same atomic ledger transaction.
 
 ## Entities
@@ -25,6 +25,8 @@ appended through `apply-migrations.mjs` in the same atomic ledger transaction.
 | `goals` | **effective** calorie/macro targets; computed from profile unless overridden (`source`) | `user_id` |
 | `meal_logs` | a meal session; **one photo = one log** | `user_id` |
 | `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
+| `meal_menus` | named, meal-type-free reusable item bundles (issue #152) | `user_id` |
+| `menu_items` | the template items of one menu (a menu → many items) | `menu_id` |
 | `water_logs` | optional, v1.1 | `user_id` |
 | `energy_burned_logs` | daily active-energy imports, v1.1 | `user_id` |
 | `weight_logs` | Apple Health body-mass measurements | `user_id` |
@@ -39,6 +41,33 @@ users 1 ──▶ N meal_logs 1 ──▶ N meal_items
 This matches the agent's mental model: an uploaded photo of a bowl of rice,
 chicken, and vegetables is ONE `meal_log` with THREE `meal_items`. The `log_meal`
 tool takes an `items[]` array for exactly this reason.
+
+## Named menus: templates + snapshot grouping (issue #152)
+
+`meal_menus` and `menu_items` (migration `0012_named_menus.sql`) add named,
+meal-type-free templates: a menu is a bundle of items (e.g. breakfast set =
+toast + eggs + sauce) that can be logged again later, under ANY meal section
+(`meal_type` still decides the day-section anchor — a menu is never a meal
+boundary). A menu belongs to one user; `(user_id, name)` is unique.
+
+Logging a named menu **snapshots** it: the log's `meal_items` rows carry two
+nullable columns added by the same migration — `menu_group_id` (one shared
+UUID per logged set instance) and `menu_name` (a copy of the template name at
+log time). There is NO foreign key from `meal_items` to `meal_menus`: later
+menu edits or deletions never change past meals, and History keeps each day's
+grouping labels exactly as they were logged (copy semantics). Loose items
+keep both columns NULL, so one meal can mix several named sets and loose
+items — a set is a grouping over items, never a meal boundary.
+
+Both meal-log RPCs (`log_meal_with_items`, `log_meal_with_items_client`)
+accept optional per-item `menu_name`/`menu_group_id` keys inside `p_items`
+(old payloads without the keys are unchanged). When a log carries a
+`menu_name` that the user does not have yet, the RPC creates the reusable
+menu from that log's items in the same transaction; an existing menu is never
+overwritten by a log. `public.upsert_menu(p_user_id, p_menu_id, p_name,
+p_items)` is the atomic app-side save (create or full item-list replace in
+one call); menu deletion is a plain owner-scoped `meal_menus` delete (FK
+cascade removes `menu_items`).
 
 ## Local days and timezones (issue #121)
 
@@ -101,6 +130,9 @@ runs only when the client id was NOT already committed, and an id that exists
 under a different `user_id` raises `42501`, so a foreign client id can never
 write through the authenticated path. The original `log_meal_with_items`
 (server/MCP path) keeps its server-generated identity and is untouched.
+Since migration `0012_named_menus.sql`, both RPCs also accept optional
+per-item `menu_name`/`menu_group_id` keys inside `p_items` (snapshot columns
+for named-menu logs; see the named-menus section above).
 The native app's local cache/outbox lives in a per-account SQLite store
 (`Application Support/Morsel/<user_id>/`) and is NOT part of the server data
 model; see `docs/APP_DATA_RELIABILITY.md`.
@@ -111,6 +143,7 @@ Every user-scoped table is guarded by `auth.uid() = user_id`. `meal_items` is
 an exception: it has no `user_id`, so policies join through the parent
 `meal_logs`. That subquery works but is heavier per-row; if it ever becomes a
 hot path, add a denormalized `user_id` to `meal_items` and key on it directly.
+`menu_items` follows the same pattern through `meal_menus` (migration 0012).
 The `users` table is guarded by owner policies using `auth.uid() = id` for
 select, insert, and update.
 `food_catalog` is shared reference data: authenticated clients can select it,

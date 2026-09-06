@@ -7,6 +7,7 @@ const oauthMigrationPath = resolve(process.cwd(), 'db/migrations/0005_oauth_auth
 const weightMigrationPath = resolve(process.cwd(), 'db/migrations/0007_weight_logs.sql')
 const outboxMigrationPath = resolve(process.cwd(), 'db/migrations/0010_meal_outbox_client_ids.sql')
 const timezoneMigrationPath = resolve(process.cwd(), 'db/migrations/0011_profiles_timezone.sql')
+const namedMenusMigrationPath = resolve(process.cwd(), 'db/migrations/0012_named_menus.sql')
 
 function migrationSql(): string {
   return readFileSync(migrationPath, 'utf8')
@@ -95,6 +96,77 @@ describe('migration 0010 meal outbox idempotency contract', () => {
     expect(sql).toMatch(/grant execute on function public\.log_meal_with_items_client\([\s\S]*?jsonb, uuid\s*\) to authenticated;/i)
     // The original server/MCP RPC is untouched (separate name).
     expect(sql).not.toMatch(/log_meal_with_items\(/i)
+  })
+})
+
+describe('migration 0012 named menus contract', () => {
+  it('creates user-scoped meal_menus and menu_items with owner RLS', () => {
+    const sql = readFileSync(namedMenusMigrationPath, 'utf8')
+
+    expect(sql).toMatch(/create table if not exists public\.meal_menus \([\s\S]*?user_id uuid not null references public\.users\(id\) on delete cascade/i)
+    expect(sql).toMatch(/unique \(user_id, name\)/i)
+    expect(sql).toMatch(/create table if not exists public\.menu_items \([\s\S]*?menu_id uuid not null references public\.meal_menus\(id\) on delete cascade/i)
+    expect(sql).toContain('alter table public.meal_menus enable row level security;')
+    expect(sql).toContain('alter table public.menu_items enable row level security;')
+    expect(sql).toMatch(/create policy "meal_menus_select_own"[\s\S]*?using \(\(select auth\.uid\(\)\) = user_id\);/i)
+    expect(sql).toMatch(/create policy "meal_menus_insert_own"[\s\S]*?with check \(\(select auth\.uid\(\)\) = user_id\);/i)
+    expect(sql).toMatch(/create policy "meal_menus_update_own"[\s\S]*?using \(\(select auth\.uid\(\)\) = user_id\);/i)
+    expect(sql).toMatch(/create policy "meal_menus_delete_own"[\s\S]*?for delete\s+using \(\(select auth\.uid\(\)\) = user_id\);/i)
+    // menu_items has no user_id column: policies join through meal_menus.
+    expect(sql).toMatch(/create policy "menu_items_select_own"[\s\S]*?\(select user_id from public\.meal_menus where id = menu_id\)/i)
+    expect(sql).toMatch(/create policy "menu_items_insert_own"[\s\S]*?\(select user_id from public\.meal_menus where id = menu_id\)/i)
+    expect(sql).toMatch(/create policy "menu_items_delete_own"[\s\S]*?for delete\s+using \(\s*\(select auth\.uid\(\)\) = \(select user_id from public\.meal_menus where id = menu_id\)\s*\);/i)
+  })
+
+  it('adds snapshot grouping columns to meal_items (no live menu reference)', () => {
+    const sql = readFileSync(namedMenusMigrationPath, 'utf8')
+    expect(sql).toMatch(/alter table public\.meal_items add column if not exists menu_group_id uuid;/)
+    expect(sql).toMatch(/alter table public\.meal_items add column if not exists menu_name text;/)
+    // A logged set must never reference the template row (A2 copy semantics).
+    expect(sql).not.toMatch(/menu_group_id.*references/i)
+  })
+
+  it('extends both meal-log RPCs with optional per-item snapshot keys', () => {
+    const sql = readFileSync(namedMenusMigrationPath, 'utf8')
+    const serverFunction = sql.slice(sql.indexOf('create or replace function public.log_meal_with_items('))
+    const clientStart = sql.indexOf('create or replace function public.log_meal_with_items_client(')
+    expect(clientStart).toBeGreaterThan(0)
+    const clientFunction = sql.slice(clientStart)
+
+    for (const fn of [serverFunction, clientFunction]) {
+      expect(fn).toMatch(/security invoker/i)
+      expect(fn).not.toMatch(/security definer/i)
+      expect(fn).toMatch(/menu_group_id uuid,\s*menu_name text\s*\);/)
+      expect(fn).toMatch(/insert into public\.meal_items \([\s\S]*?menu_group_id, menu_name\s*\)/)
+      // Template ensure: create from the log when the name is new, never
+      // overwrite an existing menu (snapshot semantics).
+      expect(fn).toMatch(/if not exists \(\s*select 1 from public\.meal_menus/i)
+      expect(fn).toMatch(/insert into public\.meal_menus \(user_id, name\)\s*values \(p_user_id, v_menu_name\);/i)
+      expect(fn).toMatch(/revoke execute on function public\.log_meal_with_items/)
+      expect(fn).toMatch(/to authenticated;/i)
+    }
+    // The client RPC keeps its idempotency conflict guard.
+    expect(clientFunction).toMatch(/on conflict \(id\) do nothing/i)
+    expect(clientFunction).toContain('v_inserted := found')
+  })
+
+  it('defines the atomic upsert_menu RPC for app menu CRUD', () => {
+    const sql = readFileSync(namedMenusMigrationPath, 'utf8')
+    const start = sql.indexOf('create or replace function public.upsert_menu(')
+    expect(start).toBeGreaterThanOrEqual(0)
+    const fn = sql.slice(start)
+
+    expect(fn).toMatch(/p_user_id uuid,\s*p_menu_id uuid,\s*p_name text,\s*p_items jsonb/i)
+    expect(fn).toMatch(/returns table \(\s*menu_id uuid\s*\)/i)
+    expect(fn).toMatch(/security invoker/i)
+    expect(fn).not.toMatch(/security definer/i)
+    expect(fn).toContain("auth.uid() is distinct from p_user_id")
+    expect(fn).toMatch(/if p_menu_id is null then\s*insert into public\.meal_menus \(id, user_id, name\)/i)
+    expect(fn).toMatch(/update public\.meal_menus\s*set name = v_clean_name, updated_at = now\(\)/i)
+    // A save replaces the whole item list atomically in the same call.
+    expect(fn).toMatch(/delete from public\.menu_items where menu_id = v_menu_id;[\s\S]*?insert into public\.menu_items/i)
+    expect(fn).toMatch(/revoke execute on function public\.upsert_menu\(uuid, uuid, text, jsonb\) from public;/i)
+    expect(fn).toMatch(/grant execute on function public\.upsert_menu\(uuid, uuid, text, jsonb\) to authenticated;/i)
   })
 })
 

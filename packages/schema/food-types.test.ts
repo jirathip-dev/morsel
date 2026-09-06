@@ -5,9 +5,11 @@ import {
   GetDashboardSummaryOutputSchema,
   GetDayInputSchema,
   GetDayOutputSchema,
+  ListMenusOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
   MealImageRecordSchema,
+  MealItemRecordSchema,
   RenderPayloadSchema,
   SearchFoodOutputSchema,
   TimezoneSchema,
@@ -19,9 +21,9 @@ describe('Morsel tool schemas', () => {
       meal_type: 'breakfast',
       items: [{ name: 'oatmeal', calories_kcal: 300 }],
     })
-    expect(input.items).toHaveLength(1)
-    expect(input.items[0]?.quantity).toBe(1)
-    expect(input.items[0]?.unit).toBe('serving')
+    expect(input.items?.length ?? 0).toBe(1)
+    expect(input.items?.[0]?.quantity).toBe(1)
+    expect(input.items?.[0]?.unit).toBe('serving')
   })
 
   it('rejects unknown fields and validates UUID meal output', () => {
@@ -221,5 +223,81 @@ describe('Morsel tool schemas', () => {
     expect(AttachMealImageOutputSchema.safeParse({ ok: true, attached: true }).success).toBe(true)
     expect(AttachMealImageOutputSchema.safeParse({ ok: true, attached: false, image_error: 'the photo could not be stored' }).success).toBe(true)
     expect(AttachMealImageOutputSchema.safeParse({ ok: true, attached: 'yes' }).success).toBe(false)
+  })
+
+  it('log_meal menu_name groups a log and allows item-less reuse of an existing menu (issue #152)', () => {
+    const items = [
+      { name: 'toast', quantity: 1, unit: 'piece', calories_kcal: 90 },
+      { name: 'eggs', quantity: 2, unit: 'piece', calories_kcal: 140 },
+    ]
+    // Create path: menu_name + items is the plain contract shape.
+    expect(LogMealInputSchema.parse({
+      meal_type: 'breakfast',
+      menu_name: 'Eggs on toast',
+      items,
+    }).menu_name).toBe('Eggs on toast')
+    // Reuse path: items may be omitted when menu_name names an existing menu.
+    expect(LogMealInputSchema.parse({
+      meal_type: 'dinner',
+      menu_name: 'Eggs on toast',
+    }).items).toBeUndefined()
+    // A plain log still requires items.
+    expect(LogMealInputSchema.safeParse({ meal_type: 'lunch' }).success).toBe(false)
+    expect(LogMealInputSchema.safeParse({ meal_type: 'lunch', items: [] }).success).toBe(false)
+    // A whitespace-only menu_name is rejected (trimmed to empty).
+    expect(LogMealInputSchema.safeParse({
+      meal_type: 'lunch',
+      menu_name: '   ',
+      items: [{ name: 'rice' }],
+    }).success).toBe(false)
+  })
+
+  it('meal item records carry optional snapshot grouping fields (issue #152)', () => {
+    const groupID = '00000000-0000-4000-8000-000000000100'
+    expect(MealItemRecordSchema.parse({
+      item_id: '00000000-0000-4000-8000-000000000101',
+      name: 'toast',
+      quantity: 1,
+      unit: 'piece',
+      menu_name: 'Eggs on toast',
+      menu_group_id: groupID,
+    }).menu_name).toBe('Eggs on toast')
+    // Loose items simply omit both keys.
+    expect(MealItemRecordSchema.safeParse({
+      item_id: '00000000-0000-4000-8000-000000000102',
+      name: 'coffee',
+      quantity: 1,
+      unit: 'cup',
+    }).success).toBe(true)
+    expect(MealItemRecordSchema.safeParse({
+      item_id: '00000000-0000-4000-8000-000000000103',
+      name: 'toast',
+      quantity: 1,
+      unit: 'piece',
+      menu_group_id: 'not-a-uuid',
+    }).success).toBe(false)
+  })
+
+  it('list_menus returns full menu templates (issue #152)', () => {
+    expect(ListMenusOutputSchema.parse({
+      menus: [{
+        menu_id: '00000000-0000-4000-8000-000000000110',
+        name: 'Eggs on toast',
+        items: [{
+          item_id: '00000000-0000-4000-8000-000000000111',
+          name: 'toast',
+          quantity: 1,
+          unit: 'piece',
+          calories_kcal: 90,
+        }],
+      }],
+    }).menus).toHaveLength(1)
+    expect(ListMenusOutputSchema.parse({ menus: [] }).menus).toEqual([])
+    expect(ListMenusOutputSchema.safeParse({
+      menus: [{ menu_id: 'not-a-uuid', name: 'x', items: [] }],
+    }).success).toBe(false)
+    expect(ListMenusOutputSchema.safeParse({
+      menus: [{ menu_id: '00000000-0000-4000-8000-000000000112', name: 'x', items: [{ item_id: '00000000-0000-4000-8000-000000000113', name: 'y', quantity: 1, unit: 'g' }], extra: 1 }],
+    }).success).toBe(false)
   })
 })

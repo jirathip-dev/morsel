@@ -32,6 +32,7 @@ export const CANONICAL_NAMES = [
   "goals_fractional_calories",
   "meal_outbox_client_ids",
   "profiles_timezone",
+  "named_menus",
 ];
 
 export const CANONICAL_FILES = [
@@ -46,6 +47,7 @@ export const CANONICAL_FILES = [
   "0009_goals_fractional_calories.sql",
   "0010_meal_outbox_client_ids.sql",
   "0011_profiles_timezone.sql",
+  "0012_named_menus.sql",
 ];
 
 export const LEDGER_DDL =
@@ -336,6 +338,7 @@ export const CANONICAL_INDEX_COLUMNS = {
   oauth_authorization_grants_expires_at_idx: "expires_at",
   weight_logs_user_measured_idx: "user_id,measured_at desc",
   energy_burned_logs_user_burned_idx: "user_id,burned_at desc",
+  menu_items_menu_idx: "menu_id",
 };
 
 // Plain (non-constraint) canonical indexes, keyed by migration file.
@@ -344,6 +347,7 @@ export const CANONICAL_INDEXES = {
   "0005_oauth_authorization_grants.sql": ["oauth_authorization_grants_expires_at_idx"],
   "0007_weight_logs.sql": ["weight_logs_user_measured_idx"],
   "0008_energy_burned_logs.sql": ["energy_burned_logs_user_burned_idx"],
+  "0012_named_menus.sql": ["menu_items_menu_idx"],
 };
 
 // Canonical plain index -> owning table (fixed manifest mapping).
@@ -354,6 +358,7 @@ export const CANONICAL_INDEX_TABLE = {
   oauth_authorization_grants_expires_at_idx: "oauth_authorization_grants",
   weight_logs_user_measured_idx: "weight_logs",
   energy_burned_logs_user_burned_idx: "energy_burned_logs",
+  menu_items_menu_idx: "menu_items",
 };
 
 // Indexes that the canonical end state requires to be ABSENT.
@@ -497,6 +502,37 @@ export const CANONICAL_COLUMNS = {
   "0011_profiles_timezone.sql": {
     profiles: [{ name: "timezone", dataType: "text", nullable: true, default: [] }],
   },
+  "0012_named_menus.sql": {
+    meal_menus: [
+      { name: "id", dataType: "uuid", nullable: false, default: ["gen_random_uuid()"] },
+      { name: "user_id", dataType: "uuid", nullable: false, default: [] },
+      { name: "name", dataType: "text", nullable: false, default: [] },
+      { name: "created_at", dataType: "timestamp with time zone", nullable: false, default: ["now()"] },
+      { name: "updated_at", dataType: "timestamp with time zone", nullable: false, default: ["now()"] },
+    ],
+    menu_items: [
+      { name: "id", dataType: "uuid", nullable: false, default: ["gen_random_uuid()"] },
+      { name: "menu_id", dataType: "uuid", nullable: false, default: [] },
+      { name: "name", dataType: "text", nullable: false, default: [] },
+      { name: "quantity", dataType: "numeric", nullable: false, default: ["1"] },
+      { name: "unit", dataType: "text", nullable: false, default: ["'serving'::text", "'serving'"] },
+      { name: "calories_kcal", dataType: "numeric", nullable: true, default: [] },
+      { name: "protein_g", dataType: "numeric", nullable: true, default: [] },
+      { name: "carbs_g", dataType: "numeric", nullable: true, default: [] },
+      { name: "fat_g", dataType: "numeric", nullable: true, default: [] },
+      { name: "fiber_g", dataType: "numeric", nullable: true, default: [] },
+      { name: "sugar_g", dataType: "numeric", nullable: true, default: [] },
+      { name: "barcode", dataType: "text", nullable: true, default: [] },
+      { name: "food_ref_id", dataType: "uuid", nullable: true, default: [] },
+      { name: "created_at", dataType: "timestamp with time zone", nullable: false, default: ["now()"] },
+    ],
+    meal_items: [
+      // Issue #152 snapshot grouping on logged meal items (nullable; loose
+      // items keep both NULL, logged sets copy name + group id).
+      { name: "menu_group_id", dataType: "uuid", nullable: true, default: [] },
+      { name: "menu_name", dataType: "text", nullable: true, default: [] },
+    ],
+  },
 };
 
 // Columns that must be ABSENT in the canonical end state, keyed by the
@@ -587,6 +623,19 @@ export const CANONICAL_CONSTRAINTS = {
       { name: "profiles_timezone_check", kind: "c", columns: ["timezone"], def: "(timezone is null) or timezone = 'UTC' or timezone ~ '^[A-Za-z0-9_+-]+(/[A-Za-z0-9_+-]+)+$'" },
     ],
   },
+  "0012_named_menus.sql": {
+    meal_menus: [
+      { name: "meal_menus_pkey", kind: "p", columns: ["id"] },
+      { name: "meal_menus_user_id_name_key", kind: "u", columns: ["user_id", "name"] },
+      { name: "meal_menus_user_id_fkey", kind: "f", columns: ["user_id"], refTable: "users", onDelete: "c" },
+      { name: "meal_menus_name_check", kind: "c", columns: ["name"], def: "length(btrim(name)) > 0" },
+    ],
+    menu_items: [
+      { name: "menu_items_pkey", kind: "p", columns: ["id"] },
+      { name: "menu_items_menu_id_fkey", kind: "f", columns: ["menu_id"], refTable: "meal_menus", onDelete: "c" },
+      { name: "menu_items_unit_check", kind: "c", columns: ["unit"], def: "unit in ('g', 'ml', 'serving', 'piece', 'cup')" },
+    ],
+  },
 };
 
 // ---- canonical RLS ---------------------------------------------------------
@@ -598,6 +647,7 @@ export const CANONICAL_RLS = {
   "0004_store_assets.sql": ["food_catalog"],
   "0005_oauth_authorization_grants.sql": ["oauth_authorization_grants"],
   "0008_energy_burned_logs.sql": ["energy_burned_logs"],
+  "0012_named_menus.sql": ["meal_menus", "menu_items"],
 };
 
 // ---- canonical policies ----------------------------------------------------
@@ -645,6 +695,16 @@ export const CANONICAL_POLICIES = {
   "0008_energy_burned_logs.sql": [
     { schema: "public", table: "energy_burned_logs", name: "energy_burned_logs_all_own", cmd: "ALL", roles: null, qual: "auth.uid() = user_id", withCheck: "auth.uid() = user_id" },
   ],
+  "0012_named_menus.sql": [
+    { schema: "public", table: "meal_menus", name: "meal_menus_select_own", cmd: "SELECT", roles: null, qual: "(select auth.uid()) = user_id" },
+    { schema: "public", table: "meal_menus", name: "meal_menus_insert_own", cmd: "INSERT", roles: null, withCheck: "(select auth.uid()) = user_id" },
+    { schema: "public", table: "meal_menus", name: "meal_menus_update_own", cmd: "UPDATE", roles: null, qual: "(select auth.uid()) = user_id" },
+    { schema: "public", table: "meal_menus", name: "meal_menus_delete_own", cmd: "DELETE", roles: null, qual: "(select auth.uid()) = user_id" },
+    { schema: "public", table: "menu_items", name: "menu_items_select_own", cmd: "SELECT", roles: null, qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+    { schema: "public", table: "menu_items", name: "menu_items_insert_own", cmd: "INSERT", roles: null, withCheck: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+    { schema: "public", table: "menu_items", name: "menu_items_update_own", cmd: "UPDATE", roles: null, qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+    { schema: "public", table: "menu_items", name: "menu_items_delete_own", cmd: "DELETE", roles: null, qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+  ],
 };
 
 // Tables whose canonical policy set must be exact (an extra policy on one of
@@ -653,6 +713,7 @@ export const CANONICAL_POLICIES = {
 export const EXACT_POLICY_TABLES = [
   "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
   "profiles", "oauth_authorization_grants", "food_catalog", "energy_burned_logs",
+  "meal_menus", "menu_items",
 ];
 
 // ---- canonical routines ----------------------------------------------------
@@ -669,12 +730,15 @@ export const CANONICAL_ROUTINES = {
     bodyFile: "0002_targets.sql",
   }],
   "0003_atomic_meals_and_users_rls.sql": [{
+    // The body is owned by migration 0012 since issue #152 (both meal RPCs
+    // learn optional per-item named-menu snapshot keys there); the routine
+    // identity/signature contract stays with its creating migration.
     name: "log_meal_with_items",
     identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb",
     language: "plpgsql",
     securityDefiner: false,
     config: ["search_path=public"],
-    bodyFile: "0003_atomic_meals_and_users_rls.sql",
+    bodyFile: "0012_named_menus.sql",
   }],
   "0005_oauth_authorization_grants.sql": [{
     name: "claim_oauth_authorization_grant",
@@ -693,21 +757,32 @@ export const CANONICAL_ROUTINES = {
     bodyFile: "0006_food_catalog_provider_cache.sql",
   }],
   // Issue #106: native offline outbox commits with a client-generated meal
-  // id (server conflict guard; no duplicates). Separate RPC keeps the
-  // server/MCP log_meal_with_items path untouched.
+  // id (server conflict guard; no duplicates). The routine body is owned by
+  // 0012 since issue #152 (named-menu snapshot keys); the identity/signature
+  // contract stays with its creating migration.
   "0010_meal_outbox_client_ids.sql": [{
     name: "log_meal_with_items_client",
     identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb, p_client_meal_id uuid",
     language: "plpgsql",
     securityDefiner: false,
     config: ["search_path=public"],
-    bodyFile: "0010_meal_outbox_client_ids.sql",
+    bodyFile: "0012_named_menus.sql",
   }],
+  "0012_named_menus.sql": [
+    {
+      name: "upsert_menu",
+      identityArguments: "p_user_id uuid, p_menu_id uuid, p_name text, p_items jsonb",
+      language: "plpgsql",
+      securityDefiner: false,
+      config: ["search_path=public"],
+      bodyFile: "0012_named_menus.sql",
+    },
+  ],
 };
 
 // Non-canonical signatures under a canonical routine name block (the recovery
 // runner refuses to drop or ignore them).
-export const ROUTINE_NAMES = new Set(["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog"]);
+export const ROUTINE_NAMES = new Set(["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog", "upsert_menu"]);
 
 // ---- canonical grants ------------------------------------------------------
 // Table grant boundaries: expected privilege sets per (table, grantee).
@@ -751,6 +826,11 @@ export const ROUTINE_GRANTS = {
     public: { execute: false, absent: true },
     authenticated: { execute: false, absent: true },
   },
+  upsert_menu: {
+    authenticated: { execute: true },
+    public: { execute: false, absent: true },
+    anon: { execute: false, absent: true },
+  },
 };
 
 // ---- canonical storage bucket ---------------------------------------------
@@ -768,6 +848,7 @@ export const FOOD_IMAGES_BUCKET = {
 export const CANONICAL_TABLES = [
   "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
   "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs",
+  "meal_menus", "menu_items",
 ];
 
 // ---- convergence builders --------------------------------------------------
@@ -903,6 +984,32 @@ export const CANONICAL_TABLE_DDL = {
   constraint energy_burned_logs_source_check check (source in ('manual', 'apple_health')),
   constraint energy_burned_logs_user_burned_unique unique (user_id, burned_at)
 )`,
+  meal_menus: `create table if not exists public.meal_menus (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.users(id) on delete cascade,
+  name text not null check (length(btrim(name)) > 0),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, name)
+)`,
+  menu_items: `create table if not exists public.menu_items (
+  id uuid primary key default gen_random_uuid(),
+  menu_id uuid not null references public.meal_menus(id) on delete cascade,
+  name text not null,
+  quantity numeric not null default 1,
+  unit text not null default 'serving'
+    check (unit in ('g','ml','serving','piece','cup')),
+  calories_kcal numeric,
+  protein_g numeric,
+  carbs_g numeric,
+  fat_g numeric,
+  fiber_g numeric,
+  sugar_g numeric,
+  barcode text,
+  food_ref_id uuid,
+  created_at timestamptz not null default now()
+)`,
+
 };
 
 // Canonical constraint add statements (missing constraints only; the DO
@@ -969,6 +1076,7 @@ set search_path = public
 as $function$
 declare
   v_meal_log_id uuid;
+  v_menu_name text;
 begin
   if auth.uid() is distinct from p_user_id then
     raise exception 'meal user does not match authenticated user'
@@ -988,14 +1096,59 @@ begin
     p_user_id, p_eaten_at, p_meal_type, p_source, p_image_path, p_notes
   ) returning id into v_meal_log_id;
 
+  -- Named-menu template ensure: create the reusable menu from the logged
+  -- items when the name is new; an existing menu is left untouched (the log
+  -- below is always a snapshot copy).
+  for v_menu_name in
+    select distinct item.menu_name
+    from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+    where item.menu_name is not null
+      and length(btrim(item.menu_name)) > 0
+  loop
+    if not exists (
+      select 1 from public.meal_menus
+      where user_id = p_user_id and name = v_menu_name
+    ) then
+      insert into public.meal_menus (user_id, name)
+      values (p_user_id, v_menu_name);
+      insert into public.menu_items (
+        menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+        fat_g, fiber_g, sugar_g, barcode, food_ref_id
+      )
+      select
+        menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+        item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+        item.barcode, item.food_ref_id
+      from jsonb_to_recordset(p_items) as item(
+        name text,
+        quantity numeric,
+        unit text,
+        calories_kcal numeric,
+        protein_g numeric,
+        carbs_g numeric,
+        fat_g numeric,
+        fiber_g numeric,
+        sugar_g numeric,
+        barcode text,
+        food_ref_id uuid,
+        menu_name text
+      )
+      join public.meal_menus as menus
+        on menus.user_id = p_user_id and menus.name = v_menu_name
+      where item.menu_name = v_menu_name;
+    end if;
+  end loop;
+
   insert into public.meal_items (
     meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+    menu_group_id, menu_name
   )
   select
     v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
     item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-    item.barcode, item.food_ref_id, item.confidence, item.source_notes
+    item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+    item.menu_group_id, item.menu_name
   from jsonb_to_recordset(p_items) as item(
     name text,
     quantity numeric,
@@ -1009,7 +1162,9 @@ begin
     barcode text,
     food_ref_id uuid,
     confidence numeric,
-    source_notes text
+    source_notes text,
+    menu_group_id uuid,
+    menu_name text
   );
 
   return query
@@ -1140,6 +1295,7 @@ as $function$
 declare
   v_meal_log_id uuid;
   v_inserted boolean;
+  v_menu_name text;
 begin
   if auth.uid() is distinct from p_user_id then
     raise exception 'meal user does not match authenticated user'
@@ -1153,9 +1309,6 @@ begin
       using errcode = '22023';
   end if;
 
-  -- Client-generated identity: a retry after a server-side commit finds
-  -- the existing row (conflict guard) and only inserts the meal + items
-  -- when this client id was NOT already committed.
   insert into public.meal_logs (
     id, user_id, eaten_at, meal_type, source, image_path, notes
   ) values (
@@ -1171,21 +1324,64 @@ begin
   where id = p_client_meal_id and user_id = p_user_id;
 
   if v_meal_log_id is null then
-    -- The id exists but belongs to another user: never let a foreign
-    -- client id write through this authenticated path.
     raise exception 'meal id does not match authenticated user'
       using errcode = '42501';
   end if;
 
   if v_inserted then
+    -- Named-menu template ensure (issue #152): same semantics as the server
+    -- path — create from this log's items when the name is new, never
+    -- overwrite an existing template.
+    for v_menu_name in
+      select distinct item.menu_name
+      from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+      where item.menu_name is not null
+        and length(btrim(item.menu_name)) > 0
+    loop
+      if not exists (
+        select 1 from public.meal_menus
+        where user_id = p_user_id and name = v_menu_name
+      ) then
+        insert into public.meal_menus (user_id, name)
+        values (p_user_id, v_menu_name);
+        insert into public.menu_items (
+          menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+          fat_g, fiber_g, sugar_g, barcode, food_ref_id
+        )
+        select
+          menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+          item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+          item.barcode, item.food_ref_id
+        from jsonb_to_recordset(p_items) as item(
+          name text,
+          quantity numeric,
+          unit text,
+          calories_kcal numeric,
+          protein_g numeric,
+          carbs_g numeric,
+          fat_g numeric,
+          fiber_g numeric,
+          sugar_g numeric,
+          barcode text,
+          food_ref_id uuid,
+          menu_name text
+        )
+        join public.meal_menus as menus
+          on menus.user_id = p_user_id and menus.name = v_menu_name
+        where item.menu_name = v_menu_name;
+      end if;
+    end loop;
+
     insert into public.meal_items (
       meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes
+      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+      menu_group_id, menu_name
     )
     select
       v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
       item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-      item.barcode, item.food_ref_id, item.confidence, item.source_notes
+      item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+      item.menu_group_id, item.menu_name
     from jsonb_to_recordset(p_items) as item(
       name text,
       quantity numeric,
@@ -1199,7 +1395,9 @@ begin
       barcode text,
       food_ref_id uuid,
       confidence numeric,
-      source_notes text
+      source_notes text,
+      menu_group_id uuid,
+      menu_name text
     );
   end if;
 
@@ -1232,7 +1430,85 @@ begin
     and log.user_id = p_user_id
   group by log.id, log.eaten_at, log.meal_type;
 end;
-$function$;`,
+$function$`,
+  upsert_menu: `create or replace function public.upsert_menu(
+  p_user_id uuid,
+  p_menu_id uuid,
+  p_name text,
+  p_items jsonb
+)
+returns table (
+  menu_id uuid
+)
+language plpgsql
+security invoker
+set search_path = public
+as $function$
+declare
+  v_menu_id uuid;
+  v_clean_name text;
+begin
+  if auth.uid() is distinct from p_user_id then
+    raise exception 'menu user does not match authenticated user'
+      using errcode = '42501';
+  end if;
+
+  v_clean_name := btrim(p_name);
+  if v_clean_name is null or length(v_clean_name) = 0 then
+    raise exception 'a menu needs a name'
+      using errcode = '22023';
+  end if;
+
+  if p_items is null
+     or jsonb_typeof(p_items) <> 'array'
+     or jsonb_array_length(p_items) < 1 then
+    raise exception 'a menu must contain at least one item'
+      using errcode = '22023';
+  end if;
+
+  v_menu_id := coalesce(p_menu_id, gen_random_uuid());
+
+  if p_menu_id is null then
+    insert into public.meal_menus (id, user_id, name)
+    values (v_menu_id, p_user_id, v_clean_name);
+  else
+    update public.meal_menus
+    set name = v_clean_name, updated_at = now()
+    where id = p_menu_id and user_id = p_user_id;
+    if not found then
+      raise exception 'menu does not match authenticated user'
+        using errcode = '42501';
+    end if;
+  end if;
+
+  -- Full item-list replace: the edited list is the template's items.
+  delete from public.menu_items where menu_id = v_menu_id;
+
+  insert into public.menu_items (
+    menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id
+  )
+  select
+    v_menu_id, item.name, item.quantity, item.unit, item.calories_kcal,
+    item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+    item.barcode, item.food_ref_id
+  from jsonb_to_recordset(p_items) as item(
+    name text,
+    quantity numeric,
+    unit text,
+    calories_kcal numeric,
+    protein_g numeric,
+    carbs_g numeric,
+    fat_g numeric,
+    fiber_g numeric,
+    sugar_g numeric,
+    barcode text,
+    food_ref_id uuid
+  );
+
+  return query select v_menu_id;
+end;
+$function$`,
 };
 
 // Static converge statement fragments per migration file, in execution
@@ -1349,5 +1625,407 @@ $recovery$`,
   "0011_profiles_timezone.sql": [
     "alter table public.profiles add column if not exists timezone text",
     CONVERGE_CONSTRAINT(CANONICAL_CONSTRAINTS["0011_profiles_timezone.sql"].profiles[0], "profiles"),
+  ],
+
+  "0012_named_menus.sql": [
+    CANONICAL_TABLE_DDL.meal_menus + ";",
+    CANONICAL_TABLE_DDL.menu_items + ";",
+    "alter table public.meal_items add column if not exists menu_group_id uuid",
+    "alter table public.meal_items add column if not exists menu_name text",
+    "create index if not exists menu_items_menu_idx on public.menu_items (menu_id)",
+    "alter table public.meal_menus enable row level security",
+    "alter table public.menu_items enable row level security",
+    ...CANONICAL_POLICIES["0012_named_menus.sql"].map((policy) => CONVERGE_POLICY(policy)),
+    ...Object.keys(CANONICAL_CONSTRAINTS["0012_named_menus.sql"]).flatMap((table) =>
+      CANONICAL_CONSTRAINTS["0012_named_menus.sql"][table].map((constraint) => CONVERGE_CONSTRAINT(constraint, table)),
+    ),
+    `create or replace function public.log_meal_with_items(
+  p_user_id uuid,
+  p_eaten_at timestamptz,
+  p_meal_type text,
+  p_source text,
+  p_image_path text,
+  p_notes text,
+  p_items jsonb
+)
+returns table (
+  meal_log_id uuid,
+  eaten_at timestamptz,
+  meal_type text,
+  items jsonb
+)
+language plpgsql
+security invoker
+set search_path = public
+as $function$
+declare
+  v_meal_log_id uuid;
+  v_menu_name text;
+begin
+  if auth.uid() is distinct from p_user_id then
+    raise exception 'meal user does not match authenticated user'
+      using errcode = '42501';
+  end if;
+
+  if p_items is null
+     or jsonb_typeof(p_items) <> 'array'
+     or jsonb_array_length(p_items) < 1 then
+    raise exception 'a meal must contain at least one item'
+      using errcode = '22023';
+  end if;
+
+  insert into public.meal_logs (
+    user_id, eaten_at, meal_type, source, image_path, notes
+  ) values (
+    p_user_id, p_eaten_at, p_meal_type, p_source, p_image_path, p_notes
+  ) returning id into v_meal_log_id;
+
+  -- Named-menu template ensure: create the reusable menu from the logged
+  -- items when the name is new; an existing menu is left untouched (the log
+  -- below is always a snapshot copy).
+  for v_menu_name in
+    select distinct item.menu_name
+    from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+    where item.menu_name is not null
+      and length(btrim(item.menu_name)) > 0
+  loop
+    if not exists (
+      select 1 from public.meal_menus
+      where user_id = p_user_id and name = v_menu_name
+    ) then
+      insert into public.meal_menus (user_id, name)
+      values (p_user_id, v_menu_name);
+      insert into public.menu_items (
+        menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+        fat_g, fiber_g, sugar_g, barcode, food_ref_id
+      )
+      select
+        menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+        item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+        item.barcode, item.food_ref_id
+      from jsonb_to_recordset(p_items) as item(
+        name text,
+        quantity numeric,
+        unit text,
+        calories_kcal numeric,
+        protein_g numeric,
+        carbs_g numeric,
+        fat_g numeric,
+        fiber_g numeric,
+        sugar_g numeric,
+        barcode text,
+        food_ref_id uuid,
+        menu_name text
+      )
+      join public.meal_menus as menus
+        on menus.user_id = p_user_id and menus.name = v_menu_name
+      where item.menu_name = v_menu_name;
+    end if;
+  end loop;
+
+  insert into public.meal_items (
+    meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+    menu_group_id, menu_name
+  )
+  select
+    v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
+    item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+    item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+    item.menu_group_id, item.menu_name
+  from jsonb_to_recordset(p_items) as item(
+    name text,
+    quantity numeric,
+    unit text,
+    calories_kcal numeric,
+    protein_g numeric,
+    carbs_g numeric,
+    fat_g numeric,
+    fiber_g numeric,
+    sugar_g numeric,
+    barcode text,
+    food_ref_id uuid,
+    confidence numeric,
+    source_notes text,
+    menu_group_id uuid,
+    menu_name text
+  );
+
+  return query
+  select
+    log.id,
+    log.eaten_at,
+    log.meal_type,
+    jsonb_agg(
+      jsonb_build_object(
+        'item_id', item.id,
+        'name', item.name,
+        'quantity', item.quantity,
+        'unit', item.unit,
+        'calories_kcal', item.calories_kcal,
+        'protein_g', item.protein_g,
+        'carbs_g', item.carbs_g,
+        'fat_g', item.fat_g,
+        'fiber_g', item.fiber_g,
+        'sugar_g', item.sugar_g,
+        'barcode', item.barcode,
+        'food_ref_id', item.food_ref_id,
+        'confidence', item.confidence,
+        'notes', item.source_notes
+      ) order by item.created_at, item.id
+    )
+  from public.meal_logs as log
+  join public.meal_items as item on item.meal_log_id = log.id
+  where log.id = v_meal_log_id
+    and log.user_id = p_user_id
+  group by log.id, log.eaten_at, log.meal_type;
+end;
+$function$;`,
+    `create or replace function public.log_meal_with_items_client(
+  p_user_id uuid,
+  p_eaten_at timestamptz,
+  p_meal_type text,
+  p_source text,
+  p_image_path text,
+  p_notes text,
+  p_items jsonb,
+  p_client_meal_id uuid
+)
+returns table (
+  meal_log_id uuid,
+  eaten_at timestamptz,
+  meal_type text,
+  items jsonb
+)
+language plpgsql
+security invoker
+set search_path = public
+as $function$
+declare
+  v_meal_log_id uuid;
+  v_inserted boolean;
+  v_menu_name text;
+begin
+  if auth.uid() is distinct from p_user_id then
+    raise exception 'meal user does not match authenticated user'
+      using errcode = '42501';
+  end if;
+
+  if p_items is null
+     or jsonb_typeof(p_items) <> 'array'
+     or jsonb_array_length(p_items) < 1 then
+    raise exception 'a meal must contain at least one item'
+      using errcode = '22023';
+  end if;
+
+  insert into public.meal_logs (
+    id, user_id, eaten_at, meal_type, source, image_path, notes
+  ) values (
+    p_client_meal_id, p_user_id, p_eaten_at, p_meal_type, p_source,
+    p_image_path, p_notes
+  )
+  on conflict (id) do nothing;
+
+  v_inserted := found;
+
+  select id into v_meal_log_id
+  from public.meal_logs
+  where id = p_client_meal_id and user_id = p_user_id;
+
+  if v_meal_log_id is null then
+    raise exception 'meal id does not match authenticated user'
+      using errcode = '42501';
+  end if;
+
+  if v_inserted then
+    -- Named-menu template ensure (issue #152): same semantics as the server
+    -- path — create from this log's items when the name is new, never
+    -- overwrite an existing template.
+    for v_menu_name in
+      select distinct item.menu_name
+      from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+      where item.menu_name is not null
+        and length(btrim(item.menu_name)) > 0
+    loop
+      if not exists (
+        select 1 from public.meal_menus
+        where user_id = p_user_id and name = v_menu_name
+      ) then
+        insert into public.meal_menus (user_id, name)
+        values (p_user_id, v_menu_name);
+        insert into public.menu_items (
+          menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+          fat_g, fiber_g, sugar_g, barcode, food_ref_id
+        )
+        select
+          menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+          item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+          item.barcode, item.food_ref_id
+        from jsonb_to_recordset(p_items) as item(
+          name text,
+          quantity numeric,
+          unit text,
+          calories_kcal numeric,
+          protein_g numeric,
+          carbs_g numeric,
+          fat_g numeric,
+          fiber_g numeric,
+          sugar_g numeric,
+          barcode text,
+          food_ref_id uuid,
+          menu_name text
+        )
+        join public.meal_menus as menus
+          on menus.user_id = p_user_id and menus.name = v_menu_name
+        where item.menu_name = v_menu_name;
+      end if;
+    end loop;
+
+    insert into public.meal_items (
+      meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+      menu_group_id, menu_name
+    )
+    select
+      v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
+      item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+      item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+      item.menu_group_id, item.menu_name
+    from jsonb_to_recordset(p_items) as item(
+      name text,
+      quantity numeric,
+      unit text,
+      calories_kcal numeric,
+      protein_g numeric,
+      carbs_g numeric,
+      fat_g numeric,
+      fiber_g numeric,
+      sugar_g numeric,
+      barcode text,
+      food_ref_id uuid,
+      confidence numeric,
+      source_notes text,
+      menu_group_id uuid,
+      menu_name text
+    );
+  end if;
+
+  return query
+  select
+    log.id,
+    log.eaten_at,
+    log.meal_type,
+    jsonb_agg(
+      jsonb_build_object(
+        'item_id', item.id,
+        'name', item.name,
+        'quantity', item.quantity,
+        'unit', item.unit,
+        'calories_kcal', item.calories_kcal,
+        'protein_g', item.protein_g,
+        'carbs_g', item.carbs_g,
+        'fat_g', item.fat_g,
+        'fiber_g', item.fiber_g,
+        'sugar_g', item.sugar_g,
+        'barcode', item.barcode,
+        'food_ref_id', item.food_ref_id,
+        'confidence', item.confidence,
+        'notes', item.source_notes
+      ) order by item.created_at, item.id
+    )
+  from public.meal_logs as log
+  join public.meal_items as item on item.meal_log_id = log.id
+  where log.id = v_meal_log_id
+    and log.user_id = p_user_id
+  group by log.id, log.eaten_at, log.meal_type;
+end;
+$function$;`,
+    `create or replace function public.upsert_menu(
+  p_user_id uuid,
+  p_menu_id uuid,
+  p_name text,
+  p_items jsonb
+)
+returns table (
+  menu_id uuid
+)
+language plpgsql
+security invoker
+set search_path = public
+as $function$
+declare
+  v_menu_id uuid;
+  v_clean_name text;
+begin
+  if auth.uid() is distinct from p_user_id then
+    raise exception 'menu user does not match authenticated user'
+      using errcode = '42501';
+  end if;
+
+  v_clean_name := btrim(p_name);
+  if v_clean_name is null or length(v_clean_name) = 0 then
+    raise exception 'a menu needs a name'
+      using errcode = '22023';
+  end if;
+
+  if p_items is null
+     or jsonb_typeof(p_items) <> 'array'
+     or jsonb_array_length(p_items) < 1 then
+    raise exception 'a menu must contain at least one item'
+      using errcode = '22023';
+  end if;
+
+  v_menu_id := coalesce(p_menu_id, gen_random_uuid());
+
+  if p_menu_id is null then
+    insert into public.meal_menus (id, user_id, name)
+    values (v_menu_id, p_user_id, v_clean_name);
+  else
+    update public.meal_menus
+    set name = v_clean_name, updated_at = now()
+    where id = p_menu_id and user_id = p_user_id;
+    if not found then
+      raise exception 'menu does not match authenticated user'
+        using errcode = '42501';
+    end if;
+  end if;
+
+  -- Full item-list replace: the edited list is the template's items.
+  delete from public.menu_items where menu_id = v_menu_id;
+
+  insert into public.menu_items (
+    menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id
+  )
+  select
+    v_menu_id, item.name, item.quantity, item.unit, item.calories_kcal,
+    item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+    item.barcode, item.food_ref_id
+  from jsonb_to_recordset(p_items) as item(
+    name text,
+    quantity numeric,
+    unit text,
+    calories_kcal numeric,
+    protein_g numeric,
+    carbs_g numeric,
+    fat_g numeric,
+    fiber_g numeric,
+    sugar_g numeric,
+    barcode text,
+    food_ref_id uuid
+  );
+
+  return query select v_menu_id;
+end;
+$function$;`,
+    "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from public",
+    "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from anon",
+    "grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to authenticated",
+    "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from public",
+    "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from anon",
+    "grant execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) to authenticated",
+    "revoke execute on function public.upsert_menu(uuid, uuid, text, jsonb) from public",
+    "revoke execute on function public.upsert_menu(uuid, uuid, text, jsonb) from anon",
+    "grant execute on function public.upsert_menu(uuid, uuid, text, jsonb) to authenticated",
   ],
 });

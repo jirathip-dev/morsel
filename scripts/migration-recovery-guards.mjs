@@ -54,6 +54,8 @@ const TABLE_OWNER = {
   profiles: "0002_targets.sql",
   oauth_authorization_grants: "0005_oauth_authorization_grants.sql",
   energy_burned_logs: "0008_energy_burned_logs.sql",
+  meal_menus: "0012_named_menus.sql",
+  menu_items: "0012_named_menus.sql",
 };
 
 const ROUTINE_OWNER = {
@@ -62,6 +64,7 @@ const ROUTINE_OWNER = {
   claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
   upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
   log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
+  upsert_menu: "0012_named_menus.sql",
 };
 
 const TABLE_GRANT_OWNER = {

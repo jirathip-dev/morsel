@@ -33,6 +33,10 @@ export interface LogMealFunctionItem {
   food_ref_id: string | null
   confidence: number | null
   source_notes: string | null
+  // Issue #152 — optional named-menu snapshot keys stamped by the service
+  // when the log references a menu; absent for plain (loose) logs.
+  menu_name?: string | null
+  menu_group_id?: string | null
 }
 
 export interface LogMealFunctionRow {
@@ -40,6 +44,25 @@ export interface LogMealFunctionRow {
   eaten_at: string
   meal_type: string
   items: LogMealFunctionItem[]
+}
+
+// Issue #152 — the app-facing atomic menu save payloads (upsert_menu).
+export interface UpsertMenuFunctionItem {
+  name: string
+  quantity: number
+  unit: string
+  calories_kcal: number | null
+  protein_g: number | null
+  carbs_g: number | null
+  fat_g: number | null
+  fiber_g: number | null
+  sugar_g: number | null
+  barcode: string | null
+  food_ref_id: string | null
+}
+
+export interface UpsertMenuFunctionRow {
+  menu_id: string
 }
 
 export interface ClaimOAuthAuthorizationGrantFunctionRow {
@@ -163,6 +186,8 @@ export interface Database {
           food_ref_id: string | null
           confidence: number | null
           source_notes: string | null
+          menu_group_id: string | null
+          menu_name: string | null
         }
         Insert: {
           meal_log_id: string
@@ -179,6 +204,8 @@ export interface Database {
           food_ref_id?: string | null
           confidence?: number | null
           source_notes?: string | null
+          menu_group_id?: string | null
+          menu_name?: string | null
         }
         Update: {
           name?: string
@@ -187,6 +214,83 @@ export interface Database {
           protein_g?: number | null
           carbs_g?: number | null
           fat_g?: number | null
+          menu_group_id?: string | null
+          menu_name?: string | null
+        }
+        Relationships: []
+      }
+      meal_menus: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          id: string
+          menu_id: string
+          name: string
+          quantity: number
+          unit: string
+          calories_kcal: number | null
+          protein_g: number | null
+          carbs_g: number | null
+          fat_g: number | null
+          fiber_g: number | null
+          sugar_g: number | null
+          barcode: string | null
+          food_ref_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          menu_id: string
+          name: string
+          quantity?: number
+          unit?: string
+          calories_kcal?: number | null
+          protein_g?: number | null
+          carbs_g?: number | null
+          fat_g?: number | null
+          fiber_g?: number | null
+          sugar_g?: number | null
+          barcode?: string | null
+          food_ref_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          menu_id?: string
+          name?: string
+          quantity?: number
+          unit?: string
+          calories_kcal?: number | null
+          protein_g?: number | null
+          carbs_g?: number | null
+          fat_g?: number | null
+          fiber_g?: number | null
+          sugar_g?: number | null
+          barcode?: string | null
+          food_ref_id?: string | null
+          created_at?: string
         }
         Relationships: []
       }
@@ -344,6 +448,15 @@ export interface Database {
           p_items: LogMealFunctionItem[]
         }
         Returns: LogMealFunctionRow[]
+      }
+      upsert_menu: {
+        Args: {
+          p_user_id: string
+          p_menu_id: string | null
+          p_name: string
+          p_items: UpsertMenuFunctionItem[]
+        }
+        Returns: UpsertMenuFunctionRow[]
       }
       upsert_food_catalog: {
         Args: { p_rows: Record<string, unknown>[] }
