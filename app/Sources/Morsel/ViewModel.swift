@@ -247,6 +247,28 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
+    /// Issue #153 — attach/replace the photo of an item's parent meal
+    /// through the same outbox/image pipeline as Add Meal. The journal
+    /// reloads so the row (and its thumbnail) reflects the photo; a queued
+    /// row stays honest with its `pending sync` marker until the server
+    /// result is read back.
+    func attachPhoto(_ photo: FoodImageUpload, toItem itemID: UUID) async -> Bool {
+        isSaving = true
+        errorMessage = nil
+        defer { isSaving = false }
+        do {
+            try await repository.attachMealPhoto(userID: userID, itemID: itemID, photo: photo)
+            syncEngine?.syncNow()
+            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            return true
+        } catch is CancellationError {
+            return false
+        } catch {
+            errorMessage = DashboardUserMessage.userMessage(for: error)
+            return false
+        }
+    }
+
     func deleteMeal(_ mealLogID: UUID) async -> Bool {
         isSaving = true
         errorMessage = nil

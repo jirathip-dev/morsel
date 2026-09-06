@@ -329,23 +329,44 @@ extension LocalFirstDashboardRepository {
 // the thumbnail pipeline serves the durable LOCAL photo bytes until the
 // remote object exists (online or offline).
 extension LocalFirstDashboardRepository {
-    /// The journal-visible record for a queued row. A queued photo meal's
-    /// deterministic object path is known before upload, so the row carries
-    /// it immediately (the thumbnail pipeline then serves the LOCAL photo
-    /// bytes until the remote object exists — issue #135).
-    private func journalRecord(for row: QueuedMeal, userID: UUID) -> MealRecord {
-        guard row.imagePath == nil, row.photo != nil else {
-            return row.mealRecord
+    /// Issue #153 — attach/replace the photo of an item's parent meal. A
+    /// still-queued meal keeps the photo durable in its outbox row (the new
+    /// payload clears the stale path/error and returns a refused row to
+    /// honest pending); synced meals route through the authenticated remote
+    /// upload + `meal_logs.image_path` update. Never a direct storage write.
+    func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws {
+        try FoodImageStore.validate(data: photo.data, mimeType: photo.mimeType)
+        if let queued = try queuedMeal(containingItem: itemID) {
+            try store.replaceQueuedMealPhoto(
+                mealID: queued.mealID,
+                photo: QueuedMealPhoto(data: photo.data, mimeType: photo.mimeType)
+            )
+            requestSync()
+            return
         }
-        let objectPath = FoodImageStore.objectPath(userID: userID, imageID: row.mealID)
+        try await remote.attachMealPhoto(userID: userID, itemID: itemID, photo: photo)
+    }
+    /// The journal-visible record for a queued row. A queued photo meal's
+    /// deterministic object path is known before upload (or already stored
+    /// after one), so the row carries it immediately — the thumbnail
+    /// pipeline serves the LOCAL photo bytes until the remote object exists
+    /// (issue #135). Items carry the photo context so the Edit-item sheet
+    /// renders it for pending rows too (issue #153).
+    private func journalRecord(for row: QueuedMeal, userID: UUID) -> MealRecord {
+        let storedPath = row.imagePath
+            ?? (row.photo == nil ? nil : FoodImageStore.objectPath(userID: userID, imageID: row.mealID))
+        let image = storedPath.map { MealImage(path: $0) }
+        let items = row.items
+            .compactMap { $0.item(source: row.source) }
+            .map { $0.withMealImage(image) }
         return MealRecord(
             mealLogID: row.mealID,
             mealType: row.mealType,
             eatenAt: row.eatenAt,
             source: row.source,
-            imagePath: objectPath,
-            image: MealImage(path: objectPath),
-            items: row.items.compactMap { $0.item(source: row.source) },
+            imagePath: storedPath,
+            image: image,
+            items: items,
             syncState: row.syncState
         )
     }

@@ -11,6 +11,12 @@ protocol DashboardRepository {
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview
     func confirmMealItem(userID: UUID, itemID: UUID) async throws
     func updateMealItem(userID: UUID, update: MealItemUpdate) async throws
+    /// Issue #153 — attach/replace the photo of the meal that owns `itemID`
+    /// through the outbox/image pipeline (never a direct write): queued
+    /// rows swap their durable photo payload; synced rows upload at the
+    /// meal's deterministic canonical object path and update
+    /// `meal_logs.image_path` (ownership-guarded).
+    func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws
     func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID
     func loadMealImage(userID: UUID, path: String) async throws -> Data

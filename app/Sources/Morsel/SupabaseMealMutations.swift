@@ -160,6 +160,65 @@ extension SupabaseDashboardRepository {
         _ = try parseItem(item, source: update.source)
     }
 
+    /// Issue #153 — attach/replace the photo of an existing (synced) meal.
+    /// Uploads the bytes at the meal's deterministic canonical object path
+    /// (`{user_id}/{meal_log_id}.jpg`, the SAME idempotent upload the outbox
+    /// uses — never a random object) and updates `meal_logs.image_path`
+    /// behind the user-scoped RLS guard. A refused row update removes the
+    /// just-uploaded object (no orphaned photo), mirroring logMeal.
+    func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws {
+        guard let client else {
+            throw MorselError.configurationMissing
+        }
+        let authenticatedUserID = try await requireSession(client, userID: userID)
+        try FoodImageStore.validate(data: photo.data, mimeType: photo.mimeType)
+
+        let ownershipResponse: [MealItemOwnershipResponse] = try await client
+            .from("meal_items")
+            .select("meal_log_id")
+            .eq("id", value: itemID.uuidString)
+            .limit(1)
+            .execute()
+            .value
+        guard let ownership = ownershipResponse.first,
+              let mealLogID = UUID(uuidString: ownership.mealLogID) else {
+            throw MorselError.invalidData("The meal item could not be updated.")
+        }
+        let parentResponse: [MealLogOwnershipResponse] = try await client
+            .from("meal_logs")
+            .select("id")
+            .eq("id", value: ownership.mealLogID)
+            .eq("user_id", value: authenticatedUserID.uuidString)
+            .limit(1)
+            .execute()
+            .value
+        guard !parentResponse.isEmpty else {
+            throw MorselError.invalidData("The meal item could not be updated.")
+        }
+
+        let objectPath = try await uploadMealPhoto(
+            userID: authenticatedUserID,
+            mealID: mealLogID,
+            photo: QueuedMealPhoto(data: photo.data, mimeType: photo.mimeType)
+        )
+        do {
+            let updated: [MealLogOwnershipResponse] = try await client
+                .from("meal_logs")
+                .update(MealLogImagePathUpdate(imagePath: objectPath))
+                .eq("id", value: ownership.mealLogID)
+                .eq("user_id", value: authenticatedUserID.uuidString)
+                .select("id")
+                .execute()
+                .value
+            guard updated.count == 1 else {
+                throw MorselError.invalidData("The meal photo could not be attached.")
+            }
+        } catch {
+            _ = try? await removeRemotePhoto(userID: authenticatedUserID, bucketPath: objectPath)
+            throw error
+        }
+    }
+
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {
         guard let client else {
             throw MorselError.configurationMissing
@@ -197,6 +256,14 @@ private struct MealItemOwnershipResponse: Decodable {
 
 private struct MealLogOwnershipResponse: Decodable {
     let id: String
+}
+
+private struct MealLogImagePathUpdate: Encodable {
+    let imagePath: String
+
+    enum CodingKeys: String, CodingKey {
+        case imagePath = "image_path"
+    }
 }
 
 struct MealItemUpdatePayload: Encodable {
