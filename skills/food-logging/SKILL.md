@@ -89,7 +89,7 @@ Always follow these rules:
   response (`image_error`) while the meal itself still logs.
 
 The server registers exactly these tools: `log_meal`, `attach_meal_image`,
-`search_food`, `update_meal_item`, `delete_meal_log`, `get_day`,
+`search_food`, `list_menus`, `update_meal_item`, `delete_meal_log`, `get_day`,
 `get_dashboard_summary`, `get_profile`, `set_profile`, `compute_targets`,
 `get_goals`, `set_goals`, `reset_goals`, `get_weight_trend`, and
 `get_energy_burned`. It reads Apple
@@ -104,7 +104,7 @@ approval. Treat every call as account-scoped, and treat these classes as the
 authoritative guidance:
 
 - Read-only (never write): `get_day`, `get_profile`, `compute_targets`,
-  `get_goals`, `get_weight_trend`, `get_energy_burned`,
+  `get_goals`, `get_weight_trend`, `get_energy_burned`, `list_menus`,
   `get_dashboard_summary`. Safe to call without confirmation.
 - Writes (create or overwrite the user's data): `log_meal`, `attach_meal_image`,
   `set_profile`,
@@ -131,13 +131,16 @@ also be finite. Unknown fields are rejected by the strict input schemas.
 
 ### `log_meal`
 
-Required input fields are `meal_type` and `items` (at least one item).
+Required input fields are `meal_type`; `items` (at least one item) is required
+too, except when `menu_name` names a menu the user already has (issue #152 —
+the log then copies the menu's current items).
 
 ```text
 log_meal({
   eaten_at?: ISO date-time with an offset,
   timezone?: IANA zone (e.g. "Asia/Bangkok"); used only when eaten_at is omitted,
   meal_type: "breakfast" | "lunch" | "dinner" | "snack",
+  menu_name?: string,   // named-menu log (issue #152) — see below
   items: [{
     name: string,                         // required, non-empty
     quantity?: positive number,            // default 1
@@ -211,6 +214,47 @@ Output:
 
 An empty `results` array means the catalog did not find a match. Do not turn a
 missing result into made-up exact values.
+
+### `list_menus`
+
+Input: `{}`.
+
+Output:
+
+```text
+{
+  menus: [{
+    menu_id: UUID,
+    name: string,                       // display label, unique per user
+    items: [{
+      item_id: UUID,
+      name: string,                     // required
+      quantity: positive number,
+      unit: "g" | "ml" | "serving" | "piece" | "cup",
+      calories_kcal?: non-negative number,
+      protein_g?: non-negative number,
+      carbs_g?: non-negative number,
+      fat_g?: non-negative number,
+      fiber_g?: non-negative number,
+      sugar_g?: non-negative number,
+      barcode?: string,
+      food_ref_id?: UUID
+    }]
+  }]
+}
+```
+
+**Named menus (issue #152):** a menu is a reusable, meal-type-free bundle the
+user maintains in the app (breakfast set = toast + eggs + sauce). Re-log one
+with a SINGLE `log_meal` call: pass `menu_name` and omit `items` — the server
+copies the menu's current items and logs them under whatever `meal_type` fits
+the moment (a breakfast set works as dinner). To create a NEW menu from a log,
+pass `menu_name` (not yet used by the user) together with `items`; the server
+creates the menu from those items AND logs the meal in one transaction. Every
+menu log is a snapshot copy — `get_day` items carry `menu_name` +
+`menu_group_id` (shared per logged set); loose items omit both. Editing or
+deleting a menu in the app NEVER changes past meals. Use `list_menus` before
+re-logging so the name matches exactly.
 
 ### `attach_meal_image`
 

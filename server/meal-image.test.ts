@@ -422,6 +422,8 @@ describe('SupabaseRepository meal photo storage (HTTP fetch mock)', () => {
     food_ref_id: null,
     confidence: null,
     source_notes: null,
+    menu_group_id: null,
+    menu_name: null,
   }
 
   function withToken<T>(repository: SupabaseRepository, action: () => Promise<T>): Promise<T> {

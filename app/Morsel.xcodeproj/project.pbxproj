@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		009B898B933DC738E906147F /* MenuEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EE25075D224F7A43C8AC49 /* MenuEditorSheet.swift */; };
 		00CF6ED133C784FEE60127E9 /* GoalsEditorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD201F11087454DD4DD63 /* GoalsEditorModel.swift */; };
 		015286DBE751D3D95FAEA01F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E736D53085F8CAFBC52583 /* Models.swift */; };
 		026DD14633A14EFD8CB2297B /* GoalPageContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894368A6A65AC2A0C36A007B /* GoalPageContext.swift */; };
@@ -29,6 +30,7 @@
 		3872B517C57088FC4B4115C7 /* JournalUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */; };
 		3AB7A4D90A481F7A35DA8DE7 /* HealthLogStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6542DED0DFE7D06D4FABC37C /* HealthLogStores.swift */; };
 		3B7F441D4EC134D57667BD6C /* MealPhotoEditorSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995F66FE5DE2679A3953315 /* MealPhotoEditorSection.swift */; };
+		40AEF4BE68FCE11FB44E769F /* MorselDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6D86253CC6CE5069DD80E9 /* MorselDate.swift */; };
 		417A993BFBF27EF58E595E95 /* OFL-IBMPlexMono.txt in Resources */ = {isa = PBXBuildFile; fileRef = A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */; };
 		43C6EDC40A82F8FB59B82FC7 /* OutboxModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24183754C742E858CBA90765 /* OutboxModels.swift */; };
 		45498E2592A5314C86492140 /* LocalDayBucketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */; };
@@ -58,15 +60,20 @@
 		7E6281B200D4C09B8854BB63 /* WeightTrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71181F42D2D74093AED142DC /* WeightTrendView.swift */; };
 		82ED9E1C728DA6A34B5F51BA /* PhotoAttachOnEditRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F7FCF7C5E55D58FF2FD825 /* PhotoAttachOnEditRegressionTests.swift */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
+		90193474B6D0F7F34E8C0CD6 /* LocalFirstMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A43E1724B9B801B059879 /* LocalFirstMenus.swift */; };
+		936E9715555B29C49FA9EEBF /* NamedMenusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BAB57477972D0F0736DB548 /* NamedMenusTests.swift */; };
 		93B200FE6687B5CE5F31A364 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62826381660BDBE9BBB4CA2F /* Assets.xcassets */; };
 		99BFA9B5CB12D391C28F129D /* JournalFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */; };
 		9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C1C0258B7A800F46DCEDFB /* Views.swift */; };
 		9CECA75F07D5B89BFB81BE29 /* EndpointCopyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2DAAEC85CD0B377D1B036A /* EndpointCopyTests.swift */; };
 		9EA70A8DE2210DF2EEDAA6E4 /* JournalNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */; };
 		9F6D52083092B0942326E0E1 /* MealThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2B2FD6DB00BB811705B9BC /* MealThumbnail.swift */; };
+		A5A5A15023FAFBC5CEB62399 /* AddMealPhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */; };
 		A7F729FE26331A163735313F /* MorselStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0411F1BBD3F7D5889E508D3B /* MorselStamp.swift */; };
+		A919E150A8D1DE408B8F70A9 /* MenuLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF57449706D791B130BE404 /* MenuLibrary.swift */; };
 		AAD9BFE2CD0C8D62634CB61B /* LocalDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */; };
 		B04F6AF20CF3C95CC5F75168 /* Caveat[wght].ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4578507457A87FBC7A41202A /* Caveat[wght].ttf */; };
+		B0788E582504BCA696DF4E37 /* SupabaseMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF903631265ED198B088E47 /* SupabaseMenus.swift */; };
 		B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9E6261C91086065F01D569 /* DesignSystem.swift */; };
 		B6ABB70C54EA8F94F25FCBB4 /* WeightImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B5C42479945B7A48EC226F /* WeightImportTests.swift */; };
 		BAEEBDD9CE34464B93736C34 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315E731961ED8D1653921F25 /* MockRepository.swift */; };
@@ -75,6 +82,8 @@
 		C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */; };
 		C33AE13BB3FA48B1FBDF0D77 /* LocalHealthStore+SQLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */; };
 		C47A15D126448944F05AAB3A /* GoalsEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */; };
+		C49FD84B1BA5972846B5AF00 /* DayDrillDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941533B57CA67FE64677BDCE /* DayDrillDown.swift */; };
+		D1D361D3A1AE549F4F7D5DED /* MenusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13E2AC66E93B0B5052C8B32 /* MenusScreen.swift */; };
 		DD64730126D7DD1A60CB1BF8 /* EBGaramond[wght].ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAC9A72291BDB89D74BD2EDD /* EBGaramond[wght].ttf */; };
 		DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300178E9A1C65132F9460803 /* MorselApp.swift */; };
 		E02C55BAF861D17DE2CDF79E /* LocalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */; };
@@ -92,8 +101,10 @@
 		F06C7CBD7BD19B2CB8033194 /* PaperDeleteAndSkeletonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5826EED77A83AFE469518F /* PaperDeleteAndSkeletonTests.swift */; };
 		F33D5341291D488663F545DC /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212A00520565B422FCE6413D /* SessionStore.swift */; };
 		F3D1EFBDE1A88B506D2B405C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17842C63698FF267F75039CA /* ViewModel.swift */; };
+		F44A8EFDD69F01182FAF33B9 /* NamedMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EFCE493B18E209FDFBAD41 /* NamedMenus.swift */; };
 		F5915D64A275682E08A53926 /* JournalFollowUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */; };
 		F7C5F8D5F24ADC69D8A2C091 /* MealCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */; };
+		F864F9127EDDDBEE5A7F2261 /* JournalShellChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */; };
 		F8C40982EC5D76D022B50C47 /* MealRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A280A2BE33C0B5B677035 /* MealRepository.swift */; };
 		FCE7696AF032277A0C19B114 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7654CABD3BEF522F70A4E4B7 /* Supabase */; };
 		FD90C337EFA9504CA7BB357F /* MealReliabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */; };
@@ -112,11 +123,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01EFCE493B18E209FDFBAD41 /* NamedMenus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedMenus.swift; sourceTree = "<group>"; };
 		02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalNavigation.swift; sourceTree = "<group>"; };
 		0411F1BBD3F7D5889E508D3B /* MorselStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselStamp.swift; sourceTree = "<group>"; };
+		04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealPhotoSection.swift; sourceTree = "<group>"; };
 		053F0099A7042AE48E5E37C8 /* LocalDayMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayMigrationTests.swift; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
+		0BAB57477972D0F0736DB548 /* NamedMenusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedMenusTests.swift; sourceTree = "<group>"; };
 		1096DD7210666ACB8358567E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		1129A1722B14081A20D54104 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
 		17842C63698FF267F75039CA /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
@@ -133,6 +147,7 @@
 		2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCopyPill.swift; sourceTree = "<group>"; };
 		300178E9A1C65132F9460803 /* MorselApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselApp.swift; sourceTree = "<group>"; };
 		315E731961ED8D1653921F25 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
+		353A43E1724B9B801B059879 /* LocalFirstMenus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFirstMenus.swift; sourceTree = "<group>"; };
 		378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealReliabilityTests.swift; sourceTree = "<group>"; };
 		37A12A89F0EF310480905F84 /* DashboardMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMathTests.swift; sourceTree = "<group>"; };
 		3831705084A25885D3664C7E /* HistoryFreezeRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFreezeRegressionTests.swift; sourceTree = "<group>"; };
@@ -143,6 +158,7 @@
 		473CFD249CD566AE38553B80 /* JournalSemanticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalSemanticsTests.swift; sourceTree = "<group>"; };
 		4F9E6261C91086065F01D569 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		5085C82B033CB96C02AD36EC /* AuthEmailErrorCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthEmailErrorCopyTests.swift; sourceTree = "<group>"; };
+		54EE25075D224F7A43C8AC49 /* MenuEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuEditorSheet.swift; sourceTree = "<group>"; };
 		5ADF8174D7F6ECB1F6728B8F /* OFL-EBGaramond.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-EBGaramond.txt"; sourceTree = "<group>"; };
 		603058D2235FEAF8B5DA6463 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		62826381660BDBE9BBB4CA2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -169,25 +185,31 @@
 		9345F1DB612B25D6A4DA1F07 /* HealthKitWeightImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitWeightImporter.swift; sourceTree = "<group>"; };
 		9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUI.swift; sourceTree = "<group>"; };
 		93F539F2C55A493EE7BEC64C /* HistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRepository.swift; sourceTree = "<group>"; };
+		941533B57CA67FE64677BDCE /* DayDrillDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDrillDown.swift; sourceTree = "<group>"; };
 		9507E44AD8780775C30E2891 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		98E8B5270DDA7AA045CA6901 /* Onboarding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding.swift; sourceTree = "<group>"; };
 		98F7FCF7C5E55D58FF2FD825 /* PhotoAttachOnEditRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAttachOnEditRegressionTests.swift; sourceTree = "<group>"; };
 		994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalHealthStore+SQLite.swift"; sourceTree = "<group>"; };
 		9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayBucketTests.swift; sourceTree = "<group>"; };
+		A13E2AC66E93B0B5052C8B32 /* MenusScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenusScreen.swift; sourceTree = "<group>"; };
 		A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBMPlexMono.txt"; sourceTree = "<group>"; };
 		A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFollowUpTests.swift; sourceTree = "<group>"; };
 		A95E44BAB8AEF14F01479154 /* MealImageContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealImageContractTests.swift; sourceTree = "<group>"; };
 		AAAFD201F11087454DD4DD63 /* GoalsEditorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorModel.swift; sourceTree = "<group>"; };
 		AAC9A72291BDB89D74BD2EDD /* EBGaramond[wght].ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EBGaramond[wght].ttf"; sourceTree = "<group>"; };
+		AAF57449706D791B130BE404 /* MenuLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLibrary.swift; sourceTree = "<group>"; };
 		B046ED419DD576E854AE9FE8 /* LocalSnapshotCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSnapshotCache.swift; sourceTree = "<group>"; };
 		B1B5C42479945B7A48EC226F /* WeightImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightImportTests.swift; sourceTree = "<group>"; };
 		B3E736D53085F8CAFBC52583 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		B6E16F551240CA0698041E83 /* HealthCalmStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCalmStatus.swift; sourceTree = "<group>"; };
+		BAF903631265ED198B088E47 /* SupabaseMenus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMenus.swift; sourceTree = "<group>"; };
 		BB2C1F672A7BEB9344B9B7E0 /* AddMealReliabilityRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealReliabilityRegressionTests.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
 		C591525368CD6908A9FE189E /* JournalPaperTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPaperTexture.swift; sourceTree = "<group>"; };
 		C5A366D637ADF15B1E4A652F /* HistoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModels.swift; sourceTree = "<group>"; };
+		CB6D86253CC6CE5069DD80E9 /* MorselDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselDate.swift; sourceTree = "<group>"; };
 		D0675E7407E977169B5E4021 /* MealItemEditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItemEditSheet.swift; sourceTree = "<group>"; };
+		D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShellChrome.swift; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPageTurner.swift; sourceTree = "<group>"; };
 		D8833C18902B690FB43EC8CA /* LocalDayMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayMigration.swift; sourceTree = "<group>"; };
@@ -258,8 +280,10 @@
 			isa = PBXGroup;
 			children = (
 				1129A1722B14081A20D54104 /* .gitkeep */,
+				04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */,
 				87A0D70887CCCCA564A9B7CC /* Auth.swift */,
 				8B945E15B916830A85CE5BA3 /* AuthView.swift */,
+				941533B57CA67FE64677BDCE /* DayDrillDown.swift */,
 				4F9E6261C91086065F01D569 /* DesignSystem.swift */,
 				258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */,
 				2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */,
@@ -278,10 +302,12 @@
 				02AA45BC2476B71F1CB35E96 /* JournalNavigation.swift */,
 				D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */,
 				C591525368CD6908A9FE189E /* JournalPaperTexture.swift */,
+				D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */,
 				9363B426ACB3F60D1C3B0F72 /* JournalUI.swift */,
 				6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */,
 				F1A60B7FF64919D4B155EAB4 /* LocalDataStore+SQLite.swift */,
 				D8833C18902B690FB43EC8CA /* LocalDayMigration.swift */,
+				353A43E1724B9B801B059879 /* LocalFirstMenus.swift */,
 				F4A372A98AF1458720106781 /* LocalFirstRepository.swift */,
 				213B1C3D472C5403A5040BBF /* LocalHealthStore.swift */,
 				994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */,
@@ -294,11 +320,16 @@
 				3995F66FE5DE2679A3953315 /* MealPhotoEditorSection.swift */,
 				286A280A2BE33C0B5B677035 /* MealRepository.swift */,
 				1E2B2FD6DB00BB811705B9BC /* MealThumbnail.swift */,
+				54EE25075D224F7A43C8AC49 /* MenuEditorSheet.swift */,
+				AAF57449706D791B130BE404 /* MenuLibrary.swift */,
+				A13E2AC66E93B0B5052C8B32 /* MenusScreen.swift */,
 				315E731961ED8D1653921F25 /* MockRepository.swift */,
 				B3E736D53085F8CAFBC52583 /* Models.swift */,
 				300178E9A1C65132F9460803 /* MorselApp.swift */,
 				FC158F912C87F239097416E4 /* MorselAppearance.swift */,
+				CB6D86253CC6CE5069DD80E9 /* MorselDate.swift */,
 				0411F1BBD3F7D5889E508D3B /* MorselStamp.swift */,
+				01EFCE493B18E209FDFBAD41 /* NamedMenus.swift */,
 				98E8B5270DDA7AA045CA6901 /* Onboarding.swift */,
 				24183754C742E858CBA90765 /* OutboxModels.swift */,
 				8DA60553CC8D783AC1B6B5D6 /* PaperFields.swift */,
@@ -309,6 +340,7 @@
 				603058D2235FEAF8B5DA6463 /* SettingsView.swift */,
 				DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */,
 				DF0D158665E5F1AF65CD855E /* SupabaseMealReadModel.swift */,
+				BAF903631265ED198B088E47 /* SupabaseMenus.swift */,
 				655BC1CA4FD5F4DE01CCA4A9 /* TodayLogViews.swift */,
 				17842C63698FF267F75039CA /* ViewModel.swift */,
 				19C1C0258B7A800F46DCEDFB /* Views.swift */,
@@ -359,6 +391,7 @@
 				7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */,
 				A95E44BAB8AEF14F01479154 /* MealImageContractTests.swift */,
 				378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */,
+				0BAB57477972D0F0736DB548 /* NamedMenusTests.swift */,
 				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
 				DD5826EED77A83AFE469518F /* PaperDeleteAndSkeletonTests.swift */,
 				98F7FCF7C5E55D58FF2FD825 /* PhotoAttachOnEditRegressionTests.swift */,
@@ -467,8 +500,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5A5A15023FAFBC5CEB62399 /* AddMealPhotoSection.swift in Sources */,
 				86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */,
 				474515288390A81C4A1198B2 /* AuthView.swift in Sources */,
+				C49FD84B1BA5972846B5AF00 /* DayDrillDown.swift in Sources */,
 				B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */,
 				70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */,
 				FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */,
@@ -487,10 +522,12 @@
 				9EA70A8DE2210DF2EEDAA6E4 /* JournalNavigation.swift in Sources */,
 				0C3B24DE51B59630E82496B3 /* JournalPageTurner.swift in Sources */,
 				03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */,
+				F864F9127EDDDBEE5A7F2261 /* JournalShellChrome.swift in Sources */,
 				3872B517C57088FC4B4115C7 /* JournalUI.swift in Sources */,
 				BC3FF50B5B6927FE9F7AC191 /* LocalDataStore+SQLite.swift in Sources */,
 				AAD9BFE2CD0C8D62634CB61B /* LocalDataStore.swift in Sources */,
 				ECEAFC049273F676964551E9 /* LocalDayMigration.swift in Sources */,
+				90193474B6D0F7F34E8C0CD6 /* LocalFirstMenus.swift in Sources */,
 				E8097E3FDEB8350477C78A21 /* LocalFirstRepository.swift in Sources */,
 				C33AE13BB3FA48B1FBDF0D77 /* LocalHealthStore+SQLite.swift in Sources */,
 				4B37AB377BEEF5A694BAE7DB /* LocalHealthStore.swift in Sources */,
@@ -503,11 +540,16 @@
 				3B7F441D4EC134D57667BD6C /* MealPhotoEditorSection.swift in Sources */,
 				F8C40982EC5D76D022B50C47 /* MealRepository.swift in Sources */,
 				9F6D52083092B0942326E0E1 /* MealThumbnail.swift in Sources */,
+				009B898B933DC738E906147F /* MenuEditorSheet.swift in Sources */,
+				A919E150A8D1DE408B8F70A9 /* MenuLibrary.swift in Sources */,
+				D1D361D3A1AE549F4F7D5DED /* MenusScreen.swift in Sources */,
 				BAEEBDD9CE34464B93736C34 /* MockRepository.swift in Sources */,
 				015286DBE751D3D95FAEA01F /* Models.swift in Sources */,
 				DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */,
 				2808F3E724E23AF3328D63F1 /* MorselAppearance.swift in Sources */,
+				40AEF4BE68FCE11FB44E769F /* MorselDate.swift in Sources */,
 				A7F729FE26331A163735313F /* MorselStamp.swift in Sources */,
+				F44A8EFDD69F01182FAF33B9 /* NamedMenus.swift in Sources */,
 				5EE8EEAECDE83D7F4EF2F508 /* Onboarding.swift in Sources */,
 				43C6EDC40A82F8FB59B82FC7 /* OutboxModels.swift in Sources */,
 				BDD85DAAC956F1C0744F2454 /* PaperFields.swift in Sources */,
@@ -518,6 +560,7 @@
 				71A41B9518BD81078A6E61DB /* SettingsView.swift in Sources */,
 				C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */,
 				78D51AF17D0512CFA3E7E050 /* SupabaseMealReadModel.swift in Sources */,
+				B0788E582504BCA696DF4E37 /* SupabaseMenus.swift in Sources */,
 				2B71BAD0645562EE2AA5453D /* TodayLogViews.swift in Sources */,
 				F3D1EFBDE1A88B506D2B405C /* ViewModel.swift in Sources */,
 				9A34C5C2FBEE494F8C89EBF7 /* Views.swift in Sources */,
@@ -551,6 +594,7 @@
 				EC4BE17D61CB79CBDA268561 /* MealCorrectionsTests.swift in Sources */,
 				1A7893BAB4B0064994814637 /* MealImageContractTests.swift in Sources */,
 				FD90C337EFA9504CA7BB357F /* MealReliabilityTests.swift in Sources */,
+				936E9715555B29C49FA9EEBF /* NamedMenusTests.swift in Sources */,
 				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,
 				F06C7CBD7BD19B2CB8033194 /* PaperDeleteAndSkeletonTests.swift in Sources */,
 				82ED9E1C728DA6A34B5F51BA /* PhotoAttachOnEditRegressionTests.swift in Sources */,

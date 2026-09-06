@@ -96,7 +96,6 @@ final class PaperDeleteAndSkeletonTests: XCTestCase {
     func testLoadingBranchesRenderPaperSkeletons() throws {
         let views = try readSource("Views.swift")
         let history = try readSource("HistoryView.swift")
-        let ledger = try readSource("HistoryLedgerViews.swift")
         let logViews = try readSource("TodayLogViews.swift")
 
         let todayBranch = try slice(views, from: "viewModel.isLoading && viewModel.snapshot == nil")
@@ -109,7 +108,11 @@ final class PaperDeleteAndSkeletonTests: XCTestCase {
         XCTAssertTrue(logViews.contains("struct TodayLogSkeletonRows"))
         XCTAssertTrue(history.contains("struct HistoryLedgerSkeleton"))
         XCTAssertTrue(history.contains("struct DayDrillDownSkeleton"))
-        XCTAssertTrue(ledger.contains("DayDrillDownSkeleton()"))
+        // Issue #152 — DayDrillDown (and its skeleton branch) moved to its
+        // own file so HistoryLedgerViews stays inside the lint budget.
+        let drillDown = try readSource("DayDrillDown.swift")
+        XCTAssertTrue(drillDown.contains("struct DayDrillDown"))
+        XCTAssertTrue(drillDown.contains("DayDrillDownSkeleton()"))
     }
 
     func testSkeletonBlocksUsePaperTokens() throws {

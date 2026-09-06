@@ -23,6 +23,10 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8')
 
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
+// Issue #152 — the shell chrome (action tint + journal tab bar) moved to its
+// own file so MorselApp stays inside the repo lint budgets; the probes below
+// read both files for the same contracts.
+const shellChrome = read('app/Sources/Morsel/JournalShellChrome.swift')
 const designSystem = read('app/Sources/Morsel/DesignSystem.swift')
 
 function countMatches(text: string, pattern: string): number {
@@ -65,19 +69,21 @@ const coverSite = mustSlice(
   '.fullScreenCover(isPresented: $showingOnboarding) {',
   'private var pageContent: some View'
 )
-const wrapperDef = mustSlice(morselApp, '/// Scoped orange action tint', 'private struct JournalTabBar')
+const wrapperDef = mustSlice(shellChrome, '/// Scoped orange action tint', 'struct JournalTabBar')
 
 describe('issue #54: unauthenticated sign-in/onboarding surfaces carry the V1 orange action tint', () => {
   it('declares one scoped action-tint wrapper that applies Color.morselAccent', () => {
     expect(wrapperDef, 'MorselActionTint wrapper must be declared').toContain(
-      'private struct MorselActionTint<Content: View>: View'
+      'struct MorselActionTint<Content: View>: View'
     )
     expect(wrapperDef, 'the wrapper must re-apply the accent tint over its content').toContain(
       '.tint(Color.morselAccent)'
     )
-    // The wrapper is the ONLY tint applied in the shell (the journal tab bar
-    // colors its own active word explicitly in forest; no other .tint site).
-    expect(countMatches(morselApp, '\\.tint\\('), 'shell must have exactly one .tint site').toBe(1)
+    // The wrapper is the ONLY tint applied in the shell chrome (the journal
+    // tab bar colors its own active word explicitly in forest; no other
+    // .tint site in either shell file).
+    expect(countMatches(shellChrome, '\\.tint\\('), 'chrome must hold the single tint site').toBe(1)
+    expect(countMatches(morselApp, '\\.tint\\('), 'MorselApp must not tint outside the wrapper').toBe(0)
   })
 
   it('resolves the wrapper tint to the warm V1 accent, never a cool/system default', () => {
@@ -124,7 +130,7 @@ describe('issue #54: unauthenticated sign-in/onboarding surfaces carry the V1 or
     // The tab bar draws its active word in forest (v1-journal + warm-palette
     // probes own the full nav contract; here we pin that the wrapper change
     // did not displace the bar or its forest word from the shell).
-    const bar = mustSlice(morselApp, 'private struct JournalTabBar')
+    const bar = mustSlice(shellChrome, 'struct JournalTabBar')
     expect(bar).toContain('Color.morselForest')
     expect(morselApp).toContain('JournalTabBar(pager: pager)')
   })

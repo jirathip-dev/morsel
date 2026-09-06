@@ -30,6 +30,7 @@ function fullSchema() {
     tables: [
       "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
       "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs",
+      "meal_menus", "menu_items",
     ],
     columns: [
       { table_name: "users", column_name: "timezone", data_type: "text" },
@@ -44,8 +45,12 @@ function fullSchema() {
       { table_name: "weight_logs", column_name: "source", data_type: "text" },
       { table_name: "energy_burned_logs", column_name: "active_kcal", data_type: "numeric" },
       { table_name: "profiles", column_name: "timezone", data_type: "text" },
+      { table_name: "meal_menus", column_name: "name", data_type: "text" },
+      { table_name: "menu_items", column_name: "menu_id", data_type: "uuid" },
+      { table_name: "meal_items", column_name: "menu_name", data_type: "text" },
+      { table_name: "meal_items", column_name: "menu_group_id", data_type: "uuid" },
     ],
-    routines: ["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog"],
+    routines: ["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog", "upsert_menu"],
     policies: [
       { schemaname: "public", tablename: "goals", policyname: "goals_select_own" },
       { schemaname: "public", tablename: "meal_logs", policyname: "meal_logs_select_own" },
@@ -64,6 +69,14 @@ function fullSchema() {
       { schemaname: "public", tablename: "oauth_authorization_grants", policyname: "oauth authorization grants are readable by their owner" },
       { schemaname: "public", tablename: "oauth_authorization_grants", policyname: "oauth authorization grants are insertable by their owner" },
       { schemaname: "public", tablename: "energy_burned_logs", policyname: "energy_burned_logs_all_own" },
+      { schemaname: "public", tablename: "meal_menus", policyname: "meal_menus_select_own" },
+      { schemaname: "public", tablename: "meal_menus", policyname: "meal_menus_insert_own" },
+      { schemaname: "public", tablename: "meal_menus", policyname: "meal_menus_update_own" },
+      { schemaname: "public", tablename: "meal_menus", policyname: "meal_menus_delete_own" },
+      { schemaname: "public", tablename: "menu_items", policyname: "menu_items_select_own" },
+      { schemaname: "public", tablename: "menu_items", policyname: "menu_items_insert_own" },
+      { schemaname: "public", tablename: "menu_items", policyname: "menu_items_update_own" },
+      { schemaname: "public", tablename: "menu_items", policyname: "menu_items_delete_own" },
     ],
   };
 }

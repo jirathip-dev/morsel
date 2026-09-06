@@ -62,6 +62,8 @@ function itemRow(mealLogId: string): Record<string, unknown> {
     food_ref_id: null,
     confidence: null,
     source_notes: null,
+    menu_group_id: null,
+    menu_name: null,
   }
 }
 

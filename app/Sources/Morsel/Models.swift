@@ -17,6 +17,10 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
     /// The parent meal's photo read contract (issue #135) — carried on the
     /// item because the journal's edit flow presents items alone.
     let mealImage: MealImage?
+    /// Issue #152 — named-menu snapshot grouping: set items carry the menu
+    /// name copy + shared group id; loose items keep both nil.
+    let menuGroupID: UUID?
+    let menuName: String?
 
     init(
         itemID: UUID,
@@ -32,7 +36,9 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         confidence: Double?,
         notes: String?,
         source: MealSource = .manual,
-        mealImage: MealImage? = nil
+        mealImage: MealImage? = nil,
+        menuGroupID: UUID? = nil,
+        menuName: String? = nil
     ) {
         self.itemID = itemID
         self.name = name
@@ -48,6 +54,8 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         self.notes = notes
         self.source = source
         self.mealImage = mealImage
+        self.menuGroupID = menuGroupID
+        self.menuName = menuName
     }
 
     var id: UUID { itemID }
@@ -69,7 +77,9 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
             confidence: confidence,
             notes: notes,
             source: source,
-            mealImage: image
+            mealImage: image,
+            menuGroupID: menuGroupID,
+            menuName: menuName
         )
     }
 
@@ -130,8 +140,6 @@ struct DashboardProfile: Equatable, Sendable, Codable {
     let activityLevel: ProfileActivityLevel
     let dietGoal: ProfileDietGoal
     let goalWeightKg: Double?
-    /// Issue #113 — row write time read from `profiles.updated_at`; drives
-    /// the app-side recency mirror (missing on legacy/cached rows).
     var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
 }
 
@@ -147,10 +155,7 @@ enum MealType: String, CaseIterable, Sendable, Codable {
 }
 
 /// Read contract for a stored meal photo (MealRecordSchema.image, issue
-/// #133): `path` is the canonical bucket object path
-/// (`{user_id}/{meal_log_id}.jpg`), `signedURL` is the short-lived URL
-/// minted per read, and `expiresAt` is the instant that URL stops working.
-/// Absent when the meal has no photo.
+/// #133): path is the canonical object path, signedURL short-lived.
 struct MealImage: Equatable, Sendable, Codable {
     let path: String
     let signedURL: URL?
@@ -186,7 +191,6 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     /// authoritative remote snapshot; queued rows carry `pending sync` or
     /// `needs attention` until the server result is read back.
     let syncState: MealSyncState
-
     init(
         mealLogID: UUID,
         mealType: MealType,
@@ -242,8 +246,6 @@ struct StoredDashboardGoal: Equatable, Sendable, Codable {
     let carbsG: Double?
     let fatG: Double?
     let source: GoalSource
-    /// Issue #113 — row write time read from `goals.updated_at`; drives the
-    /// app-side recency mirror (missing on legacy/cached rows).
     var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
 }
 
@@ -373,11 +375,9 @@ enum MorselError: LocalizedError, Equatable {
     }
 }
 
-/// #94 (AC5): the friendly user-facing boundary. Morsel errors keep their
-/// curated copy; anything else (transport/decoding/auth details) becomes a
-/// human message — raw Supabase/Postgres/GoTrue text never reaches users.
-/// The sign-in surfaces (#126) map through the same table, so a GoTrue
-/// email-send failure reads as calm, actionable copy.
+/// #94 (AC5): the friendly user-facing boundary. Morsel errors keep
+/// curated copy; transport/decoding/auth details become a human message.
+/// The sign-in surfaces (#126) map through the same table.
 enum DashboardUserMessage {
     static let unexpected = "Something went wrong. Please try again."
 

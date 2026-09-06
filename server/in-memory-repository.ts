@@ -6,6 +6,7 @@ import type {
   GoalSummary,
   MealImageMimeType,
   MealRecord,
+  MenuTemplate,
   ParsedMealItem,
   Profile,
   SearchFoodItem,
@@ -35,6 +36,10 @@ function cloneMeal(meal: MealRecord): MealRecord {
   return { ...meal, items: meal.items.map(cloneItem) }
 }
 
+function cloneMenu(menu: MenuTemplate): MenuTemplate {
+  return { ...menu, items: menu.items.map((item) => ({ ...item })) }
+}
+
 function cloneGoals(goals: StoredGoals): StoredGoals {
   return { ...goals }
 }
@@ -46,6 +51,7 @@ function inRange(value: string, start: string, end: string): boolean {
 
 export class InMemoryRepository implements MorselRepository {
   private readonly meals = new Map<string, Map<string, MealRecord>>()
+  private readonly menus = new Map<string, Map<string, MenuTemplate>>()
   private readonly profiles = new Map<string, StoredProfile>()
   private readonly goals = new Map<string, StoredGoals>()
   private readonly foods: SearchFoodItem[]
@@ -126,10 +132,19 @@ export class InMemoryRepository implements MorselRepository {
 
   async createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord> {
     await Promise.resolve()
+    // Issue #152 — named-menu logs snapshot the name + a fresh group id on
+    // every item (mirroring migration 0012's meal_items columns), and the
+    // menu template is ensured from this log's items when the name is new.
+    if (meal.menu_name !== undefined) {
+      this.ensureMenuFromLog(userId, meal.menu_name, meal.items)
+    }
     const mealLogId = crypto.randomUUID()
     const items: MealRecord['items'] = meal.items.map((item: ParsedMealItem) => ({
       ...item,
       item_id: crypto.randomUUID(),
+      ...(meal.menu_name === undefined || meal.menu_group_id === undefined
+        ? {}
+        : { menu_name: meal.menu_name, menu_group_id: meal.menu_group_id }),
     }))
 
     const record: MealRecord = {
@@ -320,6 +335,59 @@ export class InMemoryRepository implements MorselRepository {
     await Promise.resolve()
     const userMeals = this.meals.get(userId)
     return userMeals?.delete(mealLogId) ?? false
+  }
+
+  async listMenus(userId: string): Promise<MenuTemplate[]> {
+    await Promise.resolve()
+    return [...(this.menus.get(userId)?.values() ?? [])]
+      .sort((left, right) => left.name.localeCompare(right.name))
+      .map(cloneMenu)
+  }
+
+  /**
+   * Test hook (mirrors the app-facing menu CRUD the server tools do not
+   * expose): creates or fully replaces one menu template. Past meal logs are
+   * snapshots and are NOT touched.
+   */
+  upsertMenuForTest(userId: string, menu: MenuTemplate): MenuTemplate {
+    const userMenus = this.menus.get(userId) ?? new Map<string, MenuTemplate>()
+    userMenus.set(menu.menu_id, cloneMenu(menu))
+    this.menus.set(userId, userMenus)
+    return cloneMenu(menu)
+  }
+
+  /**
+   * Ensures a menu template exists under `name` (issue #152). When the user
+   * has none, the template is created from THIS log's items (copy); an
+   * existing menu is never overwritten by a log.
+   */
+  private ensureMenuFromLog(userId: string, name: string, items: ParsedMealItem[]): void {
+    const userMenus = this.menus.get(userId)
+    const existing = [...(userMenus?.values() ?? [])].find((menu) => menu.name === name)
+    if (existing !== undefined) {
+      return
+    }
+    const menu: MenuTemplate = {
+      menu_id: crypto.randomUUID(),
+      name,
+      items: items.map((item) => ({
+        item_id: crypto.randomUUID(),
+        name: item.name,
+        quantity: item.quantity,
+        unit: item.unit,
+        ...(item.calories_kcal === undefined ? {} : { calories_kcal: item.calories_kcal }),
+        ...(item.protein_g === undefined ? {} : { protein_g: item.protein_g }),
+        ...(item.carbs_g === undefined ? {} : { carbs_g: item.carbs_g }),
+        ...(item.fat_g === undefined ? {} : { fat_g: item.fat_g }),
+        ...(item.fiber_g === undefined ? {} : { fiber_g: item.fiber_g }),
+        ...(item.sugar_g === undefined ? {} : { sugar_g: item.sugar_g }),
+        ...(item.barcode === undefined ? {} : { barcode: item.barcode }),
+        ...(item.food_ref_id === undefined ? {} : { food_ref_id: item.food_ref_id }),
+      })),
+    }
+    const menus = userMenus ?? new Map<string, MenuTemplate>()
+    menus.set(menu.menu_id, menu)
+    this.menus.set(userId, menus)
   }
 
   async getWeightTrend(userId: string, start: string, end: string, timeZone: string): Promise<WeightTrendPoint[]> {

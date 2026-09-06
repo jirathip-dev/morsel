@@ -48,6 +48,13 @@ final class LocalSnapshotCache {
               saved_at REAL NOT NULL
             )
             """)
+            try runUnsafe("""
+            CREATE TABLE IF NOT EXISTS menus_cache(
+              user_key TEXT PRIMARY KEY,
+              payload TEXT NOT NULL,
+              saved_at REAL NOT NULL
+            )
+            """)
         } catch {
             sqlite3_close(database)
             throw error
@@ -96,6 +103,7 @@ final class LocalSnapshotCache {
         try run("DELETE FROM dashboard_cache")
         try run("DELETE FROM history_cache")
         try run("DELETE FROM goals_cache")
+        try run("DELETE FROM menus_cache")
     }
 
     // MARK: - Issue #121 one-time local-day re-bucket support
@@ -272,5 +280,25 @@ final class LocalSnapshotCache {
 
     private static func text(_ data: Data) -> String {
         String(bytes: data, encoding: .utf8) ?? ""
+    }
+}
+
+// Issue #152 — named-menu snapshot cache (same-file extension keeps the
+// LocalSnapshotCache type body inside the lint budget).
+extension LocalSnapshotCache {
+    func saveMenusCache(userKey: String, payload: Data, savedAt: Date = Date()) throws {
+        let encoded = String(bytes: payload, encoding: .utf8) ?? ""
+        try run(
+            """
+            INSERT INTO menus_cache(user_key, payload, saved_at) VALUES (?, ?, ?)
+            ON CONFLICT(user_key) DO UPDATE SET payload = excluded.payload, saved_at = excluded.saved_at
+            """,
+            .text(userKey), .text(encoded), .double(savedAt.timeIntervalSince1970)
+        )
+    }
+
+    func loadMenusCache(userKey: String) throws -> Data? {
+        try firstColumn("SELECT payload FROM menus_cache WHERE user_key = ?", .text(userKey))
+            .flatMap { $0.data(using: .utf8) }
     }
 }

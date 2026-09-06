@@ -3,6 +3,7 @@ import type {
   GoalSummary,
   MealImageMimeType,
   MealRecord,
+  MenuTemplate,
   ParsedMealItem,
   Profile,
   SearchFoodItem,
@@ -19,6 +20,14 @@ export interface MealWrite {
   image_path?: string
   notes?: string
   items: ParsedMealItem[]
+  /**
+   * Issue #152 — named-menu log: when present every item row snapshots this
+   * name and the shared group id (the log is one grouped set) and the
+   * repository ensures the user's menu template exists (created from the
+   * log's items when absent; never overwritten). Undefined = loose log.
+   */
+  menu_name?: string
+  menu_group_id?: string
 }
 
 /** Photo bytes ready for storage: already validated and sniffed (meal-image.ts). */
@@ -71,6 +80,11 @@ export interface MorselRepository {
   resetGoals(userId: string): Promise<void>
   updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean>
   deleteMealLog(userId: string, mealLogId: string): Promise<boolean>
+  /**
+   * Issue #152 — the caller's named menu templates (meal-type-free bundles),
+   * ordered alphabetically by name for stable agent reads.
+   */
+  listMenus(userId: string): Promise<MenuTemplate[]>
   /**
    * Weight/energy series over instants in [start, end). `timeZone` is the
    * IANA zone whose local calendar days the returned point dates are

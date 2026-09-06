@@ -123,9 +123,16 @@ struct MealGroupView: View {
                     }
                     .padding(.vertical, 2)
                 }
-                ForEach(meal.items) { item in
-                    MealItemRow(item: item, onEdit: onEdit)
-                    if item.id != meal.items.last?.id {
+                let rows = MealDisplayGrouping.rows(from: meal.items)
+                ForEach(rows, id: \.rowID) { row in
+                    if case let .set(name, _, _) = row {
+                        MenuSetHeader(name: name)
+                            .padding(.top, 2)
+                    }
+                    ForEach(row.items, id: \.itemID) { item in
+                        MealItemRow(item: item, onEdit: onEdit)
+                    }
+                    if row.rowID != rows.last?.rowID {
                         Rectangle()
                             .fill(Color.morselInkLine.opacity(0.35))
                             .frame(height: 0.5)
@@ -134,6 +141,19 @@ struct MealGroupView: View {
                 }
             }
         }
+    }
+}
+
+/// Issue #152 — a logged set's nested header inside a meal ('Name (set)').
+/// Rendered above the set's snapshot items; loose items beside it stay flat.
+struct MenuSetHeader: View {
+    let name: String
+
+    var body: some View {
+        Text(MealDisplayGrouping.setLabel(name: name))
+            .font(.morselBodyStrong)
+            .foregroundStyle(Color.morselForest)
+            .padding(.vertical, 2)
     }
 }
 

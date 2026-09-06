@@ -89,7 +89,17 @@ export const LogMealInputSchema = z.object({
   // omitted. Precedence: explicit input -> profiles.timezone -> UTC.
   timezone: TimezoneSchema.optional(),
   meal_type: MealTypeSchema,
-  items: z.array(MealItemSchema).min(1),
+  // Named-menu log (issue #152): when present the meal is logged as one
+  // grouped set under this menu name (each item row snapshots the name plus
+  // a fresh set/grouping id). When the user has no menu with that name the
+  // menu is created from this log's items; an existing menu is never
+  // modified by a log (copy semantics). items may be omitted only when the
+  // menu already exists — the log then copies the menu's current items.
+  menu_name: z.string().trim().min(1).optional(),
+  // Required for plain logs (unchanged behavior); optional only when a
+  // menu_name is given and that menu already exists (the log then reuses
+  // the menu's stored items as its snapshot).
+  items: z.array(MealItemSchema).min(1).optional(),
   notes: z.string().trim().min(1).optional(),
   // Preferred photo input: the real bytes, base64-encoded. When both photo
   // inputs are present image_base64 wins and image_url is ignored.
@@ -103,7 +113,9 @@ export const LogMealInputSchema = z.object({
       return false
     }
   }, 'must use an https URL').optional(),
-}).strict()
+}).strict().refine((value) => value.items !== undefined || value.menu_name !== undefined, {
+  message: 'provide items, or a menu_name of a menu that already exists',
+})
 
 export const LogMealOutputSchema = z.object({
   meal_log_id: z.uuid(),
@@ -205,6 +217,39 @@ export const MealItemRecordSchema = z.object({
   food_ref_id: FoodRefIdSchema.optional(),
   confidence: finiteNumber.optional(),
   notes: z.string().optional(),
+  // Named-menu snapshot grouping (issue #152): set items carry the menu
+  // name copy and a shared group id per logged set instance; loose items
+  // omit both. These are snapshots — never a live reference to a menu.
+  menu_name: z.string().optional(),
+  menu_group_id: z.uuid().optional(),
+}).strict()
+
+// One stored menu template item (menu_items row, issue #152).
+export const MenuTemplateItemSchema = z.object({
+  item_id: z.uuid(),
+  name: z.string(),
+  quantity: finiteNumber,
+  unit: UnitSchema,
+  calories_kcal: finiteNumber.optional(),
+  protein_g: finiteNumber.optional(),
+  carbs_g: finiteNumber.optional(),
+  fat_g: finiteNumber.optional(),
+  fiber_g: finiteNumber.optional(),
+  sugar_g: finiteNumber.optional(),
+  barcode: z.string().optional(),
+  food_ref_id: FoodRefIdSchema.optional(),
+}).strict()
+
+// A reusable named menu as returned by list_menus: template name + items
+// (meal-type-free: it can be logged under any meal section).
+export const MenuTemplateSchema = z.object({
+  menu_id: z.uuid(),
+  name: z.string(),
+  items: z.array(MenuTemplateItemSchema).min(1),
+}).strict()
+
+export const ListMenusOutputSchema = z.object({
+  menus: z.array(MenuTemplateSchema),
 }).strict()
 
 // A stored food photo as returned on reads. `path` is the bucket object path
@@ -349,6 +394,8 @@ export const ProfileSchema = z.object({
 
 export const EmptyInputSchema = z.object({}).strict()
 
+export const ListMenusInputSchema = EmptyInputSchema
+
 export const SetProfileInputSchema = ProfileSchema
 export const GetProfileOutputSchema = ProfileSchema
 export const SetProfileOutputSchema = z.object({
@@ -419,6 +466,9 @@ export type ParsedMealItem = z.output<typeof MealItemSchema>
 export type LogMealInput = z.input<typeof LogMealInputSchema>
 export type ParsedLogMealInput = z.output<typeof LogMealInputSchema>
 export type LogMealOutput = z.infer<typeof LogMealOutputSchema>
+export type MenuTemplateItem = z.infer<typeof MenuTemplateItemSchema>
+export type MenuTemplate = z.infer<typeof MenuTemplateSchema>
+export type ListMenusOutput = z.infer<typeof ListMenusOutputSchema>
 export type SearchFoodInput = z.input<typeof SearchFoodInputSchema>
 export type ParsedSearchFoodInput = z.output<typeof SearchFoodInputSchema>
 export type SearchFoodItem = z.infer<typeof SearchFoodItemSchema>

@@ -60,6 +60,23 @@ extension DashboardRepository {
         throw MorselError.invalidData("Photo attach is not supported by this repository.")
     }
 
+    // Issue #152 — menus. Reads default to the empty list (doubles that
+    // never exercise menus are honest: there are no menus); write seams
+    // refuse loudly instead of reporting a silent success.
+    func listMenus(userID: UUID) async throws -> [NamedMenu] { [] }
+
+    func createMenu(userID: UUID, editor: MenuEditorDraft) async throws -> NamedMenu {
+        throw MorselError.invalidData("Menu creation is not supported by this repository.")
+    }
+
+    func updateMenu(userID: UUID, menuID: UUID, editor: MenuEditorDraft) async throws {
+        throw MorselError.invalidData("Menu editing is not supported by this repository.")
+    }
+
+    func deleteMenu(userID: UUID, menuID: UUID) async throws {
+        throw MorselError.invalidData("Menu deletion is not supported by this repository.")
+    }
+
     /// Default Goals-page context: the stored row only — no profile or
     /// weight read (test doubles). Supabase and local-first repositories
     /// override with the full recency + profile read.

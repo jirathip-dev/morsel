@@ -597,15 +597,19 @@ describe("contract pins and expression normalization", () => {
   it("FUNCTION_DEFINITIONS bodies are byte-identical to the migration files", () => {
     const expected = {
       compute_targets: "0002_targets.sql",
-      log_meal_with_items: "0003_atomic_meals_and_users_rls.sql",
-      log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
+      log_meal_with_items: "0012_named_menus.sql",
+      log_meal_with_items_client: "0012_named_menus.sql",
       claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
       upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
+      upsert_menu: "0012_named_menus.sql",
     };
     const root = join(fileURLToPath(new URL("..", import.meta.url)), "db", "migrations");
     for (const [name, file] of Object.entries(expected)) {
       const text = readFileSync(join(root, file), "utf8");
-      const fileBody = /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;/m.exec(text)[1];
+      // 0012 defines several functions; extract the body of THIS function's
+      // own definition (each FUNCTION_DEFINITIONS entry holds one function).
+      const ownStart = text.indexOf(`create or replace function public.${name}(`);
+      const fileBody = /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;/m.exec(text.slice(ownStart))[1];
       const constantBody = /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;?\s*$/m.exec(FUNCTION_DEFINITIONS[name])[1];
       expect(constantBody, `${name} body must match ${file}`).toBe(fileBody);
     }

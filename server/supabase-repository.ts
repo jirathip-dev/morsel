@@ -12,6 +12,8 @@ import {
   MealItemRecordSchema,
   MealTypeSchema,
   MealRecordSchema,
+  MenuTemplateItemSchema,
+  MenuTemplateSchema,
   ProfileSchema,
   SearchFoodItemSchema,
   SexSchema,
@@ -28,6 +30,8 @@ import type {
   MealImageRecord,
   MealItemRecord,
   MealRecord,
+  MenuTemplate,
+  MenuTemplateItem,
   Profile,
   SearchFoodItem,
   SetGoalsInput,
@@ -71,6 +75,30 @@ const mealItemRowSchema = z.object({
   food_ref_id: FoodRefIdSchema.nullable(),
   confidence: databaseNumber.nullable(),
   source_notes: z.string().nullable(),
+  // Issue #152 — named-menu snapshot grouping (null for loose items).
+  menu_group_id: z.uuid().nullable(),
+  menu_name: z.string().nullable(),
+}).strict()
+
+const menuRowSchema = z.object({
+  id: z.uuid(),
+  name: z.string(),
+}).strict()
+
+const menuItemRowSchema = z.object({
+  id: z.uuid(),
+  menu_id: z.uuid(),
+  name: z.string(),
+  quantity: databaseNumber,
+  unit: UnitSchema,
+  calories_kcal: databaseNumber.nullable(),
+  protein_g: databaseNumber.nullable(),
+  carbs_g: databaseNumber.nullable(),
+  fat_g: databaseNumber.nullable(),
+  fiber_g: databaseNumber.nullable(),
+  sugar_g: databaseNumber.nullable(),
+  barcode: z.string().nullable(),
+  food_ref_id: FoodRefIdSchema.nullable(),
 }).strict()
 
 const profileRowSchema = z.object({
@@ -158,7 +186,9 @@ const energyBurnedRowSchema = z.object({
 }).strict()
 
 const mealLogColumns = 'id,eaten_at,meal_type,image_path'
-const mealItemColumns = 'id,meal_log_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,confidence,source_notes'
+const mealItemColumns = 'id,meal_log_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,confidence,source_notes,menu_group_id,menu_name'
+const menuColumns = 'id,name'
+const menuItemColumns = 'id,menu_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id'
 const foodColumns = 'id,name,brand,barcode,serving_size,serving_unit,calories_kcal,protein_g,carbs_g,fat_g'
 
 function parseStored<T>(schema: z.ZodType<T>, value: unknown, context: string): T {
@@ -200,6 +230,8 @@ function toMealItem(value: unknown): MealItemRecord {
     ...(item.food_ref_id === null ? {} : { food_ref_id: item.food_ref_id }),
     ...(item.confidence === null ? {} : { confidence: item.confidence }),
     ...(item.source_notes === null ? {} : { notes: item.source_notes }),
+    ...(item.menu_name === null ? {} : { menu_name: item.menu_name }),
+    ...(item.menu_group_id === null ? {} : { menu_group_id: item.menu_group_id }),
   }, 'meal item')
 }
 
@@ -339,6 +371,8 @@ export class SupabaseRepository implements MorselRepository {
   }
 
   async createMealWithItems(userId: string, meal: MealWrite): Promise<MealRecord> {
+    // Issue #152 — a named-menu log stamps every item with the snapshot
+    // group (name + shared group id); the RPC ensures the menu template.
     const items: LogMealFunctionItem[] = meal.items.map((item) => ({
       name: item.name,
       quantity: item.quantity,
@@ -353,6 +387,9 @@ export class SupabaseRepository implements MorselRepository {
       food_ref_id: item.food_ref_id ?? null,
       confidence: item.confidence ?? null,
       source_notes: item.notes ?? null,
+      ...(meal.menu_name === undefined || meal.menu_group_id === undefined
+        ? {}
+        : { menu_name: meal.menu_name, menu_group_id: meal.menu_group_id }),
     }))
 
     const response = await this.client.rpc('log_meal_with_items', {
@@ -376,6 +413,66 @@ export class SupabaseRepository implements MorselRepository {
       throw new RepositoryError('meal write returned no row')
     }
     return toRpcMealRecord(row)
+  }
+
+  /**
+   * Issue #152 — the caller's meal_menus templates with their menu_items,
+   * ordered alphabetically by name. Direct RLS-guarded table reads (the
+   * write RPC never returns templates, and reads must work for agents and
+   * the app alike).
+   */
+  async listMenus(userId: string): Promise<MenuTemplate[]> {
+    const menusResponse = await this.client
+      .from('meal_menus')
+      .select(menuColumns)
+      .eq('user_id', userId)
+      .order('name', { ascending: true })
+    const menus = parseStored(
+      z.array(menuRowSchema),
+      requireData(menusResponse.data, menusResponse.error, 'menu read'),
+      'menus',
+    )
+    if (menus.length === 0) {
+      return []
+    }
+    const menuIds = menus.map((menu) => menu.id)
+    const itemsResponse = await this.client
+      .from('menu_items')
+      .select(menuItemColumns)
+      .in('menu_id', menuIds)
+    const itemRows = parseStored(
+      z.array(menuItemRowSchema),
+      requireData(itemsResponse.data, itemsResponse.error, 'menu item read'),
+      'menu items',
+    )
+    const itemsByMenu = new Map<string, MenuTemplateItem[]>()
+    for (const row of itemRows) {
+      const items = itemsByMenu.get(row.menu_id) ?? []
+      items.push(parseStored(MenuTemplateItemSchema, {
+        item_id: row.id,
+        name: row.name,
+        quantity: row.quantity,
+        unit: row.unit,
+        ...(row.calories_kcal === null ? {} : { calories_kcal: row.calories_kcal }),
+        ...(row.protein_g === null ? {} : { protein_g: row.protein_g }),
+        ...(row.carbs_g === null ? {} : { carbs_g: row.carbs_g }),
+        ...(row.fat_g === null ? {} : { fat_g: row.fat_g }),
+        ...(row.fiber_g === null ? {} : { fiber_g: row.fiber_g }),
+        ...(row.sugar_g === null ? {} : { sugar_g: row.sugar_g }),
+        ...(row.barcode === null ? {} : { barcode: row.barcode }),
+        ...(row.food_ref_id === null ? {} : { food_ref_id: row.food_ref_id }),
+      }, 'menu item'))
+      itemsByMenu.set(row.menu_id, items)
+    }
+    return menus.flatMap((menu) => {
+      const items = itemsByMenu.get(menu.id)
+      if (items === undefined || items.length === 0) {
+        // A template row without items cannot be logged; drop it from the
+        // read like any other malformed row would be refused.
+        return []
+      }
+      return [parseStored(MenuTemplateSchema, { menu_id: menu.id, name: menu.name, items }, 'menu')]
+    })
   }
 
   async attachMealImage(userId: string, mealLogId: string, upload: StoredMealImageUpload): Promise<string | undefined> {

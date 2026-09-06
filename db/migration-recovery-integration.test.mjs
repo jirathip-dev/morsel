@@ -22,6 +22,7 @@ const CANONICAL_FILES = [
   '0006_food_catalog_provider_cache.sql', '0007_weight_logs.sql',
   '0008_energy_burned_logs.sql', '0009_goals_fractional_calories.sql',
   '0010_meal_outbox_client_ids.sql', '0011_profiles_timezone.sql',
+  '0012_named_menus.sql',
 ]
 
 const BOOTSTRAP = `
@@ -214,15 +215,18 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const expected = {
       '0001_init.sql': 'VERIFIED_PRESENT',
       '0002_targets.sql': 'VERIFIED_PRESENT',
-      '0003_atomic_meals_and_users_rls.sql': 'VERIFIED_PRESENT',
+      // Issue #152 (0012) re-bodies both meal RPCs; a DB whose 0003/0010
+      // file applied earlier carries the pre-#152 body and must converge.
+      '0003_atomic_meals_and_users_rls.sql': 'REPAIR_REQUIRED',
       '0004_store_assets.sql': 'REPAIR_REQUIRED',
       '0005_oauth_authorization_grants.sql': 'VERIFIED_PRESENT',
       '0006_food_catalog_provider_cache.sql': 'REPAIR_REQUIRED',
       '0007_weight_logs.sql': 'REPAIR_REQUIRED',
       '0008_energy_burned_logs.sql': 'REPAIR_REQUIRED',
       '0009_goals_fractional_calories.sql': 'REPAIR_REQUIRED',
-      '0010_meal_outbox_client_ids.sql': 'VERIFIED_PRESENT',
+      '0010_meal_outbox_client_ids.sql': 'REPAIR_REQUIRED',
       '0011_profiles_timezone.sql': 'REPAIR_REQUIRED',
+      '0012_named_menus.sql': 'REPAIR_REQUIRED',
     }
     for (const file of CANONICAL_FILES) {
       expect(before.statuses[file].state, file).toBe(expected[file])
@@ -241,7 +245,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       return impl(sql)
     }
     const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
-    expect(applied.applied.length).toBe(6)
+    expect(applied.applied.length).toBe(9)
     // No 0005 replay: no converge transaction touching oauth_authorization_grants DDL.
     const writeTxs = executed.filter((sql) => /^begin;/.test(sql))
     expect(writeTxs.some((sql) => /create table if not exists public\.oauth_authorization_grants/.test(sql))).toBe(false)
@@ -325,11 +329,11 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const name = cluster.createDatabase('rec_empty')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
     const outcome = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
-    expect(outcome.applied.length).toBe(11)
+    expect(outcome.applied.length).toBe(12)
     const tables = db.execIn(name, `select count(*) from information_schema.tables where table_schema = 'public'`).trim()
     const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
-    expect(tables).toBe('11') // 10 canonical tables + migration_ledger
-    expect(ledger).toBe('11')
+    expect(tables).toBe('13') // 12 canonical tables + migration_ledger
+    expect(ledger).toBe('12')
     const verify = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
     for (const file of CANONICAL_FILES) {
       expect(verify.statuses[file].state, file).toBe('VERIFIED_PRESENT')
@@ -387,7 +391,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const retried = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
     expect(retried.applied).toEqual(['0009_goals_fractional_calories.sql']) // only 0009 needed converge
     const finalLedger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
-    expect(finalLedger).toBe('11')
+    expect(finalLedger).toBe('12')
     const finalValue = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
     expect(finalValue).toBe('2200.0') // integer -> numeric(10,1) is lossless (scale rendering only)
   }, 90_000)

@@ -55,7 +55,8 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     title: 'Log a meal',
     description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
     annotations: UNCLAIMED,
-    inputRequired: ['meal_type', 'items'],
+    // Issue #152: items optional only when menu_name names an existing menu.
+    inputRequired: ['meal_type'],
     outputRequired: ['meal_log_id', 'recorded'],
   },
   {
@@ -81,6 +82,13 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     annotations: OPEN_WORLD_SEARCH,
     inputRequired: ['query'],
     outputRequired: ['results'],
+  },
+  {
+    name: 'list_menus',
+    title: 'List named menus',
+    description: 'List the caller\'s reusable named menus (issue #152). A menu is a meal-type-free bundle of items: log it under any meal section by passing its menu_name to log_meal, or seed a new one by logging items with a menu_name the user does not have yet.',
+    annotations: READ_ONLY,
+    outputRequired: ['menus'],
   },
   {
     name: 'get_profile',
@@ -196,7 +204,7 @@ async function connectClient(repository: InMemoryRepository): Promise<Client> {
 }
 
 describe('MCP tool registration metadata (tools/list)', () => {
-  it('registers exactly the 15 contract tools with unchanged names', async () => {
+  it('registers exactly the 16 contract tools with unchanged names', async () => {
     const client = await connectClient(new InMemoryRepository())
     try {
       const listed = await client.listTools()

@@ -14,6 +14,10 @@ struct MealItemDraft: Equatable, Sendable {
     let sugarG: Double?
     let confidence: Double?
     let notes: String?
+    /// Issue #152 — named-menu snapshot stamp (shared group id + name copy
+    /// per logged set). Applied to every item of a 'Log from menu' draft.
+    let menuGroupID: UUID?
+    let menuName: String?
 
     init(
         name: String,
@@ -26,7 +30,9 @@ struct MealItemDraft: Equatable, Sendable {
         fiberG: Double? = nil,
         sugarG: Double? = nil,
         confidence: Double? = nil,
-        notes: String? = nil
+        notes: String? = nil,
+        menuGroupID: UUID? = nil,
+        menuName: String? = nil
     ) {
         self.name = name
         self.quantity = quantity
@@ -39,6 +45,8 @@ struct MealItemDraft: Equatable, Sendable {
         self.sugarG = sugarG
         self.confidence = confidence
         self.notes = notes
+        self.menuGroupID = menuGroupID
+        self.menuName = menuName
     }
 }
 

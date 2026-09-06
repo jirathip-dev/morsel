@@ -111,7 +111,7 @@ export const RECOVERY_QUERIES = Object.freeze({
   indexes:
     `select coalesce(json_agg(json_build_object('table_name', tablename, 'index_name', indexname, 'indexdef', indexdef) order by tablename, indexname), '[]'::json) as result from pg_indexes where schemaname = 'public' and tablename = any(${TABLE_LIST})`,
   routines:
-    `select coalesce(json_agg(json_build_object('routine_name', p.proname, 'identity_arguments', pg_get_function_identity_arguments(p.oid), 'language', l.lanname, 'security_definer', p.prosecdef, 'config', p.proconfig, 'body', p.prosrc) order by p.proname), '[]'::json) as result from pg_proc p join pg_namespace n on n.oid = p.pronamespace join pg_language l on l.oid = p.prolang where n.nspname = 'public' and p.proname = any(array['compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog'])`,
+    `select coalesce(json_agg(json_build_object('routine_name', p.proname, 'identity_arguments', pg_get_function_identity_arguments(p.oid), 'language', l.lanname, 'security_definer', p.prosecdef, 'config', p.proconfig, 'body', p.prosrc) order by p.proname), '[]'::json) as result from pg_proc p join pg_namespace n on n.oid = p.pronamespace join pg_language l on l.oid = p.prolang where n.nspname = 'public' and p.proname = any(array['compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog', 'upsert_menu'])`,
   policies:
     "select coalesce(json_agg(json_build_object('schema', schemaname, 'table_name', tablename, 'policy_name', policyname, 'command', cmd::text, 'roles', roles, 'qual', qual, 'with_check', with_check) order by schemaname, tablename, policyname), '[]'::json) as result from pg_policies where schemaname in ('public', 'storage')",
   rls:
@@ -119,7 +119,7 @@ export const RECOVERY_QUERIES = Object.freeze({
   tableGrants:
     `select coalesce(json_agg(json_build_object('table_name', table_name, 'grantee', grantee, 'privilege_type', privilege_type) order by table_name, grantee, privilege_type), '[]'::json) as result from information_schema.role_table_grants where table_schema = 'public' and table_name in ('oauth_authorization_grants', 'food_catalog') and grantee in ('anon', 'authenticated', 'service_role')`,
   routinePrivileges:
-    `select coalesce(json_agg(json_build_object('routine_name', routine_name, 'grantee', grantee, 'privilege_type', privilege_type) order by routine_name, grantee, privilege_type), '[]'::json) as result from information_schema.routine_privileges where routine_schema = 'public' and routine_name in ('compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog') and grantee in ('anon', 'authenticated', 'service_role', 'PUBLIC')`,
+    `select coalesce(json_agg(json_build_object('routine_name', routine_name, 'grantee', grantee, 'privilege_type', privilege_type) order by routine_name, grantee, privilege_type), '[]'::json) as result from information_schema.routine_privileges where routine_schema = 'public' and routine_name in ('compute_targets', 'log_meal_with_items', 'log_meal_with_items_client', 'claim_oauth_authorization_grant', 'upsert_food_catalog', 'upsert_menu') and grantee in ('anon', 'authenticated', 'service_role', 'PUBLIC')`,
   storageBucketsExists:
     "select coalesce(json_agg(json_build_object('name', to_regclass('storage.buckets')::text)), '[]'::json) as result",
   bucketRow:
@@ -275,6 +275,8 @@ const TABLE_OWNER = {
   profiles: "0002_targets.sql",
   oauth_authorization_grants: "0005_oauth_authorization_grants.sql",
   energy_burned_logs: "0008_energy_burned_logs.sql",
+  meal_menus: "0012_named_menus.sql",
+  menu_items: "0012_named_menus.sql",
 };
 
 const ROUTINE_OWNER = {
@@ -283,6 +285,7 @@ const ROUTINE_OWNER = {
   claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
   upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
   log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
+  upsert_menu: "0012_named_menus.sql",
 };
 
 // ---- verification ----------------------------------------------------------
@@ -579,6 +582,7 @@ function convergeCovers(file, entries, snapshots) {
       if (file === "0002_targets.sql" && table === "goals" && column === "source") return true;
       if (file === "0007_weight_logs.sql" && table === "weight_logs" && (column === "source" || column === "measured_at")) return true;
       if (file === "0011_profiles_timezone.sql" && table === "profiles" && column === "timezone") return true;
+      if (file === "0012_named_menus.sql" && table === "meal_items" && (column === "menu_name" || column === "menu_group_id")) return true;
       return false;
     }
     if (entry.kind === "constraint") return entry.reason === "missing";
@@ -659,7 +663,7 @@ export function formatPlan({ statuses, blockers, ledger, counts, apply, recorded
   lines.push("");
   lines.push(`row counts: weight_logs ${counts.weightLogs ?? "n/a (table absent)"}; energy_burned_logs ${counts.energyBurned ?? "n/a (table absent)"}`);
   lines.push("");
-  lines.push("per-migration classification (0001..0011)");
+  lines.push("per-migration classification (0001..0012)");
   for (const file of CANONICAL_FILES) {
     const status = statuses[file];
     lines.push(`${file}  ${status.state}`);
@@ -758,7 +762,7 @@ export async function inspect({ root, query }) {
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
   if (localSet.size !== CANONICAL_FILES.length || !CANONICAL_FILES.every((f) => localSet.has(f))) {
-    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0011");
+    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0012");
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};
@@ -978,7 +982,7 @@ export async function run({ ref, token, root, apply = false, confirm = null, que
   if (!allVerified || afterBlockers.length > 0 || !countsHeld) {
     throw new StepFailedError("post-apply re-verification failed; no success claim. Inspect the schema before retrying.");
   }
-  log.log(`✓ post-apply re-verification passed: every 0001..0011 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
+  log.log(`✓ post-apply re-verification passed: every 0001..0012 contract verified; weight_logs ${after.counts.weightLogs ?? 0} rows, energy_burned_logs ${after.counts.energyBurned ?? 0} rows (counts preserved)`);
   return {
     mode: "apply",
     applied,
