@@ -11,7 +11,7 @@ function, and no secret on Vercel (no env vars, no vercel.json secrets).
   and privacy pages.
 - `authorize-ui/params.js` — the page's only JavaScript. It copies the closed
   allowlist of OAuth query fields into hidden inputs and points both stage
-  forms at the fixed Fly origin `https://morsel-mcp.fly.dev/mcp/authorize`
+  forms at the fixed Fly origin `https://mcp.morselfood.app/mcp/authorize`
   (issue #74). No fetch/XHR, no CORS, no storage, no analytics.
 - `authorize-ui/vercel.json` — legacy `routes` config used ONLY for static
   rewrites (`/authorize` → `index.html`, `/privacy` → `privacy.html`) plus the
