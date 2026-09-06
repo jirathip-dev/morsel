@@ -17,9 +17,16 @@ function isRecordArray(value: unknown): value is Record<string, unknown>[] {
   return Array.isArray(value) && value.every(isRecord)
 }
 
-function decodeBase64(value: string): string {
+function decodeBase64Bytes(value: string): Uint8Array {
   const binary = atob(value)
-  return new TextDecoder().decode(Uint8Array.from(binary, (character) => character.charCodeAt(0)))
+  return Uint8Array.from(binary, (character) => character.charCodeAt(0))
+}
+
+const PNG_SIGNATURE = Uint8Array.of(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a)
+
+function pngDimensions(bytes: Uint8Array): { width: number; height: number } {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+  return { width: view.getUint32(16), height: view.getUint32(20) }
 }
 
 class TokenTrackingRepository extends InMemoryRepository {
@@ -156,7 +163,7 @@ describe('MCP HTTP server', () => {
     expect(defaultSummary.content).toHaveLength(2)
     expect(defaultSummary.content).toMatchObject([
       { type: 'text' },
-      { type: 'image', mimeType: 'image/svg+xml' },
+      { type: 'image', mimeType: 'image/png' },
     ])
     if (!isRecordArray(defaultSummary.content)) {
       throw new Error('dashboard content was not an array')
@@ -165,7 +172,12 @@ describe('MCP HTTP server', () => {
     if (!isRecord(image) || typeof image.data !== 'string') {
       throw new Error('dashboard image content was malformed')
     }
-    expect(decodeBase64(image.data)).toMatch(/^<svg\b/)
+    const png = decodeBase64Bytes(image.data)
+    expect(png.slice(0, 8)).toEqual(PNG_SIGNATURE)
+    // The dashboard SVG viewBox is 720 wide; the PNG rasterizes at 2x for a
+    // crisp retina chat image. The default 7-day summary shows the trend, so
+    // the SVG is 720x470 and the PNG is 1440x940.
+    expect(pngDimensions(png)).toEqual({ width: 1440, height: 940 })
 
     const result = await client.callTool({
       name: 'log_meal',
@@ -177,6 +189,14 @@ describe('MCP HTTP server', () => {
     })
     expect(result.isError).not.toBe(true)
     expect(result.structuredContent).toMatchObject({ recorded: true })
+
+    const day = await client.callTool({ name: 'get_day', arguments: { date: '2026-08-25' } })
+    expect(day.isError).not.toBe(true)
+    expect(day.content).toHaveLength(2)
+    expect(day.content).toMatchObject([
+      { type: 'text' },
+      { type: 'image', mimeType: 'image/png' },
+    ])
 
     const meals = await repository.getMealsInRange(userId, '2026-08-25T00:00:00.000Z', '2026-08-26T00:00:00.000Z')
     expect(meals).toHaveLength(1)
