@@ -95,6 +95,7 @@
 		F8C40982EC5D76D022B50C47 /* MealRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A280A2BE33C0B5B677035 /* MealRepository.swift */; };
 		FCE7696AF032277A0C19B114 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7654CABD3BEF522F70A4E4B7 /* Supabase */; };
 		FD90C337EFA9504CA7BB357F /* MealReliabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */; };
+		FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */; };
 		FE17E12C974B163DFB73D3E4 /* MealCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1887F4CC3E98C8E906CFF203 /* MealCapture.swift */; };
 /* End PBXBuildFile section */
 
@@ -127,6 +128,7 @@
 		24183754C742E858CBA90765 /* OutboxModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutboxModels.swift; sourceTree = "<group>"; };
 		258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceTimezoneSync.swift; sourceTree = "<group>"; };
 		286A280A2BE33C0B5B677035 /* MealRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealRepository.swift; sourceTree = "<group>"; };
+		2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCopyPill.swift; sourceTree = "<group>"; };
 		300178E9A1C65132F9460803 /* MorselApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselApp.swift; sourceTree = "<group>"; };
 		315E731961ED8D1653921F25 /* MockRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepository.swift; sourceTree = "<group>"; };
 		378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealReliabilityTests.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				8B945E15B916830A85CE5BA3 /* AuthView.swift */,
 				4F9E6261C91086065F01D569 /* DesignSystem.swift */,
 				258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */,
+				2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */,
 				894368A6A65AC2A0C36A007B /* GoalPageContext.swift */,
 				7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */,
 				AAAFD201F11087454DD4DD63 /* GoalsEditorModel.swift */,
@@ -462,6 +465,7 @@
 				474515288390A81C4A1198B2 /* AuthView.swift in Sources */,
 				B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */,
 				70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */,
+				FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */,
 				026DD14633A14EFD8CB2297B /* GoalPageContext.swift in Sources */,
 				775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */,
 				00CF6ED133C784FEE60127E9 /* GoalsEditorModel.swift in Sources */,

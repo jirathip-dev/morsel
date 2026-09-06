@@ -166,7 +166,6 @@ struct OnboardingView: View {
     @State private var state = OnboardingState()
     @State private var platform = OnboardingPlatform.claude
     @State private var didCopy = false
-    @State private var didCopyEndpoint = false
 
     init(
         userID: UUID,
@@ -322,32 +321,18 @@ struct OnboardingView: View {
         }
     }
 
-    /// Issue #141 — endpoint field with a paper 'Copy' pill (copies ONLY the endpoint, then a 1.5 s 'Copied ✓' state).
+    /// Issue #141/#151 — endpoint field: truncated configured value with the
+    /// shared paper 'Copy' pill (copies ONLY the endpoint, then a 1.5 s
+    /// 'Copied ✓' state; the pill logic lives in EndpointCopyPill).
     private func endpointField(_ value: String) -> some View {
         HStack(spacing: 8) {
             Text(value).font(.morselData).foregroundStyle(Color.morselInk)
                 .lineLimit(1).truncationMode(.middle)
             Spacer(minLength: 4)
-            Button {
-                OnboardingContent.copyToPasteboard(value)
-                didCopyEndpoint = true
-            } label: {
-                Text(didCopyEndpoint ? "Copied ✓" : "Copy")
-                    .font(.morselDataMedium).foregroundStyle(Color.morselForest)
-                    .padding(.horizontal, 10).padding(.vertical, 6)
-                    .background(Color.morselSurface, in: RoundedRectangle(cornerRadius: 6))
-                    .overlay { RoundedRectangle(cornerRadius: 6).stroke(Color.morselInkLine, lineWidth: 1) }
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Copy MCP endpoint URL")
+            EndpointCopyPill(value: value)
         }
         .padding(12)
         .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 8))
-        .task(id: didCopyEndpoint) {
-            guard didCopyEndpoint else { return }
-            try? await Task.sleep(for: .seconds(1.5))
-            didCopyEndpoint = false
-        }
     }
 
     private func prompt(for platform: OnboardingPlatform, endpoint: String) -> String {
