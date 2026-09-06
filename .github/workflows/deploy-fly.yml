@@ -5,8 +5,9 @@
 #   on merge to main is deliberately OFF (Guy policy, mirrors Migration CD #83).
 #   To opt in later, add: push: { branches: [main] } under `on:` — the gate job
 #   already makes that safe (only green heads deploy).
-# - The gate job reads the dispatched commit's check runs and fails closed:
-#   any failing/pending required check blocks the deploy.
+# - The gate job allowlists the repo's CI checks and polls up to 10 minutes for
+#   a fresh head's checks to settle; any hard failure refuses immediately, and
+#   a timeout refuses fail-closed.
 # - The deploy job FAILS CLOSED when FLY_API_TOKEN is absent (never a green skip).
 # - Post-deploy guard re-pins the machine count to 1 (the #78 HA-machine trap),
 #   then asserts health on BOTH canonical origins before declaring success.
@@ -32,7 +33,7 @@ permissions:
 jobs:
   gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Assert dispatched head is green (fail closed)
         env:
@@ -42,18 +43,37 @@ jobs:
           SHA="$(gh api "repos/${{ github.repository }}/commits/${{ inputs.ref }}" --jq '.sha')"
           echo "gate: checking $SHA"
           [ -n "$SHA" ]
-          TOTAL="$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name != "[code]smith")] | length')"
-          BAD="$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '[.check_runs[] | select(.name != "[code]smith") | select(.conclusion == "failure" or .conclusion == "timed_out" or .conclusion == "cancelled" or .conclusion == null)] | length')"
-          echo "gate: $TOTAL check-runs (excluding [code]smith), $BAD failing/pending"
-          if [ "$TOTAL" -eq 0 ]; then
-            echo "::error::No check runs found for $SHA — CI has not run. Deploy REFUSED (fail closed)."
-            exit 1
-          fi
-          if [ "$BAD" -ne 0 ]; then
-            gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" --jq '.check_runs[] | select(.conclusion == "failure" or .conclusion == "timed_out" or .conclusion == "cancelled" or .conclusion == null) | "  OFFENDING: \(.name) -> \(.conclusion // "pending")"' || true
-            echo "::error::Head $SHA has failing/pending checks — deploy REFUSED."
-            exit 1
-          fi
+          # Allowlist the repo's CI checks EXPLICITLY. The workflow's own jobs
+          # (gate/deploy) are excluded by design: at query time the gate's own
+          # check-run is always "pending", which would self-refuse forever
+          # (live-probe run 34001634282).
+          # A just-merged head may not have check-runs YET — poll up to 10
+          # minutes before refusing (live-probe run 34001962708); still fail
+          # closed on timeout, hard failure, or a check that never appears.
+          DEADLINE=$(( $(date +%s) + 600 ))
+          while :; do
+            PENDING=0
+            for name in quality swiftlint bun-fly-entrypoint fastfile-contract; do
+              C="$(gh api "repos/${{ github.repository }}/commits/$SHA/check-runs" \
+                --jq "[.check_runs[] | select(.name == \"$name\") | .conclusion] | last // \"absent\"")"
+              echo "gate: $name -> $C"
+              case "$C" in
+                success|skipped|neutral) ;;
+                absent|null|""|PENDING|pending|IN_PROGRESS|in_progress|QUEUED|queued)
+                  PENDING=$((PENDING+1)) ;;
+                *)
+                  echo "::error::Check '$name' on $SHA is '$C'. Deploy REFUSED."
+                  exit 1 ;;
+              esac
+            done
+            [ "$PENDING" -eq 0 ] && break
+            if [ "$(date +%s)" -ge "$DEADLINE" ]; then
+              echo "::error::CI checks not green within 10m on $SHA — deploy REFUSED (fail closed)."
+              exit 1
+            fi
+            echo "gate: checks not settled ($PENDING pending) — polling again in 30s"
+            sleep 30
+          done
           echo "gate: PASS — head is green"
 
   deploy:
