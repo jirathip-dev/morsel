@@ -96,7 +96,7 @@ jobs:
             exit 1
           fi
 
-      - uses: superfly/flyctl-actions/setup-flyctl@fc53d1e3219a4644f262cb3e2a1b0e6e0a9a5e7e
+      - uses: superfly/flyctl-actions/setup-flyctl@dfdfedc86b296f5e5384f755a18bf400409a15d0 # v1.4
 
       - name: Deploy morsel-mcp
         env:
