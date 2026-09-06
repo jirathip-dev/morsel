@@ -31,14 +31,16 @@ import {
   UpdateMealItemOutputSchema,
 } from '../packages/schema/food-types.ts'
 import { MorselError } from './errors.ts'
+import { rasterizeDashboardSvg } from './render-png.ts'
 import type { MorselService } from './service.ts'
 
 type ToolContent =
   | { type: 'text'; text: string }
+  | { type: 'image'; data: string; mimeType: 'image/png' }
   | { type: 'image'; data: string; mimeType: 'image/svg+xml' }
 
-function encodeBase64(value: string): string {
-  const bytes = new TextEncoder().encode(value)
+function encodeBase64(value: string | Uint8Array): string {
+  const bytes = typeof value === 'string' ? new TextEncoder().encode(value) : value
   let binary = ''
   for (const byte of bytes) {
     binary += String.fromCharCode(byte)
@@ -46,20 +48,32 @@ function encodeBase64(value: string): string {
   return btoa(binary)
 }
 
-function success(output: Record<string, unknown>): {
+async function success(output: Record<string, unknown>): Promise<{
   structuredContent: Record<string, unknown>
   content: ToolContent[]
-} {
+}> {
   const render = RenderPayloadSchema.safeParse(output.render)
-  return {
-    structuredContent: output,
-    content: render.success
-      ? [
-          { type: 'text', text: render.data.markdown },
-          { type: 'image', data: encodeBase64(render.data.svg), mimeType: 'image/svg+xml' },
-        ]
-      : [{ type: 'text', text: JSON.stringify(output) }],
+  if (!render.success) {
+    return { structuredContent: output, content: [{ type: 'text', text: JSON.stringify(output) }] }
   }
+  const content: ToolContent[] = [{ type: 'text', text: render.data.markdown }]
+  try {
+    // The dashboard visual as image/png, which every chat client renders
+    // (image/svg+xml is silently dropped by most); render.svg stays in
+    // structuredContent for vector-preferring clients.
+    const png = await rasterizeDashboardSvg(render.data.svg)
+    content.push({ type: 'image', data: encodeBase64(png), mimeType: 'image/png' })
+  } catch (error) {
+    // Rasterizer unavailable (the Supabase Edge Function cannot load the
+    // resvg-js N-API addon): keep the SVG image block so the tool still
+    // returns a visual.
+    console.error(
+      'render-png unavailable, falling back to svg image content:',
+      error instanceof Error ? error.message : 'unknown error',
+    )
+    content.push({ type: 'image', data: encodeBase64(render.data.svg), mimeType: 'image/svg+xml' })
+  }
+  return { structuredContent: output, content }
 }
 
 function failure(error: unknown): {
@@ -77,9 +91,9 @@ function failure(error: unknown): {
 
 async function runTool<T extends Record<string, unknown>>(
   action: () => Promise<T>,
-): Promise<ReturnType<typeof success> | ReturnType<typeof failure>> {
+): Promise<Awaited<ReturnType<typeof success>> | ReturnType<typeof failure>> {
   try {
-    return success(await action())
+    return await success(await action())
   } catch (error) {
     return failure(error)
   }

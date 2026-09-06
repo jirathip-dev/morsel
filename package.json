@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.112.4",
     "hono": "^4.13.4",
     "zod": "^4.4.3"
