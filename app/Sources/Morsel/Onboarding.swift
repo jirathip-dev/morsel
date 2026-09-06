@@ -59,9 +59,8 @@ enum OnboardingStep: Int, CaseIterable, Sendable {
 enum OnboardingContent {
     // Client-neutral setup guidance (issues #57/#75): paste the canonical MCP
     // URL into the client's own custom MCP/connector field, complete OAuth
-    // when prompted, verify with get_profile. This neutral prompt is the
-    // shared setup prompt for ChatGPT and Others; Claude gets one unified
-    // prompt below (app-or-web connector flow plus an optional CLI line).
+    // when prompted, verify with get_profile; the shared prompt for ChatGPT
+    // and Others (Claude gets the unified prompt below).
     static let chatPrompt = """
 I use Morsel to track my food. Set yourself up as my food logger.
 1. In your MCP/connector settings, add a custom connector with this URL: {{MCP_URL}}
@@ -76,10 +75,8 @@ I use Morsel to track my food. Set yourself up as my food logger.
     static let signedInMarker = "Signed in ✓"
 
     // Unified Claude guidance (issue #75): one Claude story across the app,
-    // the web client, and command-line users — no per-product duplicate tabs.
-    // The optional claude mcp add line lives inside this prompt so its
-    // endpoint goes through the same {{MCP_URL}} substitution as every other
-    // URL occurrence.
+    // web client, and command-line users — the optional CLI line rides the
+    // same {{MCP_URL}} substitution as every other URL occurrence.
     static let claudePrompt = """
 Set up Morsel food tracking in Claude.
 1. Open Claude (app or web) → Customize → Connectors → add custom connector.
@@ -92,6 +89,12 @@ CLI users (optional): claude mcp add --transport http morsel {{MCP_URL}}
     static func prompt(_ template: String, endpoint: String) -> String {
         template.replacingOccurrences(of: "{{MCP_URL}}", with: endpoint)
             .trimmingCharacters(in: .newlines)
+    }
+
+    /// Issue #141 — endpoint copy: the trimmed configured value only (never
+    /// the prompt), with no trailing whitespace/newline.
+    static func copyToPasteboard(_ value: String) {
+        UIPasteboard.general.string = value
     }
 
     static func instructions(for platform: String) -> String {
@@ -124,9 +127,8 @@ struct OnboardingEndpoint: Equatable, Sendable {
 enum OnboardingPlatform: String, CaseIterable {
     // Issue #75: exactly three client choices — one unified Claude flow
     // (app or web, optional CLI line), ChatGPT via its Apps connector flow,
-    // and a neutral Others path for any MCP-capable client. Every tab renders
-    // the single configured endpoint through {{MCP_URL}}; there are no
-    // per-product duplicate tabs and no separate neutral tab.
+    // and a neutral Others path; no duplicate tabs and no separate neutral
+    // tab (every endpoint occurrence renders via {{MCP_URL}}).
     case claude = "Claude"
     case chatGPT = "ChatGPT"
     case others = "Others"
@@ -164,6 +166,7 @@ struct OnboardingView: View {
     @State private var state = OnboardingState()
     @State private var platform = OnboardingPlatform.claude
     @State private var didCopy = false
+    @State private var didCopyEndpoint = false
 
     init(
         userID: UUID,
@@ -274,23 +277,18 @@ struct OnboardingView: View {
                 .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
-    private var connectContent: some View {
+    @ViewBuilder private var connectContent: some View {
+        let endpointValue = OnboardingEndpoint(configuredValue: endpoint)?.value
         VStack(alignment: .leading, spacing: 16) {
             Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
             Text("Paste this endpoint into any MCP client's custom connector field, then verify with get_profile.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("MCP ENDPOINT").morselSectionLabel()
-            if let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) {
-                Text(configuredEndpoint.value)
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInk)
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 8))
+            if let endpointValue {
+                endpointField(endpointValue)
             } else {
                 Text("MCP endpoint not configured. Contact the app administrator.")
-                    .font(.morselBody)
-                    .foregroundStyle(Color.morselOver)
+                    .font(.morselBody).foregroundStyle(Color.morselOver)
             }
 
             Picker("Platform", selection: $platform) {
@@ -299,31 +297,56 @@ struct OnboardingView: View {
             .pickerStyle(.segmented)
 
             Text(OnboardingContent.instructions(for: platform.rawValue))
-                .font(.morselBody)
-                .foregroundStyle(Color.morselInkTwo)
+                .font(.morselBody).foregroundStyle(Color.morselInkTwo)
 
-            if let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) {
-                Text(prompt(for: platform, endpoint: configuredEndpoint.value))
+            if let endpointValue {
+                Text(prompt(for: platform, endpoint: endpointValue))
                     .font(.morselData)
                     .foregroundStyle(Color.morselInk)
                     .padding(16)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(LinearGradient.morselCard, in: RoundedRectangle(cornerRadius: 12))
                     .overlay { RoundedRectangle(cornerRadius: 12).stroke(Color.morselLine) }
-                    }
 
-                    Button(didCopy ? "Copied ✓" : "Copy setup prompt") {
-                    guard let configuredEndpoint = OnboardingEndpoint(configuredValue: endpoint) else { return }
-                    UIPasteboard.general.string = prompt(for: platform, endpoint: configuredEndpoint.value)
+                Button(didCopy ? "Copied ✓" : "Copy setup prompt") {
+                    OnboardingContent.copyToPasteboard(prompt(for: platform, endpoint: endpointValue))
                     didCopy = true
-                    }
-                    .buttonStyle(MorselPrimaryButtonStyle())
-                    .frame(maxWidth: .infinity)
-                    .disabled(OnboardingEndpoint(configuredValue: endpoint) == nil)
+                }
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .frame(maxWidth: .infinity)
+            }
 
             Button("Continue to first log") { _ = state.proceedToCoach() }
                 .buttonStyle(MorselGhostButtonStyle())
                 .frame(maxWidth: .infinity)
+        }
+    }
+
+    /// Issue #141 — endpoint field with a paper 'Copy' pill (copies ONLY the endpoint, then a 1.5 s 'Copied ✓' state).
+    private func endpointField(_ value: String) -> some View {
+        HStack(spacing: 8) {
+            Text(value).font(.morselData).foregroundStyle(Color.morselInk)
+                .lineLimit(1).truncationMode(.middle)
+            Spacer(minLength: 4)
+            Button {
+                OnboardingContent.copyToPasteboard(value)
+                didCopyEndpoint = true
+            } label: {
+                Text(didCopyEndpoint ? "Copied ✓" : "Copy")
+                    .font(.morselDataMedium).foregroundStyle(Color.morselForest)
+                    .padding(.horizontal, 10).padding(.vertical, 6)
+                    .background(Color.morselSurface, in: RoundedRectangle(cornerRadius: 6))
+                    .overlay { RoundedRectangle(cornerRadius: 6).stroke(Color.morselInkLine, lineWidth: 1) }
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Copy MCP endpoint URL")
+        }
+        .padding(12)
+        .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 8))
+        .task(id: didCopyEndpoint) {
+            guard didCopyEndpoint else { return }
+            try? await Task.sleep(for: .seconds(1.5))
+            didCopyEndpoint = false
         }
     }
 
@@ -338,56 +361,40 @@ struct OnboardingView: View {
 
     private var coachContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(OnboardingContent.signedInMarker)
-                .font(.morselBodyStrong)
-                .foregroundStyle(Color.morselAccent)
-            Text("TRY THIS WITH YOUR AGENT")
-                .morselSectionLabel()
-            Text("send a photo of your next meal")
-                .font(.morselTitle)
-                .foregroundStyle(Color.morselInk)
-                .padding(16)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(OnboardingContent.signedInMarker).font(.morselBodyStrong).foregroundStyle(Color.morselAccent)
+            Text("TRY THIS WITH YOUR AGENT").morselSectionLabel()
+            Text("send a photo of your next meal").font(.morselTitle).foregroundStyle(Color.morselInk)
+                .padding(16).frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 12))
             VStack(alignment: .leading, spacing: 10) {
                 Text("one photo = one entry")
                 Text("estimates carry confidence — 0.90 honest beats 1.00 invented")
                 Text("typed fallback: describe the meal if a photo is not possible")
             }
-            .font(.morselBody)
-            .foregroundStyle(Color.morselInkTwo)
+            .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Button("Continue") { _ = state.proceedToConfirm() }
-                .buttonStyle(MorselPrimaryButtonStyle())
-                .frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
 
     private var confirmContent: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("When your connector is ready, confirm here to finish setup.")
-                .font(.morselBody)
-                .foregroundStyle(Color.morselInkTwo)
+                .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("you").font(.morselData).foregroundStyle(Color.morselInkThree)
-            Button("I'm connected") {
-                _ = state.confirmConnection()
-            }
-            .buttonStyle(MorselPrimaryButtonStyle())
-            .frame(maxWidth: .infinity)
+            Button("I'm connected") { _ = state.confirmConnection() }
+                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
 
     private var doneContent: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
-            Text("Agent connected ✓")
-                .font(.morselTitle)
-                .foregroundStyle(Color.morselAccent)
+            Text("Agent connected ✓").font(.morselTitle).foregroundStyle(Color.morselAccent)
             Text("Your next meal is ready to log.")
-                .font(.morselBody)
-                .foregroundStyle(Color.morselInkTwo)
+                .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Button("Open today's log") { onFinished() }
-                .buttonStyle(MorselPrimaryButtonStyle())
-                .frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
         }
     }
 }
