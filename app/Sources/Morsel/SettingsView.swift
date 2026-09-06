@@ -120,12 +120,30 @@ struct SettingsJournalView: View {
     private var mcpSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("MCP endpoint").morselSectionLabel()
-            Text(mcpEndpoint.isEmpty ? "MCP endpoint is not configured." : mcpEndpoint)
-                .font(.morselData)
-                .foregroundStyle(Color.morselInk)
+            if mcpEndpoint.isEmpty {
+                Text("MCP endpoint is not configured.")
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselInk)
+                    .padding(10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 6))
+            } else {
+                // Issue #151 — the same paper copy pill as onboarding (#141):
+                // EndpointCopyPill owns the pasteboard write and the 1.5 s
+                // 'Copied ✓' state; no pill is offered when unconfigured.
+                HStack(spacing: 8) {
+                    Text(mcpEndpoint)
+                        .font(.morselData)
+                        .foregroundStyle(Color.morselInk)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Spacer(minLength: 4)
+                    EndpointCopyPill(value: mcpEndpoint)
+                }
                 .padding(10)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 6))
+            }
             ProvenanceLabel(text: "your agent writes here · verify with get_profile")
         }
     }
