@@ -685,6 +685,10 @@ export class SupabaseRepository implements MorselRepository {
         // Absent timezone keeps the stored value (omitted keys are not part
         // of the upsert); NULL is never written here.
         ...(profile.timezone === undefined ? {} : { timezone: profile.timezone }),
+        // Same explicit write timestamp as set_goals: a profile save must
+        // advance profiles.updated_at on UPDATE too, or an older manual goal
+        // would keep winning after the profile changed (issue #154 parity).
+        updated_at: new Date().toISOString(),
       })
       .select('sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,timezone')
       .single()
@@ -713,6 +717,11 @@ export class SupabaseRepository implements MorselRepository {
         carbs_g: goals.carbs_g ?? null,
         fat_g: goals.fat_g ?? null,
         source: goals.source,
+        // Supabase `default now()` applies ONLY on INSERT: an upsert UPDATE
+        // would otherwise leave updated_at at the row's original value and a
+        // manual write would never win the goals-vs-profile recency rule
+        // (issue #154). Stamp the write time explicitly on every save.
+        updated_at: new Date().toISOString(),
       })
       .select('calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at')
       .single()

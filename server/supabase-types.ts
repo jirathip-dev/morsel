@@ -213,6 +213,7 @@ export interface Database {
           diet_goal: string
           goal_weight_kg?: number | null
           timezone?: string | null
+          updated_at?: string
         }
         Update: {
           user_id?: string
@@ -224,6 +225,7 @@ export interface Database {
           diet_goal?: string
           goal_weight_kg?: number | null
           timezone?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
@@ -235,6 +237,7 @@ export interface Database {
           carbs_g: number | null
           fat_g: number | null
           source: string
+          updated_at: string
         }
         Insert: {
           user_id: string
@@ -243,6 +246,7 @@ export interface Database {
           carbs_g?: number | null
           fat_g?: number | null
           source?: string
+          updated_at?: string
         }
         Update: {
           user_id?: string
@@ -251,6 +255,7 @@ export interface Database {
           carbs_g?: number | null
           fat_g?: number | null
           source?: string
+          updated_at?: string
         }
         Relationships: []
       }
