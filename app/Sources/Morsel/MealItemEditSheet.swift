@@ -57,6 +57,17 @@ struct MealItemEditSheet: View {
                         .padding(.bottom, 10)
                 }
 
+                // Issue #135 — the meal photo is part of the correction
+                // sheet: an item opened from a photo meal shows the photo it
+                // is being corrected against (fresh signed URL only; expired
+                // URLs render nothing until the journal read re-mints).
+                if let mealImage = item.mealImage,
+                   let signedURL = mealImage.signedURL,
+                   !mealImage.isExpired() {
+                    MealPhotoSection(url: signedURL)
+                        .padding(.bottom, 16)
+                }
+
                 SectionHeading(title: "Food")
                     .padding(.bottom, 10)
                 JournalPaperField(
@@ -218,5 +229,59 @@ struct MealItemEditSheet: View {
             return ""
         }
         return String(value)
+    }
+}
+
+/// The photo of the meal being corrected (issue #135). Loaded through the
+/// read model's short-lived signed URL; any fetch failure (expired URL,
+/// offline) settles on the calm photo placeholder — never an error wall.
+private struct MealPhotoSection: View {
+    let url: URL
+    @State private var image: UIImage?
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 12) {
+            Group {
+                if let image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    ZStack {
+                        Image(systemName: "photo")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundStyle(Color.morselInkThree)
+                        ProgressView()
+                            .tint(Color.morselAccent)
+                    }
+                }
+            }
+            .frame(width: 72, height: 72)
+            .background(Color.morselSurfaceTwo)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .accessibilityLabel("Meal photo")
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text("Meal photo")
+                    .font(.morselBodyStrong)
+                    .foregroundStyle(Color.morselInk)
+                Text("The photo this meal was logged with")
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselInkTwo)
+            }
+            Spacer(minLength: 0)
+        }
+        .task(id: url) {
+            await load()
+        }
+    }
+
+    private func load() async {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            image = data.isEmpty ? nil : UIImage(data: data)
+        } catch {
+            image = nil
+        }
     }
 }

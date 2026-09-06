@@ -23,7 +23,7 @@ extension SupabaseDashboardRepository {
                         eatenAt: MorselDate.iso8601(draft.eatenAt),
                         mealType: draft.mealType.rawValue,
                         source: photo == nil ? MealSource.manual.rawValue : MealSource.photoVision.rawValue,
-                        imagePath: uploadedImage?.bucketPath,
+                        imagePath: uploadedImage?.objectPath,
                         notes: draft.notes,
                         items: draft.items.map(LogMealItemParameters.init)
                     )
@@ -87,7 +87,9 @@ extension SupabaseDashboardRepository: RemoteMealWriting {
     /// Idempotent photo upload: the object path is derived from the meal's
     /// client identity, so a retried delivery uploads the SAME object (never
     /// an orphaned duplicate) and can safely upsert over a half-committed
-    /// previous attempt.
+    /// previous attempt. Returns the CANONICAL object path
+    /// (`{user_id}/{meal_id}.jpg`, the #133 image_path form the server and
+    /// the read model expect) — never a bucket-qualified path.
     func uploadMealPhoto(userID: UUID, mealID: UUID, photo: QueuedMealPhoto) async throws -> String {
         guard let client else {
             throw MorselError.configurationMissing
@@ -104,7 +106,7 @@ extension SupabaseDashboardRepository: RemoteMealWriting {
         guard response.fullPath == bucketPath else {
             throw MorselError.invalidData("Supabase returned an unexpected meal photo path.")
         }
-        return bucketPath
+        return objectPath
     }
 
     /// Authenticated, idempotent meal commit: the client-generated meal id is

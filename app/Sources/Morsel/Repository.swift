@@ -43,6 +43,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
 
         let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
         let items = try await loadMealItems(client, logs: logs)
+        let imagesByMealID = await mintMealImages(logs: logs, client: client, userID: authenticatedUserID)
         let goalRows = try await loadGoals(client, userID: authenticatedUserID)
         let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
         let weightRows = try await loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
@@ -63,7 +64,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
             itemsByMealID[item.mealLogID, default: []].append(try parseItem(item, source: source))
         }
         let meals = try logs.map { log in
-            try parseMeal(log, items: itemsByMealID[log.id] ?? [])
+            try parseMeal(log, items: itemsByMealID[log.id] ?? [], image: imagesByMealID[log.id])
         }
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
@@ -157,23 +158,6 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .eq("user_id", value: userID.uuidString)
             .gte("burned_at", value: MorselDate.iso8601(start))
             .lt("burned_at", value: MorselDate.iso8601(end)).execute().value
-    }
-
-    private func parseMeal(_ response: MealLogResponse, items: [MealItem]) throws -> MealRecord {
-        guard let mealLogID = UUID(uuidString: response.id),
-              let mealType = MealType(rawValue: response.mealType),
-              let source = MealSource(rawValue: response.source),
-              let eatenAt = MorselDate.date(response.eatenAt) else {
-            throw MorselError.invalidData("Supabase returned an invalid meal log.")
-        }
-        return MealRecord(
-            mealLogID: mealLogID,
-            mealType: mealType,
-            eatenAt: eatenAt,
-            source: source,
-            imagePath: response.imagePath,
-            items: items
-        )
     }
 
     func parseItem(_ response: MealItemResponse, source: MealSource) throws -> MealItem {

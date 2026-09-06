@@ -140,8 +140,10 @@ final class LocalSyncEngine {
             } catch let error as MealDeliveryError {
                 if case let .permanent(category) = error {
                     // Preserve recoverable data; visible `needs attention`.
+                    // EVERY permanent refusal (auth/validation/photo/server)
+                    // leaves the green-pending purgatory (issue #135).
                     try? store.recordMealAttempt(
-                        mealID: row.mealID, error: category, now: now()
+                        mealID: row.mealID, error: category, permanent: true, now: now()
                     )
                 } else {
                     try? store.recordMealAttempt(
@@ -162,11 +164,31 @@ final class LocalSyncEngine {
 
     private func deliverOne(_ row: QueuedMeal, remote: RemoteMealWriting) async throws {
         var imagePath = row.imagePath
+        // Normalize a legacy bucket-qualified path (app builds before #135)
+        // to the canonical object path the server contract stores.
+        if let stored = imagePath,
+           let canonical = try? FoodImageStore.validate(bucketPath: stored, for: userID),
+           canonical != stored {
+            imagePath = canonical
+            try? store.updateMealImagePath(mealID: row.mealID, path: canonical)
+        }
         if row.photo != nil, imagePath == nil {
             guard let photo = row.photo else { return }
-            let path = try await remote.uploadMealPhoto(
-                userID: userID, mealID: row.mealID, photo: photo
-            )
+            let path: String
+            do {
+                path = try await remote.uploadMealPhoto(
+                    userID: userID, mealID: row.mealID, photo: photo
+                )
+            } catch let error as MealDeliveryError {
+                throw error
+            } catch {
+                // Issue #135 — an upload refusal must be classified like an
+                // RPC refusal: auth/photo/validation denials are permanent
+                // and surface as needs-attention; only real transport
+                // failures stay retryable. The old catch-all silently kept
+                // photo meals green-pending forever.
+                throw classifyRemoteMealError(error)
+            }
             try store.updateMealImagePath(mealID: row.mealID, path: path)
             imagePath = path
         }

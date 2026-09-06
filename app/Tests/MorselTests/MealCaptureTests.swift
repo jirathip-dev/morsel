@@ -121,7 +121,11 @@ final class MealCaptureTests: XCTestCase {
         let meal = try XCTUnwrap(viewModel.snapshot?.meals.first)
 
         XCTAssertEqual(meal.imagePath, repository.uploadedImagePaths.first)
-        XCTAssertTrue(meal.imagePath?.hasPrefix("food-images/\(viewModel.userID.uuidString)/") == true)
+        XCTAssertTrue(meal.imagePath?.hasPrefix("\(viewModel.userID.uuidString)/") == true)
+        XCTAssertFalse(
+            meal.imagePath?.hasPrefix("food-images/") == true,
+            "image paths are canonical object paths, never bucket-qualified"
+        )
         XCTAssertEqual(meal.items.count, 1)
         XCTAssertEqual(viewModel.snapshot?.meals.count, 1)
     }

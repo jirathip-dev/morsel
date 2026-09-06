@@ -174,7 +174,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     }
 
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? {
-        try store.queuedMeal(mealID: localMealID)?.mealRecord
+        try store.queuedMeal(mealID: localMealID).map { journalRecord(for: $0, userID: userID) }
     }
 
     /// Deleting a never-synced queued meal cancels the outbox row locally
@@ -204,10 +204,6 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         try await remote.confirmMealItem(userID: userID, itemID: itemID)
     }
 
-    func loadMealImage(userID: UUID, path: String) async throws -> Data {
-        try await remote.loadMealImage(userID: userID, path: path)
-    }
-
     // MARK: - Pending merge
 
     /// Serves the journal snapshot with durable queued rows merged in. Rows
@@ -220,7 +216,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         let queued = try store.queuedMeals()
         for row in queued where calendar.startOfDay(for: row.eatenAt) == dayStart {
             guard !remoteIDs.contains(row.mealID) else { continue }
-            meals.append(row.mealRecord)
+            meals.append(journalRecord(for: row, userID: userID))
             remoteIDs.insert(row.mealID)
         }
         meals.sort { $0.eatenAt < $1.eatenAt }
@@ -325,5 +321,52 @@ extension LocalFirstDashboardRepository {
             return nil
         }
         return try Self.decode(StoredDashboardGoal.self, payload)
+    }
+}
+
+// Issue #135 — queued photo meals render immediately: the deterministic
+// object path is known before upload, so the journal record carries it and
+// the thumbnail pipeline serves the durable LOCAL photo bytes until the
+// remote object exists (online or offline).
+extension LocalFirstDashboardRepository {
+    /// The journal-visible record for a queued row. A queued photo meal's
+    /// deterministic object path is known before upload, so the row carries
+    /// it immediately (the thumbnail pipeline then serves the LOCAL photo
+    /// bytes until the remote object exists — issue #135).
+    private func journalRecord(for row: QueuedMeal, userID: UUID) -> MealRecord {
+        guard row.imagePath == nil, row.photo != nil else {
+            return row.mealRecord
+        }
+        let objectPath = FoodImageStore.objectPath(userID: userID, imageID: row.mealID)
+        return MealRecord(
+            mealLogID: row.mealID,
+            mealType: row.mealType,
+            eatenAt: row.eatenAt,
+            source: row.source,
+            imagePath: objectPath,
+            image: MealImage(path: objectPath),
+            items: row.items.compactMap { $0.item(source: row.source) },
+            syncState: row.syncState
+        )
+    }
+
+    func loadMealImage(userID: UUID, path: String) async throws -> Data {
+        if let queuedPhoto = try queuedPhotoData(userID: userID, path: path) {
+            return queuedPhoto
+        }
+        return try await remote.loadMealImage(userID: userID, path: path)
+    }
+
+    private func queuedPhotoData(userID: UUID, path: String) throws -> Data? {
+        guard let objectPath = try? FoodImageStore.validate(bucketPath: path, for: userID) else {
+            return nil
+        }
+        for row in try store.queuedMeals() {
+            guard let photo = row.photo else { continue }
+            if FoodImageStore.objectPath(userID: userID, imageID: row.mealID) == objectPath {
+                return photo.data
+            }
+        }
+        return nil
     }
 }
