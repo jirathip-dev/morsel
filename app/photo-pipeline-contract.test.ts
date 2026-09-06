@@ -16,8 +16,9 @@ import { fileURLToPath } from 'node:url'
 //    with per-read minting + expiry checks (MealRecordSchema.image).
 // 4. Upload refusals are classified like RPC refusals: permanent denials
 //    surface needs-attention instead of a silent green-pending retry loop.
-// 5. Queued photo rows serve their local bytes at the deterministic path;
-//    the Edit-item sheet renders the meal photo via the signed URL.
+// 5. Queued photo rows serve their local bytes at the deterministic path.
+// The Edit-item sheet photo surface moved to the repository-backed
+// MealPhotoEditorSection (issue #153 — see photo-edit-contract.test.ts).
 // Mutation contract: reverting the canonical write, the tolerant read, the
 // image hydration, or the needs-attention mapping must FAIL here.
 
@@ -32,7 +33,6 @@ const readModel = read('app/Sources/Morsel/SupabaseMealReadModel.swift')
 const syncEngine = read('app/Sources/Morsel/LocalSyncEngine.swift')
 const dataStore = read('app/Sources/Morsel/LocalDataStore.swift')
 const localFirst = read('app/Sources/Morsel/LocalFirstRepository.swift')
-const editSheet = read('app/Sources/Morsel/MealItemEditSheet.swift')
 
 describe('issue #135 defect 1: canonical #133 image path written, legacy paths still read', () => {
   it('models the #133 image read contract on the native read model', () => {
@@ -66,10 +66,9 @@ describe('issue #135 defect 2: reconciled rows carry signed_url with expiry refr
     expect(readModel).toContain('items.map { $0.withMealImage(image) }')
   })
 
-  it('renders the meal photo inside the Edit-item sheet from a fresh signed URL only', () => {
-    expect(editSheet).toContain('MealPhotoSection')
-    expect(editSheet).toContain('!mealImage.isExpired()')
-    expect(editSheet).toContain('URLSession.shared.data(from: url)')
+  it('hydrates queued journal items with the meal photo context for Edit', () => {
+    expect(localFirst).toContain('.map { $0.withMealImage(image) }')
+    expect(localFirst).toContain('row.photo == nil ? nil : FoodImageStore.objectPath(userID: userID, imageID: row.mealID)')
   })
 })
 

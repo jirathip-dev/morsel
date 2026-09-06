@@ -4,10 +4,14 @@ import UIKit
 // Issue #105 — Edit Item stays a modal (issue AC3 permits it) but now reads
 // as the journal contract: paper ground, spine furniture, ruled paper fields
 // (AC5), and the shared focus/keyboard rules (AC6) instead of stock Form
-// cells.
+// cells. Issue #153 adds the meal-photo surface (view + attach/replace).
 
 struct MealItemEditSheet: View {
     @Environment(\.dismiss) private var dismiss
+    /// Issue #153 — the photo surface loads through the same repository the
+    /// shell journal uses and attaches through the outbox/image pipeline;
+    /// the shell injects the shared view model into the environment.
+    @EnvironmentObject private var viewModel: DashboardViewModel
     let item: MealItem
     let onSave: (MealItemUpdate) async -> Bool
 
@@ -26,6 +30,9 @@ struct MealItemEditSheet: View {
     @State private var fat: String
     @State private var isSaving = false
     @State private var message: String?
+    /// Issue #153 — photo picked for attach/replace; saved with the item.
+    @State private var pendingPhoto: FoodImageUpload?
+    @State private var isProcessingPhoto = false
 
     init(item: MealItem, onSave: @escaping (MealItemUpdate) async -> Bool) {
         self.item = item
@@ -46,7 +53,7 @@ struct MealItemEditSheet: View {
                     leadingTitle: "Cancel",
                     leadingAction: cancel,
                     trailingTitle: isSaving ? "Saving…" : "Save",
-                    trailingDisabled: isSaving,
+                    trailingDisabled: isSaving || isProcessingPhoto,
                     trailingAction: save
                 )
 
@@ -57,16 +64,23 @@ struct MealItemEditSheet: View {
                         .padding(.bottom, 10)
                 }
 
-                // Issue #135 — the meal photo is part of the correction
-                // sheet: an item opened from a photo meal shows the photo it
-                // is being corrected against (fresh signed URL only; expired
-                // URLs render nothing until the journal read re-mints).
-                if let mealImage = item.mealImage,
-                   let signedURL = mealImage.signedURL,
-                   !mealImage.isExpired() {
-                    MealPhotoSection(url: signedURL)
-                        .padding(.bottom, 16)
-                }
+                // Issue #153 — the meal photo is part of the correction
+                // sheet: it shows the photo the item's meal was logged with
+                // (fresh re-mint through the thumbnail pipeline — an expired
+                // read-model URL never hides a stored photo, #133) and lets
+                // the user attach/replace it before Save. Queued rows render
+                // their durable local bytes until the upload lands.
+                SectionHeading(title: "Photo")
+                    .padding(.bottom, 10)
+                MealPhotoEditorSection(
+                    item: item,
+                    repository: viewModel.repository,
+                    userID: viewModel.userID,
+                    pendingPhoto: $pendingPhoto,
+                    isDisabled: isSaving,
+                    isProcessingPhoto: $isProcessingPhoto
+                )
+                .padding(.bottom, 16)
 
                 SectionHeading(title: "Food")
                     .padding(.bottom, 10)
@@ -180,6 +194,17 @@ struct MealItemEditSheet: View {
         message = nil
         Task { @MainActor in
             do {
+                // Issue #153 — a picked photo attaches through the SAME
+                // outbox/image pipeline as Add Meal before the item update;
+                // a refusal keeps the sheet open with the honest message.
+                if let pendingPhoto {
+                    let didAttach = await viewModel.attachPhoto(pendingPhoto, toItem: item.itemID)
+                    guard didAttach else {
+                        message = viewModel.errorMessage ?? "The photo could not be attached."
+                        isSaving = false
+                        return
+                    }
+                }
                 let update = try makeUpdate()
                 if await onSave(update) {
                     dismiss()
@@ -229,59 +254,5 @@ struct MealItemEditSheet: View {
             return ""
         }
         return String(value)
-    }
-}
-
-/// The photo of the meal being corrected (issue #135). Loaded through the
-/// read model's short-lived signed URL; any fetch failure (expired URL,
-/// offline) settles on the calm photo placeholder — never an error wall.
-private struct MealPhotoSection: View {
-    let url: URL
-    @State private var image: UIImage?
-
-    var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            Group {
-                if let image {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    ZStack {
-                        Image(systemName: "photo")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundStyle(Color.morselInkThree)
-                        ProgressView()
-                            .tint(Color.morselAccent)
-                    }
-                }
-            }
-            .frame(width: 72, height: 72)
-            .background(Color.morselSurfaceTwo)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .accessibilityLabel("Meal photo")
-
-            VStack(alignment: .leading, spacing: 3) {
-                Text("Meal photo")
-                    .font(.morselBodyStrong)
-                    .foregroundStyle(Color.morselInk)
-                Text("The photo this meal was logged with")
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-            }
-            Spacer(minLength: 0)
-        }
-        .task(id: url) {
-            await load()
-        }
-    }
-
-    private func load() async {
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            image = data.isEmpty ? nil : UIImage(data: data)
-        } catch {
-            image = nil
-        }
     }
 }

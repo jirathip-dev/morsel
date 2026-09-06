@@ -262,6 +262,51 @@ final class MockDashboardRepository: DashboardRepository {
 // production pipeline now writes and reads; legacy bucket-qualified inputs
 // are normalized so old tests/rows keep working.
 extension MockDashboardRepository {
+    /// Issue #153 — attach/replace the photo of the meal that owns `itemID`:
+    /// uploads at the meal's canonical object path and re-hydrates the
+    /// snapshot rows so thumbnails appear everywhere the meal renders.
+    func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws {
+        _ = userID
+        var found = false
+        var targetMealID: UUID?
+        let meals = currentSnapshot.meals.map { meal in
+            guard meal.items.contains(where: { $0.itemID == itemID }) else {
+                return meal
+            }
+            found = true
+            targetMealID = meal.mealLogID
+            return meal
+        }
+        guard found, let targetMealID else {
+            throw MorselError.invalidData("The meal item could not be updated.")
+        }
+        let objectPath = try await uploadImage(
+            userID: userID,
+            path: FoodImageStore.objectPath(userID: userID, imageID: targetMealID),
+            upload: photo
+        )
+        let image = MealImage(path: objectPath)
+        currentSnapshot = DashboardSnapshot(
+            date: currentSnapshot.date,
+            meals: meals.map { meal in
+                guard meal.mealLogID == targetMealID else {
+                    return meal
+                }
+                return MealRecord(
+                    mealLogID: meal.mealLogID,
+                    mealType: meal.mealType,
+                    eatenAt: meal.eatenAt,
+                    source: meal.source,
+                    imagePath: objectPath,
+                    image: image,
+                    items: meal.items.map { $0.withMealImage(image) },
+                    syncState: meal.syncState
+                )
+            },
+            goal: currentSnapshot.goal
+        )
+    }
+
     func loadMealImage(userID: UUID, path: String) async throws -> Data {
         let objectPath = try FoodImageStore.validate(bucketPath: path, for: userID)
         guard let data = imageData[objectPath] else {

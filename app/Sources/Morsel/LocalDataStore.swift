@@ -195,6 +195,20 @@ final class LocalDataStore {
         .text(mealID.uuidString))
     }
 
+    /// Issue #153 — attach/replace the durable photo of a queued meal row.
+    /// The new payload supersedes the old failure state: the stale uploaded
+    /// path is cleared (fresh bytes upload at the deterministic object), and
+    /// a needs-attention row returns to honest pending sync (fresh user
+    /// intent, never a silent retry loop).
+    func replaceQueuedMealPhoto(mealID: UUID, photo: QueuedMealPhoto, now: Date = Date()) throws {
+        try run("""
+        UPDATE meal_outbox SET photo_data = ?, photo_mime = ?, image_path = NULL,
+               state = 'pending', last_error = NULL, last_error_category = NULL, updated_at = ?
+        WHERE local_meal_id = ?
+        """, .blob(photo.data), .text(photo.mimeType), .double(now.timeIntervalSince1970),
+        .text(mealID.uuidString))
+    }
+
     func clearAccountData() throws {
         try run("DELETE FROM meal_outbox")
         try run("DELETE FROM meta")

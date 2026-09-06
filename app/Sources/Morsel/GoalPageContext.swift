@@ -53,6 +53,13 @@ extension DashboardRepository {
     /// the local-first facade overrides with the real snapshot cache.
     func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
 
+    /// Issue #153 — photo attach is a local-first/authenticated capability;
+    /// plain doubles that never exercise it refuse loudly instead of
+    /// reporting a silent success.
+    func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws {
+        throw MorselError.invalidData("Photo attach is not supported by this repository.")
+    }
+
     /// Default Goals-page context: the stored row only — no profile or
     /// weight read (test doubles). Supabase and local-first repositories
     /// override with the full recency + profile read.
