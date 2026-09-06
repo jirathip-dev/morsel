@@ -305,10 +305,7 @@ struct DayDrillDown: View {
             if let snapshot = viewModel.daySnapshot {
                 dayContent(snapshot)
             } else if viewModel.isExpandedLoading {
-                HStack(spacing: 8) {
-                    ProgressView().tint(Color.morselAccent)
-                    Text("Opening the day…").font(.morselBody).foregroundStyle(Color.morselInkTwo)
-                }
+                DayDrillDownSkeleton()
             } else if let expandedError = viewModel.expandedError {
                 Text(expandedError)
                     .font(.morselBody)

@@ -23,7 +23,7 @@
 (function () {
   'use strict'
 
-  var AUTHORIZE_URL = 'https://morsel-mcp.fly.dev/mcp/authorize'
+  var AUTHORIZE_URL = 'https://mcp.morselfood.app/mcp/authorize'
 
   // Closed allowlist of OAuth fields the server actually supports. Query
   // fields outside this list, fragment data, and credentials (email, code,

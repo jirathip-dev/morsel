@@ -30,10 +30,10 @@ repo-committed" split live in `infra/vercel/README.md`.
 
 1. Consent POST target: `curl -s https://morsel-authorize-ui.vercel.app/authorize`
    returns the consent HTML; the page's form action must be
-   `https://morsel-mcp.fly.dev/mcp/authorize` (the Fly OAuth backend). The
+   `https://mcp.morselfood.app/mcp/authorize` (the Fly OAuth backend). The
    committed contract is pinned by `authorize-ui/authorization.test.js`
    (`npm test`) and by a source grep for the action URL; a live check is
-   `curl -s https://morsel-authorize-ui.vercel.app/authorize | grep -o 'https://morsel-mcp.fly.dev/mcp/authorize'`.
+   `curl -s https://morsel-authorize-ui.vercel.app/authorize | grep -o 'https://mcp.morselfood.app/mcp/authorize'`.
 2. Privacy page reachable: `curl -s -o /dev/null -w '%{http_code}' \
    https://morsel-authorize-ui.vercel.app/privacy` -> `200`.
 3. OAuth end-to-end (human, live): the metadata `authorization_endpoint`

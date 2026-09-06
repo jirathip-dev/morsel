@@ -10,7 +10,7 @@ authorize route is no longer the destination for this page's form posts.
 
 > **Issue #74 note (consent destination cutover):** the page's hardcoded form
 > action (`params.js` `AUTHORIZE_URL`) now targets the deployed Fly origin
-> `https://morsel-mcp.fly.dev/mcp/authorize` (the #72
+> `https://mcp.morselfood.app/mcp/authorize` (the #72
 > `server/fly-entrypoint.ts` single-process backend, `docs/FLY_DEPLOY.md`).
 > OAuth semantics on the new origin are identical to the old Edge route; the
 > Vercel page auto-deploys from `main` on merge.
@@ -48,7 +48,7 @@ clients' browsers at this Vercel page again:
    `code_challenge_method`, `scope`, `resource`, `state`, and — on the code
    stage — `transaction`) into hidden inputs and points both stage forms at
    the fixed Fly
-   `https://morsel-mcp.fly.dev/mcp/authorize`
+   `https://mcp.morselfood.app/mcp/authorize`
    URL. It never copies `email`, `code`, `password`, duplicate values beyond
    the deterministic last-wins rule, unrecognized fields, or fragment data,
    and it performs no fetch/XHR, storage, analytics, logging, dynamic

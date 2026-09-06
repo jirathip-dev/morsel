@@ -2,10 +2,9 @@ import Combine
 import Foundation
 import SwiftUI
 
-// Issue #94 — History: the V1 ledger tab. 7/30-day bars against the daily
-// goal (soft ±50 kcal tolerance), summary strip, day drill-down accordion,
-// and the real-dated weight trend. Every delta is eaten minus goal; the only
-// over mark is the hatched overshoot.
+// Issue #94 — History: the V1 ledger tab (bars vs goal, day drill-down,
+// weight trend); issue #136 — ledger reads supersede by generation and
+// loading is a paper skeleton, never a text spinner.
 
 @MainActor
 final class HistoryViewModel: ObservableObject {
@@ -30,6 +29,10 @@ final class HistoryViewModel: ObservableObject {
     @Published private(set) var daySnapshot: DashboardSnapshot?
     @Published private(set) var isExpandedLoading = false
     @Published private(set) var expandedError: String?
+
+    /// Issue #136 — in-flight read generations (see `load()`/`select()`).
+    private var loadGeneration = 0
+    private var daySelectionGeneration = 0
 
     /// History list shows newest first (the "Days vs goal" list) while the
     /// bars render ascending (ledger order) — see `chartDays`.
@@ -98,37 +101,64 @@ final class HistoryViewModel: ObservableObject {
     }
 
     func load() async {
-        guard !isLoading else { return }
+        // Issue #136 — reads are superseded, never gated: rapid tab switches
+        // re-fire `.task(id:)`, and a cancelled read that never surfaces
+        // CancellationError used to leave isLoading stuck while the old guard
+        // refused newer loads — the permanent ledger freeze. Only the newest
+        // read may publish or clear the loading flag.
+        loadGeneration &+= 1
+        let generation = loadGeneration
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        defer {
+            if loadGeneration == generation {
+                isLoading = false
+            }
+        }
         do {
-            overview = try await repository.loadHistory(userID: userID, end: today, days: range.rawValue)
+            let loaded = try await repository.loadHistory(
+                userID: userID, end: today, days: range.rawValue
+            )
+            guard loadGeneration == generation else { return }
+            overview = loaded
         } catch is CancellationError {
             return
         } catch {
+            guard loadGeneration == generation else { return }
             errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
 
     func select(_ day: HistoryDay) async {
         if expandedDay == day.date {
+            // Collapse supersedes any in-flight read for the day card.
+            daySelectionGeneration &+= 1
             expandedDay = nil
             daySnapshot = nil
             expandedError = nil
+            isExpandedLoading = false
             return
         }
         expandedDay = day.date
         daySnapshot = nil
         expandedError = nil
-        guard day.logged else { return }
+        daySelectionGeneration &+= 1
+        let generation = daySelectionGeneration
+        guard day.logged else { isExpandedLoading = false; return }
         isExpandedLoading = true
-        defer { isExpandedLoading = false }
+        defer {
+            if daySelectionGeneration == generation {
+                isExpandedLoading = false
+            }
+        }
         do {
-            daySnapshot = try await repository.loadToday(userID: userID, date: day.date)
+            let loaded = try await repository.loadToday(userID: userID, date: day.date)
+            guard daySelectionGeneration == generation else { return }
+            daySnapshot = loaded
         } catch is CancellationError {
             return
         } catch {
+            guard daySelectionGeneration == generation else { return }
             expandedError = DashboardUserMessage.userMessage(for: error)
         }
     }
@@ -136,8 +166,7 @@ final class HistoryViewModel: ObservableObject {
 
 struct HistoryView: View {
     @StateObject private var viewModel: HistoryViewModel
-    /// Issue #105: page-turn revisit bump — the persistent pager keeps pages
-    /// mounted, so returning to History reloads when this key changes.
+    /// Issue #105: page-turn revisit bump — returning to History reloads.
     private let reloadKey: Int
 
     init(repository: any DashboardRepository, userID: UUID, reloadKey: Int = 0) {
@@ -156,10 +185,7 @@ struct HistoryView: View {
                     Task { await viewModel.load() }
                 }
             } else if viewModel.isLoading && viewModel.overview == nil {
-                HStack(spacing: 10) {
-                    ProgressView().tint(Color.morselAccent)
-                    Text("Reading the ledger…").font(.morselBody).foregroundStyle(Color.morselInkTwo)
-                }
+                HistoryLedgerSkeleton()
             } else {
                 historyContent
             }
@@ -327,5 +353,47 @@ struct HistoryErrorNotice: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.morselInkLine.opacity(0.5), lineWidth: 1)
         }
+    }
+}
+
+// MARK: - Issue #136 paper loading skeletons (ledger + day card)
+
+/// Ledger loading skeleton: range pills + bar rows (issue #136, no spinner).
+struct HistoryLedgerSkeleton: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(spacing: 24) {
+                PaperSkeletonBlock(width: 54, height: 16, radius: 4)
+                PaperSkeletonBlock(width: 66, height: 16, radius: 4)
+                Spacer(minLength: 0)
+            }
+            ForEach(0..<5, id: \.self) { _ in
+                HStack(spacing: 10) {
+                    PaperSkeletonBlock(width: 42, height: 9)
+                    PaperSkeletonFill(height: 13)
+                    PaperSkeletonBlock(width: 84, height: 9)
+                }
+            }
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Loading the ledger")
+    }
+}
+
+/// Day-card drill-down loading skeleton (paper blocks, no spinner).
+struct DayDrillDownSkeleton: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                PaperSkeletonBlock(width: 148, height: 20, radius: 4)
+                Spacer(minLength: 4)
+                PaperSkeletonBlock(width: 44, height: 44, radius: 7)
+            }
+            PaperSkeletonFill(height: 9)
+            PaperSkeletonFill(height: 9)
+            PaperSkeletonFill(height: 9)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Loading the day")
     }
 }
