@@ -499,11 +499,21 @@ describe("classification and conflict logic", () => {
     expect(ok.state).toBe("VERIFIED_PRESENT");
   });
 
-  // Issue #163: the LIVE pre-0012 shape (owner routines still carry their
-  // pre-0012 bodies, 0012 not applied, ledger recorded through 0011) must
-  // classify GREEN under the restored owner-consistent canonical bodies and
-  // RED under the #152-style canonical rewrite (menu-aware bodies).
-  it("live pre-0012 shape: GREEN after the owned-routine body restore, RED when the canonical body is rewritten (issue #163)", () => {
+  // Issue #167: after 0012 is applied + recorded, the canonical meal-routine
+  // bodies are the 0012 menu-aware text and routine ownership lives with 0012
+  // (ROUTINE_OWNER + CANONICAL_ROUTINES re-pointed away from 0003/0010).
+  // TWO-STATE CONTRACT:
+  //   (a) PRE-0012 live shape (old bodies, no 0012, ledger through 0011):
+  //       0003/0010 VERIFIED_PRESENT (their tables etc. verify; the meal
+  //       routines are not checked under them anymore) and 0012
+  //       REPAIR_REQUIRED (menu tables missing; bodies not the canonical
+  //       text yet).
+  //   (b) POST-0012 live shape (0012 applied, menu tables present, ledger
+  //       recorded through 0012): ALL VERIFIED_PRESENT, 0 blocked/repair —
+  //       the classifier is stable, never ambiguous after a successful
+  //       apply. RED-FIRST TARGET: on the current (pre-#167) canonical this
+  //       state classifies 0003/0010 BLOCKED_AMBIGUOUS.
+  it("two-state meal-routine contract after the #167 canonical re-point to 0012", () => {
     const migrationsRoot = join(fileURLToPath(new URL("..", import.meta.url)), "db", "migrations");
     const functionText = (file, fn) => {
       const text = readFileSync(join(migrationsRoot, file), "utf8");
@@ -512,30 +522,46 @@ describe("classification and conflict logic", () => {
       return text.slice(start, text.indexOf("$function$;", start) + "$function$;".length);
     };
     const dollarBody = (text) => /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;?/m.exec(text)?.[1];
-    // Bodies the LIVE DB carries today: what migrations 0003/0010 installed.
+    // Bodies migrations 0003/0010 install (the live PRE-0012 world).
     const oldMealBody = dollarBody(functionText("0003_atomic_meals_and_users_rls.sql", "log_meal_with_items"));
     const oldClientBody = dollarBody(functionText("0010_meal_outbox_client_ids.sql", "log_meal_with_items_client"));
     expect(oldMealBody).not.toContain("v_menu_name");
     expect(oldClientBody).not.toContain("v_menu_name");
+    // Bodies 0012's own file installs (the live POST-0012 world).
+    const menuMealBody = dollarBody(functionText("0012_named_menus.sql", "log_meal_with_items"));
+    const menuClientBody = dollarBody(functionText("0012_named_menus.sql", "log_meal_with_items_client"));
+    const menuUpsertBody = dollarBody(functionText("0012_named_menus.sql", "upsert_menu"));
+    expect(menuMealBody).toContain("v_menu_name");
+    expect(menuClientBody).toContain("v_menu_name");
 
-    const snapshots = snapshotOf();
-    snapshots.tables = new Set([
-      "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
-      "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs",
-    ]);
-    snapshots.columnsByTable.set("users", new Map());
-    for (const table of ["meal_logs", "meal_items", "water_logs", "weight_logs", "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs", "goals"]) {
-      snapshots.columnsByTable.set(table, new Map());
-    }
-    for (const table of ["users", "meal_logs", "meal_items", "water_logs", "weight_logs", "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs", "goals"]) {
-      snapshots.rls.set(table, { rls_enabled: true });
-    }
-    snapshots.policies = [
-      { schema: "public", table_name: "users", policy_name: "users_select_own", command: "SELECT", roles: ["public"], qual: "(select auth.uid()) = id", with_check: null },
-      { schema: "public", table_name: "users", policy_name: "users_insert_own", command: "INSERT", roles: ["public"], qual: null, with_check: "(select auth.uid()) = id" },
-      { schema: "public", table_name: "users", policy_name: "users_update_own", command: "UPDATE", roles: ["public"], qual: "(select auth.uid()) = id", with_check: "(select auth.uid()) = id" },
-    ];
-    snapshots.routines = [
+    const baseSnapshots = () => {
+      const snapshots = snapshotOf();
+      snapshots.tables = new Set([
+        "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
+        "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs",
+      ]);
+      snapshots.columnsByTable.set("users", new Map());
+      for (const table of ["meal_logs", "meal_items", "water_logs", "weight_logs", "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs", "goals"]) {
+        snapshots.columnsByTable.set(table, new Map());
+      }
+      for (const table of ["users", "meal_logs", "meal_items", "water_logs", "weight_logs", "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs", "goals"]) {
+        snapshots.rls.set(table, { rls_enabled: true });
+      }
+      snapshots.policies = [
+        { schema: "public", table_name: "users", policy_name: "users_select_own", command: "SELECT", roles: ["public"], qual: "(select auth.uid()) = id", with_check: null },
+        { schema: "public", table_name: "users", policy_name: "users_insert_own", command: "INSERT", roles: ["public"], qual: null, with_check: "(select auth.uid()) = id" },
+        { schema: "public", table_name: "users", policy_name: "users_update_own", command: "UPDATE", roles: ["public"], qual: "(select auth.uid()) = id", with_check: "(select auth.uid()) = id" },
+      ];
+      snapshots.routinePrivileges = [
+        { routine_name: "log_meal_with_items", grantee: "authenticated", privilege_type: "EXECUTE" },
+        { routine_name: "log_meal_with_items_client", grantee: "authenticated", privilege_type: "EXECUTE" },
+      ];
+      return snapshots;
+    };
+
+    // --- state (a): PRE-0012 live shape (old bodies) ------------------------
+    const preSnapshots = baseSnapshots();
+    preSnapshots.routines = [
       {
         routine_name: "log_meal_with_items",
         identity_arguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb",
@@ -547,37 +573,112 @@ describe("classification and conflict logic", () => {
         language: "plpgsql", security_definer: false, config: ["search_path=public"], body: oldClientBody,
       },
     ];
-    snapshots.routinePrivileges = [
-      { routine_name: "log_meal_with_items", grantee: "authenticated", privilege_type: "EXECUTE" },
-      { routine_name: "log_meal_with_items_client", grantee: "authenticated", privilege_type: "EXECUTE" },
+    const preRecorded = new Set(CANONICAL_NAMES.slice(0, 11)); // 0001..0011 recorded on LIVE
+    const preMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", preSnapshots, preRecorded, false);
+    expect(preMeal.state, "pre-0012 0003").toBe("VERIFIED_PRESENT");
+    const preClient = classifyMigration("0010_meal_outbox_client_ids.sql", preSnapshots, preRecorded, false);
+    expect(preClient.state, "pre-0012 0010").toBe("VERIFIED_PRESENT");
+    const pre0012 = classifyMigration("0012_named_menus.sql", preSnapshots, preRecorded, false);
+    expect(pre0012.state, "pre-0012 0012").toBe("REPAIR_REQUIRED");
+
+    // --- state (b): POST-0012 live shape (0012 applied, menu-aware bodies) --
+    const postSnapshots = baseSnapshots();
+    postSnapshots.tables = new Set([...postSnapshots.tables, "meal_menus", "menu_items"]);
+    const menuCol = (name, dataType, nullable, defaultValue) => ({ data_type: dataType, is_nullable: nullable ? "YES" : "NO", column_default: defaultValue ?? "" });
+    const mealMenusCols = new Map([
+      ["id", menuCol("id", "uuid", false, "gen_random_uuid()")],
+      ["user_id", menuCol("user_id", "uuid", false)],
+      ["name", menuCol("name", "text", false)],
+      ["created_at", menuCol("created_at", "timestamp with time zone", false, "now()")],
+      ["updated_at", menuCol("updated_at", "timestamp with time zone", false, "now()")],
+    ]);
+    const menuItemsCols = new Map([
+      ["id", menuCol("id", "uuid", false, "gen_random_uuid()")],
+      ["menu_id", menuCol("menu_id", "uuid", false)],
+      ["name", menuCol("name", "text", false)],
+      ["quantity", menuCol("quantity", "numeric", false, "1")],
+      ["unit", menuCol("unit", "text", false, "'serving'::text")],
+      ["calories_kcal", menuCol("calories_kcal", "numeric", true)],
+      ["protein_g", menuCol("protein_g", "numeric", true)],
+      ["carbs_g", menuCol("carbs_g", "numeric", true)],
+      ["fat_g", menuCol("fat_g", "numeric", true)],
+      ["fiber_g", menuCol("fiber_g", "numeric", true)],
+      ["sugar_g", menuCol("sugar_g", "numeric", true)],
+      ["barcode", menuCol("barcode", "text", true)],
+      ["food_ref_id", menuCol("food_ref_id", "uuid", true)],
+      ["created_at", menuCol("created_at", "timestamp with time zone", false, "now()")],
+    ]);
+    postSnapshots.columnsByTable.set("meal_menus", mealMenusCols);
+    postSnapshots.columnsByTable.set("menu_items", menuItemsCols);
+    // meal_items snapshot menu columns (0012's owned additions).
+    postSnapshots.columnsByTable.get("meal_items").set("menu_group_id", menuCol("menu_group_id", "uuid", true));
+    postSnapshots.columnsByTable.get("meal_items").set("menu_name", menuCol("menu_name", "text", true));
+    postSnapshots.constraintsByTable.set("meal_menus", [
+      { conname: "meal_menus_pkey", contype: "p", columns: ["id"], ref_table: null, confdeltype: null },
+      { conname: "meal_menus_user_id_name_key", contype: "u", columns: ["user_id", "name"], ref_table: null, confdeltype: null },
+      { conname: "meal_menus_user_id_fkey", contype: "f", columns: ["user_id"], ref_table: "users", confdeltype: "c" },
+      { conname: "meal_menus_name_check", contype: "c", columns: ["name"], definition: "CHECK ((length(btrim(name)) > 0))", ref_table: null, confdeltype: null },
+    ]);
+    postSnapshots.constraintsByTable.set("menu_items", [
+      { conname: "menu_items_pkey", contype: "p", columns: ["id"], ref_table: null, confdeltype: null },
+      { conname: "menu_items_menu_id_fkey", contype: "f", columns: ["menu_id"], ref_table: "meal_menus", confdeltype: "c" },
+      { conname: "menu_items_unit_check", contype: "c", columns: ["unit"], definition: "CHECK ((unit = ANY (ARRAY['g'::text, 'ml'::text, 'serving'::text, 'piece'::text, 'cup'::text])))", ref_table: null, confdeltype: null },
+    ]);
+    postSnapshots.indexes = [
+      { table_name: "menu_items", index_name: "menu_items_menu_idx", indexdef: "CREATE INDEX menu_items_menu_idx ON public.menu_items USING btree (menu_id)" },
     ];
-    const recorded = new Set(CANONICAL_NAMES.slice(0, 11)); // 0001..0011 recorded on LIVE
+    postSnapshots.rls.set("meal_menus", { rls_enabled: true });
+    postSnapshots.rls.set("menu_items", { rls_enabled: true });
+    postSnapshots.policies = [
+      ...postSnapshots.policies,
+      { schema: "public", table_name: "meal_menus", policy_name: "meal_menus_select_own", command: "SELECT", roles: ["public"], qual: "(select auth.uid()) = user_id", with_check: null },
+      { schema: "public", table_name: "meal_menus", policy_name: "meal_menus_insert_own", command: "INSERT", roles: ["public"], qual: null, with_check: "(select auth.uid()) = user_id" },
+      { schema: "public", table_name: "meal_menus", policy_name: "meal_menus_update_own", command: "UPDATE", roles: ["public"], qual: "(select auth.uid()) = user_id", with_check: "(select auth.uid()) = user_id" },
+      { schema: "public", table_name: "meal_menus", policy_name: "meal_menus_delete_own", command: "DELETE", roles: ["public"], qual: "(select auth.uid()) = user_id", with_check: null },
+      { schema: "public", table_name: "menu_items", policy_name: "menu_items_select_own", command: "SELECT", roles: ["public"], qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)", with_check: null },
+      { schema: "public", table_name: "menu_items", policy_name: "menu_items_insert_own", command: "INSERT", roles: ["public"], qual: null, with_check: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+      { schema: "public", table_name: "menu_items", policy_name: "menu_items_update_own", command: "UPDATE", roles: ["public"], qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)", with_check: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)" },
+      { schema: "public", table_name: "menu_items", policy_name: "menu_items_delete_own", command: "DELETE", roles: ["public"], qual: "(select auth.uid()) = (select meal_menus.user_id from meal_menus where meal_menus.id = menu_items.menu_id)", with_check: null },
+    ];
+    const mealIdentity = "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb";
+    const clientIdentity = "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb, p_client_meal_id uuid";
+    postSnapshots.routines = [
+      { routine_name: "log_meal_with_items", identity_arguments: mealIdentity, language: "plpgsql", security_definer: false, config: ["search_path=public"], body: menuMealBody },
+      { routine_name: "log_meal_with_items_client", identity_arguments: clientIdentity, language: "plpgsql", security_definer: false, config: ["search_path=public"], body: menuClientBody },
+      { routine_name: "upsert_menu", identity_arguments: "p_user_id uuid, p_menu_id uuid, p_name text, p_items jsonb", language: "plpgsql", security_definer: false, config: ["search_path=public"], body: menuUpsertBody },
+    ];
+    postSnapshots.routinePrivileges = [
+      ...postSnapshots.routinePrivileges,
+      { routine_name: "upsert_menu", grantee: "authenticated", privilege_type: "EXECUTE" },
+    ];
+    const postRecorded = new Set(CANONICAL_NAMES); // 0001..0012 recorded after apply
 
-    // GREEN: restored owner-consistent canonical bodies.
-    const greenMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", snapshots, recorded, false);
-    expect(greenMeal.state, "0003 after restore").toBe("VERIFIED_PRESENT");
-    const greenClient = classifyMigration("0010_meal_outbox_client_ids.sql", snapshots, recorded, false);
-    expect(greenClient.state, "0010 after restore").toBe("VERIFIED_PRESENT");
-    const green0012 = classifyMigration("0012_named_menus.sql", snapshots, recorded, false);
-    expect(green0012.state, "0012 after restore").toBe("REPAIR_REQUIRED");
+    // GREEN (post-#167): every owner file verifies; nothing is ambiguous.
+    const postMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", postSnapshots, postRecorded, false);
+    expect(postMeal.state, "post-0012 0003").toBe("VERIFIED_PRESENT");
+    const postClient = classifyMigration("0010_meal_outbox_client_ids.sql", postSnapshots, postRecorded, false);
+    expect(postClient.state, "post-0012 0010").toBe("VERIFIED_PRESENT");
+    const post0012 = classifyMigration("0012_named_menus.sql", postSnapshots, postRecorded, false);
+    expect(post0012.state, "post-0012 0012").toBe("VERIFIED_PRESENT");
+    expect(post0012.entries.filter((e) => !e.ok), "0012 has zero failing entries").toHaveLength(0);
 
-    // RED: #152-style rewrite of the canonical OWNED bodies (menu-aware).
-    const savedMeal = FUNCTION_DEFINITIONS.log_meal_with_items;
-    const savedClient = FUNCTION_DEFINITIONS.log_meal_with_items_client;
-    try {
-      FUNCTION_DEFINITIONS.log_meal_with_items = functionText("0012_named_menus.sql", "log_meal_with_items");
-      FUNCTION_DEFINITIONS.log_meal_with_items_client = functionText("0012_named_menus.sql", "log_meal_with_items_client");
-      const redMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", snapshots, recorded, false);
-      expect(redMeal.state, "0003 under #152-style canonical rewrite").toBe("BLOCKED_AMBIGUOUS");
-      const redClient = classifyMigration("0010_meal_outbox_client_ids.sql", snapshots, recorded, false);
-      expect(redClient.state, "0010 under #152-style canonical rewrite").toBe("BLOCKED_AMBIGUOUS");
-      const stillRepair = classifyMigration("0012_named_menus.sql", snapshots, recorded, false);
-      expect(stillRepair.state, "0012 stays REPAIR_REQUIRED").toBe("REPAIR_REQUIRED");
-    } finally {
-      FUNCTION_DEFINITIONS.log_meal_with_items = savedMeal;
-      FUNCTION_DEFINITIONS.log_meal_with_items_client = savedClient;
+    // RED-FIRST guard: on the current (pre-#167) canonical text the post-0012
+    // live bodies mismatch under the OLD owners 0003/0010 -> BLOCKED_AMBIGUOUS.
+    const currentCanonicalMeal = bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items);
+    const currentCanonicalClient = bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items_client);
+    const pre167CanonicalIsOldBody = currentCanonicalMeal !== menuMealBody && currentCanonicalClient !== menuClientBody;
+    if (pre167CanonicalIsOldBody) {
+      const redMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", postSnapshots, postRecorded, false);
+      expect(redMeal.state, "RED-FIRST: pre-#167 canonical leaves 0003 BLOCKED on the post-0012 world").toBe("BLOCKED_AMBIGUOUS");
+      const redClient = classifyMigration("0010_meal_outbox_client_ids.sql", postSnapshots, postRecorded, false);
+      expect(redClient.state, "RED-FIRST: pre-#167 canonical leaves 0010 BLOCKED on the post-0012 world").toBe("BLOCKED_AMBIGUOUS");
     }
   });
+
+  function bodyOfText(fnText) {
+    const match = /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;?\s*$/.exec(fnText);
+    return match ? match[1] : null;
+  }
 });
 
 describe("contract pins and expression normalization", () => {
@@ -677,12 +778,11 @@ describe("contract pins and expression normalization", () => {
   it("FUNCTION_DEFINITIONS bodies are byte-identical to the migration files", () => {
     const expected = {
       compute_targets: "0002_targets.sql",
-      // Issue #163: the canonical bodies for these two OWNED routines are the
-      // bodies their creating migrations (0003/0010) install — 0012 rewrites
-      // them at apply time via its own statements, so the byte-pin stays with
-      // the creating file until the rewrite migration is recorded.
-      log_meal_with_items: "0003_atomic_meals_and_users_rls.sql",
-      log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
+      // Issue #167: canonical meal-routine bodies are the menu-aware text
+      // that 0012_named_menus.sql installs (routine ownership re-pointed to
+      // 0012), so the byte-pin follows the canonical body file.
+      log_meal_with_items: "0012_named_menus.sql",
+      log_meal_with_items_client: "0012_named_menus.sql",
       claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
       upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
       upsert_menu: "0012_named_menus.sql",

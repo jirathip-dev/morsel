@@ -25,14 +25,15 @@ const CANONICAL_FILES = [
   '0012_named_menus.sql',
 ]
 
-// Issue #163: the canonical bodies of log_meal_with_items /
-// log_meal_with_items_client are restored to the pre-#152 (owner-consistent)
-// bodies their owner files 0003/0010 define. A DB whose 0012 file has ALREADY
-// applied re-bodies those routines (CREATE OR REPLACE with v_menu_name), so
-// it is drifted under the restored canonical. Race scenarios that need the
-// runner to reach a LATER ledger-record transaction therefore build the
-// pre-0012 file world (0012's file NOT applied): owners verify, and the
-// ledger-only race can still fire at its target record.
+// Issue #167: the canonical bodies of log_meal_with_items /
+// log_meal_with_items_client are the menu-aware bodies their 0012 file
+// installs, and routine ownership (ROUTINE_OWNER + CANONICAL_ROUTINES) lives
+// with 0012_named_menus.sql. A DB whose 0012 file has ALREADY applied
+// therefore verifies end-to-end; pre-0012 DBs classify 0012 REPAIR_REQUIRED
+// (its converge installs the canonical bodies) while 0003/0010 own no
+// routine contract. Race scenarios that need the runner to reach a LATER
+// ledger-record transaction build the pre-0012 file world (0012's file NOT
+// applied) so 0012 itself stays out of the race window.
 const PRE_0012_FILES = CANONICAL_FILES.filter((f) => f !== '0012_named_menus.sql')
 
 const BOOTSTRAP = `
@@ -197,7 +198,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     if (cluster !== undefined) cluster.stop()
   }, 30_000)
 
-  it('classifies a fully file-applied schema under the #163 owner-consistent canonical: 0003/0010 REPAIR_REQUIRED (0012 file re-bodies the meal routines), the rest VERIFIED_PRESENT', async () => {
+  it('classifies a fully file-applied schema under the #167 canonical: every migration VERIFIED_PRESENT (0012 owns the meal routine bodies; 0003/0010 carry no routine contract)', async () => {
     const name = cluster.createDatabase('rec_canonical')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
     applyFiles(db, CANONICAL_FILES)
@@ -205,19 +206,16 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(outcome.mode).toBe('plan')
     expect(outcome.planBlocked).toBe(false)
     for (const file of CANONICAL_FILES) {
-      // Issue #163: 0012's own file rewrites the meal routines to the
-      // menu-aware bodies, but the restored canonical pins those routines to
-      // the owner files 0003/0010 (pre-#152 bodies). A fully file-applied DB
-      // therefore carries drifted owners -> REPAIR_REQUIRED (unrecorded here,
-      // converge-able), while 0012's own contract (upsert_menu etc.) verifies.
-      const expectedState = file === '0003_atomic_meals_and_users_rls.sql' || file === '0010_meal_outbox_client_ids.sql'
-        ? 'REPAIR_REQUIRED'
-        : 'VERIFIED_PRESENT'
-      expect(outcome.statuses[file].state, file).toBe(expectedState)
+      // Issue #167: FUNCTION_DEFINITIONS pin the meal RPCs to the 0012
+      // (menu-aware) bodies and ownership lives with 0012, so a DB whose
+      // 0012 file HAS applied verifies end-to-end: 0003/0010 own no routine
+      // contract and 0012's own contract (tables + upsert_menu + the two
+      // re-bodied routines) matches what its file installs.
+      expect(outcome.statuses[file].state, file).toBe('VERIFIED_PRESENT')
     }
   }, 60_000)
 
-  it('prod-like partial schema under the #163 owner-consistent canonical: precise plan (0003/0010 VERIFIED_PRESENT, 0012 REPAIR_REQUIRED), row-preserving repair of the missing migrations, converged end state verified', async () => {
+  it('prod-like partial schema under the #167 canonical: precise plan (0003/0010 VERIFIED_PRESENT, 0012 REPAIR_REQUIRED), row-preserving repair of the missing migrations, converged end state verified', async () => {
     const name = cluster.createDatabase('rec_prodlike')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
     // Issue #76 live evidence: 0001/0002/0003/0005 objects present out of
@@ -233,9 +231,9 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     const expected = {
       '0001_init.sql': 'VERIFIED_PRESENT',
       '0002_targets.sql': 'VERIFIED_PRESENT',
-      // Issue #163: the canonical meal bodies were restored to the pre-#152
-      // (owner-consistent) bodies, so a pre-0012 DB whose 0003/0010 files
-      // applied earlier carries the canonical body and needs NO converge.
+      // Issue #167: 0003/0010 no longer own the meal routines (ownership
+      // re-pointed to 0012), so a pre-0012 DB whose files applied earlier
+      // verifies WITHOUT any routine body check.
       '0003_atomic_meals_and_users_rls.sql': 'VERIFIED_PRESENT',
       '0004_store_assets.sql': 'REPAIR_REQUIRED',
       '0005_oauth_authorization_grants.sql': 'VERIFIED_PRESENT',
@@ -265,14 +263,22 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     }
     // The 7 missing migrations converge in per-step transactions (0004, 0006,
     // 0007, 0008, 0009, 0011, 0012). 0012's own converge then installs the
-    // menu-aware meal bodies, so the recorded owners 0003/0010 no longer match
-    // the restored (#163) owner-consistent canonical -> the runner fails
-    // CLOSED at post-apply re-verification (no success claim; canonical
-    // re-point to the 0012 bodies is the follow-up once 0012 is live).
-    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/post-apply re-verification failed/)
+    // menu-aware meal bodies, which ARE the #167 canonical: the recorded
+    // 0003/0010 rows verify (no routine contract), so post-apply
+    // re-verification passes and the runner claims success.
+    const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
+    expect(applied.applied).toEqual([
+      '0004_store_assets.sql',
+      '0006_food_catalog_provider_cache.sql',
+      '0007_weight_logs.sql',
+      '0008_energy_burned_logs.sql',
+      '0009_goals_fractional_calories.sql',
+      '0011_profiles_timezone.sql',
+      '0012_named_menus.sql',
+    ])
     // No 0005 replay: no converge transaction touching oauth_authorization_grants DDL.
     const writeTxs = executed.filter((sql) => /^begin;/.test(sql))
-    expect(writeTxs.some((sql) => /create table if not exists public\.oauth_authorization_grants/.test(sql))).toBe(false)
+    expect(writeTxs.some((sql) => /create table if not exists public\\.oauth_authorization_grants/.test(sql))).toBe(false)
     // All 12 ledger rows committed (each step in its own transaction).
     const ledgerRows = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(ledgerRows).toBe('12')
@@ -290,52 +296,46 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       calorieType: 'numeric:1',
     })
 
-    // Post state under the restored canonical: every contract verified except
-    // the recorded owners 0003/0010, whose live bodies are 0012's new ones.
+    // Post state under the #167 canonical: every contract verified (0003/0010
+    // own no routine contract; 0012 owns the meal bodies it just installed).
     const post = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
-    expect(post.planBlocked).toBe(true)
+    expect(post.planBlocked).toBe(false)
     for (const file of CANONICAL_FILES) {
-      const expectedState = file === '0003_atomic_meals_and_users_rls.sql' || file === '0010_meal_outbox_client_ids.sql'
-        ? 'BLOCKED_AMBIGUOUS'
-        : 'VERIFIED_PRESENT'
-      expect(post.statuses[file].state, file).toBe(expectedState)
+      expect(post.statuses[file].state, file).toBe('VERIFIED_PRESENT')
     }
-    // Second run stays fail-closed with zero writes (the owners drift until
-    // the canonical re-point; apply must never claim success over them).
+    // Second run is a no-op with zero writes (all rows recorded + verified).
     const secondExecuted = []
     const secondRecording = async (sql) => {
       secondExecuted.push(String(sql))
       const impl = db.queryImpl
       return impl(sql)
     }
-    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: secondRecording, log: quiet })).rejects.toThrow(/blocked/)
+    const second = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: secondRecording, log: quiet })
+    expect(second.applied).toEqual([])
     expect(secondExecuted.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
     expect(secondExecuted.every((sql) => /^select /.test(sql.trim()))).toBe(true)
   }, 90_000)
 
-  it('0003 converge revokes an explicit anon EXECUTE grant (issue #84 drift class) and records the ledger row', async () => {
+  it('0012 converge revokes an explicit anon EXECUTE grant on log_meal_with_items (issue #84 drift class; owner re-pointed to 0012 by #167) and records the ledger row', async () => {
     const name = cluster.createDatabase('rec_anonrevoke')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Issue #84 prod evidence: canonical 0001..0009 objects present, but
-    // out-of-band provisioning left an EXPLICIT `grant execute ... to anon`
-    // on log_meal_with_items. The #76 0003 converge set only revoked from
-    // public, so the same-transaction guard aborted the converge (HTTP 400
-    // class) with no ledger row. The converge must revoke the explicit anon
-    // grant too and keep the authenticated grant.
+    // Issue #84 prod evidence: canonical objects present, but out-of-band
+    // provisioning left an EXPLICIT `grant execute ... to anon` on
+    // log_meal_with_items. Issue #167 re-pointed routine ownership (and the
+    // routine-grant boundary) to 0012, so the same-transaction guard that
+    // catches the drift now belongs to 0012's converge, which must revoke the
+    // explicit anon grant too and keep the authenticated grant.
     applyFiles(db, CANONICAL_FILES)
     db.execIn(name, `grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to anon;`)
-    // Ledger prefix init/targets recorded (prod state before the 0003
-    // re-dispatch): apply must converge 0003 (anon grant + #163-era body
-    // drift) and 0010 (its file-applied client routine was re-bodied by
-    // 0012's file; the restored owner-consistent canonical is the pre-#152
-    // body) next.
+    // Ledger prefix init/targets recorded (prod state before the 0012
+    // re-dispatch): apply must converge 0012 next.
     const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
     db.execIn(name, LEDGER_DDL)
     db.execIn(name, `insert into public.migration_ledger (name) values ('init'), ('targets')`)
 
     const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
     expect(plan.planBlocked).toBe(false)
-    expect(plan.statuses['0003_atomic_meals_and_users_rls.sql'].state).toBe('REPAIR_REQUIRED')
+    expect(plan.statuses['0012_named_menus.sql'].state).toBe('REPAIR_REQUIRED')
 
     const executed = []
     const recording = async (sql) => {
@@ -343,10 +343,10 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
       return db.queryImpl(sql)
     }
     const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
-    expect(applied.applied).toEqual(['0003_atomic_meals_and_users_rls.sql', '0010_meal_outbox_client_ids.sql'])
+    expect(applied.applied).toEqual(['0012_named_menus.sql'])
     const anonExec = db.execIn(name, `select count(*) from information_schema.routine_privileges where routine_schema='public' and routine_name='log_meal_with_items' and grantee='anon' and privilege_type='EXECUTE'`).trim()
     const authExec = db.execIn(name, `select count(*) from information_schema.routine_privileges where routine_schema='public' and routine_name='log_meal_with_items' and grantee='authenticated' and privilege_type='EXECUTE'`).trim()
-    const ledgerRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'atomic_meals_and_users_rls'`).trim()
+    const ledgerRow = db.execIn(name, `select count(*) from public.migration_ledger where name = 'named_menus'`).trim()
     expect({ anonExec, authExec, ledgerRow }).toEqual({ anonExec: '0', authExec: '1', ledgerRow: '1' })
     // Canonical boundary restored: the post state must verify against every
     // contract (the runner's own post-apply re-verification also passed).
@@ -366,37 +366,41 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(secondExecuted.every((sql) => /^select /.test(sql.trim()))).toBe(true)
   }, 90_000)
 
-  it('converges an empty database through 0012, then fails CLOSED at post-apply re-verification (0012 installs the menu-aware bodies; the #163 owner-consistent canonical still pins 0003/0010 to the pre-152 bodies)', async () => {
+  it('converges an empty database through 0012 under the #167 canonical: every migration converges or records, the final state is fully verified, and a second apply is a no-op', async () => {
     const name = cluster.createDatabase('rec_empty')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Issue #163: FUNCTION_DEFINITIONS.log_meal_with_items(_client) were
-    // restored to the pre-#152 bodies their owner files 0003/0010 define,
-    // while 0012's own converge statements still CREATE OR REPLACE the new
-    // (menu-aware) bodies. On an empty DB every migration converges, so the
-    // meal routines END at 0012's bodies; the recorded owners 0003/0010 then
-    // classify BLOCKED_AMBIGUOUS against the restored canonical and the
-    // runner refuses a success claim (fail-closed; the canonical re-point to
-    // the 0012 bodies is the follow-up once 0012 is live everywhere).
+    // Issue #167: FUNCTION_DEFINITIONS pin the meal RPCs to the 0012
+    // (menu-aware) bodies and routine ownership lives with 0012, so an empty
+    // DB that converges through 0012 ends at the canonical bodies — 0012's
+    // own converge statements install exactly what the verifier expects and
+    // the recorded rows all verify (0003/0010 own no routine contract).
     const executed = []
     const recording = async (sql) => {
       executed.push(String(sql))
       return db.queryImpl(sql)
     }
-    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/post-apply re-verification failed/)
+    const outcome = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
+    expect(outcome.mode).toBe('apply')
     // Every converge step committed in its own transaction: the full schema
-    // and ledger are present even though the runner made no success claim.
+    // and ledger are present.
     const tables = db.execIn(name, `select count(*) from information_schema.tables where table_schema = 'public'`).trim()
     const ledger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(tables).toBe('13') // 12 canonical tables + migration_ledger
     expect(ledger).toBe('12')
     const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
-    expect(plan.planBlocked).toBe(true)
+    expect(plan.planBlocked).toBe(false)
     for (const file of CANONICAL_FILES) {
-      const expectedState = file === '0003_atomic_meals_and_users_rls.sql' || file === '0010_meal_outbox_client_ids.sql'
-        ? 'BLOCKED_AMBIGUOUS'
-        : 'VERIFIED_PRESENT'
-      expect(plan.statuses[file].state, file).toBe(expectedState)
+      expect(plan.statuses[file].state, file).toBe('VERIFIED_PRESENT')
     }
+    // Second run is a no-op with zero writes (everything recorded + verified).
+    const secondExecuted = []
+    const secondRecording = async (sql) => {
+      secondExecuted.push(String(sql))
+      return db.queryImpl(sql)
+    }
+    const second = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: secondRecording, log: quiet })
+    expect(second.applied).toEqual([])
+    expect(secondExecuted.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
   }, 90_000)
 
   it('fails closed (zero writes) when both logged_at and measured_at exist', async () => {
@@ -444,15 +448,14 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(preserved).toBe('100000000000000000') // original value untouched
 
     // Lossless fix: delete the overflowing row; the conversion then succeeds
-    // and every migration converges exactly once. Issue #163: the DB was
+    // and every migration converges exactly once. Issue #167: the DB was
     // built by applying all files except 0009 (incl. 0012's file, which
-    // re-bodies both meal RPCs), so the unrecorded owners 0003/0010 carry the
-    // menu-aware bodies and must converge back to the restored pre-#152
-    // canonical alongside 0009's conversion.
+    // re-bodies both meal RPCs to the canonical bodies), and 0003/0010 own
+    // no routine contract, so only 0009's conversion needs to converge.
     db.execIn(name, `delete from public.goals; alter table public.goals alter column calorie_target_kcal type integer;`)
     db.execIn(name, `insert into public.goals (user_id, calorie_target_kcal, source) values ('00000000-0000-4000-8000-000000000101', 2200, 'computed');`)
     const retried = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
-    expect(retried.applied).toEqual(['0003_atomic_meals_and_users_rls.sql', '0009_goals_fractional_calories.sql', '0010_meal_outbox_client_ids.sql'])
+    expect(retried.applied).toEqual(['0009_goals_fractional_calories.sql'])
     const finalLedger = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(finalLedger).toBe('12')
     const finalValue = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
@@ -481,12 +484,12 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()).toBe('100.05') // never rounded
 
     // One-decimal value is lossless under numeric(10,1): apply proceeds.
-    // Issue #163: the unrecorded owners 0003/0010 carry 0012's file-applied
-    // (menu-aware) bodies and converge back to the restored pre-#152
-    // canonical alongside 0009's conversion.
+    // Issue #167: the unrecorded 0003/0010 rows verify under the #167
+    // canonical (0012's file applied the menu-aware bodies; 0003/0010 own no
+    // routine contract), so only 0009's conversion converges.
     db.execIn(name, `update public.goals set calorie_target_kcal = 100.1;`)
     const ok = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
-    expect(ok.applied).toEqual(['0003_atomic_meals_and_users_rls.sql', '0009_goals_fractional_calories.sql', '0010_meal_outbox_client_ids.sql'])
+    expect(ok.applied).toEqual(['0009_goals_fractional_calories.sql'])
     const value = db.execIn(name, `select calorie_target_kcal::text from public.goals`).trim()
     const scale = db.execIn(name, `select numeric_scale from information_schema.columns where table_schema='public' and table_name='goals' and column_name='calorie_target_kcal'`).trim()
     expect(value).toBe('100.1')
@@ -573,10 +576,10 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
   it('ledger-only race: an extra overload of a canonical routine added between preflight and the owner record aborts with NO ledger row', async () => {
     const name = cluster.createDatabase('rec_raceoverload')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Issue #163: file-apply the pre-0012 world so the recorded owners
-    // 0003/0010 carry the restored canonical bodies and the runner actually
-    // reaches 0006's ledger-record transaction (a full 0012-file fixture
-    // would leave recorded 0003 BLOCKED at plan time instead).
+    // Issue #167: file-apply the pre-0012 world so 0012 stays unrecorded and
+    // the runner reaches 0006's ledger-record transaction (recorded owners
+    // 0003/0010 own no routine contract, so they verify either way; the
+    // pre-0012 file world keeps 0012 itself out of the race window).
     applyFiles(db, PRE_0012_FILES)
     const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
     db.execIn(name, LEDGER_DDL)
@@ -636,7 +639,7 @@ revoke execute on function public.upsert_food_catalog(text) from public;`)
     expect(plan.statuses['0003_atomic_meals_and_users_rls.sql'].state).toBe('BLOCKED_AMBIGUOUS')
   }, 60_000)
 
-  it('complete file-applied schema + full ledger under the #163 owner-consistent canonical: recorded owners 0003/0010 carry 0012\'s re-bodied routines, so apply fails CLOSED with zero writes until the canonical re-point', async () => {
+  it('complete file-applied schema + full ledger under the #167 canonical: every recorded migration VERIFIED_PRESENT, so apply is a no-op success with zero writes', async () => {
     const name = cluster.createDatabase('rec_complete')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
     applyFiles(db, CANONICAL_FILES)
@@ -646,20 +649,15 @@ revoke execute on function public.upsert_food_catalog(text) from public;`)
       const fileBody = /^(\d{4})_([a-z0-9_]+)\.sql$/.exec(f)
       db.execIn(name, `insert into public.migration_ledger (name) values ('${fileBody[2]}')`)
     }
-    // Issue #163: 0012's file re-bodies the meal routines to the menu-aware
-    // bodies, but the restored canonical pins them to the owner files
-    // 0003/0010 (pre-#152 bodies). Recorded owners whose live bodies came
-    // from 0012's file therefore classify BLOCKED_AMBIGUOUS: the runner must
-    // fail CLOSED (no writes) rather than silently no-op over drifted owners.
-    // The byte-pin/canonical re-point to the 0012 bodies is the follow-up once
-    // 0012 is live everywhere.
+    // Issue #167: 0012's file re-bodies the meal routines to the menu-aware
+    // bodies, which ARE the canonical (#167) bodies, and 0003/0010 own no
+    // routine contract. A complete file-applied + recorded DB therefore
+    // classifies every migration VERIFIED_PRESENT — the exact end state the
+    // conductor re-verifies after this issue lands — and apply is a no-op.
     const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
-    expect(plan.planBlocked).toBe(true)
+    expect(plan.planBlocked).toBe(false)
     for (const file of CANONICAL_FILES) {
-      const expectedState = file === '0003_atomic_meals_and_users_rls.sql' || file === '0010_meal_outbox_client_ids.sql'
-        ? 'BLOCKED_AMBIGUOUS'
-        : 'VERIFIED_PRESENT'
-      expect(plan.statuses[file].state, file).toBe(expectedState)
+      expect(plan.statuses[file].state, file).toBe('VERIFIED_PRESENT')
     }
     const executed = []
     const recording = async (sql) => {
@@ -667,7 +665,8 @@ revoke execute on function public.upsert_food_catalog(text) from public;`)
       const impl = db.queryImpl
       return impl(sql)
     }
-    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })).rejects.toThrow(/blocked/)
+    const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: recording, log: quiet })
+    expect(applied.applied).toEqual([])
     expect(executed.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
   }, 60_000)
 
@@ -781,10 +780,10 @@ revoke execute on function public.upsert_food_catalog(text) from public;`)
   it('ledger-only race: security/function drift between preflight and the record transaction aborts with NO ledger row', async () => {
     const name = cluster.createDatabase('rec_racefunc')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Issue #163: file-apply the pre-0012 world so the recorded owners
-    // 0003/0010 carry the restored canonical bodies and the runner actually
-    // reaches 0006's ledger-record transaction (a full 0012-file fixture
-    // would leave recorded 0003 BLOCKED at plan time instead).
+    // Issue #167: file-apply the pre-0012 world so 0012 stays unrecorded and
+    // the runner reaches 0006's ledger-record transaction (recorded owners
+    // 0003/0010 own no routine contract, so they verify either way; the
+    // pre-0012 file world keeps 0012 itself out of the race window).
     applyFiles(db, PRE_0012_FILES)
     const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
     db.execIn(name, LEDGER_DDL)
@@ -813,10 +812,11 @@ returns void language sql security definer as $fn$ select 1 $fn$;`)
   it('ledger-only race: policy qual drift between preflight and the record transaction aborts with NO ledger row', async () => {
     const name = cluster.createDatabase('rec_racepolicy')
     const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
-    // Issue #163: file-apply the pre-0012 world so 0003 verifies against the
-    // restored canonical body and its ledger-record transaction is reached
-    // (with a full 0012-file fixture 0003 classifies REPAIR_REQUIRED instead
-    // and the record-path guard race never fires).
+    // Issue #167: file-apply the pre-0012 world so 0003 verifies against its
+    // own contract (users RLS/policies; no routine ownership) and its
+    // ledger-record transaction is reached with the policy-drift guard armed
+    // (with a full 0012-file fixture the outcome is identical post-#167, but
+    // the pre-0012 file world keeps 0012 itself out of the race window).
     applyFiles(db, PRE_0012_FILES)
     const { LEDGER_DDL } = await import('../scripts/migration-recovery-contracts.mjs')
     db.execIn(name, LEDGER_DDL)
