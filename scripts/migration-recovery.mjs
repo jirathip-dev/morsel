@@ -281,10 +281,13 @@ const TABLE_OWNER = {
 
 const ROUTINE_OWNER = {
   compute_targets: "0002_targets.sql",
-  log_meal_with_items: "0003_atomic_meals_and_users_rls.sql",
+  // Issue #167: routine ownership re-points to 0012 (the migration whose
+  // CREATE OR REPLACE defines the canonical post-apply body), so routine
+  // grants + non-canonical-signature checks follow the verifier owner.
+  log_meal_with_items: "0012_named_menus.sql",
   claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
   upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
-  log_meal_with_items_client: "0010_meal_outbox_client_ids.sql",
+  log_meal_with_items_client: "0012_named_menus.sql",
   upsert_menu: "0012_named_menus.sql",
 };
 

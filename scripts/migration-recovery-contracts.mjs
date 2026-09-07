@@ -729,17 +729,6 @@ export const CANONICAL_ROUTINES = {
     config: [],
     bodyFile: "0002_targets.sql",
   }],
-  "0003_atomic_meals_and_users_rls.sql": [{
-    // The body is owned by migration 0012 since issue #152 (both meal RPCs
-    // learn optional per-item named-menu snapshot keys there); the routine
-    // identity/signature contract stays with its creating migration.
-    name: "log_meal_with_items",
-    identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb",
-    language: "plpgsql",
-    securityDefiner: false,
-    config: ["search_path=public"],
-    bodyFile: "0012_named_menus.sql",
-  }],
   "0005_oauth_authorization_grants.sql": [{
     name: "claim_oauth_authorization_grant",
     identityArguments: "p_code_hash text, p_client_id text",
@@ -757,21 +746,38 @@ export const CANONICAL_ROUTINES = {
     bodyFile: "0006_food_catalog_provider_cache.sql",
   }],
   // Issue #106: native offline outbox commits with a client-generated meal
-  // id (server conflict guard; no duplicates). The routine body is owned by
-  // 0012 since issue #152 (named-menu snapshot keys); the identity/signature
-  // contract stays with its creating migration.
-  "0010_meal_outbox_client_ids.sql": [{
-    name: "log_meal_with_items_client",
-    identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb, p_client_meal_id uuid",
-    language: "plpgsql",
-    securityDefiner: false,
-    config: ["search_path=public"],
-    bodyFile: "0012_named_menus.sql",
-  }],
+  // id (server conflict guard; no duplicates). Issue #167 re-pointed the
+  // routine's canonical ownership to 0012 (whose CREATE OR REPLACE defines
+  // the post-apply body), so this creating-migration group is intentionally
+  // left empty here — the entry now lives under 0012_named_menus.sql.
+  "0010_meal_outbox_client_ids.sql": [],
   "0012_named_menus.sql": [
     {
       name: "upsert_menu",
       identityArguments: "p_user_id uuid, p_menu_id uuid, p_name text, p_items jsonb",
+      language: "plpgsql",
+      securityDefiner: false,
+      config: ["search_path=public"],
+      bodyFile: "0012_named_menus.sql",
+    },
+    {
+      // Issue #167: after 0012 is applied + recorded, the canonical meal
+      // RPC bodies are the menu-aware text 0012's own file installs. Routine
+      // ownership re-points from 0003 (creating migration) to 0012 so the
+      // verifier expects the post-0012 body on live databases (0003's own
+      // file content is superseded by the 0012 CREATE OR REPLACE).
+      name: "log_meal_with_items",
+      identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb",
+      language: "plpgsql",
+      securityDefiner: false,
+      config: ["search_path=public"],
+      bodyFile: "0012_named_menus.sql",
+    },
+    {
+      // Issue #167: same re-point for the client outbox routine (0010 was
+      // the creating migration; 0012 owns the canonical body now).
+      name: "log_meal_with_items_client",
+      identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb, p_client_meal_id uuid",
       language: "plpgsql",
       securityDefiner: false,
       config: ["search_path=public"],
@@ -1076,6 +1082,7 @@ set search_path = public
 as $function$
 declare
   v_meal_log_id uuid;
+  v_menu_name text;
 begin
   if auth.uid() is distinct from p_user_id then
     raise exception 'meal user does not match authenticated user'
@@ -1095,14 +1102,59 @@ begin
     p_user_id, p_eaten_at, p_meal_type, p_source, p_image_path, p_notes
   ) returning id into v_meal_log_id;
 
+  -- Named-menu template ensure: create the reusable menu from the logged
+  -- items when the name is new; an existing menu is left untouched (the log
+  -- below is always a snapshot copy).
+  for v_menu_name in
+    select distinct item.menu_name
+    from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+    where item.menu_name is not null
+      and length(btrim(item.menu_name)) > 0
+  loop
+    if not exists (
+      select 1 from public.meal_menus
+      where user_id = p_user_id and name = v_menu_name
+    ) then
+      insert into public.meal_menus (user_id, name)
+      values (p_user_id, v_menu_name);
+      insert into public.menu_items (
+        menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+        fat_g, fiber_g, sugar_g, barcode, food_ref_id
+      )
+      select
+        menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+        item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+        item.barcode, item.food_ref_id
+      from jsonb_to_recordset(p_items) as item(
+        name text,
+        quantity numeric,
+        unit text,
+        calories_kcal numeric,
+        protein_g numeric,
+        carbs_g numeric,
+        fat_g numeric,
+        fiber_g numeric,
+        sugar_g numeric,
+        barcode text,
+        food_ref_id uuid,
+        menu_name text
+      )
+      join public.meal_menus as menus
+        on menus.user_id = p_user_id and menus.name = v_menu_name
+      where item.menu_name = v_menu_name;
+    end if;
+  end loop;
+
   insert into public.meal_items (
     meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+    menu_group_id, menu_name
   )
   select
     v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
     item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-    item.barcode, item.food_ref_id, item.confidence, item.source_notes
+    item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+    item.menu_group_id, item.menu_name
   from jsonb_to_recordset(p_items) as item(
     name text,
     quantity numeric,
@@ -1116,7 +1168,9 @@ begin
     barcode text,
     food_ref_id uuid,
     confidence numeric,
-    source_notes text
+    source_notes text,
+    menu_group_id uuid,
+    menu_name text
   );
 
   return query
@@ -1148,7 +1202,7 @@ begin
     and log.user_id = p_user_id
   group by log.id, log.eaten_at, log.meal_type;
 end;
-$function$`,
+$function$;`,
   claim_oauth_authorization_grant: `create or replace function public.claim_oauth_authorization_grant(
   p_code_hash text,
   p_client_id text
@@ -1247,6 +1301,7 @@ as $function$
 declare
   v_meal_log_id uuid;
   v_inserted boolean;
+  v_menu_name text;
 begin
   if auth.uid() is distinct from p_user_id then
     raise exception 'meal user does not match authenticated user'
@@ -1260,9 +1315,6 @@ begin
       using errcode = '22023';
   end if;
 
-  -- Client-generated identity: a retry after a server-side commit finds
-  -- the existing row (conflict guard) and only inserts the meal + items
-  -- when this client id was NOT already committed.
   insert into public.meal_logs (
     id, user_id, eaten_at, meal_type, source, image_path, notes
   ) values (
@@ -1278,21 +1330,64 @@ begin
   where id = p_client_meal_id and user_id = p_user_id;
 
   if v_meal_log_id is null then
-    -- The id exists but belongs to another user: never let a foreign
-    -- client id write through this authenticated path.
     raise exception 'meal id does not match authenticated user'
       using errcode = '42501';
   end if;
 
   if v_inserted then
+    -- Named-menu template ensure (issue #152): same semantics as the server
+    -- path — create from this log's items when the name is new, never
+    -- overwrite an existing template.
+    for v_menu_name in
+      select distinct item.menu_name
+      from jsonb_to_recordset(p_items) as item(name text, menu_name text)
+      where item.menu_name is not null
+        and length(btrim(item.menu_name)) > 0
+    loop
+      if not exists (
+        select 1 from public.meal_menus
+        where user_id = p_user_id and name = v_menu_name
+      ) then
+        insert into public.meal_menus (user_id, name)
+        values (p_user_id, v_menu_name);
+        insert into public.menu_items (
+          menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
+          fat_g, fiber_g, sugar_g, barcode, food_ref_id
+        )
+        select
+          menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
+          item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
+          item.barcode, item.food_ref_id
+        from jsonb_to_recordset(p_items) as item(
+          name text,
+          quantity numeric,
+          unit text,
+          calories_kcal numeric,
+          protein_g numeric,
+          carbs_g numeric,
+          fat_g numeric,
+          fiber_g numeric,
+          sugar_g numeric,
+          barcode text,
+          food_ref_id uuid,
+          menu_name text
+        )
+        join public.meal_menus as menus
+          on menus.user_id = p_user_id and menus.name = v_menu_name
+        where item.menu_name = v_menu_name;
+      end if;
+    end loop;
+
     insert into public.meal_items (
       meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes
+      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+      menu_group_id, menu_name
     )
     select
       v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
       item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-      item.barcode, item.food_ref_id, item.confidence, item.source_notes
+      item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+      item.menu_group_id, item.menu_name
     from jsonb_to_recordset(p_items) as item(
       name text,
       quantity numeric,
@@ -1306,7 +1401,9 @@ begin
       barcode text,
       food_ref_id uuid,
       confidence numeric,
-      source_notes text
+      source_notes text,
+      menu_group_id uuid,
+      menu_name text
     );
   end if;
 
