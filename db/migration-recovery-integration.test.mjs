@@ -278,7 +278,7 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     ])
     // No 0005 replay: no converge transaction touching oauth_authorization_grants DDL.
     const writeTxs = executed.filter((sql) => /^begin;/.test(sql))
-    expect(writeTxs.some((sql) => /create table if not exists public\\.oauth_authorization_grants/.test(sql))).toBe(false)
+    expect(writeTxs.some((sql) => /create table if not exists public\.oauth_authorization_grants/.test(sql))).toBe(false)
     // All 12 ledger rows committed (each step in its own transaction).
     const ledgerRows = db.execIn(name, `select count(*) from public.migration_ledger`).trim()
     expect(ledgerRows).toBe('12')
