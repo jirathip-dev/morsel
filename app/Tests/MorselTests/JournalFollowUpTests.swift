@@ -208,3 +208,34 @@ final class JournalThemeImmediacyTests: XCTestCase {
         XCTAssertNotEqual(paper, night)
     }
 }
+
+// ── Issue #174: the gesture/scene plumbing the turn seam depends on ────────
+
+// The #174 race suite (JournalPagerRaceTests) drives the extracted
+// JournalTurnMachine seam and the mounted turner directly, so this contract
+// pins the thin wiring that connects the real drag gesture and the scene
+// lifecycle to that machine.
+final class JournalPagerWiringContractTests: XCTestCase {
+    private func turnerSource() throws -> String {
+        let testsDirectory = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+        let appDirectory = testsDirectory.deletingLastPathComponent().deletingLastPathComponent()
+        let turner = appDirectory.appendingPathComponent("Sources/Morsel/JournalPageTurner.swift")
+        return try String(contentsOf: turner, encoding: .utf8)
+    }
+
+    func testTheDragGestureForwardsRealTranslationIntoTheStateMachine() throws {
+        let source = try turnerSource()
+        XCTAssertTrue(source.contains("DragGesture(minimumDistance: 15"))
+        XCTAssertTrue(source.contains("machine.dragChanged(deltaX: value.translation.width"))
+        XCTAssertTrue(source.contains("machine.dragEnded(deltaX: value.translation.width"))
+        XCTAssertTrue(source.contains("predictedX: value.predictedEndTranslation.width"))
+    }
+
+    func testSceneInactivityAndRemovalInterruptTheTurn() throws {
+        let source = try turnerSource()
+        XCTAssertTrue(source.contains(".onChange(of: scenePhase)"))
+        XCTAssertTrue(source.contains(".onDisappear { machine.interrupt() }"))
+        XCTAssertTrue(source.contains("machine.selectionChanged(to: newTab)"))
+        XCTAssertTrue(source.contains("machine.swingDidAppear(id: turn.id)"))
+    }
+}
