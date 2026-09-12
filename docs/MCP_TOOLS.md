@@ -318,6 +318,9 @@ The server interprets `date` as a **calendar day in the effective timezone**
 [Local days and timezones](#local-days-and-timezones)); the output echoes the
 requested `date` and the `timezone` that was used.
 
+Use `get_day` to enumerate item IDs before `update_meal_item`;
+there is no standalone item-listing tool.
+
 ### `get_weight_trend`
 
 **Input** `{ "days": { "type": "integer", "default": 30 }, "timezone?": "IANA zone" }`
