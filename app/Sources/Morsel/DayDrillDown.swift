@@ -41,15 +41,14 @@ struct DayDrillDown: View {
                 .foregroundStyle(Color.morselInk)
             Spacer(minLength: 4)
             // The day card shows the day's first meal photo (agent-logged or
-            // in-app); the thumbnail pipeline is identical to Today's.
-            if let imagePath = snapshot.meals.compactMap({ $0.imagePath }).first {
-                MealThumbnailView(repository: viewModel.repository, userID: viewModel.userID, path: imagePath)
-                    .frame(width: 44, height: 44)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 7)
-                            .stroke(Color.morselInkLine.opacity(0.6), lineWidth: 1)
-                    }
-            }
+            // in-app); a photo-less day shows the same shared #199 artwork
+            // slot as Today — illustration or nothing, never a fetch.
+            MealArtworkSlot(
+                repository: viewModel.repository,
+                userID: viewModel.userID,
+                photoPath: snapshot.meals.compactMap({ $0.imagePath }).first,
+                items: snapshot.meals.first(where: { !$0.items.isEmpty })?.items ?? []
+            )
         }
     }
 

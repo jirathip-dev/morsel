@@ -24,6 +24,13 @@ targets:
       # template cannot carry UIAppFonts without release-tooling edits).
       - path: Fonts
         buildPhase: resources
+      # Issue #199 — approved ink/wash food illustrations (issue #197 art,
+      # byte-identical copies of docs/art/food-library-v2/exports/*-64.png)
+      # plus the committed catalog.json the offline resolver maps names and
+      # aliases through. Bundled so a missing-photo meal renders immediately
+      # with no network asset dependency.
+      - path: Resources/FoodArt
+        buildPhase: resources
     dependencies:
       - package: Supabase
         product: Supabase
