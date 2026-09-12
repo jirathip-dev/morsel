@@ -14,6 +14,8 @@ import SwiftUI
 // new gesture or animation operation invalidates previous completions, a
 // vertical intent change clears any live preview, and scene inactivity /
 // removal interrupts the turn so exactly one page is settled at rest.
+// Issue #175 — the turner renders the retained page stage: ONE page per
+// visited tab, so a preview can neither replace a model nor start a read.
 
 // MARK: - Hinge seam
 
@@ -56,20 +58,25 @@ enum JournalTurnSeam {
 
 // MARK: - Turn pose
 
-/// Applies the swing pose: hinge rotation ±70° → 0° with the 0.2 → 1 fade.
-private struct HingeTurnPose: ViewModifier {
+/// Applies the swing pose: hinge rotation ±70° → 0° with the 0.2 → 1 fade. A
+/// page that is not the live incoming sheet stays flat and hidden (#175).
+struct HingeTurnPose: ViewModifier {
     let direction: PageTurnDirection
     let progress: Double
+    var isIncoming = true
+    var isActive = true
 
     func body(content: Content) -> some View {
         content
             .rotation3DEffect(
-                .degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress)),
+                .degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress) * (isIncoming ? 1 : 0)),
                 axis: (x: 0, y: 1, z: 0),
                 anchor: JournalTurnSeam.anchor(for: direction),
                 perspective: JournalTurnSeam.perspective
             )
-            .opacity(JournalTurnSeam.startOpacity + (1 - JournalTurnSeam.startOpacity) * progress)
+            .opacity(isIncoming
+                ? JournalTurnSeam.startOpacity + (1 - JournalTurnSeam.startOpacity) * progress
+                : (isActive ? 1 : 0))
     }
 }
 
@@ -81,13 +88,10 @@ enum JournalTurnCompletion: Equatable {
     case drop
 }
 
-/// Issue #174 — the pager's explicit turn state machine. The audited #111
-/// shape kept the turn implicit: a vertical-intent drag returned without
-/// clearing an existing preview, a new same-direction drag could reuse the
-/// previous uncommitted turn UUID, and cleanup matched only that UUID, so a
-/// stale completion could mutate newer state. Here the phases are explicit,
-/// the drag gesture owns one axis, and every operation carries a monotonic
-/// token honoured only while it is current.
+/// Issue #174 — the pager's explicit turn state machine: the phases are
+/// explicit, the drag gesture owns one axis, and every operation carries a
+/// monotonic token honoured only while it is current (the audited #111 shape
+/// let a stale completion mutate newer state).
 final class JournalTurnMachine: ObservableObject {
     enum Phase: Equatable {
         case idle, dragging, committing, rollingBack
@@ -134,8 +138,8 @@ final class JournalTurnMachine: ObservableObject {
     /// Exactly one page is settled at rest: no preview, no swing in flight.
     var atRest: Bool { phase == .idle && turn == nil }
 
-    /// One drag update. The first update decides the axis; vertical ownership
-    /// clears any live preview and is kept for the rest of the gesture.
+    /// One drag update: the first decides the axis, vertical ownership clears
+    /// any live preview and is kept for the rest of the gesture.
     func dragChanged(deltaX: Double, deltaY: Double, width: CGFloat) {
         if case .committing = phase {
             return // a committed swing already owns the stage
@@ -268,8 +272,8 @@ final class JournalTurnMachine: ObservableObject {
         return true
     }
 
-    /// Scene inactivity / presentation interruption: settle exactly one page
-    /// immediately (a commit lands on its destination), leaving no preview.
+    /// Scene inactivity / presentation interruption: settle one page now (a
+    /// commit lands on its destination), leaving no preview.
     func interrupt() {
         axis = nil
         switch phase {
@@ -302,8 +306,7 @@ final class JournalTurnMachine: ObservableObject {
 // MARK: - Turn driving
 
 /// Applies turn effects to the pager/model pair: pivots the model on a drag
-/// commit, animates the pose change, and completes the operation when the
-/// swing ends — a superseded completion is ignored by the machine.
+/// commit, animates the pose change, completes the swing when it ends.
 @MainActor
 struct JournalTurnDriver {
     let pager: JournalPagerModel
@@ -326,11 +329,9 @@ struct JournalTurnDriver {
 
 // MARK: - Hinged pager
 
-/// Custom journal pager replacing the .page TabView (issue #111): shows the
-/// settled page, and while a turn is in flight the incoming page swings in
-/// above it on the hinge. All moves flow through JournalPagerModel so the
-/// visible page and the tab indicator cannot drift; the turn lives in the
-/// JournalTurnMachine seam.
+/// Custom journal pager replacing the .page TabView (issue #111): it renders
+/// the retained page stage (#175) the turn machine poses through the
+/// environment, so the visible page and the tab indicator cannot drift.
 struct JournalPageTurner<Page: View>: View {
     @ObservedObject var pager: JournalPagerModel
     @Environment(\.scenePhase) private var scenePhase
@@ -351,22 +352,21 @@ struct JournalPageTurner<Page: View>: View {
 
     var body: some View {
         GeometryReader { proxy in
-            ZStack {
-                makePage(machine.baseTab)
-                if let turn = machine.turn {
-                    makePage(turn.incoming)
-                        .id(turn.id) // new identity per turn: retargets re-insert
-                        .modifier(HingeTurnPose(direction: turn.direction, progress: turn.progress))
-                        .zIndex(1)
-                        .onAppear { driver.run(machine.swingDidAppear(id: turn.id)) }
-                }
-            }
-            .contentShape(Rectangle())
-            .simultaneousGesture(turnGesture(width: proxy.size.width))
+            makePage(machine.baseTab)
+                .environmentObject(machine) // the stage poses the live turn
+                .contentShape(Rectangle())
+                .simultaneousGesture(turnGesture(width: proxy.size.width))
         }
         .clipped()
         .onChange(of: pager.selection) { _, newTab in
             machine.selectionChanged(to: newTab)
+        }
+        .onChange(of: machine.turn?.id) { _, _ in
+            // A fresh committed swing (tab tap / retarget) animates in; a
+            // preview at drag progress is left alone by swingDidAppear.
+            if let turn = machine.turn {
+                driver.run(machine.swingDidAppear(id: turn.id))
+            }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active {

@@ -120,6 +120,54 @@ enum JournalTab: String, CaseIterable, Hashable {
     }
 }
 
+// MARK: - Journal page ownership (issue #175)
+enum JournalPageLifecycleEvent { case created, released, activated }
+typealias JournalPageObserver = (JournalPageLifecycleEvent, JournalTab, AnyObject?) -> Void
+/// Issue #175 — the journal page area: one page per visited tab, created by
+/// its first accepted navigation and kept for the signed-in session, so no
+/// settle, retarget or revisit replaces a page, its model or its scroll. The
+/// stage owns the page set, so an accepted navigation invalidates the stage
+/// and the retained page sees its new activation; the shell starts on Today.
+struct JournalPageStage<Page: View>: View {
+    @ObservedObject var pager: JournalPagerModel
+    @EnvironmentObject private var machine: JournalTurnMachine
+    let active: JournalTab
+    let makePage: (JournalTab, Int) -> Page
+    @State private var activations: [JournalTab: Int] = [.today: 1]
+
+    var body: some View {
+        ZStack {
+            ForEach(JournalTab.allCases, id: \.self) { tab in
+                if activations[tab] != nil { page(tab) }
+            }
+            if let turn = machine.turn, activations[turn.incoming] == nil {
+                Color.morselBackground
+                    .modifier(HingeTurnPose(direction: turn.direction, progress: turn.progress))
+                    .zIndex(1)
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Opening the page")
+            }
+        }
+        .onChange(of: pager.selection) { _, tab in
+            activations[tab, default: 0] += 1 // the page's activation event
+        }
+    }
+
+    /// Posed without changing the page's structural branch (#175).
+    private func page(_ tab: JournalTab) -> some View {
+        let incoming = machine.turn?.incoming == tab
+        return makePage(tab, activations[tab] ?? 0)
+            .modifier(HingeTurnPose(direction: machine.turn?.direction ?? .forward,
+                                    progress: machine.turn?.progress ?? 0,
+                                    isIncoming: incoming,
+                                    isActive: tab == active))
+            .allowsHitTesting(tab == active)
+            .accessibilityHidden(tab != active && !incoming)
+            .zIndex(incoming ? 1 : 0)
+            .transition(.opacity) // Reduce Motion cross-fade (#111 AC2)
+    }
+}
+
 private struct AuthenticatedDashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
     @StateObject private var pager = JournalPagerModel()
@@ -127,17 +175,14 @@ private struct AuthenticatedDashboardView: View {
     @StateObject private var menuLibrary: MenuLibraryModel
     @State private var showingSettings = false
     @State private var showingOnboarding = false
-    @State private var tabReloadCounts: [JournalTab: Int] = [:]
+    @StateObject private var pageTurnMachine = JournalTurnMachine()
     @AppStorage(MorselAppearance.themePreferenceKey)
     private var themePreferenceRaw = MorselAppearance.defaultThemePreference.rawValue
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
-    /// Issue #110 — a fullScreenCover is a separate UIKit presentation: it
-    /// does not re-resolve the root preferredColorScheme while it is up.
-    /// Re-assert the same preference-derived scheme on each presented cover
-    /// root so a Paper/Night-ink switch made inside Settings re-inks the
-    /// cover itself immediately, not only the window behind it.
+    /// Issue #110 — the presented cover re-asserts the preference-derived
+    /// scheme (a Paper/Night switch re-inks the cover, not only the window).
     private var coverColorScheme: ColorScheme? {
         MorselAppearance.scheme(for: MorselThemePreference(rawValue: themePreferenceRaw) ?? .paper)
     }
@@ -149,8 +194,8 @@ private struct AuthenticatedDashboardView: View {
     /// Per-account local-first stack; remote-only fallback when unavailable.
     private let reliability: AccountReliabilityServices?
     private let fallbackImporter: HealthKitWeightImporter?
-    /// Issue #121 — mirrors the device zone to profiles.timezone on launch
-    /// and foreground when it changes (server day math uses the same zone).
+    /// Issue #121 — mirrors the device zone to profiles.timezone on launch and
+    /// foreground (server day math uses the same zone).
     private let timezoneSync: DeviceTimezoneSync?
 
     init(
@@ -233,8 +278,7 @@ private struct AuthenticatedDashboardView: View {
                 .zIndex(2)
             }
         }
-        // Issue #153 — the Edit-item sheet (presented from the Today journal
-        // pages) loads its photo surface through the shared view model.
+        // Issue #153 — the Edit-item sheet loads its photo through the view model.
         .environmentObject(viewModel)
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
@@ -296,23 +340,22 @@ private struct AuthenticatedDashboardView: View {
             if routeModel.isPresentingAddMeal {
                 routeModel.closeAddMeal()
             }
-            if oldTab != newTab {
-                tabReloadCounts[newTab, default: 0] += 1
-                if newTab == .today {
-                    Task { await viewModel.load() }
-                }
+            // Issue #175 — the page stage records the accepted navigation; only
+            // Today's shared model refresh is left here.
+            if oldTab != newTab, newTab == .today {
+                Task { await viewModel.load() }
             }
         }
     }
 
     private func closeAddMeal() { routeModel.closeAddMeal() }
-    /// Three primary journal pages: Reduce Motion swaps with a plain fade;
-    /// the rich path turns each page in on the approved V1 hinge (#111).
+    /// Three primary journal pages: plain fade under Reduce Motion, hinge otherwise (#111).
     @ViewBuilder
     private var pageContent: some View {
         if reduceMotion {
             journalPage(for: pager.selection)
                 .transition(.opacity)
+                .environmentObject(pageTurnMachine)
         } else {
             JournalPageTurner(pager: pager) { tab in
                 journalPage(for: tab)
@@ -320,8 +363,14 @@ private struct AuthenticatedDashboardView: View {
         }
     }
 
-    @ViewBuilder
+    /// Issue #175 — `tab` is this path's settled page; the stage owns the page.
     private func journalPage(for tab: JournalTab) -> some View {
+        JournalPageStage(pager: pager, active: tab) { pageTab, activation in
+            journalPrimaryPage(for: pageTab, activation: activation)
+        }
+    }
+    @ViewBuilder
+    private func journalPrimaryPage(for tab: JournalTab, activation: Int) -> some View {
         switch tab {
         case .today:
             MorselActionTint {
@@ -333,12 +382,13 @@ private struct AuthenticatedDashboardView: View {
             MorselActionTint {
                 HistoryView(repository: viewModel.repository,
                             userID: viewModel.userID,
-                            reloadKey: tabReloadCounts[.history] ?? 0)
+                            reloadKey: activation)
             }
         case .goals:
             MorselActionTint {
                 GoalsView(repository: viewModel.repository,
                           userID: viewModel.userID,
+                          reloadKey: activation,
                           onSaved: { await viewModel.load() },
                           seeToday: { pager.select(.today) })
             }

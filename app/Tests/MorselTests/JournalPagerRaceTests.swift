@@ -8,8 +8,7 @@ import XCTest
 // same-direction gesture, left a preview behind when a drag turned vertical,
 // and re-settled an already animating turn. Section 1 drives the extracted
 // JournalTurnMachine seam with controllable completions; section 2 mounts the
-// REAL turner in a phone-sized window. The gesture/scene source contract
-// lives in JournalFollowUpTests.swift.
+// REAL turner (and, since #175, mounts no second page for a preview).
 
 // ── 1: extracted state seam (controllable completions) ───────────────
 @MainActor
@@ -137,7 +136,6 @@ final class JournalTurnMachineRaceTests: XCTestCase {
         XCTAssertTrue(machine.complete(operation: rollback.operation))
         XCTAssertEqual(machine.baseTab, .today)
 
-        // A zero-distance end drops the preview without an effect.
         let zero = makeMachine(.history)
         zero.dragChanged(deltaX: -40, deltaY: 0, width: width)
         XCTAssertNil(zero.dragEnded(deltaX: 0, predictedX: 0, width: width))
@@ -245,9 +243,9 @@ final class JournalPagerMountedRaceTests: XCTestCase {
     func testMountedPreviewClearsOnVerticalIntentToOneSettledPage() throws {
         let mounted = try mountTurner()
         mounted.machine.dragChanged(deltaX: -130, deltaY: 0, width: 390)
-        XCTAssertTrue(pump { mounted.ledger.mounted == [.today, .history] },
-                      "the hinge preview must mount over the settled page")
-        capture("174-01-preview-history", mounted: mounted)
+        XCTAssertTrue(pump { mounted.machine.turn?.incoming == .history })
+        XCTAssertEqual(mounted.ledger.mounted, [.today], "a preview mounts no second page (#175)")
+        capture("174-01-preview-pending-sheet", mounted: mounted)
 
         mounted.machine.dragChanged(deltaX: -130, deltaY: -160, width: 390)
         XCTAssertTrue(pump { mounted.ledger.mounted == [.today] }, "a vertical intent change clears it")
@@ -260,7 +258,8 @@ final class JournalPagerMountedRaceTests: XCTestCase {
     func testMountedRollbackReentryThenCommitEndsOnTheNewSelection() throws {
         let mounted = try mountTurner()
         mounted.machine.dragChanged(deltaX: -30, deltaY: 0, width: 390)
-        XCTAssertTrue(pump { mounted.ledger.mounted == [.today, .history] })
+        XCTAssertTrue(pump { mounted.machine.turn?.incoming == .history })
+        XCTAssertEqual(mounted.ledger.mounted, [.today], "a preview mounts no second page (#175)")
         let firstTurnID = mounted.machine.turn?.id
 
         guard let rollback = mounted.machine.dragEnded(deltaX: -30, predictedX: -30, width: 390) else {
@@ -273,7 +272,7 @@ final class JournalPagerMountedRaceTests: XCTestCase {
         XCTAssertNotEqual(mounted.machine.turn?.id, firstTurnID)
         XCTAssertFalse(mounted.machine.complete(operation: rollback.operation))
         XCTAssertEqual(mounted.machine.phase, .dragging)
-        XCTAssertTrue(pump { mounted.ledger.mounted == [.today, .history] }, "the rollback must not unmount it")
+        XCTAssertEqual(mounted.ledger.mounted, [.today], "one settled page through a rollback re-entry (#175)")
 
         guard let commit = mounted.machine.dragEnded(deltaX: -320, predictedX: -320, width: 390) else {
             return XCTFail("a half-page drag must commit")
@@ -299,7 +298,8 @@ final class JournalPagerMountedRaceTests: XCTestCase {
     func testMountedDisappearanceInterruptsAnInFlightPreview() throws {
         let mounted = try mountTurner()
         mounted.machine.dragChanged(deltaX: -150, deltaY: 0, width: 390)
-        XCTAssertTrue(pump { mounted.ledger.mounted == [.today, .history] })
+        XCTAssertTrue(pump { mounted.machine.turn?.incoming == .history })
+        XCTAssertEqual(mounted.ledger.mounted, [.today], "a preview mounts no second page (#175)")
 
         // Presentation interruption: the shell removes the pager (the real
         // .onDisappear seam) while the preview is live.
