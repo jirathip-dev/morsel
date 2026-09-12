@@ -1,0 +1,685 @@
+{
+  "schema_version": 1,
+  "library_version": "1.1.0",
+  "approval": "prototype-awaiting-owner-art-review",
+  "assets": [
+    {
+      "id": "avocado",
+      "name": "Avocado",
+      "aliases": [
+        "avocado half",
+        "อะโวคาโด"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A sage-skinned avocado behind an open pale-green half with a warm brown pit; generic food study, not a portion claim.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/avocado.json",
+      "masters": [
+        "masters/avocado-paper.svg",
+        "masters/avocado-night.svg"
+      ],
+      "exports": [
+        "exports/avocado-paper-64.png",
+        "exports/avocado-paper-192.png",
+        "exports/avocado-paper-512.png",
+        "exports/avocado-night-64.png",
+        "exports/avocado-night-192.png",
+        "exports/avocado-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "banana",
+      "name": "Banana",
+      "aliases": [
+        "กล้วย"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A curved golden banana with a slender brown stem and two fine longitudinal contour lines.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/banana.json",
+      "masters": [
+        "masters/banana-paper.svg",
+        "masters/banana-night.svg"
+      ],
+      "exports": [
+        "exports/banana-paper-64.png",
+        "exports/banana-paper-192.png",
+        "exports/banana-paper-512.png",
+        "exports/banana-night-64.png",
+        "exports/banana-night-192.png",
+        "exports/banana-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "broccoli",
+      "name": "Broccoli",
+      "aliases": [
+        "steamed broccoli",
+        "บรอกโคลี"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "An upright broccoli floret, forked pale stem and rounded sage crown, on a low plate.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/broccoli.json",
+      "masters": [
+        "masters/broccoli-paper.svg",
+        "masters/broccoli-night.svg"
+      ],
+      "exports": [
+        "exports/broccoli-paper-64.png",
+        "exports/broccoli-paper-192.png",
+        "exports/broccoli-paper-512.png",
+        "exports/broccoli-night-64.png",
+        "exports/broccoli-night-192.png",
+        "exports/broccoli-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "aliases": [
+        "black coffee",
+        "กาแฟ"
+      ],
+      "category": "drinks",
+      "kind": "food",
+      "description": "A cream ceramic coffee cup, curved handle, saucer and two delicate steam strokes.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/coffee.json",
+      "masters": [
+        "masters/coffee-paper.svg",
+        "masters/coffee-night.svg"
+      ],
+      "exports": [
+        "exports/coffee-paper-64.png",
+        "exports/coffee-paper-192.png",
+        "exports/coffee-paper-512.png",
+        "exports/coffee-night-64.png",
+        "exports/coffee-night-192.png",
+        "exports/coffee-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "fallback-drinks",
+      "name": "Drink · fallback",
+      "aliases": [
+        "beverage category"
+      ],
+      "category": "drinks",
+      "kind": "fallback",
+      "description": "A plain drinking glass with a restrained pale wash; contents intentionally unspecified.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-drinks.json",
+      "masters": [
+        "masters/fallback-drinks-paper.svg",
+        "masters/fallback-drinks-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-drinks-paper-64.png",
+        "exports/fallback-drinks-paper-192.png",
+        "exports/fallback-drinks-paper-512.png",
+        "exports/fallback-drinks-night-64.png",
+        "exports/fallback-drinks-night-192.png",
+        "exports/fallback-drinks-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "fallback-grains",
+      "name": "Grains · fallback",
+      "aliases": [
+        "grain category"
+      ],
+      "category": "grains",
+      "kind": "fallback",
+      "description": "Generic pale grain bowl; category fallback, not a specific dish.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-grains.json",
+      "masters": [
+        "masters/fallback-grains-paper.svg",
+        "masters/fallback-grains-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-grains-paper-64.png",
+        "exports/fallback-grains-paper-192.png",
+        "exports/fallback-grains-paper-512.png",
+        "exports/fallback-grains-night-64.png",
+        "exports/fallback-grains-night-192.png",
+        "exports/fallback-grains-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "fallback-produce",
+      "name": "Produce · fallback",
+      "aliases": [
+        "produce category"
+      ],
+      "category": "produce",
+      "kind": "fallback",
+      "description": "Generic fruit and leafy produce study; category fallback rather than an exact ingredient.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-produce.json",
+      "masters": [
+        "masters/fallback-produce-paper.svg",
+        "masters/fallback-produce-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-produce-paper-64.png",
+        "exports/fallback-produce-paper-192.png",
+        "exports/fallback-produce-paper-512.png",
+        "exports/fallback-produce-night-64.png",
+        "exports/fallback-produce-night-192.png",
+        "exports/fallback-produce-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "fallback-protein",
+      "name": "Protein · fallback",
+      "aliases": [
+        "protein category"
+      ],
+      "category": "protein",
+      "kind": "fallback",
+      "description": "Generic protein portion on a plate; intentionally nonspecific, not dietary or ingredient evidence.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-protein.json",
+      "masters": [
+        "masters/fallback-protein-paper.svg",
+        "masters/fallback-protein-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-protein-paper-64.png",
+        "exports/fallback-protein-paper-192.png",
+        "exports/fallback-protein-paper-512.png",
+        "exports/fallback-protein-night-64.png",
+        "exports/fallback-protein-night-192.png",
+        "exports/fallback-protein-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "fried-egg",
+      "name": "Fried egg",
+      "aliases": [
+        "sunny-side-up egg",
+        "ไข่ดาว"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "An irregular pale fried egg and ochre yolk resting on a small oval plate.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fried-egg.json",
+      "masters": [
+        "masters/fried-egg-paper.svg",
+        "masters/fried-egg-night.svg"
+      ],
+      "exports": [
+        "exports/fried-egg-paper-64.png",
+        "exports/fried-egg-paper-192.png",
+        "exports/fried-egg-paper-512.png",
+        "exports/fried-egg-night-64.png",
+        "exports/fried-egg-night-192.png",
+        "exports/fried-egg-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "grilled-chicken",
+      "name": "Grilled chicken",
+      "aliases": [
+        "chicken breast",
+        "ไก่ย่าง"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "A hand-shaped grilled chicken breast with fine sear marks, a leaf and a lemon wedge on an oval plate.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/grilled-chicken.json",
+      "masters": [
+        "masters/grilled-chicken-paper.svg",
+        "masters/grilled-chicken-night.svg"
+      ],
+      "exports": [
+        "exports/grilled-chicken-paper-64.png",
+        "exports/grilled-chicken-paper-192.png",
+        "exports/grilled-chicken-paper-512.png",
+        "exports/grilled-chicken-night-64.png",
+        "exports/grilled-chicken-night-192.png",
+        "exports/grilled-chicken-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "jasmine-rice",
+      "name": "Jasmine rice",
+      "aliases": [
+        "steamed rice",
+        "white rice",
+        "ข้าวสวย"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "A low sage bowl carrying a pale mound of steamed rice, with sparse individual grains.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/jasmine-rice.json",
+      "masters": [
+        "masters/jasmine-rice-paper.svg",
+        "masters/jasmine-rice-night.svg"
+      ],
+      "exports": [
+        "exports/jasmine-rice-paper-64.png",
+        "exports/jasmine-rice-paper-192.png",
+        "exports/jasmine-rice-paper-512.png",
+        "exports/jasmine-rice-night-64.png",
+        "exports/jasmine-rice-night-192.png",
+        "exports/jasmine-rice-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "mango",
+      "name": "Mango",
+      "aliases": [
+        "ripe mango",
+        "มะม่วง"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A whole ochre mango with a small leaf beside a cross-cut golden cheek; no serving-size claim.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/mango.json",
+      "masters": [
+        "masters/mango-paper.svg",
+        "masters/mango-night.svg"
+      ],
+      "exports": [
+        "exports/mango-paper-64.png",
+        "exports/mango-paper-192.png",
+        "exports/mango-paper-512.png",
+        "exports/mango-night-64.png",
+        "exports/mango-night-192.png",
+        "exports/mango-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "aliases": [
+        "citrus",
+        "ส้ม"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A round terracotta orange with a botanical leaf beside an open segmented wedge.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/orange.json",
+      "masters": [
+        "masters/orange-paper.svg",
+        "masters/orange-night.svg"
+      ],
+      "exports": [
+        "exports/orange-paper-64.png",
+        "exports/orange-paper-192.png",
+        "exports/orange-paper-512.png",
+        "exports/orange-night-64.png",
+        "exports/orange-night-192.png",
+        "exports/orange-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "salmon",
+      "name": "Salmon fillet",
+      "aliases": [
+        "grilled salmon",
+        "ปลาแซลมอน"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "A terracotta salmon fillet with curved flesh lines and a narrow skin edge on a cream plate.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/salmon.json",
+      "masters": [
+        "masters/salmon-paper.svg",
+        "masters/salmon-night.svg"
+      ],
+      "exports": [
+        "exports/salmon-paper-64.png",
+        "exports/salmon-paper-192.png",
+        "exports/salmon-paper-512.png",
+        "exports/salmon-night-64.png",
+        "exports/salmon-night-192.png",
+        "exports/salmon-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "stir-fried-noodles",
+      "name": "Stir-fried noodles",
+      "aliases": [
+        "noodles",
+        "ผัดหมี่"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "Ochre looping noodles in a shallow sage bowl, two small leaves and angled chopsticks.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/stir-fried-noodles.json",
+      "masters": [
+        "masters/stir-fried-noodles-paper.svg",
+        "masters/stir-fried-noodles-night.svg"
+      ],
+      "exports": [
+        "exports/stir-fried-noodles-paper-64.png",
+        "exports/stir-fried-noodles-paper-192.png",
+        "exports/stir-fried-noodles-paper-512.png",
+        "exports/stir-fried-noodles-night-64.png",
+        "exports/stir-fried-noodles-night-192.png",
+        "exports/stir-fried-noodles-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "aliases": [
+        "bread",
+        "wholegrain toast",
+        "ขนมปังปิ้ง"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "One asymmetrical slice of toasted bread, with scattered crumb marks and a small butter pat.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/toast.json",
+      "masters": [
+        "masters/toast-paper.svg",
+        "masters/toast-night.svg"
+      ],
+      "exports": [
+        "exports/toast-paper-64.png",
+        "exports/toast-paper-192.png",
+        "exports/toast-paper-512.png",
+        "exports/toast-night-64.png",
+        "exports/toast-night-192.png",
+        "exports/toast-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    },
+    {
+      "id": "vegetable-soup",
+      "name": "Clear vegetable soup",
+      "aliases": [
+        "clear soup",
+        "vegetable broth",
+        "แกงจืด"
+      ],
+      "category": "soup",
+      "kind": "food",
+      "description": "Clear golden broth with carrot ovals and sage leaves in a rounded bowl.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/vegetable-soup.json",
+      "masters": [
+        "masters/vegetable-soup-paper.svg",
+        "masters/vegetable-soup-night.svg"
+      ],
+      "exports": [
+        "exports/vegetable-soup-paper-64.png",
+        "exports/vegetable-soup-paper-192.png",
+        "exports/vegetable-soup-paper-512.png",
+        "exports/vegetable-soup-night-64.png",
+        "exports/vegetable-soup-night-192.png",
+        "exports/vegetable-soup-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-vector",
+        "direction": "Morsel #90 approved V1",
+        "rights": "Original work for Morsel; no third-party food artwork",
+        "meaning": "Generic illustration; not a meal photo, portion or nutrition evidence"
+      }
+    }
+  ]
+}

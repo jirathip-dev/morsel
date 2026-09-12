@@ -1,0 +1,48 @@
+{
+  "id": "fallback-produce",
+  "name": "Produce · fallback",
+  "aliases": [
+    "produce category"
+  ],
+  "category": "produce",
+  "kind": "fallback",
+  "description": "Generic fruit and leafy produce study; category fallback rather than an exact ingredient.",
+  "layers": [
+    {
+      "d": "M65 148 C64 128.86 83.24 115 103 115 C127.32 116 141 133.15 141 148 C140 171.1 120.86 181 103 181 C80.2 180 65 163.84 65 148 Z",
+      "fill": "gold",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M101 116 q0 -10 6 -16",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 1
+    },
+    {
+      "d": "M157 181 C127.6 153.0 119.2 120.80000000000001 137.4 116.60000000000001 C169.6 112.4 179.4 162.8 157 181 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M157 181 Q155.6 148.8 137.4 123.6",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    },
+    {
+      "d": "M104 117 C93.5 107.0 90.5 95.5 97.0 94.0 C108.5 92.5 112.0 110.5 104 117 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M104 117 Q103.5 105.5 97.0 96.5",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    }
+  ]
+}

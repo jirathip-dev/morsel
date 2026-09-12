@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "captures": [
+    {
+      "page": "phone-before-paper",
+      "raw_exit": 0,
+      "seconds": 19.278323292033747,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "page": "phone-after-paper",
+      "raw_exit": 0,
+      "seconds": 4.101968667004257,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "page": "phone-before-night",
+      "raw_exit": 0,
+      "seconds": 3.710645042010583,
+      "dimensions": [
+        390,
+        844
+      ]
+    },
+    {
+      "page": "phone-after-night",
+      "raw_exit": 0,
+      "seconds": 5.965924208983779,
+      "dimensions": [
+        390,
+        844
+      ]
+    }
+  ]
+}

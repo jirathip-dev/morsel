@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "assets": 17,
+  "foods": 13,
+  "fallbacks": 4,
+  "editable_masters": 34,
+  "transparent_pngs": 102,
+  "sizes": [
+    64,
+    192,
+    512
+  ],
+  "checks": [
+    "IDs, aliases, required categories",
+    "catalog/source parity and provenance",
+    "complete unique paths and no unexpected exports",
+    "XML, restricted palette, no embedded images/scripts",
+    "RGBA, dimensions, nonblank silhouettes, alpha padding",
+    "gallery local links and honest fixture labeling",
+    "no transient files"
+  ]
+}

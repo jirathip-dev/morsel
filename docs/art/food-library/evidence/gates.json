@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "steps": [
+    {
+      "step": "build",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/library.py build",
+      "raw_exit": 0,
+      "elapsed_seconds": 1.7437094169436023,
+      "log": "evidence/gate-build.log"
+    },
+    {
+      "step": "assets",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/verify.py",
+      "raw_exit": 0,
+      "elapsed_seconds": 0.5154752909438685,
+      "log": "evidence/gate-assets.log"
+    },
+    {
+      "step": "workflow",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/test_workflow.py",
+      "raw_exit": 0,
+      "elapsed_seconds": 4.233995749964379,
+      "log": "evidence/gate-workflow.log"
+    },
+    {
+      "step": "browser",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/capture.py",
+      "raw_exit": 0,
+      "elapsed_seconds": 1.5640463329618797,
+      "log": "evidence/gate-browser.log"
+    },
+    {
+      "step": "reproduction",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/package.py --reproduce",
+      "raw_exit": 0,
+      "elapsed_seconds": 6.950372125022113,
+      "log": "evidence/gate-reproduction.log"
+    }
+  ]
+}

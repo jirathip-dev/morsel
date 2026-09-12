@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Fried egg — lacy browned albumen and warm domed yolk, digital ink and wash study</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="crisp-irregular-perimeter">
+ <path d="M40 131 Q29 118 41 109 Q37 95 55 91 Q54 77 70 78 C86 61 103 73 115 66 Q131 53 145 68 Q159 62 169 77 C184 75 197 85 195 98 Q211 101 209 118 Q225 126 215 141 Q225 153 211 163 Q214 179 196 179 Q190 196 173 187 C156 204 143 191 129 196 Q112 209 98 194 Q77 201 70 186 Q49 186 51 170 Q33 167 40 151 Q30 143 40 131Z" fill="#A5750B" opacity=".71"/>
+ <path d="M43 132 Q33 120 46 111 Q42 98 59 96 Q58 83 72 84 C90 69 105 79 117 71 Q133 62 145 73 Q160 67 167 82 C185 80 193 89 192 103 Q206 104 204 120 Q217 129 210 141 Q219 151 205 160 Q210 173 193 174 Q187 189 173 183 C155 197 143 186 128 191 Q112 202 101 188 Q80 197 74 181 Q54 181 57 167 Q39 164 45 150 Q35 142 43 132Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M44 139 Q59 158 70 153 C76 177 95 164 104 181 Q119 198 140 180 C160 188 174 175 182 172 Q201 173 207 155 Q217 171 193 177 Q188 190 173 184 C154 199 142 187 128 192 Q112 202 100 189 Q79 196 73 182 Q51 182 55 167 Q39 165 44 150Z" fill="#F2E9D9" opacity=".88" filter="url(#wash)"/>
+ <path d="M42 120 Q45 130 41 137 L46 149 L41 156 L43 163 L53 165 L58 177 L69 177 L75 186 L91 190 L89 183 Q76 179 73 168 L59 162 L54 147 L49 144 L49 124Z M184 182 Q200 179 204 171 L209 162 L202 164 Q192 175 179 177Z" fill="#655A4B" opacity=".3" filter="url(#dry)"/>
+</g>
+<g id="folded-albumen-wash">
+ <path d="M69 112 C73 94 96 86 111 92 Q94 107 98 121 C83 116 79 129 67 135Z M167 112 Q191 117 194 137 Q189 158 167 163 C181 144 171 138 167 112Z" fill="#F2E9D9" opacity=".7" filter="url(#wash)"/>
+ <path d="M94 152 C109 164 139 172 163 153 Q168 163 156 171 Q123 180 104 166Z" fill="#5E7E57" opacity=".17" filter="url(#wash)"/>
+ <path d="M60 120 Q63 112 68 108 M81 169 Q88 177 97 173 M184 147 Q192 141 188 130" fill="none" stroke="#8B7355" stroke-width=".42" opacity=".4"/>
+</g>
+<g id="warm-domed-yolk">
+ <path d="M95 113 C98 95 117 87 134 90 C151 90 166 104 168 122 C172 141 153 158 134 158 C111 160 90 141 95 113Z" fill="#D6A62C" opacity=".97"/>
+ <path d="M141 94 C158 101 165 111 163 129 C160 146 142 154 125 149 Q104 146 97 134 C103 152 122 163 141 155 C165 151 175 130 165 112Z" fill="#E66A2C" opacity=".69" filter="url(#wash)"/>
+ <path d="M104 110 Q112 95 127 97 L135 101 C120 100 117 105 113 114 L105 119Z" fill="#FFF7E8" opacity=".64" filter="url(#wash)"/>
+ <path d="M100 105 Q106 94 121 91 M140 92 Q158 97 165 112 M169 127 Q167 148 146 156 M132 159 Q112 159 101 145" fill="none" stroke="#8B7355" stroke-width=".68" stroke-linecap="round"/>
+</g>
+<g id="lacy-broken-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M39 124 Q32 116 41 110 M42 100 Q46 92 54 93 M64 82 l7 -3 M85 71 Q98 75 111 69 M128 62 Q138 60 145 69 M163 70 Q168 73 169 78 M191 88 l4 9 M210 123 Q222 128 215 139" stroke-width=".66"/>
+ <path d="M218 150 Q222 157 211 163 M205 176 l-9 3 M186 190 l-12 -3 M157 196 Q144 191 133 196 M117 201 Q105 203 98 194 M79 194 l-8 -8 M57 179 Q49 177 51 170 M40 161 l-1 -8" stroke-width="1.04"/>
+ <path d="M51 109 l3 -3 M64 94 l3 -2 M58 153 l2 3 M66 166 l3 -1 M80 181 l2 2 M99 182 l3 2 M166 180 l3 -2 M196 156 l3 -3 M203 133 l2 2" stroke-width=".9" opacity=".58"/>
+</g>
+</svg>

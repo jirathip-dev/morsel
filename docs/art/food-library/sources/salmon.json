@@ -1,0 +1,85 @@
+{
+  "id": "salmon",
+  "name": "Salmon fillet",
+  "aliases": [
+    "grilled salmon",
+    "ปลาแซลมอน"
+  ],
+  "category": "protein",
+  "kind": "food",
+  "description": "A terracotta salmon fillet with curved flesh lines and a narrow skin edge on a cream plate.",
+  "layers": [
+    {
+      "d": "M40 157 C39 136.12 82.24 121 128 121 C184.32 122 216 140.8 216 157 C215 182.2 169.36 193 128 193 C75.2 192 40 174.28 40 157 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M52 150 C51 133.76 88.47999999999999 122 128 122 C176.64 123 204 137.4 204 150 C203 169.6 163.72 178 128 178 C82.4 177 52 163.44 52 150 Z",
+      "fill": "paper",
+      "width": 0.8,
+      "opacity": 1
+    },
+    {
+      "d": "M70 180 Q124 198 181 179",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M76 128 L132 99 Q143 96 153 104 L183 137 Q189 146 175 155 L111 172 Q97 171 91 159 Z",
+      "fill": "orange",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M92 157 Q137 155 180 138 L181 149 Q142 172 111 175 L95 167 Z",
+      "fill": "brown",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M92 126 q20 6 27 23",
+      "fill": "none",
+      "width": 1,
+      "opacity": 0.8
+    },
+    {
+      "d": "M104 122 q20 6 27 23",
+      "fill": "none",
+      "width": 1,
+      "opacity": 0.8
+    },
+    {
+      "d": "M116 118 q20 6 27 23",
+      "fill": "none",
+      "width": 1,
+      "opacity": 0.8
+    },
+    {
+      "d": "M128 114 q20 6 27 23",
+      "fill": "none",
+      "width": 1,
+      "opacity": 0.8
+    },
+    {
+      "d": "M140 110 q20 6 27 23",
+      "fill": "none",
+      "width": 1,
+      "opacity": 0.8
+    },
+    {
+      "d": "M77 158 C65.45 147.0 62.15 134.35 69.3 132.7 C81.95 131.05 85.8 150.85 77 158 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M77 158 Q76.45 145.35 69.3 135.45",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    }
+  ]
+}

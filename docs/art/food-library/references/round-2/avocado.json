@@ -1,0 +1,56 @@
+{
+  "id": "avocado",
+  "name": "Avocado",
+  "aliases": [
+    "avocado half",
+    "อะโวคาโด"
+  ],
+  "category": "produce",
+  "kind": "food",
+  "description": "A sage-skinned avocado behind an open pale-green half with a warm brown pit; generic food study, not a portion claim.",
+  "layers": [
+    {
+      "d": "M68 177 C49 162 52 139 67 119 C77 105 74 84 90 76 C108 66 121 85 126 102 C132 120 146 133 145 153 C143 184 94 195 68 177 Z",
+      "fill": "sage",
+      "width": 1.1
+    },
+    {
+      "d": "M89 83 Q91 74 94 71",
+      "fill": "none",
+      "width": 1.2
+    },
+    {
+      "d": "M68 151 q-3 9 1 14 M80 113 l1 -4 M99 99 l2 3 M86 164 l2 3 M119 127 l2 3",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M127 191 C105 180 101 160 113 140 C126 119 130 93 149 88 C169 83 175 108 184 122 C201 143 209 169 192 187 C175 203 146 201 127 191 Z",
+      "fill": "forest",
+      "width": 1.1
+    },
+    {
+      "d": "M131 185 C113 176 110 160 121 143 C133 124 137 100 151 96 C166 95 170 115 178 128 C193 147 201 167 185 182 C172 195 147 194 131 185 Z",
+      "fill": "leaf",
+      "width": 0.7
+    },
+    {
+      "d": "M134 177 C122 169 125 147 139 138 C151 129 168 136 175 148 C187 167 170 187 152 184 C144 184 137 181 134 177 Z",
+      "fill": "ochre",
+      "width": 0.8
+    },
+    {
+      "d": "M139 147 Q146 138 155 140 M163 177 Q174 167 171 158",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.65
+    },
+    {
+      "d": "M130 132 Q139 114 145 108 M185 170 q-2 10 -10 13",
+      "fill": "none",
+      "width": 0.5,
+      "opacity": 0.5
+    }
+  ]
+}

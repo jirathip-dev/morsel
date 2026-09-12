@@ -1,0 +1,767 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "engine": "Google Chrome for Testing 151.0.7922.34",
+  "seconds": 4.521091458038427,
+  "captures": [
+    {
+      "page": "phone-journal-paper",
+      "capture": "proofs/phone-journal-paper.png",
+      "raw_exit": 0,
+      "seconds": 0.8675500000827014,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "jasmine-rice",
+          "grilled-chicken",
+          "mango",
+          "coffee"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "phone-produce-paper",
+      "capture": "proofs/phone-produce-paper.png",
+      "raw_exit": 0,
+      "seconds": 0.3009818330174312,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "orange"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "phone-meals-paper",
+      "capture": "proofs/phone-meals-paper.png",
+      "raw_exit": 0,
+      "seconds": 0.282936165924184,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "fried-egg",
+          "salmon",
+          "toast",
+          "vegetable-soup",
+          "stir-fried-noodles"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ],
+        "bodyHeight": 721
+      }
+    },
+    {
+      "page": "phone-fallbacks-paper",
+      "capture": "proofs/phone-fallbacks-paper.png",
+      "raw_exit": 0,
+      "seconds": 0.25172908301465213,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "phone-journal-night",
+      "capture": "proofs/phone-journal-night.png",
+      "raw_exit": 0,
+      "seconds": 0.34318558301310986,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "jasmine-rice",
+          "grilled-chicken",
+          "mango",
+          "coffee"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "phone-produce-night",
+      "capture": "proofs/phone-produce-night.png",
+      "raw_exit": 0,
+      "seconds": 0.31999887502752244,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "orange"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "phone-meals-night",
+      "capture": "proofs/phone-meals-night.png",
+      "raw_exit": 0,
+      "seconds": 0.3029396659694612,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "fried-egg",
+          "salmon",
+          "toast",
+          "vegetable-soup",
+          "stir-fried-noodles"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ],
+        "bodyHeight": 721
+      }
+    },
+    {
+      "page": "phone-fallbacks-night",
+      "capture": "proofs/phone-fallbacks-night.png",
+      "raw_exit": 0,
+      "seconds": 0.3104484579525888,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 109.640625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ],
+        "bodyHeight": 634
+      }
+    },
+    {
+      "page": "gallery-paper",
+      "capture": "proofs/gallery-paper-1440.png",
+      "raw_exit": 0,
+      "seconds": 0.4216295409714803,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "coffee",
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein",
+          "fried-egg",
+          "grilled-chicken",
+          "jasmine-rice",
+          "mango",
+          "orange",
+          "salmon",
+          "stir-fried-noodles",
+          "toast",
+          "vegetable-soup"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html",
+          "phone-journal-paper.html",
+          "phone-produce-paper.html",
+          "phone-meals-paper.html",
+          "phone-fallbacks-paper.html",
+          "catalog.json",
+          "optical-both.png",
+          "masters/avocado-paper.svg",
+          "exports/avocado-paper-512.png",
+          "masters/banana-paper.svg",
+          "exports/banana-paper-512.png",
+          "masters/broccoli-paper.svg",
+          "exports/broccoli-paper-512.png",
+          "masters/coffee-paper.svg",
+          "exports/coffee-paper-512.png",
+          "masters/fallback-drinks-paper.svg",
+          "exports/fallback-drinks-paper-512.png",
+          "masters/fallback-grains-paper.svg",
+          "exports/fallback-grains-paper-512.png",
+          "masters/fallback-produce-paper.svg",
+          "exports/fallback-produce-paper-512.png",
+          "masters/fallback-protein-paper.svg",
+          "exports/fallback-protein-paper-512.png",
+          "masters/fried-egg-paper.svg",
+          "exports/fried-egg-paper-512.png",
+          "masters/grilled-chicken-paper.svg",
+          "exports/grilled-chicken-paper-512.png",
+          "masters/jasmine-rice-paper.svg",
+          "exports/jasmine-rice-paper-512.png",
+          "masters/mango-paper.svg",
+          "exports/mango-paper-512.png",
+          "masters/orange-paper.svg",
+          "exports/orange-paper-512.png",
+          "masters/salmon-paper.svg",
+          "exports/salmon-paper-512.png",
+          "masters/stir-fried-noodles-paper.svg",
+          "exports/stir-fried-noodles-paper-512.png",
+          "masters/toast-paper.svg",
+          "exports/toast-paper-512.png",
+          "masters/vegetable-soup-paper.svg",
+          "exports/vegetable-soup-paper-512.png"
+        ],
+        "bodyHeight": 2523
+      }
+    },
+    {
+      "page": "gallery-paper",
+      "capture": "proofs/gallery-paper-390.png",
+      "raw_exit": 0,
+      "seconds": 0.33433208405040205,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "coffee",
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein",
+          "fried-egg",
+          "grilled-chicken",
+          "jasmine-rice",
+          "mango",
+          "orange",
+          "salmon",
+          "stir-fried-noodles",
+          "toast",
+          "vegetable-soup"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html",
+          "phone-journal-paper.html",
+          "phone-produce-paper.html",
+          "phone-meals-paper.html",
+          "phone-fallbacks-paper.html",
+          "catalog.json",
+          "optical-both.png",
+          "masters/avocado-paper.svg",
+          "exports/avocado-paper-512.png",
+          "masters/banana-paper.svg",
+          "exports/banana-paper-512.png",
+          "masters/broccoli-paper.svg",
+          "exports/broccoli-paper-512.png",
+          "masters/coffee-paper.svg",
+          "exports/coffee-paper-512.png",
+          "masters/fallback-drinks-paper.svg",
+          "exports/fallback-drinks-paper-512.png",
+          "masters/fallback-grains-paper.svg",
+          "exports/fallback-grains-paper-512.png",
+          "masters/fallback-produce-paper.svg",
+          "exports/fallback-produce-paper-512.png",
+          "masters/fallback-protein-paper.svg",
+          "exports/fallback-protein-paper-512.png",
+          "masters/fried-egg-paper.svg",
+          "exports/fried-egg-paper-512.png",
+          "masters/grilled-chicken-paper.svg",
+          "exports/grilled-chicken-paper-512.png",
+          "masters/jasmine-rice-paper.svg",
+          "exports/jasmine-rice-paper-512.png",
+          "masters/mango-paper.svg",
+          "exports/mango-paper-512.png",
+          "masters/orange-paper.svg",
+          "exports/orange-paper-512.png",
+          "masters/salmon-paper.svg",
+          "exports/salmon-paper-512.png",
+          "masters/stir-fried-noodles-paper.svg",
+          "exports/stir-fried-noodles-paper-512.png",
+          "masters/toast-paper.svg",
+          "exports/toast-paper-512.png",
+          "masters/vegetable-soup-paper.svg",
+          "exports/vegetable-soup-paper-512.png"
+        ],
+        "bodyHeight": 4509
+      }
+    },
+    {
+      "page": "gallery-night",
+      "capture": "proofs/gallery-night-1440.png",
+      "raw_exit": 0,
+      "seconds": 0.37411658302880824,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          1440,
+          1000
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "coffee",
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein",
+          "fried-egg",
+          "grilled-chicken",
+          "jasmine-rice",
+          "mango",
+          "orange",
+          "salmon",
+          "stir-fried-noodles",
+          "toast",
+          "vegetable-soup"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html",
+          "phone-journal-night.html",
+          "phone-produce-night.html",
+          "phone-meals-night.html",
+          "phone-fallbacks-night.html",
+          "catalog.json",
+          "optical-both.png",
+          "masters/avocado-night.svg",
+          "exports/avocado-night-512.png",
+          "masters/banana-night.svg",
+          "exports/banana-night-512.png",
+          "masters/broccoli-night.svg",
+          "exports/broccoli-night-512.png",
+          "masters/coffee-night.svg",
+          "exports/coffee-night-512.png",
+          "masters/fallback-drinks-night.svg",
+          "exports/fallback-drinks-night-512.png",
+          "masters/fallback-grains-night.svg",
+          "exports/fallback-grains-night-512.png",
+          "masters/fallback-produce-night.svg",
+          "exports/fallback-produce-night-512.png",
+          "masters/fallback-protein-night.svg",
+          "exports/fallback-protein-night-512.png",
+          "masters/fried-egg-night.svg",
+          "exports/fried-egg-night-512.png",
+          "masters/grilled-chicken-night.svg",
+          "exports/grilled-chicken-night-512.png",
+          "masters/jasmine-rice-night.svg",
+          "exports/jasmine-rice-night-512.png",
+          "masters/mango-night.svg",
+          "exports/mango-night-512.png",
+          "masters/orange-night.svg",
+          "exports/orange-night-512.png",
+          "masters/salmon-night.svg",
+          "exports/salmon-night-512.png",
+          "masters/stir-fried-noodles-night.svg",
+          "exports/stir-fried-noodles-night-512.png",
+          "masters/toast-night.svg",
+          "exports/toast-night-512.png",
+          "masters/vegetable-soup-night.svg",
+          "exports/vegetable-soup-night-512.png"
+        ],
+        "bodyHeight": 2523
+      }
+    },
+    {
+      "page": "gallery-night",
+      "capture": "proofs/gallery-night-390.png",
+      "raw_exit": 0,
+      "seconds": 0.30451991700101644,
+      "dom": {
+        "title": "Morsel · Refined food library",
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "avocado",
+          "banana",
+          "broccoli",
+          "coffee",
+          "fallback-drinks",
+          "fallback-grains",
+          "fallback-produce",
+          "fallback-protein",
+          "fried-egg",
+          "grilled-chicken",
+          "jasmine-rice",
+          "mango",
+          "orange",
+          "salmon",
+          "stir-fried-noodles",
+          "toast",
+          "vegetable-soup"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html",
+          "phone-journal-night.html",
+          "phone-produce-night.html",
+          "phone-meals-night.html",
+          "phone-fallbacks-night.html",
+          "catalog.json",
+          "optical-both.png",
+          "masters/avocado-night.svg",
+          "exports/avocado-night-512.png",
+          "masters/banana-night.svg",
+          "exports/banana-night-512.png",
+          "masters/broccoli-night.svg",
+          "exports/broccoli-night-512.png",
+          "masters/coffee-night.svg",
+          "exports/coffee-night-512.png",
+          "masters/fallback-drinks-night.svg",
+          "exports/fallback-drinks-night-512.png",
+          "masters/fallback-grains-night.svg",
+          "exports/fallback-grains-night-512.png",
+          "masters/fallback-produce-night.svg",
+          "exports/fallback-produce-night-512.png",
+          "masters/fallback-protein-night.svg",
+          "exports/fallback-protein-night-512.png",
+          "masters/fried-egg-night.svg",
+          "exports/fried-egg-night-512.png",
+          "masters/grilled-chicken-night.svg",
+          "exports/grilled-chicken-night-512.png",
+          "masters/jasmine-rice-night.svg",
+          "exports/jasmine-rice-night-512.png",
+          "masters/mango-night.svg",
+          "exports/mango-night-512.png",
+          "masters/orange-night.svg",
+          "exports/orange-night-512.png",
+          "masters/salmon-night.svg",
+          "exports/salmon-night-512.png",
+          "masters/stir-fried-noodles-night.svg",
+          "exports/stir-fried-noodles-night-512.png",
+          "masters/toast-night.svg",
+          "exports/toast-night-512.png",
+          "masters/vegetable-soup-night.svg",
+          "exports/vegetable-soup-night-512.png"
+        ],
+        "bodyHeight": 4509
+      }
+    }
+  ],
+  "phone_catalog_coverage": {
+    "paper": [
+      "avocado",
+      "banana",
+      "broccoli",
+      "coffee",
+      "fallback-drinks",
+      "fallback-grains",
+      "fallback-produce",
+      "fallback-protein",
+      "fried-egg",
+      "grilled-chicken",
+      "jasmine-rice",
+      "mango",
+      "orange",
+      "salmon",
+      "stir-fried-noodles",
+      "toast",
+      "vegetable-soup"
+    ],
+    "night": [
+      "avocado",
+      "banana",
+      "broccoli",
+      "coffee",
+      "fallback-drinks",
+      "fallback-grains",
+      "fallback-produce",
+      "fallback-protein",
+      "fried-egg",
+      "grilled-chicken",
+      "jasmine-rice",
+      "mango",
+      "orange",
+      "salmon",
+      "stir-fried-noodles",
+      "toast",
+      "vegetable-soup"
+    ]
+  },
+  "scope": "Real-browser capture and DOM validation only; no visual-review or authoring-time claim."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "coffee",
+  "name": "Coffee",
+  "aliases": [
+    "black coffee",
+    "กาแฟ"
+  ],
+  "category": "drinks",
+  "kind": "food",
+  "description": "A cream ceramic coffee cup, curved handle, saucer and two delicate steam strokes.",
+  "layers": [
+    {
+      "d": "M47 178 C46 165.82 83.47999999999999 157 123 157 C171.64 158 199 168.55 199 178 C198 192.7 158.72 199 123 199 C77.4 198 47 188.08 47 178 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M170 115 C211 106 214 151 176 156 L174 145 C198 145 199 122 174 126 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M74 111 Q80 174 122 178 Q164 177 178 111 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M74 111 C73 99.98 98.96000000000001 92 126 92 C159.28 93 178 102.45 178 111 C177 124.3 150.44 130 126 130 C94.8 129 74 120.12 74 111 Z",
+      "fill": "paper",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M82 112 C81 104.46000000000001 103.12 99 126 99 C154.16 100 170 106.15 170 112 C169 121.1 146.68 125 126 125 C99.6 124 82 118.24 82 112 Z",
+      "fill": "brown",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M85 134 Q90 159 104 165",
+      "fill": "none",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M113 86 C99 70 123 63 112 47 M142 85 C130 71 150 65 141 52",
+      "fill": "none",
+      "width": 0.8,
+      "opacity": 0.7
+    }
+  ]
+}

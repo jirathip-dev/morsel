@@ -1,0 +1,36 @@
+{
+  "id": "fallback-drinks",
+  "name": "Drink · fallback",
+  "aliases": [
+    "beverage category"
+  ],
+  "category": "drinks",
+  "kind": "fallback",
+  "description": "A plain drinking glass with a restrained pale wash; contents intentionally unspecified.",
+  "layers": [
+    {
+      "d": "M82 88 L93 179 Q128 197 163 179 L177 90 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M82 88 C81 80.46000000000001 105.03999999999999 75 130 75 C160.72 76 178 82.15 178 88 C177 97.1 152.56 101 130 101 C101.2 100 82 94.24 82 88 Z",
+      "fill": "paper",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M91 126 Q129 140 170 126 L161 176 Q129 190 96 176 Z",
+      "fill": "peach",
+      "width": 0.8,
+      "opacity": 1
+    },
+    {
+      "d": "M102 101 L106 119 M105 139 L109 168",
+      "fill": "none",
+      "width": 0.7,
+      "opacity": 1
+    }
+  ]
+}

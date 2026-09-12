@@ -1,0 +1,16 @@
+{
+  "seconds": 1.721512750023976,
+  "subjects": [
+    "mango",
+    "grilled-chicken",
+    "stir-fried-noodles",
+    "coffee"
+  ],
+  "png_count": 16,
+  "sizes": [
+    64,
+    256
+  ],
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/sample_gate.py render",
+  "scope": "Export only; authoring, review and proof composition separate."
+}
