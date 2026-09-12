@@ -70,11 +70,12 @@ no `/functions/v1` gateway prefix, so the app mounts with `basePath: '/mcp'`
 at the raw origin root, and no `/mcp/mcp` alias and no `/functions/v1`
 artifacts. `issuer`/`resource`/endpoints derive from the configured
 `MORSEL_PUBLIC_BASE_URL` (canonical value `https://mcp.morselfood.app/mcp`;
-the deployed secret currently still names the legacy origin until the
-human-gated env flip — both values are valid and metadata on both origins is
-identical), never from the
-request Host header; `authorization_endpoint` is the Vercel consent page. The
-BROWSER consent surface is the static Vercel page under `authorize-ui/`
+the env flip landed 2026-09-07 — the deployed Fly secret now names that
+value, release `84ed375b2d27`, issues #130/#170, second-user Claude connect
+confirmed — so metadata on both origins is canonical and identical, and the
+legacy origin stays valid until retired), never from the request Host header;
+`authorization_endpoint` is the Vercel consent page.
+The BROWSER consent surface is the static Vercel page under `authorize-ui/`
 (issue #69): the page's same-origin `params.js` bridges the allowlisted query
 fields into hidden inputs and each stage form POSTs directly (cross-origin —
 no CORS, no fetch, no proxy) to the Fly origin's `/mcp/authorize` (issue

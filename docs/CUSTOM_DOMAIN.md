@@ -4,9 +4,11 @@
 > hosting (`server/fly-entrypoint.ts`, `docs/FLY_DEPLOY.md`) — one Bun process
 > on a Fly VM keeps the in-memory MCP session map alive. The Fly origin is
 > deployed and canonical: the client-facing URL is
-> `https://morsel-mcp.fly.dev/mcp`, which the app build configuration and the
-> onboarding copy publish (issue #75), so this Supabase custom-domain option
-> is not the path to a clean MCP endpoint host. The rest of this document is
+> `https://mcp.morselfood.app/mcp` (issue #130 — the custom domain over the
+> deployment of issues #72/#75; the legacy `https://morsel-mcp.fly.dev/mcp`
+> origin still serves identically), which the app build configuration and the
+> onboarding copy publish, so this Supabase custom-domain option is not
+> the path to a clean MCP endpoint host. The rest of this document is
 > kept as the record of the earlier (never-activated) Supabase custom-domain
 > plan, which still applies to the Supabase side if the repository ever
 > serves browser HTML from the Supabase function origin again — a Supabase
@@ -28,8 +30,9 @@ bodyless 302s back to that page (the optional
 on the deployed Fly app — live authorization-server metadata advertises the
 Vercel page — and any future change is human-gated). The canonical MCP URL,
 issuer, OAuth backend routes, resource, and challenge URLs live on the Fly
-origin at
-`https://morsel-mcp.fly.dev/mcp` (issues #72/#73/#75). The Supabase Edge
+origin at `https://mcp.morselfood.app/mcp` (issue #130 — the custom domain
+over the deployment of issues #72/#73/#75; the legacy `morsel-mcp.fly.dev`
+origin still serves identically). The Supabase Edge
 Function transport is legacy/retained backend compatibility only — it is not
 a client-facing base, and a Supabase custom domain would not change the
 canonical MCP base. This document describes a separate future custom-domain
@@ -44,8 +47,9 @@ while the function stays metadata/JSON/302-only. A project-level custom
 domain remains Supabase's supported future path to stable, browser-facing
 behavior for a server-hosted OAuth `/authorize` form (should the repository
 ever move the consent skin back onto the function origin). It is not a path
-to the MCP endpoint host — the canonical client-facing URL is the Fly origin
-`https://morsel-mcp.fly.dev/mcp` (issues #72/#75). The example below is the
+to the MCP endpoint host — the canonical client-facing URL is
+`https://mcp.morselfood.app/mcp` (issue #130, the custom domain over the Fly
+origin of issues #72/#75). The example below is the
 Supabase-side base of that earlier plan:
 
 ```
@@ -81,6 +85,15 @@ value reaches it through the build-config Info.plist key.
   assume it.
 
 ## Activation checklist (human-gated; each step explicit)
+
+> **Morsel status (issue #170):** the "update `SUPABASE_URL` / public-base
+> env to the custom domain" items below need no MCP-side work: the Fly secret
+> `MORSEL_PUBLIC_BASE_URL` was already flipped to the custom domain —
+> `https://mcp.morselfood.app/mcp` — on 2026-09-07 (Fly release
+> `84ed375b2d27`), and discovery metadata is canonical on both origins. The
+> `SUPABASE_URL` switch remains part of this still-unactivated Supabase
+> custom-domain plan only; nothing in this checklist is pending for the MCP
+> endpoint today.
 
 1. **Choose the subdomain** and confirm the plan add-on with the project owner.
 2. **Prepare Supabase Auth callback/redirect settings BEFORE switching:**

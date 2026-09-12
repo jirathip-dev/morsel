@@ -507,13 +507,14 @@ URL is `https://mcp.morselfood.app/mcp` (issue #130 — the morselfood.app
 custom domain over the same Fly deployment first published in issues
 #72/#73/#75).
 
-> **Transition (issue #130):** the legacy `https://morsel-mcp.fly.dev/mcp`
-> origin still serves the identical transport, OAuth metadata, and 401
-> challenges until fully retired — no client is forced to migrate. Both
-> origins remain valid `MORSEL_PUBLIC_BASE_URL` values; the deployed Fly
-> secret currently still names the legacy origin, so discovery documents on
-> both origins advertise the legacy issuer until the human-gated env flip
-> (see `docs/FLY_DEPLOY.md`).
+> **Transition (issue #130; env flip landed 2026-09-07 — issue #170):** the
+> legacy `https://morsel-mcp.fly.dev/mcp` origin still serves the identical
+> transport, OAuth metadata, and 401 challenges until fully retired — no
+> client is forced to migrate. Both origins remain valid
+> `MORSEL_PUBLIC_BASE_URL` values; the deployed Fly secret was flipped to the
+> canonical `https://mcp.morselfood.app/mcp` on 2026-09-07 (release
+> `84ed375b2d27`, second-user Claude connect confirmed), so discovery
+> documents on both origins advertise the canonical issuer.
 
 OAuth clients discover the provider through
 `/.well-known/oauth-protected-resource` (the path-specific
