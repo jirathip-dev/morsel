@@ -190,7 +190,7 @@ private final class ReadDeniedReader: WeightSampleReading {
 
     func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
 
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool { false }
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { false }
 
     func startObserving(
         _ kind: HealthKitObserverKind,
@@ -216,7 +216,7 @@ private final class EnergyOnlyReader: WeightSampleReading {
 
     func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
 
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool { true }
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { true }
 
     func startObserving(
         _ kind: HealthKitObserverKind,
