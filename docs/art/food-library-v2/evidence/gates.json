@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "steps": [
+    {
+      "step": "build",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py build",
+      "raw_exit": 0,
+      "seconds": 13.698977207997814,
+      "log": "evidence/gate-build.log"
+    },
+    {
+      "step": "proofs",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_proofs.py",
+      "raw_exit": 0,
+      "seconds": 0.47944812499918044,
+      "log": "evidence/gate-proofs.log"
+    },
+    {
+      "step": "chicken",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/chicken_gate.py",
+      "raw_exit": 0,
+      "seconds": 0.3387704159831628,
+      "log": "evidence/gate-chicken.log"
+    },
+    {
+      "step": "browser",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_capture.py",
+      "raw_exit": 0,
+      "seconds": 4.644378750002943,
+      "log": "evidence/gate-browser.log"
+    },
+    {
+      "step": "assets",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py verify",
+      "raw_exit": 0,
+      "seconds": 0.4480892079882324,
+      "log": "evidence/gate-assets.log"
+    },
+    {
+      "step": "workflow",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_tests.py",
+      "raw_exit": 0,
+      "seconds": 21.85116137494333,
+      "log": "evidence/gate-workflow.log"
+    },
+    {
+      "step": "local",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_gate.py local",
+      "raw_exit": 0,
+      "seconds": 0.20663437491748482,
+      "log": "evidence/gate-local.log"
+    }
+  ],
+  "seconds": 41.67038824991323,
+  "scope": "Design gate only. Does not test, build, wire or approve the native app."
+}

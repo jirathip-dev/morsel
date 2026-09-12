@@ -1,0 +1,28 @@
+{
+  "raw_exit": 0,
+  "elapsed_seconds": 13.633855,
+  "renderer_seconds": 13.311913,
+  "renderer": "rsvg-convert version 2.62.3\n\nlibraries used:\n  cairo 1.18.4\n  pango 1.58.0\n  harfbuzz 14.3.0\n  fontconfig 2.18.2",
+  "rebuilt": [
+    "avocado",
+    "banana",
+    "broccoli",
+    "coffee",
+    "fallback-drinks",
+    "fallback-grains",
+    "fallback-produce",
+    "fallback-protein",
+    "fried-egg",
+    "grilled-chicken",
+    "jasmine-rice",
+    "mango",
+    "orange",
+    "salmon",
+    "stir-fried-noodles",
+    "toast",
+    "vegetable-soup"
+  ],
+  "skipped": [],
+  "count": 17,
+  "scope": "Compiler/cache/export only; excludes authoring, proof composition, captures and review."
+}

@@ -1,0 +1,25 @@
+{
+  "raw_exit": 0,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/library.py add skills/food-art/examples/avocado.json",
+  "command_elapsed_seconds": 2.4386947909370065,
+  "elapsed_including_manual_authoring_seconds": 42.35009525,
+  "unchanged_existing_artifacts": 128,
+  "changed_existing_artifacts": [],
+  "added_artifacts": [
+    "exports/avocado-night-192.png",
+    "exports/avocado-night-512.png",
+    "exports/avocado-night-64.png",
+    "exports/avocado-paper-192.png",
+    "exports/avocado-paper-512.png",
+    "exports/avocado-paper-64.png",
+    "masters/avocado-night.svg",
+    "masters/avocado-paper.svg"
+  ],
+  "manual_steps": [
+    "Read saved SKILL.md and existing mango source",
+    "Author avocado JSON paths using saved layer vocabulary",
+    "Invoke saved add command via this timing wrapper"
+  ],
+  "retries": 0,
+  "scope_note": "Timing includes this one further food and local pipeline. Not a benchmark of arbitrary foods, approval time or paid-service cost."
+}

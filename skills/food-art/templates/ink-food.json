@@ -1,0 +1,8 @@
+{
+  "id": "new-food",
+  "name": "New food",
+  "aliases": ["new food"],
+  "kind": "food",
+  "category": "produce",
+  "description": "Replace with an honest description of the authored generic food study."
+}

@@ -1,0 +1,28 @@
+{
+  "batch": "produce-protein",
+  "started_at_utc": "2026-09-12T14:31:02Z",
+  "ended_at_utc": "2026-09-12T14:37:12Z",
+  "start_epoch": 1789223462,
+  "end_epoch": 1789223832,
+  "wall_clock_elapsed_seconds": 370,
+  "measurement_scope": "Initial reference/skill reading through final source authoring and structural validation; wall clock, not active hand time. Evidence JSON packaging excluded.",
+  "authorship": "Original digitally authored naturalist journal ink-and-wash SVG paths; not physical watercolor.",
+  "verified_source_count": 6,
+  "verification": {
+    "xml_parses": true,
+    "canvas_256": true,
+    "wash_defs_placeholder": true,
+    "palette_tokens_allowlisted": true,
+    "path_command_character_check": true,
+    "no_image_rect_circle_ellipse_use_or_script": true,
+    "visual_review": "pending parent compiler renders and vision review; no visual PASS claimed"
+  },
+  "sources": [
+    {"path":"docs/art/food-library-v2/sources/avocado.svg","path_count":21,"construction":"Pebbled dark whole fruit behind a pale pear-shaped half, broad buttery flesh and large warm irregular pit."},
+    {"path":"docs/art/food-library-v2/sources/banana.svg","path_count":17,"construction":"Asymmetric bent peel with flattened longitudinal facets, bruised cut stem, blossom tip and sparse ripening flecks."},
+    {"path":"docs/art/food-library-v2/sources/broccoli.svg","path_count":13,"construction":"Uneven dense multi-lobed crown, selective bud marks, shadowed floret joins and fibrous forked pale stalk."},
+    {"path":"docs/art/food-library-v2/sources/fried-egg.svg","path_count":14,"construction":"Irregular scalloped browned albumen edge, translucent folded white washes and warm off-center domed yolk."},
+    {"path":"docs/art/food-library-v2/sources/orange.svg","path_count":24,"construction":"Dimpled whole fruit with leaf behind an oblique cut hemisphere; uneven radial pulp segments separated by pale pith."},
+    {"path":"docs/art/food-library-v2/sources/salmon.svg","path_count":19,"construction":"Tapered oblique fillet with distinct thickness, branching variable-width fat seams, translucent flesh and a narrow scaly silver-green skin edge."}
+  ]
+}

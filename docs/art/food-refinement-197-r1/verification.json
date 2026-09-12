@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "subjects": [
+    "mango",
+    "grilled-chicken",
+    "stir-fried-noodles",
+    "coffee"
+  ],
+  "candidate_pngs": 16,
+  "candidate_svg_masters": 8,
+  "control_files_hash_and_mtime_unchanged": 217,
+  "catalog_unchanged": true,
+  "raw_exit": 0,
+  "approval": "PENDING"
+}

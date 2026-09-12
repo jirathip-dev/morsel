@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "elapsed_seconds": 4.142181457951665,
+  "cases": [
+    {
+      "name": "no-op preserves every asset byte and mtime",
+      "raw_exit": 0
+    },
+    {
+      "name": "one source change rebuilds only that food",
+      "raw_exit": 0,
+      "changed": [
+        "masters/avocado-paper.svg",
+        "masters/avocado-night.svg",
+        "exports/avocado-night-512.png",
+        "exports/avocado-paper-192.png",
+        "exports/avocado-night-64.png",
+        "exports/avocado-paper-64.png",
+        "exports/avocado-night-192.png",
+        "exports/avocado-paper-512.png"
+      ]
+    },
+    {
+      "name": "tamper repair isolated to one food",
+      "raw_exit": 0
+    },
+    {
+      "name": "RED catalog drift rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "RED blank export rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "RED duplicate ID rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "RED unsafe ID rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "RED unapproved pigment rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "RED XML injection rejected",
+      "raw_exit": 1
+    },
+    {
+      "name": "restored fixture GREEN",
+      "raw_exit": 0
+    },
+    {
+      "name": "repository skill authoring contract",
+      "status": "PASS"
+    }
+  ],
+  "raw_exit": 0
+}

@@ -1,0 +1,36 @@
+{
+  "id": "banana",
+  "name": "Banana",
+  "aliases": [
+    "กล้วย"
+  ],
+  "category": "produce",
+  "kind": "food",
+  "description": "A curved golden banana with a slender brown stem and two fine longitudinal contour lines.",
+  "layers": [
+    {
+      "d": "M58 102 Q67 155 121 157 Q169 155 190 102 L199 96 Q204 147 161 178 Q104 207 62 153 Q50 132 50 112 Z",
+      "fill": "gold",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M57 111 Q88 195 177 155 M64 115 Q95 171 172 145",
+      "fill": "none",
+      "width": 0.8,
+      "opacity": 1
+    },
+    {
+      "d": "M50 112 L46 101 L55 94 L62 103 Z",
+      "fill": "brown",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M188 104 l4 -14 l8 2 l-1 12 Z",
+      "fill": "brown",
+      "width": 1.1,
+      "opacity": 1
+    }
+  ]
+}
