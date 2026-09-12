@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Broccoli — clustered buds and fibrous forked stalk, digital ink and wash study</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="forked-stalk">
+ <path d="M111 210 C115 187 111 170 101 157 L76 134 L89 123 L117 148 L126 119 L140 122 L134 158 L161 139 L180 134 L185 145 C159 157 143 178 149 207 Q136 220 111 210Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M114 210 Q127 182 116 163 L91 133 L84 134 Q110 165 111 184Z M132 165 L139 134 L134 123 L128 150 L123 160Z M137 178 Q155 152 180 143 L176 138 Q147 148 137 164Z" fill="{{leaf}}" opacity=".61" filter="url(#wash)"/>
+ <path d="M139 181 Q140 197 148 207 Q136 218 112 211 L117 204 Q133 209 135 201Z" fill="{{sage}}" opacity=".77" filter="url(#wash)"/>
+ <path d="M122 200 Q130 184 123 170 M134 198 l-2 -16 M115 161 l-13 -15 M144 165 l16 -13" fill="none" stroke="{{line}}" stroke-width=".53" opacity=".62"/>
+ <path d="M112 193 l-1 16 Q127 220 149 208 M148 200 Q142 179 154 163" fill="none" stroke="{{line}}" stroke-width="1.05" stroke-linecap="round"/>
+</g>
+<g id="dense-irregular-crown">
+ <path d="M45 114 Q34 101 46 91 Q41 74 59 69 Q63 52 83 57 Q90 41 108 48 Q119 33 137 42 Q156 37 165 52 Q184 46 194 64 Q212 67 209 86 Q225 96 215 111 Q220 127 202 133 Q197 149 178 141 Q164 154 149 142 Q135 154 120 141 Q104 153 90 142 Q75 149 63 137 Q45 138 45 124Z" fill="{{forest}}" opacity=".86"/>
+ <path d="M45 99 Q49 86 60 86 Q53 71 71 67 Q85 57 95 68 Q100 52 115 55 Q130 43 145 51 Q154 62 147 77 Q169 63 184 74 Q193 88 183 97 C166 105 161 93 148 104 Q135 119 119 107 Q103 112 94 102 Q72 117 57 106Z" fill="{{leaf}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M50 113 Q68 102 83 117 Q99 104 112 117 Q122 132 137 117 Q150 105 168 119 Q175 103 194 102 L211 111 Q216 130 199 134 Q188 147 173 137 Q157 151 147 139 Q131 152 119 140 Q97 152 88 137 Q58 148 50 126Z" fill="{{dark}}" opacity=".26" filter="url(#wash)"/>
+ <path d="M69 66 Q78 58 87 64 L94 73 Q82 69 73 78Z M110 55 Q127 42 137 50 L141 58 Q124 54 116 66Z M169 71 Q182 67 190 78 L193 86 Q180 76 172 84Z" fill="{{sage}}" opacity=".74" filter="url(#wash)"/>
+</g>
+<g id="floret-branching-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M45 122 Q39 112 45 106 M44 89 Q40 76 54 71 M65 60 Q74 52 84 58 M92 48 Q101 43 109 49 M119 42 Q132 34 140 43 M155 44 Q163 46 166 53 M180 53 Q193 53 196 65 M210 78 l-1 8 M216 96 Q222 106 214 112" stroke-width=".84"/>
+ <path d="M51 132 Q61 142 73 139 M88 142 Q100 151 114 143 M132 147 l10 -5 M163 147 Q174 145 178 141 M192 142 Q204 137 204 131" stroke-width="1.24"/>
+ <path d="M68 92 Q76 84 85 91 M91 99 Q101 91 111 101 M117 79 Q130 71 140 82 M144 100 Q153 91 165 98 M176 110 Q187 103 196 112 M69 126 l7 -9 l9 3 M112 127 l7 -8 M143 132 l8 -10 l11 6" stroke-width=".57" opacity=".73"/>
+ <path d="M58 87 q-3 -5 2 -7 M72 72 l2 -3 M82 80 q2 -5 5 -2 M103 66 q1 -4 4 -3 M115 59 l3 -3 M130 63 q1 -4 4 -2 M150 63 l3 2 M164 82 q2 -5 5 -2 M181 80 l2 3 M201 99 q-3 -4 1 -6 M53 109 l2 3 M94 123 l2 -3 M128 113 l3 2 M158 114 l2 -3" stroke-width="1.05" opacity=".58"/>
+</g>
+</svg>

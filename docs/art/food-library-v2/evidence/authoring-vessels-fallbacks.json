@@ -1,0 +1,122 @@
+{
+  "authoring_window_start_utc": "2026-09-12T14:30:58+00:00",
+  "authoring_window_end_utc": "2026-09-12T14:37:57.784718+00:00",
+  "elapsed_seconds": 419.785,
+  "window_definition": "Observed wall-clock from initial prerequisite reads through seven-source XML verification; includes authoring and tool waits, not a claim of uninterrupted drawing time.",
+  "verified_source_count": 7,
+  "verification": "XML parsing, exact dimensions, allowed palette tokens, shared defs marker, local wash/dry references and forbidden-element checks passed. No rendering or visual approval performed; parent owns compiled theme and phone-size proofs.",
+  "sources": [
+    {
+      "id": "jasmine-rice",
+      "path": "docs/art/food-library-v2/sources/jasmine-rice.svg",
+      "sha256": "974caf2cc4f7281e9fe0c85d4572109271ad929ff81b9ec03dee8874819be253",
+      "xml_parse": "pass",
+      "path_elements": 14,
+      "palette_tokens": [
+        "cream",
+        "forest",
+        "line",
+        "ochre",
+        "paper",
+        "sage"
+      ]
+    },
+    {
+      "id": "toast",
+      "path": "docs/art/food-library-v2/sources/toast.svg",
+      "sha256": "2d79f4fa229f76b63d334bdbc99c209dbc09f6536b068ab2a093d8a2afc7bd1c",
+      "xml_parse": "pass",
+      "path_elements": 17,
+      "palette_tokens": [
+        "brown",
+        "cream",
+        "gold",
+        "line",
+        "ochre",
+        "paper"
+      ]
+    },
+    {
+      "id": "vegetable-soup",
+      "path": "docs/art/food-library-v2/sources/vegetable-soup.svg",
+      "sha256": "b6d38d8e93a33a671b31597dfc6cda906c5fb15efa62e60e3ca5987fcf11660a",
+      "xml_parse": "pass",
+      "path_elements": 18,
+      "palette_tokens": [
+        "cream",
+        "forest",
+        "gold",
+        "line",
+        "ochre",
+        "orange",
+        "paper",
+        "sage"
+      ]
+    },
+    {
+      "id": "fallback-drinks",
+      "path": "docs/art/food-library-v2/sources/fallback-drinks.svg",
+      "sha256": "15fe0367ca85a1010b944cc61c1b254c854219009a6931d613f3838bf54fa2d8",
+      "xml_parse": "pass",
+      "path_elements": 12,
+      "palette_tokens": [
+        "cream",
+        "line",
+        "ochre",
+        "paper",
+        "sage"
+      ]
+    },
+    {
+      "id": "fallback-grains",
+      "path": "docs/art/food-library-v2/sources/fallback-grains.svg",
+      "sha256": "48aed39c3ee9b5846f2d194a55213910a0e2a3636b130ac1325b60b47e16d8c2",
+      "xml_parse": "pass",
+      "path_elements": 12,
+      "palette_tokens": [
+        "brown",
+        "cream",
+        "gold",
+        "line",
+        "ochre",
+        "paper"
+      ]
+    },
+    {
+      "id": "fallback-produce",
+      "path": "docs/art/food-library-v2/sources/fallback-produce.svg",
+      "sha256": "d24d35e2397f41830ba96ba1b9b1c34c7534655b97536fcc5be099064df0b952",
+      "xml_parse": "pass",
+      "path_elements": 18,
+      "palette_tokens": [
+        "brown",
+        "cream",
+        "gold",
+        "leaf",
+        "line",
+        "ochre",
+        "paper",
+        "peach",
+        "red",
+        "sage"
+      ]
+    },
+    {
+      "id": "fallback-protein",
+      "path": "docs/art/food-library-v2/sources/fallback-protein.svg",
+      "sha256": "5cb0c005467f73af066e6247eeec9d13a86e455ac9f2539bfac2b588038f7c76",
+      "xml_parse": "pass",
+      "path_elements": 19,
+      "palette_tokens": [
+        "brown",
+        "cream",
+        "line",
+        "ochre",
+        "paper",
+        "peach",
+        "red",
+        "sage"
+      ]
+    }
+  ]
+}

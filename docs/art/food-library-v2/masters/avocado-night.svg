@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Avocado — pebbled skin and buttery cut flesh, digital ink and wash study</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="whole-pebbled-fruit">
+ <path d="M57 101 C67 89 66 65 83 57 C99 49 111 61 115 79 C119 99 139 115 140 139 C144 162 127 186 105 191 C77 196 48 180 43 158 C37 136 46 115 57 101Z" fill="#2F654B" opacity=".83"/>
+ <path d="M59 105 C72 93 73 68 88 61 Q105 53 111 82 C111 104 126 111 128 131 C109 121 117 148 94 164 C65 173 48 156 50 140Z" fill="#E1E9D7" opacity=".65" filter="url(#wash)"/>
+ <path d="M45 145 C52 172 80 178 101 165 Q121 154 133 135 C147 164 120 191 96 190 C66 190 44 175 45 145Z" fill="#2A261F" opacity=".29" filter="url(#wash)"/>
+ <path d="M67 110 Q76 94 80 77 L85 70 Q84 97 76 111 L67 125Z" fill="#5E7E57" opacity=".42" filter="url(#dry)"/>
+ <path d="M88 58 l2 -9 l5 1 l-3 9Z" fill="#655A4B" opacity=".82"/>
+</g>
+<g id="skin-broken-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M43 147 Q38 125 55 105 M61 96 C68 83 68 65 82 58 M97 56 Q112 60 115 79" stroke-width=".85"/>
+ <path d="M45 162 Q53 184 79 189 M89 192 Q112 193 127 176" stroke-width="1.25"/>
+ <path d="M56 142 l2 -3 M61 151 l3 1 M67 133 l1 -3 M73 146 l3 -2 M59 163 l3 3 M74 173 l3 -1 M84 161 l1 -3 M91 180 l3 -2 M53 127 l2 -2 M80 120 l2 1 M85 95 l1 -3 M99 106 l2 3 M96 79 l2 2 M110 130 l-2 3" stroke-width="1.25" opacity=".48"/>
+</g>
+<g id="half-rind-and-cut-plane">
+ <path d="M128 85 C139 71 151 77 158 91 C166 108 190 120 204 140 C224 169 210 199 185 210 C157 224 119 209 109 184 C97 159 104 137 116 116 C123 104 122 94 128 85Z" fill="#2F654B" opacity=".91"/>
+ <path d="M132 86 Q146 73 154 93 C163 113 188 126 200 144 C216 169 205 193 182 204 C157 216 125 204 115 181 C105 157 113 134 123 116 C129 103 125 96 132 86Z" fill="#E1E9D7" opacity=".78"/>
+ <path d="M137 87 Q147 83 151 98 C160 117 184 128 195 146 C210 170 199 191 179 199 C156 209 130 200 120 179 C112 158 120 137 128 120 C133 108 130 96 137 87Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M132 117 Q147 110 158 124 C170 135 189 133 197 155 Q207 178 184 195 C162 211 135 194 126 180 Q145 187 151 176 C136 160 137 138 132 117Z" fill="#D6A62C" opacity=".28" filter="url(#wash)"/>
+ <path d="M127 149 Q119 168 130 181 M135 106 Q136 96 140 94" fill="none" stroke="#FFF7E8" stroke-width="4" opacity=".64" filter="url(#dry)"/>
+</g>
+<g id="large-warm-pit">
+ <path d="M143 143 C154 132 172 137 182 149 C195 164 190 185 174 191 C155 198 137 184 135 169 C133 160 137 150 143 143Z" fill="#655A4B" opacity=".94"/>
+ <path d="M145 145 C156 136 174 145 178 158 C179 174 165 181 151 177 C139 174 137 155 145 145Z" fill="#A5750B" opacity=".72" filter="url(#wash)"/>
+ <path d="M177 149 C195 162 192 181 175 190 Q154 198 142 180 C160 189 181 176 177 149Z" fill="#2A261F" opacity=".37" filter="url(#wash)"/>
+ <path d="M145 153 Q150 144 158 146 l6 4 Q153 148 148 158Z" fill="#F2E9D9" opacity=".45" filter="url(#dry)"/>
+</g>
+<g id="half-selective-contours" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M110 177 C101 151 115 128 121 113 M129 86 Q142 72 151 83 M162 106 Q190 128 203 142" stroke-width=".72"/>
+ <path d="M115 192 Q136 221 174 214 M184 209 Q214 198 216 173 M213 162 l-3 -10" stroke-width="1.3"/>
+ <path d="M137 159 Q135 148 146 141 M160 138 Q178 138 186 155 M189 170 Q187 190 169 193 Q150 197 140 182" stroke-width=".86"/>
+ <path d="M145 180 l5 6 M150 184 l6 4 M120 184 l5 8 M127 197 l7 5 M198 190 l5 -7" stroke-width=".43" opacity=".66"/>
+</g>
+</svg>

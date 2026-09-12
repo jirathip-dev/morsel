@@ -1,0 +1,30 @@
+{
+  "seconds": {
+    "six_source_initial_window": 370,
+    "seven_source_initial_window": 419.785,
+    "chicken_initial_authoring_window": 118.0809685,
+    "chicken_export_review_correction_window": 172.442617833,
+    "session_through_final_visual_review_window": 2560.394019209,
+    "final_full_build": 13.633855,
+    "renderer_subprocesses_within_build": 13.311913,
+    "proof_composition": 0.36096470907796174,
+    "browser_captures_and_dom_checks": 4.521091458038427,
+    "workflow_fixture_suite": 21.75123212498147,
+    "no_op_build": 0.050313,
+    "single_source_mutation_build": 1.148722,
+    "synthetic_single_addition_build": 1.434928
+  },
+  "not_measured_separately": [
+    "active uninterrupted drawing time",
+    "fallback corrective drawing alone",
+    "skill/tooling authoring alone",
+    "final documentation and Git handoff"
+  ],
+  "caveats": [
+    "Two source-batch windows overlap; do not sum as project duration.",
+    "Initial source windows include prerequisite reads and tool waits, not final parent correction or review.",
+    "Chicken correction window includes initial render/review and subsequent edits; not pure drawing.",
+    "Session window includes tooling, reads, waits, review and corrections but ends before final documentation/packaging/Git handoff.",
+    "Compiler and synthetic addition timings are machine work only, not creating finished art."
+  ]
+}
