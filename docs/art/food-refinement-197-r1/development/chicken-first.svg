@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Grilled chicken — sliced breast ink and wash study, not portion evidence</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="hand-thrown-plate">
+ <path d="M35 161 C37 145 71 133 120 130 C159 128 208 143 220 159 C232 179 200 196 145 201 C94 204 48 187 35 174 Q31 166 35 161Z" fill="{{paper}}" opacity=".65"/>
+ <path d="M37 169 C57 191 102 199 148 196 C184 193 205 187 219 173 C199 187 173 187 142 190 C105 194 56 178 37 169Z" fill="{{cream}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M35 158 Q53 139 89 135 M106 131 Q164 125 204 148 M221 160 Q232 178 201 188 M187 194 Q113 212 53 183 M44 179 l-9 -8" fill="none" stroke="{{line}}" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M52 160 Q84 145 119 145 M163 147 Q193 152 203 164 M80 184 Q134 199 183 183" fill="none" stroke="{{line}}" stroke-width=".4" opacity=".6"/>
+</g>
+<g id="breast-anatomy-and-glaze">
+ <path d="M99 128 C103 113 103 100 117 92 C132 83 151 88 161 93 C169 99 186 102 193 114 C198 124 185 146 172 157 C162 168 139 174 123 162 C109 154 104 140 99 128Z" fill="{{paper}}" opacity=".88"/>
+ <path d="M103 123 C106 103 118 86 137 89 C153 88 166 103 178 105 C196 113 192 126 182 141 C176 150 165 164 148 166 C127 166 113 143 103 123Z" fill="{{ochre}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M113 109 Q126 88 145 98 C153 101 155 112 171 113 C187 117 179 128 171 135 C155 142 147 128 136 125 C125 121 114 124 113 109Z" fill="{{peach}}" opacity=".63" filter="url(#wash)"/>
+ <path d="M132 131 C151 134 165 140 180 132 C174 151 160 169 145 165 C134 160 121 144 119 136Z" fill="{{orange}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M106 113 L114 120 L119 135 L130 147 L126 151 Q115 140 111 130Z M132 96 L138 101 L140 112 L149 123 L144 125 L137 113Z M155 101 L160 106 L163 120 L174 129 L168 133 L159 124 L157 113Z M174 112 L180 118 L182 125 L178 128 L175 121Z" fill="{{brown}}" opacity=".84" filter="url(#dry)"/>
+ <path d="M117 122 l5 7 l3 10 l-4 -4Z M143 111 l4 5 l3 8 l-3 -2Z M164 121 l7 9 l-3 2 l-4 -6Z M150 152 l11 -3 l-5 4Z" fill="{{dark}}" opacity=".6"/>
+ <path d="M116 104 Q123 97 128 98 M151 105 l5 3 M173 117 l5 4 M138 141 l4 4" fill="none" stroke="{{paper}}" stroke-width="2.6" opacity=".63" filter="url(#dry)"/>
+</g>
+<g id="three-cut-slices-with-fibres">
+ <path d="M102 120 C95 119 90 125 88 132 C96 146 112 164 128 171 L140 166 C123 154 116 137 102 120Z" fill="{{ochre}}" opacity=".86"/>
+ <path d="M96 127 Q92 130 94 134 C103 150 115 164 129 168 L134 164 C121 151 114 135 103 128Z" fill="{{paper}}" opacity=".92"/>
+ <path d="M88 135 C82 134 77 139 74 146 C83 159 98 174 115 181 L127 175 C108 166 101 148 88 135Z" fill="{{ochre}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M82 142 Q79 145 80 148 C89 163 102 174 116 179 L121 175 C106 165 100 149 88 143Z" fill="{{paper}}" opacity=".91"/>
+ <path d="M75 151 Q68 150 64 159 C74 173 87 181 99 188 L113 183 C98 175 87 159 75 151Z" fill="{{orange}}" opacity=".64" filter="url(#wash)"/>
+ <path d="M71 157 Q68 159 70 162 Q82 178 99 184 L106 181 Q89 171 79 159Z" fill="{{paper}}" opacity=".89"/>
+ <path d="M98 137 l6 9 M105 141 l9 13 M112 149 l9 11 M118 155 l9 10 M85 152 l7 9 M89 155 l12 14 M101 165 l10 9 M74 164 l8 9 M79 168 l11 10 M90 177 l8 5" fill="none" stroke="{{ink}}" stroke-width=".48" opacity=".65" stroke-linecap="round"/>
+ <path d="M91 135 Q107 159 128 171 M78 149 Q95 174 115 182 M67 163 Q80 179 98 187" fill="none" stroke="{{line}}" stroke-width="1" stroke-linecap="round"/>
+</g>
+<g id="selective-breast-contour" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M102 116 Q105 97 118 92 M129 87 Q149 85 160 94 M168 101 Q185 103 191 113" stroke-width=".65"/>
+ <path d="M193 121 C190 139 172 159 163 163 M158 166 Q144 172 137 167" stroke-width="1.35"/>
+ <path d="M173 145 l-7 9 M170 151 l-6 7 M154 160 l-9 3" stroke-width=".46"/>
+</g>
+<g id="herb-sprig">
+ <path d="M181 175 Q194 164 202 143" fill="none" stroke="{{line}}" stroke-width=".8"/>
+ <path d="M193 163 Q180 159 184 153 Q190 151 196 158 M199 153 Q201 142 208 146 Q209 150 199 157 M187 170 Q176 167 180 161 Q185 159 191 166" fill="{{sage}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M187 164 l6 0 M200 151 l4 -3 M182 164 l5 3" fill="none" stroke="{{line}}" stroke-width=".45"/>
+</g>
+</svg>

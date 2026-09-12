@@ -1,7 +1,7 @@
 ---
 name: food-art
 description: Use when adding Morsel ink-and-wash food art.
-version: 0.2.0
+version: 0.1.0
 author: Guy (jirathip-k), Hermes Agent
 license: MIT
 platforms: [macos, linux]
@@ -35,15 +35,6 @@ Read `docs/art/food-library/ART-SPEC.md` and inspect both approved-reference
 PNGs in its `references/` directory with `vision_analyze`. Reuse the source
 JSON and layer vocabulary in `docs/art/food-library/sources/`, particularly
 `mango.json` for fruit or `jasmine-rice.json` for a vessel.
-
-## Sample-first refinement gate
-
-When an owner rejects the art but retains the library machinery, do not run a
-whole-library build or promote candidate sources. Follow
-`references/sample-first-refinement.md`: preserve the first delivery, redraw
-only the named subjects, render before/after at both themes and phone size,
-separate timing phases, and stop for owner sample approval. The issue-197
-sample workflow is exercised but the samples are NOT approved.
 
 ## How to Run
 

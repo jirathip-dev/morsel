@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Mango — revised ink and wash study, not a meal photo</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="whole-fruit-underpainting">
+ <path d="M44 144 C35 129 45 103 64 85 C78 68 104 58 121 73 C133 82 137 101 131 121 C123 147 99 176 75 174 C61 172 50 158 44 144Z" fill="{{paper}}" opacity=".66"/>
+ <path d="M43 138 C40 116 62 91 78 82 C101 65 120 76 127 88 C140 114 117 150 93 167 C68 182 49 157 43 138Z" fill="{{gold}}" opacity=".83" filter="url(#wash)"/>
+ <path d="M46 137 C48 151 56 168 73 170 C96 171 117 146 124 124 C103 137 104 153 83 158 C65 157 70 139 46 137Z" fill="{{orange}}" opacity=".4" filter="url(#wash)"/>
+ <path d="M55 105 C69 78 91 66 108 71 C90 80 85 98 78 105 C68 112 65 106 55 105Z" fill="{{leaf}}" opacity=".54" filter="url(#wash)"/>
+ <path d="M94 77 C108 70 121 79 126 91 C124 99 114 96 111 90 C107 85 99 86 94 77Z" fill="{{red}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M62 108 Q76 87 85 88 Q71 111 62 125Z" fill="{{paper}}" opacity=".38" filter="url(#wash)"/>
+</g>
+<g id="leaf-and-stem">
+ <path d="M98 76 Q98 69 103 65 L107 65 Q101 71 101 77Z" fill="{{brown}}"/>
+ <path d="M103 68 C112 45 134 48 151 54 C138 55 124 73 103 68Z" fill="{{sage}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M105 66 Q126 57 145 55 M114 63 l3 -8 M125 59 l5 5" fill="none" stroke="{{line}}" stroke-width=".6"/>
+</g>
+<g id="whole-fruit-broken-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M43 139 C39 125 46 109 55 99 M62 89 Q77 71 94 69" stroke-width=".68"/>
+ <path d="M113 71 Q131 80 133 99 M132 108 Q129 128 116 145" stroke-width="1.05"/>
+ <path d="M108 154 Q89 175 75 173 C62 172 51 157 47 148" stroke-width="1.35"/>
+ <path d="M58 150 l4 8 M62 156 l5 8 M67 161 l5 6 M97 152 l-5 7" stroke-width=".48" opacity=".65"/>
+ <path d="M119 111 l-2 8 M114 129 l-3 7" stroke-width=".4" opacity=".5"/>
+</g>
+<g id="cut-cheek-skin-and-flesh">
+ <path d="M110 154 C115 132 141 116 163 112 C186 107 211 117 215 134 C219 152 205 179 180 188 C153 198 122 178 110 154Z" fill="{{paper}}" opacity=".82"/>
+ <path d="M111 151 C113 160 130 181 153 187 C179 199 207 178 214 153 L217 141 C200 153 139 151 111 151Z" fill="{{ochre}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M116 146 C131 123 160 112 181 116 C203 119 213 130 207 145 C198 164 180 181 158 181 C137 178 123 164 116 146Z" fill="{{gold}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M122 141 L137 127 Q144 124 148 126 L155 143 L139 155 Q129 151 122 141Z" fill="{{gold}}" opacity=".85"/>
+ <path d="M122 141 L125 153 L140 167 L139 155Z" fill="{{orange}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M151 122 Q166 116 178 120 L181 137 L159 146 L154 136Z" fill="{{gold}}" opacity=".88"/>
+ <path d="M159 146 L160 157 L183 147 L181 137Z" fill="{{orange}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M184 123 Q201 124 207 137 L196 150 L183 140Z" fill="{{gold}}" opacity=".9"/>
+ <path d="M183 140 L184 153 L198 161 L196 150Z" fill="{{orange}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M141 159 L157 149 L167 165 L153 176 L143 169Z" fill="{{gold}}" opacity=".85"/>
+ <path d="M153 176 L156 183 L170 172 L167 165Z" fill="{{orange}}" opacity=".72"/>
+ <path d="M171 156 L182 151 L194 165 Q186 177 174 179 L169 169Z" fill="{{gold}}" opacity=".9"/>
+ <path d="M174 179 L177 186 L194 174 L194 165Z" fill="{{orange}}" opacity=".7"/>
+ <path d="M126 139 l8 -8 M157 125 l14 -4 M184 127 l10 2 M145 160 l8 -5" fill="none" stroke="{{paper}}" stroke-width="2.5" opacity=".6" filter="url(#dry)"/>
+</g>
+<g id="cut-cheek-selective-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M111 151 Q117 171 141 183 M151 187 Q184 202 208 169" stroke-width="1.15"/>
+ <path d="M213 155 Q222 135 208 124 M202 120 Q187 111 178 113" stroke-width=".72"/>
+ <path d="M123 142 L139 155 L151 146 M141 159 L157 149 M159 146 L181 137 M184 140 l12 10 M169 156 l12 -5 M154 176 l12 -10 M176 181 l15 -9" stroke-width=".65"/>
+ <path d="M120 157 l6 9 M125 165 l7 9 M137 178 l8 5 M198 176 l6 -7" stroke-width=".45" opacity=".7"/>
+</g>
+</svg>
