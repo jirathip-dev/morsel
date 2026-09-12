@@ -31,6 +31,18 @@ struct MealPhotoEditorSection: View {
         item.mealImage?.path
     }
 
+    /// Issue #199 — the shared artwork decision for THIS item: a stored photo
+    /// wins; otherwise the approved offline illustration (or nil when the food
+    /// is not in the approved library).
+    private var illustrationResolution: FoodArtworkResolution? {
+        guard case let .illustration(resolution) = MealArtworkPresentation.resolve(
+            photoPath: existingPath, items: [item]
+        ) else {
+            return nil
+        }
+        return resolution
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             if let message {
@@ -45,6 +57,12 @@ struct MealPhotoEditorSection: View {
                     .padding(.bottom, 8)
             } else if let existingPath {
                 existingPhotoRow(path: existingPath)
+                    .padding(.bottom, 8)
+            } else if let illustrationResolution {
+                // Issue #199 — no meal photo yet: the approved offline
+                // illustration stands in, labeled; an unmatched food shows
+                // nothing (exactly today's behavior).
+                illustrationRow(illustrationResolution)
                     .padding(.bottom, 8)
             }
 
@@ -174,6 +192,43 @@ struct MealPhotoEditorSection: View {
         }
         .task(id: path) {
             await loadExistingPhoto(path: path)
+        }
+    }
+
+    /// Issue #199 — the photo-less stand-in: the approved 64px study beside
+    /// its honest label. Food studies read "Illustration · not a meal photo";
+    /// category fallbacks keep their category label (ART-SPEC) and are never
+    /// presented as an identified food.
+    private func illustrationRow(_ resolution: FoodArtworkResolution) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            MealArtworkSlot.illustration(
+                resolution, size: CGFloat(FoodArtworkImageStore.pixelSize)
+            )
+            VStack(alignment: .leading, spacing: 3) {
+                Text(illustrationTitle(resolution))
+                    .font(.morselBodyStrong)
+                    .foregroundStyle(Color.morselInk)
+                Text(illustrationCopy(resolution))
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselInkTwo)
+            }
+            Spacer(minLength: 0)
+        }
+    }
+
+    private func illustrationTitle(_ resolution: FoodArtworkResolution) -> String {
+        switch resolution {
+        case let .food(asset): return asset.name
+        case let .category(asset): return "\(asset.categoryLabel) · fallback"
+        case .none: return ""
+        }
+    }
+
+    private func illustrationCopy(_ resolution: FoodArtworkResolution) -> String {
+        switch resolution {
+        case .food: return "Illustration · not a meal photo"
+        case .category: return "Category fallback · not identified food"
+        case .none: return ""
         }
     }
 

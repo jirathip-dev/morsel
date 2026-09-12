@@ -64,14 +64,15 @@ struct MealGroupView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .center, spacing: 10) {
-                if let imagePath = group.meals.compactMap({ $0.imagePath }).first {
-                    MealThumbnailView(repository: repository, userID: userID, path: imagePath)
-                        .frame(width: 44, height: 44)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 7)
-                                .stroke(Color.morselInkLine.opacity(0.6), lineWidth: 1)
-                        }
-                }
+                // Issue #199 — the shared artwork slot: a stored meal photo
+                // stays authoritative; a photo-less meal shows the approved
+                // offline illustration (64px) or today's empty slot.
+                MealArtworkSlot(
+                    repository: repository,
+                    userID: userID,
+                    photoPath: group.meals.compactMap({ $0.imagePath }).first,
+                    items: group.meals.first(where: { !$0.items.isEmpty })?.items ?? []
+                )
                 VStack(alignment: .leading, spacing: 1) {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text(group.type.title)
