@@ -33,33 +33,42 @@ struct JournalTabBar: View {
                         pager.select(tab)
                         JournalKeyboardDismisser.resign()
                     } label: {
-                        tabLabel(tab)
+                        JournalTabCellLabel(tab: tab, isActive: pager.selection == tab)
                     }
                     .buttonStyle(.plain)
-                    .frame(maxWidth: .infinity)
                     .accessibilityLabel(tab.title)
                     .accessibilityAddTraits(pager.selection == tab ? .isSelected : [])
                 }
             }
-            .padding(.top, 10)
-            .padding(.bottom, 6)
             .frame(height: 44)
         }
         .background(Color.morselBackground.ignoresSafeArea())
     }
+}
 
-    private func tabLabel(_ tab: JournalTab) -> some View {
-        let active = pager.selection == tab
-        return VStack(spacing: 3) {
+/// Issue #177 — one tab cell's interactive label: the V1 word + marker are
+/// stretched to the cell's whole allocated region (full width of its column,
+/// 44pt tall) so blank space and the cell's corners activate that tab. The
+/// word keeps the same hand type, forest/ink colours and 2pt hand offset the
+/// approved bar already used.
+struct JournalTabCellLabel: View {
+    let tab: JournalTab
+    let isActive: Bool
+
+    var body: some View {
+        VStack(spacing: 3) {
             Text(tab.title)
                 .font(Font.morselHand(size: 20))
-                .foregroundStyle(active ? Color.morselForest : Color.morselInkTwo)
+                .foregroundStyle(isActive ? Color.morselForest : Color.morselInkTwo)
             MarkerStroke(
-                color: active ? Color.morselForest : .clear,
+                color: isActive ? Color.morselForest : .clear,
                 width: 40,
                 height: 4
             )
         }
         .padding(.vertical, 2)
+        .padding(.top, 4)
+        .frame(maxWidth: .infinity, minHeight: 44)
+        .contentShape(Rectangle())
     }
 }

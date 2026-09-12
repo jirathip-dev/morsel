@@ -5,6 +5,21 @@ import SwiftUI
 
 // MARK: - Today's log
 
+/// Issue #177 — the empty log's photo prompt: the full-width text action keeps
+/// its footnote voice and marker stroke inside a ≥44pt interactive target.
+struct PhotoPromptActionLabel: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("send a photo of your next meal")
+                .font(.morselFootnote)
+                .foregroundStyle(Color.morselInkTwo)
+            MarkerStroke(color: Color.morselForest, width: 190, height: 2)
+        }
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+    }
+}
+
 struct TodayLogSection: View {
     @ObservedObject var viewModel: DashboardViewModel
     let onAddMeal: () -> Void
@@ -24,12 +39,7 @@ struct TodayLogSection: View {
                         .font(.morselBodyStrong)
                         .foregroundStyle(Color.morselInk)
                     Button(action: onAddMeal) {
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("send a photo of your next meal")
-                                .font(.morselFootnote)
-                                .foregroundStyle(Color.morselInkTwo)
-                            MarkerStroke(color: Color.morselForest, width: 190, height: 2)
-                        }
+                        PhotoPromptActionLabel()
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Add a meal")
@@ -97,7 +107,6 @@ struct MealGroupView: View {
                         onDelete(meal)
                     } label: {
                         InkStrikeX()
-                            .frame(width: 34, height: 34)
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Delete \(meal.mealType.title) meal")
@@ -117,7 +126,6 @@ struct MealGroupView: View {
                             onDelete(meal)
                         } label: {
                             InkStrikeX()
-                                .frame(width: 34, height: 34)
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Delete \(meal.mealType.title) meal")
@@ -185,12 +193,7 @@ struct MealItemRow: View {
                         Button {
                             onEdit(item)
                         } label: {
-                            Text("verify")
-                                .font(.morselData)
-                                .foregroundStyle(Color.morselReview)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))
+                            VerifyActionLabel()
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Correct \(item.name)")
@@ -221,6 +224,22 @@ struct MealItemRow: View {
             "\(MorselFormat.number(item.caloriesKcal)) kilocalories"
         )
         .accessibilityHint("Opens the correction sheet")
+    }
+}
+
+/// Issue #177 — the review pill's interactive label: the approved pill keeps
+/// its ink voice and size; the target is the ≥44×44 box around it, so the
+/// duplicate affordance inside the (already tappable) row is reliably hittable.
+struct VerifyActionLabel: View {
+    var body: some View {
+        Text("verify")
+            .font(.morselData)
+            .foregroundStyle(Color.morselReview)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 2)
+            .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))
+            .frame(minWidth: 44, minHeight: 44)
+            .contentShape(Rectangle())
     }
 }
 

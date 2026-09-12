@@ -82,7 +82,7 @@ struct JournalPageFurniture: View {
 
 // MARK: - Ink drawings (native glyphs; no stock chrome)
 
-/// Hand-drawn strike × (meal removal — the V1 ink strike, never a trash glyph).
+/// Hand-drawn strike × (meal removal — the V1 ink strike); issue #177: 16pt ink in a 44×44 target.
 struct InkStrikeX: View {
     var body: some View {
         ZStack {
@@ -98,6 +98,7 @@ struct InkStrikeX: View {
             .stroke(Color.morselInkTwo, style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
         }
         .frame(width: 16, height: 16)
+        .frame(width: 44, height: 44)
         .contentShape(Rectangle())
     }
 }
@@ -114,7 +115,8 @@ struct InkPlus: View {
 }
 
 /// Small toothed cog (Settings affordance), drawn ink-style — the V1 custom
-/// cog, not the stock gearshape.
+/// cog, not the stock gearshape. Issue #177 — 44×44 Settings label target,
+/// anchored to the cog's top-trailing corner.
 struct ToothedCog: View {
     var body: some View {
         ZStack {
@@ -133,12 +135,14 @@ struct ToothedCog: View {
                 .frame(width: 3, height: 3)
         }
         .frame(width: 24, height: 24)
+        .frame(width: 44, height: 44, alignment: .topTrailing)
         .contentShape(Rectangle())
     }
 }
 
 /// The torn-paper add-meal tab: warm paper patch with an ink contour and the
 /// hand-drawn plus. Night ink renders the charcoal surface + cream contour.
+/// Issue #177 — 44×44 Add Meal label target, anchored to the tab's corner.
 struct AddMealTab: View {
     var body: some View {
         ZStack {
@@ -150,6 +154,7 @@ struct AddMealTab: View {
         }
         .frame(width: 38, height: 38)
         .rotationEffect(.degrees(-2))
+        .frame(width: 44, height: 44, alignment: .topTrailing)
         .contentShape(Rectangle())
         .accessibilityLabel("Add meal")
     }
