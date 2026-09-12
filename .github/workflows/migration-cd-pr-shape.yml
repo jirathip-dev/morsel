@@ -12,7 +12,7 @@ name: Migration CD PR Shape Gate (Read-Only)
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, staging]
     paths:
       - "db/migrations/**"
 
