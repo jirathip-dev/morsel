@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Banana — angular ripening peel and bruised stem, digital ink and wash study</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="banana-underpainting">
+ <path d="M47 76 L57 72 C64 100 65 124 87 145 C108 165 137 174 159 164 C182 157 190 139 194 117 L205 113 C218 145 204 180 177 195 C146 214 109 205 82 186 C55 167 42 137 43 112Z" fill="{{gold}}" opacity=".83"/>
+ <path d="M48 91 C51 121 53 147 78 168 C105 191 143 200 172 182 C196 168 202 144 199 122 L205 117 C217 148 201 180 177 194 C145 213 108 203 82 185 C56 167 43 139 45 113Z" fill="{{ochre}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M56 84 C65 110 64 130 88 151 Q123 183 155 174 C175 170 189 153 195 132 C194 162 179 180 153 187 C119 195 86 174 72 158 C54 137 51 109 56 84Z" fill="{{gold}}" opacity=".94" filter="url(#wash)"/>
+ <path d="M63 120 Q74 147 96 157 C109 164 123 170 137 170 L150 174 Q121 180 91 159 Q69 144 63 120Z" fill="{{paper}}" opacity=".51" filter="url(#dry)"/>
+ <path d="M49 103 Q42 89 47 76 L56 76 L60 102 L56 122Z M187 159 Q196 142 194 119 l8 -3 Q208 138 202 154Z" fill="{{leaf}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M102 193 Q128 208 152 200 L167 195 C140 197 132 190 114 189Z" fill="{{brown}}" opacity=".2" filter="url(#wash)"/>
+</g>
+<g id="cut-stem-and-flower-tip">
+ <path d="M47 81 Q48 70 43 59 L47 53 L56 54 Q54 65 59 76 L57 87Z" fill="{{ochre}}" opacity=".88"/>
+ <path d="M43 59 l4 -6 l9 1 l-2 6 l-7 2Z" fill="{{brown}}" opacity=".91"/>
+ <path d="M195 120 l-3 -8 l4 -6 l9 1 l2 8 l-4 7Z" fill="{{brown}}" opacity=".9"/>
+ <path d="M195 112 l3 -2 l4 2 l-2 5Z" fill="{{dark}}" opacity=".66"/>
+</g>
+<g id="longitudinal-facets" fill="none" stroke-linecap="round">
+ <path d="M52 92 C49 131 69 166 101 181 C130 195 159 198 181 178 M187 171 Q203 149 200 129" stroke="{{ochre}}" stroke-width="2.2" opacity=".6" filter="url(#wash)"/>
+ <path d="M57 114 Q63 148 92 166 M100 171 Q128 187 153 181 M164 178 Q182 171 189 155" stroke="{{line}}" stroke-width=".55" opacity=".69"/>
+</g>
+<g id="broken-skin-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M45 104 Q43 91 47 80 L46 67 M44 58 l4 -5 l7 1 M57 82 Q63 101 65 117 M69 129 Q78 148 96 157" stroke-width=".79"/>
+ <path d="M106 163 Q136 179 159 165 M171 161 Q190 150 194 124 M205 117 Q216 143 202 170" stroke-width=".85"/>
+ <path d="M194 181 Q174 203 146 206 C117 210 90 193 76 182 M67 173 Q45 147 43 120" stroke-width="1.25"/>
+ <path d="M81 177 l5 5 M86 183 l7 4 M163 198 l8 -4 M172 194 l6 -4 M52 139 l2 8" stroke-width=".43" opacity=".65"/>
+</g>
+<g id="ripening-freckles" fill="{{brown}}" opacity=".5">
+ <path d="M80 161 l3 1 l-1 3 l-2 -1Z M95 179 l2 -1 l2 3 l-3 1Z M119 183 l3 1 l-1 2Z M136 192 l2 -2 l3 2 l-2 2Z M176 178 l2 -3 l2 1 l-1 3Z M61 137 l2 2 l-1 3 l-2 -2Z M155 188 l2 -1 l1 2Z"/>
+</g>
+</svg>

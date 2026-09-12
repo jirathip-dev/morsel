@@ -1,0 +1,21 @@
+{
+  "unit": "seconds",
+  "initial_art_authoring_wall_window": 328.468113375,
+  "first_export": 1.721512750023976,
+  "first_comparison_composition": 0.225693208,
+  "first_review_and_orchestration_wall_window": 247.15267975,
+  "corrective_authoring_wall_window": 106.009893292,
+  "second_export": 1.7345241669099778,
+  "second_comparison_composition": 0.240358791,
+  "post_correction_review_browser_and_capture_tooling_wall_window": 344.221538875,
+  "phone_capture_subset_of_previous_window": 33.094660584,
+  "observed_window_from_authoring_start_through_visual_review": 1029.96127525,
+  "corrective_art_passes": 1,
+  "failed_export_retries": 0,
+  "limits": [
+    "Initial helper setup and final documentation/commit/comment time are excluded.",
+    "Authoring and review are elapsed tool/conversation windows, not active-hand minutes.",
+    "Post-correction review window includes capture helper authoring, browser checks and phone captures; not additive with the capture subset.",
+    "Exports are local digital SVG rasterization; no finished-art speed or paid-provider cost claim."
+  ]
+}

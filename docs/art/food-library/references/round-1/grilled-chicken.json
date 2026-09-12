@@ -1,0 +1,85 @@
+{
+  "id": "grilled-chicken",
+  "name": "Grilled chicken",
+  "aliases": [
+    "chicken breast",
+    "ไก่ย่าง"
+  ],
+  "category": "protein",
+  "kind": "food",
+  "description": "A hand-shaped grilled chicken breast with fine sear marks, a leaf and a lemon wedge on an oval plate.",
+  "layers": [
+    {
+      "d": "M40 157 C39 136.12 82.24 121 128 121 C184.32 122 216 140.8 216 157 C215 182.2 169.36 193 128 193 C75.2 192 40 174.28 40 157 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M52 150 C51 133.76 88.47999999999999 122 128 122 C176.64 123 204 137.4 204 150 C203 169.6 163.72 178 128 178 C82.4 177 52 163.44 52 150 Z",
+      "fill": "paper",
+      "width": 0.8,
+      "opacity": 1
+    },
+    {
+      "d": "M70 180 Q124 198 181 179",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M85 141 C72 128 84 104 105 102 C125 98 153 107 163 120 C170 135 150 157 126 164 C109 165 92 155 85 141 Z",
+      "fill": "peach",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M90 114 q12 11 12 24",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 0.8
+    },
+    {
+      "d": "M102 116 q12 11 12 24",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 0.8
+    },
+    {
+      "d": "M114 118 q12 11 12 24",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 0.8
+    },
+    {
+      "d": "M126 120 q12 11 12 24",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 0.8
+    },
+    {
+      "d": "M138 122 q12 11 12 24",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 0.8
+    },
+    {
+      "d": "M181 157 C167.77 144.4 163.99 129.91 172.18 128.02 C186.67 126.13 191.08 148.81 181 157 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M181 157 Q180.37 142.51 172.18 131.17",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    },
+    {
+      "d": "M65 155 Q65 137 80 131 L87 156 Z",
+      "fill": "gold",
+      "width": 1.1,
+      "opacity": 1
+    }
+  ]
+}

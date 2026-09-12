@@ -1,0 +1,42 @@
+{
+  "id": "fallback-protein",
+  "name": "Protein · fallback",
+  "aliases": [
+    "protein category"
+  ],
+  "category": "protein",
+  "kind": "fallback",
+  "description": "Generic protein portion on a plate; intentionally nonspecific, not dietary or ingredient evidence.",
+  "layers": [
+    {
+      "d": "M40 157 C39 136.12 82.24 121 128 121 C184.32 122 216 140.8 216 157 C215 182.2 169.36 193 128 193 C75.2 192 40 174.28 40 157 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M52 150 C51 133.76 88.47999999999999 122 128 122 C176.64 123 204 137.4 204 150 C203 169.6 163.72 178 128 178 C82.4 177 52 163.44 52 150 Z",
+      "fill": "paper",
+      "width": 0.8,
+      "opacity": 1
+    },
+    {
+      "d": "M70 180 Q124 198 181 179",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M81 143 Q87 112 109 118 L157 116 Q174 128 173 152 L109 168 Z",
+      "fill": "peach",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M94 135 L152 130 M102 148 L159 143",
+      "fill": "none",
+      "width": 0.8,
+      "opacity": 1
+    }
+  ]
+}

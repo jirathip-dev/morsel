@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "capture_count": 12,
+  "seconds": 4.521091458038427,
+  "phone_catalog_coverage": {
+    "paper": [
+      "avocado",
+      "banana",
+      "broccoli",
+      "coffee",
+      "fallback-drinks",
+      "fallback-grains",
+      "fallback-produce",
+      "fallback-protein",
+      "fried-egg",
+      "grilled-chicken",
+      "jasmine-rice",
+      "mango",
+      "orange",
+      "salmon",
+      "stir-fried-noodles",
+      "toast",
+      "vegetable-soup"
+    ],
+    "night": [
+      "avocado",
+      "banana",
+      "broccoli",
+      "coffee",
+      "fallback-drinks",
+      "fallback-grains",
+      "fallback-produce",
+      "fallback-protein",
+      "fried-egg",
+      "grilled-chicken",
+      "jasmine-rice",
+      "mango",
+      "orange",
+      "salmon",
+      "stir-fried-noodles",
+      "toast",
+      "vegetable-soup"
+    ]
+  }
+}

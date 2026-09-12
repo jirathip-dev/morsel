@@ -1,0 +1,51 @@
+{
+  "raw_exit": 0,
+  "seconds": 0.36096470907796174,
+  "scope": "Contact/native proof and HTML composition only; excludes exports, authoring, browser captures and review.",
+  "ids": [
+    "avocado",
+    "banana",
+    "broccoli",
+    "coffee",
+    "fallback-drinks",
+    "fallback-grains",
+    "fallback-produce",
+    "fallback-protein",
+    "fried-egg",
+    "grilled-chicken",
+    "jasmine-rice",
+    "mango",
+    "orange",
+    "salmon",
+    "stir-fried-noodles",
+    "toast",
+    "vegetable-soup"
+  ],
+  "phone_cohorts": {
+    "journal": [
+      "jasmine-rice",
+      "grilled-chicken",
+      "mango",
+      "coffee"
+    ],
+    "produce": [
+      "avocado",
+      "banana",
+      "broccoli",
+      "orange"
+    ],
+    "meals": [
+      "fried-egg",
+      "salmon",
+      "toast",
+      "vegetable-soup",
+      "stir-fried-noodles"
+    ],
+    "fallbacks": [
+      "fallback-drinks",
+      "fallback-grains",
+      "fallback-produce",
+      "fallback-protein"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "new-food",
+  "name": "Replace with food name",
+  "aliases": ["replace with a useful alias"],
+  "category": "produce",
+  "kind": "food",
+  "description": "Replace with an honest description of the original generic illustration.",
+  "layers": [
+    {"d": "M80 160 C55 125 80 80 122 88 C168 74 186 138 150 168 Q111 190 80 160 Z", "fill": "gold", "width": 1.1},
+    {"d": "M119 89 Q116 75 125 66", "fill": "none", "width": 1.2}
+  ]
+}

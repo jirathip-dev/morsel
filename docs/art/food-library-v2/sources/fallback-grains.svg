@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Grains category fallback — shallow earthen bowl of unspecified kernels</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="shallow-earthen-bowl">
+ <path d="M43 129 C53 154 73 178 103 184 Q161 199 195 161 L213 131Z" fill="{{cream}}" opacity=".9"/>
+ <path d="M47 137 Q79 159 118 160 Q169 168 207 140 C196 168 170 184 141 185 C96 192 63 169 47 137Z" fill="{{ochre}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M154 161 Q183 156 207 140 Q190 176 163 182 L128 186 Q151 176 154 161Z" fill="{{brown}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M43 127 C48 108 83 102 124 102 C165 100 205 111 214 128 C213 146 169 158 126 158 C86 156 50 144 43 127Z" fill="{{paper}}" opacity=".85"/>
+ <path d="M53 127 C60 113 89 109 125 110 Q180 107 204 128 C183 144 149 150 117 148 Q77 146 53 127Z" fill="{{gold}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M62 131 Q85 121 113 133 Q136 124 157 132 L195 129 Q175 145 136 147 Q89 151 62 131Z" fill="{{ochre}}" opacity=".4" filter="url(#wash)"/>
+ <path d="M70 158 Q93 173 121 174 L129 179 Q94 181 75 166Z" fill="{{paper}}" opacity=".55" filter="url(#dry)"/>
+</g>
+<g id="dry-grain-mound-breaking-the-rim">
+ <path d="M59 123 Q61 115 69 113 Q66 105 78 101 Q80 89 93 94 Q98 80 110 86 Q119 78 130 87 Q143 83 151 94 Q164 89 169 102 Q182 97 184 110 Q196 111 199 126 C176 143 139 148 111 143 Q80 142 59 123Z" fill="{{cream}}" opacity=".93"/>
+ <path d="M62 123 Q78 108 92 105 Q119 86 138 96 Q161 91 180 115 L195 127 Q168 140 133 143 Q91 142 62 123Z" fill="{{gold}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M74 126 Q94 130 104 118 Q115 110 123 119 Q134 126 148 114 Q163 112 185 128 L168 136 Q119 154 74 126Z" fill="{{ochre}}" opacity=".39" filter="url(#wash)"/>
+ <path d="M75 107 q5 -11 10 -3 q-1 10 -10 3Z M94 96 q4 -11 10 -5 q2 9 -10 5Z M113 91 q8 -6 12 1 q-5 8 -12 -1Z M136 97 q8 -10 12 -2 q-3 9 -12 2Z M155 103 q3 -9 10 -2 q-1 8 -10 2Z M173 115 q5 -7 10 -1 q-2 7 -10 1Z M85 119 q6 -6 10 1 q-5 8 -10 -1Z M109 111 q3 -9 10 -3 q0 8 -10 3Z M135 119 q6 -7 11 -1 q-4 9 -11 1Z M151 131 q5 -9 11 -2 q-2 8 -11 2Z M111 135 q6 -8 12 -2 q-5 9 -12 2Z" fill="{{paper}}" opacity=".79"/>
+ <path d="M81 99 l3 -4 M100 90 l4 -2 M118 100 l5 3 M138 92 l5 -1 M160 111 l5 -3 M77 123 l4 3 M98 116 l4 1 M123 126 l6 -3 M143 136 l4 -2 M175 128 l5 -3" fill="none" stroke="{{brown}}" stroke-width="1.5" stroke-linecap="round" opacity=".73"/>
+ <path d="M61 120 Q59 111 72 110 M80 99 Q84 90 94 94 M100 85 Q109 82 113 88 M132 87 Q145 84 150 94 M167 102 Q180 95 185 110 M192 114 l5 10" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="mixed-kernel-gestures">
+ <path d="M72 123 q4 -7 9 -2 q-1 6 -9 2Z M94 116 q7 -6 10 1 q-4 5 -10 -1Z M120 125 q4 -8 9 -2 q-1 7 -9 2Z M145 116 q5 -5 9 2 q-5 5 -9 -2Z M169 127 q4 -8 10 -2 q-2 7 -10 2Z M94 137 q3 -6 7 -1 q-1 6 -7 1Z M144 139 q4 -5 7 0 q-3 5 -7 0Z" fill="{{cream}}" opacity=".89"/>
+ <path d="M82 130 q3 -5 7 -1 M110 117 l4 2 M130 137 q4 -3 7 1 M159 125 l4 -2 M183 129 l4 2 M113 140 l3 -2 M151 130 l3 1" fill="none" stroke="{{brown}}" stroke-width="1.45" opacity=".62" filter="url(#dry)"/>
+ <path d="M73 123 q2 -5 6 -3 M97 115 l4 2 M122 127 q5 2 7 -2 M146 116 l4 -1 M170 128 q4 3 8 -2 M96 137 l3 1 M145 140 l4 0" fill="none" stroke="{{line}}" stroke-width=".53" opacity=".68"/>
+</g>
+<g fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M43 123 Q48 111 59 110 M199 116 Q220 127 210 136 M200 141 Q165 161 123 158 M109 157 Q70 154 48 137 M50 144 Q69 175 98 182 M111 186 Q162 195 190 165 M198 157 l10 -17" stroke-width="1"/>
+ <path d="M60 123 Q77 111 99 112 M174 115 l15 6 M68 161 l7 8 M77 169 l8 6 M172 173 l7 -5" stroke-width=".45" opacity=".7"/>
+</g>
+</svg>

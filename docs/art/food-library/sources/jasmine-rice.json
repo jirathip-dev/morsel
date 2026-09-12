@@ -1,0 +1,188 @@
+{
+  "id": "jasmine-rice",
+  "name": "Jasmine rice",
+  "aliases": [
+    "steamed rice",
+    "white rice",
+    "ข้าวสวย"
+  ],
+  "category": "grains",
+  "kind": "food",
+  "description": "A low sage bowl carrying a pale mound of steamed rice, with sparse individual grains.",
+  "layers": [
+    {
+      "d": "M49 134 C53 169 73 196 125 200 C174 200 198 174 207 137 Z",
+      "fill": "sage",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M74 177 Q118 201 173 181",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M49 133 C48 114.44 86.92 101 128 101 C178.56 102 207 118.6 207 133 C206 155.4 165.13 165 128 165 C80.6 164 49 148.36 49 133 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M59 133 C58 119.08 92.12 109 128 109 C172.16 110 197 122.2 197 133 C196 149.8 160.43 157 128 157 C86.6 156 59 144.52 59 133 Z",
+      "fill": "paper",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M64 132 Q66 112 83 110 Q83 92 104 97 Q120 81 137 94 Q157 89 172 108 Q192 111 192 134 Q139 158 64 132 Z",
+      "fill": "paper",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M77 110 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M90 112 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M103 114 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M116 110 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M129 112 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M142 114 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M155 110 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M168 112 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M77 124 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M90 120 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M103 122 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M116 124 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M129 120 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M142 122 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M155 124 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M168 120 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M77 132 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M90 134 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M103 130 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M116 132 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M129 134 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M142 130 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M155 132 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M168 134 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    }
+  ]
+}

@@ -1,0 +1,873 @@
+{
+  "commit": "fc5d9a0c406d932c329b088a610d0c987cd0317b",
+  "protected": {
+    "docs/art/food-library/manifest.sha256": {
+      "sha256": "f3bbdff112135c96e2630a7969b35742272f571ee816e292acc7c560ecbde921",
+      "mtime_ns": 1789216941092174369
+    },
+    "docs/art/food-library/gallery-night.html": {
+      "sha256": "f5437bcde34141b033877b10748161142cf8766041d4077461878baf56d67827",
+      "mtime_ns": 1789216901797664602
+    },
+    "docs/art/food-library/index.html": {
+      "sha256": "0f136a2cf20c95ced120bf66077eabde91b28dd710dc948214b3e9109a595c86",
+      "mtime_ns": 1789216901798011522
+    },
+    "docs/art/food-library/gallery-paper.html": {
+      "sha256": "6ac60260e5de9aebcd0394971c8c42850cb81458afbaf04f6c8386b462bf4da8",
+      "mtime_ns": 1789216901797112597
+    },
+    "docs/art/food-library/gallery.css": {
+      "sha256": "d647a77c4a8fe19ebd459a4e1ba1a04efe626b45242f1a04d5c09572fff02f52",
+      "mtime_ns": 1789216901796571884
+    },
+    "docs/art/food-library/comparison.html": {
+      "sha256": "f394eefac649418fd4ddb81812006df99d3ebbcf0de219c7590452ad428f3f11",
+      "mtime_ns": 1789216902367940448
+    },
+    "docs/art/food-library/README.md": {
+      "sha256": "e23b551aea94a89f35bdbd94e03d5ebd8377a0f1cfc4b8fbf9a22169fdafe00f",
+      "mtime_ns": 1789216788536684137
+    },
+    "docs/art/food-library/ART-SPEC.md": {
+      "sha256": "edd0355bb684606f11905973381bb9c0e725847fdd0bc8233bebabfeafbe9620",
+      "mtime_ns": 1789215791521259777
+    },
+    "docs/art/food-library/phone-night.html": {
+      "sha256": "a0bb4c18955a82c2135d3bc1ec63bb7cd48784b8fccbf81c748f6e187bc04e3f",
+      "mtime_ns": 1789216901797865229
+    },
+    "docs/art/food-library/catalog.json": {
+      "sha256": "5a9cd4c8bbb53a39d950c68dc4cfa95d980ac542c3ec0773617e0fde40b8ff81",
+      "mtime_ns": 1789215884582582203
+    },
+    "docs/art/food-library/build-cache.json": {
+      "sha256": "3f8c645fdf0383f7ae594064e421914d6828c01677ef821289a6c1dcd86b4e52",
+      "mtime_ns": 1789216088515491039
+    },
+    "docs/art/food-library/phone-paper.html": {
+      "sha256": "2b68df8c744d80038f549e7ed5a4164317d62d1aa7f2de60e18d8ab6a753d0d5",
+      "mtime_ns": 1789216901797410808
+    },
+    "docs/art/food-library/evidence/browser-phone-night.log": {
+      "sha256": "3e573968f050593c8cb56e85d4b89b9b4abce3c1c83a1b3385ed7356978ee496",
+      "mtime_ns": 1789216908676885873
+    },
+    "docs/art/food-library/evidence/reproduction.json": {
+      "sha256": "458d2fd6b40234285b5e83fe4f8ffad87fb94aa667c37f09d716dd725557bcb3",
+      "mtime_ns": 1789216233372500190
+    },
+    "docs/art/food-library/evidence/incremental-start.json": {
+      "sha256": "1e2f9d9c5b46c9046546c4d6f467f98f2131f1b727314b00ead3c8ca0c2e79c0",
+      "mtime_ns": 1789215843535758967
+    },
+    "docs/art/food-library/evidence/gate-build.log": {
+      "sha256": "44f260bf262e3069d05bfb4e384f5e1bda756090f0154697fdc1dece41ebb636",
+      "mtime_ns": 1789216902974409340
+    },
+    "docs/art/food-library/evidence/browser-gallery-paper.log": {
+      "sha256": "546fa3f1064c4d1af2fbd44105989168101c0fe6dcc598584d9a8c4aeac7a806",
+      "mtime_ns": 1789216908947934914
+    },
+    "docs/art/food-library/evidence/gate-reproduction.log": {
+      "sha256": "dcd78e8dcc7231fe4d2acf035a7d61c4924c83862e4e6b82ea145a10420e0144",
+      "mtime_ns": 1789216916240362307
+    },
+    "docs/art/food-library/evidence/incremental.json": {
+      "sha256": "b94fec6fed774ebd76a4ad5cf3e64e830df9f85467c667ecbdd835bf7cb5edc0",
+      "mtime_ns": 1789215885849925142
+    },
+    "docs/art/food-library/evidence/contrast.json": {
+      "sha256": "b74ecfadac1fd989cdccce57c2565eae95b47ee2b78bacfc53e4e1f44fa65030",
+      "mtime_ns": 1789216233373310822
+    },
+    "docs/art/food-library/evidence/interaction.json": {
+      "sha256": "921ae8d0feb9f7e235784e38bd047b732ca47eea5cdef29d4f970b69bed50ff3",
+      "mtime_ns": 1789216866395913908
+    },
+    "docs/art/food-library/evidence/gate-browser.log": {
+      "sha256": "4b9378a24fbc127f166296aec459ab1dc2694e142e9221868945704e82db0a55",
+      "mtime_ns": 1789216909289337989
+    },
+    "docs/art/food-library/evidence/gate-assets.log": {
+      "sha256": "dcd78e8dcc7231fe4d2acf035a7d61c4924c83862e4e6b82ea145a10420e0144",
+      "mtime_ns": 1789216903490340510
+    },
+    "docs/art/food-library/evidence/browser-gallery-night.log": {
+      "sha256": "1b122e42977d470edf3154c190886ce6ec645d7fc898070c95feedc61a9c2075",
+      "mtime_ns": 1789216909253697738
+    },
+    "docs/art/food-library/evidence/gates.json": {
+      "sha256": "2b09c7899df7cf6fea0b24df2f08e0fa34b9c2348b331927fbe7d1880f791ed0",
+      "mtime_ns": 1789216916240751936
+    },
+    "docs/art/food-library/evidence/workflow-tests.json": {
+      "sha256": "3a61188a160f5aff66d33e6e5879240d473a39a0b5498decdcfb0e390fdd77f1",
+      "mtime_ns": 1789216907709549140
+    },
+    "docs/art/food-library/evidence/incremental-add.log": {
+      "sha256": "30341ee5b13a321676cab929f561e494ba33d1cba017d7803dad7130f8f0b0f6",
+      "mtime_ns": 1789215885828721060
+    },
+    "docs/art/food-library/evidence/gate-workflow.log": {
+      "sha256": "3a61188a160f5aff66d33e6e5879240d473a39a0b5498decdcfb0e390fdd77f1",
+      "mtime_ns": 1789216907724816991
+    },
+    "docs/art/food-library/evidence/browser-phone-paper.log": {
+      "sha256": "6777a82390d678dd5ef40c092f84a22e2c31a18e6329ad19c3055f4a47a25d2e",
+      "mtime_ns": 1789216908405561705
+    },
+    "docs/art/food-library/evidence/REVIEW.md": {
+      "sha256": "ea0a0adeb9174d8e16127238d6828bac9ca763f00cf51609fdd0884f012716b2",
+      "mtime_ns": 1789216745387136073
+    },
+    "docs/art/food-library/evidence/browser.json": {
+      "sha256": "650e7af6546a35ab145cfcf2e7c0c9255ac49e6c109db261497cda1d39c1a917",
+      "mtime_ns": 1789216909272845126
+    },
+    "docs/art/food-library/references/approved-v1-paper.png": {
+      "sha256": "93b67811714b12dc606d68213a585d0a901a15c6256d2f7abaaa9eff58e547d6",
+      "mtime_ns": 1789214757453425078
+    },
+    "docs/art/food-library/references/approved-v1-night.png": {
+      "sha256": "88f909effc4b1cede1a40dd65141912ec6bf2bf8ecfc68357f2b8fcdeb1ffeff",
+      "mtime_ns": 1789214757451811687
+    },
+    "docs/art/food-library/proofs/gallery-paper-390.png": {
+      "sha256": "d6dc1a24c4c59b68b58c720ac320e80914d0da90ed3333d7b03518bc09b7da04",
+      "mtime_ns": 1789216908927696391
+    },
+    "docs/art/food-library/proofs/contact-night.png": {
+      "sha256": "2886b686dff0469244b56bb8824cc670f1bb36e06d123f2ac9662e40c9165c09",
+      "mtime_ns": 1789216902357939729
+    },
+    "docs/art/food-library/proofs/optical-both.png": {
+      "sha256": "2fe065579e9c10668f5056fb1b3dfb1dd9fb512fd361abaf5353d79dfff7b4c3",
+      "mtime_ns": 1789216902495191890
+    },
+    "docs/art/food-library/proofs/phone-night-390.png": {
+      "sha256": "4208336ed0a30b0959407ba08754938dbe07e8fa85228c8c0d9cefd2ba5db407",
+      "mtime_ns": 1789216908623959502
+    },
+    "docs/art/food-library/proofs/phone-paper-390.png": {
+      "sha256": "22b89adf470d5ff735d6a55c8911d8a84e5df683e9a82ae4cb0909790d0ef6b9",
+      "mtime_ns": 1789216908359669400
+    },
+    "docs/art/food-library/proofs/contact-paper.png": {
+      "sha256": "2878b5d0897581e7bc0ff2ba998e5e6bb2e3415978bf61ff711ae57fa1315793",
+      "mtime_ns": 1789216902177029492
+    },
+    "docs/art/food-library/proofs/gallery-night-390.png": {
+      "sha256": "a7581caffc59d5051401b836c1cde640ba4183f14caa488150ea8d55085cfb33",
+      "mtime_ns": 1789216909217488399
+    },
+    "docs/art/food-library/exports/fallback-protein-night-512.png": {
+      "sha256": "938b890becc1a27b22af0c53ba1bd6fb5aea94aa68b465eb03b6bb33b855dc5d",
+      "mtime_ns": 1789215733613458520
+    },
+    "docs/art/food-library/exports/jasmine-rice-night-64.png": {
+      "sha256": "7c589bce661a89c50296c37505998f61d6412a35bdfac66cb468454b9e73c00a",
+      "mtime_ns": 1789215734551461779
+    },
+    "docs/art/food-library/exports/fallback-grains-night-64.png": {
+      "sha256": "5933a42ffdcbce8f1b5a5f5fefe5ae4e6a8fd0d3eba36d867ede5ba35cee9b2f",
+      "mtime_ns": 1789215732839840036
+    },
+    "docs/art/food-library/exports/vegetable-soup-paper-192.png": {
+      "sha256": "5dcdf3f7e26d706b2fd018a4bea5ebc2b9e170fa1ad4858c4e6281c95e429963",
+      "mtime_ns": 1789215736526991479
+    },
+    "docs/art/food-library/exports/banana-paper-64.png": {
+      "sha256": "fcd621733797940670468b583ed23f2b6e36cda27cd4ed1c9bcc4c735c601ef6",
+      "mtime_ns": 1789215731108328473
+    },
+    "docs/art/food-library/exports/salmon-night-512.png": {
+      "sha256": "b6cbcb1ba78635602000f883430ece9bb3e66509227f1c97f5802adc543da522",
+      "mtime_ns": 1789215735656261253
+    },
+    "docs/art/food-library/exports/fried-egg-paper-192.png": {
+      "sha256": "a72a1f1dc06fb9249546b1b4654f2e13e991e806e83f8289de08948031d01145",
+      "mtime_ns": 1789215733748068878
+    },
+    "docs/art/food-library/exports/coffee-night-512.png": {
+      "sha256": "f75a19ab82946e1f42821ec54465bde664d66db28840244968b9c3615570b96c",
+      "mtime_ns": 1789215732254066472
+    },
+    "docs/art/food-library/exports/grilled-chicken-paper-512.png": {
+      "sha256": "3fd6283c463f6a181138a57c9d3d6ef1f73fbe53d88c48ae46182d733c25d937",
+      "mtime_ns": 1789216088226571963
+    },
+    "docs/art/food-library/exports/coffee-paper-64.png": {
+      "sha256": "c549f8986aab804bc0bf8f62db962398982e2bc1986e95378273c9345ff4b594",
+      "mtime_ns": 1789215731888259977
+    },
+    "docs/art/food-library/exports/broccoli-night-64.png": {
+      "sha256": "210fff7df08d59f6abe27ba30493f2a649f42c72b015ac48d4a44caaa045f1e3",
+      "mtime_ns": 1789216087590460073
+    },
+    "docs/art/food-library/exports/fallback-drinks-paper-512.png": {
+      "sha256": "1d8dab463ed948af502c7d529dd14a890641214d860c02bd6cf63a167ada6ff6",
+      "mtime_ns": 1789215732355859135
+    },
+    "docs/art/food-library/exports/broccoli-night-192.png": {
+      "sha256": "512ee761ffd3ffb625d00737bcd643bdd82feb20137aa5e9950fbe16536581f7",
+      "mtime_ns": 1789216087664635382
+    },
+    "docs/art/food-library/exports/banana-paper-512.png": {
+      "sha256": "50a5332a46d0e820ed81cda10fd13227ed0a377ca983046d08c9f8d642bc8de9",
+      "mtime_ns": 1789215731217139954
+    },
+    "docs/art/food-library/exports/toast-night-192.png": {
+      "sha256": "2b702577467a327be5532771d35363834e398fd25afba8f30f036d61dca262ed",
+      "mtime_ns": 1789215736258078890
+    },
+    "docs/art/food-library/exports/fallback-produce-night-512.png": {
+      "sha256": "96423fcb6e165f5a2a6a1f1360e602f3462727dfdd27c18be2852ebcff0e09da",
+      "mtime_ns": 1789215733322038586
+    },
+    "docs/art/food-library/exports/jasmine-rice-night-192.png": {
+      "sha256": "fcc405ddc5843d8eb3421f07266b1d854835ebc7dfb40433bdcc7780edacc126",
+      "mtime_ns": 1789215734599754377
+    },
+    "docs/art/food-library/exports/orange-night-512.png": {
+      "sha256": "3f88f841912e6870709d83711a708eb6ab9acbe6e38d0701c05bc5453f8383d8",
+      "mtime_ns": 1789215735279240815
+    },
+    "docs/art/food-library/exports/mango-night-512.png": {
+      "sha256": "8c5357b8db565efcc2a0fe5d78fa32b8de720c7a3218d76f1c9af7db218af0da",
+      "mtime_ns": 1789215735013719218
+    },
+    "docs/art/food-library/exports/fallback-grains-paper-192.png": {
+      "sha256": "8a26b1540800c74fd63280ff196c1700aae79e0bf8e4004aeda58225cf33bae5",
+      "mtime_ns": 1789215732661618376
+    },
+    "docs/art/food-library/exports/fried-egg-night-64.png": {
+      "sha256": "b46dfcdb19ee5d186f33d840ad3d19c4082f5b78ab754a158d329f7d03973c61",
+      "mtime_ns": 1789215733867449796
+    },
+    "docs/art/food-library/exports/fallback-protein-paper-64.png": {
+      "sha256": "fdfcef1efc2a47987195dd658b5011626bda503cc8a53400e2f5614cbd3d7657",
+      "mtime_ns": 1789215733349017225
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-night-512.png": {
+      "sha256": "96bdd3e93d4b2b03d6c137ed16f32d80203639ad0d2526630fbf87a6b360a8bd",
+      "mtime_ns": 1789215736016864822
+    },
+    "docs/art/food-library/exports/avocado-night-512.png": {
+      "sha256": "f9ad7bde08240452523097bca8bb6b5c917ac5ee3a8a3616ac5a7a8d064e7328",
+      "mtime_ns": 1789216086716905278
+    },
+    "docs/art/food-library/exports/avocado-paper-192.png": {
+      "sha256": "95d57d5767c1c2001fae9ece151620ff37deb0f85a832490c35d1c5328aba30a",
+      "mtime_ns": 1789216084734935932
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-paper-192.png": {
+      "sha256": "1cc8fd82bfaa461f312057c53f0c4a2b3595b09d825137b18826e448628f5e40",
+      "mtime_ns": 1789215735744607492
+    },
+    "docs/art/food-library/exports/vegetable-soup-night-64.png": {
+      "sha256": "e4d57e76b57f702d10b652f7ccf546fd3accd13a7fb13b7074b813fb09bd6454",
+      "mtime_ns": 1789215736687453924
+    },
+    "docs/art/food-library/exports/fallback-produce-paper-64.png": {
+      "sha256": "ecbfd2e93b2f8c97299ebf9bda2e1749f7aca079b4d16389a4a1f7334917466b",
+      "mtime_ns": 1789215733029826936
+    },
+    "docs/art/food-library/exports/orange-night-64.png": {
+      "sha256": "3f7902e24f1ef4593cb39eb93adc5c20c8bbd2c9dc4e930e36897abe4de14246",
+      "mtime_ns": 1789215735178302744
+    },
+    "docs/art/food-library/exports/fallback-grains-night-512.png": {
+      "sha256": "e688a8a272086b84ba531af585643950b91de70f4f4d6613c4a8dff29b0d3d29",
+      "mtime_ns": 1789215732968324126
+    },
+    "docs/art/food-library/exports/orange-paper-192.png": {
+      "sha256": "25fe661bf31757632d701fbc76a5bdc407915f2bd6d8bc8dee5467dd836ed5d5",
+      "mtime_ns": 1789215735074507687
+    },
+    "docs/art/food-library/exports/mango-paper-192.png": {
+      "sha256": "c0a27b03992c659ae0f6e75ca98c32489ce7b4a0f19ce51aec48fa7bd7767d20",
+      "mtime_ns": 1789215734783060961
+    },
+    "docs/art/food-library/exports/fallback-produce-paper-192.png": {
+      "sha256": "6a82de16efc4b0b7cbf8d6758f92e06dba68ea135dffdf3004bd78e6635be125",
+      "mtime_ns": 1789215733076733645
+    },
+    "docs/art/food-library/exports/jasmine-rice-paper-512.png": {
+      "sha256": "be6551ed0bbfdfe78cb53b78be505c321b339aca6339b19611acf1ca14bfeecf",
+      "mtime_ns": 1789215734494084676
+    },
+    "docs/art/food-library/exports/banana-night-192.png": {
+      "sha256": "6bd7ba7efae9868153576fd72f83dd6e3502feaf6e912d357dc67c2c32d0fbea",
+      "mtime_ns": 1789215731351879230
+    },
+    "docs/art/food-library/exports/fallback-drinks-paper-64.png": {
+      "sha256": "62ca3b24f8f2ac383723bdc6d0aa2c3254cf0d65c8764cd329e44d0a3d832a48",
+      "mtime_ns": 1789215732283239633
+    },
+    "docs/art/food-library/exports/toast-paper-512.png": {
+      "sha256": "18ad504d6b3fd31fe835b24d32303087533686978b957ea48d05d7ca552ab01a",
+      "mtime_ns": 1789215736171568502
+    },
+    "docs/art/food-library/exports/fallback-drinks-night-192.png": {
+      "sha256": "64378cf3eb5f5219b8a2fc646693dd09be9c79dcae20840a8248845b9fbdeb70",
+      "mtime_ns": 1789215732481468322
+    },
+    "docs/art/food-library/exports/broccoli-paper-512.png": {
+      "sha256": "3dc8fcb2e262f295323d971b9541b7158d5027315cbbbe0e0a5a506acc6509df",
+      "mtime_ns": 1789216087429354372
+    },
+    "docs/art/food-library/exports/grilled-chicken-night-192.png": {
+      "sha256": "0c88c97b08853c9f65d3eaf4354d8d416e37ff51ee92b6ed0a4c81216440c3c3",
+      "mtime_ns": 1789216088319018825
+    },
+    "docs/art/food-library/exports/mango-night-64.png": {
+      "sha256": "f8716e9b9c141c87c25c2e27bc33682b6eddf7c93d3d5a0cf8c6812a7c9e9d9a",
+      "mtime_ns": 1789215734891701566
+    },
+    "docs/art/food-library/exports/avocado-night-64.png": {
+      "sha256": "7a0856de3ae7ea9654e14e3dfe2c9bd9acacb629ed14c8ec3672f49a8bb2a0a5",
+      "mtime_ns": 1789216085957027345
+    },
+    "docs/art/food-library/exports/salmon-paper-192.png": {
+      "sha256": "2dbf3f2bdf7386066f33238e7c571aebb19b0f51af653ed28d3d6060dfc7d793",
+      "mtime_ns": 1789215735407017773
+    },
+    "docs/art/food-library/exports/fried-egg-night-512.png": {
+      "sha256": "c9c809051ef0b4c4018269c39c5059c0d56475c683066673b63374189ca79e73",
+      "mtime_ns": 1789215734012571924
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-night-64.png": {
+      "sha256": "8997987bf17ec9329683c78bc01d17915e6f332b09f24126cf801d949f9c09c6",
+      "mtime_ns": 1789215735888679777
+    },
+    "docs/art/food-library/exports/coffee-paper-192.png": {
+      "sha256": "97848698432524a187dbcccff355157dfe4f1557f7035293267470c73120455d",
+      "mtime_ns": 1789215731945659372
+    },
+    "docs/art/food-library/exports/salmon-paper-64.png": {
+      "sha256": "c7fb5ff079ace26e2044d0997fb640f0c1916647d9f8c1107280ab07aae691b9",
+      "mtime_ns": 1789215735373087900
+    },
+    "docs/art/food-library/exports/grilled-chicken-night-64.png": {
+      "sha256": "c5830c0d4e4996df4524dab24b302b5ec4dcf1b1de82ae734decd8cc81e08e88",
+      "mtime_ns": 1789216088279049226
+    },
+    "docs/art/food-library/exports/vegetable-soup-night-512.png": {
+      "sha256": "cf792249d258eb0d6f7396c196c8f33222e6ff597117939abff2a5509626ef3c",
+      "mtime_ns": 1789215736806481088
+    },
+    "docs/art/food-library/exports/toast-paper-64.png": {
+      "sha256": "c61ed953c900e674558454a7f7e85c27d08c193be69598917bbda6d1a864b455",
+      "mtime_ns": 1789215736044856471
+    },
+    "docs/art/food-library/exports/fallback-protein-paper-192.png": {
+      "sha256": "12f2bee602de33bf15c6ba32c61d854781630106cd6e436de6bf69c076ebb240",
+      "mtime_ns": 1789215733406656247
+    },
+    "docs/art/food-library/exports/mango-paper-64.png": {
+      "sha256": "1be8d8f59c31c64042502d9b56af7ef948880bd89cd6c0deaffde7bac205f83d",
+      "mtime_ns": 1789215734728498636
+    },
+    "docs/art/food-library/exports/fallback-grains-paper-512.png": {
+      "sha256": "c4754d075fb339b0747b045c830456fa0cc791fa68155e9bda405d04750fc056",
+      "mtime_ns": 1789215732742515583
+    },
+    "docs/art/food-library/exports/avocado-paper-64.png": {
+      "sha256": "b9e5bcfb233bea136c6dd44201efafd5002be1b67df6accd2d92e8d95b4540e3",
+      "mtime_ns": 1789216084213827876
+    },
+    "docs/art/food-library/exports/avocado-night-192.png": {
+      "sha256": "8bf98895ca25ebc1c2a68c26a1a03058d2f53c23ff45d60d4d8f6547491e77c0",
+      "mtime_ns": 1789216086260407354
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-night-192.png": {
+      "sha256": "467961489384ce35adf112db0bfe2b59a0d176c64f397876080c470ec3d86900",
+      "mtime_ns": 1789215735940490075
+    },
+    "docs/art/food-library/exports/salmon-night-64.png": {
+      "sha256": "00fe2381bef49c4d49fc6efc0ffa6efc10d3cb3f8c4289cc651d845a182ba92d",
+      "mtime_ns": 1789215735519282288
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-paper-64.png": {
+      "sha256": "d42f9ea639a25a4ed2f4ea84564fa0ac770c4443340290c224ea5ccdb0ef2adc",
+      "mtime_ns": 1789215735690400170
+    },
+    "docs/art/food-library/exports/banana-paper-192.png": {
+      "sha256": "4a658f978922a61636d4eebae25f2eaf6e1cc6f420750682cac7a6accbc44070",
+      "mtime_ns": 1789215731177499233
+    },
+    "docs/art/food-library/exports/toast-night-512.png": {
+      "sha256": "717aec0d2a9e28f5bd3b689571ae3c63f4d831596a8ff0266815de4536430c98",
+      "mtime_ns": 1789215736372237673
+    },
+    "docs/art/food-library/exports/grilled-chicken-paper-64.png": {
+      "sha256": "9b92660d20206d5cecee2258580d17441b593d5da81d126abc7c37d3e00b3228",
+      "mtime_ns": 1789216088045006353
+    },
+    "docs/art/food-library/exports/broccoli-night-512.png": {
+      "sha256": "96789b574769905ba7a8a9d8fd753cc8f4398df396017ad233ba80ab2ab37d15",
+      "mtime_ns": 1789216087874695062
+    },
+    "docs/art/food-library/exports/fallback-drinks-paper-192.png": {
+      "sha256": "ebd7e8e1e5775b3caddcb453db6536029ef5c9887217d5907e1901434d82fc85",
+      "mtime_ns": 1789215732308986593
+    },
+    "docs/art/food-library/exports/mango-night-192.png": {
+      "sha256": "f6267d53616a946fa8cd83f9ce5a2116e67717bba681e88d027aab3e1ae425e9",
+      "mtime_ns": 1789215734938250021
+    },
+    "docs/art/food-library/exports/toast-night-64.png": {
+      "sha256": "82a68d8bdab0226104424795192ea9eaa121473940c948aa148126bc78a29265",
+      "mtime_ns": 1789215736199353732
+    },
+    "docs/art/food-library/exports/orange-night-192.png": {
+      "sha256": "a0dac5bbb0adb730c2d7d4f7a7d3dc944add42afaae49e6f19df09a61d2bd820",
+      "mtime_ns": 1789215735209790844
+    },
+    "docs/art/food-library/exports/jasmine-rice-night-512.png": {
+      "sha256": "6f288c7d86d238c803fff913823e3c6eb37415dba8e77ea9515bffe3eb85c710",
+      "mtime_ns": 1789215734670635445
+    },
+    "docs/art/food-library/exports/fallback-produce-night-192.png": {
+      "sha256": "261fd32739b0b835affd0d50d3d3bbeba0c11b60e96876472a3291eb1b234e19",
+      "mtime_ns": 1789215733256080441
+    },
+    "docs/art/food-library/exports/fried-egg-paper-512.png": {
+      "sha256": "823c8dbd8880df706f862f2e5f62ef0c36342cb8fa86c093c90d8f915082f6f2",
+      "mtime_ns": 1789215733841484375
+    },
+    "docs/art/food-library/exports/salmon-night-192.png": {
+      "sha256": "d8b46266454551af463fdbc8f3dd4d39b6727e694c5f26d469f16b2274783a14",
+      "mtime_ns": 1789215735554436382
+    },
+    "docs/art/food-library/exports/fallback-produce-night-64.png": {
+      "sha256": "143ae9386acd3de06663870a9467b9cc5fb26f83f3345e5902c68192e5b50efd",
+      "mtime_ns": 1789215733205114692
+    },
+    "docs/art/food-library/exports/vegetable-soup-paper-64.png": {
+      "sha256": "3d018a8a968290536c4e4b58562d65714b512039634a619437367d9e9fb98bc4",
+      "mtime_ns": 1789215736494669704
+    },
+    "docs/art/food-library/exports/coffee-night-192.png": {
+      "sha256": "6641c195088ebdddf0960f4cac2935ea5532c1c97908983183632116ed3473ff",
+      "mtime_ns": 1789215732143041053
+    },
+    "docs/art/food-library/exports/orange-paper-64.png": {
+      "sha256": "37c7e00d8470705e04bb458b40e198eafe39600a5c3ff37cd105cd1d687a1fe9",
+      "mtime_ns": 1789215735040520730
+    },
+    "docs/art/food-library/exports/grilled-chicken-paper-192.png": {
+      "sha256": "49ceac4812353ac9bcca406271bf89dbc63fb01d6a988fb11c0bd05356a6e319",
+      "mtime_ns": 1789216088100152059
+    },
+    "docs/art/food-library/exports/fallback-protein-night-192.png": {
+      "sha256": "738dc4981c85e44065a91e2ffb0a4bfc540332019f058856b414ca6b0282c153",
+      "mtime_ns": 1789215733537392526
+    },
+    "docs/art/food-library/exports/fallback-drinks-night-64.png": {
+      "sha256": "b1b5baf8b4e69b313181ed4a01da6c4e6864e85a5334d7435358fbe0b73bc60b",
+      "mtime_ns": 1789215732420001304
+    },
+    "docs/art/food-library/exports/vegetable-soup-paper-512.png": {
+      "sha256": "cd392447c4c129030df1be211b48c4e28e56551eca2b6d3162c4ef9d7fbde30a",
+      "mtime_ns": 1789215736611037301
+    },
+    "docs/art/food-library/exports/coffee-night-64.png": {
+      "sha256": "9a0be9b1dea279de9a433c010e2eebac689da0b85207b2d6c64098ad3c99c955",
+      "mtime_ns": 1789215732106599863
+    },
+    "docs/art/food-library/exports/vegetable-soup-night-192.png": {
+      "sha256": "9a1b6f4486fbdad40079f7562b46df08ca625ca944aef08f80ec037c17a1bad1",
+      "mtime_ns": 1789215736729235499
+    },
+    "docs/art/food-library/exports/broccoli-paper-64.png": {
+      "sha256": "96a828be8afa91a289c95610faa1585d1bf2d59bec743496b165d51f67771eb6",
+      "mtime_ns": 1789216086894272763
+    },
+    "docs/art/food-library/exports/fallback-protein-paper-512.png": {
+      "sha256": "65428bae396d515d39d7cc05b0b2b157801b3a835141d5cf0789989b8cf43afa",
+      "mtime_ns": 1789215733467052004
+    },
+    "docs/art/food-library/exports/fried-egg-paper-64.png": {
+      "sha256": "bfceaa56a9795fc9fb7e8e180152ae5f7e03325c267aa165c0a66ff54ef6bf23",
+      "mtime_ns": 1789215733694901733
+    },
+    "docs/art/food-library/exports/grilled-chicken-night-512.png": {
+      "sha256": "6a27f1b0edc443438915f2492eda01077d39ac6f9548494c262cd3ec22e9c885",
+      "mtime_ns": 1789216088398635896
+    },
+    "docs/art/food-library/exports/fried-egg-night-192.png": {
+      "sha256": "d70a294b4a2ca59bc640d42f4e417e3636454a9faf7b76039734e14679620dae",
+      "mtime_ns": 1789215733929936866
+    },
+    "docs/art/food-library/exports/salmon-paper-512.png": {
+      "sha256": "dcf0de9146b0443c37ac5643aa6400caeeaba8d814a611760af0f2ba750e31b3",
+      "mtime_ns": 1789215735488125192
+    },
+    "docs/art/food-library/exports/fallback-protein-night-64.png": {
+      "sha256": "74d65e9ccb8700e12b7d2bdeee31ccf0b54afae2826d9b700cedfc35fe7f17ad",
+      "mtime_ns": 1789215733504713164
+    },
+    "docs/art/food-library/exports/coffee-paper-512.png": {
+      "sha256": "84f1db587d965a30f08a17ff4f078eb5dd87fb76bf8a8c1f2b5e8f81fa082da2",
+      "mtime_ns": 1789215732032959559
+    },
+    "docs/art/food-library/exports/jasmine-rice-paper-192.png": {
+      "sha256": "9a195903f005c97b5be87f42f6b5f42f82781409fde732803888f17dce2dceb9",
+      "mtime_ns": 1789215734427277814
+    },
+    "docs/art/food-library/exports/jasmine-rice-paper-64.png": {
+      "sha256": "b9efa1efbce4dce22ef547ca6ee6d23b2ebaf34203e199825e02b909c451e1bf",
+      "mtime_ns": 1789215734370396841
+    },
+    "docs/art/food-library/exports/fallback-produce-paper-512.png": {
+      "sha256": "d04739699a1e494a9c07b1955358d5f2cd79a242beeb7d84dc77e3d12ff45f23",
+      "mtime_ns": 1789215733123043973
+    },
+    "docs/art/food-library/exports/mango-paper-512.png": {
+      "sha256": "d0e0d3081af8a83926db2dd224a670a00f20a68a6a938f0e4c4b8df935b2ed4e",
+      "mtime_ns": 1789215734859350999
+    },
+    "docs/art/food-library/exports/orange-paper-512.png": {
+      "sha256": "2194d35cd62a9fb098ae5059f1836e3ad3fde30b9dbc146f99d80886cdd4968d",
+      "mtime_ns": 1789215735150121427
+    },
+    "docs/art/food-library/exports/broccoli-paper-192.png": {
+      "sha256": "6ed3aa5db5570e00efbdabd0d760c498dd0087dd94a101856ca2def1506be7e5",
+      "mtime_ns": 1789216087136802552
+    },
+    "docs/art/food-library/exports/fallback-grains-paper-64.png": {
+      "sha256": "7814a2cc0a7e47cc3725bd6efdf0a89e9e53d8f381c04c16be3b816c7247e3b2",
+      "mtime_ns": 1789215732561686940
+    },
+    "docs/art/food-library/exports/fallback-drinks-night-512.png": {
+      "sha256": "162bb28712bb9dac8b648c3631de5abbbf43a4582479b3ed0a4d0ce28b669096",
+      "mtime_ns": 1789215732530377217
+    },
+    "docs/art/food-library/exports/banana-night-64.png": {
+      "sha256": "0f191de28edd3d7f8636b75aaa42466a78cae22f079faa3b22f61d8580d2e833",
+      "mtime_ns": 1789215731296972943
+    },
+    "docs/art/food-library/exports/banana-night-512.png": {
+      "sha256": "bc4eb3d934e0cbd32819746c2c4b9eb3d9a9b6b0e56c907d9daedc9b659e2291",
+      "mtime_ns": 1789215731392895590
+    },
+    "docs/art/food-library/exports/toast-paper-192.png": {
+      "sha256": "3acdc18559936f8ddd7a84e1040a0d8d4989d426242b15dda0077f6f1d4fc13b",
+      "mtime_ns": 1789215736106032944
+    },
+    "docs/art/food-library/exports/stir-fried-noodles-paper-512.png": {
+      "sha256": "0ef6032ed3862714a98561ba7c0898fcdb6b54405faf3abf054e504ea4fb701a",
+      "mtime_ns": 1789215735798153183
+    },
+    "docs/art/food-library/exports/avocado-paper-512.png": {
+      "sha256": "2cc4ce287ee0c8443a6e3cad9c7f788fbcdc2229084008c6f50bb9f8a51aabcc",
+      "mtime_ns": 1789216085651797192
+    },
+    "docs/art/food-library/exports/fallback-grains-night-192.png": {
+      "sha256": "e29720cdd344531fd2c21f87d7291bb65378d05146a9c79793436a7a2c92d0f4",
+      "mtime_ns": 1789215732894727864
+    },
+    "docs/art/food-library/sources/fallback-drinks.json": {
+      "sha256": "9e67b02a0b5c31587aa8fea4dfddadc4027e964481f1034c23dd4dd83af5d53b",
+      "mtime_ns": 1789215354011640625
+    },
+    "docs/art/food-library/sources/avocado.json": {
+      "sha256": "7d464a9f5a5c65632dbe6ae8d92c10aaa9a2dfa25a044ad4b14c96b0c789ac41",
+      "mtime_ns": 1789216083931478530
+    },
+    "docs/art/food-library/sources/banana.json": {
+      "sha256": "7d8be2568bac8a6edf49ff1cb1bc87add9861779b008fc293568ce94afb4371e",
+      "mtime_ns": 1789215354011205995
+    },
+    "docs/art/food-library/sources/toast.json": {
+      "sha256": "28fa0167e33c27a7b2e6317f3ee27e0e0af24f9cbb21e7d8e6fce75f6b593534",
+      "mtime_ns": 1789215354010978327
+    },
+    "docs/art/food-library/sources/mango.json": {
+      "sha256": "54aad7dfef91a23ca59bd2f13a1a52209afa7a9b33dcb5e53a518aafa1f9a0db",
+      "mtime_ns": 1789215354011131536
+    },
+    "docs/art/food-library/sources/fried-egg.json": {
+      "sha256": "5c5574bd87d5bc5728aba56a86cdedbd67ad7915764e9fb4bfe3c0a3e32cf285",
+      "mtime_ns": 1789215354010893367
+    },
+    "docs/art/food-library/sources/fallback-grains.json": {
+      "sha256": "e7263f667cc297411bcb3f138335175982b3bd5f14e1beb1349c19d3c9a1cf10",
+      "mtime_ns": 1789215354011420498
+    },
+    "docs/art/food-library/sources/stir-fried-noodles.json": {
+      "sha256": "e22a97f575b1ed067a093007ed5856952fa5cde36297dc0e9764f6e0bc8acc52",
+      "mtime_ns": 1789215354010545072
+    },
+    "docs/art/food-library/sources/salmon.json": {
+      "sha256": "2324fbf20ba713de53ddd7a93ed8802ba76428977d01278ed9326907471218bc",
+      "mtime_ns": 1789215354010818158
+    },
+    "docs/art/food-library/sources/grilled-chicken.json": {
+      "sha256": "2131aa9d97014c69769012d336de4004dca13b4ad44e25dc6db27aa6936ebcfa",
+      "mtime_ns": 1789216083923742455
+    },
+    "docs/art/food-library/sources/coffee.json": {
+      "sha256": "20066b96f2929e779c3e5dfe3e8a26220f8c1fc80dff82abc0fec4197f19544e",
+      "mtime_ns": 1789215354011345413
+    },
+    "docs/art/food-library/sources/orange.json": {
+      "sha256": "cac38ed6fa69be3209d50a46bc5b4f6d117aab66f4cccd1025b7740318db0738",
+      "mtime_ns": 1789215354011275288
+    },
+    "docs/art/food-library/sources/jasmine-rice.json": {
+      "sha256": "a01397989d6d26c903d70d58e25e216472336a9df3579a3bbdaea87b76637a35",
+      "mtime_ns": 1789215354010410613
+    },
+    "docs/art/food-library/sources/fallback-protein.json": {
+      "sha256": "4153051f3e3561c0aecfeeb59135eeef9c3c154969e3316958e27afcfa48d2cd",
+      "mtime_ns": 1789215354011491332
+    },
+    "docs/art/food-library/sources/fallback-produce.json": {
+      "sha256": "7c413c07a2595ea19ce34fbc135221418f0a896ee24ac899e43484fc3c32c631",
+      "mtime_ns": 1789215354011569457
+    },
+    "docs/art/food-library/sources/vegetable-soup.json": {
+      "sha256": "19d394020b275bb0b6a59bf18987d0f3f02dc34e10d2d33f5bf37db62d93ef61",
+      "mtime_ns": 1789215354010635782
+    },
+    "docs/art/food-library/sources/broccoli.json": {
+      "sha256": "c631ad1dafe2a21f88b69fc60790466b4eb4822bb9dd673b29cecbb9d2bcbc4b",
+      "mtime_ns": 1789216083925199427
+    },
+    "docs/art/food-library/masters/fallback-grains-night.svg": {
+      "sha256": "9e673238fc36505f4554aca5a09e35e1ad83941d54148eccabb455dee9a0a346",
+      "mtime_ns": 1789215732815599132
+    },
+    "docs/art/food-library/masters/jasmine-rice-night.svg": {
+      "sha256": "f22836424e32b805e18847c3381fcbc122db52aa2714ed6c1901007cd3c9f633",
+      "mtime_ns": 1789215734527359002
+    },
+    "docs/art/food-library/masters/banana-paper.svg": {
+      "sha256": "ceffcea23dcf5fc6e887c960a8230b3d858e04d7029bc6fa3eb9219008f720d3",
+      "mtime_ns": 1789215731065805598
+    },
+    "docs/art/food-library/masters/toast-night.svg": {
+      "sha256": "80a055c23bdccb594a71fa7db4cb8c10c5e4a08f5e12dfdd30709fef54354d34",
+      "mtime_ns": 1789215736177001847
+    },
+    "docs/art/food-library/masters/mango-paper.svg": {
+      "sha256": "ed7b6ae03f7c09576ddacf9623b4e3cf76b38161e5389428ebda95c597423f1d",
+      "mtime_ns": 1789215734705801872
+    },
+    "docs/art/food-library/masters/fallback-drinks-night.svg": {
+      "sha256": "24aad2ee107e854438d01c8f214879129db0df8a5d3a0eee3c26704f4a287bfc",
+      "mtime_ns": 1789215732398712762
+    },
+    "docs/art/food-library/masters/fallback-produce-night.svg": {
+      "sha256": "ff8145a78a6e549803a913657dac7e190e5fa6c78c82702dc0fc27a5425267a1",
+      "mtime_ns": 1789215733182700223
+    },
+    "docs/art/food-library/masters/fried-egg-paper.svg": {
+      "sha256": "556e45871ca4f5d0217684171d52aa8c1920de0b6783cf168be07be040a814e2",
+      "mtime_ns": 1789215733672851059
+    },
+    "docs/art/food-library/masters/coffee-paper.svg": {
+      "sha256": "dc2f325e2802af303b68a593a3ee8cd772307dcc638272643ca7a47519ee3a05",
+      "mtime_ns": 1789215731866428347
+    },
+    "docs/art/food-library/masters/fallback-protein-paper.svg": {
+      "sha256": "915ec530f672da2516c246d55be5274b9f3c77989d54fb4cb21f5259fc2925cb",
+      "mtime_ns": 1789215733328992612
+    },
+    "docs/art/food-library/masters/avocado-paper.svg": {
+      "sha256": "f8480a1fcf0ab1885db4a6d0982495a62c02cea61de221fbf10d168b06519e04",
+      "mtime_ns": 1789216084130581561
+    },
+    "docs/art/food-library/masters/orange-paper.svg": {
+      "sha256": "119a04adfcde5e16c7046dadaea3e0f01d09d40ae7912bda513af49e433faeec",
+      "mtime_ns": 1789215735020763495
+    },
+    "docs/art/food-library/masters/broccoli-night.svg": {
+      "sha256": "c97a1e94aafe0a1dd47240ee6fac09b91e50171c1fd32251d530cef8d300f414",
+      "mtime_ns": 1789216087547566945
+    },
+    "docs/art/food-library/masters/grilled-chicken-night.svg": {
+      "sha256": "290430eca604dab9a3bcb14cb7723a5736e8baa8263f120f5b5b005dedda2012",
+      "mtime_ns": 1789216088249826982
+    },
+    "docs/art/food-library/masters/salmon-paper.svg": {
+      "sha256": "de7f5826ef438ea50899538235a4c4625dd01b77fe9be6c9aa92523c800d5d7f",
+      "mtime_ns": 1789215735349909881
+    },
+    "docs/art/food-library/masters/vegetable-soup-paper.svg": {
+      "sha256": "65e7b9e54629e19337191fe7f93573876fff93c56a20f8277f0422baff16d5fd",
+      "mtime_ns": 1789215736471543437
+    },
+    "docs/art/food-library/masters/stir-fried-noodles-paper.svg": {
+      "sha256": "da0876be81d229704037bfbaa5ad15dac28f1cfbac68b1f3b46b392b9426dd70",
+      "mtime_ns": 1789215735667492821
+    },
+    "docs/art/food-library/masters/vegetable-soup-night.svg": {
+      "sha256": "456c3339628e3897d8edbaacbe0ce87e8c578457da1d1c50cd5b5424ad9a3934",
+      "mtime_ns": 1789215736663977819
+    },
+    "docs/art/food-library/masters/salmon-night.svg": {
+      "sha256": "c1bc217c826f1e10fee9576435de414e028b5b4c56a9cd1951e66b8c7a832304",
+      "mtime_ns": 1789215735496960695
+    },
+    "docs/art/food-library/masters/stir-fried-noodles-night.svg": {
+      "sha256": "54f2cba3ac894d93458fc10e6516c6a69dd06bed73f3537198ee534828068ebc",
+      "mtime_ns": 1789215735865588592
+    },
+    "docs/art/food-library/masters/orange-night.svg": {
+      "sha256": "c7b984af1ff374c8d0df9e744c7971d44eadf5166bd8ebe7af2b2e474942025f",
+      "mtime_ns": 1789215735157901711
+    },
+    "docs/art/food-library/masters/avocado-night.svg": {
+      "sha256": "e203e3413e6379b2af15fd7dfc476a62e77a647a094e69cc46170c6e85e814dc",
+      "mtime_ns": 1789216085776229993
+    },
+    "docs/art/food-library/masters/fallback-protein-night.svg": {
+      "sha256": "3161aa84db94f09b2df9f9c15a4a20434fef7e79c0eb576d5ffcb0a63bef8be8",
+      "mtime_ns": 1789215733484938471
+    },
+    "docs/art/food-library/masters/coffee-night.svg": {
+      "sha256": "55a48ee337271e3c09493a34cbc00df169181ef65d5aaa8cedf08ff678d36f3f",
+      "mtime_ns": 1789215732083919558
+    },
+    "docs/art/food-library/masters/grilled-chicken-paper.svg": {
+      "sha256": "8598672ca5ffddff61dda46f7165d2554ce36e179a015e6c6feab2955089bbf5",
+      "mtime_ns": 1789216088000612836
+    },
+    "docs/art/food-library/masters/broccoli-paper.svg": {
+      "sha256": "4d58d9843e9422726e11c0c213359b00cc7cab6c1b7dffd1395ac23ced59c036",
+      "mtime_ns": 1789216086802936995
+    },
+    "docs/art/food-library/masters/fallback-produce-paper.svg": {
+      "sha256": "4a130c66aed8cc646641f65876ca0faf0406ad6d33cbe0277a377fd9319fc7d9",
+      "mtime_ns": 1789215733008146182
+    },
+    "docs/art/food-library/masters/fried-egg-night.svg": {
+      "sha256": "7f0792aad36bca0cd1179d53c5814b18996ef969a825a9f7955dfe3d80afd3a1",
+      "mtime_ns": 1789215733846179547
+    },
+    "docs/art/food-library/masters/banana-night.svg": {
+      "sha256": "62ce2131c053d0e96930bcdfc8dddc4961b42e34baec1d272fbcc2c2f21c29e2",
+      "mtime_ns": 1789215731275644276
+    },
+    "docs/art/food-library/masters/jasmine-rice-paper.svg": {
+      "sha256": "4e9fbd947acdec9e18d4f96deab93dce81e7b805fe9372ea2737c81f078e1d88",
+      "mtime_ns": 1789215734347197406
+    },
+    "docs/art/food-library/masters/fallback-grains-paper.svg": {
+      "sha256": "d5664f573dfddceeb26a22d46e6b3e9b53c171c987aebc07ee80194c23272f0d",
+      "mtime_ns": 1789215732538518796
+    },
+    "docs/art/food-library/masters/mango-night.svg": {
+      "sha256": "5087f5ee1ec9c489f48e1bf1ee02635f910fbccb6e845f427709947fc5e63ea7",
+      "mtime_ns": 1789215734870892404
+    },
+    "docs/art/food-library/masters/fallback-drinks-paper.svg": {
+      "sha256": "4ef8e057365e85a1a9acdabe2ca90831b667aca65862e65631803939089b9f17",
+      "mtime_ns": 1789215732260845580
+    },
+    "docs/art/food-library/masters/toast-paper.svg": {
+      "sha256": "dd8f371c1ca55981298ca6c45fe1e30b3da84fd8c63ff9f4de38b6da609589a8",
+      "mtime_ns": 1789215736021505659
+    },
+    "docs/art/food-library/fonts/OFL-IBMPlexMono.txt": {
+      "sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f",
+      "mtime_ns": 1789214757176675687
+    },
+    "docs/art/food-library/fonts/Caveat[wght].ttf": {
+      "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+      "mtime_ns": 1789214757165042073
+    },
+    "docs/art/food-library/fonts/OFL-EBGaramond.txt": {
+      "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8",
+      "mtime_ns": 1789214757176516894
+    },
+    "docs/art/food-library/fonts/IBMPlexMono-Regular.ttf": {
+      "sha256": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
+      "mtime_ns": 1789214757175489051
+    },
+    "docs/art/food-library/fonts/OFL-Caveat.txt": {
+      "sha256": "163a2b400e16916ad3196296c946c526d0efce6baf22a2164269ffc62fb9f671",
+      "mtime_ns": 1789214757176238266
+    },
+    "docs/art/food-library/fonts/EBGaramond[wght].ttf": {
+      "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+      "mtime_ns": 1789214757171709222
+    },
+    "docs/art/food-library/references/round-1/grilled-chicken.json": {
+      "sha256": "4a6d068b23befdfd8fe5360365fd7965cc7460da3bc9d4d67ace79b918349eaf",
+      "mtime_ns": 1789215354010730199
+    },
+    "docs/art/food-library/references/round-1/contact-paper.png": {
+      "sha256": "bf71bfdfe7d70d3f5f6e6686eeaa141c9d27575a8eb98b8386a947ea68e60cf2",
+      "mtime_ns": 1789215508494802857
+    },
+    "docs/art/food-library/references/round-1/broccoli.json": {
+      "sha256": "9b7fecceaf3c596c9bdeff66985a87f096809229ddd31ee83c39222858f99700",
+      "mtime_ns": 1789215354011056286
+    },
+    "docs/art/food-library/references/round-2/avocado.json": {
+      "sha256": "94ce5152edac52cfdccf8cd3f1eca15f188ad9ec0879ef3558a504b3b34c2034",
+      "mtime_ns": 1789215883509922085
+    },
+    "docs/art/food-library/references/round-2/contact-night.png": {
+      "sha256": "bc82494687c8271376d5f8a979749c0a00bf4e8e215cd3d6ed0aa8a7f88c104b",
+      "mtime_ns": 1789215885228119435
+    },
+    "docs/art/food-library/references/round-2/grilled-chicken.json": {
+      "sha256": "4948efa19e864c12a2703e9cdbe241cdaa0369848018300ba8b49c0891ae4718",
+      "mtime_ns": 1789215730845659070
+    },
+    "docs/art/food-library/references/round-2/broccoli.json": {
+      "sha256": "857bafe704cd98ebb552655d547d366e571a664b13fd82465e7e09e09f0a1465",
+      "mtime_ns": 1789215730846270993
+    },
+    "skills/food-art/scripts/package.py": {
+      "sha256": "33cd5e8b5683abf50c463ecb33f4d3ae8df15b436756ef23e2a5f08f2370aa91",
+      "mtime_ns": 1789216139695711071
+    },
+    "skills/food-art/scripts/optical.py": {
+      "sha256": "f9a577674277bc60b47b481a717d669d09f5d876aa1ea31e82cdfad2371f293a",
+      "mtime_ns": 1789216549640004034
+    },
+    "skills/food-art/scripts/mirror.py": {
+      "sha256": "e69e6e17d45646639165fe6eff37e4c321e57b64e182e79ce89bafb73356a66f",
+      "mtime_ns": 1789216887395603696
+    },
+    "skills/food-art/scripts/library.py": {
+      "sha256": "87b99b91936aebf15239651e5d9667d59cf8a7e6aef6cd002ec2728b5fdc165b",
+      "mtime_ns": 1789215685236508912
+    },
+    "skills/food-art/scripts/test_workflow.py": {
+      "sha256": "21960f0579a3c696a06323f5f94fe7513407b4a1f98c22e54910633b7fc3b281",
+      "mtime_ns": 1789215939801658035
+    },
+    "skills/food-art/scripts/experiment.py": {
+      "sha256": "9fa850cb60d97e4a94fc1d882766506691ebb869f143d9626f69cf7c673d2837",
+      "mtime_ns": 1789215831329219227
+    },
+    "skills/food-art/scripts/capture.py": {
+      "sha256": "defd5b4fccb889685d95063f7f1874d845ad8e2b819e5072523fff7b19cacd5c",
+      "mtime_ns": 1789215713121816358
+    },
+    "skills/food-art/scripts/gate.py": {
+      "sha256": "08c4295ab18f7cb9848847c681bde7be562d6c8601ade2e21d1160ecc2d9c2a4",
+      "mtime_ns": 1789216825886930220
+    },
+    "skills/food-art/scripts/verify.py": {
+      "sha256": "b089b2350d1dc7b7f119d492b5126fbb787ea8900cdb40ef84f203e165ebc851",
+      "mtime_ns": 1789215414662450307
+    },
+    "skills/food-art/scripts/starter.py": {
+      "sha256": "a913d24f949e106867876a5f53e049a38d3a7084708daec23ea4cfbf698cf3ed",
+      "mtime_ns": 1789216063799554429
+    },
+    "skills/food-art/scripts/proofs.py": {
+      "sha256": "8dd19e88530108d4c28259082c2301c87736cd200d52f91bd1d80d5ccb3fd12f",
+      "mtime_ns": 1789216527539738292
+    }
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "catalog_ids": [
+    "avocado",
+    "banana",
+    "broccoli",
+    "coffee",
+    "fallback-drinks",
+    "fallback-grains",
+    "fallback-produce",
+    "fallback-protein",
+    "fried-egg",
+    "grilled-chicken",
+    "jasmine-rice",
+    "mango",
+    "orange",
+    "salmon",
+    "stir-fried-noodles",
+    "toast",
+    "vegetable-soup"
+  ],
+  "foods": 13,
+  "fallbacks": 4,
+  "editable_source_svgs": 17,
+  "theme_masters": 34,
+  "transparent_pngs": 102,
+  "historical_control_files_unchanged": 283,
+  "approved_sources_masters_and_64px_identical": [
+    "mango",
+    "stir-fried-noodles",
+    "coffee"
+  ],
+  "optical_measurements_not_visual_approval": [
+    {
+      "id": "avocado",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        12,
+        55,
+        54
+      ],
+      "alpha_gt64_pixels": 1171
+    },
+    {
+      "id": "avocado",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        12,
+        55,
+        54
+      ],
+      "alpha_gt64_pixels": 1171
+    },
+    {
+      "id": "banana",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        13,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 551
+    },
+    {
+      "id": "banana",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        13,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 551
+    },
+    {
+      "id": "broccoli",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        9,
+        9,
+        55,
+        55
+      ],
+      "alpha_gt64_pixels": 1190
+    },
+    {
+      "id": "broccoli",
+      "theme": "night",
+      "alpha_bbox_64": [
+        9,
+        9,
+        55,
+        55
+      ],
+      "alpha_gt64_pixels": 1190
+    },
+    {
+      "id": "coffee",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        9,
+        54,
+        52
+      ],
+      "alpha_gt64_pixels": 1000
+    },
+    {
+      "id": "coffee",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        9,
+        54,
+        52
+      ],
+      "alpha_gt64_pixels": 1000
+    },
+    {
+      "id": "fallback-drinks",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        18,
+        12,
+        46,
+        52
+      ],
+      "alpha_gt64_pixels": 895
+    },
+    {
+      "id": "fallback-drinks",
+      "theme": "night",
+      "alpha_bbox_64": [
+        18,
+        12,
+        46,
+        52
+      ],
+      "alpha_gt64_pixels": 895
+    },
+    {
+      "id": "fallback-grains",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        20,
+        54,
+        48
+      ],
+      "alpha_gt64_pixels": 815
+    },
+    {
+      "id": "fallback-grains",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        20,
+        54,
+        48
+      ],
+      "alpha_gt64_pixels": 815
+    },
+    {
+      "id": "fallback-produce",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        12,
+        17,
+        52,
+        50
+      ],
+      "alpha_gt64_pixels": 820
+    },
+    {
+      "id": "fallback-produce",
+      "theme": "night",
+      "alpha_bbox_64": [
+        12,
+        17,
+        52,
+        50
+      ],
+      "alpha_gt64_pixels": 820
+    },
+    {
+      "id": "fallback-protein",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        22,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 777
+    },
+    {
+      "id": "fallback-protein",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        22,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 777
+    },
+    {
+      "id": "fried-egg",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        8,
+        15,
+        55,
+        51
+      ],
+      "alpha_gt64_pixels": 1268
+    },
+    {
+      "id": "fried-egg",
+      "theme": "night",
+      "alpha_bbox_64": [
+        8,
+        15,
+        55,
+        51
+      ],
+      "alpha_gt64_pixels": 1268
+    },
+    {
+      "id": "grilled-chicken",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        8,
+        18,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 977
+    },
+    {
+      "id": "grilled-chicken",
+      "theme": "night",
+      "alpha_bbox_64": [
+        8,
+        18,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 977
+    },
+    {
+      "id": "jasmine-rice",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        19,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 1006
+    },
+    {
+      "id": "jasmine-rice",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        19,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 1006
+    },
+    {
+      "id": "mango",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        9,
+        12,
+        55,
+        49
+      ],
+      "alpha_gt64_pixels": 890
+    },
+    {
+      "id": "mango",
+      "theme": "night",
+      "alpha_bbox_64": [
+        9,
+        12,
+        55,
+        49
+      ],
+      "alpha_gt64_pixels": 890
+    },
+    {
+      "id": "orange",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        11,
+        55,
+        54
+      ],
+      "alpha_gt64_pixels": 1111
+    },
+    {
+      "id": "orange",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        11,
+        55,
+        54
+      ],
+      "alpha_gt64_pixels": 1111
+    },
+    {
+      "id": "salmon",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        19,
+        55,
+        50
+      ],
+      "alpha_gt64_pixels": 800
+    },
+    {
+      "id": "salmon",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        19,
+        55,
+        50
+      ],
+      "alpha_gt64_pixels": 800
+    },
+    {
+      "id": "stir-fried-noodles",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        10,
+        15,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 1008
+    },
+    {
+      "id": "stir-fried-noodles",
+      "theme": "night",
+      "alpha_bbox_64": [
+        10,
+        15,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 1008
+    },
+    {
+      "id": "toast",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        11,
+        13,
+        49,
+        52
+      ],
+      "alpha_gt64_pixels": 1240
+    },
+    {
+      "id": "toast",
+      "theme": "night",
+      "alpha_bbox_64": [
+        11,
+        13,
+        49,
+        52
+      ],
+      "alpha_gt64_pixels": 1240
+    },
+    {
+      "id": "vegetable-soup",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        9,
+        22,
+        55,
+        53
+      ],
+      "alpha_gt64_pixels": 1062
+    },
+    {
+      "id": "vegetable-soup",
+      "theme": "night",
+      "alpha_bbox_64": [
+        9,
+        22,
+        55,
+        53
+      ],
+      "alpha_gt64_pixels": 1062
+    }
+  ],
+  "approval": "direction-approved-full-set-awaiting-fleet-review"
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Coffee — ceramic glaze, deep coffee and broken ink study</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="loose-saucer">
+ <path d="M45 169 C50 152 91 145 130 146 C168 146 207 160 213 175 C215 192 173 204 129 203 C87 203 45 189 43 178Z" fill="#FFF7E8" opacity=".72"/>
+ <path d="M48 177 Q78 198 128 198 C169 199 196 186 210 179 C202 198 152 205 122 202 C86 200 58 188 48 177Z" fill="#F2E9D9" opacity=".72" filter="url(#wash)"/>
+ <path d="M70 174 Q102 161 140 168 C167 169 184 179 176 186 C151 192 106 190 78 182Z" fill="#5E7E57" opacity=".13" filter="url(#wash)"/>
+ <path d="M46 167 Q52 155 84 150 M96 147 Q156 141 197 161 M208 168 Q224 183 190 195 M178 198 Q110 214 55 188 M48 184 l-5 -8" fill="none" stroke="#8B7355" stroke-width=".85" stroke-linecap="round"/>
+ <path d="M64 173 Q78 164 91 166 M108 190 Q159 200 188 178 M60 182 Q83 195 103 195" fill="none" stroke="#8B7355" stroke-width=".4" opacity=".58"/>
+</g>
+<g id="handle-attachments">
+ <path d="M168 111 C188 99 209 108 212 125 C214 146 191 162 177 158 L175 148 C189 148 201 138 201 126 C200 114 190 114 178 121Z M181 120 C185 117 193 117 195 122 C200 133 190 143 179 146 L177 128Z" fill="#FFF7E8" fill-rule="evenodd" opacity=".85"/>
+ <path d="M184 109 C204 108 216 123 205 141 Q197 152 181 156 L177 150 Q197 144 200 131 Q205 118 188 116Z" fill="#F2E9D9" opacity=".67" filter="url(#wash)"/>
+ <path d="M178 114 Q191 102 204 115 C222 135 196 160 180 156 M180 146 Q199 141 199 124 Q197 115 186 118" fill="none" stroke="#8B7355" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M200 143 l-6 7 M204 136 l-5 7" fill="none" stroke="#8B7355" stroke-width=".45"/>
+</g>
+<g id="porcelain-body">
+ <path d="M67 105 C72 123 69 151 88 173 C98 186 137 193 156 180 C174 168 178 140 181 113 C153 94 99 90 67 105Z" fill="#FFF7E8" opacity=".9"/>
+ <path d="M75 121 C77 149 81 166 98 178 Q124 194 146 184 C122 182 109 175 101 157 C95 143 96 132 100 125Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M155 126 Q176 121 178 119 C172 140 177 161 153 180 Q139 190 120 182 C147 179 151 153 155 126Z" fill="#5E7E57" opacity=".18" filter="url(#wash)"/>
+ <path d="M83 151 Q88 174 106 179 L119 183 Q97 180 87 170Z" fill="#655A4B" opacity=".23" filter="url(#wash)"/>
+ <path d="M104 134 C102 150 106 163 115 171 L122 173 Q111 151 115 136Z" fill="#FFF7E8" opacity=".7" filter="url(#dry)"/>
+ <path d="M69 116 Q73 157 88 173 M94 179 Q112 190 136 186 M147 183 Q173 174 178 130" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
+ <path d="M82 158 l4 11 M84 168 l7 8 M92 177 l7 5 M155 171 l6 -12 M160 166 l4 -10 M142 184 l6 -3" fill="none" stroke="#8B7355" stroke-width=".45" opacity=".66"/>
+</g>
+<g id="rim-and-deep-coffee">
+ <path d="M66 105 C67 92 91 85 118 86 C147 85 175 95 183 108 C188 120 159 133 130 132 C101 132 73 121 66 111Z" fill="#FFF7E8" opacity=".93"/>
+ <path d="M75 106 C80 95 99 92 122 94 C146 92 168 101 173 110 C172 119 149 126 128 125 C103 125 81 116 75 106Z" fill="#655A4B" opacity=".96"/>
+ <path d="M78 108 C98 106 105 99 124 99 C145 95 166 104 171 112 Q156 123 128 123 Q94 123 78 108Z" fill="#2A261F" opacity=".83" filter="url(#wash)"/>
+ <path d="M83 101 Q96 95 112 96 M137 96 Q158 99 167 107" fill="none" stroke="#A5750B" stroke-width="2.2" opacity=".55" filter="url(#wash)"/>
+ <path d="M93 104 Q102 101 109 102 L115 105 Q103 106 96 108Z" fill="#FFF7E8" opacity=".48"/>
+ <path d="M69 100 Q79 86 111 86 M125 86 Q165 88 179 104 M181 111 Q181 122 148 129 M135 131 Q98 134 73 115 M79 104 Q83 95 107 94 M139 96 Q166 99 173 111 Q163 124 132 125" fill="none" stroke="#8B7355" stroke-width=".75" stroke-linecap="round"/>
+ <path d="M70 109 Q91 126 119 128" fill="none" stroke="#8B7355" stroke-width="1.15" stroke-linecap="round"/>
+</g>
+<g id="evaporating-wisps">
+ <path d="M107 84 C102 74 117 68 110 59 C100 49 110 41 113 37 C106 48 117 51 118 59 C120 71 105 75 110 84Z" fill="#8B7355" opacity=".13" filter="url(#wash)"/>
+ <path d="M142 85 C155 75 147 71 144 66 C140 62 148 55 146 51 C153 58 147 63 150 67 C158 76 151 82 142 85Z" fill="#8B7355" opacity=".12" filter="url(#wash)"/>
+ <path d="M107 80 Q107 75 112 70 M112 57 Q104 49 110 44 M149 76 Q153 72 148 67" fill="none" stroke="#8B7355" stroke-width=".4" opacity=".4" stroke-linecap="round"/>
+</g>
+</svg>

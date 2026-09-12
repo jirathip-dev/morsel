@@ -1,0 +1,164 @@
+[
+  {
+    "page": "phone-paper",
+    "raw_exit": 0,
+    "elapsed_seconds": 0.606,
+    "dom": {
+      "title": "Morsel \u00b7 Food studies",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "images": true,
+      "fonts": true,
+      "links": [
+        "gallery-paper.html"
+      ]
+    },
+    "dimensions": [
+      390,
+      844
+    ]
+  },
+  {
+    "page": "phone-night",
+    "raw_exit": 0,
+    "elapsed_seconds": 0.265,
+    "dom": {
+      "title": "Morsel \u00b7 Food studies",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "images": true,
+      "fonts": true,
+      "links": [
+        "gallery-night.html"
+      ]
+    },
+    "dimensions": [
+      390,
+      844
+    ]
+  },
+  {
+    "page": "gallery-paper",
+    "raw_exit": 0,
+    "elapsed_seconds": 0.271,
+    "dom": {
+      "title": "Morsel \u00b7 Food studies",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "images": true,
+      "fonts": true,
+      "links": [
+        "gallery-night.html",
+        "phone-paper.html",
+        "comparison.html",
+        "catalog.json",
+        "masters/avocado-paper.svg",
+        "exports/avocado-paper-512.png",
+        "masters/banana-paper.svg",
+        "exports/banana-paper-512.png",
+        "masters/broccoli-paper.svg",
+        "exports/broccoli-paper-512.png",
+        "masters/coffee-paper.svg",
+        "exports/coffee-paper-512.png",
+        "masters/fallback-drinks-paper.svg",
+        "exports/fallback-drinks-paper-512.png",
+        "masters/fallback-grains-paper.svg",
+        "exports/fallback-grains-paper-512.png",
+        "masters/fallback-produce-paper.svg",
+        "exports/fallback-produce-paper-512.png",
+        "masters/fallback-protein-paper.svg",
+        "exports/fallback-protein-paper-512.png",
+        "masters/fried-egg-paper.svg",
+        "exports/fried-egg-paper-512.png",
+        "masters/grilled-chicken-paper.svg",
+        "exports/grilled-chicken-paper-512.png",
+        "masters/jasmine-rice-paper.svg",
+        "exports/jasmine-rice-paper-512.png",
+        "masters/mango-paper.svg",
+        "exports/mango-paper-512.png",
+        "masters/orange-paper.svg",
+        "exports/orange-paper-512.png",
+        "masters/salmon-paper.svg",
+        "exports/salmon-paper-512.png",
+        "masters/stir-fried-noodles-paper.svg",
+        "exports/stir-fried-noodles-paper-512.png",
+        "masters/toast-paper.svg",
+        "exports/toast-paper-512.png",
+        "masters/vegetable-soup-paper.svg",
+        "exports/vegetable-soup-paper-512.png"
+      ]
+    },
+    "dimensions": [
+      390,
+      844
+    ]
+  },
+  {
+    "page": "gallery-night",
+    "raw_exit": 0,
+    "elapsed_seconds": 0.306,
+    "dom": {
+      "title": "Morsel \u00b7 Food studies",
+      "viewport": [
+        390,
+        844
+      ],
+      "overflow": false,
+      "images": true,
+      "fonts": true,
+      "links": [
+        "gallery-paper.html",
+        "phone-night.html",
+        "comparison.html",
+        "catalog.json",
+        "masters/avocado-night.svg",
+        "exports/avocado-night-512.png",
+        "masters/banana-night.svg",
+        "exports/banana-night-512.png",
+        "masters/broccoli-night.svg",
+        "exports/broccoli-night-512.png",
+        "masters/coffee-night.svg",
+        "exports/coffee-night-512.png",
+        "masters/fallback-drinks-night.svg",
+        "exports/fallback-drinks-night-512.png",
+        "masters/fallback-grains-night.svg",
+        "exports/fallback-grains-night-512.png",
+        "masters/fallback-produce-night.svg",
+        "exports/fallback-produce-night-512.png",
+        "masters/fallback-protein-night.svg",
+        "exports/fallback-protein-night-512.png",
+        "masters/fried-egg-night.svg",
+        "exports/fried-egg-night-512.png",
+        "masters/grilled-chicken-night.svg",
+        "exports/grilled-chicken-night-512.png",
+        "masters/jasmine-rice-night.svg",
+        "exports/jasmine-rice-night-512.png",
+        "masters/mango-night.svg",
+        "exports/mango-night-512.png",
+        "masters/orange-night.svg",
+        "exports/orange-night-512.png",
+        "masters/salmon-night.svg",
+        "exports/salmon-night-512.png",
+        "masters/stir-fried-noodles-night.svg",
+        "exports/stir-fried-noodles-night-512.png",
+        "masters/toast-night.svg",
+        "exports/toast-night-512.png",
+        "masters/vegetable-soup-night.svg",
+        "exports/vegetable-soup-night-512.png"
+      ]
+    },
+    "dimensions": [
+      390,
+      844
+    ]
+  }
+]
