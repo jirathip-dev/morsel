@@ -49,7 +49,9 @@ Always follow these rules:
   stores real bytes in the user's private `food-images` bucket; it never
   accepts a photo it cannot store without reporting `image_error`.
 - Never log twice. To reread or correct existing data, use `get_day`,
-  `update_meal_item`, or `delete_meal_log`. v0.1 has no tool that adds a new
+  `update_meal_item`, or `delete_meal_log`; `get_day` returns every item with
+  its `item_id`, so call it first to get the ID (ordered procedure in "Common
+  read and correction flows"). v0.1 has no tool that adds a new
   item to an existing meal: if a forgotten food was part of the same sitting,
   confirm before deleting that meal and re-logging its complete item list once;
   if it was a separate meal, log it separately. Never create a second log for
@@ -589,9 +591,16 @@ not create a second log for the same sitting.
   target is needed; it works without a profile when a complete manual goal
   exists. Then use `search_food` for concrete options that fit the remaining
   values. Never present unknown macros as exact or as medical advice.
-- Wrong item: call `update_meal_item` with its `item_id` and at least one
-  supported correction field. Wrong whole meal: call `delete_meal_log` with its
-  `meal_log_id` only when deletion is what the user requested.
+- Wrong item — correct an existing item in this order: (a) call `get_day` for
+  the item's local date (pass the user's timezone when the profile does not
+  store it) — its `meals[].items[]` returns every item with its `item_id`;
+  (b) find the target item by name/quantity/unit in `meals[].items[]`; (c) call
+  `update_meal_item` with that `item_id` plus the corrected fields (at least
+  one supported correction field is required).
+- There is no separate 'list items' tool — `get_day` IS the item enum (it
+  returns `item_id`); call it first if you need an ID.
+- Wrong whole meal: call `delete_meal_log` with its `meal_log_id` only when
+  deletion is what the user requested.
 - Missing/wrong photo on a logged meal: call `attach_meal_image` with the
   photo bytes when the client has them; it attaches (or replaces) the stored
   photo without touching any item. Confirm with `get_day` that the meal now
