@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "method": "Actual isolated browser_exec/CDP navigation, 390x844 viewport",
+  "phone_page": "phone-night.html",
+  "scrollY": 67,
+  "document_height": 911,
+  "viewport_height": 844,
+  "footer_top_after_scroll": 771.59375,
+  "footer_bottom_after_scroll": 816.375,
+  "click_sequence": [
+    {"action": "Click footer Back to food studies", "target": "gallery-night.html", "figure_count": 17},
+    {"action": "Click View paper", "target": "gallery-paper.html", "body_class": "paper", "all_images_loaded": true}
+  ],
+  "note": "Browser observations retained from tool output; screenshot bottom edge was normal scroll, not clipped content."
+}
