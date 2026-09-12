@@ -21,8 +21,10 @@ Auth/Postgres/RLS store; only the MCP hosting origin moved.
 Consequences pinned by tests: one process (`fly.toml` `min_machines_running
 = 1`, `auto_stop_machines = false`), one machine (operational state — see
 D6), route shape on the origin root (`/health`, `/mcp`, no doubled prefixes),
-canonical URL `https://morsel-mcp.fly.dev/mcp` referenced by build config,
-onboarding copy, OAuth metadata, and the consent page (#74/#75).
+canonical URL `https://mcp.morselfood.app/mcp` (issue #130; the deployed
+`MORSEL_PUBLIC_BASE_URL` secret was flipped to it on 2026-09-07, issue #170)
+referenced by build config, onboarding copy, OAuth metadata, and the consent
+page (#74/#75).
 
 ## D2. Consent surface: static Vercel page posting DIRECTLY to the Fly OAuth backend (#74)
 
