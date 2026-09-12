@@ -58,8 +58,10 @@ Feature PRs target `staging` — the protected integration branch. Its required
 status checks are `quality`, `swiftlint`, `bun-fly-entrypoint` and
 `fastfile-contract` (see `.github/workflows/ci.yml`). `main` is release-only
 and is promoted from `staging` by a human. Production/CD remains
-human-dispatched: deploys and migration apply run only via explicit
-`workflow_dispatch`, never on a branch push.
+human-dispatched: deploys run only via explicit `workflow_dispatch`, and
+migration apply runs only through an explicit human-enabled dispatch/flag,
+while the `main` push trigger performs read-only classification only — the
+`classify` job in `.github/workflows/migration-cd.yml`.
 
 ## Deployments
 Migrations NEVER auto-apply: the apply workflow is `workflow_dispatch`-only
