@@ -337,6 +337,10 @@ extension DashboardViewModel {
     /// "synced". `synced` names only kinds whose per-type upload mark matches
     /// the last successful pass stamp; a decided read with zero body-mass
     /// rows anywhere is the calm `noWeightData` state.
+    /// Issue #173: the two per-type status reads are AWAITED async — the
+    /// MainActor stays responsive while HealthKit answers; an unanswered or
+    /// errored query (`false`) is "cannot claim", never denied and never
+    /// treated as proof that read access was granted.
     private func updateCalmStatus(
         bodyMassFailed: Bool, energyFailed: Bool,
         bodyImported: Int, energyImported: Int
@@ -345,8 +349,8 @@ extension DashboardViewModel {
             healthStatus = .unavailable
             return
         }
-        let bodyReadDecided = weightImporter.authorizationStatus(for: .bodyMass)
-        let energyReadDecided = weightImporter.authorizationStatus(for: .activeEnergyBurned)
+        let bodyReadDecided = await weightImporter.authorizationStatus(for: .bodyMass)
+        let energyReadDecided = await weightImporter.authorizationStatus(for: .activeEnergyBurned)
 
         if (bodyMassFailed && !bodyReadDecided)
             || (energyFailed && !energyReadDecided)
