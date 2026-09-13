@@ -1,0 +1,29 @@
+[
+  {
+    "command": [
+      "python3",
+      "generate.py"
+    ],
+    "raw_exit": 0,
+    "duration_seconds": 0.074,
+    "log": "generate-run.log"
+  },
+  {
+    "command": [
+      "node",
+      "verify.mjs"
+    ],
+    "raw_exit": 0,
+    "duration_seconds": 34.743,
+    "log": "evidence-run.log"
+  },
+  {
+    "command": [
+      "python3",
+      "audit.py"
+    ],
+    "raw_exit": 0,
+    "duration_seconds": 0.356,
+    "log": "audit-run.log"
+  }
+]

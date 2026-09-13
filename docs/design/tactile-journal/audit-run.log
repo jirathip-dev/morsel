@@ -1,0 +1,2 @@
+PASS static checks: 113; browser checks: 134; PNGs: 34; manifest: 88 files
+{"button": 4.631, "night:carbs/bg": 6.7, "night:error/bg": 14.132, "night:fat/bg": 12.066, "night:ink/bg": 14.132, "night:ink/field": 10.371, "night:inkline/bg": 4.866, "night:positive/bg": 12.066, "night:protein/bg": 11.978, "night:secondary/bg": 12.492, "paper:carbs/bg": 3.83, "paper:error/bg": 6.445, "paper:fat/bg": 4.289, "paper:ink/bg": 14.132, "paper:ink/field": 12.492, "paper:inkline/bg": 4.213, "paper:positive/bg": 6.395, "paper:protein/bg": 4.904, "paper:secondary/bg": 6.326}

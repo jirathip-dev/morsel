@@ -1,0 +1,1858 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "a-paper initial total",
+      "pass": true
+    },
+    {
+      "name": "a-paper row policy",
+      "pass": true
+    },
+    {
+      "name": "a-paper geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-paper focaccia opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-paper focaccia detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-paper focaccia photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-paper detail geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-unknown.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/fixture-photo.jpg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-paper focaccia focus return",
+      "pass": true
+    },
+    {
+      "name": "a-paper mortadella opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-paper mortadella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-paper mortadella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-paper mortadella focus return",
+      "pass": true
+    },
+    {
+      "name": "a-paper stracciatella opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-paper stracciatella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-paper stracciatella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-paper stracciatella focus return",
+      "pass": true
+    },
+    {
+      "name": "a-paper vegetables opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-paper vegetables detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-paper vegetables photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-paper missing notes",
+      "pass": true
+    },
+    {
+      "name": "a-paper vegetables focus return",
+      "pass": true
+    },
+    {
+      "name": "a-paper unknown opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-paper unknown detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-paper unknown photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-paper unknown geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-paper unknown focus return",
+      "pass": true
+    },
+    {
+      "name": "a-paper save pending unchanged",
+      "pass": true
+    },
+    {
+      "name": "a-paper saved local only",
+      "pass": true
+    },
+    {
+      "name": "a-paper failure preserves draft and row",
+      "pass": true
+    },
+    {
+      "name": "a-paper open failure unchanged",
+      "pass": true
+    },
+    {
+      "name": "a-paper reduced motion",
+      "pass": true
+    },
+    {
+      "name": "a-paper reduced save",
+      "pass": true
+    },
+    {
+      "name": "a-paper narrow geometry",
+      "pass": true,
+      "data": {
+        "width": 320,
+        "scroll": 320,
+        "targets": [
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night initial total",
+      "pass": true
+    },
+    {
+      "name": "a-night row policy",
+      "pass": true
+    },
+    {
+      "name": "a-night geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night focaccia opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-night focaccia detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-night focaccia photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-night detail geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-unknown.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/fixture-photo.jpg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night focaccia focus return",
+      "pass": true
+    },
+    {
+      "name": "a-night mortadella opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-night mortadella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-night mortadella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-night mortadella focus return",
+      "pass": true
+    },
+    {
+      "name": "a-night stracciatella opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-night stracciatella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-night stracciatella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-night stracciatella focus return",
+      "pass": true
+    },
+    {
+      "name": "a-night vegetables opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-night vegetables detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-night vegetables photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-night missing notes",
+      "pass": true
+    },
+    {
+      "name": "a-night vegetables focus return",
+      "pass": true
+    },
+    {
+      "name": "a-night unknown opening pending",
+      "pass": true
+    },
+    {
+      "name": "a-night unknown detail metadata",
+      "pass": true
+    },
+    {
+      "name": "a-night unknown photo boundary",
+      "pass": true
+    },
+    {
+      "name": "a-night unknown geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            329,
+            93
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night unknown focus return",
+      "pass": true
+    },
+    {
+      "name": "a-night save pending unchanged",
+      "pass": true
+    },
+    {
+      "name": "a-night saved local only",
+      "pass": true
+    },
+    {
+      "name": "a-night failure preserves draft and row",
+      "pass": true
+    },
+    {
+      "name": "a-night open failure unchanged",
+      "pass": true
+    },
+    {
+      "name": "a-night reduced motion",
+      "pass": true
+    },
+    {
+      "name": "a-night reduced save",
+      "pass": true
+    },
+    {
+      "name": "a-night narrow geometry",
+      "pass": true,
+      "data": {
+        "width": 320,
+        "scroll": 320,
+        "targets": [
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ],
+          [
+            274,
+            90
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/a-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/a-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper initial total",
+      "pass": true
+    },
+    {
+      "name": "b-paper row policy",
+      "pass": true
+    },
+    {
+      "name": "b-paper geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper focaccia opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-paper focaccia detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-paper focaccia photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-paper detail geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-unknown.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/fixture-photo.jpg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper focaccia focus return",
+      "pass": true
+    },
+    {
+      "name": "b-paper mortadella opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-paper mortadella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-paper mortadella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-paper mortadella focus return",
+      "pass": true
+    },
+    {
+      "name": "b-paper stracciatella opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-paper stracciatella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-paper stracciatella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-paper stracciatella focus return",
+      "pass": true
+    },
+    {
+      "name": "b-paper vegetables opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-paper vegetables detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-paper vegetables photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-paper missing notes",
+      "pass": true
+    },
+    {
+      "name": "b-paper vegetables focus return",
+      "pass": true
+    },
+    {
+      "name": "b-paper unknown opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-paper unknown detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-paper unknown photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-paper unknown geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper unknown focus return",
+      "pass": true
+    },
+    {
+      "name": "b-paper save pending unchanged",
+      "pass": true
+    },
+    {
+      "name": "b-paper saved local only",
+      "pass": true
+    },
+    {
+      "name": "b-paper failure preserves draft and row",
+      "pass": true
+    },
+    {
+      "name": "b-paper open failure unchanged",
+      "pass": true
+    },
+    {
+      "name": "b-paper reduced motion",
+      "pass": true
+    },
+    {
+      "name": "b-paper reduced save",
+      "pass": true
+    },
+    {
+      "name": "b-paper narrow geometry",
+      "pass": true,
+      "data": {
+        "width": 320,
+        "scroll": 320,
+        "targets": [
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-paper-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-paper-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night initial total",
+      "pass": true
+    },
+    {
+      "name": "b-night row policy",
+      "pass": true
+    },
+    {
+      "name": "b-night geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night focaccia opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-night focaccia detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-night focaccia photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-night detail geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-unknown.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/fixture-photo.jpg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night focaccia focus return",
+      "pass": true
+    },
+    {
+      "name": "b-night mortadella opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-night mortadella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-night mortadella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-night mortadella focus return",
+      "pass": true
+    },
+    {
+      "name": "b-night stracciatella opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-night stracciatella detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-night stracciatella photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-night stracciatella focus return",
+      "pass": true
+    },
+    {
+      "name": "b-night vegetables opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-night vegetables detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-night vegetables photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-night missing notes",
+      "pass": true
+    },
+    {
+      "name": "b-night vegetables focus return",
+      "pass": true
+    },
+    {
+      "name": "b-night unknown opening pending",
+      "pass": true
+    },
+    {
+      "name": "b-night unknown detail metadata",
+      "pass": true
+    },
+    {
+      "name": "b-night unknown photo boundary",
+      "pass": true
+    },
+    {
+      "name": "b-night unknown geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "targets": [
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            329,
+            100
+          ],
+          [
+            44,
+            44
+          ],
+          [
+            344,
+            44
+          ],
+          [
+            344,
+            48
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 329,
+            "scroll": 329,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night unknown focus return",
+      "pass": true
+    },
+    {
+      "name": "b-night save pending unchanged",
+      "pass": true
+    },
+    {
+      "name": "b-night saved local only",
+      "pass": true
+    },
+    {
+      "name": "b-night failure preserves draft and row",
+      "pass": true
+    },
+    {
+      "name": "b-night open failure unchanged",
+      "pass": true
+    },
+    {
+      "name": "b-night reduced motion",
+      "pass": true
+    },
+    {
+      "name": "b-night reduced save",
+      "pass": true
+    },
+    {
+      "name": "b-night narrow geometry",
+      "pass": true,
+      "data": {
+        "width": 320,
+        "scroll": 320,
+        "targets": [
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ],
+          [
+            274,
+            100
+          ]
+        ],
+        "images": [
+          {
+            "ok": true,
+            "src": "assets/b-night-focaccia.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-mortadella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-stracciatella.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-vegetables.svg"
+          },
+          {
+            "ok": true,
+            "src": "assets/b-night-unknown.svg"
+          }
+        ],
+        "rows": [
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Focaccia bread\n100 g\n300\nkcal ›\nP 8g · C 46g · F 9g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Mortadella\n40 g\n125\nkcal ›\nP 6g · C 1g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Stracciatella cheese\n50 g\n130\nkcal ›\nP 5g · C 2g · F 11g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Grilled vegetables\n80 g\n70\nkcal ›\nP 2g · C 8g · F 3g"
+          },
+          {
+            "width": 274,
+            "scroll": 274,
+            "text": "Unidentified side\n1 serving\n90\nkcal ›\nP 2g · C 10g · F 5g"
+          }
+        ]
+      }
+    },
+    {
+      "name": "No runtime errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "No HTTP requests during prototype exercise",
+      "pass": true,
+      "data": []
+    }
+  ],
+  "errors": [],
+  "network": [],
+  "note": "Serial CDP mouse/input probes, owned tab, existing browser. No native/device proof."
+}

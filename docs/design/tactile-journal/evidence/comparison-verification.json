@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "No runtime errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "No HTTP requests during prototype exercise",
+      "pass": true,
+      "data": []
+    }
+  ],
+  "errors": [],
+  "network": [],
+  "note": "Serial CDP mouse/input probes, owned tab, existing browser. No native/device proof."
+}

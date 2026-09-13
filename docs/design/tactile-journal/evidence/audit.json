@@ -1,0 +1,833 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "20 representative SVGs",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-unknown.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-vegetables.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-focaccia.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-mortadella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-unknown.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-focaccia.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-mortadella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-vegetables.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-unknown.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-unknown.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-focaccia.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-vegetables.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-stracciatella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-stracciatella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-mortadella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-focaccia.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-stracciatella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-stracciatella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-mortadella.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-vegetables.svg original source bounds",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "Generator raw exit 0",
+      "pass_": true,
+      "data": "Generated fixture, 20 original theme/variant SVGs, and A/B HTML shells.\n"
+    },
+    {
+      "name": "Generator byte reproducibility",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "paper text ink/bg",
+      "pass_": true,
+      "data": 14.132453287842166
+    },
+    {
+      "name": "paper text secondary/bg",
+      "pass_": true,
+      "data": 6.326267610449247
+    },
+    {
+      "name": "paper text positive/bg",
+      "pass_": true,
+      "data": 6.394919144935291
+    },
+    {
+      "name": "paper text error/bg",
+      "pass_": true,
+      "data": 6.445257738277224
+    },
+    {
+      "name": "paper text ink/field",
+      "pass_": true,
+      "data": 12.492457887684319
+    },
+    {
+      "name": "paper mark inkline",
+      "pass_": true,
+      "data": 4.212868876316405
+    },
+    {
+      "name": "paper mark protein",
+      "pass_": true,
+      "data": 4.904322660543512
+    },
+    {
+      "name": "paper mark carbs",
+      "pass_": true,
+      "data": 3.8300100821034277
+    },
+    {
+      "name": "paper mark fat",
+      "pass_": true,
+      "data": 4.289248188493835
+    },
+    {
+      "name": "night text ink/bg",
+      "pass_": true,
+      "data": 14.132453287842166
+    },
+    {
+      "name": "night text secondary/bg",
+      "pass_": true,
+      "data": 12.492457887684319
+    },
+    {
+      "name": "night text positive/bg",
+      "pass_": true,
+      "data": 12.066345994702816
+    },
+    {
+      "name": "night text error/bg",
+      "pass_": true,
+      "data": 14.132453287842166
+    },
+    {
+      "name": "night text ink/field",
+      "pass_": true,
+      "data": 10.371102140436559
+    },
+    {
+      "name": "night mark inkline",
+      "pass_": true,
+      "data": 4.865884371066466
+    },
+    {
+      "name": "night mark protein",
+      "pass_": true,
+      "data": 11.978208264270798
+    },
+    {
+      "name": "night mark carbs",
+      "pass_": true,
+      "data": 6.700268492401478
+    },
+    {
+      "name": "night mark fat",
+      "pass_": true,
+      "data": 12.066345994702816
+    },
+    {
+      "name": "Orange ink label >=4.5",
+      "pass_": true,
+      "data": 4.631084618819596
+    },
+    {
+      "name": "Browser verdict and all checks",
+      "pass_": true,
+      "data": 134
+    },
+    {
+      "name": "a-night-unknown.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-unknown.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-unknown.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-unknown.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-detail.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-detail.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-unknown.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-unknown.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-detail.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-detail.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "comparison-paper.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "comparison-paper.png viewport",
+      "pass_": true,
+      "data": [
+        860,
+        1318
+      ]
+    },
+    {
+      "name": "a-paper-unknown.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-unknown.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-reduce-motion.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-reduce-motion.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-save-pending.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-save-pending.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper-save-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-save-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-updated.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-updated.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "comparison-night.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "comparison-night.png viewport",
+      "pass_": true,
+      "data": [
+        860,
+        1318
+      ]
+    },
+    {
+      "name": "a-paper-detail.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-detail.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-save-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-save-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-save-pending.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-save-pending.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper-reduce-motion.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-reduce-motion.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-updated.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-updated.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-save-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-save-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper-save-pending.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-save-pending.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-save-pending.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-save-pending.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-save-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-save-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-detail.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-detail.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-open-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-open-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-open-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-open-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper-updated.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-updated.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-reduce-motion.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-reduce-motion.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-night-updated.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-night-updated.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-night-open-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-night-open-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "b-paper-reduce-motion.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "b-paper-reduce-motion.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "a-paper-open-failure.png PNG",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "a-paper-open-failure.png viewport",
+      "pass_": true,
+      "data": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "Required comparison proofs",
+      "pass_": true,
+      "data": null
+    },
+    {
+      "name": "No prototype persistence or fetch",
+      "pass_": true,
+      "data": null
+    }
+  ],
+  "contrast": {
+    "paper:ink/bg": 14.132,
+    "paper:secondary/bg": 6.326,
+    "paper:positive/bg": 6.395,
+    "paper:error/bg": 6.445,
+    "paper:ink/field": 12.492,
+    "paper:inkline/bg": 4.213,
+    "paper:protein/bg": 4.904,
+    "paper:carbs/bg": 3.83,
+    "paper:fat/bg": 4.289,
+    "night:ink/bg": 14.132,
+    "night:secondary/bg": 12.492,
+    "night:positive/bg": 12.066,
+    "night:error/bg": 14.132,
+    "night:ink/field": 10.371,
+    "night:inkline/bg": 4.866,
+    "night:protein/bg": 11.978,
+    "night:carbs/bg": 6.7,
+    "night:fat/bg": 12.066,
+    "button": 4.631
+  },
+  "png_count": 34,
+  "dimensions": {
+    "a-night-unknown.png": [
+      390,
+      844
+    ],
+    "b-night.png": [
+      390,
+      844
+    ],
+    "b-paper-unknown.png": [
+      390,
+      844
+    ],
+    "a-paper.png": [
+      390,
+      844
+    ],
+    "b-paper-detail.png": [
+      390,
+      844
+    ],
+    "b-night-unknown.png": [
+      390,
+      844
+    ],
+    "a-night-detail.png": [
+      390,
+      844
+    ],
+    "comparison-paper.png": [
+      860,
+      1318
+    ],
+    "a-paper-unknown.png": [
+      390,
+      844
+    ],
+    "a-night-reduce-motion.png": [
+      390,
+      844
+    ],
+    "b-night-save-pending.png": [
+      390,
+      844
+    ],
+    "a-paper-save-failure.png": [
+      390,
+      844
+    ],
+    "b-paper-updated.png": [
+      390,
+      844
+    ],
+    "comparison-night.png": [
+      860,
+      1318
+    ],
+    "a-paper-detail.png": [
+      390,
+      844
+    ],
+    "a-night-save-failure.png": [
+      390,
+      844
+    ],
+    "b-paper-save-pending.png": [
+      390,
+      844
+    ],
+    "a-paper-reduce-motion.png": [
+      390,
+      844
+    ],
+    "a-night-updated.png": [
+      390,
+      844
+    ],
+    "b-night-save-failure.png": [
+      390,
+      844
+    ],
+    "a-paper-save-pending.png": [
+      390,
+      844
+    ],
+    "a-night-save-pending.png": [
+      390,
+      844
+    ],
+    "b-paper-save-failure.png": [
+      390,
+      844
+    ],
+    "b-night-detail.png": [
+      390,
+      844
+    ],
+    "a-night.png": [
+      390,
+      844
+    ],
+    "b-paper-open-failure.png": [
+      390,
+      844
+    ],
+    "b-night-open-failure.png": [
+      390,
+      844
+    ],
+    "b-paper.png": [
+      390,
+      844
+    ],
+    "a-paper-updated.png": [
+      390,
+      844
+    ],
+    "b-night-reduce-motion.png": [
+      390,
+      844
+    ],
+    "b-night-updated.png": [
+      390,
+      844
+    ],
+    "a-night-open-failure.png": [
+      390,
+      844
+    ],
+    "b-paper-reduce-motion.png": [
+      390,
+      844
+    ],
+    "a-paper-open-failure.png": [
+      390,
+      844
+    ]
+  },
+  "browser_check_count": 134
+}
