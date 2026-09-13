@@ -1,0 +1,102 @@
+# Issue #188 — counts and memory evidence (raw lines)
+
+Source: `.lane-logs/xcodebuild-fullrun2.log` — the single COMPLETE full-suite
+invocation at the delivered head (`xcodebuild test`, no skip/only flags, raw
+exit 0, **373 tests / 0 failures**, 63 suites) on the lane simulator
+`Morsel188-iPhone16` (UDID `E5EF858B-050B-4866-8EC3-E836ABE5EFC5`, iOS 26.5),
+unsigned Debug build (`CODE_SIGNING_ALLOWED=NO`, simulator — **not a physical
+device**). The first full invocation hit the documented `GoalsPolishTests`
+wedge and was killed (raw `xcodebuild=143`); the warm rerun on the same
+simulator is the complete run (`.lane-logs/xcodebuild-fullrun1.log` holds the
+wedged attempt as context).
+
+Synthetic fixtures only: generated 2400×1200 / 2400×3000 / 2400×3200 JPEGs.
+No user photo, health value, token or signed URL appears anywhere.
+
+## Cold / warm / replacement request + decode counts
+
+```
+ISSUE-188-COUNTS phase=cold fetches=1 preparations=1 hits=0 resident=1 resident_pixel_bytes=1513800
+ISSUE-188-COUNTS phase=warm fetches=1 preparations=1 hits=1 resident=1 resident_pixel_bytes=1513800
+ISSUE-188-COUNTS phase=concurrent callers=6 fetches=1 preparations=1 coalesced=5 hits=0
+ISSUE-188-COUNTS phase=scale scale3=870x435 scale2=580x290 fetches=2 preparations=2
+ISSUE-188-COUNTS phase=replacement fetches=2 preparations=2 resident=1 served=blue
+ISSUE-188-COUNTS phase=queued_to_remote fetches=2 preparations=1 reuses=1
+ISSUE-188-COUNTS phase=external_change warm=1 signalled=2
+ISSUE-188-COUNTS phase=accounts fetches=3 resident=2
+```
+
+Reading them: a cold read of a 2:1 photo at the shipped `.photo` figure box
+(430pt × 145pt @3x) costs exactly ONE fetch and ONE preparation and holds
+1 513 800 pixel bytes (870 × 435 × 4) — no original bytes. A warm revisit adds
+zero fetches and zero decodes (one hit). Six identical concurrent reads share
+one fetch + one preparation (five coalesced joins). The same photo at 3x and 2x
+is two identities (870×435 vs 580×290 prepared pixels) → two preparations also
+proves the prepared pixels ARE the display pixels. Replacing the photo at the
+SAME object path costs one refetch and one decode, leaves ONE resident entry
+(the replaced one is dropped), and the surface is served the replacement. A
+queued→remote transition (identical payload, new revision) costs one refetch but
+ZERO extra decodes — the prepared pixels are re-filed. An external change with
+no app signal is never polled (warm=1 fetch); the app's own signal revalidates
+with exactly one refetch.
+
+## Memory bounds (declared capacity + byte budget, LRU)
+
+```
+ISSUE-188-MEMORY capacity=2 entries=2 pixel_bytes=3027600 evictions=5 byte_budget_entries=2 byte_budget_bytes=6400 budget=8000
+```
+
+Reading it: with a declared entry capacity of 2, six distinct 1.5 MB prepared
+thumbnails evict down to 2 residents (5 evictions, LRU — the oldest identity is
+the one re-fetched). With a declared 8 000-byte budget and 3 200-byte
+thumbnails, the resident set settles at 6 400 bytes (2 entries). A single
+over-budget entry is kept and served rather than thrashed (asserted separately).
+
+## Display-scale + orientation
+
+```
+ISSUE-188-ORIENTATION source=3200x2400 output=200x150 off_main=true red_on_top=true red_on_bottom=false
+ISSUE-188-SURFACE mounted_body painted=red image=870x435 fetches=1 preparations=1
+```
+
+Reading them: a 2400×3200 JPEG carrying EXIF orientation 6 is read as 3200×2400
+(quarter turn applied, read from metadata without decoding) and prepared at
+exactly 200×150 for a 430×150pt box at 1x — the RAW left (red) half lands on the
+display TOP, so an orientation-ignoring path would paint the RAW halves as
+columns instead. The preparation body ran off the calling (main) actor. A
+mounted SwiftUI body awaiting the cache seam paints the photo (red) at the
+display-exact 870×435 prepared size.
+
+## The shipped surface (Edit-item photo figure)
+
+```
+ISSUE-188-SURFACE cold_fetches=1 cold_preparations=1 warm_fetches=1 warm_preparations=1 warm_hits=1 remote_loads=1 target_pixels=1290x435
+ISSUE-188-TRACE seam=queued_to_remote fetches=2 preparations=1 remote_loads=1
+ISSUE-188-TRACE seam=queued_replace fetches=2 preparations=2 served=blue
+```
+
+Reading them: mounting the real `MealPhotoEditorSection` costs exactly one
+fetch + one preparation through the injected repository (one object-byte read),
+and re-mounting it (the warm revisit) costs zero fetches, zero decodes, one
+memory hit — the key's target pixel size is the figure's box in device pixels
+(430pt × 145pt at 3x = 1290×435). Through the real local-first repository, the
+queued→remote transition and a queued same-path replacement are counted the same
+way (the raw seam traces above).
+
+## RED / GREEN
+
+```
+# BASE PROBE (scratch /tmp checkout of 0db1cb5, base mechanics: loadMealImage bytes + UIImage(data:) in the body)
+ISSUE-188-RED-PROBE appearances=2 base_fetches=2 base_pixels=2400x1200 display_target_pixels=1290x435
+ISSUE-188-RED-PROBE concurrent_appearances=6 base_fetches=6
+error: ... XCTAssertEqual failed: ("2") is not equal to ("1") - two appearances must share one fetch
+error: ... XCTAssertTrue failed - a warm revisit must reuse the prepared image
+error: ... XCTAssertLessThanOrEqual failed: ("2400.0") is greater than ("1290.0") - the body must consume prepared pixels, not the full-size original
+error: ... XCTAssertEqual failed: ("6") is not equal to ("1") - identical concurrent reads must share one fetch
+redprobe=65
+
+# HEAD (this lane) — ONE complete full-suite invocation, no skip/only flags
+xcodebuild=0   # xcodebuild test (all suites) → 373 tests, 0 failures, ** TEST SUCCEEDED **
+# first attempt (same command) hit the documented GoalsPolishTests wedge and was killed:
+xcodebuild=143 # wedged at GoalsPolishTests' first case, 0.0% CPU after 167 cases → warm rerun completed
+```

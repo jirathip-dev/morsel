@@ -52,8 +52,15 @@ describe('issue #153: Edit-item sheet photo surface', () => {
     expect(viewModel).toContain('func attachPhoto(_ photo: FoodImageUpload, toItem itemID: UUID) async -> Bool')
   })
 
-  it('renders the existing photo through the re-minting repository pipeline', () => {
-    expect(section).toContain('repository.loadMealImage(userID: userID, path: path)')
+  it('renders the existing photo through the repository-backed prepared cache', () => {
+    // Issue #188 — the section no longer builds a `UIImage` from the fetched
+    // object bytes in its body: it asks the prepared-thumbnail cache, which
+    // fetches through the same injected repository and is keyed by
+    // account/object/revision/target pixels. (The picked-photo preview still
+    // decodes the user's own picked bytes — that is not the read path.)
+    expect(section).toContain('MealPhotoSource(repository: repository)')
+    expect(section).toContain('thumbnailCache.thumbnail(')
+    expect(section).not.toContain('repository.loadMealImage(userID: userID, path: path)')
     expect(section).toContain('item.mealImage?.path')
     expect(section).toContain('The photo this meal was logged with')
   })

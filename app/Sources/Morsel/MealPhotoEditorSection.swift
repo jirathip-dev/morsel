@@ -3,12 +3,13 @@ import SwiftUI
 import UIKit
 
 // Issue #153 — the Edit-item sheet photo surface. The meal's existing photo
-// renders through the SAME re-minting download pipeline as the Today/History
-// thumbnails (a fresh download per appearance — an expired read-model signed
-// URL never hides a stored photo, #133 contract), and the user can attach or
-// replace it from the library or camera. The prepared upload is handed to the
-// hosting sheet via `pendingPhoto` and saved through the outbox/image
-// pipeline when the sheet's Save runs — never a direct storage write.
+// renders through the #188 prepared-thumbnail cache (issue #188: one coalesced
+// fetch + one off-body preparation per account/object/revision/target-pixels
+// identity, warm revisits reuse the prepared image, memory bounded), and the
+// user can attach or replace it from the library or camera. The prepared
+// upload is handed to the hosting sheet via `pendingPhoto` and saved through
+// the outbox/image pipeline when the sheet's Save runs — never a direct
+// storage write.
 struct MealPhotoEditorSection: View {
     let item: MealItem
     let repository: any DashboardRepository
@@ -20,11 +21,14 @@ struct MealPhotoEditorSection: View {
     /// True while a picked photo is being compressed; the sheet blocks Save
     /// so an in-flight pick is never silently dropped (mirrors Add Meal).
     @Binding var isProcessingPhoto: Bool
+    /// Issue #188 — the prepared-thumbnail cache this surface reads through.
+    var thumbnailCache: MealThumbnailCache = .shared
 
     @State private var pickerItem: PhotosPickerItem?
     @State private var isShowingCamera = false
     @State private var existingImage: UIImage?
     @State private var existingImageFailed = false
+    @Environment(\.displayScale) private var displayScale
     @State private var message: String?
     /// Issue #187 — stamps every preparation so a late result or error from a
     /// replaced pick, a removed photo, or a left sheet never publishes.
@@ -205,13 +209,27 @@ struct MealPhotoEditorSection: View {
         .contentShape(Rectangle())
     }
 
+    /// Issue #188 — reads the prepared thumbnail through the cache: the
+    /// account/object/revision/target-pixels identity, one coalesced fetch and
+    /// one off-body preparation, bounded memory. `@MainActor` because the result
+    /// lands in this view's state — a `@State` write that happens off the main
+    /// actor does not invalidate the view (the base loader's shape, an
+    /// unisolated async function, wrote state from whichever executor resumed
+    /// it).
+    @MainActor
     private func loadExistingPhoto(path: String) async {
         existingImage = nil
         existingImageFailed = false
         do {
-            let data = try await repository.loadMealImage(userID: userID, path: path)
-            existingImage = data.isEmpty ? nil : UIImage(data: data)
-            existingImageFailed = existingImage == nil
+            existingImage = try await thumbnailCache.thumbnail(
+                MealThumbnailRequest(
+                    accountID: userID,
+                    objectPath: path,
+                    displayBox: MealThumbnailMetrics.photoFigureBox,
+                    displayScale: displayScale
+                ),
+                from: MealPhotoSource(repository: repository)
+            )
         } catch {
             existingImageFailed = true
         }

@@ -14,8 +14,11 @@ independent reads overlap while every value semantic stays identical:
   three independent row reads.
 - `Repository.swift` also declares the finite ceiling:
   `enum ReadGraph { static let maxInFlightRequests = 5 }` — Today's four
-  independent reads plus its one serial `logs → items` chain request
-  (History reads 3 + 1; the goals context reads 3).
+  independent reads plus ONE request of its serial `logs → items` chain in
+  flight at a time. History's three independent reads overlap that chain, one
+  chain request at a time (in-flight peak 4: the three rows plus whichever
+  chain request is running; `logs` and `items` never overlap each other), and
+  the goals context reads three.
 - The `async let` children live in the caller's structured scope: a throw,
   an early return or task cancellation cancels and awaits them, so no request
   can be orphaned (no detached tasks, no unbounded fan-out).
@@ -37,7 +40,7 @@ production `SupabaseDashboardRepository.loadToday/loadHistory/loadGoalsContext`:
 | Claim (issue AC) | Test | Mechanism |
 | --- | --- | --- |
 | Held independent request, others start first; `logs → items` stays ordered | `testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain` | all six Today endpoints parked; `inFlight == 5` proves overlap, `meal_items` start sequence > `meal_logs` finish sequence |
-| Finite ceiling reached exactly | same test + `testTodayHeldReadGraphReachesExactlyTheDeclaredCeiling` | `peakInFlight == ReadGraph.maxInFlightRequests` (5) while five requests are parked |
+| Finite ceiling reached exactly | `testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain` (`ParallelReadsTests.swift:39`) | `peakInFlight == ReadGraph.maxInFlightRequests` (5) while five requests are parked. This `==` against the declared constant is the suite's ONLY ceiling assertion (the other bound assertion is `peakInFlight >= 2` at `:41`); no `peakInFlight <= 5` assertion exists anywhere |
 | Empty day / auth expiry terminate, no orphans | `testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks` | empty tables: 0 item reads, `inFlight == 0`; expired session + 401 `/token`: 0 `/rest/v1` requests, `inFlight == 0` |
 | Partial failure + cancellation, no orphans | `testPartialFailureAndCancellationLeaveNoOrphanTasks` | weight 500 with a parked sibling → read throws and the parked read is cancelled; caller cancel → all five drain to `inFlight == 0` |
 | Snapshot values match the sequential baseline | `testTodaySnapshotMatchesTheSequentialBaselineValues` | populated day: manual goal 2000/150/200/60, energy 320, whole-second weight dedupe → `[81.2]`, item values; stale manual row → computed goal 2727/205/307/76 |
@@ -53,8 +56,14 @@ committed) makes the same behavioural claims against base-available API only
 
 | Leg | Sources | Command | Raw exit | Result |
 | --- | --- | --- | --- | --- |
+| RED (first pass) | base `b3860964` | the same probe, first pass | `.lane-logs/red-probe-firstpass.log` (lane-local, untracked) | first-pass run of the same probe, disclosed here instead of omitted; the reviewed RED leg is the one below |
+| GREEN (first pass) | head (this branch) | the same probe, first pass | `.lane-logs/green-probe-firstpass.log` (lane-local, untracked) | first-pass run of the same probe, disclosed here instead of omitted; the reviewed GREEN leg is the one below |
 | RED | base `b3860964` | `xcodebuild test … -only-testing:MorselTests/ParallelReadsProbeTests` (`HERDR_XCODEBUILD_DIRECT=1`, lane derived data) | `redprobe=65` (`.lane-logs/red-probe.log`) | 3 tests, **4 assertion failures (0 unexpected)**: overlap claim, peak `1 != 5`, `1.288 s !< 0.600 s` |
 | GREEN | head (this branch) | same command | `greenprobe=0` (`.lane-logs/green-probe.log`) | 3 tests, 0 failures, 0.466 s |
+
+The probe was run twice; the first pass's logs are disclosed in the rows above
+and the cited legs are the ones the independent review corroborated. All four
+logs are lane-local and untracked, as every `.lane-logs/` file is.
 
 The base failures are behaviour, not compile errors: the probe compiles against
 base `b3860964` and fails because the sequential graph never has a second

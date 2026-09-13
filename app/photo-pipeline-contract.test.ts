@@ -33,6 +33,7 @@ const readModel = read('app/Sources/Morsel/SupabaseMealReadModel.swift')
 const syncEngine = read('app/Sources/Morsel/LocalSyncEngine.swift')
 const dataStore = read('app/Sources/Morsel/LocalDataStore.swift')
 const localFirst = read('app/Sources/Morsel/LocalFirstRepository.swift')
+const localThumbnail = read('app/Sources/Morsel/LocalFirstRepository+ThumbnailRevision.swift')
 
 describe('issue #135 defect 1: canonical #133 image path written, legacy paths still read', () => {
   it('models the #133 image read contract on the native read model', () => {
@@ -87,7 +88,12 @@ describe('issue #135 defect 3: upload/commit refusals never silent-pending', () 
 describe('issue #135 defect 4: queued photo rows render immediately at the deterministic path', () => {
   it('serves the queued photo bytes locally before any network work', () => {
     expect(localFirst).toContain('journalRecord(for: row, userID: userID)')
-    expect(localFirst).toContain('func queuedPhotoData(userID: UUID, path: String) throws -> Data?')
+    expect(localFirst).toContain('try queuedPhoto(userID: userID, path: path)')
     expect(localFirst).toContain('FoodImageStore.objectPath(userID: userID, imageID: row.mealID)')
+    // Issue #188 — the same local-bytes truth is what names the read seam's
+    // revision (queued content fingerprint), so the thumbnail cache can never
+    // serve a replaced queued photo under an unchanged identity.
+    expect(localThumbnail).toContain('func queuedPhoto(userID: UUID, path: String) throws -> QueuedMealPhoto?')
+    expect(localThumbnail).toContain('MealThumbnailFingerprint.of(queued.data)')
   })
 })
