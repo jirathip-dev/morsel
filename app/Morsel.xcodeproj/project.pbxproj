@@ -107,6 +107,7 @@
 		BAEEBDD9CE34464B93736C34 /* MockRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315E731961ED8D1653921F25 /* MockRepository.swift */; };
 		BC3FF50B5B6927FE9F7AC191 /* LocalDataStore+SQLite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A60B7FF64919D4B155EAB4 /* LocalDataStore+SQLite.swift */; };
 		BDD85DAAC956F1C0744F2454 /* PaperFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA60553CC8D783AC1B6B5D6 /* PaperFields.swift */; };
+		C10EC03BEB756D923331B5FB /* ParallelReadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */; };
 		C1AF60D319B5E7D48426D4B7 /* fallback-produce-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D21896711A44BE300141DE6 /* fallback-produce-night-64.png */; };
 		C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */; };
 		C2A470CA828A42640E8DF6D9 /* fallback-protein-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 58C85D1BA4132A99285E4465 /* fallback-protein-night-64.png */; };
@@ -149,6 +150,7 @@
 		F864F9127EDDDBEE5A7F2261 /* JournalShellChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */; };
 		F8C40982EC5D76D022B50C47 /* MealRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A280A2BE33C0B5B677035 /* MealRepository.swift */; };
 		FBD55DC697D1ADCEC431A4B5 /* orange-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = D1471CBEDEAF2BF63B615A89 /* orange-paper-64.png */; };
+		FC7D45F458199F7519853106 /* StubSupabaseReadTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41F53B4DA58348C6BBA99E1 /* StubSupabaseReadTransport.swift */; };
 		FCE7696AF032277A0C19B114 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7654CABD3BEF522F70A4E4B7 /* Supabase */; };
 		FD90C337EFA9504CA7BB357F /* MealReliabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */; };
 		FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */; };
@@ -298,6 +300,7 @@
 		DF0D158665E5F1AF65CD855E /* SupabaseMealReadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealReadModel.swift; sourceTree = "<group>"; };
 		E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFocus.swift; sourceTree = "<group>"; };
 		E2293D35B4DA17DDD0A8FE40 /* fallback-protein-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-protein-paper-64.png"; sourceTree = "<group>"; };
+		E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallelReadsTests.swift; sourceTree = "<group>"; };
 		E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReliabilityServices.swift; sourceTree = "<group>"; };
 		E444C6D0249794B57A7BAA86 /* grilled-chicken-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-chicken-night-64.png"; sourceTree = "<group>"; };
 		E57CF899B5CA9F7A581FCCA2 /* toast-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toast-paper-64.png"; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 		EB5AF693EC63884B471C1E35 /* AppearanceThemeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceThemeTests.swift; sourceTree = "<group>"; };
 		F048F73732E88CDC64BC23FE /* fallback-grains-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-grains-paper-64.png"; sourceTree = "<group>"; };
 		F1A60B7FF64919D4B155EAB4 /* LocalDataStore+SQLite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalDataStore+SQLite.swift"; sourceTree = "<group>"; };
+		F41F53B4DA58348C6BBA99E1 /* StubSupabaseReadTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubSupabaseReadTransport.swift; sourceTree = "<group>"; };
 		F4A372A98AF1458720106781 /* LocalFirstRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFirstRepository.swift; sourceTree = "<group>"; };
 		F5992AFC45A995856E08CC05 /* EBGaramond-Italic[wght].ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "EBGaramond-Italic[wght].ttf"; sourceTree = "<group>"; };
 		F5C1508E0A84C6910048A9A9 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
@@ -539,8 +543,10 @@
 				06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */,
 				64505E614C91782115EAC760 /* PageIdentityTests.swift */,
 				DD5826EED77A83AFE469518F /* PaperDeleteAndSkeletonTests.swift */,
+				E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */,
 				98F7FCF7C5E55D58FF2FD825 /* PhotoAttachOnEditRegressionTests.swift */,
 				D9AE5DD85AF5669483A11B72 /* PhotoPipelineRegressionTests.swift */,
+				F41F53B4DA58348C6BBA99E1 /* StubSupabaseReadTransport.swift */,
 				B1B5C42479945B7A48EC226F /* WeightImportTests.swift */,
 			);
 			path = MorselTests;
@@ -785,8 +791,10 @@
 				EAA4EC66E535371D969307B8 /* OnboardingTests.swift in Sources */,
 				8D3051B39BFE13D81A3E7D01 /* PageIdentityTests.swift in Sources */,
 				F06C7CBD7BD19B2CB8033194 /* PaperDeleteAndSkeletonTests.swift in Sources */,
+				C10EC03BEB756D923331B5FB /* ParallelReadsTests.swift in Sources */,
 				82ED9E1C728DA6A34B5F51BA /* PhotoAttachOnEditRegressionTests.swift in Sources */,
 				EA892D25220EFAFE5AE2DF1C /* PhotoPipelineRegressionTests.swift in Sources */,
+				FC7D45F458199F7519853106 /* StubSupabaseReadTransport.swift in Sources */,
 				B6ABB70C54EA8F94F25FCBB4 /* WeightImportTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

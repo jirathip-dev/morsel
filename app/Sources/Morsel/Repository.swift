@@ -7,6 +7,10 @@ let mealItemColumns = [
     "menu_group_id", "menu_name"
 ].joined(separator: ",")
 
+/// Issue #178 — declared ceiling on concurrent read requests in this read
+/// graph (four independent reads + the serial logs→items chain request).
+enum ReadGraph { static let maxInFlightRequests = 5 }
+
 protocol DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview
@@ -55,13 +59,17 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
+        // Issue #178 — the independent reads overlap the logs→items chain (bounded).
+        async let goalRowsTask = loadGoals(client, userID: authenticatedUserID)
+        async let profileRowsTask = loadProfiles(client, userID: authenticatedUserID)
+        async let weightRowsTask = loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
+        async let energyRowsTask = loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
         let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
         let items = try await loadMealItems(client, logs: logs)
         let imagesByMealID = await mintMealImages(logs: logs, client: client, userID: authenticatedUserID)
-        let goalRows = try await loadGoals(client, userID: authenticatedUserID)
-        let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
-        let weightRows = try await loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
-        let energyRows = try await loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
+        let (goalRows, profileRows, weightRows, energyRows) = try await (
+            goalRowsTask, profileRowsTask, weightRowsTask, energyRowsTask
+        )
 
         var itemsByMealID: [String: [MealItem]] = [:]
         var sourcesByMealID: [String: MealSource] = [:]
