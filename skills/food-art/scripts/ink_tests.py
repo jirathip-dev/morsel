@@ -84,9 +84,9 @@ def run():
         spec={'id':'fixture-food','name':'Synthetic workflow fixture','aliases':['test fixture only'],
               'kind':'food','category':'produce','description':'Synthetic copied geometry for additive-cache testing, not delivered artwork.'}
         addition=add(spec,sample,out)
-        checked('add-one-study-keeps-existing-136-outputs-untouched',lambda: addition_check(out,before,addition))
+        checked('add-one-study-keeps-existing-144-outputs-untouched',lambda: addition_check(out,before,addition))
         checked('reject-duplicate-add-without-overwrite',lambda: rejects(lambda: add(spec,sample,out)))
-        checked('release-gate-rejects-18th-fixture-entry',lambda: rejects(lambda: verify(out)))
+        checked('release-gate-rejects-19th-fixture-entry',lambda: rejects(lambda: verify(out)))
     result={'status':'PASS','raw_exit':0,'checks':checks,'count':len(checks),'seconds':time.perf_counter()-started,
             'scope':'Isolated executable reproduction/incremental/negative tests; not food authoring speed or visual approval.'}
     dump(OUT/'evidence/workflow-tests.json',result)
@@ -103,13 +103,13 @@ def reproduce(out,result):
 
 
 def no_op_check(out,before,result):
-    require(result['rebuilt']==[] and len(result['skipped'])==17,'no-op cache miss')
+    require(result['rebuilt']==[] and len(result['skipped'])==18,'no-op cache miss')
     require(snapshot(out)==before,'no-op changed bytes or mtimes')
     return {'untouched_outputs':len(before),'elapsed_seconds':result['elapsed_seconds']}
 
 
 def delta_check(before,after,result):
-    require(result['rebuilt']==['banana'] and len(result['skipped'])==16,'not a single-id rebuild')
+    require(result['rebuilt']==['banana'] and len(result['skipped'])==17,'not a single-id rebuild')
     peers=[p for p in before if not Path(p).name.startswith('banana-')]
     require(all(before[p]==after[p] for p in peers),'unrelated asset rewritten')
     own=[p for p in before if p not in peers]
@@ -127,11 +127,11 @@ def repair_check(out,before,result):
 
 
 def addition_check(out,before,result):
-    require(result['rebuilt']==['fixture-food'] and len(result['skipped'])==17,'addition rebuilt existing IDs')
+    require(result['rebuilt']==['fixture-food'] and len(result['skipped'])==18,'addition rebuilt existing IDs')
     after=snapshot(out)
     require(all(before[p]==after[p] for p in before),'addition touched existing output')
     report=verify(out,allow_additions=True)
-    require(len(report['catalog_ids'])==18,'addition not registered')
+    require(len(report['catalog_ids'])==19,'addition not registered')
     return {'new_outputs':len(after)-len(before),'untouched_existing_outputs':len(before),'elapsed_seconds':result['elapsed_seconds'],
             'fixture_only':True,'not_authoring_speed':True}
 

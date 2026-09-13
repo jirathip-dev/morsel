@@ -6,9 +6,9 @@
       "name": "clean-room-byte-reproduction",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.06953037506900728,
+      "seconds": 0.17386383295524865,
       "detail": {
-        "identical_outputs": 136,
+        "identical_outputs": 144,
         "rebuilt": [
           "avocado",
           "banana",
@@ -16,6 +16,7 @@
           "coffee",
           "fallback-drinks",
           "fallback-grains",
+          "fallback-neutral",
           "fallback-produce",
           "fallback-protein",
           "fried-egg",
@@ -34,30 +35,30 @@
       "name": "no-op-preserves-every-export-hash-and-mtime",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00818241701927036,
+      "seconds": 0.02734204102307558,
       "detail": {
-        "untouched_outputs": 136,
-        "elapsed_seconds": 0.050313
+        "untouched_outputs": 144,
+        "elapsed_seconds": 0.145308
       }
     },
     {
       "name": "single-source-real-pixel-change-rebuilds-one-id",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00034654198680073023,
+      "seconds": 0.001135417027398944,
       "detail": {
-        "untouched_peer_outputs": 128,
+        "untouched_peer_outputs": 136,
         "changed_owner_outputs": 8,
-        "elapsed_seconds": 1.148722
+        "elapsed_seconds": 3.599705
       }
     },
     {
       "name": "restored-source-restores-original-bytes",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.02071820804849267,
+      "seconds": 0.19276895793154836,
       "detail": {
-        "identical_outputs": 136,
+        "identical_outputs": 144,
         "rebuilt": [
           "banana"
         ]
@@ -67,18 +68,18 @@
       "name": "missing-png-rebuilds-only-owner",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.011617875075899065,
+      "seconds": 0.12392116710543633,
       "detail": {
-        "restored_outputs": 136,
-        "untouched_peer_outputs": 128,
-        "elapsed_seconds": 1.477081
+        "restored_outputs": 144,
+        "untouched_peer_outputs": 136,
+        "elapsed_seconds": 11.837865
       }
     },
     {
       "name": "tampered-png-rejected-before-repair",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.016974958940409124,
+      "seconds": 0.11293983296491206,
       "detail": {
         "rejected": true,
         "reason": "padding/clipping: banana-night-192.png/(0, 0, 158, 156)"
@@ -88,18 +89,18 @@
       "name": "tampered-png-repaired-with-peer-mtimes-intact",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.0122862079879269,
+      "seconds": 0.04604279203340411,
       "detail": {
-        "restored_outputs": 136,
-        "untouched_peer_outputs": 128,
-        "elapsed_seconds": 1.648263
+        "restored_outputs": 144,
+        "untouched_peer_outputs": 136,
+        "elapsed_seconds": 4.117544
       }
     },
     {
       "name": "reject-external-image",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.0005453750491142273,
+      "seconds": 0.021976708085276186,
       "detail": {
         "rejected": true,
         "reason": "unsafe SVG element: image"
@@ -109,7 +110,7 @@
       "name": "reject-unapproved-fill",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00022441602777689695,
+      "seconds": 0.0003050409723073244,
       "detail": {
         "rejected": true,
         "reason": "unapproved palette"
@@ -119,7 +120,7 @@
       "name": "reject-unresolved-token",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 8.625001646578312e-05,
+      "seconds": 6.995804142206907e-05,
       "detail": {
         "rejected": true,
         "reason": "unresolved token or declaration"
@@ -129,7 +130,7 @@
       "name": "reject-external-url",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00045729195699095726,
+      "seconds": 0.008694084011949599,
       "detail": {
         "rejected": true,
         "reason": "external SVG resource"
@@ -139,7 +140,7 @@
       "name": "reject-script-element",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00044662493746727705,
+      "seconds": 0.005433041951619089,
       "detail": {
         "rejected": true,
         "reason": "unsafe SVG element: script"
@@ -149,7 +150,7 @@
       "name": "reject-event-handler",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.0002150830114260316,
+      "seconds": 0.00034683302510529757,
       "detail": {
         "rejected": true,
         "reason": "unsafe SVG attribute"
@@ -159,7 +160,7 @@
       "name": "reject-traversal-id",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.0001253749942407012,
+      "seconds": 0.000252624973654747,
       "detail": {
         "rejected": true,
         "reason": "unsafe ID"
@@ -169,7 +170,7 @@
       "name": "reject-unregistered-source",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.000372458016499877,
+      "seconds": 0.0007570419693365693,
       "detail": {
         "rejected": true,
         "reason": "source/catalog set mismatch"
@@ -179,18 +180,18 @@
       "name": "final-fixture-verification",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.2876140420557931,
+      "seconds": 1.0762972079683095,
       "detail": "PASS"
     },
     {
-      "name": "add-one-study-keeps-existing-136-outputs-untouched",
+      "name": "add-one-study-keeps-existing-144-outputs-untouched",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.22400016605388373,
+      "seconds": 2.042721249978058,
       "detail": {
         "new_outputs": 8,
-        "untouched_existing_outputs": 136,
-        "elapsed_seconds": 1.434928,
+        "untouched_existing_outputs": 144,
+        "elapsed_seconds": 7.918563,
         "fixture_only": true,
         "not_authoring_speed": true
       }
@@ -199,24 +200,24 @@
       "name": "reject-duplicate-add-without-overwrite",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.0003428329946473241,
+      "seconds": 0.000504584051668644,
       "detail": {
         "rejected": true,
         "reason": "ID exists; edit source and build instead"
       }
     },
     {
-      "name": "release-gate-rejects-18th-fixture-entry",
+      "name": "release-gate-rejects-19th-fixture-entry",
       "status": "PASS",
       "raw_exit": 0,
-      "seconds": 0.00021624995861202478,
+      "seconds": 0.0005857920041307807,
       "detail": {
         "rejected": true,
-        "reason": "issue-197 release is exactly the existing catalog"
+        "reason": "issue-223 release is exactly original 17 plus fallback-neutral"
       }
     }
   ],
   "count": 19,
-  "seconds": 21.75123212498147,
+  "seconds": 112.70530083298218,
   "scope": "Isolated executable reproduction/incremental/negative tests; not food authoring speed or visual approval."
 }

@@ -1,6 +1,6 @@
 {
   "avocado": {
-    "identity": "31444fcba0547e04795b2c59203f739a03b282aa40089ab8ef1c43159c0fe71b",
+    "identity": "9bd52c9fb003f8f1137c1da0ea670316053635b188a67aad9da50869119c1d13",
     "outputs": {
       "masters/avocado-paper.svg": "8753d80c2c743d7506cb2eba90f09ed366231bc429531358a61d23e796e7b2ac",
       "masters/avocado-night.svg": "300b7401b1eed2624e550d9f8c718c3ee44d7518f81c58026072e33c27cfae51",
@@ -13,7 +13,7 @@
     }
   },
   "banana": {
-    "identity": "7e95f8af225f30c9c33ea1c64832af2568c62018fb0f78dd6f7fac90fb59cb09",
+    "identity": "7ca9f4f8650eb0af867ba2d3e4be5c900ff223217f6d8ae8f1916c1bf2624819",
     "outputs": {
       "masters/banana-paper.svg": "fbe4f3f659f25a95266f8815907793e3482b21c21acb8b5275c119979852fd12",
       "masters/banana-night.svg": "fa5129cc828c4ef2c4421079d5e0ee04421d06b3c3a9e202855704dd42f8cf4a",
@@ -26,7 +26,7 @@
     }
   },
   "broccoli": {
-    "identity": "e4f9c32283b7a6645b72a8ec6ea6d12c285a58157cdd4ef4724ff74975eb39b0",
+    "identity": "7ce52bd01c88553e35ae4737016cc9e6bdc7a8518b1e3933b9929e22896fca58",
     "outputs": {
       "masters/broccoli-paper.svg": "322cf49081cf4f64e3dffd71e2c823cfe6a009f7a01898993565cf1790105861",
       "masters/broccoli-night.svg": "ed9666c422c222dfffec3f18bdfa2d7b4302df13ecc6a8a0e045ac2548f52622",
@@ -39,7 +39,7 @@
     }
   },
   "coffee": {
-    "identity": "068b0ddc7cab3f9e44a096f239558e4654d66a8aee1b17fef1be6eabfc97c98f",
+    "identity": "c25608a480426a6037bb792bef687ccaf1f2f9845be0da7d3997a9e81fd02003",
     "outputs": {
       "masters/coffee-paper.svg": "7ed4a4bad6df125a58ffc0f432c935328de2f94d87fad57bb8a845bcf54fa1ad",
       "masters/coffee-night.svg": "fcb01db5ebe05911a6885a1843e2a94fd23bc16f8cce099ccfc534d15bc51a70",
@@ -52,7 +52,7 @@
     }
   },
   "fallback-drinks": {
-    "identity": "61b25b1df8df48519e9978c58877136e4713691da4a8104003a7e200bd8e7bde",
+    "identity": "9cf75bffdad082cab5279f1deec2d72048a8044e58cfe4b3e7dbf5d7c1167b40",
     "outputs": {
       "masters/fallback-drinks-paper.svg": "e122e676ddc1f50e6688f39353a9495dd8576054269fe901c3bc985806520042",
       "masters/fallback-drinks-night.svg": "ba5a37319a06c2ac1953142a37968dcf6ca8a07fd879a85b2ba9a702f0b60e5f",
@@ -65,7 +65,7 @@
     }
   },
   "fallback-grains": {
-    "identity": "6b2d85a60a219a84d4efd4eed1d7e471e442a6375a94bde7b8004b95c7fe0178",
+    "identity": "afe265d481fb3ccdc591b32167e944c081e5cc54d40911773859b61160b160b5",
     "outputs": {
       "masters/fallback-grains-paper.svg": "69cfc8010bd1e41b796af309aaf69a49dd198afb3ae1b5aca007569b27f81d57",
       "masters/fallback-grains-night.svg": "f1c41b50936dd3aedd54181c593829fbbd34a068e4a8c70616516b6009e4f1c1",
@@ -77,8 +77,21 @@
       "exports/fallback-grains-night-512.png": "350a5ff7016bd14649b5a0b81375e714d89079acc2d499781de3b8ade3a4dfc9"
     }
   },
+  "fallback-neutral": {
+    "identity": "7ff7a173db7c08413e63e741e79263f58b60920bf5d469bc3fee9fac4bb97576",
+    "outputs": {
+      "masters/fallback-neutral-paper.svg": "7594fd01953021a53cb3e2476a1159c7232b94fef2366b3b9404771ccd89c9fe",
+      "masters/fallback-neutral-night.svg": "9c19cbc286a9a91164746e4c2cf156f40ce652fc2197e116d4d497dd9e45ba27",
+      "exports/fallback-neutral-paper-64.png": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "exports/fallback-neutral-paper-192.png": "ce769afa1541cf905cf39a8524b56f91c44ac8fea6af2086ee37e59ce872213e",
+      "exports/fallback-neutral-paper-512.png": "5f09d3a19c9a67fed0633007ebdd7273c28eed9d226245a52c1c6788e6b3433a",
+      "exports/fallback-neutral-night-64.png": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "exports/fallback-neutral-night-192.png": "5d1a0dbffdfa1822c02b54dabd13a6ea77edcd6ff3e0d6f5eaf3ae5d7ca87160",
+      "exports/fallback-neutral-night-512.png": "73f021ab7e4dab3586e6160c59dfaf1851e4539bcb4f66565b9088e36ccc9685"
+    }
+  },
   "fallback-produce": {
-    "identity": "3180174fa8c29fdd44680ff5c36f7e4b57f0e3a6494a93b00c217f4b655a92b5",
+    "identity": "fa13a28600b0d16b3acea6af00748f79ee7b01355fe4a7bf4bf3cf449a32060a",
     "outputs": {
       "masters/fallback-produce-paper.svg": "738af1300f12d19fb34893e1690f9fee163b0ab34708bd63782307173284ad65",
       "masters/fallback-produce-night.svg": "269b982dad912826d0f4dda71189c9c8a5fcaf5276db14d75e1cfdae89fbe96a",
@@ -91,7 +104,7 @@
     }
   },
   "fallback-protein": {
-    "identity": "502fe9f98805384a044f8bf5a59b2a531eea2ae0bfc34a50e6dc3ba0d1d22802",
+    "identity": "c4922678bb4448e0fc768c701ac9f5470cc20fe94c082fac4fed096f915658f2",
     "outputs": {
       "masters/fallback-protein-paper.svg": "90112c23775feaa500d73d121bd4ebbc0ac936a6109a6cd5395b058e69aa531c",
       "masters/fallback-protein-night.svg": "74d6f42acae9cb9a79a5212dd0f8729d9525087f7375b339c05d856c97fa1379",
@@ -104,7 +117,7 @@
     }
   },
   "fried-egg": {
-    "identity": "5e1e793904dc56094ceb4ace8ded0c87c70a7e268ff0c4e820f5247219a993ee",
+    "identity": "b4c4f352b2983fe0da58586de57467f1c50caaab9652243505b47a789c73c050",
     "outputs": {
       "masters/fried-egg-paper.svg": "2ab68fff277e8f4e19b23e8bbbf25023b8bea29769350161490e0d53faadcf86",
       "masters/fried-egg-night.svg": "c69c8eec2694443201df41a95cc2a55bf266d10807148770430a14e1a85b6325",
@@ -117,7 +130,7 @@
     }
   },
   "grilled-chicken": {
-    "identity": "5a2279cb2907c6c76296fe14f9cdeac673065f0eac9d148c192af583a8040238",
+    "identity": "269ed6edb4b173e0436dc741a0b60d683691bb8638744694bc633b77f9e8bb90",
     "outputs": {
       "masters/grilled-chicken-paper.svg": "892e73a978eca2db19c85d6d3889ff0305aa906dbfeba69cd8b81c6386cec0b0",
       "masters/grilled-chicken-night.svg": "47ab43a6aaf0dfbc6fe0f50b5325f17adb57e7ad211a8cc51ac4b165e9ae6d27",
@@ -130,7 +143,7 @@
     }
   },
   "jasmine-rice": {
-    "identity": "736dc950562dbbe8f0650d524a4a339097f2b33afb9ae861e021fa11af78241c",
+    "identity": "6f53e6e32ee88a070577be826d96109c3fb896eff4a9fe2d9122ee2b02839132",
     "outputs": {
       "masters/jasmine-rice-paper.svg": "aa00c27abe0e82d714903c95760d4a8d1b7605867059746509d5c304ca35aeaa",
       "masters/jasmine-rice-night.svg": "667f1c31a1b91abdeb40096e1d97396db6f3e655f3b33676da264217d45fa9e8",
@@ -143,7 +156,7 @@
     }
   },
   "mango": {
-    "identity": "9fcbeb7f255208aaf05449ef33703730aab8adc50fe73282d098718e1e2f4e6a",
+    "identity": "19bfed4a789d6b8d870fc0b1cbba9e849b07eb6e933cd3d7852b788a086b1142",
     "outputs": {
       "masters/mango-paper.svg": "b36b58d092c76606cd5dd048810e14e660ea5fbea5d78f1a7bd0afcb6ac08740",
       "masters/mango-night.svg": "3eacfccac244df2699e00d6ac55b40d97d5affbbff50ed453b400284719d25a7",
@@ -156,7 +169,7 @@
     }
   },
   "orange": {
-    "identity": "775b7588d73f0e7164e718f1ee49fc132a981782f8ca84e51f54d84e80da5f0f",
+    "identity": "d40431b091ee505c3f2ac0589d51cf653680d45f38a0e0a6f1caba6f8387898b",
     "outputs": {
       "masters/orange-paper.svg": "62d60f0aca4f97de1c5c082dc7b3187b35c0779bc85dfad1c3ccaa72f24c098d",
       "masters/orange-night.svg": "658c62aeb291147018f16a93ef2405607841eb0083d3bf566b94d218a9b2a4ac",
@@ -169,7 +182,7 @@
     }
   },
   "salmon": {
-    "identity": "569bb2f520f6b93a6929b0f4dbaf18e403ad2b81bfde930f3556d62db8fae6f7",
+    "identity": "85d8765d925e6f8c74ae0bf140617d397461d20b5187db0557fe6d6ad5e28d87",
     "outputs": {
       "masters/salmon-paper.svg": "b08ed0dcb52246dc193cade97736decb879c521c313018ed7008e16ff21815c7",
       "masters/salmon-night.svg": "2dcd969c4bafa01aefb29ac58b463818aec9df8569777f162bd8a3fbf4a14b23",
@@ -182,7 +195,7 @@
     }
   },
   "stir-fried-noodles": {
-    "identity": "c16d02df3e1c8f41550c40ffba3ae021e9a6c95d33af425940c1f98121030b35",
+    "identity": "ed319ae39c65eb54aae95bccd6250192efef9df0f865c5476aa4f544f62d3ac9",
     "outputs": {
       "masters/stir-fried-noodles-paper.svg": "d5c8d3e31a27aa3ba6b5b4a452e0ce3374fc2ddde9630688821099fa30593690",
       "masters/stir-fried-noodles-night.svg": "4d13358d48e11ec5ae4706c2da2c1a571d57e35cbe87ee3ea4690647c093f91c",
@@ -195,7 +208,7 @@
     }
   },
   "toast": {
-    "identity": "36f7ba0975adb79b32fd7f3ead85150f5c9945ab10f3fed8125b2d22e567eaea",
+    "identity": "3cd411324e63c319cd9f26854b7ab42c5450249967f246a323aeb6367f00d564",
     "outputs": {
       "masters/toast-paper.svg": "148fee9af418c19ec9e3515b2a7712a568677833234250ca65603d0d5ddb6b8c",
       "masters/toast-night.svg": "1fd89c0a28983f8de991c146f3c3b56238746cf8f6e0f2f74c95326736e6197e",
@@ -208,7 +221,7 @@
     }
   },
   "vegetable-soup": {
-    "identity": "105ab1c0c16360a7574d259dfa564b98050aa57d3ce7d41133b05b7c45076a17",
+    "identity": "78a8c7d567fe45b7f1afe8be4d0a3330538b9340c4b3f2e4aaf8e61f5503d1b2",
     "outputs": {
       "masters/vegetable-soup-paper.svg": "320684e317f1c90ac6da089a5fb22b0a04fbb02f66022a9cc4ba54e4f6fb03cd",
       "masters/vegetable-soup-night.svg": "d23919e1d6716065f2b1c7648afd6023ad4e0a3ec397be9791b32f80606fac1e",

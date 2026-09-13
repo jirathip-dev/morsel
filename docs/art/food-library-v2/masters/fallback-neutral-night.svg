@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Food fallback — empty ceramic plate and spoon, not an identified food</title>
+<desc>A neutral eating sign. No depicted ingredients, dish, portion or category.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="irregular-ceramic-underpainting">
+ <path d="M35 127 C37 97 67 72 108 70 C151 67 188 86 197 115 C207 146 185 179 145 189 C104 202 57 185 41 157 C37 148 34 139 35 127Z" fill="#F2E9D9" opacity=".74"/>
+ <path d="M37 131 C42 155 61 174 90 182 C125 194 167 180 187 160 C180 182 146 195 119 194 C83 195 53 179 42 159Z" fill="#655A4B" opacity=".20" filter="url(#wash)"/>
+ <path d="M39 125 C40 99 69 76 107 73 C147 70 181 87 191 110 C177 93 149 84 125 85 C86 80 57 99 48 126Z" fill="#FFF7E8" opacity=".72" filter="url(#wash)"/>
+ <path d="M145 179 C164 172 186 153 192 132 C195 157 178 177 150 185 L126 190 C136 186 140 183 145 179Z" fill="#5E7E57" opacity=".18" filter="url(#wash)"/>
+</g>
+<g id="empty-plate-well">
+ <path d="M59 126 C61 107 82 90 111 88 C143 85 173 100 178 120 C185 144 161 168 131 173 C99 178 68 162 61 143 C59 137 58 132 59 126Z" fill="#FFF7E8" opacity=".83"/>
+ <path d="M61 128 C66 109 87 96 112 95 C137 93 155 99 170 112 C157 93 135 87 110 90 C84 91 65 105 61 128Z" fill="#655A4B" opacity=".19" filter="url(#wash)"/>
+ <path d="M68 145 C86 165 110 170 134 166 C150 164 165 156 173 145 C163 165 138 174 117 172 C96 170 77 160 68 145Z" fill="#F2E9D9" opacity=".62" filter="url(#wash)"/>
+</g>
+<g id="selective-plate-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M36 125 C37 106 48 92 62 84 M75 77 Q102 65 131 71" stroke-width="1.4"/>
+ <path d="M145 74 C174 81 193 98 197 120 M197 133 C194 153 182 168 167 178" stroke-width="1.7"/>
+ <path d="M151 185 C120 200 78 189 57 174 M48 165 Q38 151 36 138" stroke-width="1.65"/>
+ <path d="M61 121 Q68 99 96 91 M110 88 Q149 83 170 107 M177 122 Q184 147 159 163 M146 169 Q111 184 81 163 M70 153 Q62 144 60 134" stroke-width="1.15"/>
+ <path d="M49 150 l4 9 M53 158 l6 9 M61 170 l7 5 M150 181 l9 -4" stroke-width=".45" opacity=".65"/>
+</g>
+<g id="plain-spoon-wash">
+ <path d="M200 105 C195 98 196 87 201 79 C207 69 217 66 222 73 C230 83 223 100 214 105 C211 108 212 113 211 120 L207 183 C207 192 199 194 198 184 L203 119 C204 111 204 109 200 105Z" fill="#9D917F" opacity=".64"/>
+ <path d="M217 73 C224 76 222 90 215 97 C211 102 207 101 202 98 C206 108 213 106 219 100 C226 91 227 78 217 73Z M206 114 L203 182 Q202 190 201 183 L205 124Z" fill="#655A4B" opacity=".42" filter="url(#wash)"/>
+ <path d="M202 89 Q205 77 214 75 M206 129 L203 169" fill="none" stroke="#FFF7E8" stroke-width="1.8" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="selective-spoon-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M198 96 C194 86 204 68 215 70 M222 75 C229 84 220 102 213 106 Q210 109 211 119 L207 177 M206 186 Q201 197 198 184 L203 121 M203 112 Q204 108 200 104" stroke-width="1.7"/>
+ <path d="M201 95 Q201 83 210 77 M219 85 Q218 97 209 101" stroke-width=".5" opacity=".65"/>
+</g>
+</svg>

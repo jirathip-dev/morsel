@@ -38,5 +38,25 @@
     "phase": "final-visual-review-end",
     "wall_ns": 1789225960921521000,
     "monotonic_ns": 778210852097875
+  },
+  {
+    "phase": "issue-223-authoring-start",
+    "wall_ns": 1789283651524341000,
+    "monotonic_ns": 835901276522000
+  },
+  {
+    "phase": "chicken-gate-export-start",
+    "wall_ns": 1789284374500944000,
+    "monotonic_ns": 836624253995416
+  },
+  {
+    "phase": "chicken-gate-export-start",
+    "wall_ns": 1789284538552223000,
+    "monotonic_ns": 836788305306041
+  },
+  {
+    "phase": "issue-223-visual-review-complete",
+    "wall_ns": 1789284879797393000,
+    "monotonic_ns": 837129549649916
   }
 ]

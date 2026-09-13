@@ -59,7 +59,7 @@ def run():
             strip.paste(Image.open(dest/f'phone-{cohort}-{theme}.png'),(390*col,0))
         strip.save(dest/f'phone-all-{theme}.png')
     coverage={t:sorted({id for r in results if r['page'].startswith('phone-') and r['page'].endswith('-'+t) for id in r['dom']['ids']}) for t in THEMES}
-    require(all(set(v)==ids for v in coverage.values()),'Not all 17 IDs captured in each theme')
+    require(all(set(v)==ids for v in coverage.values()),'Not all catalog IDs captured in each theme')
     report={'status':'PASS','raw_exit':0,'engine':subprocess.check_output([engine,'--version'],text=True).strip(),
             'seconds':time.perf_counter()-started,'captures':results,'phone_catalog_coverage':coverage,
             'scope':'Real-browser capture and DOM validation only; no visual-review or authoring-time claim.'}
