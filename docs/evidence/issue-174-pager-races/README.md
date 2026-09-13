@@ -42,11 +42,15 @@ HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Mors
   -destination "platform=iOS Simulator,id=$UDID" CODE_SIGNING_ALLOWED=NO
 ```
 
-RED/GREEN: every new race assertion was shown to fail on the unfixed
-mechanism before the fixed file passed — the audited staging file itself
-(compile-time RED: the seam does not exist at base, raw exit 65) plus one
-mechanism mutation per defended race (raw exit 65 for each; the FIXED file is
-green). Raw exits and log paths live in the lane `.report.md`.
+RED/GREEN: the RED evidence is NOT per-assertion. It is (a) the audited base
+file itself — compile-time RED only, because the state-machine seam does not
+exist at base: 3× `cannot find type 'JournalTurnMachine'/'JournalTurnDriver' in
+scope`, raw exit 65 — plus (b) one mutation probe per defended race: a single
+anchored splice into the fixed mechanism (anchor count asserted, the mutated
+file compiles clean), run against the focused suite, which fails with
+assertion failures on that race's witnesses (raw exit 65), then a byte-exact
+restore and a green re-run. Raw exits and log paths live in the lane
+`.report.md`.
 
 ## Mounted captures (phone-sized, simulator)
 

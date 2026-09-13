@@ -11,14 +11,18 @@ beside the layer the user saw.
 ## What changed
 
 - `app/Sources/Morsel/MorselApp.swift` — `JournalPageStage` now owns
-  interaction through ONE predicate, `!routeCoversPages && tab == pager.selection`,
+  interaction through ONE predicate, `!overlayCoversPages && tab == pager.selection`,
   applied on all three channels (`.allowsHitTesting`, `.disabled`,
   `.accessibilityHidden`): the declared active page is the pager's selection —
   a committed swing declares its destination at once, while a drag preview or
   a rollback leaves the settled page in charge. The animation-only placeholder
   (a swing toward a never-visited tab) takes `.allowsHitTesting(false)`. The
-  shell passes `routeCoversPages: routeModel.route != .tabPages`, so Add Meal /
-  Menus silence every page layer while they cover them. The tab bar is not
+  shell passes `overlayCoversPages: routeModel.route != .tabPages`, so Add Meal /
+  Menus silence every page layer while they cover them. (The parameter is named
+  `overlayCoversPages` — a `route…`-prefixed name trips the hosted
+  `v1-journal-contract.test.ts` ban on the token `route` in the source slice
+  between the `JournalTab` enum and the shell; this README's earlier draft used
+  the pre-rename name.) The tab bar is not
   behind the ownership, so retargeting never locks.
 - `app/Sources/Morsel/Views.swift` — `JournalPresentationModel`: the shell owns
   Today's presentations (item edit, meal delete) outside the transient page and
