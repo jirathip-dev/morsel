@@ -40,13 +40,10 @@ struct DayDrillDown: View {
                 .font(Font.morselHand(size: 24))
                 .foregroundStyle(Color.morselInk)
             Spacer(minLength: 4)
-            // The day card shows the day's first meal photo (agent-logged or
-            // in-app); a photo-less day shows the same shared #199 artwork
-            // slot as Today — illustration or nothing, never a fetch.
+            // Issue #199/#223 — the shared row artwork slot: this day summary
+            // row is always illustrated (the day's first logged meal), never a
+            // stored photo.
             MealArtworkSlot(
-                repository: viewModel.repository,
-                userID: viewModel.userID,
-                photoPath: snapshot.meals.compactMap({ $0.imagePath }).first,
                 items: snapshot.meals.first(where: { !$0.items.isEmpty })?.items ?? []
             )
         }
@@ -105,7 +102,11 @@ struct DayDrillDown: View {
     }
 
     private func historyItemRow(_ item: MealItem) -> some View {
-        HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .center, spacing: 12) {
+            // Issue #223 — the expanded day's food rows carry the same
+            // always-illustrated artwork as Today's item rows (the stored
+            // meal photo stays in detail/edit, never in a row).
+            MealArtworkSlot(items: [item])
             Text(item.name)
                 .font(.morselBodyStrong)
                 .foregroundStyle(Color.morselInk)

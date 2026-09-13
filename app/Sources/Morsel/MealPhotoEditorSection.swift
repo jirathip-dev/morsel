@@ -31,9 +31,10 @@ struct MealPhotoEditorSection: View {
         item.mealImage?.path
     }
 
-    /// Issue #199 — the shared artwork decision for THIS item: a stored photo
-    /// wins; otherwise the approved offline illustration (or nil when the food
-    /// is not in the approved library).
+    /// Issue #199/#223 — the shared artwork decision for THIS item: a stored
+    /// photo wins in detail/edit; otherwise the approved offline illustration
+    /// (a food study, a category fallback, or the neutral eating sign — an
+    /// unmatched food no longer shows nothing).
     private var illustrationResolution: FoodArtworkResolution? {
         guard case let .illustration(resolution) = MealArtworkPresentation.resolve(
             photoPath: existingPath, items: [item]
@@ -59,9 +60,9 @@ struct MealPhotoEditorSection: View {
                 existingPhotoRow(path: existingPath)
                     .padding(.bottom, 8)
             } else if let illustrationResolution {
-                // Issue #199 — no meal photo yet: the approved offline
-                // illustration stands in, labeled; an unmatched food shows
-                // nothing (exactly today's behavior).
+                // Issue #199/#223 — no meal photo yet: the approved offline
+                // illustration stands in, labeled (the neutral sign for a food
+                // the library cannot identify).
                 illustrationRow(illustrationResolution)
                     .padding(.bottom, 8)
             }
@@ -220,6 +221,9 @@ struct MealPhotoEditorSection: View {
         switch resolution {
         case let .food(asset): return asset.name
         case let .category(asset): return "\(asset.categoryLabel) · fallback"
+        // The neutral sign keeps the catalog's own fallback name: it is never
+        // presented as an identified food.
+        case let .neutral(asset): return asset.name
         case .none: return ""
         }
     }
@@ -228,6 +232,7 @@ struct MealPhotoEditorSection: View {
         switch resolution {
         case .food: return "Illustration · not a meal photo"
         case .category: return "Category fallback · not identified food"
+        case .neutral: return "Neutral sign · not identified food"
         case .none: return ""
         }
     }

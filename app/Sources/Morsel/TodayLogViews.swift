@@ -49,8 +49,6 @@ struct TodayLogSection: View {
                 ForEach(viewModel.mealGroups) { group in
                     MealGroupView(
                         group: group,
-                        repository: viewModel.repository,
-                        userID: viewModel.userID,
                         onEdit: onEdit,
                         onDelete: onDelete
                     )
@@ -66,21 +64,16 @@ struct TodayLogSection: View {
 
 struct MealGroupView: View {
     let group: MealGroup
-    let repository: any DashboardRepository
-    let userID: UUID
     let onEdit: (MealItem) -> Void
     let onDelete: (MealRecord) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(alignment: .center, spacing: 10) {
-                // Issue #199 — the shared artwork slot: a stored meal photo
-                // stays authoritative; a photo-less meal shows the approved
-                // offline illustration (64px) or today's empty slot.
+                // Issue #199/#223 — the shared row artwork slot: this summary
+                // row is always illustrated (food study, category fallback or
+                // the neutral eating sign), never the meal's stored photo.
                 MealArtworkSlot(
-                    repository: repository,
-                    userID: userID,
-                    photoPath: group.meals.compactMap({ $0.imagePath }).first,
                     items: group.meals.first(where: { !$0.items.isEmpty })?.items ?? []
                 )
                 VStack(alignment: .leading, spacing: 1) {
@@ -175,7 +168,11 @@ struct MealItemRow: View {
     }
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
+            // Issue #223 — every food item row is always illustrated: the
+            // item's approved study, its category fallback, or the neutral
+            // eating sign. A stored meal photo never appears in a row.
+            MealArtworkSlot(items: [item])
             VStack(alignment: .leading, spacing: 3) {
                 Text(item.name)
                     .font(.morselTitle)
