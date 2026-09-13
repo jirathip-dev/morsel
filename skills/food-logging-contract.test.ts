@@ -17,7 +17,8 @@ import { fileURLToPath } from 'node:url'
 // word-boundary care so the required "eaten vs goal" prose cannot trip), and
 // pins the replacement semantics that must be present.
 
-const skillPath = join(dirname(fileURLToPath(import.meta.url)), 'food-logging', 'SKILL.md')
+const here = dirname(fileURLToPath(import.meta.url))
+const skillPath = join(here, 'food-logging', 'SKILL.md')
 const skill = readFileSync(skillPath, 'utf8')
 
 // Double-counting forms: eaten calories minus active burn/energy must never be
@@ -78,5 +79,70 @@ describe('food-logging skill — named menus contract (issue #152)', () => {
     expect(skill).toMatch(/menu log is a snapshot copy/i)
     expect(skill).toMatch(/menu_group_id/)
     expect(skill).toMatch(/Editing or[\s\S]*?deleting a menu[\s\S]*?NEVER changes past meals/i)
+  })
+})
+
+// ---- Correction-flow guidance (issue #171), pinned by issue #206 ----
+//
+// #171 shipped guidance-only rules — the ordered "Wrong item" procedure
+// (get_day -> meals[].items[].item_id -> update_meal_item), the "no separate
+// 'list items' tool" rule, and the matching get_day note in docs/MCP_TOOLS.md
+// — and no committed gate covered them: the adversarial review proved the
+// suite stayed GREEN when the rule bullet was deleted from both mirrors or
+// from the root mirror alone. These assertions read the sources beside this
+// test (resolved from import.meta.url, never cwd) and are whitespace-flattened
+// so a markdown re-wrap cannot break the contract, while deleting the
+// procedure, the rule, or the get_day note fails the probe.
+const mcpToolsSource = readFileSync(join(here, '..', 'docs', 'MCP_TOOLS.md'), 'utf8')
+const pluginSkillBytes = readFileSync(
+  join(here, '..', 'plugins', 'morsel', 'skills', 'food-logging', 'SKILL.md'),
+)
+const skillBytes = readFileSync(skillPath)
+
+// Whitespace-flattened view: re-wrapping is tolerated, deletion is not.
+const flatten = (text: string): string => text.replace(/\s+/g, ' ')
+
+// The "Wrong item" correction bullet alone, so the ordered procedure is pinned
+// where it lives rather than matched anywhere else in the skill.
+function correctionBullet(source: string): string {
+  const start = source.search(/^-\s*Wrong item\b/m)
+  expect(start, 'the "Wrong item" correction bullet must exist').toBeGreaterThanOrEqual(0)
+  const end = source.indexOf('\n- ', start + 1)
+  return flatten(source.slice(start, end === -1 ? undefined : end))
+}
+
+describe('food-logging skill — correction-flow guidance (issue #171, pinned by #206)', () => {
+  it('states the ordered correction procedure get_day -> items[].item_id -> update_meal_item', () => {
+    const bullet = correctionBullet(skill)
+    expect(bullet).toMatch(/correct an existing item in this order/i)
+    const day = bullet.indexOf('`get_day`')
+    const item = bullet.search(/items\[\][^;]{0,80}?item_id/)
+    const update = bullet.indexOf('update_meal_item')
+    expect(day, 'step (a) calls get_day first').toBeGreaterThanOrEqual(0)
+    expect(item, 'get_day output carries meals[].items[].item_id').toBeGreaterThan(day)
+    expect(update, 'update_meal_item is the last step').toBeGreaterThan(item)
+    expect(bullet.slice(update), 'update_meal_item receives that item_id').toMatch(/item_id/)
+  })
+
+  it("states the \"no separate 'list items' tool\" rule and that get_day returns item_id", () => {
+    const flat = flatten(skill)
+    expect(flat).toMatch(/no\s+separate\s+['‘’]list\s+items['‘’]\s+tool/i)
+    expect(flat).toMatch(/`get_day`[\s\S]{0,60}?returns\s+`item_id`/i)
+  })
+
+  it('docs/MCP_TOOLS.md get_day section carries the matching item-id / no-listing-tool note', () => {
+    const start = mcpToolsSource.indexOf('### `get_day`')
+    expect(start, 'docs/MCP_TOOLS.md must document get_day').toBeGreaterThanOrEqual(0)
+    const next = mcpToolsSource.indexOf('\n### ', start + 1)
+    const section = flatten(mcpToolsSource.slice(start, next === -1 ? undefined : next))
+    expect(section).toMatch(/`get_day`\s+to\s+enumerate\s+item\s+IDs\s+before\s+`update_meal_item`/i)
+    expect(section).toMatch(/no\s+standalone\s+item-listing\s+tool/i)
+  })
+
+  it('bundled plugin skill is byte-identical to the root skill', () => {
+    expect(
+      pluginSkillBytes.equals(skillBytes),
+      `plugins/morsel/skills/food-logging/SKILL.md (${pluginSkillBytes.length} B) must be a byte copy of skills/food-logging/SKILL.md (${skillBytes.length} B)`,
+    ).toBe(true)
   })
 })
