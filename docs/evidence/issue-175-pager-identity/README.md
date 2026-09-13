@@ -92,7 +92,7 @@ files, not a rerun.
 | `mise exec node@22 -- npm ci` | 0 (256 packages) |
 | `npm run typecheck` | 0 |
 | `npm run lint` | 0 |
-| `npm test` (vitest, default 5 s per-test budget) | 1 — 2 timeouts (`server/http.test.ts`, `server/tool-classification.test.ts`), 0 assertions, 554/556 passed, host load 10.7; the load-skew class (no iOS file is reachable from the JS suite) |
+| `npm test` (vitest, default 5 s per-test budget) | 1 — 2 timeouts (`server/http.test.ts`, `server/tool-classification.test.ts`), 0 assertions, 554/556 passed, host load 10.7; the load-skew class = vitest's 5 s budget under host load, and it is NOT a reachability argument: the JS suite DOES read iOS sources as text (8 hosted contract suites read `MorselApp.swift`/`HistoryView.swift`, starting at `v1-journal-contract.test.ts:19`), so a Swift edit can red hosted CI — hosted CI `quality` ran the FULL `npm test` at this head and passed (run 34724083281) |
 | `npx vitest run --testTimeout=60000 <those two files>` (diagnostic only) | 0 — 10/10 passed |
 | `swiftlint lint --strict` (app/) | 0 — 0 violations, 0 serious in 100 files |
 | `xcodegen generate` | 0 — `project.pbxproj` +4 lines (the new test file's registration only) |
@@ -119,7 +119,9 @@ files, not a rerun.
   exposes 0 accessibility elements and `hitTest` returns `_UIHostingView`
   everywhere — the machine seam stands in, as in #174); the hinge's 3D pose in
   captures (`drawHierarchy` cannot reproduce `rotation3DEffect`, so the pose is
-  pinned by `JournalHingeSeamTests` + `issue-111-hinged-turn-contract.test.ts`
-  and the captures show settled/revisited pages); a mid-session change of the
+  pinned by the `JournalHingeSeamTests` class in
+  `app/Tests/MorselTests/JournalFollowUpTests.swift:167` +
+  `issue-111-hinged-turn-contract.test.ts` and the captures show settled/revisited
+  pages); a mid-session change of the
   system Reduce Motion setting (the suite instantiates the Reduce Motion path
   directly, mirroring #174).
