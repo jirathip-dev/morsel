@@ -23,13 +23,16 @@ extension SupabaseDashboardRepository {
             throw MorselError.invalidData("The history range could not be calculated.")
         }
 
-        let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: nextDay)
-        let items = try await loadMealItems(client, logs: logs)
-        let goalRows = try await loadGoals(client, userID: authenticatedUserID)
-        let profileRows = try await loadProfiles(client, userID: authenticatedUserID)
-        let weightRows = try await loadWeightTrend(
+        // Issue #178 — the independent goal/profile/weight reads overlap the
+        // logs→items chain (bounded by ReadGraph.maxInFlightRequests).
+        async let goalRowsTask = loadGoals(client, userID: authenticatedUserID)
+        async let profileRowsTask = loadProfiles(client, userID: authenticatedUserID)
+        async let weightRowsTask = loadWeightTrend(
             client, userID: authenticatedUserID, start: trendStart, end: nextDay
         )
+        let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: nextDay)
+        let items = try await loadMealItems(client, logs: logs)
+        let (goalRows, profileRows, weightRows) = try await (goalRowsTask, profileRowsTask, weightRowsTask)
 
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)
