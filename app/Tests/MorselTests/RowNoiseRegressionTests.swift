@@ -147,7 +147,12 @@ final class RowNoiseRegressionTests: XCTestCase {
                       "the row must stay one combined element, not a pile of labels")
         XCTAssertTrue(row.contains(".accessibilityHint(\"Opens the correction sheet\")"))
         XCTAssertTrue(row.contains(".contentShape(Rectangle())"))
-        XCTAssertTrue(row.contains(".onTapGesture"))
+        // Issue #229 retarget: the row is the design's Button (its `.row`
+        // is a <button> with an :active lift), so the tap path is the row's
+        // Button action — still ONE combined accessible element whose
+        // activation opens the same food sheet, pinned end-to-end below.
+        XCTAssertTrue(row.contains("Button {"))
+        XCTAssertTrue(row.contains("onEdit(item)"))
         XCTAssertFalse(row.contains("ConfidenceBox"), "row confidence text is retired")
         XCTAssertFalse(row.contains("ProvenanceLabel"), "row provenance text is retired")
         XCTAssertFalse(row.contains("VerifyActionLabel"), "the row verify action is retired")

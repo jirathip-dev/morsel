@@ -100,21 +100,31 @@ final class FoodArtworkFallbackTests: XCTestCase {
         )
     }
 
-    func testOwnerFoodNamesOutsideTheCatalogUseTheNeutralSign() throws {
+    /// Issue #229 retarget (extension, not a weakening): the four owner foods
+    /// are the approved Variant A subjects, so the ROW artwork carries their A
+    /// studies while the #199 library resolver itself is unchanged — a food
+    /// neither set knows still resolves to the neutral sign.
+    func testOwnerFoodNamesCarryApprovedAStudiesWhileTheLibraryIsUnchanged() throws {
         let neutral = try catalogAsset("fallback-neutral")
-        for name in ownerFoodNames {
-            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), "\(name) is deliberately off-catalog")
+        for (name, study) in zip(ownerFoodNames, approvedAStudies) {
+            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), "\(name) stays off the #199 catalog")
             XCTAssertEqual(
                 FoodArtworkResolver.resolve(items: [artworkItem(name)], in: assets), .neutral(neutral),
-                "\(name) must resolve to the neutral sign, never blank"
+                "the library-only path still answers with the neutral sign for \(name)"
+            )
+            XCTAssertEqual(
+                JournalRowArtwork.resolve(items: [artworkItem(name)], assets: assets), .study(study),
+                "\(name)'s row carries its approved A study"
             )
         }
         let ownerMeal = ownerFoodNames.map { artworkItem($0) }
         XCTAssertEqual(
-            FoodArtworkResolver.resolve(items: ownerMeal, in: assets), .neutral(neutral),
-            "the owner's mixed meal is never blank and never one arbitrary ingredient"
+            JournalRowArtwork.resolve(items: ownerMeal, assets: assets), .study(.unknown),
+            "the owner's mixed A meal paints the neutral sign, never one arbitrary ingredient"
         )
     }
+
+    private let approvedAStudies: [JournalArtworkStudy] = [.focaccia, .mortadella, .stracciatella, .vegetables]
 
     func testNeutralStudyIsNeverResolvedAsAnIdentifiedFoodOrCategory() throws {
         let neutral = try catalogAsset("fallback-neutral")

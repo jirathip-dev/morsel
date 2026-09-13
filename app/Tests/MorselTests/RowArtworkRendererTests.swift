@@ -91,7 +91,10 @@ final class RowArtworkRendererTests: XCTestCase {
     }
 
     func testSharedRowSlotRendersTheNeutralSignForAnUnknownOrMixedMeal() throws {
-        let unknown = try render(MealArtworkSlot(items: [item("Focaccia bread")]))
+        // Issue #229 retarget: the design's own subject names (Focaccia bread,
+        // …) now carry their approved A studies, so the neutral-sign case is
+        // exercised with a food neither the A set nor the #199 library knows.
+        let unknown = try render(MealArtworkSlot(items: [item("pad thai from the corner stall")]))
         XCTAssertGreaterThan(
             nonWhitePixelCount(unknown), 64,
             "an off-catalog food row must render the neutral eating sign, never blank"
