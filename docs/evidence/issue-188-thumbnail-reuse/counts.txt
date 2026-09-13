@@ -1,10 +1,14 @@
 # Issue #188 — counts and memory evidence (raw lines)
 
-Source: `.lane-logs/xcodebuild-split2.log` — the GREEN native run
-(`xcodebuild test -skip-testing:MorselTests/GoalsPolishTests`, raw exit 0,
-368 tests / 0 failures) on the lane simulator `Morsel188-iPhone16`
-(UDID `40D8CFB4-2345-409C-B971-463CF846BEA0`, iOS 26.5), unsigned Debug build
-(`CODE_SIGNING_ALLOWED=NO`, simulator — **not a physical device**).
+Source: `.lane-logs/xcodebuild-fullrun2.log` — the single COMPLETE full-suite
+invocation at the delivered head (`xcodebuild test`, no skip/only flags, raw
+exit 0, **373 tests / 0 failures**, 63 suites) on the lane simulator
+`Morsel188-iPhone16` (UDID `E5EF858B-050B-4866-8EC3-E836ABE5EFC5`, iOS 26.5),
+unsigned Debug build (`CODE_SIGNING_ALLOWED=NO`, simulator — **not a physical
+device**). The first full invocation hit the documented `GoalsPolishTests`
+wedge and was killed (raw `xcodebuild=143`); the warm rerun on the same
+simulator is the complete run (`.lane-logs/xcodebuild-fullrun1.log` holds the
+wedged attempt as context).
 
 Synthetic fixtures only: generated 2400×1200 / 2400×3000 / 2400×3200 JPEGs.
 No user photo, health value, token or signed URL appears anywhere.
@@ -91,7 +95,8 @@ error: ... XCTAssertLessThanOrEqual failed: ("2400.0") is greater than ("1290.0"
 error: ... XCTAssertEqual failed: ("6") is not equal to ("1") - identical concurrent reads must share one fetch
 redprobe=65
 
-# HEAD (this lane)
-xcodebuild=0   # -skip-testing:MorselTests/GoalsPolishTests → 368 tests, 0 failures
-xcodebuild=0   # -only-testing:MorselTests/GoalsPolishTests → 5 tests, 0 failures
+# HEAD (this lane) — ONE complete full-suite invocation, no skip/only flags
+xcodebuild=0   # xcodebuild test (all suites) → 373 tests, 0 failures, ** TEST SUCCEEDED **
+# first attempt (same command) hit the documented GoalsPolishTests wedge and was killed:
+xcodebuild=143 # wedged at GoalsPolishTests' first case, 0.0% CPU after 167 cases → warm rerun completed
 ```

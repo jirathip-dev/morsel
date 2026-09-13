@@ -4,11 +4,14 @@ Base `0db1cb5` (`issue/188-thumbnail-reuse`, cut from `origin/staging`); head =
 this lane's single commit (exact sha in the lane `.report.md`).
 
 Evidence captured on the lane's dedicated simulator **`Morsel188-iPhone16`**
-(UDID `40D8CFB4-2345-409C-B971-463CF846BEA0`, iOS 26.5), unsigned Debug build
-(`CODE_SIGNING_ALLOWED=NO`, simulator — **not a physical device**). Raw lines
-below are lifted verbatim from `.lane-logs/` (untracked):
-`counts.txt` holds the counted cold/warm/replacement/decode/memory evidence and
-the RED/GREEN exits.
+(iOS 26.5), unsigned Debug build (`CODE_SIGNING_ALLOWED=NO`, simulator — **not
+a physical device**). The lane's evidence runs used UDID
+`40D8CFB4-2345-409C-B971-463CF846BEA0` (that simulator instance was reclaimed in
+the lane cleanup); the **final gate run** in this README ran on the recreated
+lane simulator with the same name, UDID
+`E5EF858B-050B-4866-8EC3-E836ABE5EFC5`. Raw lines below are lifted verbatim
+from `.lane-logs/` (untracked): `counts.txt` holds the counted
+cold/warm/replacement/decode/memory evidence and the RED/GREEN exits.
 
 ## What changed
 
@@ -107,12 +110,26 @@ gate evidence) `npx vitest run --testTimeout=60000 <those three files>` passes
 probes this lane retargeted pass in the same suite (`app/photo-*.test.ts`,
 17/17). See `.report.md` for both raw exits.
 
-The native suite: the full `xcodebuild test` invocation hits the documented
-fresh-process `GoalsPolishTests` wedge on this host (frozen at its first case,
-no results), so the suite is reported as its two documented legs —
-`-skip-testing:MorselTests/GoalsPolishTests` (368 tests / 0 failures) and
-`-only-testing:MorselTests/GoalsPolishTests` (5 tests / 0 failures), both raw
-exit 0.
+The native gate is **ONE complete full-suite invocation** at the delivered
+head, no skip/only flags, on the lane simulator
+(`UDID E5EF858B-050B-4866-8EC3-E836ABE5EFC5`, iOS 26.5):
+
+```
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel \
+  -destination "platform=iOS Simulator,id=E5EF858B-050B-4866-8EC3-E836ABE5EFC5" \
+  CODE_SIGNING_ALLOWED=NO -derivedDataPath /tmp/xc-dd-188
+  → "Executed 373 tests, with 0 failures (0 unexpected) in 33.986 (34.428) seconds"   (63 suites)
+  → ** TEST SUCCEEDED ** ; xcodebuild=0
+```
+
+The documented fresh-process `GoalsPolishTests` wedge did occur on the first
+full invocation (frozen at its first case with xcodebuild at 0.0% CPU after 167
+cases; killed → `xcodebuild=143`), and the single warm rerun on the SAME
+simulator completed the whole suite: **373 tests / 0 failures, raw exit 0**
+(`.lane-logs/xcodebuild-fullrun1.log` = wedged first attempt,
+`.lane-logs/xcodebuild-fullrun2.log` = the complete run). The earlier split
+legs (`-skip-testing` / `-only-testing`) are superseded by that single-run
+truth and are only kept as context for the recovery.
 
 ## Honest scope (what this lane did NOT verify)
 
