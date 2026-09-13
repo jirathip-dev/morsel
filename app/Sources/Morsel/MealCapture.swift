@@ -155,22 +155,54 @@ enum FoodImageStore {
 }
 
 enum FoodImageCompressor {
+    /// Issue #187 — what one preparation measured: the pixel dimensions it
+    /// read and produced, the JPEG bytes it returned, and where the
+    /// synchronous UIKit body actually ran. `ranOffMainThread` is sampled
+    /// INSIDE that body, so moving a call site cannot fake it. No user data.
+    struct Trace: Equatable {
+        let sourcePixels: CGSize
+        let outputPixels: CGSize
+        let outputBytes: Int
+        let ranOffMainThread: Bool
+    }
+
     static func prepare(data: Data, mimeType: String) throws -> FoodImageUpload {
+        try prepareTraced(data: data, mimeType: mimeType).upload
+    }
+
+    static func compress(_ image: UIImage) throws -> FoodImageUpload {
+        try compressTraced(image).upload
+    }
+
+    /// Issue #187 — `prepare` plus the trace of that preparation: the same
+    /// validation, decode, downsampling and JPEG search, with the measured
+    /// facts the off-main worker reports.
+    static func prepareTraced(
+        data: Data,
+        mimeType: String
+    ) throws -> (upload: FoodImageUpload, trace: Trace) {
         try FoodImageStore.validateSourceMimeType(mimeType)
         guard let image = UIImage(data: data) else {
             throw FoodImageError.invalidImage
         }
-        return try compress(image)
+        return try compressTraced(image)
     }
 
-    static func compress(_ image: UIImage) throws -> FoodImageUpload {
-        let sourceDimension = max(image.size.width, image.size.height)
+    /// Issue #187 — `compress` plus the trace of that preparation.
+    static func compressTraced(_ image: UIImage) throws -> (upload: FoodImageUpload, trace: Trace) {
+        let ranOffMainThread = !Thread.isMainThread
+        let sourcePixels = pixelSize(of: image)
+        let sourceDimension = max(sourcePixels.width, sourcePixels.height)
         guard sourceDimension.isFinite, sourceDimension > 0 else {
             throw FoodImageError.invalidImage
         }
 
         var targetDimension = min(sourceDimension, 2_048)
         for _ in 0..<5 {
+            // Issue #187 — a caller that superseded this preparation (newer
+            // pick / removed photo / left route) stops it at the next
+            // downscale bound instead of finishing work nobody can publish.
+            try Task.checkCancellation()
             guard let resized = resized(image, maxDimension: targetDimension) else {
                 throw FoodImageError.compressionFailed
             }
@@ -179,12 +211,27 @@ enum FoodImageCompressor {
                     continue
                 }
                 if data.count <= FoodImageStore.targetMaxBytes {
-                    return FoodImageUpload(data: data, mimeType: "image/jpeg")
+                    return (
+                        FoodImageUpload(data: data, mimeType: "image/jpeg"),
+                        Trace(
+                            sourcePixels: sourcePixels,
+                            outputPixels: pixelSize(of: resized),
+                            outputBytes: data.count,
+                            ranOffMainThread: ranOffMainThread
+                        )
+                    )
                 }
             }
             targetDimension *= 0.75
         }
         throw FoodImageError.tooLarge
+    }
+
+    /// Pixel dimensions (not points): picked bytes and camera captures carry
+    /// scale 1; the trace always reports pixels.
+    private static func pixelSize(of image: UIImage) -> CGSize {
+        let scale = image.scale > 0 ? image.scale : 1
+        return CGSize(width: image.size.width * scale, height: image.size.height * scale)
     }
 
     private static func resized(_ image: UIImage, maxDimension: CGFloat) -> UIImage? {
@@ -202,6 +249,59 @@ enum FoodImageCompressor {
         return UIGraphicsImageRenderer(size: size, format: format).image { _ in
             image.draw(in: CGRect(origin: .zero, size: size))
         }
+    }
+}
+
+/// Issue #187 — the bounded off-main worker that prepares selected photos.
+///
+/// ONE shared actor runs ONE preparation at a time: the whole synchronous
+/// decode / downsample / JPEG-search body executes on this actor's (non-main)
+/// executor instead of the MainActor tasks Add Meal and Edit used to run, so
+/// the main actor stays serviced for the duration. Validation, orientation,
+/// target size and error behaviour are exactly `FoodImageCompressor`'s — only
+/// the executing actor changes.
+actor MealPhotoPreparationWorker {
+    static let shared = MealPhotoPreparationWorker()
+
+    /// Runtime witness for the bounded-concurrency / bounded-memory claims:
+    /// the highest number of preparations that were ever in flight at once.
+    /// The bodies never suspend, so this stays 1 unless the worker is made
+    /// concurrent.
+    private(set) var peakConcurrentPreparations = 0
+    private var activePreparations = 0
+
+    func prepare(data: Data, mimeType: String) throws -> FoodImageUpload {
+        try prepareTraced(data: data, mimeType: mimeType).upload
+    }
+
+    func compress(_ image: UIImage) throws -> FoodImageUpload {
+        try compressTraced(image).upload
+    }
+
+    /// Issue #187 — `prepare` plus that preparation's trace (source/output
+    /// pixel dimensions, bytes, and the off-main witness sampled where the
+    /// work ran) — the facts the #187 native evidence records.
+    func prepareTraced(
+        data: Data,
+        mimeType: String
+    ) throws -> (upload: FoodImageUpload, trace: FoodImageCompressor.Trace) {
+        try run { try FoodImageCompressor.prepareTraced(data: data, mimeType: mimeType) }
+    }
+
+    /// Issue #187 — `compress` plus that preparation's trace.
+    func compressTraced(
+        _ image: UIImage
+    ) throws -> (upload: FoodImageUpload, trace: FoodImageCompressor.Trace) {
+        try run { try FoodImageCompressor.compressTraced(image) }
+    }
+
+    private func run(
+        _ preparation: () throws -> (upload: FoodImageUpload, trace: FoodImageCompressor.Trace)
+    ) throws -> (upload: FoodImageUpload, trace: FoodImageCompressor.Trace) {
+        activePreparations += 1
+        peakConcurrentPreparations = max(peakConcurrentPreparations, activePreparations)
+        defer { activePreparations -= 1 }
+        return try preparation()
     }
 }
 

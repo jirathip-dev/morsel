@@ -26,6 +26,12 @@ struct MealPhotoEditorSection: View {
     @State private var existingImage: UIImage?
     @State private var existingImageFailed = false
     @State private var message: String?
+    /// Issue #187 — stamps every preparation so a late result or error from a
+    /// replaced pick, a removed photo, or a left sheet never publishes.
+    @State private var preparation = MealPhotoPreparationGate()
+    /// Issue #187 — the in-flight off-main preparation, cancelled by a newer
+    /// pick, Remove, or the sheet going away.
+    @State private var preparationTask: Task<Void, Never>?
 
     private var existingPath: String? {
         item.mealImage?.path
@@ -108,6 +114,11 @@ struct MealPhotoEditorSection: View {
             }
             loadPhoto(item)
         }
+        .onDisappear {
+            // Issue #187 — leaving the sheet retires the in-flight preparation
+            // so its late result/error publishes nothing.
+            cancelPreparation()
+        }
         .sheet(isPresented: $isShowingCamera) {
             CameraPicker(
                 onCapture: { image in
@@ -133,6 +144,7 @@ struct MealPhotoEditorSection: View {
                 Button("Remove") {
                     self.pendingPhoto = nil
                     pickerItem = nil
+                    cancelPreparation()
                 }
                 .font(.morselData)
                 .foregroundStyle(Color.morselForest)
@@ -206,33 +218,58 @@ struct MealPhotoEditorSection: View {
     }
 
     private func loadPhoto(_ item: PhotosPickerItem) {
-        isProcessingPhoto = true
-        message = nil
-        Task { @MainActor in
-            do {
-                guard let data = try await item.loadTransferable(type: Data.self) else {
-                    throw FoodImageError.invalidImage
-                }
-                let mimeType = item.supportedContentTypes.first?.preferredMIMEType ?? ""
-                pendingPhoto = try FoodImageCompressor.prepare(data: data, mimeType: mimeType)
-            } catch {
-                message = DashboardUserMessage.userMessage(for: error)
+        preparePhoto {
+            guard let data = try await item.loadTransferable(type: Data.self) else {
+                throw FoodImageError.invalidImage
             }
-            isProcessingPhoto = false
+            let mimeType = item.supportedContentTypes.first?.preferredMIMEType ?? ""
+            return try await MealPhotoPreparationWorker.shared.prepare(data: data, mimeType: mimeType)
         }
     }
 
     private func prepareCameraImage(_ image: UIImage) {
-        isProcessingPhoto = true
-        message = nil
-        Task { @MainActor in
-            do {
-                pendingPhoto = try FoodImageCompressor.compress(image)
-            } catch {
-                message = DashboardUserMessage.userMessage(for: error)
-            }
-            isProcessingPhoto = false
+        preparePhoto {
+            try await MealPhotoPreparationWorker.shared.compress(image)
         }
+    }
+
+    /// Issue #187 — runs ONE preparation on the bounded off-main worker and
+    /// settles it through the gate: only the newest stamp publishes (as the
+    /// sheet's pending photo), and a failure reports the error line while the
+    /// pending photo/draft stays exactly as it was.
+    private func preparePhoto(_ work: @escaping () async throws -> FoodImageUpload) {
+        let stamp = beginPreparation()
+        preparationTask = Task { @MainActor in
+            let outcome: MealPhotoPreparationOutcome
+            do {
+                outcome = preparation.settle(.success(try await work()), for: stamp)
+            } catch {
+                outcome = preparation.settle(.failure(error), for: stamp)
+            }
+            if preparation.isCurrent(stamp) {
+                isProcessingPhoto = false
+            }
+            MealPhotoPreparationGate.apply(outcome, photo: &pendingPhoto, message: &message)
+        }
+    }
+
+    /// Starts a preparation: the sheet shows the honest "Preparing photo"
+    /// state (and blocks Save) until THIS stamp settles, and every older stamp
+    /// retires so a late result/error can no longer publish.
+    private func beginPreparation() -> Int {
+        preparationTask?.cancel()
+        message = nil
+        isProcessingPhoto = true
+        return preparation.begin()
+    }
+
+    /// Retires the in-flight preparation (newer pick, Remove, leaving the
+    /// sheet): its late result/error publishes nothing.
+    private func cancelPreparation() {
+        preparationTask?.cancel()
+        preparationTask = nil
+        preparation.invalidate()
+        isProcessingPhoto = false
     }
 }
 
