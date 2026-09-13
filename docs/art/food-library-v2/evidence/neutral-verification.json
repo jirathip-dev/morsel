@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "catalog_total": 18,
+  "catalog_entry": {
+    "id": "fallback-neutral",
+    "name": "Food · fallback",
+    "aliases": [
+      "neutral food fallback",
+      "unknown food",
+      "mixed meal"
+    ],
+    "kind": "fallback",
+    "category": "neutral",
+    "description": "An empty irregular ceramic plate and a plain spoon in layered cream wash and broken ink. A neutral eating sign for unknown foods and mixed meals, never an identified dish, ingredient, category or portion.",
+    "dimensions": [
+      512,
+      512
+    ],
+    "master_dimensions": [
+      256,
+      256
+    ],
+    "viewBox": [
+      0,
+      0,
+      256,
+      256
+    ],
+    "source": "sources/fallback-neutral.svg",
+    "masters": [
+      "masters/fallback-neutral-paper.svg",
+      "masters/fallback-neutral-night.svg"
+    ],
+    "exports": [
+      "exports/fallback-neutral-paper-64.png",
+      "exports/fallback-neutral-paper-192.png",
+      "exports/fallback-neutral-paper-512.png",
+      "exports/fallback-neutral-night-64.png",
+      "exports/fallback-neutral-night-192.png",
+      "exports/fallback-neutral-night-512.png"
+    ],
+    "provenance": {
+      "type": "original-agent-authored-svg-ink-wash",
+      "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+      "rights": "Original artwork for Morsel; no third-party food artwork",
+      "meaning": "Neutral eating sign; never presented as an identified food or category",
+      "addition_authority": "https://github.com/jirathip-dev/morsel/issues/223",
+      "approval": "approved-direction-neutral-study-awaiting-fleet-review"
+    }
+  },
+  "determinism": {
+    "fallback-neutral-paper-64.png": {
+      "first": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "second": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "export": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "raw_exit": 0
+    },
+    "fallback-neutral-paper-192.png": {
+      "first": "ce769afa1541cf905cf39a8524b56f91c44ac8fea6af2086ee37e59ce872213e",
+      "second": "ce769afa1541cf905cf39a8524b56f91c44ac8fea6af2086ee37e59ce872213e",
+      "export": "ce769afa1541cf905cf39a8524b56f91c44ac8fea6af2086ee37e59ce872213e",
+      "raw_exit": 0
+    },
+    "fallback-neutral-paper-512.png": {
+      "first": "5f09d3a19c9a67fed0633007ebdd7273c28eed9d226245a52c1c6788e6b3433a",
+      "second": "5f09d3a19c9a67fed0633007ebdd7273c28eed9d226245a52c1c6788e6b3433a",
+      "export": "5f09d3a19c9a67fed0633007ebdd7273c28eed9d226245a52c1c6788e6b3433a",
+      "raw_exit": 0
+    },
+    "fallback-neutral-night-64.png": {
+      "first": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "second": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "export": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "raw_exit": 0
+    },
+    "fallback-neutral-night-192.png": {
+      "first": "5d1a0dbffdfa1822c02b54dabd13a6ea77edcd6ff3e0d6f5eaf3ae5d7ca87160",
+      "second": "5d1a0dbffdfa1822c02b54dabd13a6ea77edcd6ff3e0d6f5eaf3ae5d7ca87160",
+      "export": "5d1a0dbffdfa1822c02b54dabd13a6ea77edcd6ff3e0d6f5eaf3ae5d7ca87160",
+      "raw_exit": 0
+    },
+    "fallback-neutral-night-512.png": {
+      "first": "73f021ab7e4dab3586e6160c59dfaf1851e4539bcb4f66565b9088e36ccc9685",
+      "second": "73f021ab7e4dab3586e6160c59dfaf1851e4539bcb4f66565b9088e36ccc9685",
+      "export": "73f021ab7e4dab3586e6160c59dfaf1851e4539bcb4f66565b9088e36ccc9685",
+      "raw_exit": 0
+    }
+  },
+  "byte_identity": [
+    {
+      "export": "docs/art/food-library-v2/exports/fallback-neutral-paper-64.png",
+      "export_sha256": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "bundle": "app/Resources/FoodArt/fallback-neutral-paper-64.png",
+      "bundle_sha256": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17"
+    },
+    {
+      "export": "docs/art/food-library-v2/exports/fallback-neutral-night-64.png",
+      "export_sha256": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "bundle": "app/Resources/FoodArt/fallback-neutral-night-64.png",
+      "bundle_sha256": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab"
+    }
+  ],
+  "baseline_files_unchanged": 154,
+  "negative_probes": {
+    "neutral_kind_food_rejected": "neutral identity contract",
+    "missing_neutral_rejected": "issue-223 release is exactly original 17 plus fallback-neutral"
+  },
+  "scope": "Asset bytes/catalog only; no Swift build or runtime integration claim."
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "library_version": "2.0.0",
+  "library_version": "2.1.0",
   "approval": "direction-approved-full-set-awaiting-fleet-review",
   "assets": [
     {
@@ -262,6 +262,53 @@
         "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
         "rights": "Original artwork for Morsel; no third-party food artwork",
         "meaning": "Generic illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim"
+      }
+    },
+    {
+      "id": "fallback-neutral",
+      "name": "Food · fallback",
+      "aliases": [
+        "neutral food fallback",
+        "unknown food",
+        "mixed meal"
+      ],
+      "kind": "fallback",
+      "category": "neutral",
+      "description": "An empty irregular ceramic plate and a plain spoon in layered cream wash and broken ink. A neutral eating sign for unknown foods and mixed meals, never an identified dish, ingredient, category or portion.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-neutral.svg",
+      "masters": [
+        "masters/fallback-neutral-paper.svg",
+        "masters/fallback-neutral-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-neutral-paper-64.png",
+        "exports/fallback-neutral-paper-192.png",
+        "exports/fallback-neutral-paper-512.png",
+        "exports/fallback-neutral-night-64.png",
+        "exports/fallback-neutral-night-192.png",
+        "exports/fallback-neutral-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "meaning": "Neutral eating sign; never presented as an identified food or category",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/223",
+        "approval": "approved-direction-neutral-study-awaiting-fleet-review"
       }
     },
     {

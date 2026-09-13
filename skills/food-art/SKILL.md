@@ -1,7 +1,7 @@
 ---
 name: food-art
 description: Use when adding Morsel ink-and-wash food art.
-version: 0.3.0
+version: 0.4.0
 author: Guy (jirathip-k), Hermes Agent
 license: MIT
 platforms: [macos, linux]
@@ -17,6 +17,16 @@ Author original generic food illustrations and export them offline. No runtime
 generation, app asset wiring, database, profile, photo or nutrition changes.
 The current edition is `docs/art/food-library-v2/`; the first delivery and
 four-subject R1 gate remain historical controls, not the current authoring target.
+
+## Current release · issue 223
+
+Issue 223 authorizes exactly the original 17 entries plus `fallback-neutral`
+(schema 2 / library 2.1.0). Category artwork travels with its category label;
+the neutral study must never be presented as an identified food.
+Read `references/neutral-fallback.md` for current registration, bundled-copy,
+determinism and review commands. The 17-entry instructions below describe the
+historical issue-197 round; the current release gate requires exactly 18 and
+rejects a nineteenth fixture. App integration remains a separate lane.
 
 ## When to Use
 

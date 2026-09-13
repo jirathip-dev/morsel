@@ -1,0 +1,8 @@
+{
+  "id": "fallback-neutral",
+  "name": "Food · fallback",
+  "aliases": ["neutral food fallback", "unknown food", "mixed meal"],
+  "kind": "fallback",
+  "category": "neutral",
+  "description": "An empty irregular ceramic plate and a plain spoon in layered cream wash and broken ink. A neutral eating sign for unknown foods and mixed meals, never an identified dish, ingredient, category or portion."
+}

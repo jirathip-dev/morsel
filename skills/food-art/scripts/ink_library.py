@@ -23,6 +23,9 @@ BASE = ROOT / 'docs/art/food-library'
 CONTROL = ROOT / 'docs/art/food-refinement-197-r1'
 THEMES = ('paper', 'night')
 SIZES = (64, 192, 512)
+NEUTRAL_ID = 'fallback-neutral'
+LIBRARY_VERSION = '2.1.0'
+ADDITION_AUTHORITY = 'https://github.com/jirathip-dev/morsel/issues/223'
 APPROVED = ('mango', 'stir-fried-noodles', 'coffee')
 APPROVAL = 'https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904'
 TAGS = {'svg', 'title', 'desc', 'defs', 'g', 'path', 'circle', 'ellipse', 'line',
@@ -56,7 +59,9 @@ def subjects(out=OUT):
     for a in values:
         require(re.fullmatch(r'[a-z][a-z0-9-]{2,63}', a['id']), 'unsafe ID')
         require(a['kind'] in ('food', 'fallback'), 'invalid kind')
-        require(a['category'] in ('produce', 'protein', 'grains', 'drinks', 'soup'), 'invalid category')
+        require(a['category'] in ('produce', 'protein', 'grains', 'drinks', 'soup', 'neutral'), 'invalid category')
+        if a['category'] == 'neutral' or a['id'] == NEUTRAL_ID:
+            require(a['id'] == NEUTRAL_ID and a['category'] == 'neutral' and a['kind'] == 'fallback', 'neutral identity contract')
         require(all(isinstance(a[k], str) and a[k] for k in ('name', 'description')), 'missing metadata')
         require(isinstance(a['aliases'], list) and a['aliases'] and
                 all(isinstance(s, str) and s for s in a['aliases']), 'missing aliases')
@@ -144,9 +149,12 @@ def build(out=OUT):
                         'provenance': {'type': 'original-agent-authored-svg-ink-wash',
                                        'direction_approval': APPROVAL,
                                        'rights': 'Original artwork for Morsel; no third-party food artwork',
-                                       'meaning': 'Generic illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim'}})
+                                       'meaning': 'Generic illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim',
+                                       **({'addition_authority': ADDITION_AUTHORITY,
+                                           'approval': 'approved-direction-neutral-study-awaiting-fleet-review',
+                                           'meaning': 'Neutral eating sign; never presented as an identified food or category'} if id == NEUTRAL_ID else {})}})
     dump(cache_path, new_cache)
-    dump(out / 'catalog.json', {'schema_version': 2, 'library_version': '2.0.0',
+    dump(out / 'catalog.json', {'schema_version': 2, 'library_version': LIBRARY_VERSION,
                                'approval': 'direction-approved-full-set-awaiting-fleet-review',
                                'assets': catalog})
     result = {'raw_exit': 0, 'elapsed_seconds': round(time.perf_counter() - start, 6),
@@ -163,10 +171,10 @@ def verify(out=OUT, allow_additions=False):
     current_ids = {a['id'] for a in entries}
     require(set(original_by_id) <= current_ids, 'existing stable ID removed')
     if not allow_additions:
-        require(current_ids == set(original_by_id), 'issue-197 release is exactly the existing catalog')
-        require(len(entries) == 17 and sum(a['kind'] == 'food' for a in entries) == 13, '17 entries / 13 foods required')
+        require(current_ids == set(original_by_id) | {NEUTRAL_ID}, 'issue-223 release is exactly original 17 plus fallback-neutral')
+        require(len(entries) == 18 and sum(a['kind'] == 'food' for a in entries) == 13, '18 entries / 13 foods required')
     catalog = json.loads((out / 'catalog.json').read_text())
-    require(catalog['schema_version'] == 2 and catalog['library_version'] == '2.0.0', 'invalid catalog version')
+    require(catalog['schema_version'] == 2 and catalog['library_version'] == LIBRARY_VERSION, 'invalid catalog version')
     require(catalog['approval'] == 'direction-approved-full-set-awaiting-fleet-review', 'misleading approval state')
     require([a['id'] for a in catalog['assets']] == [a['id'] for a in entries], 'catalog/source parity')
     cache = json.loads((out / 'build-cache.json').read_text())
@@ -181,6 +189,9 @@ def verify(out=OUT, allow_additions=False):
         require(published['source'] == f'sources/{id}.svg' and published['masters'] + published['exports'] == asset_paths(id), 'catalog path contract')
         require(published['dimensions'] == [512, 512] and published['master_dimensions'] == [256, 256] and published['viewBox'] == [0, 0, 256, 256], 'dimension metadata')
         require(published['provenance']['direction_approval'] == APPROVAL, 'missing provenance')
+        if id == NEUTRAL_ID:
+            require(published['provenance'].get('addition_authority') == ADDITION_AUTHORITY, 'missing neutral authority')
+            require(published['provenance'].get('approval') == 'approved-direction-neutral-study-awaiting-fleet-review', 'misleading neutral approval')
         for theme in THEMES:
             master = out / f'masters/{id}-{theme}.svg'
             body = compile_svg((out / f'sources/{id}.svg').read_text(), (out / 'wash-defs.svginc').read_text(), theme)

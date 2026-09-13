@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 from ink_library import OUT, BASE, THEMES, PAL, APPROVED, subjects, dump, write
 
 COHORTS = {
+    'neutral': ['fallback-neutral'],
     'journal': ['jasmine-rice', 'grilled-chicken', 'mango', 'coffee'],
     'produce': ['avocado', 'banana', 'broccoli', 'orange'],
     'meals': ['fried-egg', 'salmon', 'toast', 'vegetable-soup', 'stir-fried-noodles'],
@@ -49,7 +50,7 @@ def run():
         im = Image.new('RGB', (1200, 1640), bg)
         d = ImageDraw.Draw(im)
         d.text((24, 14), 'A small pantry, in ink & wash', font=hand, fill=fg)
-        d.text((24, 71), f'{theme.upper()} / 13 FOODS + 4 CATEGORY FALLBACKS / DIRECTION APPROVED; FULL SET FOR FLEET REVIEW', font=mono, fill=fg)
+        d.text((24, 71), f'{theme.upper()} / 13 FOODS + 4 CATEGORY + 1 NEUTRAL / APPROVED DIRECTION; FLEET REVIEW PENDING', font=mono, fill=fg)
         for i, a in enumerate(entries):
             x, y = (i % 4)*300+16, 115+(i//4)*288
             art(im, a['id'], theme, 192, x, y)
@@ -57,18 +58,18 @@ def run():
             art(im, a['id'], theme, 40, x+223, y+116)
             d.text((x+208, y+187), '64 / 40', font=mono, fill=fg)
             d.text((x+4, y+207), a['name'], font=book, fill=fg)
-            tag = 'APPROVED R1 · UNCHANGED' if a['id'] in APPROVED else ('CORRECTED SILHOUETTE' if a['id']=='grilled-chicken' else ('CATEGORY FALLBACK' if a['kind']=='fallback' else 'EXTENDED TREATMENT'))
+            tag = 'APPROVED R1 · UNCHANGED' if a['id'] in APPROVED else ('CORRECTED SILHOUETTE' if a['id']=='grilled-chicken' else ('NEUTRAL · NOT IDENTIFIED FOOD' if a['id']=='fallback-neutral' else ('CATEGORY FALLBACK' if a['kind']=='fallback' else 'EXTENDED TREATMENT')))
             d.text((x+4, y+242), tag, font=mono, fill=fg)
             d.line((x+4, y+273, x+280, y+273), fill=PAL['ink'])
         d.text((24, 1598), 'DIGITALLY AUTHORED GENERIC ILLUSTRATIONS / NOT PHOTOS, PORTIONS, INGREDIENT OR NUTRITION EVIDENCE', font=mono, fill=fg)
         im.save(OUT / f'contact-{theme}.png')
 
-    im = Image.new('RGB', (1000, 1550), PAL['paper'])
+    im = Image.new('RGB', (1000, 1660), PAL['paper'])
     d = ImageDraw.Draw(im)
     for col, theme in enumerate(THEMES):
         x = col*500
         bg, fg = (PAL['paper'], PAL['dark']) if theme=='paper' else (PAL['dark'], PAL['paper'])
-        d.rectangle((x, 0, x+499, 1549), fill=bg)
+        d.rectangle((x, 0, x+499, 1659), fill=bg)
         d.text((x+20, 14), f'{theme.title()} · labeled optical checks', font=book, fill=fg)
         d.text((x+20, 49), 'NATIVE 64px + 40px / NO ZOOM CLAIM', font=mono, fill=fg)
         for i, a in enumerate(entries):
@@ -78,7 +79,7 @@ def run():
             d.text((x+158, y+8), a['name'], font=book, fill=fg)
             d.text((x+158, y+43), a['id'], font=mono, fill=fg)
             d.line((x+20, y+77, x+478, y+77), fill=PAL['ink'])
-        d.text((x+20, 1520), 'Generic illustrations; labels remain required.', font=mono, fill=fg)
+        d.text((x+20, 1620), 'Generic illustrations; labels remain required.', font=mono, fill=fg)
     im.save(OUT / 'optical-both.png')
 
     im = Image.new('RGB', (1000, 1200), PAL['paper'])
@@ -107,15 +108,15 @@ def run():
         for a in entries:
             id = a['id']
             cards += f'<article class="study" data-id="{id}"><img class="large" src="exports/{id}-{theme}-192.png" alt="{html.escape(a["description"])}"><h2>{html.escape(a["name"])}</h2><small>{id}</small><div class="native"><img src="exports/{id}-{theme}-64.png" alt="64 pixel study"><img class="tiny" src="exports/{id}-{theme}-64.png" alt="40 pixel study"><small>64 / 40</small></div><small>{a["category"]} · {a["kind"]}</small><div class="links"><a href="masters/{id}-{theme}.svg">SVG</a><a href="exports/{id}-{theme}-512.png">512 PNG</a></div></article>'
-        page(OUT / f'gallery-{theme}.html', '<small>MORSEL / ISSUE 197 / REFINED LIBRARY</small><h1>A small pantry, in ink & wash</h1><p>Direction approved. Full-set extension for fleet review. Generic illustrations—not meal photographs, portions, ingredient or nutrition evidence. No app integration.</p>'+nav+'<section class="grid">'+cards+'</section>', theme)
+        page(OUT / f'gallery-{theme}.html', '<small>MORSEL / ISSUE 223 / REFINED LIBRARY</small><h1>A small pantry, in ink & wash</h1><p>Direction approved. Full-set extension for fleet review. Generic illustrations—not meal photographs, portions, ingredient or nutrition evidence. No app integration.</p>'+nav+'<section class="grid">'+cards+'</section>', theme)
         for cohort, ids in COHORTS.items():
             rows=''
             for id in ids:
                 a=by_id[id]
-                detail='Category fallback · not identified food' if a['kind']=='fallback' else 'Illustration · not a meal photo'
+                detail='Neutral sign · not identified food' if id=='fallback-neutral' else ('Category fallback · not identified food' if a['kind']=='fallback' else 'Illustration · not a meal photo')
                 rows+=f'<section class="row" data-id="{id}"><img src="exports/{id}-{theme}-64.png" alt="Generic {html.escape(a["name"])} illustration"><div><h2>{html.escape(a["name"])}</h2><p>{detail}</p></div></section>'
-            page(OUT / f'phone-{cohort}-{theme}.html', f'<small>{theme.upper()} / {cohort.upper()} / ART FIXTURE</small><h1>In the food journal</h1><p class="notice">Fictional layout · not deployed UI.<br>Generic artwork; portion not represented.</p>'+rows+f'<footer>Real meal photographs stay photographs.<br><a class="back" href="gallery-{theme}.html">Back to library</a></footer>', theme, True)
-    page(OUT / 'index.html', '<small>MORSEL / ISSUE 197 / FULL-SET DESIGN HANDOFF</small><h1>Refined food library</h1><p>13 foods and 4 category fallbacks. Approved mango, noodles and coffee preserved. Chicken silhouette corrected. The remaining catalog extends that direction; fleet review is pending.</p><nav><a href="gallery-paper.html">Paper gallery</a><a href="gallery-night.html">Night gallery</a><a href="fallbacks-both.png">Category fallbacks</a><a href="optical-both.png">Native 64 / 40px</a><a href="evidence/chicken-gate/comparison.png">Chicken correction</a><a href="README.md">Handoff and commands</a></nav><h2>Paper contact sheet</h2><img class="sheet" src="contact-paper.png" alt="All 17 food and fallback studies on Paper"><h2>Night contact sheet</h2><img class="sheet" src="contact-night.png" alt="All 17 food and fallback studies on Night"><p>Offline editable SVG sources and bundled transparent PNGs. Not meal photos, portion, ingredient or nutrition evidence. No app wiring.</p>', 'paper')
+            page(OUT / f'phone-{cohort}-{theme}.html', f'<small>{theme.upper()} / {cohort.upper()} / ART FIXTURE</small><h1>In the food journal</h1><p class="notice">Fictional layout · not deployed UI.<br>Generic artwork; portion not represented.</p>'+rows+f'<footer>Food rows always use illustrations, even with a photo.<br><a class="back" href="gallery-{theme}.html">Back to library</a></footer>', theme, True)
+    page(OUT / 'index.html', '<small>MORSEL / ISSUE 223 / FULL-SET DESIGN HANDOFF</small><h1>Refined food library</h1><p>13 foods, 4 category fallbacks and 1 neutral eating sign. Approved mango, noodles and coffee preserved. Chicken silhouette corrected. The remaining catalog extends that direction; fleet review is pending.</p><nav><a href="gallery-paper.html">Paper gallery</a><a href="gallery-night.html">Night gallery</a><a href="fallbacks-both.png">Category fallbacks</a><a href="optical-both.png">Native 64 / 40px</a><a href="evidence/chicken-gate/comparison.png">Chicken correction</a><a href="README.md">Handoff and commands</a></nav><h2>Paper contact sheet</h2><img class="sheet" src="contact-paper.png" alt="All 18 food and fallback studies on Paper"><h2>Night contact sheet</h2><img class="sheet" src="contact-night.png" alt="All 18 food and fallback studies on Night"><p>Offline editable SVG sources and bundled transparent PNGs. Not meal photos, portion, ingredient or nutrition evidence. No app wiring.</p>', 'paper')
     result={'raw_exit':0,'seconds':time.perf_counter()-start,'scope':'Contact/native proof and HTML composition only; excludes exports, authoring, browser captures and review.', 'ids':[a['id'] for a in entries], 'phone_cohorts':COHORTS}
     dump(OUT / 'evidence/proofs.json',result)
     print(json.dumps(result,indent=2))

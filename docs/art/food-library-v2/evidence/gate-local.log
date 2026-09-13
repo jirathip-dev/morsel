@@ -1,8 +1,8 @@
 {
   "status": "PASS",
   "raw_exit": 0,
-  "local_html_links": 245,
-  "compiled_scripts": 8,
+  "local_html_links": 263,
+  "compiled_scripts": 11,
   "skill_frontmatter_and_required_links": "PASS",
   "note": "Repository-local checks, not the absent Brain validator/docs generator."
 }
