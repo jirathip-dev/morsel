@@ -5,12 +5,14 @@ import XCTest
 @testable import Morsel
 
 // Issue #177 — the audited compact actions in the journal shell (header
-// Settings + Add Meal, the meal-delete strike, the review pill, the empty-log
-// photo prompt) and every tab cell must expose measured ≥44×44 pt interactive
-// bounds without moving the approved artwork or palette. These tests host the
-// REAL label views and measure the laid-out geometry — never a source-string
-// proxy: on the unfixed base the three ink labels measure 24×24 / 38×38 /
-// 16×16, so this suite fails there.
+// Settings + Add Meal, the meal-delete strike, the food row's sheet entry,
+// the empty-log photo prompt) and every tab cell must expose measured ≥44×44
+// pt interactive bounds without moving the approved artwork or palette. These
+// tests host the REAL label views and measure the laid-out geometry — never a
+// source-string proxy: on the unfixed base the three ink labels measure
+// 24×24 / 38×38 / 16×16, so this suite fails there. Issue #227 retargeted the
+// retired review pill's measurement to the food row itself: the row IS the
+// accessible food-sheet entry now, and its target spans the whole row.
 
 @MainActor
 final class JournalHitRegionTests: XCTestCase {
@@ -21,6 +23,15 @@ final class JournalHitRegionTests: XCTestCase {
     private static let phoneWidth: CGFloat = 390
     /// The shell's software keyboard height (the tab bar must not care).
     private static let keyboardHeight: CGFloat = 336
+
+    /// Issue #227 — the fixture behind the row-target measurement: a
+    /// low-confidence agent item, the case that used to render the review pill
+    /// and the accent tint inside the row.
+    private static let rowEntryItem = MealItem(
+        itemID: UUID(), name: "rolled oats", quantity: 60, unit: .gram,
+        caloriesKcal: 228, proteinG: 8, carbsG: 40, fatG: 4,
+        fiberG: 6, sugarG: 1, confidence: 0.42, notes: "agent estimate", source: .barcode
+    )
 
     /// Fits a hosted view at the phone width, optionally under a reduced-height
     /// proposal (the keyboard-inset case). Real layout, real fonts.
@@ -36,7 +47,7 @@ final class JournalHitRegionTests: XCTestCase {
             ("settings cog", AnyView(ToothedCog())),
             ("add meal tab", AnyView(AddMealTab())),
             ("meal delete strike", AnyView(InkStrikeX())),
-            ("review pill", AnyView(VerifyActionLabel())),
+            ("food row sheet entry", AnyView(MealItemRow(item: Self.rowEntryItem, onEdit: { _ in }))),
             ("photo prompt", AnyView(PhotoPromptActionLabel()))
         ]
         for (name, label) in labels {
@@ -45,6 +56,13 @@ final class JournalHitRegionTests: XCTestCase {
             XCTAssertGreaterThanOrEqual(size.width, Self.minimumTarget, "\(name) interactive width")
             XCTAssertGreaterThanOrEqual(size.height, Self.minimumTarget, "\(name) interactive height")
         }
+        // Issue #227 — the row's sheet entry spans the WHOLE row: the retired
+        // review pill was a nested 44pt target inside an already-tappable row,
+        // and what remains is the row itself (no reserved spacing).
+        let row = fittedSize(of: AnyView(MealItemRow(item: Self.rowEntryItem, onEdit: { _ in })))
+        print("ISSUE227-MEASURE food row width=\(row.width) height=\(row.height)")
+        XCTAssertEqual(row.width, Self.phoneWidth, accuracy: 0.5, "the row entry spans the full row")
+        XCTAssertGreaterThanOrEqual(row.height, Self.minimumTarget, "the row entry keeps a ≥44pt row")
     }
 
     func testTabCellLabelFillsItsAllocatedCellAndOwnsEveryCorner() {

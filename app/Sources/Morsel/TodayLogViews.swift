@@ -159,13 +159,15 @@ struct MenuSetHeader: View {
     }
 }
 
+/// Issue #227 — the food row carries only what the log needs: the always-on
+/// illustration (#223), the food's name, its portion/macros and its kcal. The
+/// confidence/provenance line and the verify action are retired from the row
+/// (confidence no longer reserves a line, so no spacing is left behind);
+/// tapping anywhere on the row opens the food sheet, which owns source,
+/// confidence and agent notes.
 struct MealItemRow: View {
     let item: MealItem
     let onEdit: (MealItem) -> Void
-
-    private var needsReview: Bool {
-        item.needsReview
-    }
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -183,19 +185,6 @@ struct MealItemRow: View {
                 )
                     .font(.morselData)
                     .foregroundStyle(Color.morselInkTwo)
-                HStack(spacing: 8) {
-                    ProvenanceLabel(text: item.provenance.rawValue)
-                    ConfidenceBox(value: item.confidence)
-                    if needsReview {
-                        Button {
-                            onEdit(item)
-                        } label: {
-                            VerifyActionLabel()
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Correct \(item.name)")
-                    }
-                }
             }
             Spacer(minLength: 6)
             VStack(alignment: .trailing, spacing: 0) {
@@ -209,8 +198,6 @@ struct MealItemRow: View {
             }
         }
         .padding(.vertical, 9)
-        .padding(.horizontal, needsReview ? 8 : 0)
-        .background(needsReview ? Color.morselAccentSoft : Color.clear, in: RoundedRectangle(cornerRadius: 6))
         .contentShape(Rectangle())
         .onTapGesture {
             onEdit(item)
@@ -221,22 +208,6 @@ struct MealItemRow: View {
             "\(MorselFormat.number(item.caloriesKcal)) kilocalories"
         )
         .accessibilityHint("Opens the correction sheet")
-    }
-}
-
-/// Issue #177 — the review pill's interactive label: the approved pill keeps
-/// its ink voice and size; the target is the ≥44×44 box around it, so the
-/// duplicate affordance inside the (already tappable) row is reliably hittable.
-struct VerifyActionLabel: View {
-    var body: some View {
-        Text("verify")
-            .font(.morselData)
-            .foregroundStyle(Color.morselReview)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))
-            .frame(minWidth: 44, minHeight: 44)
-            .contentShape(Rectangle())
     }
 }
 
@@ -255,49 +226,6 @@ struct MealSyncMarker: View {
                 .foregroundStyle(
                     meal.syncState == .needsAttention ? Color.morselOver : Color.morselForest
                 )
-        }
-    }
-}
-
-// MARK: - Needs review
-
-struct NeedsReviewSection: View {
-    let items: [MealItem]
-    let onReview: (MealItem) -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(title: "Needs review")
-            VStack(alignment: .leading, spacing: 12) {
-                ForEach(items) { item in
-                    HStack(alignment: .top, spacing: 12) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.name)
-                                .font(.morselBodyStrong)
-                                .foregroundStyle(Color.morselInk)
-                            Text("\(MorselFormat.confidence(item.confidence)) confidence")
-                                .font(.morselData)
-                                .foregroundStyle(Color.morselReview)
-                            if let notes = item.notes, !notes.isEmpty {
-                                Text("// agent: \(notes)")
-                                    .font(.morselData)
-                                    .foregroundStyle(Color.morselInkTwo)
-                            }
-                        }
-                        Spacer(minLength: 4)
-                        Button("Correct") {
-                            onReview(item)
-                        }
-                        .buttonStyle(MorselGhostButtonStyle())
-                    }
-                }
-            }
-            .padding(12)
-            .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 8))
-            .overlay {
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.morselInkLine.opacity(0.5), lineWidth: 1)
-            }
         }
     }
 }
