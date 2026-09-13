@@ -197,6 +197,11 @@ enum MorselFontCatalog {
         "IBMPlexMono-Regular", "IBMPlexMono-Medium"
     ]
 
+    /// The CoreText variation-axis identifier for `wght` ('wght' as a
+    /// big-endian four-char code) — the axis the bundled Caveat/EB Garamond
+    /// variable files expose (400–700 / 400–800).
+    static let weightAxisKey = NSNumber(value: 0x7767_6874)
+
     static func register() {
         guard let bundleURL = Bundle.main.resourceURL else { return }
         for name in bundledFontFileNames {
@@ -204,6 +209,21 @@ enum MorselFontCatalog {
             var error: Unmanaged<CFError>?
             CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
         }
+    }
+
+    /// The REGISTERED serif family at an explicit variation weight (issue
+    /// #229). Returns nil when the bundled family is not registered — the
+    /// witness that a fallback would otherwise be silently substituted. The
+    /// weight is applied through CoreText's variation attribute (the
+    /// UIFontDescriptor-level attribute does not reach a file-registered
+    /// variable font).
+    static func variableSerif(size: CGFloat, weight: CGFloat) -> UIFont? {
+        guard let base = UIFont(name: "EB Garamond", size: size) else { return nil }
+        let varied = CTFontDescriptorCreateCopyWithAttributes(
+            CTFontCopyFontDescriptor(base as CTFont),
+            [kCTFontVariationAttribute: [weightAxisKey: NSNumber(value: Double(weight))]] as CFDictionary
+        )
+        return UIFont(descriptor: varied as UIFontDescriptor, size: size)
     }
 }
 
@@ -218,6 +238,20 @@ extension Font {
     static func morselMono(size: CGFloat) -> Font { Font.custom("IBM Plex Mono", size: size) }
     /// Emphasized figures (IBM Plex Mono Medium).
     static func morselMonoMedium(size: CGFloat) -> Font { Font.custom("IBM Plex Mono Medium", size: size) }
+
+    /// Issue #229 — serif at an explicit WEIGHT on the bundled `[wght]`
+    /// variable family. EB Garamond ships one variable file (axis 400–800);
+    /// SwiftUI's `.weight()` is not guaranteed to move a custom font's
+    /// variation axis, so the weight is applied through CoreText's variation
+    /// attribute on the REGISTERED family and then scaled like the other
+    /// journal type (Dynamic Type stays live). A missing family falls back to
+    /// the plain serif face — never to a system font silently chosen here.
+    static func morselSerif(size: CGFloat, weight: CGFloat) -> Font {
+        guard let weighted = MorselFontCatalog.variableSerif(size: size, weight: weight) else {
+            return Font.custom("EB Garamond", size: size)
+        }
+        return Font(UIFontMetrics(forTextStyle: .body).scaledFont(for: weighted))
+    }
 
     static let morselDisplay = Font.morselHand(size: 34)
     static let morselTitle = Font.morselSerif(size: 17).weight(.semibold)
@@ -286,28 +320,36 @@ enum MorselFormat {
         return value.formatted(.number.precision(.fractionLength(0)))
     }
 
+    /// Issue #229 — the confidence readout the design's `.evidence` line
+    /// carries: the recorded estimate confidence as a whole percentage
+    /// ("82%"). A missing value stays a single em dash.
     static func confidence(_ value: Double?) -> String {
         guard let value, value.isFinite else {
             return "—"
         }
-        return value.formatted(.number.precision(.fractionLength(2)))
+        let percent = value.formatted(
+            .number.precision(.fractionLength(0)).rounded(rule: .toNearestOrAwayFromZero).scale(100)
+        )
+        return "\(percent)%"
     }
 
     static func portion(quantity: Double, unit: FoodUnit) -> String {
         "\(number(quantity)) \(unit.rawValue)"
     }
 
+    /// Issue #229 — the row/detail macro readout in the design's own form:
+    /// `P 8g · C 46g · F 9g` (missing macros are omitted, never invented).
     static func macroLine(for item: MealItem) -> String {
         var values: [String] = []
         if let protein = item.proteinG {
-            values.append("P\(number(protein))")
+            values.append("P \(number(protein))g")
         }
         if let carbs = item.carbsG {
-            values.append("C\(number(carbs))")
+            values.append("C \(number(carbs))g")
         }
         if let fat = item.fatG {
-            values.append("F\(number(fat))")
+            values.append("F \(number(fat))g")
         }
-        return values.isEmpty ? "No macro data" : values.joined(separator: " ")
+        return values.isEmpty ? "No macro data" : values.joined(separator: " · ")
     }
 }

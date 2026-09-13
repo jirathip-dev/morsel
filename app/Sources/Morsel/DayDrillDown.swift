@@ -101,21 +101,12 @@ struct DayDrillDown: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    /// Issue #223/#229 — the expanded day's food rows carry the same
+    /// always-illustrated Variant A row as Today (56pt A artwork, name +
+    /// portion, kcal column with the chevron, macro line and hairline); the
+    /// stored meal photo stays in detail/edit, never in a row.
     private func historyItemRow(_ item: MealItem) -> some View {
-        HStack(alignment: .center, spacing: 12) {
-            // Issue #223 — the expanded day's food rows carry the same
-            // always-illustrated artwork as Today's item rows (the stored
-            // meal photo stays in detail/edit, never in a row).
-            MealArtworkSlot(items: [item])
-            Text(item.name)
-                .font(.morselBodyStrong)
-                .foregroundStyle(Color.morselInk)
-            Spacer()
-            Text(MorselFormat.number(item.caloriesKcal))
-                .font(.morselDataMedium)
-                .foregroundStyle(Color.morselInk)
-        }
-        .padding(.vertical, 2)
+        JournalFoodRow(item: item)
     }
 
 }

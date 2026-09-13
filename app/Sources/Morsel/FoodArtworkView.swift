@@ -102,18 +102,32 @@ extension MealArtworkPresentation {
 
 /// The shared row artwork slot: the real food-item rows in Today, History and
 /// the day detail, plus the meal/day summary rows. Always an approved bundled
-/// illustration — exact food study, labeled category fallback, or the neutral
-/// eating sign for an unknown or mixed item list; only an empty item list
-/// draws nothing.
+/// illustration — issue #229 resolves an approved Variant A study first (the
+/// five A subjects, or the neutral `unknown` sign), then falls back to the
+/// #199/#223 library study/category fallback for foods outside the A set; only
+/// an empty item list draws nothing.
 struct MealArtworkSlot: View {
     /// The items this row depicts: an item row passes its single food; a
     /// meal/day summary row passes that meal's (or day's) items.
     let items: [MealItem]
-    /// Approved native illustration placement (ART-SPEC review target: 64px).
+    /// Approved native illustration placement (ART-SPEC review target: 64px;
+    /// issue #229 rows pass the A 56pt placement explicitly).
     var size: CGFloat = CGFloat(FoodArtworkImageStore.pixelSize)
 
     var body: some View {
-        MealArtworkSlot.illustration(MealArtworkPresentation.row(items: items), size: size)
+        MealArtworkSlot.artwork(JournalRowArtwork.resolve(items: items), size: size)
+    }
+
+    @ViewBuilder
+    static func artwork(_ artwork: JournalRowArtwork, size: CGFloat) -> some View {
+        switch artwork {
+        case let .study(study):
+            JournalArtworkImageView(study: study, size: size)
+        case let .library(resolution):
+            illustration(resolution, size: size)
+        case .none:
+            EmptyView()
+        }
     }
 
     @ViewBuilder

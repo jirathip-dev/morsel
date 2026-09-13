@@ -49,7 +49,8 @@ struct TodayView: View {
                         viewModel: viewModel,
                         onAddMeal: addMeal,
                         onEdit: { presentations.requestEdit($0) },
-                        onDelete: { presentations.requestDelete($0) }
+                        onDelete: { presentations.requestDelete($0) },
+                        confirmationFor: { presentations.savedConfirmation(for: $0) }
                     )
                 }
             }
@@ -341,35 +342,6 @@ struct DeleteMealPaperDialog: View {
 /// presentation opens, and settlement must neither dismiss, duplicate nor
 /// orphan what the user asked for. At most ONE presentation exists at a time:
 /// a request arriving while one is open (or opening) changes nothing.
-@MainActor
-final class JournalPresentationModel: ObservableObject {
-    @Published private(set) var editingItem: MealItem?
-    @Published private(set) var mealToDelete: MealRecord?
-
-    var isPresenting: Bool { editingItem != nil || mealToDelete != nil }
-
-    func requestEdit(_ item: MealItem) {
-        guard !isPresenting else { return }
-        editingItem = item
-    }
-
-    func requestDelete(_ meal: MealRecord) {
-        guard !isPresenting else { return }
-        mealToDelete = meal
-    }
-
-    /// A successful edit save closes the sheet the way its Cancel does.
-    func finishEdit() { editingItem = nil }
-
-    /// `.sheet(item:)` writes its dismissal through these bindings.
-    var editBinding: Binding<MealItem?> {
-        Binding(get: { self.editingItem }, set: { self.editingItem = $0 })
-    }
-    var deleteBinding: Binding<MealRecord?> {
-        Binding(get: { self.mealToDelete }, set: { self.mealToDelete = $0 })
-    }
-}
-
 /// The shell anchors the presentations it owns, so they outlive any page turn
 /// or settle. The sheets keep their shipped chrome and behavior: the #136
 /// themed paper confirmation (Cancel dismisses without deleting; only the
@@ -381,7 +353,10 @@ extension View {
             .sheet(item: presentations.editBinding) { item in
                 MealItemEditSheet(item: item) { update in
                     let didUpdate = await viewModel.updateMealItem(update)
-                    if didUpdate { presentations.finishEdit() }
+                    if didUpdate {
+                        presentations.finishEdit()
+                        presentations.noteSaved(update.itemID)
+                    }
                     return didUpdate
                 }
             }

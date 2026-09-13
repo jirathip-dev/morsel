@@ -25,6 +25,9 @@ struct TodayLogSection: View {
     let onAddMeal: () -> Void
     let onEdit: (MealItem) -> Void
     let onDelete: (MealRecord) -> Void
+    /// Issue #229 — the saved-edit confirmation shown inside the row that was
+    /// just saved (nil for every other row).
+    var confirmationFor: (UUID) -> String? = { _ in nil }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -50,12 +53,9 @@ struct TodayLogSection: View {
                     MealGroupView(
                         group: group,
                         onEdit: onEdit,
-                        onDelete: onDelete
+                        onDelete: onDelete,
+                        confirmationFor: confirmationFor
                     )
-                    if group.id != viewModel.mealGroups.last?.id {
-                        JournalRule()
-                            .padding(.vertical, 4)
-                    }
                 }
             }
         }
@@ -66,6 +66,7 @@ struct MealGroupView: View {
     let group: MealGroup
     let onEdit: (MealItem) -> Void
     let onDelete: (MealRecord) -> Void
+    var confirmationFor: (UUID) -> String? = { _ in nil }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
@@ -126,19 +127,23 @@ struct MealGroupView: View {
                     .padding(.vertical, 2)
                 }
                 let rows = MealDisplayGrouping.rows(from: meal.items)
-                ForEach(rows, id: \.rowID) { row in
-                    if case let .set(name, _, _) = row {
-                        MenuSetHeader(name: name)
-                            .padding(.top, 2)
-                    }
-                    ForEach(row.items, id: \.itemID) { item in
-                        MealItemRow(item: item, onEdit: onEdit)
-                    }
-                    if row.rowID != rows.last?.rowID {
-                        Rectangle()
-                            .fill(Color.morselInkLine.opacity(0.35))
-                            .frame(height: 0.5)
-                            .padding(.leading, 0)
+                // Issue #229 — the rows stack at the design's own pitch: each
+                // row carries its Variant A hairline, so no inter-row spacing
+                // is added here (the meal group's spacing stays for the
+                // header/summary gaps around the list).
+                VStack(alignment: .leading, spacing: 0) {
+                    ForEach(rows, id: \.rowID) { row in
+                        if case let .set(name, _, _) = row {
+                            MenuSetHeader(name: name)
+                                .padding(.top, 2)
+                        }
+                        ForEach(row.items, id: \.itemID) { item in
+                            MealItemRow(
+                                item: item,
+                                onEdit: onEdit,
+                                confirmation: confirmationFor(item.itemID)
+                            )
+                        }
                     }
                 }
             }
@@ -165,43 +170,29 @@ struct MenuSetHeader: View {
 /// (confidence no longer reserves a line, so no spacing is left behind);
 /// tapping anywhere on the row opens the food sheet, which owns source,
 /// confidence and agent notes.
+///
+/// Issue #229 — the row body is the approved Variant A row (56pt artwork,
+/// 18pt/500 name with its portion beneath, right-aligned kcal column with the
+/// Garamond chevron, the macro line and a `1px` line hairline), and it is a
+/// Button like the design's `.row` so the press state (`translateY(-1px)`,
+/// 100ms) exists — the design disables it under Reduce Motion. Navigation,
+/// page turns and gesture mechanics are untouched.
 struct MealItemRow: View {
     let item: MealItem
     let onEdit: (MealItem) -> Void
+    /// The saved-edit confirmation line (nil unless this row just saved).
+    var confirmation: String?
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            // Issue #223 — every food item row is always illustrated: the
-            // item's approved study, its category fallback, or the neutral
-            // eating sign. A stored meal photo never appears in a row.
-            MealArtworkSlot(items: [item])
-            VStack(alignment: .leading, spacing: 3) {
-                Text(item.name)
-                    .font(.morselTitle)
-                    .foregroundStyle(Color.morselInk)
-                Text(
-                    "\(MorselFormat.portion(quantity: item.quantity, unit: item.unit))"
-                        + " · \(MorselFormat.macroLine(for: item))"
-                )
-                    .font(.morselData)
-                    .foregroundStyle(Color.morselInkTwo)
-            }
-            Spacer(minLength: 6)
-            VStack(alignment: .trailing, spacing: 0) {
-                Text(MorselFormat.number(item.caloriesKcal))
-                    .font(Font.morselMonoMedium(size: 15))
-                    .monospacedDigit()
-                    .foregroundStyle(Color.morselInk)
-                Text("kcal")
-                    .font(.morselFootnote)
-                    .foregroundStyle(Color.morselInkThree)
-            }
-        }
-        .padding(.vertical, 9)
-        .contentShape(Rectangle())
-        .onTapGesture {
+        Button {
             onEdit(item)
+        } label: {
+            JournalFoodRow(item: item, confirmation: confirmation)
         }
+        .buttonStyle(JournalRowButtonStyle(reduceMotion: reduceMotion))
+        .contentShape(Rectangle())
         .accessibilityElement(children: .combine)
         .accessibilityLabel(item.name)
         .accessibilityValue(
