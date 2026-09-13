@@ -7,6 +7,77 @@ import UIKit
 // requires the photo chrome to live in its own file). Behavior is unchanged:
 // pick/photo, camera sheet, preparing state, ready summary with remove.
 
+// Issue #187 — the publication gate both photo surfaces share (Add Meal here
+// and the Edit-item sheet's MealPhotoEditorSection): a newer pick, Remove, or
+// leaving the route retires the in-flight preparation, so its late result or
+// error can never publish, and a failure that IS current reports the error
+// line while the previous photo/draft stays exactly as it was.
+
+/// The settled outcome of one preparation, resolved against its stamp.
+enum MealPhotoPreparationOutcome: Equatable {
+    /// Still the newest preparation: store this upload.
+    case publish(FoodImageUpload)
+    /// Still the newest preparation: show this error line; the previous photo
+    /// (or draft) is left untouched.
+    case report(String)
+    /// Retired by a newer pick, Remove, or leaving the route: publish nothing.
+    case discard
+}
+
+struct MealPhotoPreparationGate: Equatable {
+    private(set) var generation = 0
+
+    /// Starts a preparation and returns its stamp; every older stamp retires.
+    mutating func begin() -> Int {
+        generation += 1
+        return generation
+    }
+
+    /// Retires every in-flight preparation (Remove / leaving the route).
+    mutating func invalidate() {
+        generation += 1
+    }
+
+    func isCurrent(_ stamp: Int) -> Bool {
+        stamp == generation
+    }
+
+    /// Settles a finished preparation: a retired stamp publishes nothing, a
+    /// current failure reports its message, and a current result is the only
+    /// thing that replaces the surface's photo.
+    func settle(
+        _ result: Result<FoodImageUpload, Error>,
+        for stamp: Int
+    ) -> MealPhotoPreparationOutcome {
+        guard isCurrent(stamp) else {
+            return .discard
+        }
+        switch result {
+        case let .success(upload):
+            return .publish(upload)
+        case let .failure(error):
+            return .report(DashboardUserMessage.userMessage(for: error))
+        }
+    }
+
+    /// The shipped settle mapping, shared by both surfaces (only `.publish`
+    /// replaces the photo, only `.report` writes the error line).
+    static func apply(
+        _ outcome: MealPhotoPreparationOutcome,
+        photo: inout FoodImageUpload?,
+        message: inout String?
+    ) {
+        switch outcome {
+        case let .publish(upload):
+            photo = upload
+        case let .report(text):
+            message = text
+        case .discard:
+            break
+        }
+    }
+}
+
 struct AddMealPhotoSection: View {
     @Binding var pickerItem: PhotosPickerItem?
     @Binding var photo: FoodImageUpload?
@@ -19,6 +90,12 @@ struct AddMealPhotoSection: View {
     @Binding var isProcessingPhoto: Bool
 
     @State private var isShowingCamera = false
+    /// Issue #187 — stamps every preparation so a late result or error from a
+    /// replaced pick, a removed photo, or a left page never publishes.
+    @State private var preparation = MealPhotoPreparationGate()
+    /// Issue #187 — the in-flight off-main preparation, cancelled by a newer
+    /// pick, Remove, or the page going away.
+    @State private var preparationTask: Task<Void, Never>?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -83,6 +160,7 @@ struct AddMealPhotoSection: View {
                     Button("Remove") {
                         self.photo = nil
                         pickerItem = nil
+                        cancelPreparation()
                     }
                     .font(.morselData)
                     .foregroundStyle(Color.morselForest)
@@ -95,6 +173,11 @@ struct AddMealPhotoSection: View {
                 return
             }
             loadPhoto(item)
+        }
+        .onDisappear {
+            // Issue #187 — leaving the page retires the in-flight preparation
+            // so its late result/error publishes nothing.
+            cancelPreparation()
         }
         .sheet(isPresented: $isShowingCamera) {
             CameraPicker(
@@ -125,32 +208,56 @@ struct AddMealPhotoSection: View {
     }
 
     private func loadPhoto(_ item: PhotosPickerItem) {
-        isProcessingPhoto = true
-        message = nil
-        Task { @MainActor in
-            do {
-                guard let data = try await item.loadTransferable(type: Data.self) else {
-                    throw FoodImageError.invalidImage
-                }
-                let mimeType = item.supportedContentTypes.first?.preferredMIMEType ?? ""
-                photo = try FoodImageCompressor.prepare(data: data, mimeType: mimeType)
-            } catch {
-                message = DashboardUserMessage.userMessage(for: error)
+        preparePhoto {
+            guard let data = try await item.loadTransferable(type: Data.self) else {
+                throw FoodImageError.invalidImage
             }
-            isProcessingPhoto = false
+            let mimeType = item.supportedContentTypes.first?.preferredMIMEType ?? ""
+            return try await MealPhotoPreparationWorker.shared.prepare(data: data, mimeType: mimeType)
         }
     }
 
     private func prepareCameraImage(_ image: UIImage) {
-        isProcessingPhoto = true
-        message = nil
-        Task { @MainActor in
-            do {
-                photo = try FoodImageCompressor.compress(image)
-            } catch {
-                message = DashboardUserMessage.userMessage(for: error)
-            }
-            isProcessingPhoto = false
+        preparePhoto {
+            try await MealPhotoPreparationWorker.shared.compress(image)
         }
+    }
+
+    /// Issue #187 — runs ONE preparation on the bounded off-main worker and
+    /// settles it through the gate: only the newest stamp publishes, and a
+    /// failure leaves the current photo exactly as it was.
+    private func preparePhoto(_ work: @escaping () async throws -> FoodImageUpload) {
+        let stamp = beginPreparation()
+        preparationTask = Task { @MainActor in
+            let outcome: MealPhotoPreparationOutcome
+            do {
+                outcome = preparation.settle(.success(try await work()), for: stamp)
+            } catch {
+                outcome = preparation.settle(.failure(error), for: stamp)
+            }
+            if preparation.isCurrent(stamp) {
+                isProcessingPhoto = false
+            }
+            MealPhotoPreparationGate.apply(outcome, photo: &photo, message: &message)
+        }
+    }
+
+    /// Starts a preparation: the page shows the honest "Preparing photo" state
+    /// until THIS stamp settles, and every older stamp retires (its late
+    /// result/error can no longer publish).
+    private func beginPreparation() -> Int {
+        preparationTask?.cancel()
+        message = nil
+        isProcessingPhoto = true
+        return preparation.begin()
+    }
+
+    /// Retires the in-flight preparation (newer pick, Remove, leaving the
+    /// page): its late result/error publishes nothing.
+    private func cancelPreparation() {
+        preparationTask?.cancel()
+        preparationTask = nil
+        preparation.invalidate()
+        isProcessingPhoto = false
     }
 }
