@@ -1,6 +1,7 @@
 import Foundation
 
-// Issue #199 — offline food illustrations.
+// Issue #199 — offline food illustrations; issue #223 — food rows are ALWAYS
+// illustrated and a real meal photo appears only inside meal/item detail.
 //
 // The approved #197 ink/wash library (`docs/art/food-library-v2/`) ships in the
 // app bundle as fixed 64px Paper/Night PNGs (byte-identical copies of the
@@ -13,21 +14,20 @@ import Foundation
 //  1. exact name match first, then exact alias match — both normalized by
 //     trimming, lowercasing and collapsing inner whitespace. First match in
 //     catalog order wins, so a stable ID is returned for every input.
-//  2. a catalog category alias (`produce category`, …) resolves to that
-//     category's labeled fallback.
-//  3. a meal with two or more distinct food artworks never depicts one
-//     arbitrary ingredient: when every matched food shares ONE category the
-//     meal shows that category's labeled fallback; across categories the meal
-//     shows no illustration.
-//  4. an unmatched item ("unknown food") shows no illustration at all: the
-//     approved library carries no unknown/other study, and deriving a category
-//     from a free-text name would be an inference this feature must not make.
-//     The row keeps its existing no-photo rendering.
+//  2. a food the library cannot identify resolves to the approved neutral
+//     study (`fallback-neutral`: an empty plate and spoon — an eating sign,
+//     never an identified food), so unknown items are never blank.
+//  3. a catalog category alias (`produce category`, …) resolves to that
+//     category's labeled fallback; a composite meal whose foods share ONE
+//     category shows that category's labeled fallback.
+//  4. a meal that spans categories, or carries any unidentified item, shows
+//     the neutral study: never one arbitrary ingredient, and never nothing.
+//  5. an empty item list has no food to depict and resolves to nothing.
 //
 // Nothing here reads or writes logged food or nutrition values — the resolver
 // only ever takes item NAMES and returns an artwork ID.
 
-/// Catalog `kind` — a specific food study vs. a category fallback study.
+/// Catalog `kind` — a specific food study vs. a fallback study.
 enum FoodArtworkKind: String, Decodable, Equatable, Sendable {
     case food
     case fallback
@@ -42,7 +42,16 @@ struct FoodArtworkAsset: Decodable, Equatable, Sendable {
     let category: String
     let kind: FoodArtworkKind
 
-    var isCategoryFallback: Bool { kind == .fallback }
+    /// Issue #223 — the catalog's neutral sentinel (`category: neutral`). It
+    /// is an eating sign for unknown/mixed meals, not a nutritional category
+    /// and never an identified food.
+    var isNeutralFallback: Bool { kind == .fallback && category == Self.neutralCategory }
+
+    /// A labeled category fallback (Produce / Grains / …). The neutral
+    /// sentinel is deliberately excluded: it travels without a category claim.
+    var isCategoryFallback: Bool { kind == .fallback && !isNeutralFallback }
+
+    static let neutralCategory = "neutral"
 
     /// ART-SPEC: category artwork always travels with its category label.
     var categoryLabel: String {
@@ -88,18 +97,22 @@ enum FoodArtworkCatalog {
     }
 }
 
-/// What a photo-less meal is allowed to show.
+/// What a photo-less meal or item is allowed to show.
 enum FoodArtworkResolution: Equatable, Sendable {
     /// One specific approved food study.
     case food(FoodArtworkAsset)
     /// A labeled category fallback (never presented as an identified food).
     case category(FoodArtworkAsset)
-    /// No honest illustration exists for this meal.
+    /// Issue #223 — the approved neutral eating sign for an unknown food or a
+    /// mixed meal. It is a fallback: never an identified food, and it carries
+    /// no category claim.
+    case neutral(FoodArtworkAsset)
+    /// Nothing to depict at all (no items).
     case none
 
     var asset: FoodArtworkAsset? {
         switch self {
-        case let .food(asset), let .category(asset): return asset
+        case let .food(asset), let .category(asset), let .neutral(asset): return asset
         case .none: return nil
         }
     }
@@ -118,33 +131,52 @@ enum FoodArtworkResolver {
         }
     }
 
-    /// Meal-level resolution (rules 1–4 in the file header).
+    /// Issue #223 — a single item always resolves to something: its approved
+    /// study, else its approved category, else the neutral eating sign.
+    static func resolve(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkResolution {
+        guard let matched = match(name: name, in: assets) else {
+            return neutral(in: assets)
+        }
+        if matched.kind == .food {
+            return .food(matched)
+        }
+        return matched.isNeutralFallback ? .neutral(matched) : .category(matched)
+    }
+
+    /// Meal-level resolution (rules 1–5 in the file header). One food shows its
+    /// own study; several foods that share one category show that category's
+    /// labeled fallback; anything unknown or mixed shows the neutral sign.
     static func resolve(items: [MealItem], in assets: [FoodArtworkAsset]) -> FoodArtworkResolution {
         guard !items.isEmpty, !assets.isEmpty else { return .none }
-        let matches = items.map { match(name: $0.name, in: assets) }
-        guard matches.allSatisfy({ $0 != nil }) else {
-            // An unmatched item means the meal contains food this library
-            // cannot honestly depict: draw nothing rather than a partial meal.
-            return .none
+        let resolved = items.map { resolve(name: $0.name, in: assets) }
+        if resolved.contains(where: { if case .neutral = $0 { true } else { false } }) {
+            return neutral(in: assets)
         }
-        let resolved = matches.compactMap { $0 }
-        let foods = uniqueByID(resolved.filter { $0.kind == .food })
-        if foods.count == 1 {
-            return .food(foods[0])
-        }
-        if foods.count > 1 {
-            // Composite meal: never one arbitrary ingredient. A single shared
-            // category may show that category's labeled fallback; otherwise
-            // nothing at all.
+        let foods = uniqueByID(resolved.compactMap { if case let .food(asset) = $0 { asset } else { nil } })
+        let categories = uniqueByID(resolved.compactMap { if case let .category(asset) = $0 { asset } else { nil } })
+        if categories.isEmpty {
+            if foods.count == 1, let food = foods.first {
+                return .food(food)
+            }
+            // Composite meal: one shared category may show that category's
+            // labeled fallback; mixed categories never depict a single item.
             guard let category = foods.first?.category,
                   foods.allSatisfy({ $0.category == category }),
                   let fallback = categoryFallback(for: category, in: assets) else {
-                return .none
+                return neutral(in: assets)
             }
             return .category(fallback)
         }
-        let categorised = uniqueByID(resolved.filter { $0.kind == .fallback })
-        return categorised.count == 1 ? .category(categorised[0]) : .none
+        if foods.isEmpty, categories.count == 1 {
+            // The meal itself was logged at category level.
+            return .category(categories[0])
+        }
+        return neutral(in: assets)
+    }
+
+    /// The approved neutral eating sign, when the bundle carries it.
+    static func neutral(in assets: [FoodArtworkAsset]) -> FoodArtworkResolution {
+        assets.first(where: { $0.isNeutralFallback }).map(FoodArtworkResolution.neutral) ?? .none
     }
 
     /// First occurrence per stable ID — catalog order stays the tiebreaker.
@@ -158,14 +190,15 @@ enum FoodArtworkResolver {
     }
 }
 
-/// The renderer decision shared by Today, History and the item/detail sheet:
-/// a stored meal photo is always authoritative; the illustration appears only
-/// for missing-photo entries; unknown meals keep today's empty slot.
+/// The renderer decision shared by the item/detail sheet and the rows.
 enum MealArtworkPresentation: Equatable, Sendable {
     case photo(String)
     case illustration(FoodArtworkResolution)
     case none
 
+    /// DETAIL/EDIT presentation (issue #199 semantics, kept by #223): a stored
+    /// meal photo is authoritative for the food the user is inspecting; the
+    /// illustration stands in only when no photo exists.
     static func resolve(
         photoPath: String?,
         items: [MealItem],
