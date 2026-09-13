@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Stir-fried noodles — tangled ribbon and ceramic bowl ink-wash study</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="irregular-ceramic-bowl">
+ <path d="M41 128 C44 153 57 179 84 193 C114 209 153 204 179 190 C197 179 210 154 215 132Z" fill="{{paper}}" opacity=".69"/>
+ <path d="M45 141 C54 160 64 176 88 186 C121 201 160 191 186 177 C179 192 153 203 127 204 C94 205 59 188 50 169Z" fill="{{sage}}" opacity=".54" filter="url(#wash)"/>
+ <path d="M157 173 C181 168 202 148 211 138 C204 163 193 187 161 196 C144 201 126 200 115 198 C144 193 153 184 157 173Z" fill="{{forest}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M40 128 C43 109 84 101 118 100 C161 98 200 108 215 126 C225 147 180 160 142 161 C96 165 45 150 40 128Z" fill="{{paper}}" opacity=".82"/>
+ <path d="M49 129 C51 113 95 106 123 107 C159 107 195 115 205 129 C201 144 169 152 129 153 C92 153 60 144 49 129Z" fill="{{ochre}}" opacity=".3" filter="url(#wash)"/>
+ <path d="M44 140 C50 161 64 188 93 196 M106 201 Q153 211 183 189 C199 177 209 151 213 141 M42 120 Q48 111 67 106 M80 103 Q137 93 179 106 M197 113 Q221 124 216 136 M210 142 Q170 166 105 158 M92 156 Q57 149 45 137" fill="none" stroke="{{line}}" stroke-width=".95" stroke-linecap="round"/>
+ <path d="M61 166 l8 11 M65 173 l10 10 M72 182 l10 7 M176 184 l9 -9" fill="none" stroke="{{line}}" stroke-width=".46" opacity=".7"/>
+</g>
+<g id="sauce-and-noodle-mass">
+ <path d="M56 126 Q59 107 79 107 C88 91 100 98 111 93 C135 86 147 99 161 99 C173 94 189 108 190 116 L204 130 C190 146 162 147 137 150 C102 155 71 143 56 126Z" fill="{{gold}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M66 129 C81 113 92 132 109 119 C126 109 134 135 151 123 C166 110 186 125 199 132 C184 146 151 143 139 149 C110 148 81 146 66 129Z" fill="{{ochre}}" opacity=".45" filter="url(#wash)"/>
+ <path d="M89 127 Q109 113 122 127 Q129 133 141 126 M143 141 Q167 128 180 140 M67 123 Q79 133 89 134" fill="none" stroke="{{brown}}" stroke-width="3.4" opacity=".35" filter="url(#wash)"/>
+</g>
+<g id="tangled-ribbons" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <g stroke="{{gold}}" stroke-width="3.7" opacity=".91">
+  <path d="M63 117 C80 101 93 118 80 126 C68 134 93 143 107 126 C121 109 137 117 130 128 C123 144 153 145 165 133"/>
+  <path d="M75 110 C96 101 110 98 116 110 C121 120 92 128 107 136 C122 145 133 127 148 129 C167 131 156 145 177 139"/>
+  <path d="M104 99 C122 89 145 99 137 108 C131 118 148 124 160 111 C170 100 190 117 174 124 C160 130 182 139 195 131"/>
+  <path d="M61 128 C79 141 92 128 98 118 C106 106 124 108 130 115 M142 100 Q156 106 147 114 Q138 123 151 132"/>
+  <path d="M85 141 C89 127 100 135 117 139 C131 144 141 132 149 140 C155 147 182 143 188 133"/>
+  <path d="M113 105 C99 113 102 121 120 119 C139 116 151 120 140 132 M168 106 Q190 109 189 125"/>
+ </g>
+ <g stroke="{{paper}}" stroke-width="1.15" opacity=".66" filter="url(#dry)">
+  <path d="M65 117 Q76 108 83 112 M91 136 Q99 134 105 127 M115 115 Q124 111 129 117 M138 140 Q151 141 161 134 M110 100 Q124 95 132 102 M151 120 Q159 116 162 112 M170 116 Q181 114 177 120 M90 107 l11 -4 M165 140 l9 -1"/>
+ </g>
+ <g stroke="{{line}}" stroke-width=".63">
+  <path d="M62 120 Q74 104 86 113 C99 128 75 127 80 134 M83 140 Q98 143 109 124 Q120 111 128 118 M135 137 Q143 145 159 137 M109 100 Q125 91 137 100 C146 111 129 111 138 120 M152 121 Q165 117 166 108 M174 107 Q193 109 185 123 Q180 128 190 132"/>
+  <path d="M99 112 Q94 129 110 135 M116 136 Q129 137 136 129 M151 133 Q162 124 174 135 M121 115 l8 0 M66 132 l10 3 M91 143 l7 -3"/>
+ </g>
+</g>
+<g id="wilted-leaves-and-seared-fragments">
+ <path d="M73 121 Q61 109 75 103 L88 106 Q85 114 73 121Z M155 137 Q155 124 165 123 L179 127 Q172 139 155 137Z M119 107 Q114 96 125 95 L136 99 Q132 107 119 107Z" fill="{{sage}}" opacity=".88" filter="url(#wash)"/>
+ <path d="M69 109 l7 4 l8 -5 M158 133 l13 -5 M121 101 l8 1" fill="none" stroke="{{line}}" stroke-width=".6"/>
+ <path d="M92 121 L96 117 L108 126 L104 130Z M171 116 l8 -4 l6 4 l-10 4Z" fill="{{red}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M138 144 Q126 132 132 123 L137 125 Q134 135 144 141Z" fill="{{paper}}" opacity=".72"/>
+ <path d="M82 125 l6 -1 M149 111 l4 2 M165 142 l7 -1" stroke="{{brown}}" stroke-width="1.5" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="tapered-chopsticks">
+ <path d="M84 99 L194 63 L197 67 L85 101Z M92 104 L206 77 L208 81 L93 106Z" fill="{{ochre}}" opacity=".67"/>
+ <path d="M85 99 L194 64 M93 104 L206 78" fill="none" stroke="{{line}}" stroke-width=".68"/>
+</g>
+</svg>

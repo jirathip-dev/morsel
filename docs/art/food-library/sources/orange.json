@@ -1,0 +1,67 @@
+{
+  "id": "orange",
+  "name": "Orange",
+  "aliases": [
+    "citrus",
+    "ส้ม"
+  ],
+  "category": "produce",
+  "kind": "food",
+  "description": "A round terracotta orange with a botanical leaf beside an open segmented wedge.",
+  "layers": [
+    {
+      "d": "M58 132 C57 104.16 80.56 84 105 84 C135.08 85 152 110.4 152 132 C151 165.6 127.09 180 105 180 C76.8 179 58 155.04 58 132 Z",
+      "fill": "orange",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M98 87 q4 -9 10 -10",
+      "fill": "none",
+      "width": 1.4,
+      "opacity": 1
+    },
+    {
+      "d": "M123 91 C108.72 77.4 104.64 61.76 113.48 59.72 C129.12 57.68 133.88 82.16 123 91 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M123 91 Q122.32 75.36 113.48 63.12",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    },
+    {
+      "d": "M132 142 Q169 110 207 135 Q196 176 157 186 Z",
+      "fill": "orange",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M140 144 Q170 120 199 139 Q189 170 159 178 Z",
+      "fill": "peach",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M168 139 L161 175",
+      "fill": "none",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M170 140 L184 161",
+      "fill": "none",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M169 139 L192 143",
+      "fill": "none",
+      "width": 0.7,
+      "opacity": 1
+    }
+  ]
+}

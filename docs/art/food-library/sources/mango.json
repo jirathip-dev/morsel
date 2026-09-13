@@ -1,0 +1,79 @@
+{
+  "id": "mango",
+  "name": "Mango",
+  "aliases": [
+    "ripe mango",
+    "มะม่วง"
+  ],
+  "category": "produce",
+  "kind": "food",
+  "description": "A whole ochre mango with a small leaf beside a cross-cut golden cheek; no serving-size claim.",
+  "layers": [
+    {
+      "d": "M70 155 C45 135 61 92 88 77 C121 62 145 77 143 110 C142 142 99 175 70 155 Z",
+      "fill": "gold",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M89 79 q-6 -9 1 -15",
+      "fill": "none",
+      "width": 1.6,
+      "opacity": 1
+    },
+    {
+      "d": "M113 87 C100.4 75.0 96.8 61.2 104.6 59.400000000000006 C118.4 57.6 122.6 79.2 113 87 Z",
+      "fill": "sage",
+      "width": 0.9,
+      "opacity": 1
+    },
+    {
+      "d": "M113 87 Q112.4 73.2 104.6 62.400000000000006",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 1
+    },
+    {
+      "d": "M118 158 Q143 103 192 107 Q210 140 178 172 Q145 190 118 158 Z",
+      "fill": "orange",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M124 155 Q153 119 190 115 Q198 144 175 165 Q145 177 124 155 Z",
+      "fill": "gold",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M137 142 L152 171",
+      "fill": "none",
+      "width": 0.65,
+      "opacity": 1
+    },
+    {
+      "d": "M151 129 L169 167",
+      "fill": "none",
+      "width": 0.65,
+      "opacity": 1
+    },
+    {
+      "d": "M168 119 L185 149",
+      "fill": "none",
+      "width": 0.65,
+      "opacity": 1
+    },
+    {
+      "d": "M132 154 L192 135",
+      "fill": "none",
+      "width": 0.65,
+      "opacity": 1
+    },
+    {
+      "d": "M143 165 L193 146",
+      "fill": "none",
+      "width": 0.65,
+      "opacity": 1
+    }
+  ]
+}

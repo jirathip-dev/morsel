@@ -3,8 +3,7 @@ import Foundation
 import SwiftUI
 
 // Issue #94 — History: the V1 ledger tab (bars vs goal, day drill-down,
-// weight trend); issue #136 — ledger reads supersede by generation and
-// loading is a paper skeleton, never a text spinner.
+// weight trend); issue #136 — ledger reads supersede by generation.
 
 @MainActor
 final class HistoryViewModel: ObservableObject {
@@ -34,14 +33,14 @@ final class HistoryViewModel: ObservableObject {
     private var loadGeneration = 0
     private var daySelectionGeneration = 0
 
-    /// History list shows newest first (the "Days vs goal" list) while the
-    /// bars render ascending (ledger order) — see `chartDays`.
+    /// Newest first (the "Days vs goal" list); bars render ascending (#105).
     @Published var showsAllListDays = false
 
     let repository: any DashboardRepository
     let userID: UUID
     private let dateProvider: () -> Date
-
+    /// Issue #175 — the mounted suites install a page lifecycle observer; the app leaves it nil.
+    nonisolated(unsafe) static var observer: JournalPageObserver?
     init(
         repository: any DashboardRepository,
         userID: UUID,
@@ -50,7 +49,10 @@ final class HistoryViewModel: ObservableObject {
         self.repository = repository
         self.userID = userID
         self.dateProvider = dateProvider
+        Self.observer?(.created, .history, self)
     }
+
+    deinit { Self.observer?(.released, .history, nil) }
 
     var today: Date { dateProvider() }
 
@@ -65,8 +67,7 @@ final class HistoryViewModel: ObservableObject {
         return overview.days.filter { $0.date >= windowStart && $0.date <= start }
     }
 
-    /// Newest-first rows for the "Days vs goal" list; 7-day mode caps the
-    /// collapsed list at four rows behind "see all".
+    /// Newest-first rows; 7-day mode caps the collapsed list at four rows.
     var listDays: [HistoryDay] {
         chartDays.reversed()
     }
@@ -101,11 +102,9 @@ final class HistoryViewModel: ObservableObject {
     }
 
     func load() async {
-        // Issue #136 — reads are superseded, never gated: rapid tab switches
-        // re-fire `.task(id:)`, and a cancelled read that never surfaces
-        // CancellationError used to leave isLoading stuck while the old guard
-        // refused newer loads — the permanent ledger freeze. Only the newest
-        // read may publish or clear the loading flag.
+        // Issue #136 — reads are superseded, never gated: a cancelled read
+        // that never surfaces CancellationError used to leave isLoading stuck.
+        // Only the newest read may publish or clear the loading flag.
         loadGeneration &+= 1
         let generation = loadGeneration
         isLoading = true
@@ -191,6 +190,7 @@ struct HistoryView: View {
             }
         }
         .task(id: reloadKey) {
+            HistoryViewModel.observer?(.activated, .history, nil)
             await viewModel.load()
         }
     }

@@ -1,0 +1,126 @@
+{
+  "id": "fallback-grains",
+  "name": "Grains · fallback",
+  "aliases": [
+    "grain category"
+  ],
+  "category": "grains",
+  "kind": "fallback",
+  "description": "Generic pale grain bowl; category fallback, not a specific dish.",
+  "layers": [
+    {
+      "d": "M49 134 C53 169 73 196 125 200 C174 200 198 174 207 137 Z",
+      "fill": "sage",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M74 177 Q118 201 173 181",
+      "fill": "none",
+      "width": 0.6,
+      "opacity": 0.6
+    },
+    {
+      "d": "M49 133 C48 114.44 86.92 101 128 101 C178.56 102 207 118.6 207 133 C206 155.4 165.13 165 128 165 C80.6 164 49 148.36 49 133 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M59 133 C58 119.08 92.12 109 128 109 C172.16 110 197 122.2 197 133 C196 149.8 160.43 157 128 157 C86.6 156 59 144.52 59 133 Z",
+      "fill": "paper",
+      "width": 0.7,
+      "opacity": 1
+    },
+    {
+      "d": "M66 132 Q97 96 129 109 Q161 98 190 132 Q135 159 66 132 Z",
+      "fill": "cream",
+      "width": 1.1,
+      "opacity": 1
+    },
+    {
+      "d": "M82 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M95 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M108 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M121 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M134 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M147 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M160 123 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M82 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M95 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M108 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M121 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M134 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M147 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    },
+    {
+      "d": "M160 133 q3 -5 6 -2 q1 3 -4 5 q-4 0 -2 -3 Z",
+      "fill": "paper",
+      "width": 0.55,
+      "opacity": 1
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Orange — dimpled whole peel and juicy cut hemisphere, digital ink and wash study</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="whole-orange-peel">
+ <path d="M48 99 C56 74 78 62 102 66 C126 60 147 79 152 100 C162 125 148 151 129 164 C108 180 76 174 58 158 C40 144 39 118 48 99Z" fill="#E66A2C" opacity=".87"/>
+ <path d="M51 99 Q63 73 87 72 C110 64 129 79 132 94 Q120 104 104 103 C94 115 76 119 54 133 C46 123 47 109 51 99Z" fill="#D6A62C" opacity=".72" filter="url(#wash)"/>
+ <path d="M47 132 C65 159 99 164 120 145 Q143 126 143 100 C164 128 147 153 128 165 C105 181 74 170 58 158Z" fill="#B94738" opacity=".27" filter="url(#wash)"/>
+ <path d="M59 102 Q65 82 84 80 L94 82 Q73 87 69 106Z" fill="#FFF7E8" opacity=".42" filter="url(#dry)"/>
+ <path d="M92 68 l4 -5 l5 3 l7 -1 l-3 5 l-8 2Z" fill="#2F654B" opacity=".7"/>
+ <path d="M99 65 Q105 49 123 47 L141 49 C124 52 121 66 99 65Z" fill="#E1E9D7" opacity=".79" filter="url(#wash)"/>
+ <path d="M103 62 Q118 53 135 50 M118 55 l4 4" fill="none" stroke="#9D917F" stroke-width=".61"/>
+</g>
+<g id="peel-selective-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M44 122 Q42 99 58 84 M66 76 Q78 65 92 67 M111 66 Q137 69 149 93" stroke-width=".73"/>
+ <path d="M45 140 Q51 160 72 169 M85 173 Q110 179 130 164" stroke-width="1.13"/>
+ <path d="M58 124 l1 2 M68 112 l2 -1 M75 131 l2 1 M86 118 l1 2 M99 96 l2 -1 M118 86 l1 2 M59 144 l2 2 M79 156 l2 -1 M103 158 l2 -1 M119 136 l1 -2 M92 145 l2 1 M129 110 l1 2" stroke-width=".95" opacity=".52"/>
+</g>
+<g id="cut-citrus-rind">
+ <path d="M103 143 C109 119 136 104 163 107 C190 107 213 125 216 149 C222 174 201 198 178 206 C148 216 113 197 105 174Z" fill="#E66A2C" opacity=".92"/>
+ <path d="M107 161 C126 188 169 197 195 178 L214 153 Q220 182 193 199 Q164 218 135 201 Q111 190 107 173Z" fill="#A5750B" opacity=".53" filter="url(#wash)"/>
+ <path d="M109 141 C119 118 142 109 165 113 C190 113 208 129 210 149 C211 169 191 188 170 192 C143 197 112 180 108 158Z" fill="#F2E9D9" opacity=".98"/>
+</g>
+<g id="uneven-juice-segments" fill="#E66A2C">
+ <path d="M157 148 Q143 130 139 121 Q126 123 118 138 L150 151Z" opacity=".83"/>
+ <path d="M155 145 L144 119 Q160 115 173 122 L164 146Z" opacity=".91"/>
+ <path d="M168 145 L178 123 Q195 130 200 141 L173 151Z" opacity=".77"/>
+ <path d="M175 155 L203 147 Q207 162 193 174 L173 161Z" opacity=".92"/>
+ <path d="M169 164 L189 178 Q176 190 163 187 L163 166Z" opacity=".82"/>
+ <path d="M157 165 L157 187 Q140 184 131 177 L151 162Z" opacity=".9"/>
+ <path d="M148 158 L127 173 Q115 164 115 147 L146 153Z" opacity=".76"/>
+</g>
+<g id="pulp-membranes-and-highlights" fill="none" stroke-linecap="round">
+ <path d="M123 138 l14 7 M150 126 l6 14 M180 134 l-8 12 M193 153 l-14 3 M179 178 l-10 -11 M143 174 l9 -10 M121 156 l17 2" stroke="#D6A62C" stroke-width="4" opacity=".7" filter="url(#wash)"/>
+ <path d="M128 133 l10 9 M151 122 l6 12 M185 136 l-8 8 M197 154 l-11 3 M174 177 l-5 -7 M139 171 l9 -7" stroke="#FFF7E8" stroke-width="1.7" opacity=".64" filter="url(#dry)"/>
+ <path d="M108 136 Q123 110 150 108 M174 110 Q201 115 213 139 M216 157 Q220 184 194 199 M184 204 Q157 216 131 201 M121 195 Q109 185 105 172" stroke="#9D917F" stroke-width=".93"/>
+ <path d="M115 152 Q115 167 127 175 M149 188 l8 2 M177 187 Q194 181 203 164 M158 143 l-13 -22 M174 152 l23 -9 M165 171 l0 12" stroke="#9D917F" stroke-width=".42" opacity=".66"/>
+</g>
+</svg>

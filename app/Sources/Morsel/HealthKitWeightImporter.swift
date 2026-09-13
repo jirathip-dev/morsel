@@ -25,11 +25,13 @@ protocol WeightSampleReading: AnyObject {
     /// request this app makes. HealthKit deliberately hides grant-vs-deny
     /// for reads; decided-but-empty is the explicit no-data state. Mocks
     /// default to decided so existing seams keep working unchanged.
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool
+    /// Issue #173: resolved ASYNC end to end — an unanswered/errored status
+    /// query (`false`) can never be upgraded to granted, denied or synced.
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool
 }
 
 extension WeightSampleReading {
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool { true }
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { true }
 }
 
 enum HealthKitWeightImporterError: LocalizedError {
@@ -76,7 +78,13 @@ final class HealthKitWeightReader: WeightSampleReading {
     /// read signal is getRequestStatusForAuthorization — .unnecessary means
     /// the user answered the read prompt (grant OR deny, which HealthKit
     /// deliberately hides), .shouldRequest means read access is not granted.
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool {
+    /// Issue #173: the async bridge resumes when HealthKit answers, so the
+    /// caller (MainActor) never blocks on a semaphore/thread wait. An
+    /// errored answer resolves to `false` — unknown, never treated as
+    /// answered, granted or denied. There is exactly ONE resume site (the
+    /// single HealthKit completion); a cancelled caller cannot double-resume
+    /// and a late completion cannot resume twice.
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool {
         let type: HKObjectType
         switch kind {
         case .bodyMass:
@@ -84,14 +92,12 @@ final class HealthKitWeightReader: WeightSampleReading {
         case .activeEnergyBurned:
             type = activeEnergyType
         }
-        var decided = false
-        let gate = DispatchSemaphore(value: 0)
-        healthStore.getRequestStatusForAuthorization(toShare: [], read: [type]) { status, _ in
-            decided = status == .unnecessary
-            gate.signal()
+        let promptAnswer = await withCheckedContinuation { continuation in
+            healthStore.getRequestStatusForAuthorization(toShare: [], read: [type]) { status, _ in
+                continuation.resume(returning: status)
+            }
         }
-        _ = gate.wait(timeout: .now() + 2)
-        return decided
+        return promptAnswer == .unnecessary
     }
     func samples(since: Date?) async throws -> [WeightLog] {
         let predicate = since.map {
@@ -233,8 +239,10 @@ final class HealthKitWeightImporter {
 
     /// Per-type read state for calm status derivation (issue #112: READ
     /// prompt answered — see WeightSampleReading.authorizationStatus).
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool {
-        reader.authorizationStatus(for: kind)
+    /// Async since #173: the status derivation awaits HealthKit instead of
+    /// blocking the MainActor on a semaphore.
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool {
+        await reader.authorizationStatus(for: kind)
     }
 
     /// Registers both observers immediately; each handler imports own type.

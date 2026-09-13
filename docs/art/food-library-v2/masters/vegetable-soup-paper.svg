@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Clear vegetable soup — translucent broth, carrot and floating leaves</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="rounded-porcelain">
+ <path d="M39 124 C44 158 61 188 90 201 C116 214 157 207 180 192 Q206 172 215 126Z" fill="#FFF7E8" opacity=".9"/>
+ <path d="M44 139 Q64 164 100 174 C128 183 156 173 169 168 Q159 193 132 203 C91 209 63 189 51 163Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M180 152 Q202 140 212 136 C208 160 192 186 172 196 Q151 208 123 205 C158 199 166 175 180 152Z" fill="#5E7E57" opacity=".34" filter="url(#wash)"/>
+ <path d="M70 164 Q84 185 107 189 L117 197 Q81 191 70 174Z" fill="#A5750B" opacity=".16" filter="url(#wash)"/>
+ <path d="M40 124 C37 101 80 90 120 91 C168 87 210 101 216 122 C220 143 173 161 132 162 C88 164 46 147 40 124Z" fill="#FFF7E8" opacity=".96"/>
+</g>
+<g id="clear-broth">
+ <path d="M50 122 C51 106 87 99 121 99 C158 96 197 107 205 122 C207 137 166 152 130 152 Q69 151 50 122Z" fill="#F2E9D9" opacity=".7"/>
+ <path d="M53 122 C67 108 95 112 119 104 Q169 99 201 121 C203 135 168 147 132 150 Q76 149 53 122Z" fill="#D6A62C" opacity=".35" filter="url(#wash)"/>
+ <path d="M62 129 C82 141 116 132 142 140 Q172 140 199 125 C190 141 160 151 129 149 Q83 147 62 129Z" fill="#A5750B" opacity=".24" filter="url(#wash)"/>
+ <path d="M69 115 Q88 105 104 108 M134 107 Q166 105 182 114 M99 142 l17 2 M157 140 l13 -4" fill="none" stroke="#FFF7E8" stroke-width="2.8" opacity=".68" filter="url(#dry)"/>
+</g>
+<g id="carrot-slices">
+ <path d="M76 121 C76 112 89 109 99 114 Q111 120 101 127 C90 133 77 129 76 121Z M144 132 Q145 120 160 122 C171 122 179 130 170 137 Q155 145 144 132Z" fill="#E66A2C" opacity=".8" filter="url(#wash)"/>
+ <path d="M80 118 Q89 113 98 119 Q94 125 83 123Z M151 128 Q159 125 169 131 Q161 137 153 133Z" fill="#D6A62C" opacity=".63"/>
+ <path d="M78 118 Q79 113 89 112 M98 126 Q89 132 80 127 M146 131 Q150 141 164 139 M168 125 l5 5 M87 118 l3 4 M158 129 l3 3" fill="none" stroke="#8B7355" stroke-width=".6" opacity=".8"/>
+</g>
+<g id="floating-leafy-vegetables">
+ <path d="M111 120 C107 112 113 108 119 108 Q123 100 131 106 L142 114 Q134 121 129 119 Q119 126 111 120Z M174 119 Q167 111 176 108 C184 104 191 111 194 117 Q184 127 174 119Z M101 137 Q105 126 115 130 L123 135 Q113 142 101 137Z" fill="#5E7E57" opacity=".85" filter="url(#wash)"/>
+ <path d="M113 118 Q125 119 137 113 M124 116 l-4 -6 M177 117 l11 -3 M106 136 l10 -1" fill="none" stroke="#2F654B" stroke-width=".8"/>
+ <path d="M61 118 L69 114 L74 121 L66 126Z M130 136 l7 -5 l6 7 l-8 4Z" fill="#FFF7E8" opacity=".72"/>
+ <path d="M62 119 l4 5 l6 -2 M133 138 l6 1" fill="none" stroke="#8B7355" stroke-width=".45" opacity=".5"/>
+</g>
+<g fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M40 116 Q44 101 78 95 M94 92 Q146 84 184 99 M199 105 Q226 121 212 135 M200 144 Q169 164 126 162 M111 161 Q66 157 44 135 M44 146 Q53 181 85 198 M99 204 Q138 216 170 199 M184 190 Q203 174 211 147" stroke-width=".96"/>
+ <path d="M53 116 Q66 103 94 101 M150 100 Q190 103 202 119 M194 133 l-8 5 M73 176 l6 10 M79 184 l7 8 M88 194 l7 4 M180 181 l5 -7" stroke-width=".45" opacity=".65"/>
+</g>
+</svg>

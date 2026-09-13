@@ -1,0 +1,42 @@
+[
+  {
+    "phase": "full-set-session-start",
+    "wall_ns": 1789223400550487000,
+    "monotonic_ns": 775650458078666
+  },
+  {
+    "phase": "chicken-authoring-start",
+    "wall_ns": 1789223674400701000,
+    "monotonic_ns": 775924308509750
+  },
+  {
+    "phase": "chicken-authoring-end",
+    "wall_ns": 1789223792481577000,
+    "monotonic_ns": 776042389478250
+  },
+  {
+    "phase": "chicken-correction-end",
+    "wall_ns": 1789223964924057000,
+    "monotonic_ns": 776214832096083
+  },
+  {
+    "phase": "fallback-corrections-end",
+    "wall_ns": 1789224803488755000,
+    "monotonic_ns": 777053402266125
+  },
+  {
+    "phase": "chicken-gate-export-start",
+    "wall_ns": 1789224835355252000,
+    "monotonic_ns": 777085268813541
+  },
+  {
+    "phase": "chicken-gate-export-start",
+    "wall_ns": 1789225590667494000,
+    "monotonic_ns": 777840596579958
+  },
+  {
+    "phase": "final-visual-review-end",
+    "wall_ns": 1789225960921521000,
+    "monotonic_ns": 778210852097875
+  }
+]

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Jasmine rice — clustered pale grains and uneven glazed ceramic</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="hand-thrown-bowl">
+ <path d="M43 132 Q48 170 77 192 C102 209 151 210 177 192 Q204 174 211 135 C173 120 82 116 43 132Z" fill="#FFF7E8" opacity=".83"/>
+ <path d="M48 142 C61 162 77 170 103 173 Q157 181 207 143 C201 172 181 192 153 200 C106 214 62 190 53 166Z" fill="#5E7E57" opacity=".7" filter="url(#wash)"/>
+ <path d="M151 174 Q188 164 207 145 Q198 184 169 195 Q141 208 111 200 C142 198 152 186 151 174Z" fill="#2F654B" opacity=".27" filter="url(#wash)"/>
+ <path d="M68 160 C83 178 110 182 126 184 L136 190 C104 190 84 180 74 175Z" fill="#FFF7E8" opacity=".55" filter="url(#dry)"/>
+ <path d="M42 132 C43 114 85 106 122 107 C163 104 201 117 212 131 C215 148 171 163 131 164 C92 164 47 151 42 132Z" fill="#F2E9D9" opacity=".87"/>
+ <path d="M49 133 C62 124 94 119 132 120 Q179 119 204 134 Q184 151 132 156 Q80 155 49 133Z" fill="#5E7E57" opacity=".35" filter="url(#wash)"/>
+</g>
+<g id="steamed-rice-mound">
+ <path d="M54 132 Q57 120 70 116 Q70 101 88 96 Q96 80 111 85 Q123 74 137 83 Q153 77 164 91 Q181 92 184 108 Q198 115 202 132 C178 150 147 154 119 151 Q81 151 54 132Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M62 127 Q80 124 88 109 Q103 117 119 104 Q135 98 145 114 Q166 105 180 123 L198 133 Q177 149 137 151 Q87 151 62 127Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M64 130 Q82 140 105 139 Q116 131 130 138 Q148 144 172 134 L194 134 Q168 153 127 149 Q86 152 64 130Z" fill="#A5750B" opacity=".2" filter="url(#wash)"/>
+ <path d="M78 105 Q89 96 96 99 M109 91 l8 -3 M134 87 l8 3 M153 103 l9 2 M97 122 l8 -3 M134 127 l9 1 M174 122 l8 4" fill="none" stroke="#FFF7E8" stroke-width="4" opacity=".75" filter="url(#dry)"/>
+ <g fill="none" stroke="#9D917F" stroke-linecap="round">
+  <path d="M56 124 Q58 119 66 116 M75 105 Q80 96 88 96 M102 86 l8 -2 M126 80 l9 3 M154 84 Q163 86 165 92 M182 104 l3 6 M194 123 l6 8" stroke-width=".66"/>
+  <path d="M76 124 q3 -4 7 -4 M88 112 q2 -5 5 -6 M99 135 q5 -2 8 0 M108 105 q2 -4 6 -3 M118 122 q4 1 7 -1 M126 94 q4 -1 7 2 M142 115 q3 -4 7 -3 M158 99 q4 1 5 5 M167 129 q5 -1 8 2 M150 139 q4 -3 7 -2 M83 136 l5 2 M185 132 l4 1" stroke-width=".52" opacity=".7"/>
+ </g>
+</g>
+<g fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M44 123 Q47 117 60 114 M198 121 Q214 128 211 137 M47 138 Q68 157 112 162 M125 164 Q177 167 203 146 M46 146 Q55 176 77 192 M88 198 Q124 214 158 202 M172 197 Q201 182 209 151" stroke-width="1.05"/>
+ <path d="M64 174 l6 8 M69 181 l7 7 M77 188 l7 5 M182 183 l5 -7 M177 189 l5 -5" stroke-width=".45" opacity=".65"/>
+</g>
+</svg>

@@ -1,0 +1,115 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "transitions": [
+    "Paper \u2192 Night",
+    "Night \u2192 Fallback phone",
+    "Fallback phone \u2192 Night gallery"
+  ],
+  "observations": [
+    {
+      "page": "gallery-paper.html",
+      "ready": "complete",
+      "body": true,
+      "theme": "paper",
+      "ids": [
+        "avocado",
+        "banana",
+        "broccoli",
+        "coffee",
+        "fallback-drinks",
+        "fallback-grains",
+        "fallback-produce",
+        "fallback-protein",
+        "fried-egg",
+        "grilled-chicken",
+        "jasmine-rice",
+        "mango",
+        "orange",
+        "salmon",
+        "stir-fried-noodles",
+        "toast",
+        "vegetable-soup"
+      ],
+      "errors": [],
+      "fonts": "loaded",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "page": "gallery-night.html",
+      "ready": "complete",
+      "body": true,
+      "theme": "night",
+      "ids": [
+        "avocado",
+        "banana",
+        "broccoli",
+        "coffee",
+        "fallback-drinks",
+        "fallback-grains",
+        "fallback-produce",
+        "fallback-protein",
+        "fried-egg",
+        "grilled-chicken",
+        "jasmine-rice",
+        "mango",
+        "orange",
+        "salmon",
+        "stir-fried-noodles",
+        "toast",
+        "vegetable-soup"
+      ],
+      "errors": [],
+      "fonts": "loaded",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "page": "phone-fallbacks-night.html",
+      "ready": "complete",
+      "body": true,
+      "theme": "night phone",
+      "ids": [
+        "fallback-drinks",
+        "fallback-grains",
+        "fallback-produce",
+        "fallback-protein"
+      ],
+      "errors": [],
+      "fonts": "loaded",
+      "images": true,
+      "overflow": false
+    },
+    {
+      "page": "gallery-night.html",
+      "ready": "complete",
+      "body": true,
+      "theme": "night",
+      "ids": [
+        "avocado",
+        "banana",
+        "broccoli",
+        "coffee",
+        "fallback-drinks",
+        "fallback-grains",
+        "fallback-produce",
+        "fallback-protein",
+        "fried-egg",
+        "grilled-chicken",
+        "jasmine-rice",
+        "mango",
+        "orange",
+        "salmon",
+        "stir-fried-noodles",
+        "toast",
+        "vegetable-soup"
+      ],
+      "errors": [],
+      "fonts": "loaded",
+      "images": true,
+      "overflow": false
+    }
+  ],
+  "harness_note": "Initial ad-hoc read raced navigation and saw body=null; retained driver waits for the expected URL/body/load/fonts before asserting. No artifact change was needed."
+}

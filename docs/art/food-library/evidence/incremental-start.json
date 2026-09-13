@@ -1,0 +1,536 @@
+{
+  "wall_start_ns": 1789215843499055000,
+  "monotonic_start_ns": 768093370364833,
+  "before": {
+    "masters/fallback-grains-night.svg": {
+      "sha256": "9e673238fc36505f4554aca5a09e35e1ad83941d54148eccabb455dee9a0a346",
+      "mtime_ns": 1789215732815599132
+    },
+    "masters/jasmine-rice-night.svg": {
+      "sha256": "f22836424e32b805e18847c3381fcbc122db52aa2714ed6c1901007cd3c9f633",
+      "mtime_ns": 1789215734527359002
+    },
+    "masters/banana-paper.svg": {
+      "sha256": "ceffcea23dcf5fc6e887c960a8230b3d858e04d7029bc6fa3eb9219008f720d3",
+      "mtime_ns": 1789215731065805598
+    },
+    "masters/toast-night.svg": {
+      "sha256": "80a055c23bdccb594a71fa7db4cb8c10c5e4a08f5e12dfdd30709fef54354d34",
+      "mtime_ns": 1789215736177001847
+    },
+    "masters/mango-paper.svg": {
+      "sha256": "ed7b6ae03f7c09576ddacf9623b4e3cf76b38161e5389428ebda95c597423f1d",
+      "mtime_ns": 1789215734705801872
+    },
+    "masters/fallback-drinks-night.svg": {
+      "sha256": "24aad2ee107e854438d01c8f214879129db0df8a5d3a0eee3c26704f4a287bfc",
+      "mtime_ns": 1789215732398712762
+    },
+    "masters/fallback-produce-night.svg": {
+      "sha256": "ff8145a78a6e549803a913657dac7e190e5fa6c78c82702dc0fc27a5425267a1",
+      "mtime_ns": 1789215733182700223
+    },
+    "masters/fried-egg-paper.svg": {
+      "sha256": "556e45871ca4f5d0217684171d52aa8c1920de0b6783cf168be07be040a814e2",
+      "mtime_ns": 1789215733672851059
+    },
+    "masters/coffee-paper.svg": {
+      "sha256": "dc2f325e2802af303b68a593a3ee8cd772307dcc638272643ca7a47519ee3a05",
+      "mtime_ns": 1789215731866428347
+    },
+    "masters/fallback-protein-paper.svg": {
+      "sha256": "915ec530f672da2516c246d55be5274b9f3c77989d54fb4cb21f5259fc2925cb",
+      "mtime_ns": 1789215733328992612
+    },
+    "masters/orange-paper.svg": {
+      "sha256": "119a04adfcde5e16c7046dadaea3e0f01d09d40ae7912bda513af49e433faeec",
+      "mtime_ns": 1789215735020763495
+    },
+    "masters/broccoli-night.svg": {
+      "sha256": "74c084200ccdf87800bbc6b8eb8969ece52110ea1d7fa2a1be5f87fdd88c2f7b",
+      "mtime_ns": 1789215731670065801
+    },
+    "masters/grilled-chicken-night.svg": {
+      "sha256": "1a06ddfb2643ca0833de6d4a4439dcc11d0eeb90ea64236a011c8e2bad4a2f54",
+      "mtime_ns": 1789215734190795709
+    },
+    "masters/salmon-paper.svg": {
+      "sha256": "de7f5826ef438ea50899538235a4c4625dd01b77fe9be6c9aa92523c800d5d7f",
+      "mtime_ns": 1789215735349909881
+    },
+    "masters/vegetable-soup-paper.svg": {
+      "sha256": "65e7b9e54629e19337191fe7f93573876fff93c56a20f8277f0422baff16d5fd",
+      "mtime_ns": 1789215736471543437
+    },
+    "masters/stir-fried-noodles-paper.svg": {
+      "sha256": "da0876be81d229704037bfbaa5ad15dac28f1cfbac68b1f3b46b392b9426dd70",
+      "mtime_ns": 1789215735667492821
+    },
+    "masters/vegetable-soup-night.svg": {
+      "sha256": "456c3339628e3897d8edbaacbe0ce87e8c578457da1d1c50cd5b5424ad9a3934",
+      "mtime_ns": 1789215736663977819
+    },
+    "masters/salmon-night.svg": {
+      "sha256": "c1bc217c826f1e10fee9576435de414e028b5b4c56a9cd1951e66b8c7a832304",
+      "mtime_ns": 1789215735496960695
+    },
+    "masters/stir-fried-noodles-night.svg": {
+      "sha256": "54f2cba3ac894d93458fc10e6516c6a69dd06bed73f3537198ee534828068ebc",
+      "mtime_ns": 1789215735865588592
+    },
+    "masters/orange-night.svg": {
+      "sha256": "c7b984af1ff374c8d0df9e744c7971d44eadf5166bd8ebe7af2b2e474942025f",
+      "mtime_ns": 1789215735157901711
+    },
+    "masters/fallback-protein-night.svg": {
+      "sha256": "3161aa84db94f09b2df9f9c15a4a20434fef7e79c0eb576d5ffcb0a63bef8be8",
+      "mtime_ns": 1789215733484938471
+    },
+    "masters/coffee-night.svg": {
+      "sha256": "55a48ee337271e3c09493a34cbc00df169181ef65d5aaa8cedf08ff678d36f3f",
+      "mtime_ns": 1789215732083919558
+    },
+    "masters/grilled-chicken-paper.svg": {
+      "sha256": "370fb6fd35f0802a0d7d488ab2a92ae0d87da3a38efbe529ab67fa8991fe5995",
+      "mtime_ns": 1789215734035871319
+    },
+    "masters/broccoli-paper.svg": {
+      "sha256": "a506e8b203145a83224aad3bf6c330460615df8818b9d71c0672e852bac57d0c",
+      "mtime_ns": 1789215731416225610
+    },
+    "masters/fallback-produce-paper.svg": {
+      "sha256": "4a130c66aed8cc646641f65876ca0faf0406ad6d33cbe0277a377fd9319fc7d9",
+      "mtime_ns": 1789215733008146182
+    },
+    "masters/fried-egg-night.svg": {
+      "sha256": "7f0792aad36bca0cd1179d53c5814b18996ef969a825a9f7955dfe3d80afd3a1",
+      "mtime_ns": 1789215733846179547
+    },
+    "masters/banana-night.svg": {
+      "sha256": "62ce2131c053d0e96930bcdfc8dddc4961b42e34baec1d272fbcc2c2f21c29e2",
+      "mtime_ns": 1789215731275644276
+    },
+    "masters/jasmine-rice-paper.svg": {
+      "sha256": "4e9fbd947acdec9e18d4f96deab93dce81e7b805fe9372ea2737c81f078e1d88",
+      "mtime_ns": 1789215734347197406
+    },
+    "masters/fallback-grains-paper.svg": {
+      "sha256": "d5664f573dfddceeb26a22d46e6b3e9b53c171c987aebc07ee80194c23272f0d",
+      "mtime_ns": 1789215732538518796
+    },
+    "masters/mango-night.svg": {
+      "sha256": "5087f5ee1ec9c489f48e1bf1ee02635f910fbccb6e845f427709947fc5e63ea7",
+      "mtime_ns": 1789215734870892404
+    },
+    "masters/fallback-drinks-paper.svg": {
+      "sha256": "4ef8e057365e85a1a9acdabe2ca90831b667aca65862e65631803939089b9f17",
+      "mtime_ns": 1789215732260845580
+    },
+    "masters/toast-paper.svg": {
+      "sha256": "dd8f371c1ca55981298ca6c45fe1e30b3da84fd8c63ff9f4de38b6da609589a8",
+      "mtime_ns": 1789215736021505659
+    },
+    "exports/fallback-protein-night-512.png": {
+      "sha256": "938b890becc1a27b22af0c53ba1bd6fb5aea94aa68b465eb03b6bb33b855dc5d",
+      "mtime_ns": 1789215733613458520
+    },
+    "exports/jasmine-rice-night-64.png": {
+      "sha256": "7c589bce661a89c50296c37505998f61d6412a35bdfac66cb468454b9e73c00a",
+      "mtime_ns": 1789215734551461779
+    },
+    "exports/fallback-grains-night-64.png": {
+      "sha256": "5933a42ffdcbce8f1b5a5f5fefe5ae4e6a8fd0d3eba36d867ede5ba35cee9b2f",
+      "mtime_ns": 1789215732839840036
+    },
+    "exports/vegetable-soup-paper-192.png": {
+      "sha256": "5dcdf3f7e26d706b2fd018a4bea5ebc2b9e170fa1ad4858c4e6281c95e429963",
+      "mtime_ns": 1789215736526991479
+    },
+    "exports/banana-paper-64.png": {
+      "sha256": "fcd621733797940670468b583ed23f2b6e36cda27cd4ed1c9bcc4c735c601ef6",
+      "mtime_ns": 1789215731108328473
+    },
+    "exports/salmon-night-512.png": {
+      "sha256": "b6cbcb1ba78635602000f883430ece9bb3e66509227f1c97f5802adc543da522",
+      "mtime_ns": 1789215735656261253
+    },
+    "exports/fried-egg-paper-192.png": {
+      "sha256": "a72a1f1dc06fb9249546b1b4654f2e13e991e806e83f8289de08948031d01145",
+      "mtime_ns": 1789215733748068878
+    },
+    "exports/coffee-night-512.png": {
+      "sha256": "f75a19ab82946e1f42821ec54465bde664d66db28840244968b9c3615570b96c",
+      "mtime_ns": 1789215732254066472
+    },
+    "exports/grilled-chicken-paper-512.png": {
+      "sha256": "6afff9ef13181cc9f9be61c8c0eba018e30099b851a9026db23ed46f12fb9677",
+      "mtime_ns": 1789215734185760077
+    },
+    "exports/coffee-paper-64.png": {
+      "sha256": "c549f8986aab804bc0bf8f62db962398982e2bc1986e95378273c9345ff4b594",
+      "mtime_ns": 1789215731888259977
+    },
+    "exports/broccoli-night-64.png": {
+      "sha256": "b71060b0edde78fa7a32ddee6ad8f3b06795a5164276d0302b96880f26d0f3fb",
+      "mtime_ns": 1789215731693881117
+    },
+    "exports/fallback-drinks-paper-512.png": {
+      "sha256": "1d8dab463ed948af502c7d529dd14a890641214d860c02bd6cf63a167ada6ff6",
+      "mtime_ns": 1789215732355859135
+    },
+    "exports/broccoli-night-192.png": {
+      "sha256": "fd5ea7f90fde43c61a2fa8a8a8216d88d7f085e4fe2a7b0941fc8cf68d62bb07",
+      "mtime_ns": 1789215731739532189
+    },
+    "exports/banana-paper-512.png": {
+      "sha256": "50a5332a46d0e820ed81cda10fd13227ed0a377ca983046d08c9f8d642bc8de9",
+      "mtime_ns": 1789215731217139954
+    },
+    "exports/toast-night-192.png": {
+      "sha256": "2b702577467a327be5532771d35363834e398fd25afba8f30f036d61dca262ed",
+      "mtime_ns": 1789215736258078890
+    },
+    "exports/fallback-produce-night-512.png": {
+      "sha256": "96423fcb6e165f5a2a6a1f1360e602f3462727dfdd27c18be2852ebcff0e09da",
+      "mtime_ns": 1789215733322038586
+    },
+    "exports/jasmine-rice-night-192.png": {
+      "sha256": "fcc405ddc5843d8eb3421f07266b1d854835ebc7dfb40433bdcc7780edacc126",
+      "mtime_ns": 1789215734599754377
+    },
+    "exports/orange-night-512.png": {
+      "sha256": "3f88f841912e6870709d83711a708eb6ab9acbe6e38d0701c05bc5453f8383d8",
+      "mtime_ns": 1789215735279240815
+    },
+    "exports/mango-night-512.png": {
+      "sha256": "8c5357b8db565efcc2a0fe5d78fa32b8de720c7a3218d76f1c9af7db218af0da",
+      "mtime_ns": 1789215735013719218
+    },
+    "exports/fallback-grains-paper-192.png": {
+      "sha256": "8a26b1540800c74fd63280ff196c1700aae79e0bf8e4004aeda58225cf33bae5",
+      "mtime_ns": 1789215732661618376
+    },
+    "exports/fried-egg-night-64.png": {
+      "sha256": "b46dfcdb19ee5d186f33d840ad3d19c4082f5b78ab754a158d329f7d03973c61",
+      "mtime_ns": 1789215733867449796
+    },
+    "exports/fallback-protein-paper-64.png": {
+      "sha256": "fdfcef1efc2a47987195dd658b5011626bda503cc8a53400e2f5614cbd3d7657",
+      "mtime_ns": 1789215733349017225
+    },
+    "exports/stir-fried-noodles-night-512.png": {
+      "sha256": "96bdd3e93d4b2b03d6c137ed16f32d80203639ad0d2526630fbf87a6b360a8bd",
+      "mtime_ns": 1789215736016864822
+    },
+    "exports/stir-fried-noodles-paper-192.png": {
+      "sha256": "1cc8fd82bfaa461f312057c53f0c4a2b3595b09d825137b18826e448628f5e40",
+      "mtime_ns": 1789215735744607492
+    },
+    "exports/vegetable-soup-night-64.png": {
+      "sha256": "e4d57e76b57f702d10b652f7ccf546fd3accd13a7fb13b7074b813fb09bd6454",
+      "mtime_ns": 1789215736687453924
+    },
+    "exports/fallback-produce-paper-64.png": {
+      "sha256": "ecbfd2e93b2f8c97299ebf9bda2e1749f7aca079b4d16389a4a1f7334917466b",
+      "mtime_ns": 1789215733029826936
+    },
+    "exports/orange-night-64.png": {
+      "sha256": "3f7902e24f1ef4593cb39eb93adc5c20c8bbd2c9dc4e930e36897abe4de14246",
+      "mtime_ns": 1789215735178302744
+    },
+    "exports/fallback-grains-night-512.png": {
+      "sha256": "e688a8a272086b84ba531af585643950b91de70f4f4d6613c4a8dff29b0d3d29",
+      "mtime_ns": 1789215732968324126
+    },
+    "exports/orange-paper-192.png": {
+      "sha256": "25fe661bf31757632d701fbc76a5bdc407915f2bd6d8bc8dee5467dd836ed5d5",
+      "mtime_ns": 1789215735074507687
+    },
+    "exports/mango-paper-192.png": {
+      "sha256": "c0a27b03992c659ae0f6e75ca98c32489ce7b4a0f19ce51aec48fa7bd7767d20",
+      "mtime_ns": 1789215734783060961
+    },
+    "exports/fallback-produce-paper-192.png": {
+      "sha256": "6a82de16efc4b0b7cbf8d6758f92e06dba68ea135dffdf3004bd78e6635be125",
+      "mtime_ns": 1789215733076733645
+    },
+    "exports/jasmine-rice-paper-512.png": {
+      "sha256": "be6551ed0bbfdfe78cb53b78be505c321b339aca6339b19611acf1ca14bfeecf",
+      "mtime_ns": 1789215734494084676
+    },
+    "exports/banana-night-192.png": {
+      "sha256": "6bd7ba7efae9868153576fd72f83dd6e3502feaf6e912d357dc67c2c32d0fbea",
+      "mtime_ns": 1789215731351879230
+    },
+    "exports/fallback-drinks-paper-64.png": {
+      "sha256": "62ca3b24f8f2ac383723bdc6d0aa2c3254cf0d65c8764cd329e44d0a3d832a48",
+      "mtime_ns": 1789215732283239633
+    },
+    "exports/toast-paper-512.png": {
+      "sha256": "18ad504d6b3fd31fe835b24d32303087533686978b957ea48d05d7ca552ab01a",
+      "mtime_ns": 1789215736171568502
+    },
+    "exports/fallback-drinks-night-192.png": {
+      "sha256": "64378cf3eb5f5219b8a2fc646693dd09be9c79dcae20840a8248845b9fbdeb70",
+      "mtime_ns": 1789215732481468322
+    },
+    "exports/broccoli-paper-512.png": {
+      "sha256": "2aa12604e194b38d1240f8b246cdabf2ee0210672832f0d0b6a5b0d01422bc33",
+      "mtime_ns": 1789215731619628641
+    },
+    "exports/grilled-chicken-night-192.png": {
+      "sha256": "9f591d062d8309a44b2916d74996864f54bc06576faad0b3683146f42bd20382",
+      "mtime_ns": 1789215734271215121
+    },
+    "exports/mango-night-64.png": {
+      "sha256": "f8716e9b9c141c87c25c2e27bc33682b6eddf7c93d3d5a0cf8c6812a7c9e9d9a",
+      "mtime_ns": 1789215734891701566
+    },
+    "exports/salmon-paper-192.png": {
+      "sha256": "2dbf3f2bdf7386066f33238e7c571aebb19b0f51af653ed28d3d6060dfc7d793",
+      "mtime_ns": 1789215735407017773
+    },
+    "exports/fried-egg-night-512.png": {
+      "sha256": "c9c809051ef0b4c4018269c39c5059c0d56475c683066673b63374189ca79e73",
+      "mtime_ns": 1789215734012571924
+    },
+    "exports/stir-fried-noodles-night-64.png": {
+      "sha256": "8997987bf17ec9329683c78bc01d17915e6f332b09f24126cf801d949f9c09c6",
+      "mtime_ns": 1789215735888679777
+    },
+    "exports/coffee-paper-192.png": {
+      "sha256": "97848698432524a187dbcccff355157dfe4f1557f7035293267470c73120455d",
+      "mtime_ns": 1789215731945659372
+    },
+    "exports/salmon-paper-64.png": {
+      "sha256": "c7fb5ff079ace26e2044d0997fb640f0c1916647d9f8c1107280ab07aae691b9",
+      "mtime_ns": 1789215735373087900
+    },
+    "exports/grilled-chicken-night-64.png": {
+      "sha256": "44d63f94c2d9acf71a568ce9bb545f84f07964a8f4e72605395a8e7bb07ed646",
+      "mtime_ns": 1789215734211591663
+    },
+    "exports/vegetable-soup-night-512.png": {
+      "sha256": "cf792249d258eb0d6f7396c196c8f33222e6ff597117939abff2a5509626ef3c",
+      "mtime_ns": 1789215736806481088
+    },
+    "exports/toast-paper-64.png": {
+      "sha256": "c61ed953c900e674558454a7f7e85c27d08c193be69598917bbda6d1a864b455",
+      "mtime_ns": 1789215736044856471
+    },
+    "exports/fallback-protein-paper-192.png": {
+      "sha256": "12f2bee602de33bf15c6ba32c61d854781630106cd6e436de6bf69c076ebb240",
+      "mtime_ns": 1789215733406656247
+    },
+    "exports/mango-paper-64.png": {
+      "sha256": "1be8d8f59c31c64042502d9b56af7ef948880bd89cd6c0deaffde7bac205f83d",
+      "mtime_ns": 1789215734728498636
+    },
+    "exports/fallback-grains-paper-512.png": {
+      "sha256": "c4754d075fb339b0747b045c830456fa0cc791fa68155e9bda405d04750fc056",
+      "mtime_ns": 1789215732742515583
+    },
+    "exports/stir-fried-noodles-night-192.png": {
+      "sha256": "467961489384ce35adf112db0bfe2b59a0d176c64f397876080c470ec3d86900",
+      "mtime_ns": 1789215735940490075
+    },
+    "exports/salmon-night-64.png": {
+      "sha256": "00fe2381bef49c4d49fc6efc0ffa6efc10d3cb3f8c4289cc651d845a182ba92d",
+      "mtime_ns": 1789215735519282288
+    },
+    "exports/stir-fried-noodles-paper-64.png": {
+      "sha256": "d42f9ea639a25a4ed2f4ea84564fa0ac770c4443340290c224ea5ccdb0ef2adc",
+      "mtime_ns": 1789215735690400170
+    },
+    "exports/banana-paper-192.png": {
+      "sha256": "4a658f978922a61636d4eebae25f2eaf6e1cc6f420750682cac7a6accbc44070",
+      "mtime_ns": 1789215731177499233
+    },
+    "exports/toast-night-512.png": {
+      "sha256": "717aec0d2a9e28f5bd3b689571ae3c63f4d831596a8ff0266815de4536430c98",
+      "mtime_ns": 1789215736372237673
+    },
+    "exports/grilled-chicken-paper-64.png": {
+      "sha256": "1f32f8c77c15f8b3dfe4216bad5f39ed8febb288fe3e815a32fc39eba8f8b79f",
+      "mtime_ns": 1789215734064412473
+    },
+    "exports/broccoli-night-512.png": {
+      "sha256": "7d11f1f2ff360ed5c65559c7f05014c5d36c3998b04b8369f0a51fdc24e32a7e",
+      "mtime_ns": 1789215731833550359
+    },
+    "exports/fallback-drinks-paper-192.png": {
+      "sha256": "ebd7e8e1e5775b3caddcb453db6536029ef5c9887217d5907e1901434d82fc85",
+      "mtime_ns": 1789215732308986593
+    },
+    "exports/mango-night-192.png": {
+      "sha256": "f6267d53616a946fa8cd83f9ce5a2116e67717bba681e88d027aab3e1ae425e9",
+      "mtime_ns": 1789215734938250021
+    },
+    "exports/toast-night-64.png": {
+      "sha256": "82a68d8bdab0226104424795192ea9eaa121473940c948aa148126bc78a29265",
+      "mtime_ns": 1789215736199353732
+    },
+    "exports/orange-night-192.png": {
+      "sha256": "a0dac5bbb0adb730c2d7d4f7a7d3dc944add42afaae49e6f19df09a61d2bd820",
+      "mtime_ns": 1789215735209790844
+    },
+    "exports/jasmine-rice-night-512.png": {
+      "sha256": "6f288c7d86d238c803fff913823e3c6eb37415dba8e77ea9515bffe3eb85c710",
+      "mtime_ns": 1789215734670635445
+    },
+    "exports/fallback-produce-night-192.png": {
+      "sha256": "261fd32739b0b835affd0d50d3d3bbeba0c11b60e96876472a3291eb1b234e19",
+      "mtime_ns": 1789215733256080441
+    },
+    "exports/fried-egg-paper-512.png": {
+      "sha256": "823c8dbd8880df706f862f2e5f62ef0c36342cb8fa86c093c90d8f915082f6f2",
+      "mtime_ns": 1789215733841484375
+    },
+    "exports/salmon-night-192.png": {
+      "sha256": "d8b46266454551af463fdbc8f3dd4d39b6727e694c5f26d469f16b2274783a14",
+      "mtime_ns": 1789215735554436382
+    },
+    "exports/fallback-produce-night-64.png": {
+      "sha256": "143ae9386acd3de06663870a9467b9cc5fb26f83f3345e5902c68192e5b50efd",
+      "mtime_ns": 1789215733205114692
+    },
+    "exports/vegetable-soup-paper-64.png": {
+      "sha256": "3d018a8a968290536c4e4b58562d65714b512039634a619437367d9e9fb98bc4",
+      "mtime_ns": 1789215736494669704
+    },
+    "exports/coffee-night-192.png": {
+      "sha256": "6641c195088ebdddf0960f4cac2935ea5532c1c97908983183632116ed3473ff",
+      "mtime_ns": 1789215732143041053
+    },
+    "exports/orange-paper-64.png": {
+      "sha256": "37c7e00d8470705e04bb458b40e198eafe39600a5c3ff37cd105cd1d687a1fe9",
+      "mtime_ns": 1789215735040520730
+    },
+    "exports/grilled-chicken-paper-192.png": {
+      "sha256": "19d7ca32f05e1c235ddb0f3b9030f025e20c14d1f23b4811cfcc1dee9efb2591",
+      "mtime_ns": 1789215734127575049
+    },
+    "exports/fallback-protein-night-192.png": {
+      "sha256": "738dc4981c85e44065a91e2ffb0a4bfc540332019f058856b414ca6b0282c153",
+      "mtime_ns": 1789215733537392526
+    },
+    "exports/fallback-drinks-night-64.png": {
+      "sha256": "b1b5baf8b4e69b313181ed4a01da6c4e6864e85a5334d7435358fbe0b73bc60b",
+      "mtime_ns": 1789215732420001304
+    },
+    "exports/vegetable-soup-paper-512.png": {
+      "sha256": "cd392447c4c129030df1be211b48c4e28e56551eca2b6d3162c4ef9d7fbde30a",
+      "mtime_ns": 1789215736611037301
+    },
+    "exports/coffee-night-64.png": {
+      "sha256": "9a0be9b1dea279de9a433c010e2eebac689da0b85207b2d6c64098ad3c99c955",
+      "mtime_ns": 1789215732106599863
+    },
+    "exports/vegetable-soup-night-192.png": {
+      "sha256": "9a1b6f4486fbdad40079f7562b46df08ca625ca944aef08f80ec037c17a1bad1",
+      "mtime_ns": 1789215736729235499
+    },
+    "exports/broccoli-paper-64.png": {
+      "sha256": "d44b7d2b36fefdef2c4ca8673db2671552eaff0714ef330524a9e8ff481375fd",
+      "mtime_ns": 1789215731439975592
+    },
+    "exports/fallback-protein-paper-512.png": {
+      "sha256": "65428bae396d515d39d7cc05b0b2b157801b3a835141d5cf0789989b8cf43afa",
+      "mtime_ns": 1789215733467052004
+    },
+    "exports/fried-egg-paper-64.png": {
+      "sha256": "bfceaa56a9795fc9fb7e8e180152ae5f7e03325c267aa165c0a66ff54ef6bf23",
+      "mtime_ns": 1789215733694901733
+    },
+    "exports/grilled-chicken-night-512.png": {
+      "sha256": "decf1c3db2bd140567af7d819b373c1fb38dc3327f08e11059a22674c87d2415",
+      "mtime_ns": 1789215734340715134
+    },
+    "exports/fried-egg-night-192.png": {
+      "sha256": "d70a294b4a2ca59bc640d42f4e417e3636454a9faf7b76039734e14679620dae",
+      "mtime_ns": 1789215733929936866
+    },
+    "exports/salmon-paper-512.png": {
+      "sha256": "dcf0de9146b0443c37ac5643aa6400caeeaba8d814a611760af0f2ba750e31b3",
+      "mtime_ns": 1789215735488125192
+    },
+    "exports/fallback-protein-night-64.png": {
+      "sha256": "74d65e9ccb8700e12b7d2bdeee31ccf0b54afae2826d9b700cedfc35fe7f17ad",
+      "mtime_ns": 1789215733504713164
+    },
+    "exports/coffee-paper-512.png": {
+      "sha256": "84f1db587d965a30f08a17ff4f078eb5dd87fb76bf8a8c1f2b5e8f81fa082da2",
+      "mtime_ns": 1789215732032959559
+    },
+    "exports/jasmine-rice-paper-192.png": {
+      "sha256": "9a195903f005c97b5be87f42f6b5f42f82781409fde732803888f17dce2dceb9",
+      "mtime_ns": 1789215734427277814
+    },
+    "exports/jasmine-rice-paper-64.png": {
+      "sha256": "b9efa1efbce4dce22ef547ca6ee6d23b2ebaf34203e199825e02b909c451e1bf",
+      "mtime_ns": 1789215734370396841
+    },
+    "exports/fallback-produce-paper-512.png": {
+      "sha256": "d04739699a1e494a9c07b1955358d5f2cd79a242beeb7d84dc77e3d12ff45f23",
+      "mtime_ns": 1789215733123043973
+    },
+    "exports/mango-paper-512.png": {
+      "sha256": "d0e0d3081af8a83926db2dd224a670a00f20a68a6a938f0e4c4b8df935b2ed4e",
+      "mtime_ns": 1789215734859350999
+    },
+    "exports/orange-paper-512.png": {
+      "sha256": "2194d35cd62a9fb098ae5059f1836e3ad3fde30b9dbc146f99d80886cdd4968d",
+      "mtime_ns": 1789215735150121427
+    },
+    "exports/broccoli-paper-192.png": {
+      "sha256": "f139782a2ef7d5faefb23c729d99558f9110b324a50341f3473ea25f0a63bf82",
+      "mtime_ns": 1789215731502360494
+    },
+    "exports/fallback-grains-paper-64.png": {
+      "sha256": "7814a2cc0a7e47cc3725bd6efdf0a89e9e53d8f381c04c16be3b816c7247e3b2",
+      "mtime_ns": 1789215732561686940
+    },
+    "exports/fallback-drinks-night-512.png": {
+      "sha256": "162bb28712bb9dac8b648c3631de5abbbf43a4582479b3ed0a4d0ce28b669096",
+      "mtime_ns": 1789215732530377217
+    },
+    "exports/banana-night-64.png": {
+      "sha256": "0f191de28edd3d7f8636b75aaa42466a78cae22f079faa3b22f61d8580d2e833",
+      "mtime_ns": 1789215731296972943
+    },
+    "exports/banana-night-512.png": {
+      "sha256": "bc4eb3d934e0cbd32819746c2c4b9eb3d9a9b6b0e56c907d9daedc9b659e2291",
+      "mtime_ns": 1789215731392895590
+    },
+    "exports/toast-paper-192.png": {
+      "sha256": "3acdc18559936f8ddd7a84e1040a0d8d4989d426242b15dda0077f6f1d4fc13b",
+      "mtime_ns": 1789215736106032944
+    },
+    "exports/stir-fried-noodles-paper-512.png": {
+      "sha256": "0ef6032ed3862714a98561ba7c0898fcdb6b54405faf3abf054e504ea4fb701a",
+      "mtime_ns": 1789215735798153183
+    },
+    "exports/fallback-grains-night-192.png": {
+      "sha256": "e29720cdd344531fd2c21f87d7291bb65378d05146a9c79793436a7a2c92d0f4",
+      "mtime_ns": 1789215732894727864
+    }
+  },
+  "starter_ids": [
+    "banana",
+    "broccoli",
+    "coffee",
+    "fallback-drinks",
+    "fallback-grains",
+    "fallback-produce",
+    "fallback-protein",
+    "fried-egg",
+    "grilled-chicken",
+    "jasmine-rice",
+    "mango",
+    "orange",
+    "salmon",
+    "stir-fried-noodles",
+    "toast",
+    "vegetable-soup"
+  ]
+}

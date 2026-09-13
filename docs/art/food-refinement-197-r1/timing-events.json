@@ -1,0 +1,77 @@
+[
+  {
+    "phase": "authoring-start",
+    "wall_ns": 1789220623187802000,
+    "monotonic_ns": 772873119846666
+  },
+  {
+    "phase": "authoring-end",
+    "wall_ns": 1789220951653884000,
+    "monotonic_ns": 773201587960041
+  },
+  {
+    "phase": "export-start",
+    "wall_ns": 1789220951746700000,
+    "monotonic_ns": 773201680775875
+  },
+  {
+    "phase": "export-end",
+    "wall_ns": 1789220953467436000,
+    "monotonic_ns": 773203401524416
+  },
+  {
+    "phase": "proofs-start",
+    "wall_ns": 1789220953468602000,
+    "monotonic_ns": 773203402687708
+  },
+  {
+    "phase": "proofs-end",
+    "wall_ns": 1789220953694292000,
+    "monotonic_ns": 773203628380916
+  },
+  {
+    "phase": "refinement-start",
+    "wall_ns": 1789221200860913000,
+    "monotonic_ns": 773450781060666
+  },
+  {
+    "phase": "refinement-end",
+    "wall_ns": 1789221306877655000,
+    "monotonic_ns": 773556790953958
+  },
+  {
+    "phase": "export-start",
+    "wall_ns": 1789221306970929000,
+    "monotonic_ns": 773556884227958
+  },
+  {
+    "phase": "export-end",
+    "wall_ns": 1789221308704655000,
+    "monotonic_ns": 773558617958000
+  },
+  {
+    "phase": "proofs-start",
+    "wall_ns": 1789221308705923000,
+    "monotonic_ns": 773558619224250
+  },
+  {
+    "phase": "proofs-end",
+    "wall_ns": 1789221308946280000,
+    "monotonic_ns": 773558859583041
+  },
+  {
+    "phase": "phone-capture-start",
+    "wall_ns": 1789221465998546000,
+    "monotonic_ns": 773715912146166
+  },
+  {
+    "phase": "phone-capture-end",
+    "wall_ns": 1789221499093143000,
+    "monotonic_ns": 773749006806750
+  },
+  {
+    "phase": "visual-review-end",
+    "wall_ns": 1789221653167160000,
+    "monotonic_ns": 773903081121916
+  }
+]

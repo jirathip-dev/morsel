@@ -1,0 +1,189 @@
+{
+  "assets": [
+    {
+      "id": "avocado",
+      "name": "Avocado",
+      "aliases": [
+        "avocado half",
+        "อะโวคาโด"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "An irregular whole avocado beside a cut half, pale green flesh and a broad brown pit."
+    },
+    {
+      "id": "banana",
+      "name": "Banana",
+      "aliases": [
+        "กล้วย"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A curved golden banana with uneven skin washes, darker stem and broken longitudinal ink."
+    },
+    {
+      "id": "broccoli",
+      "name": "Broccoli",
+      "aliases": [
+        "steamed broccoli",
+        "บรอกโคลี"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A branching pale stem beneath an irregular clustered green broccoli crown."
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "aliases": [
+        "black coffee",
+        "กาแฟ"
+      ],
+      "category": "drinks",
+      "kind": "food",
+      "description": "Approved R1 ceramic coffee study with dark liquid, selective ink and uneven glaze washes."
+    },
+    {
+      "id": "fallback-drinks",
+      "name": "Drink · fallback",
+      "aliases": [
+        "beverage category"
+      ],
+      "category": "drinks",
+      "kind": "fallback",
+      "description": "Generic drinking vessel; category fallback, not a specific drink or serving."
+    },
+    {
+      "id": "fallback-grains",
+      "name": "Grains · fallback",
+      "aliases": [
+        "grain category"
+      ],
+      "category": "grains",
+      "kind": "fallback",
+      "description": "Loose generic grain forms in a modest vessel; category fallback, not a specific recipe."
+    },
+    {
+      "id": "fallback-produce",
+      "name": "Produce · fallback",
+      "aliases": [
+        "produce category"
+      ],
+      "category": "produce",
+      "kind": "fallback",
+      "description": "A loose produce-and-leaf study; category fallback, not identified ingredients."
+    },
+    {
+      "id": "fallback-protein",
+      "name": "Protein · fallback",
+      "aliases": [
+        "protein category"
+      ],
+      "category": "protein",
+      "kind": "fallback",
+      "description": "Generic protein-category study; fallback only, not a dish or ingredient identification."
+    },
+    {
+      "id": "fried-egg",
+      "name": "Fried egg",
+      "aliases": [
+        "sunny-side-up egg",
+        "ไข่ดาว"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "Irregular cooked egg white with ragged browned edges and a warm rounded yolk."
+    },
+    {
+      "id": "grilled-chicken",
+      "name": "Grilled chicken",
+      "aliases": [
+        "chicken breast",
+        "ไก่ย่าง"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "A bone-in grilled chicken portion with an exposed knuckle, uneven browned skin and irregular char marks; generic chicken representation, not a cut or portion match."
+    },
+    {
+      "id": "jasmine-rice",
+      "name": "Jasmine rice",
+      "aliases": [
+        "steamed rice",
+        "white rice",
+        "ข้าวสวย"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "A loose rice mound in an uneven ceramic bowl, with selective grain marks and translucent wash."
+    },
+    {
+      "id": "mango",
+      "name": "Mango",
+      "aliases": [
+        "ripe mango",
+        "มะม่วง"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "Approved R1 whole mango and cut cheek with irregular gold washes and selective ink."
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "aliases": [
+        "citrus",
+        "ส้ม"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "Whole and cut citrus forms with organic rind, pith and warm orange flesh."
+    },
+    {
+      "id": "salmon",
+      "name": "Salmon fillet",
+      "aliases": [
+        "grilled salmon",
+        "ปลาแซลมอน"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "An irregular salmon fillet with uneven coral washes and selective pale flesh markings."
+    },
+    {
+      "id": "stir-fried-noodles",
+      "name": "Stir-fried noodles",
+      "aliases": [
+        "noodles",
+        "ผัดหมี่"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "Approved R1 tangled noodle ribbons in a ceramic bowl with broken ink and uneven washes."
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "aliases": [
+        "bread",
+        "wholegrain toast",
+        "ขนมปังปิ้ง"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "Browned toast with a distinct crust and porous cream crumb; generic bread study."
+    },
+    {
+      "id": "vegetable-soup",
+      "name": "Clear vegetable soup",
+      "aliases": [
+        "clear soup",
+        "vegetable broth",
+        "แกงจืด"
+      ],
+      "category": "soup",
+      "kind": "food",
+      "description": "A ceramic bowl of translucent broth and loose vegetable forms; generic soup illustration."
+    }
+  ]
+}

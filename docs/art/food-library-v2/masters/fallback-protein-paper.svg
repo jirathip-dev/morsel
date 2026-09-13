@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Protein category fallback — mixed bean and egg-like organic study, not a specific dish</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="small-earthen-plate">
+ <path d="M42 160 C47 142 85 132 127 133 C170 130 207 145 215 163 C216 183 171 200 128 199 C86 200 46 184 42 160Z" fill="#FFF7E8" opacity=".79"/>
+ <path d="M47 167 Q87 192 133 190 Q184 190 212 169 C199 192 160 201 119 197 Q70 194 47 167Z" fill="#5E7E57" opacity=".43" filter="url(#wash)"/>
+ <path d="M66 158 Q91 142 126 145 Q177 140 194 163 Q182 181 132 184 Q86 184 66 158Z" fill="#F2E9D9" opacity=".63" filter="url(#wash)"/>
+ <path d="M45 154 Q52 143 78 139 M92 135 Q146 125 186 140 M203 149 Q222 162 210 177 M194 185 Q155 207 105 197 M89 194 Q52 187 44 169" fill="none" stroke="#8B7355" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M63 164 Q76 179 99 182 M149 185 Q176 183 190 171 M67 181 l9 5" fill="none" stroke="#8B7355" stroke-width=".43" opacity=".58"/>
+</g>
+<g id="pale-organic-oval" transform="translate(14 29) scale(.78)">
+ <path d="M75 142 C69 126 77 96 92 82 C105 68 125 78 133 99 C143 117 143 142 129 155 C112 171 84 162 75 142Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M79 129 C84 140 93 149 107 146 Q129 143 133 120 C142 136 134 154 120 160 Q92 171 79 145Z" fill="#A5750B" opacity=".31" filter="url(#wash)"/>
+ <path d="M112 81 C126 84 134 104 136 119 Q137 135 129 145 L120 148 C130 118 112 109 112 81Z" fill="#FBE1C9" opacity=".34" filter="url(#wash)"/>
+ <path d="M85 111 Q87 93 101 86 L107 89 Q96 103 94 119Z" fill="#FFF7E8" opacity=".7" filter="url(#dry)"/>
+ <path d="M76 127 Q75 102 90 85 M99 78 Q117 71 130 94 M136 109 Q148 140 129 155 M117 162 Q89 167 78 145" fill="none" stroke="#8B7355" stroke-width=".94" stroke-linecap="round"/>
+ <path d="M83 140 l3 7 M86 147 l5 6 M93 154 l6 3 M131 139 l-3 8" fill="none" stroke="#8B7355" stroke-width=".44" opacity=".61"/>
+</g>
+<g id="mixed-bean-like-forms" transform="translate(-35 -30) scale(1.22)">
+ <path d="M140 144 C135 133 145 118 158 117 C170 113 181 121 179 132 Q177 141 166 137 C159 136 160 149 153 151 Q144 153 140 144Z" fill="#655A4B" opacity=".72"/>
+ <path d="M142 142 Q148 146 154 136 Q159 128 169 131 L178 128 Q182 140 167 138 C159 137 161 149 152 150Z" fill="#B94738" opacity=".38" filter="url(#wash)"/>
+ <path d="M113 168 C107 158 115 148 128 147 C140 145 149 151 146 161 Q145 170 135 168 C128 167 126 178 119 175Z" fill="#FBE1C9" opacity=".89"/>
+ <path d="M115 165 Q127 159 133 164 Q143 165 146 157 C149 170 136 171 132 171 Q120 184 115 165Z" fill="#A5750B" opacity=".46" filter="url(#wash)"/>
+ <path d="M160 169 C154 160 161 149 174 148 C187 143 199 152 194 162 Q192 167 183 165 C174 163 175 176 166 175Z" fill="#A5750B" opacity=".77"/>
+ <path d="M162 165 Q169 171 175 162 Q183 156 193 160 Q195 168 183 165 Q177 166 174 172 Q167 178 162 171Z" fill="#655A4B" opacity=".35" filter="url(#wash)"/>
+ <path d="M146 130 q5 -9 12 -8 M119 155 q5 -5 10 -4 M165 156 q5 -5 10 -4" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".54" filter="url(#dry)"/>
+ <path d="M140 140 Q135 125 151 119 M162 116 Q183 115 179 132 Q177 140 167 137 M157 140 Q155 154 146 150 M114 158 Q115 148 128 147 M139 148 Q152 153 144 164 M133 169 Q124 180 117 173 M160 165 Q155 153 168 150 M182 147 Q201 148 194 161 M182 165 Q174 164 172 173 Q166 180 161 171" fill="none" stroke="#8B7355" stroke-width=".66" stroke-linecap="round"/>
+</g>
+</svg>

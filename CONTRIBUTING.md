@@ -4,6 +4,16 @@
 > symlink to CLAUDE.md; issue #1) but agent writes to
 > that file are policy-blocked; a human should fold it in.
 
+## Branch policy
+Feature PRs target `staging`, the protected integration branch, gated by the
+required checks `quality`, `swiftlint`, `bun-fly-entrypoint` and
+`fastfile-contract`. `main` is release-only and is promoted from `staging` by a
+human; production/CD (deploy + migration apply) remains human-dispatched:
+deploys run only via explicit `workflow_dispatch`, and migration apply runs
+only through an explicit human-enabled dispatch/flag, while the `main` push
+trigger performs read-only classification only — the `classify` job in
+`.github/workflows/migration-cd.yml`.
+
 ## Quality gates (mandatory)
 - **Run `npm run typecheck && npm run lint && npm test` before any PR.** All
   three must be green; a PR that skips the gate is not reviewable.

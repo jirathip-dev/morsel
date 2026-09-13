@@ -279,7 +279,7 @@ private final class ScriptedHealthReader: WeightSampleReading {
 
     func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
 
-    func authorizationStatus(for kind: HealthKitObserverKind) -> Bool { authorized }
+    func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { authorized }
 
     func startObserving(
         _ kind: HealthKitObserverKind,
