@@ -41,6 +41,18 @@ snapshot and asserts it arrived while the photo plan is still parked.
 | Forbidden/foreign path degrades independently; validation stays enforced | `testForeignPhotoPathKeepsTextAndRejectsTheDownload` | foreign-owner path → no image contract, no storage request, download seam throws; text/IDs/kcal stay |
 | Replacement at the canonical path stays visible; no URL/byte cache mediates | `testPhotoReplacementAtTheCanonicalPathStaysVisibleWithoutAnyUrlCache` | same path, changed bytes: second load returns the new bytes, 2 GETs, `signingStarts == 0` |
 
+### Degraded-image matrix (missing / forbidden / offline)
+
+All three legs ship inside the 6-test suite, so their raw exit evidence is the
+same focused/full native runs (`focused=0`, `xcodebuild=0`; per-test pass lines
+in `.lane-logs/xcodebuild-focused.log` and `.lane-logs/xcodebuild.log`):
+
+| Leg | Fixture | Result |
+| --- | --- | --- |
+| offline / signing endpoint unreachable | photo request plan parks forever | snapshot publishes, 0 signing calls, 0 photo requests (headline test) |
+| missing bytes | authenticated download → 404 | canonical path + text/IDs/kcal publish; the on-demand load throws (thumbnail degrades to its placeholder) |
+| forbidden / foreign path | `image_path` owned by another account | no image contract, no storage request, download seam throws `invalidPath`; text/IDs/kcal publish |
+
 ### Signing-call counts (head vs audited base, same fixture)
 
 | Scenario | base `ac1460d3` | head (this branch) |
