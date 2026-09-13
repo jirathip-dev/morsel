@@ -6,13 +6,18 @@ import SwiftUI
 
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
+    /// Issue #176 — Today's presentations (item edit, meal delete) are owned
+    /// by the shell, OUTSIDE this transient page: a turn can pose, hide or
+    /// replace the page while a presentation opens, and settlement must
+    /// neither dismiss, duplicate nor orphan it. The page only REQUESTS;
+    /// the shell presents.
+    /// Issue #176 — the shell owns the instance (a turn must never dismiss,
+    /// duplicate or orphan a presentation); previews take a throwaway one.
+    @ObservedObject var presentations = JournalPresentationModel()
     let showSettings: () -> Void
     /// Issue #105 AC3: Add Meal opens as a journal page route (the shell
     /// presents it in-flow) — never a `.sheet` from Today.
     let addMeal: () -> Void
-
-    @State private var editingItem: MealItem?
-    @State private var mealToDelete: MealRecord?
 
     var body: some View {
         JournalPage(date: viewModel.snapshot?.date ?? Date()) {
@@ -43,36 +48,19 @@ struct TodayView: View {
                     TodayLogSection(
                         viewModel: viewModel,
                         onAddMeal: addMeal,
-                        onEdit: { editingItem = $0 },
-                        onDelete: { mealToDelete = $0 }
+                        onEdit: { presentations.requestEdit($0) },
+                        onDelete: { presentations.requestDelete($0) }
                     )
                     if !viewModel.reviewItems.isEmpty {
                         NeedsReviewSection(items: viewModel.reviewItems) { item in
-                            editingItem = item
+                            presentations.requestEdit(item)
                         }
-                    }
-                }
-                .sheet(item: $mealToDelete) { meal in
-                    // Issue #136 — themed paper destructive confirmation (the
-                    // system alert chrome is gone). Cancel dismisses without
-                    // deleting; the red-flagged action owns the delete.
-                    DeleteMealPaperDialog(meal: meal) {
-                        Task { _ = await viewModel.deleteMeal(meal.mealLogID) }
                     }
                 }
             }
         }
         .task {
             await viewModel.load()
-        }
-        .sheet(item: $editingItem) { item in
-            MealItemEditSheet(item: item) { update in
-                let didUpdate = await viewModel.updateMealItem(update)
-                if didUpdate {
-                    editingItem = nil
-                }
-                return didUpdate
-            }
         }
     }
 }
@@ -348,5 +336,64 @@ struct DeleteMealPaperDialog: View {
         .presentationDragIndicator(.hidden)
         .accessibilityElement(children: .contain)
         .accessibilityLabel("Delete this meal?")
+    }
+}
+
+// MARK: - Issue #176 presentation ownership (shell-owned, page-requested)
+
+/// Today's presentations are owned by the signed-in shell, never by the page
+/// that requests them: a turn can pose, hide or replace a page while a
+/// presentation opens, and settlement must neither dismiss, duplicate nor
+/// orphan what the user asked for. At most ONE presentation exists at a time:
+/// a request arriving while one is open (or opening) changes nothing.
+@MainActor
+final class JournalPresentationModel: ObservableObject {
+    @Published private(set) var editingItem: MealItem?
+    @Published private(set) var mealToDelete: MealRecord?
+
+    var isPresenting: Bool { editingItem != nil || mealToDelete != nil }
+
+    func requestEdit(_ item: MealItem) {
+        guard !isPresenting else { return }
+        editingItem = item
+    }
+
+    func requestDelete(_ meal: MealRecord) {
+        guard !isPresenting else { return }
+        mealToDelete = meal
+    }
+
+    /// A successful edit save closes the sheet the way its Cancel does.
+    func finishEdit() { editingItem = nil }
+
+    /// `.sheet(item:)` writes its dismissal through these bindings.
+    var editBinding: Binding<MealItem?> {
+        Binding(get: { self.editingItem }, set: { self.editingItem = $0 })
+    }
+    var deleteBinding: Binding<MealRecord?> {
+        Binding(get: { self.mealToDelete }, set: { self.mealToDelete = $0 })
+    }
+}
+
+/// The shell anchors the presentations it owns, so they outlive any page turn
+/// or settle. The sheets keep their shipped chrome and behavior: the #136
+/// themed paper confirmation (Cancel dismisses without deleting; only the
+/// red-flagged action deletes) and the #105 paper edit page.
+extension View {
+    func journalPresentations(_ presentations: JournalPresentationModel,
+                              viewModel: DashboardViewModel) -> some View {
+        self
+            .sheet(item: presentations.editBinding) { item in
+                MealItemEditSheet(item: item) { update in
+                    let didUpdate = await viewModel.updateMealItem(update)
+                    if didUpdate { presentations.finishEdit() }
+                    return didUpdate
+                }
+            }
+            .sheet(item: presentations.deleteBinding) { meal in
+                DeleteMealPaperDialog(meal: meal) {
+                    Task { _ = await viewModel.deleteMeal(meal.mealLogID) }
+                }
+            }
     }
 }
