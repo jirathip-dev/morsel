@@ -164,9 +164,9 @@ struct MealItemEditSheet: View {
 
                 JournalRule()
                     .padding(.vertical, 16)
-                SectionHeading(title: "Provenance")
+                SectionHeading(title: "Details")
                     .padding(.bottom, 8)
-                ProvenanceLabel(text: "source: \(item.provenance.rawValue)")
+                MealItemDetails(item: item)
             }
         }
         .presentationDetents([.large])
@@ -254,5 +254,56 @@ struct MealItemEditSheet: View {
             return ""
         }
         return String(value)
+    }
+}
+
+/// Issue #227 — the food sheet's compact secondary details area: the source
+/// line (unchanged), the confidence value, the low-confidence cue the row's
+/// retired tint used to carry, and any agent estimation notes. Everything
+/// here is read-only metadata: the sheet's fields own every edit and Save
+/// keeps its shipped behaviour.
+private struct MealItemDetails: View {
+    let item: MealItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 10) {
+                ProvenanceLabel(text: "source: \(item.provenance.rawValue)")
+                Spacer(minLength: 0)
+                ConfidenceBox(value: item.confidence)
+            }
+            if let confidenceNote {
+                Text(confidenceNote)
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselReview)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))
+            }
+            if let agentNotes {
+                Text("// agent: \(agentNotes)")
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselInkTwo)
+            }
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    /// The row's former warning tint is re-homed here, behind the SAME
+    /// `needsReview` predicate, so uncertainty handling is preserved.
+    private var confidenceNote: String? {
+        guard item.needsReview else { return nil }
+        return DashboardMath.confidenceBadge(for: item.confidence) == .missing
+            ? "confidence missing"
+            : "low confidence"
+    }
+
+    /// Agent estimation notes verbatim; the manual-edit sentinel is source
+    /// bookkeeping, never estimation copy.
+    private var agentNotes: String? {
+        guard let notes = item.notes, !notes.isEmpty, notes != MealSource.manualEdit.rawValue else {
+            return nil
+        }
+        return notes
     }
 }

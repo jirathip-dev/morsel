@@ -51,11 +51,6 @@ struct TodayView: View {
                         onEdit: { presentations.requestEdit($0) },
                         onDelete: { presentations.requestDelete($0) }
                     )
-                    if !viewModel.reviewItems.isEmpty {
-                        NeedsReviewSection(items: viewModel.reviewItems) { item in
-                            presentations.requestEdit(item)
-                        }
-                    }
                 }
             }
         }

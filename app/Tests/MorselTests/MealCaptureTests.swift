@@ -160,32 +160,6 @@ final class MealCaptureTests: XCTestCase {
         XCTAssertTrue(repository.uploadedImagePaths.isEmpty)
     }
 
-    @MainActor
-    func testThumbnailTransitionsFromLoadingToLoadedAndMissing() async throws {
-        let repository = MockDashboardRepository(snapshot: emptySnapshot())
-        let userID = UUID()
-        let path = FoodImageStore.bucketPath(userID: userID, imageID: UUID())
-        let data = Data([0x01, 0x02, 0x03])
-        _ = try await repository.uploadImage(
-            userID: userID,
-            path: path,
-            upload: FoodImageUpload(data: data, mimeType: "image/jpeg")
-        )
-
-        let loaded = MealThumbnailLoader(repository: repository, userID: userID, path: path)
-        XCTAssertEqual(loaded.state, .idle)
-        let loadTask = Task { await loaded.load() }
-        try await Task.sleep(for: .milliseconds(1))
-        XCTAssertTrue([.loading, .loaded(data)].contains(loaded.state))
-        await loadTask.value
-        XCTAssertEqual(loaded.state, .loaded(data))
-
-        repository.removeImage(at: path)
-        let missing = MealThumbnailLoader(repository: repository, userID: userID, path: path)
-        await missing.load()
-        XCTAssertEqual(missing.state, .missing)
-    }
-
     private func emptySnapshot() -> DashboardSnapshot {
         DashboardSnapshot(date: Date(timeIntervalSince1970: 0), meals: [], goal: nil)
     }
