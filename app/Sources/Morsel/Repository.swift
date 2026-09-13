@@ -66,7 +66,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
         async let energyRowsTask = loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
         let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
         let items = try await loadMealItems(client, logs: logs)
-        let imagesByMealID = await mintMealImages(logs: logs, client: client, userID: authenticatedUserID)
+        // Issue #179 — attach photo paths with no signing request on first paint.
+        let imagesByMealID = mealImagePaths(logs: logs, userID: authenticatedUserID)
         let (goalRows, profileRows, weightRows, energyRows) = try await (
             goalRowsTask, profileRowsTask, weightRowsTask, energyRowsTask
         )
