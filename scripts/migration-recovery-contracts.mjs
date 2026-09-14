@@ -33,6 +33,7 @@ export const CANONICAL_NAMES = [
   "meal_outbox_client_ids",
   "profiles_timezone",
   "named_menus",
+  "artwork_identity",
 ];
 
 export const CANONICAL_FILES = [
@@ -48,6 +49,7 @@ export const CANONICAL_FILES = [
   "0010_meal_outbox_client_ids.sql",
   "0011_profiles_timezone.sql",
   "0012_named_menus.sql",
+  "0013_artwork_identity.sql",
 ];
 
 export const LEDGER_DDL =
@@ -533,6 +535,10 @@ export const CANONICAL_COLUMNS = {
       { name: "menu_name", dataType: "text", nullable: true, default: [] },
     ],
   },
+  "0013_artwork_identity.sql": {
+    meal_items: [{ name: "artwork_id", dataType: "text", nullable: true, default: [] }],
+    menu_items: [{ name: "artwork_id", dataType: "text", nullable: true, default: [] }],
+  },
 };
 
 // Columns that must be ABSENT in the canonical end state, keyed by the
@@ -635,6 +641,10 @@ export const CANONICAL_CONSTRAINTS = {
       { name: "menu_items_menu_id_fkey", kind: "f", columns: ["menu_id"], refTable: "meal_menus", onDelete: "c" },
       { name: "menu_items_unit_check", kind: "c", columns: ["unit"], def: "unit in ('g', 'ml', 'serving', 'piece', 'cup')" },
     ],
+  },
+  "0013_artwork_identity.sql": {
+    meal_items: [{ name: "meal_items_artwork_id_published", kind: "c", columns: ["artwork_id"], def: "artwork_id in ('avocado', 'banana', 'broccoli', 'coffee', 'fallback-drinks', 'fallback-grains', 'fallback-neutral', 'fallback-produce', 'fallback-protein', 'fried-egg', 'grilled-chicken', 'jasmine-rice', 'mango', 'orange', 'salmon', 'stir-fried-noodles', 'toast', 'vegetable-soup')" }],
+    menu_items: [{ name: "menu_items_artwork_id_published", kind: "c", columns: ["artwork_id"], def: "artwork_id in ('avocado', 'banana', 'broccoli', 'coffee', 'fallback-drinks', 'fallback-grains', 'fallback-neutral', 'fallback-produce', 'fallback-protein', 'fried-egg', 'grilled-chicken', 'jasmine-rice', 'mango', 'orange', 'salmon', 'stir-fried-noodles', 'toast', 'vegetable-soup')" }],
   },
 };
 
@@ -745,43 +755,33 @@ export const CANONICAL_ROUTINES = {
     config: ["search_path=public, pg_temp"],
     bodyFile: "0006_food_catalog_provider_cache.sql",
   }],
-  // Issue #106: native offline outbox commits with a client-generated meal
-  // id (server conflict guard; no duplicates). Issue #167 re-pointed the
-  // routine's canonical ownership to 0012 (whose CREATE OR REPLACE defines
-  // the post-apply body), so this creating-migration group is intentionally
-  // left empty here — the entry now lives under 0012_named_menus.sql.
+  // 0013 owns the three replaced artwork-aware bodies; earlier migrations
+  // retain only their schema contracts, never a duplicate routine owner.
   "0010_meal_outbox_client_ids.sql": [],
-  "0012_named_menus.sql": [
+  "0013_artwork_identity.sql": [
     {
       name: "upsert_menu",
       identityArguments: "p_user_id uuid, p_menu_id uuid, p_name text, p_items jsonb",
       language: "plpgsql",
       securityDefiner: false,
       config: ["search_path=public"],
-      bodyFile: "0012_named_menus.sql",
+      bodyFile: "0013_artwork_identity.sql",
     },
     {
-      // Issue #167: after 0012 is applied + recorded, the canonical meal
-      // RPC bodies are the menu-aware text 0012's own file installs. Routine
-      // ownership re-points from 0003 (creating migration) to 0012 so the
-      // verifier expects the post-0012 body on live databases (0003's own
-      // file content is superseded by the 0012 CREATE OR REPLACE).
       name: "log_meal_with_items",
       identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb",
       language: "plpgsql",
       securityDefiner: false,
       config: ["search_path=public"],
-      bodyFile: "0012_named_menus.sql",
+      bodyFile: "0013_artwork_identity.sql",
     },
     {
-      // Issue #167: same re-point for the client outbox routine (0010 was
-      // the creating migration; 0012 owns the canonical body now).
       name: "log_meal_with_items_client",
       identityArguments: "p_user_id uuid, p_eaten_at timestamp with time zone, p_meal_type text, p_source text, p_image_path text, p_notes text, p_items jsonb, p_client_meal_id uuid",
       language: "plpgsql",
       securityDefiner: false,
       config: ["search_path=public"],
-      bodyFile: "0012_named_menus.sql",
+      bodyFile: "0013_artwork_identity.sql",
     },
   ],
 };
@@ -1119,12 +1119,12 @@ begin
       values (p_user_id, v_menu_name);
       insert into public.menu_items (
         menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-        fat_g, fiber_g, sugar_g, barcode, food_ref_id
+        fat_g, fiber_g, sugar_g, barcode, food_ref_id, artwork_id
       )
       select
         menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
         item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-        item.barcode, item.food_ref_id
+        item.barcode, item.food_ref_id, item.artwork_id
       from jsonb_to_recordset(p_items) as item(
         name text,
         quantity numeric,
@@ -1137,6 +1137,7 @@ begin
         sugar_g numeric,
         barcode text,
         food_ref_id uuid,
+        artwork_id text,
         menu_name text
       )
       join public.meal_menus as menus
@@ -1147,13 +1148,13 @@ begin
 
   insert into public.meal_items (
     meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-    fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id, artwork_id, confidence, source_notes,
     menu_group_id, menu_name
   )
   select
     v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
     item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-    item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+    item.barcode, item.food_ref_id, item.artwork_id, item.confidence, item.source_notes,
     item.menu_group_id, item.menu_name
   from jsonb_to_recordset(p_items) as item(
     name text,
@@ -1167,6 +1168,7 @@ begin
     sugar_g numeric,
     barcode text,
     food_ref_id uuid,
+    artwork_id text,
     confidence numeric,
     source_notes text,
     menu_group_id uuid,
@@ -1194,7 +1196,9 @@ begin
         'food_ref_id', item.food_ref_id,
         'confidence', item.confidence,
         'notes', item.source_notes
-      ) order by item.created_at, item.id
+      ) || case when item.artwork_id is null then '{}'::jsonb
+                else jsonb_build_object('artwork_id', item.artwork_id) end
+      order by item.created_at, item.id
     )
   from public.meal_logs as log
   join public.meal_items as item on item.meal_log_id = log.id
@@ -1352,12 +1356,12 @@ begin
         values (p_user_id, v_menu_name);
         insert into public.menu_items (
           menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-          fat_g, fiber_g, sugar_g, barcode, food_ref_id
+          fat_g, fiber_g, sugar_g, barcode, food_ref_id, artwork_id
         )
         select
           menus.id, item.name, item.quantity, item.unit, item.calories_kcal,
           item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-          item.barcode, item.food_ref_id
+          item.barcode, item.food_ref_id, item.artwork_id
         from jsonb_to_recordset(p_items) as item(
           name text,
           quantity numeric,
@@ -1370,6 +1374,7 @@ begin
           sugar_g numeric,
           barcode text,
           food_ref_id uuid,
+          artwork_id text,
           menu_name text
         )
         join public.meal_menus as menus
@@ -1380,13 +1385,13 @@ begin
 
     insert into public.meal_items (
       meal_log_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-      fat_g, fiber_g, sugar_g, barcode, food_ref_id, confidence, source_notes,
+      fat_g, fiber_g, sugar_g, barcode, food_ref_id, artwork_id, confidence, source_notes,
       menu_group_id, menu_name
     )
     select
       v_meal_log_id, item.name, item.quantity, item.unit, item.calories_kcal,
       item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-      item.barcode, item.food_ref_id, item.confidence, item.source_notes,
+      item.barcode, item.food_ref_id, item.artwork_id, item.confidence, item.source_notes,
       item.menu_group_id, item.menu_name
     from jsonb_to_recordset(p_items) as item(
       name text,
@@ -1400,6 +1405,7 @@ begin
       sugar_g numeric,
       barcode text,
       food_ref_id uuid,
+      artwork_id text,
       confidence numeric,
       source_notes text,
       menu_group_id uuid,
@@ -1428,7 +1434,9 @@ begin
         'food_ref_id', item.food_ref_id,
         'confidence', item.confidence,
         'notes', item.source_notes
-      ) order by item.created_at, item.id
+      ) || case when item.artwork_id is null then '{}'::jsonb
+                else jsonb_build_object('artwork_id', item.artwork_id) end
+      order by item.created_at, item.id
     )
   from public.meal_logs as log
   join public.meal_items as item on item.meal_log_id = log.id
@@ -1488,16 +1496,16 @@ begin
   end if;
 
   -- Full item-list replace: the edited list is the template's items.
-  delete from public.menu_items where menu_id = v_menu_id;
+  delete from public.menu_items as item where item.menu_id = v_menu_id;
 
   insert into public.menu_items (
     menu_id, name, quantity, unit, calories_kcal, protein_g, carbs_g,
-    fat_g, fiber_g, sugar_g, barcode, food_ref_id
+    fat_g, fiber_g, sugar_g, barcode, food_ref_id, artwork_id
   )
   select
     v_menu_id, item.name, item.quantity, item.unit, item.calories_kcal,
     item.protein_g, item.carbs_g, item.fat_g, item.fiber_g, item.sugar_g,
-    item.barcode, item.food_ref_id
+    item.barcode, item.food_ref_id, item.artwork_id
   from jsonb_to_recordset(p_items) as item(
     name text,
     quantity numeric,
@@ -1509,7 +1517,8 @@ begin
     fiber_g numeric,
     sugar_g numeric,
     barcode text,
-    food_ref_id uuid
+    food_ref_id uuid,
+    artwork_id text
   );
 
   return query select v_menu_id;
@@ -2024,6 +2033,25 @@ begin
   return query select v_menu_id;
 end;
 $function$;`,
+    "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from public",
+    "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from anon",
+    "grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to authenticated",
+    "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from public",
+    "revoke execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) from anon",
+    "grant execute on function public.log_meal_with_items_client(uuid, timestamptz, text, text, text, text, jsonb, uuid) to authenticated",
+    "revoke execute on function public.upsert_menu(uuid, uuid, text, jsonb) from public",
+    "revoke execute on function public.upsert_menu(uuid, uuid, text, jsonb) from anon",
+    "grant execute on function public.upsert_menu(uuid, uuid, text, jsonb) to authenticated",
+  ],
+  "0013_artwork_identity.sql": [
+    "alter table public.meal_items add column if not exists artwork_id text",
+    "alter table public.menu_items add column if not exists artwork_id text",
+    ...Object.keys(CANONICAL_CONSTRAINTS["0013_artwork_identity.sql"]).flatMap((table) =>
+      CANONICAL_CONSTRAINTS["0013_artwork_identity.sql"][table].map((constraint) => CONVERGE_CONSTRAINT(constraint, table)),
+    ),
+    `${FUNCTION_DEFINITIONS.log_meal_with_items};`,
+    `${FUNCTION_DEFINITIONS.log_meal_with_items_client};`,
+    `${FUNCTION_DEFINITIONS.upsert_menu};`,
     "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from public",
     "revoke execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) from anon",
     "grant execute on function public.log_meal_with_items(uuid, timestamptz, text, text, text, text, jsonb) to authenticated",

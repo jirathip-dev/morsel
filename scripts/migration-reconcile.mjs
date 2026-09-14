@@ -32,6 +32,8 @@ export const INVENTORY_SQL = Object.freeze({
     "select routine_name from information_schema.routines where routine_schema = 'public' order by routine_name",
   policies:
     "select schemaname, tablename, policyname from pg_policies where schemaname in ('public','storage') order by schemaname, tablename, policyname",
+  constraints:
+    "select c.relname as table_name, con.conname as constraint_name from pg_constraint con join pg_class c on c.oid = con.conrelid join pg_namespace n on n.oid = c.relnamespace where n.nspname = 'public' and con.contype = 'c' order by c.relname, con.conname",
 });
 
 // Immutable exact-membership allowlist: reconcile mode only ever issues these
@@ -184,6 +186,16 @@ export const EXPECTED_SENTINELS = {
       "public.menu_items:menu_items_insert_own",
       "public.menu_items:menu_items_update_own",
       "public.menu_items:menu_items_delete_own",
+    ],
+  },
+  "0013_artwork_identity.sql": {
+    tables: [],
+    columns: ["meal_items.artwork_id", "menu_items.artwork_id"],
+    routines: ["log_meal_with_items", "log_meal_with_items_client", "upsert_menu"],
+    policies: [],
+    constraints: [
+      "meal_items:meal_items_artwork_id_published",
+      "menu_items:menu_items_artwork_id_published",
     ],
   },
 };
@@ -341,6 +353,7 @@ export function formatReport({ local, ledgerExists, ledgerNames, unknownLedgerCo
   lines.push(`  columns  : ${inventory.columns.size}`);
   lines.push(`  routines : ${inventory.routines.size}`);
   lines.push(`  policies : ${inventory.policies.size}`);
+  lines.push(`  checks   : ${inventory.constraints.size}`);
   lines.push("");
   lines.push(`expected migration sentinels (${local.length} local migrations)`);
   let present = 0;
@@ -416,11 +429,12 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
   const ledgerNames = rawLedgerNames.filter((name) => localNameSet.has(name));
   const unknownLedgerCount = rawLedgerNames.length - ledgerNames.length;
 
-  const [tableRows, columnRows, routineRows, policyRows] = await Promise.all([
+  const [tableRows, columnRows, routineRows, policyRows, constraintRows] = await Promise.all([
     query(INVENTORY_SQL.tables, "table inventory"),
     query(INVENTORY_SQL.columns, "column inventory"),
     query(INVENTORY_SQL.routines, "routine inventory"),
     query(INVENTORY_SQL.policies, "policy inventory"),
+    query(INVENTORY_SQL.constraints, "constraint inventory"),
   ]);
 
   const inventory = {
@@ -429,6 +443,7 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
       columnRows.map((row) => [columnKey(row.table_name, row.column_name), row]),
     ),
     routines: new Set(routineRows.map((row) => row.routine_name)),
+    constraints: new Set(constraintRows.map((row) => `${row.table_name}:${row.constraint_name}`)),
     policies: new Set(
       policyRows.map((row) => `${row.schemaname}.${row.tablename}:${row.policyname}`),
     ),
@@ -474,6 +489,9 @@ export async function run({ ref, token, root, queryImpl = null, log = console })
     }
     for (const policy of sentinels.policies) {
       entries.push({ kind: "policy", label: policy, present: inventory.policies.has(policy) });
+    }
+    for (const constraint of sentinels.constraints ?? []) {
+      entries.push({ kind: "constraint", label: constraint, present: inventory.constraints.has(constraint) });
     }
     checks[migration.file] = entries;
   }

@@ -20,6 +20,7 @@ export interface ComputeTargetsFunctionRow {
 }
 
 export interface LogMealFunctionItem {
+  artwork_id?: string | null
   name: string
   quantity: number
   unit: string
@@ -48,6 +49,7 @@ export interface LogMealFunctionRow {
 
 // Issue #152 — the app-facing atomic menu save payloads (upsert_menu).
 export interface UpsertMenuFunctionItem {
+  artwork_id?: string | null
   name: string
   quantity: number
   unit: string
@@ -184,6 +186,7 @@ export interface Database {
           sugar_g: number | null
           barcode: string | null
           food_ref_id: string | null
+          artwork_id: string | null
           confidence: number | null
           source_notes: string | null
           menu_group_id: string | null
@@ -202,6 +205,7 @@ export interface Database {
           sugar_g?: number | null
           barcode?: string | null
           food_ref_id?: string | null
+          artwork_id?: string | null
           confidence?: number | null
           source_notes?: string | null
           menu_group_id?: string | null
@@ -209,6 +213,7 @@ export interface Database {
         }
         Update: {
           name?: string
+          artwork_id?: string | null
           quantity?: number
           calories_kcal?: number | null
           protein_g?: number | null
@@ -258,6 +263,7 @@ export interface Database {
           sugar_g: number | null
           barcode: string | null
           food_ref_id: string | null
+          artwork_id: string | null
           created_at: string
         }
         Insert: {
@@ -274,6 +280,7 @@ export interface Database {
           sugar_g?: number | null
           barcode?: string | null
           food_ref_id?: string | null
+          artwork_id?: string | null
           created_at?: string
         }
         Update: {
@@ -290,6 +297,7 @@ export interface Database {
           sugar_g?: number | null
           barcode?: string | null
           food_ref_id?: string | null
+          artwork_id?: string | null
           created_at?: string
         }
         Relationships: []

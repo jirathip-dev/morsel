@@ -281,14 +281,14 @@ const TABLE_OWNER = {
 
 const ROUTINE_OWNER = {
   compute_targets: "0002_targets.sql",
-  // Issue #167: routine ownership re-points to 0012 (the migration whose
+  // Issue #241: routine ownership re-points to 0013 (the migration whose
   // CREATE OR REPLACE defines the canonical post-apply body), so routine
   // grants + non-canonical-signature checks follow the verifier owner.
-  log_meal_with_items: "0012_named_menus.sql",
+  log_meal_with_items: "0013_artwork_identity.sql",
   claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
   upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
-  log_meal_with_items_client: "0012_named_menus.sql",
-  upsert_menu: "0012_named_menus.sql",
+  log_meal_with_items_client: "0013_artwork_identity.sql",
+  upsert_menu: "0013_artwork_identity.sql",
 };
 
 // ---- verification ----------------------------------------------------------
@@ -586,6 +586,7 @@ function convergeCovers(file, entries, snapshots) {
       if (file === "0007_weight_logs.sql" && table === "weight_logs" && (column === "source" || column === "measured_at")) return true;
       if (file === "0011_profiles_timezone.sql" && table === "profiles" && column === "timezone") return true;
       if (file === "0012_named_menus.sql" && table === "meal_items" && (column === "menu_name" || column === "menu_group_id")) return true;
+      if (file === "0013_artwork_identity.sql" && (table === "meal_items" || table === "menu_items") && column === "artwork_id") return true;
       return false;
     }
     if (entry.kind === "constraint") return entry.reason === "missing";
@@ -666,7 +667,7 @@ export function formatPlan({ statuses, blockers, ledger, counts, apply, recorded
   lines.push("");
   lines.push(`row counts: weight_logs ${counts.weightLogs ?? "n/a (table absent)"}; energy_burned_logs ${counts.energyBurned ?? "n/a (table absent)"}`);
   lines.push("");
-  lines.push("per-migration classification (0001..0012)");
+  lines.push("per-migration classification (0001..0013)");
   for (const file of CANONICAL_FILES) {
     const status = statuses[file];
     lines.push(`${file}  ${status.state}`);
@@ -765,7 +766,7 @@ export async function inspect({ root, query }) {
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
   if (localSet.size !== CANONICAL_FILES.length || !CANONICAL_FILES.every((f) => localSet.has(f))) {
-    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0012");
+    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0013");
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};
