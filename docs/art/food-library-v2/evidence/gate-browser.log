@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "capture_count": 12,
-  "seconds": 4.521091458038427,
+  "capture_count": 14,
+  "seconds": 31.725292208022438,
   "phone_catalog_coverage": {
     "paper": [
       "avocado",
@@ -10,6 +10,7 @@
       "coffee",
       "fallback-drinks",
       "fallback-grains",
+      "fallback-neutral",
       "fallback-produce",
       "fallback-protein",
       "fried-egg",
@@ -29,6 +30,7 @@
       "coffee",
       "fallback-drinks",
       "fallback-grains",
+      "fallback-neutral",
       "fallback-produce",
       "fallback-protein",
       "fried-egg",

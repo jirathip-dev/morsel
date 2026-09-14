@@ -8,10 +8,10 @@ import Foundation
 // cache/outbox — RLS, the security-invoker meal transaction and friendly
 // error boundaries remain authoritative on the server.
 final class LocalFirstDashboardRepository: DashboardRepository {
-    // remote/snapshotCache are internal (not private) so the cross-file
-    // LocalFirstMenus extension (issue #152) can hydrate/cache menus.
+    // remote/store/snapshotCache are internal (not private) so the cross-file
+    // LocalFirstMenus (#152) and #188 revision seams can reach them.
     let remote: any DashboardRepository
-    private let store: LocalDataStore
+    let store: LocalDataStore
     let snapshotCache: LocalSnapshotCache
     /// Local-first Apple Health store (same account file); optional for tests
     /// that only exercise meal reliability.
@@ -20,19 +20,24 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     private let requestSync: () -> Void
     /// Issue #121 — every day window and day key is the device's LOCAL day.
     private let calendar = Calendar.autoupdatingCurrent
+    /// Issue #188 — revalidation epochs for stored photo objects (internal for
+    /// the across-file revision conformance, like `remote`/`snapshotCache`).
+    let revisions: MealPhotoRevisions
 
     init(
         remote: any DashboardRepository,
         store: LocalDataStore,
         snapshotCache: LocalSnapshotCache,
         healthStore: LocalHealthStore? = nil,
-        requestSync: @escaping () -> Void = {}
+        requestSync: @escaping () -> Void = {},
+        revisions: MealPhotoRevisions = .shared
     ) {
         self.remote = remote
         self.store = store
         self.snapshotCache = snapshotCache
         self.healthStore = healthStore
         self.requestSync = requestSync
+        self.revisions = revisions
     }
 
     // MARK: - Today
@@ -347,10 +352,19 @@ extension LocalFirstDashboardRepository {
                 mealID: queued.mealID,
                 photo: QueuedMealPhoto(data: photo.data, mimeType: photo.mimeType)
             )
+            // The bytes at this path just changed: a prepared thumbnail of it
+            // is stale from this instant.
+            revisions.replaced(
+                accountID: userID,
+                objectPath: FoodImageStore.objectPath(userID: userID, imageID: queued.mealID)
+            )
             requestSync()
             return
         }
         try await remote.attachMealPhoto(userID: userID, itemID: itemID, photo: photo)
+        // A synced meal's canonical path is derived server-side: the account is
+        // all this device can name, and one refetch per cached object is bounded.
+        revisions.replacedAccount(accountID: userID)
     }
     /// The journal-visible record for a queued row. A queued photo meal's
     /// deterministic object path is known before upload (or already stored
@@ -378,22 +392,9 @@ extension LocalFirstDashboardRepository {
     }
 
     func loadMealImage(userID: UUID, path: String) async throws -> Data {
-        if let queuedPhoto = try queuedPhotoData(userID: userID, path: path) {
-            return queuedPhoto
+        if let queued = try queuedPhoto(userID: userID, path: path) {
+            return queued.data
         }
         return try await remote.loadMealImage(userID: userID, path: path)
-    }
-
-    private func queuedPhotoData(userID: UUID, path: String) throws -> Data? {
-        guard let objectPath = try? FoodImageStore.validate(bucketPath: path, for: userID) else {
-            return nil
-        }
-        for row in try store.queuedMeals() {
-            guard let photo = row.photo else { continue }
-            if FoodImageStore.objectPath(userID: userID, imageID: row.mealID) == objectPath {
-                return photo.data
-            }
-        }
-        return nil
     }
 }

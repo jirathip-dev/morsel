@@ -1,0 +1,6 @@
+# Issue #187 native trace — raw line lifted verbatim from the lane logs (.lane-logs/, untracked)
+# Final full-suite run (xcodebuild exit 0, 348 tests / 0 failures): .lane-logs/xcodebuild.log
+ISSUE-187-TRACE fixture=3024x4032 before_on_caller=false before_out=1536x2048 before_bytes=775796 before_ms=53 before_heartbeat_ticks=0 after_off_main=true after_out=1536x2048 after_bytes=775796 after_ms=53 after_heartbeat_ticks=26
+# Focused run at the same head (xcodebuild exit 0, 9 tests / 0 failures): .lane-logs/focused.log
+ISSUE-187-TRACE fixture=3024x4032 before_on_caller=false before_out=1536x2048 before_bytes=775796 before_ms=57 before_heartbeat_ticks=0 after_off_main=true after_out=1536x2048 after_bytes=775796 after_ms=56 after_heartbeat_ticks=27
+# Lane sim: D8149346-685F-4E03-8A6C-1D57F0660333 (Morsel187-iPhone16, iOS 26.5, unsigned Debug build, not a physical device)

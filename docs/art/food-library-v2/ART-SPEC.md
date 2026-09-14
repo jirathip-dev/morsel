@@ -12,7 +12,20 @@ redesign. Main/release approval is not granted by this design handoff.
 Artifact surface: **Compare** — contact sheets, size checks, labeled fictional
 phone contexts and editable/export resources. This is not an app interface redesign.
 
-## Invariants
+## Issue 223 additive amendment (current)
+
+The original release below is retained as historical direction context. Issue 223
+authorizes exactly one addition: `fallback-neutral`, kind `fallback`, category
+`neutral`, library 2.1.0 / schema 2. All original 17 identities and art bytes remain
+unchanged. New source/master/export and bundled resources only; no Swift changes.
+An empty ceramic plate and spoon is a neutral eating sign, not a specific food.
+Category artwork travels with its category label; the neutral study must never
+be presented as an identified food. Food rows are always illustrated even when
+a real photo exists. The implementation lane owns that rule and nonblank unknown/
+mixed-meal resolution. See `NEUTRAL-FALLBACK.md` and the skill neutral reference.
+No new approval of final pixels is implied by the original direction approval.
+
+## Invariants (original issue-197 release; addition amended above)
 
 - Same 17 IDs, names, aliases, categories and food/fallback kinds as first delivery.
 - Approved three tokenized SVG sources, theme masters and 64px PNGs byte-identical

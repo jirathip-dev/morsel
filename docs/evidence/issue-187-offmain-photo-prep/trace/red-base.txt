@@ -1,0 +1,6 @@
+# Base RED probe (f8b2150 scratch worktree /tmp/morsel187-red + the two probe tests)
+# command: xcodebuild test -only-testing:MorselTests/Issue187OffMainRedProbeTests  (raw exit 65)
+ISSUE-187-RED fixture=3024x4032 ran_on_main_thread=true output=1536x2048 bytes=775796 ms=80 heartbeat_ticks_during=0
+/tmp/morsel187-red/app/Tests/MorselTests/Issue187OffMainRedProbeTests.swift:33: error: -[MorselTests.Issue187OffMainRedProbeTests testAuditedPreparationLeavesTheMainActorUnserviced] : XCTAssertGreaterThan failed: ("0") is not greater than ("0") - the audited MainActor preparation leaves the main actor unserviced for the whole preparation
+ISSUE-187-RED after_remove photo_is_nil=false processing=false
+/tmp/morsel187-red/app/Tests/MorselTests/Issue187OffMainRedProbeTests.swift:59: error: -[MorselTests.Issue187OffMainRedProbeTests testAuditedPreparationRepublishesARemovedPhoto] : XCTAssertNil failed: "FoodImageUpload(data: 775796 bytes, mimeType: "image/jpeg")" - a removed photo must not be republished by a late preparation result

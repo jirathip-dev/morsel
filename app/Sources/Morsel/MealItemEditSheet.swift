@@ -1,10 +1,17 @@
 import SwiftUI
 import UIKit
 
-// Issue #105 — Edit Item stays a modal (issue AC3 permits it) but now reads
-// as the journal contract: paper ground, spine furniture, ruled paper fields
-// (AC5), and the shared focus/keyboard rules (AC6) instead of stock Form
-// cells. Issue #153 adds the meal-photo surface (view + attach/replace).
+// Issue #105 — Edit Item stays a modal (issue AC3 permits it) but reads as the
+// journal contract: paper ground, spine furniture, ruled paper fields (AC5),
+// and the shared focus/keyboard rules (AC6) instead of stock Form cells.
+// Issue #153 adds the meal-photo surface (view + attach/replace).
+// Issue #229 — the sheet body now follows the approved Variant A detail/edit
+// composition: the design's head (eyebrow + subject), its subject/summary line,
+// the evidence block (source · confidence · estimation notes), the photo
+// figure, and the `.state` + `.save` block with the local note. The native
+// navigation and gesture mechanics are deliberately untouched (Cancel keeps
+// its header affordance; the save action moves onto A's own button), and the
+// ruled journal fields stay the #105 input language.
 
 struct MealItemEditSheet: View {
     @Environment(\.dismiss) private var dismiss
@@ -52,35 +59,10 @@ struct MealItemEditSheet: View {
                     title: "Edit item",
                     leadingTitle: "Cancel",
                     leadingAction: cancel,
-                    trailingTitle: isSaving ? "Saving…" : "Save",
-                    trailingDisabled: isSaving || isProcessingPhoto,
-                    trailingAction: save
+                    trailingDisabled: isSaving || isProcessingPhoto
                 )
 
-                if let message {
-                    Text(message)
-                        .font(.morselBody)
-                        .foregroundStyle(Color.morselOver)
-                        .padding(.bottom, 10)
-                }
-
-                // Issue #153 — the meal photo is part of the correction
-                // sheet: it shows the photo the item's meal was logged with
-                // (fresh re-mint through the thumbnail pipeline — an expired
-                // read-model URL never hides a stored photo, #133) and lets
-                // the user attach/replace it before Save. Queued rows render
-                // their durable local bytes until the upload lands.
-                SectionHeading(title: "Photo")
-                    .padding(.bottom, 10)
-                MealPhotoEditorSection(
-                    item: item,
-                    repository: viewModel.repository,
-                    userID: viewModel.userID,
-                    pendingPhoto: $pendingPhoto,
-                    isDisabled: isSaving,
-                    isProcessingPhoto: $isProcessingPhoto
-                )
-                .padding(.bottom, 16)
+                detailHead
 
                 SectionHeading(title: "Food")
                     .padding(.bottom, 10)
@@ -161,12 +143,29 @@ struct MealItemEditSheet: View {
                         hint: "Zero or greater"
                     )
                 }
+                Text("Corrections are saved as a manual edit; macros you change stay as you typed them.")
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselInkTwo)
+                    .padding(.top, 10)
 
-                JournalRule()
-                    .padding(.vertical, 16)
-                SectionHeading(title: "Provenance")
-                    .padding(.bottom, 8)
-                ProvenanceLabel(text: "source: \(item.provenance.rawValue)")
+                MealItemDetails(item: item)
+
+                // Issue #153/#229 — the meal photo is part of the correction
+                // sheet (shows the photo the item's meal was logged with, fresh
+                // re-mint; queued rows render their durable local bytes), and
+                // attach/replace saves through the outbox/image pipeline.
+                SectionHeading(title: "Photo")
+                    .padding(.bottom, 10)
+                MealPhotoEditorSection(
+                    item: item,
+                    repository: viewModel.repository,
+                    userID: viewModel.userID,
+                    pendingPhoto: $pendingPhoto,
+                    isDisabled: isSaving,
+                    isProcessingPhoto: $isProcessingPhoto
+                )
+
+                saveBlock
             }
         }
         .presentationDetents([.large])
@@ -209,7 +208,7 @@ struct MealItemEditSheet: View {
                 if await onSave(update) {
                     dismiss()
                 } else {
-                    message = "The item could not be updated."
+                    message = viewModel.errorMessage ?? "The item could not be updated."
                 }
             } catch {
                 message = DashboardUserMessage.userMessage(for: error)
@@ -254,5 +253,143 @@ struct MealItemEditSheet: View {
             return ""
         }
         return String(value)
+    }
+}
+
+/// Issue #229 — the sheet's Variant A chrome (the design's `.sheet-head`,
+/// `.evidence`-adjacent summary and `.state`/`.save` block). A file-scope
+/// extension so the shipped struct stays inside the repo lint budget.
+private extension MealItemEditSheet {
+    /// The design's sheet head: the small eyebrow over the subject line, then
+    /// the recorded portion/macros the sheet is correcting.
+    var detailHead: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Food detail")
+                .morselSectionLabel()
+            Text(item.name)
+                .font(Font.morselHand(size: 30))
+                .foregroundStyle(Color.morselInk)
+                .padding(.top, 5)
+            Text(summaryLine)
+                .font(.morselSerif(size: 18))
+                .foregroundStyle(Color.morselInkTwo)
+                .padding(.top, 6)
+        }
+        .padding(.bottom, 18)
+    }
+
+    var summaryLine: String {
+        var parts = [MorselFormat.portion(quantity: item.quantity, unit: item.unit)]
+        if let protein = item.proteinG { parts.append("P \(MorselFormat.number(protein))g") }
+        if let carbs = item.carbsG { parts.append("C \(MorselFormat.number(carbs))g") }
+        if let fat = item.fatG { parts.append("F \(MorselFormat.number(fat))g") }
+        return parts.joined(separator: " · ")
+    }
+
+    /// The design's `.state` line and `.save` button plus its local note:
+    /// pending is stated while the save runs, a refusal keeps the edit in
+    /// place and states the failure, and Save stays available for a retry.
+    /// Nothing here claims a result that did not happen.
+    var saveBlock: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            if let message {
+                Text(message)
+                    .font(.morselSerif(size: 17))
+                    .foregroundStyle(Color.morselOver)
+                    .padding(.leading, 10)
+                    .padding(.vertical, 2)
+                    .overlay(alignment: .leading) {
+                        Rectangle().fill(Color.morselOver).frame(width: 2)
+                    }
+                    .padding(.top, 14)
+            } else if isSaving {
+                Text("Saving…")
+                    .font(.morselSerif(size: 17))
+                    .foregroundStyle(Color.morselInkTwo)
+                    .padding(.top, 14)
+            }
+            Button(action: save) {
+                Text("Save edit")
+                    .font(.morselSerif(size: 20))
+                    .foregroundStyle(Color.morselLabelOnAccent)
+                    .frame(maxWidth: .infinity, minHeight: 48)
+                    .background(Color.morselAccent, in: RoundedRectangle(cornerRadius: 8))
+            }
+            .buttonStyle(.plain)
+            .disabled(isSaving || isProcessingPhoto)
+            .opacity(isSaving || isProcessingPhoto ? 0.6 : 1)
+            .morselResignsKeyboardOnTap()
+            .padding(.top, 14)
+            Text("Changes stay in your journal; a row that has not synced keeps its marker.")
+                .font(.morselSerif(size: 13))
+                .foregroundStyle(Color.morselInkTwo)
+                .padding(.top, 8)
+        }
+        .padding(.top, 4)
+    }
+}
+
+/// Issue #227 — the food sheet's compact secondary details area: the source
+/// line (unchanged), the confidence value, the low-confidence cue the row's
+/// retired tint used to carry, and any agent estimation notes. Everything
+/// here is read-only metadata: the sheet's fields own every edit and Save
+/// keeps its shipped behaviour. Issue #229 — laid out as the design's
+/// `.evidence` block: hairline-ruled, source and confidence on the first line,
+/// the estimation notes beneath.
+private struct MealItemDetails: View {
+    let item: MealItem
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                Text("Source: \(item.provenance.rawValue) · Confidence:")
+                    .font(.morselSerif(size: 16))
+                    .foregroundStyle(Color.morselInk)
+                Text(MorselFormat.confidence(item.confidence))
+                    .font(.morselMono(size: 12))
+                    .monospacedDigit()
+                    .foregroundStyle(Color.morselInk)
+                Spacer(minLength: 0)
+            }
+            if let confidenceNote {
+                Text(confidenceNote)
+                    .font(.morselData)
+                    .foregroundStyle(Color.morselReview)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))
+            }
+            Text(agentNotes ?? "No estimation notes were recorded.")
+                .font(.morselSerif(size: 16))
+                .foregroundStyle(Color.morselInkTwo)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 12)
+        .overlay(alignment: .top) {
+            Rectangle().fill(Color.morselLine).frame(height: 1)
+        }
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(Color.morselLine).frame(height: 1)
+        }
+        .padding(.top, 16)
+        .accessibilityElement(children: .combine)
+    }
+
+    /// The row's former warning tint is re-homed here, behind the SAME
+    /// `needsReview` predicate, so uncertainty handling is preserved.
+    private var confidenceNote: String? {
+        guard item.needsReview else { return nil }
+        return DashboardMath.confidenceBadge(for: item.confidence) == .missing
+            ? "confidence missing"
+            : "low confidence"
+    }
+
+    /// Agent estimation notes verbatim; the manual-edit sentinel is source
+    /// bookkeeping, never estimation copy.
+    private var agentNotes: String? {
+        guard let notes = item.notes, !notes.isEmpty, notes != MealSource.manualEdit.rawValue else {
+            return nil
+        }
+        return notes
     }
 }

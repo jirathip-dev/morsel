@@ -22,7 +22,6 @@ const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8'
 const designSystem = read('app/Sources/Morsel/DesignSystem.swift')
 const journalUI = read('app/Sources/Morsel/JournalUI.swift')
 const views = read('app/Sources/Morsel/Views.swift')
-const todayLogViews = read('app/Sources/Morsel/TodayLogViews.swift')
 const historyView = read('app/Sources/Morsel/HistoryView.swift')
 const goalsEditor = read('app/Sources/Morsel/GoalsEditor.swift')
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
@@ -380,10 +379,14 @@ describe('V1 semantic contracts (Refs #90 approval comment)', () => {
     }
   })
 
-  it('renders the verify affordance with review on accentSoft (both themes)', () => {
-    const verifySlice = todayLogViews.slice(todayLogViews.indexOf('Text("verify")'))
-    expect(verifySlice).toMatch(/foregroundStyle\(Color\.morselReview\)/)
-    expect(verifySlice).toContain('.background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))')
+  it('renders the food sheet\'s low-confidence tag with review on accentSoft (both themes)', () => {
+    // Issue #227 retarget: the row's verify pill is retired, so the same
+    // review-on-accentSoft pairing is pinned on the surface that replaced it
+    // — the food sheet's low-confidence tag (source contract probe).
+    const editSheet = read('app/Sources/Morsel/MealItemEditSheet.swift')
+    const tag = editSheet.slice(editSheet.indexOf('foregroundStyle(Color.morselReview)'))
+    expect(tag).toMatch(/foregroundStyle\(Color\.morselReview\)/)
+    expect(tag).toContain('.background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 4))')
   })
 
   it('renders the primary button with ink on accent (never white)', () => {

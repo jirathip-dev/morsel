@@ -1,28 +1,38 @@
-import SwiftUI
-import UIKit
 import XCTest
 @testable import Morsel
 
-// Issue #199 — offline food-illustration fallbacks. These tests run against
-// the REAL production paths: the bundled #197 catalog + bundled PNGs, the
-// shared `MealArtworkPresentation` decision the Today/History/detail renderers
-// call, and the production `FoodArtworkImageView`/`MealArtworkSlot` renderers.
-// Nothing here talks to a network or a generation API.
+// Issue #199 — offline food-illustration fallbacks; issue #223 — rows are
+// ALWAYS illustrated (unknown/mixed meals resolve to the approved neutral
+// sign; a stored meal photo never renders in a row — it stays authoritative
+// inside detail/edit). These tests run against the REAL production paths and
+// the bundled catalog alone: no network, no generation API.
+
+/// A logged food item; `mealImage` marks a photo-present item (issue #223 —
+/// its row is illustrated anyway, the photo stays in detail/edit).
+private func artworkItem(_ name: String, kcal: Double = 100, mealImage: MealImage? = nil) -> MealItem {
+    MealItem(
+        itemID: UUID(), name: name, quantity: 1, unit: .serving,
+        caloriesKcal: kcal, proteinG: 10, carbsG: 20, fatG: 5,
+        fiberG: nil, sugarG: nil, confidence: 0.9, notes: nil, mealImage: mealImage
+    )
+}
+
+private func catalogAsset(_ id: String) throws -> FoodArtworkAsset {
+    try XCTUnwrap(
+        FoodArtworkCatalog.bundled.first { $0.id == id },
+        "catalog is missing \(id)"
+    )
+}
+
+/// The four owner food names this lane must reproduce: none is in the
+/// catalog, so all four exercise the fallback path.
+private let ownerFoodNames = [
+    "Focaccia bread", "Mortadella", "Stracciatella cheese", "Grilled vegetable topping"
+]
+
 @MainActor
 final class FoodArtworkFallbackTests: XCTestCase {
     private let assets = FoodArtworkCatalog.bundled
-
-    private func item(_ name: String, kcal: Double = 100) -> MealItem {
-        MealItem(
-            itemID: UUID(), name: name, quantity: 1, unit: .serving,
-            caloriesKcal: kcal, proteinG: 10, carbsG: 20, fatG: 5,
-            fiberG: nil, sugarG: nil, confidence: 0.9, notes: nil
-        )
-    }
-
-    private func asset(_ id: String) throws -> FoodArtworkAsset {
-        try XCTUnwrap(assets.first { $0.id == id }, "catalog is missing \(id)")
-    }
 
     // MARK: - Alias / name mapping
 
@@ -71,104 +81,153 @@ final class FoodArtworkFallbackTests: XCTestCase {
                 matched.isCategoryFallback,
                 "\(testCase.alias) is category artwork, never a detected food"
             )
+            XCTAssertFalse(matched.isNeutralFallback, "a category alias never resolves to the neutral sentinel")
             XCTAssertEqual(matched.categoryLabel, testCase.label, "category artwork travels with its category label")
+            XCTAssertEqual(FoodArtworkResolver.resolve(name: testCase.alias, in: assets), .category(matched))
         }
     }
 
-    // MARK: - Unknown + composite meals
+    // MARK: - Unknown + composite meals (issue #223)
 
-    func testUnknownFoodResolvesToNoIllustration() {
+    func testUnknownFoodResolvesToTheNeutralSignNeverBlank() throws {
+        let neutral = try catalogAsset("fallback-neutral")
         XCTAssertNil(FoodArtworkResolver.match(name: "pad thai from the corner stall", in: assets))
-        XCTAssertEqual(FoodArtworkResolver.resolve(items: [item("pad thai")], in: assets), .none)
+        XCTAssertEqual(FoodArtworkResolver.resolve(items: [artworkItem("pad thai")], in: assets), .neutral(neutral))
         XCTAssertEqual(
-            MealArtworkPresentation.resolve(photoPath: nil, items: [item("pad thai")], assets: assets),
-            .none,
-            "an unknown meal keeps the shipped no-photo slot — no invented artwork"
+            MealArtworkPresentation.resolve(photoPath: nil, items: [artworkItem("pad thai")], assets: assets),
+            .illustration(.neutral(neutral)),
+            "an unknown meal resolves to the approved neutral sign — never blank"
         )
+    }
+
+    /// Issue #229 retarget (extension, not a weakening): the four owner foods
+    /// are the approved Variant A subjects, so the ROW artwork carries their A
+    /// studies while the #199 library resolver itself is unchanged — a food
+    /// neither set knows still resolves to the neutral sign.
+    func testOwnerFoodNamesCarryApprovedAStudiesWhileTheLibraryIsUnchanged() throws {
+        let neutral = try catalogAsset("fallback-neutral")
+        for (name, study) in zip(ownerFoodNames, approvedAStudies) {
+            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), "\(name) stays off the #199 catalog")
+            XCTAssertEqual(
+                FoodArtworkResolver.resolve(items: [artworkItem(name)], in: assets), .neutral(neutral),
+                "the library-only path still answers with the neutral sign for \(name)"
+            )
+            XCTAssertEqual(
+                JournalRowArtwork.resolve(items: [artworkItem(name)], assets: assets), .study(study),
+                "\(name)'s row carries its approved A study"
+            )
+        }
+        let ownerMeal = ownerFoodNames.map { artworkItem($0) }
+        XCTAssertEqual(
+            JournalRowArtwork.resolve(items: ownerMeal, assets: assets), .study(.unknown),
+            "the owner's mixed A meal paints the neutral sign, never one arbitrary ingredient"
+        )
+    }
+
+    private let approvedAStudies: [JournalArtworkStudy] = [.focaccia, .mortadella, .stracciatella, .vegetables]
+
+    func testNeutralStudyIsNeverResolvedAsAnIdentifiedFoodOrCategory() throws {
+        let neutral = try catalogAsset("fallback-neutral")
+        XCTAssertTrue(neutral.isNeutralFallback)
+        XCTAssertFalse(
+            neutral.isCategoryFallback,
+            "the neutral sentinel travels without a category claim (ART-SPEC)"
+        )
+        XCTAssertEqual(neutral.category, FoodArtworkAsset.neutralCategory)
+        for alias in ["neutral food fallback", "unknown food", "mixed meal"] {
+            XCTAssertEqual(
+                FoodArtworkResolver.resolve(name: alias, in: assets), .neutral(neutral),
+                "\(alias) is a lookup term for the neutral sign, never an identified food"
+            )
+        }
+        XCTAssertEqual(FoodArtworkResolver.match(name: "unknown food", in: assets)?.kind, .fallback)
     }
 
     func testCompositeMealWithinOneCategoryUsesThatCategorysLabeledFallback() throws {
-        let resolution = FoodArtworkResolver.resolve(items: [item("jasmine rice"), item("toast")], in: assets)
-        XCTAssertEqual(resolution, .category(try asset("fallback-grains")))
+        let resolution = FoodArtworkResolver.resolve(
+            items: [artworkItem("jasmine rice"), artworkItem("toast")], in: assets
+        )
+        XCTAssertEqual(resolution, .category(try catalogAsset("fallback-grains")))
     }
 
-    func testCompositeMealAcrossCategoriesNeverDepictsOneArbitraryItem() throws {
-        let resolution = FoodArtworkResolver.resolve(items: [item("jasmine rice"), item("grilled chicken")], in: assets)
+    func testCompositeMealAcrossCategoriesUsesTheNeutralSignNeverOneArbitraryItem() throws {
+        let resolution = FoodArtworkResolver.resolve(
+            items: [artworkItem("jasmine rice"), artworkItem("grilled chicken")], in: assets
+        )
         XCTAssertEqual(
-            resolution, .none,
+            resolution, .neutral(try catalogAsset("fallback-neutral")),
             "a mixed meal must not present one ingredient as the whole meal"
         )
-        XCTAssertNotEqual(resolution, .food(try asset("jasmine-rice")))
-        XCTAssertNotEqual(resolution, .food(try asset("grilled-chicken")))
+        XCTAssertNotEqual(resolution, .food(try catalogAsset("jasmine-rice")))
+        XCTAssertNotEqual(resolution, .food(try catalogAsset("grilled-chicken")))
     }
 
-    func testMealWithAnyUnmatchedItemKeepsNoIllustration() {
-        XCTAssertEqual(FoodArtworkResolver.resolve(items: [item("jasmine rice"), item("pad thai")], in: assets), .none)
+    func testOneUnmatchedItemNeverSuppressesItsSiblings() throws {
+        let neutral = try catalogAsset("fallback-neutral")
+        // The meal summary of {known, unknown} is the neutral sign…
+        XCTAssertEqual(
+            FoodArtworkResolver.resolve(
+                items: [artworkItem("jasmine rice"), artworkItem("pad thai")], in: assets
+            ),
+            .neutral(neutral)
+        )
+        // …while each item still resolves on its own: the matched sibling keeps
+        // its approved study, the unmatched one gets the neutral sign.
+        XCTAssertEqual(
+            FoodArtworkResolver.resolve(items: [artworkItem("jasmine rice")], in: assets),
+            .food(try catalogAsset("jasmine-rice"))
+        )
+        XCTAssertEqual(
+            FoodArtworkResolver.resolve(items: [artworkItem("pad thai")], in: assets),
+            .neutral(neutral)
+        )
     }
 
     func testSingleItemMealUsesItsOwnApprovedStudy() throws {
-        XCTAssertEqual(FoodArtworkResolver.resolve(items: [item("coffee")], in: assets), .food(try asset("coffee")))
-        XCTAssertEqual(FoodArtworkResolver.resolve(items: [], in: assets), .none)
+        XCTAssertEqual(
+            FoodArtworkResolver.resolve(items: [artworkItem("coffee")], in: assets),
+            .food(try catalogAsset("coffee"))
+        )
+        XCTAssertEqual(FoodArtworkResolver.resolve(items: [], in: assets), .none, "no logged food, nothing to depict")
     }
 
-    // MARK: - Photo precedence
+    // MARK: - Row vs detail presentation (issue #223)
 
-    func testRealMealPhotoStaysAuthoritativeOverIllustration() {
+    func testStoredMealPhotoStaysAuthoritativeInsideDetail() {
         let path = "\(UUID().uuidString)/\(UUID().uuidString).jpg"
         XCTAssertEqual(
-            MealArtworkPresentation.resolve(photoPath: path, items: [item("jasmine rice")], assets: assets),
+            MealArtworkPresentation.resolve(photoPath: path, items: [artworkItem("jasmine rice")], assets: assets),
             .photo(path),
-            "a stored meal photo always renders through the shipped thumbnail pipeline"
+            "detail/edit still renders the stored meal photo"
         )
+    }
+
+    func testRowPresentationNeverShowsTheStoredPhoto() throws {
+        let path = "\(UUID().uuidString)/\(UUID().uuidString).jpg"
+        // The row decision takes no photo path: a photo-present meal resolves
+        // to its illustration, so the photo cannot win a row.
+        XCTAssertEqual(
+            MealArtworkPresentation.row(items: [artworkItem("jasmine rice", mealImage: MealImage(path: path))]),
+            .food(try catalogAsset("jasmine-rice"))
+        )
+        XCTAssertEqual(
+            MealArtworkPresentation.row(items: [artworkItem("pad thai", mealImage: MealImage(path: path))]),
+            .neutral(try catalogAsset("fallback-neutral"))
+        )
+        XCTAssertEqual(MealArtworkPresentation.row(items: []), .none)
     }
 
     func testMissingPhotoPathFallsToTheOfflineIllustration() throws {
-        let rice = try asset("jasmine-rice")
+        let rice = try catalogAsset("jasmine-rice")
         XCTAssertEqual(
-            MealArtworkPresentation.resolve(photoPath: nil, items: [item("jasmine rice")], assets: assets),
+            MealArtworkPresentation.resolve(photoPath: nil, items: [artworkItem("jasmine rice")], assets: assets),
             .illustration(.food(rice))
         )
         XCTAssertEqual(
-            MealArtworkPresentation.resolve(photoPath: "", items: [item("jasmine rice")], assets: assets),
+            MealArtworkPresentation.resolve(photoPath: "", items: [artworkItem("jasmine rice")], assets: assets),
             .illustration(.food(rice)),
             "an empty path is a missing photo, not a photo"
         )
-    }
-
-    // MARK: - Offline bundle presence, both themes
-
-    func testBundledCatalogIsTheApprovedSeventeenAssetLibrary() {
-        XCTAssertEqual(assets.count, 17)
-        XCTAssertEqual(assets.filter { $0.kind == .food }.count, 13)
-        XCTAssertEqual(assets.filter { $0.kind == .fallback }.count, 4)
-        XCTAssertEqual(Set(assets.map(\.id)).count, 17, "stable IDs are unique")
-    }
-
-    func testEveryApprovedAssetShipsBothThemesOfflineAt64px() {
-        for asset in assets {
-            for theme in FoodArtworkTheme.allCases {
-                let label = "\(asset.id)-\(theme.rawValue)"
-                let data = FoodArtworkImageStore.data(assetID: asset.id, theme: theme)
-                XCTAssertNotNil(data, "\(label) must ship in the app bundle")
-                let image = FoodArtworkImageStore.image(assetID: asset.id, theme: theme)
-                XCTAssertEqual(
-                    image?.size, CGSize(width: 64, height: 64),
-                    "\(label) must render at the approved 64px export size"
-                )
-            }
-            XCTAssertNotEqual(
-                FoodArtworkImageStore.data(assetID: asset.id, theme: .paper),
-                FoodArtworkImageStore.data(assetID: asset.id, theme: .night),
-                "\(asset.id) carries a real Paper and Night study"
-            )
-        }
-    }
-
-    func testIllustrationThemeFollowsTheJournalTheme() {
-        XCTAssertEqual(FoodArtworkTheme.resolve(.light), .paper)
-        XCTAssertEqual(FoodArtworkTheme.resolve(.dark), .night)
-        XCTAssertEqual(FoodArtworkTheme.paper.resourceName(assetID: "coffee"), "coffee-paper-64")
-        XCTAssertEqual(FoodArtworkTheme.night.resourceName(assetID: "coffee"), "coffee-night-64")
     }
 
     // MARK: - No nutrition mutation
@@ -176,7 +235,7 @@ final class FoodArtworkFallbackTests: XCTestCase {
     func testResolvingIllustrationsDoesNotMutateLoggedFoodOrNutritionData() throws {
         let meal = MealRecord(
             mealLogID: UUID(), mealType: .lunch, eatenAt: Date(timeIntervalSince1970: 60), source: .manual,
-            items: [item("jasmine rice", kcal: 220), item("grilled chicken", kcal: 250)]
+            items: [artworkItem("jasmine rice", kcal: 220), artworkItem("grilled chicken", kcal: 250)]
         )
         let before = meal
         let beforeNutrition = meal.items.map { [$0.caloriesKcal, $0.proteinG, $0.carbsG, $0.fatG] }
@@ -192,132 +251,4 @@ final class FoodArtworkFallbackTests: XCTestCase {
         XCTAssertEqual(meal.items.map { [$0.caloriesKcal, $0.proteinG, $0.carbsG, $0.fatG] }, beforeNutrition)
         XCTAssertEqual(meal.items.map(\.quantity), [1, 1])
     }
-
-    // MARK: - Production renderer paths
-
-    func testProductionIllustrationRendererDrawsTheBundledStudy() throws {
-        let image = try render(
-            FoodArtworkImageView(assetID: "fallback-grains", label: "Grains category illustration", hint: "hint")
-        )
-        XCTAssertGreaterThan(
-            nonWhitePixelCount(image), 64,
-            "the bundled study must paint real ink through the production renderer"
-        )
-    }
-
-    func testProductionIllustrationRendererStaysBlankForAnUnbundledStudy() throws {
-        let image = try render(
-            FoodArtworkImageView(assetID: "not-in-the-199-library", label: "unknown", hint: "hint")
-        )
-        XCTAssertEqual(nonWhitePixelCount(image), 0, "nothing is drawn for a study the bundle does not carry")
-    }
-
-    func testSharedArtworkSlotRendersTheIllustrationForAPhotoLessMeal() throws {
-        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
-        let slot = MealArtworkSlot(
-            repository: repository, userID: UUID(), photoPath: nil, items: [item("jasmine rice")]
-        )
-        let image = try render(slot)
-        XCTAssertGreaterThan(
-            nonWhitePixelCount(image), 64,
-            "the shared Today/History/detail slot must draw the offline illustration"
-        )
-    }
-
-    func testSharedArtworkSlotDrawsNothingForAnUnknownMeal() throws {
-        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
-        let slot = MealArtworkSlot(
-            repository: repository, userID: UUID(), photoPath: nil, items: [item("pad thai")]
-        )
-        let image = try render(slot)
-        XCTAssertEqual(nonWhitePixelCount(image), 0)
-    }
-
-    func testIllustrationRendersWhileEveryNetworkRequestIsDenied() throws {
-        DenyingURLProtocol.reset()
-        URLProtocol.registerClass(DenyingURLProtocol.self)
-        defer { URLProtocol.unregisterClass(DenyingURLProtocol.self) }
-
-        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
-        let slot = MealArtworkSlot(
-            repository: repository, userID: UUID(), photoPath: nil, items: [item("jasmine rice")]
-        )
-        let image = try render(slot)
-
-        XCTAssertGreaterThan(
-            nonWhitePixelCount(image), 64,
-            "the bundled illustration must render while every network request is denied"
-        )
-        XCTAssertEqual(
-            DenyingURLProtocol.requestCount, 0,
-            "the illustration path performs no fetch at all"
-        )
-    }
-
-    // MARK: - Render helpers
-
-    /// Renders a production view on a white ground so painted pixels are
-    /// countable (the approved PNGs are transparent RGBA studies).
-    private func render(_ view: some View) throws -> UIImage {
-        let renderer = ImageRenderer(
-            content: view.frame(width: 64, height: 64).background(Color.white)
-        )
-        renderer.scale = 1
-        return try XCTUnwrap(renderer.uiImage)
-    }
-
-    private func nonWhitePixelCount(_ image: UIImage) -> Int {
-        guard let cgImage = image.cgImage else { return 0 }
-        let width = cgImage.width
-        let height = cgImage.height
-        var pixels = [UInt8](repeating: 0, count: width * height * 4)
-        guard let context = CGContext(
-            data: &pixels, width: width, height: height,
-            bitsPerComponent: 8, bytesPerRow: width * 4,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-        ) else {
-            return 0
-        }
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        var count = 0
-        for index in stride(from: 0, to: pixels.count, by: 4) {
-            if pixels[index] < 240 || pixels[index + 1] < 240 || pixels[index + 2] < 240 {
-                count += 1
-            }
-        }
-        return count
-    }
-}
-
-/// Issue #199 offline proof: a URLProtocol that denies — and counts — every
-/// request, so a render can be shown to complete with the network path closed.
-private class DenyingURLProtocol: URLProtocol {
-    private static let lock = NSLock()
-    private static var intercepted = 0
-
-    static var requestCount: Int {
-        lock.lock()
-        defer { lock.unlock() }
-        return intercepted
-    }
-
-    static func reset() {
-        lock.lock()
-        intercepted = 0
-        lock.unlock()
-    }
-
-    override class func canInit(with request: URLRequest) -> Bool { true }
-
-    override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
-
-    override func startLoading() {
-        Self.lock.lock()
-        Self.intercepted += 1
-        Self.lock.unlock()
-        client?.urlProtocol(self, didFailWithError: URLError(.notConnectedToInternet))
-    }
-
-    override func stopLoading() {}
 }

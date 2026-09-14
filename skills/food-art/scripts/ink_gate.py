@@ -59,7 +59,7 @@ def main():
         return
     steps=[('build','ink_library.py','build'),('proofs','ink_proofs.py'),
            ('chicken','chicken_gate.py'),('browser','ink_capture.py'),
-           ('assets','ink_library.py','verify'),('workflow','ink_tests.py'),
+           ('assets','ink_library.py','verify'),('neutral','ink_neutral.py'),('workflow','ink_tests.py'),
            ('local','ink_gate.py','local')]
     results=[]
     started=time.perf_counter()

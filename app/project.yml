@@ -31,6 +31,13 @@ targets:
       # with no network asset dependency.
       - path: Resources/FoodArt
         buildPhase: resources
+      # Issue #229 — the approved Variant A journal studies, rasterised from
+      # the pinned design source (`docs/design/tactile-journal/assets/*.svg`,
+      # commit 68be41d1) into 224px Paper/Night PNGs by
+      # `docs/evidence/issue-229-native-parity-a/tools/render-a-art.mjs`. Bundled for the offline row/detail
+      # artwork lookup; 4× the 56pt row target so every placement downsamples.
+      - path: Resources/JournalArt
+        buildPhase: resources
     dependencies:
       - package: Supabase
         product: Supabase

@@ -1,11 +1,13 @@
 import SwiftUI
 import UIKit
 
-// Issue #199 — the ONE illustration renderer and the ONE shared artwork slot
-// used by the real Today/History rows and the item/detail sheet. The photo
-// pipeline (`MealThumbnailView`) stays exactly as shipped: it is still the
-// authoritative path whenever a stored meal photo exists. Illustrations only
-// fill the missing-photo case, from the bundled bytes — never a fetch.
+// Issue #199 — the ONE illustration renderer and the ONE shared row artwork
+// slot used by the real Today rows, the History day card/day detail rows and
+// the meal/item summary rows. Issue #223 — rows are ALWAYS illustrated: a
+// stored meal photo never appears in a row, and every item resolves to an
+// approved study, a labeled category fallback or the neutral eating sign. The
+// photo pipeline (`MealThumbnailView`) stays exactly as shipped and is the
+// authoritative path inside detail/edit, never in a row.
 
 /// Paper/Night artwork selection follows the resolved journal appearance, the
 /// same seam that inks the palette tokens (`MorselAppearance`).
@@ -56,7 +58,8 @@ enum FoodArtworkImageStore {
 
 /// Draws one bundled 64px study at its native size with the ART-SPEC label
 /// contract (a food study is labeled with its name; a category fallback is
-/// labeled with its category and is never announced as an identified food).
+/// labeled with its category and is never announced as an identified food; the
+/// neutral sign is labeled as a food fallback).
 struct FoodArtworkImageView: View {
     let assetID: String
     let label: String
@@ -85,31 +88,43 @@ struct FoodArtworkImageView: View {
     }
 }
 
-/// The shared artwork slot. A stored meal photo always wins (unchanged
-/// `MealThumbnailView` semantics, including loading/missing placeholders for
-/// queued rows); the illustration renders only for a photo-less meal that maps
-/// to an approved study; an unknown meal keeps today's empty slot.
+extension MealArtworkPresentation {
+    /// Issue #223 — ROW presentation: a row shows the resolved illustration and
+    /// never a stored meal photo (a photo path is deliberately not an input, so
+    /// the photo-first detail decision cannot leak into a row).
+    static func row(
+        items: [MealItem],
+        assets: [FoodArtworkAsset] = FoodArtworkCatalog.bundled
+    ) -> FoodArtworkResolution {
+        FoodArtworkResolver.resolve(items: items, in: assets)
+    }
+}
+
+/// The shared row artwork slot: the real food-item rows in Today, History and
+/// the day detail, plus the meal/day summary rows. Always an approved bundled
+/// illustration — issue #229 resolves an approved Variant A study first (the
+/// five A subjects, or the neutral `unknown` sign), then falls back to the
+/// #199/#223 library study/category fallback for foods outside the A set; only
+/// an empty item list draws nothing.
 struct MealArtworkSlot: View {
-    let repository: any DashboardRepository
-    let userID: UUID
-    let photoPath: String?
+    /// The items this row depicts: an item row passes its single food; a
+    /// meal/day summary row passes that meal's (or day's) items.
     let items: [MealItem]
-    /// Ledger photo slot — unchanged from the shipped rows.
-    var photoSize: CGFloat = 44
-    /// Approved native illustration placement.
-    var illustrationSize: CGFloat = CGFloat(FoodArtworkImageStore.pixelSize)
+    /// Approved native illustration placement (ART-SPEC review target: 64px;
+    /// issue #229 rows pass the A 56pt placement explicitly).
+    var size: CGFloat = CGFloat(FoodArtworkImageStore.pixelSize)
 
     var body: some View {
-        switch MealArtworkPresentation.resolve(photoPath: photoPath, items: items) {
-        case let .photo(path):
-            MealThumbnailView(repository: repository, userID: userID, path: path)
-                .frame(width: photoSize, height: photoSize)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 7)
-                        .stroke(Color.morselInkLine.opacity(0.6), lineWidth: 1)
-                }
-        case let .illustration(resolution):
-            MealArtworkSlot.illustration(resolution, size: illustrationSize)
+        MealArtworkSlot.artwork(JournalRowArtwork.resolve(items: items), size: size)
+    }
+
+    @ViewBuilder
+    static func artwork(_ artwork: JournalRowArtwork, size: CGFloat) -> some View {
+        switch artwork {
+        case let .study(study):
+            JournalArtworkImageView(study: study, size: size)
+        case let .library(resolution):
+            illustration(resolution, size: size)
         case .none:
             EmptyView()
         }
@@ -130,6 +145,13 @@ struct MealArtworkSlot: View {
                 assetID: asset.id,
                 label: "\(asset.categoryLabel) category illustration",
                 hint: "Category fallback, not an identified food or meal photo",
+                size: size
+            )
+        case let .neutral(asset):
+            FoodArtworkImageView(
+                assetID: asset.id,
+                label: "Food fallback illustration",
+                hint: "Neutral eating sign for an unknown or mixed meal, not a meal photo",
                 size: size
             )
         case .none:

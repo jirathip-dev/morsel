@@ -380,21 +380,3 @@ struct ProvenanceLabel: View {
             .foregroundStyle(Color.morselInkTwo)
     }
 }
-
-/// Mono confidence box: thin inkline contour + tabular value ("0.90").
-struct ConfidenceBox: View {
-    let value: Double?
-
-    var body: some View {
-        Text(MorselFormat.confidence(value))
-            .font(.morselData)
-            .monospacedDigit()
-            .foregroundStyle(Color.morselInkTwo)
-            .padding(.horizontal, 5)
-            .padding(.vertical, 1)
-            .overlay {
-                RoundedRectangle(cornerRadius: 3)
-                    .stroke(Color.morselInkLine, lineWidth: 1)
-            }
-    }
-}

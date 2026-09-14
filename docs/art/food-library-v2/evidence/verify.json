@@ -8,6 +8,7 @@
     "coffee",
     "fallback-drinks",
     "fallback-grains",
+    "fallback-neutral",
     "fallback-produce",
     "fallback-protein",
     "fried-egg",
@@ -21,10 +22,10 @@
     "vegetable-soup"
   ],
   "foods": 13,
-  "fallbacks": 4,
-  "editable_source_svgs": 17,
-  "theme_masters": 34,
-  "transparent_pngs": 102,
+  "fallbacks": 5,
+  "editable_source_svgs": 18,
+  "theme_masters": 36,
+  "transparent_pngs": 108,
   "historical_control_files_unchanged": 283,
   "approved_sources_masters_and_64px_identical": [
     "mango",
@@ -163,6 +164,28 @@
         48
       ],
       "alpha_gt64_pixels": 815
+    },
+    {
+      "id": "fallback-neutral",
+      "theme": "paper",
+      "alpha_bbox_64": [
+        8,
+        17,
+        57,
+        50
+      ],
+      "alpha_gt64_pixels": 1158
+    },
+    {
+      "id": "fallback-neutral",
+      "theme": "night",
+      "alpha_bbox_64": [
+        8,
+        17,
+        57,
+        50
+      ],
+      "alpha_gt64_pixels": 1158
     },
     {
       "id": "fallback-produce",

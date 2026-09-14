@@ -97,29 +97,34 @@ extension SupabaseDashboardRepository {
     func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext {
         guard let client else { throw MorselError.configurationMissing }
         let authenticatedUserID = try await requireSession(client, userID: userID)
-        let goalRows: [GoalResponse] = try await client.from("goals")
+        // Issue #178 — the three independent reads overlap (bounded by
+        // ReadGraph.maxInFlightRequests); the row order below is unchanged.
+        async let goalRows: [GoalResponse] = client.from("goals")
             .select("calorie_target_kcal,protein_g,carbs_g,fat_g,source,updated_at")
             .eq("user_id", value: authenticatedUserID.uuidString)
             .limit(1)
             .execute()
             .value
-        let profileRows: [ProfileResponse] = try await client.from("profiles")
+        async let profileRows: [ProfileResponse] = client.from("profiles")
             .select("sex,age_years,height_cm,weight_kg,activity_level,diet_goal,goal_weight_kg,updated_at")
             .eq("user_id", value: authenticatedUserID.uuidString)
             .limit(1)
             .execute()
             .value
-        let weightRows: [WeightResponse] = try await client.from("weight_logs")
+        async let weightRows: [WeightResponse] = client.from("weight_logs")
             .select("measured_at,kg")
             .eq("user_id", value: authenticatedUserID.uuidString)
             .order("measured_at", ascending: false)
             .limit(1)
             .execute()
             .value
+        let goalRowValues = try await goalRows
+        let profileRowValues = try await profileRows
+        let weightRowValues = try await weightRows
         return GoalsPageContext(
-            stored: try goalRows.first.map(parseStoredGoal),
-            profile: try profileRows.first.map(parseProfile),
-            latestWeight: weightRows.compactMap(parseWeight).first.map {
+            stored: try goalRowValues.first.map(parseStoredGoal),
+            profile: try profileRowValues.first.map(parseProfile),
+            latestWeight: weightRowValues.compactMap(parseWeight).first.map {
                 SyncedWeightSample(kilograms: $0.kilograms, measuredAt: $0.date)
             },
             profileRowRead: true

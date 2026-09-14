@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Register one future refined study without repainting existing foods.
 
-The issue-197 delivery remains closed at 17. This opt-in addition command is
-exercised only in a temporary fixture for this round, not the delivered set.
+Issue 223 authorizes the neutral eighteenth entry. Other additions remain
+opt-in fixtures and must not pass the current closed-set release gate.
 """
 import argparse
 import json
@@ -17,7 +17,9 @@ def add(spec, svg_text, out=OUT):
     require(isinstance(spec['id'],str) and re.fullmatch(r'[a-z][a-z0-9-]{2,63}',spec['id']),'invalid stable ID')
     require(spec['id'] not in {a['id'] for a in entries},'ID exists; edit source and build instead')
     require(spec['kind'] in ('food','fallback'),'invalid kind')
-    require(spec['category'] in ('produce','protein','grains','drinks','soup'),'invalid category')
+    require(spec['category'] in ('produce','protein','grains','drinks','soup','neutral'),'invalid category')
+    if spec['category'] == 'neutral' or spec['id'] == 'fallback-neutral':
+        require(spec['id'] == 'fallback-neutral' and spec['category'] == 'neutral' and spec['kind'] == 'fallback', 'neutral identity contract')
     require(all(isinstance(spec[k],str) and spec[k] for k in ('name','description')),'missing description/name')
     require(isinstance(spec['aliases'],list) and spec['aliases'] and all(isinstance(a,str) and a for a in spec['aliases']),'invalid aliases')
     dest=out/f'sources/{spec["id"]}.svg'

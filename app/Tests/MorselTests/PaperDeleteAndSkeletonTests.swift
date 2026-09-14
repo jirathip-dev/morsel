@@ -34,7 +34,10 @@ final class PaperDeleteAndSkeletonTests: XCTestCase {
             views.contains(".confirmationDialog("),
             "the Apple system alert chrome must be gone from Today"
         )
-        XCTAssertTrue(views.contains(".sheet(item: $mealToDelete) { meal in"))
+        // Issue #176 — Today requests the delete; the shell (outside the
+        // transient page) anchors the presentation, so settlement can neither
+        // dismiss, duplicate nor orphan it.
+        XCTAssertTrue(views.contains(".sheet(item: presentations.deleteBinding) { meal in"))
         XCTAssertTrue(views.contains("DeleteMealPaperDialog(meal: meal)"))
         // Only the destructive action may delete: the confirm sheet routes to
         // the view model's delete, and Cancel stays a pure dismissal.

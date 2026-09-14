@@ -5,52 +5,59 @@
       "step": "build",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py build",
       "raw_exit": 0,
-      "seconds": 13.698977207997814,
+      "seconds": 0.8518805420026183,
       "log": "evidence/gate-build.log"
     },
     {
       "step": "proofs",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_proofs.py",
       "raw_exit": 0,
-      "seconds": 0.47944812499918044,
+      "seconds": 1.7992874580668285,
       "log": "evidence/gate-proofs.log"
     },
     {
       "step": "chicken",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/chicken_gate.py",
       "raw_exit": 0,
-      "seconds": 0.3387704159831628,
+      "seconds": 1.5590731669217348,
       "log": "evidence/gate-chicken.log"
     },
     {
       "step": "browser",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_capture.py",
       "raw_exit": 0,
-      "seconds": 4.644378750002943,
+      "seconds": 32.15239779104013,
       "log": "evidence/gate-browser.log"
     },
     {
       "step": "assets",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py verify",
       "raw_exit": 0,
-      "seconds": 0.4480892079882324,
+      "seconds": 1.1634172919439152,
       "log": "evidence/gate-assets.log"
+    },
+    {
+      "step": "neutral",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_neutral.py",
+      "raw_exit": 0,
+      "seconds": 5.79674270900432,
+      "log": "evidence/gate-neutral.log"
     },
     {
       "step": "workflow",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_tests.py",
       "raw_exit": 0,
-      "seconds": 21.85116137494333,
+      "seconds": 113.2657761669252,
       "log": "evidence/gate-workflow.log"
     },
     {
       "step": "local",
       "command": "PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_gate.py local",
       "raw_exit": 0,
-      "seconds": 0.20663437491748482,
+      "seconds": 0.714308958966285,
       "log": "evidence/gate-local.log"
     }
   ],
-  "seconds": 41.67038824991323,
+  "seconds": 157.30867850000504,
   "scope": "Design gate only. Does not test, build, wire or approve the native app."
 }

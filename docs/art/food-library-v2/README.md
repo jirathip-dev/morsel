@@ -1,103 +1,89 @@
-# Issue 197 · refined full food library
+# Morsel ink/wash library · issue 223
 
-Direction approved; full-set extension prepared for fleet review/staging.
-No app integration or main/release approval is implied.
-
-Owner brief: https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904
-Approved control: `3b2d880c65553ef190c7072033cac5904a8c1f87`.
+Current release: schema 2 / library 2.1.0. Exactly 13 food studies, 4 labeled
+category fallbacks and 1 neutral eating sign. Approved-direction artwork;
+neutral study pending fleet review. No main/release or final owner approval implied.
 
 ## Review first
 
+- [Neutral study, native 64px and larger, both themes](neutral-both.png)
+- [Neutral semantics, results and limitations](NEUTRAL-FALLBACK.md)
+- [Paper neutral phone fixture](proofs/phone-neutral-paper.png)
+- [Night neutral phone fixture](proofs/phone-neutral-night.png)
 - [Local gallery](index.html), [Paper](gallery-paper.html), [Night](gallery-night.html)
 - [Paper contact sheet](contact-paper.png), [Night contact sheet](contact-night.png)
 - [All labeled 64/40px checks](optical-both.png)
-- [Category fallbacks, both themes](fallbacks-both.png)
-- [Chicken correction, both themes](evidence/chicken-gate/comparison.png)
-- [All phone contexts, Paper](proofs/phone-all-paper.png)
-- [All phone contexts, Night](proofs/phone-all-night.png)
-- [Visual findings and limits](evidence/REVIEW.md)
+- [Four category fallbacks](fallbacks-both.png)
+- [Machine-readable neutral verification](evidence/neutral-verification.json)
+- [Raw gate exits](evidence/gates.json)
 
-Phone proofs are real 390×844 browser captures. Strips place four captures beside
-one another without scaling; their pages visibly say fictional fixture / not
-implemented UI. All17 entries appear once per theme across the four cohorts.
+Phone proofs are real 390×844 browser captures of fictional art fixtures, not
+implemented UI. All 18 entries appear once per theme across five cohorts; each
+phone strip places five captures beside one another without scaling. The browser
+gate also checks desktop/mobile galleries, fonts, images, console and 44px links.
 
 ## What is supplied
 
-Exactly 13 foods + 4 category fallbacks, retaining first-delivery IDs, names,
-aliases, categories and kinds. `sources/` contains17 editable tokenized SVGs;
-`masters/` contains34 resolved Paper/Night SVGs; `exports/` contains102 transparent
-RGBA PNGs at64/192/512. The final gate records and verifies these counts.
-`subjects.json` is editable metadata; `catalog.json` is schema2/library2.0.0.
+18 editable tokenized source SVGs, 36 resolved Paper/Night masters, and 108
+transparent RGBA PNGs at 64/192/512px. `subjects.json` is editable metadata.
+The neutral 64px Paper/Night PNGs and full catalog are copied byte-identically to
+`app/Resources/FoodArt/`. Existing 17 studies retain identities and art bytes;
+`evidence/neutral-baseline.json` pins their 154 source/master/export/wash files.
+The original approved mango/noodles/coffee and earlier historical controls remain
+unchanged, verified by the existing gate.
 
-Approved mango/noodles/coffee source SVGs, theme masters and64px PNGs stay
-byte-identical to R1. First delivery and R1 remain intact beside this folder.
-Chicken now has a bone-in silhouette, not repeated bread-like slices. Other
-studies extend the accepted grammar. Grains/Protein received bounded category
-readability corrections after the first full-set review.
-
-See [ART-SPEC](ART-SPEC.md) for tokens, sizing, semantic limits and controls.
+The new neutral mark is an empty ceramic plate and spoon, not an identified food.
+Category artwork always travels with its category label. The neutral mark must
+never be presented as an identified food, ingredient, portion or category.
+Food rows always use illustrations, even when a real photo exists. The separate
+implementation lane must use the neutral sign for unknown/mixed meals rather than
+blank rows; this delivery does not implement or test that Swift behavior.
 
 ## Reproduce and verify
 
-At repository root, using existing Python3/Pillow, librsvg and headless Chromium:
-
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_gate.py
-
-This executes build, proof composition, chicken proof, browser capture, asset
-verification, workflow tests and local skill/link checks. Raw exits/logs go to
-`evidence/gates.json`. It does not open a PR, push, merge, deploy or edit app files.
-
-Focused commands:
+From repository root with existing Python/Pillow, librsvg and headless Chromium:
 
     PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py build
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_library.py verify
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_proofs.py
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_capture.py
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_tests.py
-
-After final review, regenerate the separated timing report:
-
-    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_timing.py
-
-The additional actual-click probe is retained at
-`skills/food-art/references/browser-interaction-probe.py`: execute its contents
-through `browser_exec` with `ROOT=Path(repository_root)` prebound. It waits for
-expected URL/body/load/fonts after navigation; it is not a standalone Python CLI.
-
-After all final evidence/doc edits:
-
+    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_neutral.py --bundle
+    PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_gate.py
     PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_package.py write
     PYTHONDONTWRITEBYTECODE=1 python3 skills/food-art/scripts/ink_package.py check
 
-The package manifest verifies current delivered bytes. Timing reports and
-browser logs are measurements, not byte-deterministic across runs; regenerate
-the manifest after intentionally rerunning them. `ink_tests.py` separately
-proves deterministic artwork outputs in a fresh temporary fixture, including
-approved control bytes. Sources, renderer/shared helpers and output hashes key
-the incremental cache. A no-op leaves masters/PNGs' hashes and mtimes intact.
+The normal gate runs build, proofs, historical chicken proof, real browser
+capture, asset verification, neutral fresh-render/bundle/negative checks,
+`ink_tests.py` and local skill/link checks. Raw exits and logs are retained in
+`evidence/gates.json`. No runtime generator, dependency installation or external
+art source is used. Only `ink_neutral.py --bundle` writes app resource copies;
+normal verification never writes app files.
 
-## Exercised workflow, not finished-art speed claims
+See [neutral authoring reference](../../../skills/food-art/references/neutral-fallback.md)
+for first registration and exact regeneration details. The normal release gate
+requires the closed set of original 17 plus `fallback-neutral`, not arbitrary
+additions. An isolated nineteenth fixture is deliberately rejected.
 
-Read [timing breakdown](evidence/TIMING.md). Initial batch windows include
-reference reads, authoring and tool waits; the parallel windows overlap. Parent
-chicken and category corrections are separate. Exports, proof composition,
-browser capture, verification and packaging are not counted as drawing time.
+Deterministic art bytes are distinct from measured timing/browser logs, which
+vary between runs. Regenerate the final manifest after intentional evidence/docs
+changes. `ink_neutral.py` renders each neutral PNG twice and compares those bytes
+with the delivered export; the full workflow test regenerates all 144 masters/PNGs
+in an isolated source fixture and checks cache no-op, real mutation and repair.
 
-The repository-owned [food-art skill](../../../skills/food-art/SKILL.md) records
-this exercised flow. A synthetic one-item addition is tested in a temporary
-fixture; no eighteenth food is shipped. A future catalog addition requires new
-scope/version/proof coverage, not silently bypassing this closed-set release.
+## Historical direction context
 
-## Handoff contract
+Owner direction approval:
+https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904
+Control: `3b2d880c65553ef190c7072033cac5904a8c1f87`.
+Addition authority: https://github.com/jirathip-dev/morsel/issues/223 and its
+explicit design brief. This is not approval of the new final pixels by that
+historical comment.
 
-The designer supplies a committed/pushed exact branch head plus this package to
-`orch-morsel`. Orch owns PR, independent review, CI and staging landing; app
-bundling belongs to a dependent implementation issue. Designer does not edit
-app code/assets, merge, deploy, modify database records or generate art at runtime.
-Main/release remains behind its human gate.
+[ART-SPEC](ART-SPEC.md) preserves the original normative palette and art grammar,
+with an explicit issue-223 additive amendment. [Historical review](evidence/REVIEW.md),
+[historical timing discussion](evidence/TIMING.md) and chicken proofs describe the
+issue-197 round, not new review verdicts or uninterrupted authoring time.
 
-Use labeled64px illustrations.40px is diagnostic and loses some material detail.
-Category artwork is not ingredient identification. Existing aliases—including
-chicken cut terms—are generic grouping metadata, never a promise that the drawn
-part/recipe/portion matches a logged food. Real meal photographs remain photos.
-No nutrition, allergy or portion inference is supplied.
+## Handoff
+
+Orch owns PR, independent review and integration. This lane changes only art,
+app food-art resources and the food-art skill. No Swift/project/tests/workflows,
+server/database, deployment or production writes. Native 64px is the review
+placement; 40px remains diagnostic, not a recognition promise.

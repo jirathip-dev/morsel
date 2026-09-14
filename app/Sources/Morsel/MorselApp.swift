@@ -39,23 +39,23 @@ struct MorselConfiguration {
     let mcpEndpoint: String
 
     init(bundle: Bundle) {
-        let urlString = (bundle.object(forInfoDictionaryKey: "MorselSupabaseURL") as? String)?
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-        supabaseURL = urlString.flatMap(URL.init(string:))
-        anonKey = (bundle.object(forInfoDictionaryKey: "MorselSupabaseAnonKey") as? String)?
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        mcpEndpoint = (bundle.object(forInfoDictionaryKey: "MORSEL_MCP_URL") as? String)?
-            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        func string(_ key: String) -> String {
+            (bundle.object(forInfoDictionaryKey: key) as? String)?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        }
+        supabaseURL = URL(string: string("MorselSupabaseURL"))
+        anonKey = string("MorselSupabaseAnonKey")
+        mcpEndpoint = string("MORSEL_MCP_URL")
     }
 
     func makeClient() -> SupabaseClient? {
         guard let supabaseURL, !anonKey.isEmpty else {
             return nil
         }
-        let options = SupabaseClientOptions(
-            auth: .init(autoRefreshToken: true)
+        return SupabaseClient(
+            supabaseURL: supabaseURL, supabaseKey: anonKey,
+            options: SupabaseClientOptions(auth: .init(autoRefreshToken: true))
         )
-        return SupabaseClient(supabaseURL: supabaseURL, supabaseKey: anonKey, options: options)
     }
 }
 
@@ -70,16 +70,11 @@ private struct MorselRootView: View {
         Group {
             if let session = sessionStore.session {
                 AuthenticatedDashboardView(
-                    supabaseClient: supabaseClient,
-                    session: session,
-                    mcpEndpoint: mcpEndpoint,
-                    auth: auth,
-                    onSignOut: {
-                        Task { await sessionStore.signOut(using: auth) }
-                    }
+                    supabaseClient: supabaseClient, session: session, mcpEndpoint: mcpEndpoint,
+                    auth: auth, onSignOut: { Task { await sessionStore.signOut(using: auth) } }
                 )
             } else if sessionStore.isSetupDeferred {
-                                                                MorselActionTint {
+                MorselActionTint {
                     SignInView(auth: auth) { session in
                         sessionStore.authenticate(session)
                     }
@@ -91,9 +86,7 @@ private struct MorselRootView: View {
                         endpoint: mcpEndpoint,
                         auth: auth,
                         onAuthenticated: { pendingSession = $0 },
-                        onFinished: {
-                            if let pendingSession { sessionStore.authenticate(pendingSession) }
-                        },
+                        onFinished: { if let pendingSession { sessionStore.authenticate(pendingSession) } },
                         onSkip: { sessionStore.deferSetup() }
                     )
                 }
@@ -132,6 +125,9 @@ struct JournalPageStage<Page: View>: View {
     @ObservedObject var pager: JournalPagerModel
     @EnvironmentObject private var machine: JournalTurnMachine
     let active: JournalTab
+    /// Issue #176 — true while the shell's overlay (Add Meal / Menus) covers
+    /// the pages: the overlay owns interaction then, so no page may.
+    var overlayCoversPages = false
     let makePage: (JournalTab, Int) -> Page
     @State private var activations: [JournalTab: Int] = [.today: 1]
 
@@ -143,6 +139,7 @@ struct JournalPageStage<Page: View>: View {
             if let turn = machine.turn, activations[turn.incoming] == nil {
                 Color.morselBackground
                     .modifier(HingeTurnPose(direction: turn.direction, progress: turn.progress))
+                    .allowsHitTesting(false) // Issue #176 — decoration owns no touch
                     .zIndex(1)
                     .accessibilityElement(children: .ignore)
                     .accessibilityLabel("Opening the page")
@@ -161,10 +158,21 @@ struct JournalPageStage<Page: View>: View {
                                     progress: machine.turn?.progress ?? 0,
                                     isIncoming: incoming,
                                     isActive: tab == active))
-            .allowsHitTesting(tab == active)
-            .accessibilityHidden(tab != active && !incoming)
+            .allowsHitTesting(owns(tab))
+            .disabled(!owns(tab))
+            .accessibilityHidden(!owns(tab))
             .zIndex(incoming ? 1 : 0)
             .transition(.opacity) // Reduce Motion cross-fade (#111 AC2)
+    }
+
+    /// Issue #176 — the declared active page is the pager's selection: a
+    /// committed swing declares its destination at once, a drag preview or
+    /// rollback leaves the settled page in charge, and a presented overlay
+    /// owns interaction instead of any page. Offscreen, outgoing and preview
+    /// layers own nothing on any channel: touch, control activation or
+    /// accessibility.
+    private func owns(_ tab: JournalTab) -> Bool {
+        !overlayCoversPages && tab == pager.selection
     }
 }
 
@@ -173,6 +181,9 @@ private struct AuthenticatedDashboardView: View {
     @StateObject private var pager = JournalPagerModel()
     @StateObject private var routeModel = JournalRouteModel()
     @StateObject private var menuLibrary: MenuLibraryModel
+    /// Issue #176 — Today's presentations live here, outside the pages: a
+    /// turn cannot dismiss, duplicate or orphan them.
+    @StateObject private var presentations = JournalPresentationModel()
     @State private var showingSettings = false
     @State private var showingOnboarding = false
     @StateObject private var pageTurnMachine = JournalTurnMachine()
@@ -215,34 +226,22 @@ private struct AuthenticatedDashboardView: View {
         let fallback: HealthKitWeightImporter?
         if let services {
             fallback = nil
-            _viewModel = StateObject(
-                wrappedValue: DashboardViewModel(
-                    repository: services.repository,
-                    userID: session.userID,
-                    weightImporter: services.importer,
-                    healthStore: services.healthStore,
-                    syncEngine: services.engine
-                )
-            )
-            _menuLibrary = StateObject(
-                wrappedValue: MenuLibraryModel(repository: services.repository, userID: session.userID)
-            )
+            _viewModel = StateObject(wrappedValue: DashboardViewModel(
+                repository: services.repository, userID: session.userID,
+                weightImporter: services.importer, healthStore: services.healthStore,
+                syncEngine: services.engine))
+            _menuLibrary = StateObject(wrappedValue: MenuLibraryModel(
+                repository: services.repository, userID: session.userID))
         } else {
             let remote = SupabaseDashboardRepository(client: supabaseClient)
             let importer = supabaseClient.flatMap {
                 try? HealthKitWeightImporter(store: SupabaseWeightLogStore(client: $0, userID: session.userID))
             }
             fallback = importer
-            _viewModel = StateObject(
-                wrappedValue: DashboardViewModel(
-                    repository: remote,
-                    userID: session.userID,
-                    weightImporter: importer
-                )
-            )
-            _menuLibrary = StateObject(
-                wrappedValue: MenuLibraryModel(repository: remote, userID: session.userID)
-            )
+            _viewModel = StateObject(wrappedValue: DashboardViewModel(
+                repository: remote, userID: session.userID, weightImporter: importer))
+            _menuLibrary = StateObject(wrappedValue: MenuLibraryModel(
+                repository: remote, userID: session.userID))
         }
         fallbackImporter = fallback
     }
@@ -279,13 +278,14 @@ private struct AuthenticatedDashboardView: View {
             }
         }
         // Issue #153 — the Edit-item sheet loads its photo through the view model.
+        // Issue #176 — the shell anchors the Today presentations it owns (the
+        // environment object wraps the anchor whose sheets inherit it).
+        .journalPresentations(presentations, viewModel: viewModel)
         .environmentObject(viewModel)
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
         .task {
-            if let timezoneSync {
-                Task { await timezoneSync.syncIfChanged() }
-            }
+            if let timezoneSync { Task { await timezoneSync.syncIfChanged() } }
             async let health: Void = viewModel.importWeights()
             await viewModel.load()
             _ = await health
@@ -364,8 +364,10 @@ private struct AuthenticatedDashboardView: View {
     }
 
     /// Issue #175 — `tab` is this path's settled page; the stage owns the page.
+    /// Issue #176 — the route overlay owns interaction while it covers them.
     private func journalPage(for tab: JournalTab) -> some View {
-        JournalPageStage(pager: pager, active: tab) { pageTab, activation in
+        JournalPageStage(pager: pager, active: tab,
+                         overlayCoversPages: routeModel.route != .tabPages) { pageTab, activation in
             journalPrimaryPage(for: pageTab, activation: activation)
         }
     }
@@ -375,6 +377,7 @@ private struct AuthenticatedDashboardView: View {
         case .today:
             MorselActionTint {
                 TodayView(viewModel: viewModel,
+                          presentations: presentations,
                           showSettings: { showingSettings = true },
                           addMeal: { routeModel.openAddMeal() })
             }
