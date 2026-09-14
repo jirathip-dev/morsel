@@ -25,6 +25,7 @@ import {
   CANONICAL_FILES,
   CANONICAL_NAMES,
   CANONICAL_POLICIES,
+  CANONICAL_ROUTINES,
   FUNCTION_DEFINITIONS,
   normalizeExpr,
 } from "./migration-recovery-contracts.mjs";
@@ -241,12 +242,13 @@ describe("recovery runner CLI and preconditions", () => {
     expect(writeLike).toHaveLength(0);
   });
 
-  it("rejects an unexpected manifest (extra migration file) before queries", async () => {
+  it.each(["missing", "unknown"])("rejects an unexpected manifest (%s migration file) before queries", async (mutation) => {
     const root = await mkdtemp(join(tmpdir(), "morsel-recovery-"));
     dirs.push(root);
     mkdirSync(join(root, "db", "migrations"), { recursive: true });
     for (const file of CANONICAL_FILES) writeFileSync(join(root, "db", "migrations", file), `-- ${file}`);
-    writeFileSync(join(root, "db", "migrations", "0010_future.sql"), "-- 0010");
+    if (mutation === "missing") await rm(join(root, "db", "migrations", "0013_artwork_identity.sql"));
+    else writeFileSync(join(root, "db", "migrations", "0014_future.sql"), "-- unknown migration");
     const db = emptyDb();
     await expect(run({ ref, token, root, queryImpl: db.queryImpl, log: quiet })).rejects.toThrow(/manifest mismatch/);
     expect(db.statements).toHaveLength(0);
@@ -499,21 +501,10 @@ describe("classification and conflict logic", () => {
     expect(ok.state).toBe("VERIFIED_PRESENT");
   });
 
-  // Issue #167: after 0012 is applied + recorded, the canonical meal-routine
-  // bodies are the 0012 menu-aware text and routine ownership lives with 0012
-  // (ROUTINE_OWNER + CANONICAL_ROUTINES re-pointed away from 0003/0010).
-  // TWO-STATE CONTRACT:
-  //   (a) PRE-0012 live shape (old bodies, no 0012, ledger through 0011):
-  //       0003/0010 VERIFIED_PRESENT (their tables etc. verify; the meal
-  //       routines are not checked under them anymore) and 0012
-  //       REPAIR_REQUIRED (menu tables missing; bodies not the canonical
-  //       text yet).
-  //   (b) POST-0012 live shape (0012 applied, menu tables present, ledger
-  //       recorded through 0012): ALL VERIFIED_PRESENT, 0 blocked/repair —
-  //       the classifier is stable, never ambiguous after a successful
-  //       apply. RED-FIRST TARGET: on the current (pre-#167) canonical this
-  //       state classifies 0003/0010 BLOCKED_AMBIGUOUS.
-  it("two-state meal-routine contract after the #167 canonical re-point to 0012", () => {
+  // Issue #241: retain the pre-menu repair fixture and extend its post-apply
+  // fixture through 0013. Earlier owners still verify; 0013 owns artwork
+  // columns/checks and all three replaced bodies after apply.
+  it("two-state meal-routine contract after the #241 canonical re-point to 0013", () => {
     const migrationsRoot = join(fileURLToPath(new URL("..", import.meta.url)), "db", "migrations");
     const functionText = (file, fn) => {
       const text = readFileSync(join(migrationsRoot, file), "utf8");
@@ -527,10 +518,10 @@ describe("classification and conflict logic", () => {
     const oldClientBody = dollarBody(functionText("0010_meal_outbox_client_ids.sql", "log_meal_with_items_client"));
     expect(oldMealBody).not.toContain("v_menu_name");
     expect(oldClientBody).not.toContain("v_menu_name");
-    // Bodies 0012's own file installs (the live POST-0012 world).
-    const menuMealBody = dollarBody(functionText("0012_named_menus.sql", "log_meal_with_items"));
-    const menuClientBody = dollarBody(functionText("0012_named_menus.sql", "log_meal_with_items_client"));
-    const menuUpsertBody = dollarBody(functionText("0012_named_menus.sql", "upsert_menu"));
+    // Bodies 0013 installs (the current post-apply world).
+    const menuMealBody = dollarBody(functionText("0013_artwork_identity.sql", "log_meal_with_items"));
+    const menuClientBody = dollarBody(functionText("0013_artwork_identity.sql", "log_meal_with_items_client"));
+    const menuUpsertBody = dollarBody(functionText("0013_artwork_identity.sql", "upsert_menu"));
     expect(menuMealBody).toContain("v_menu_name");
     expect(menuClientBody).toContain("v_menu_name");
 
@@ -651,7 +642,17 @@ describe("classification and conflict logic", () => {
       ...postSnapshots.routinePrivileges,
       { routine_name: "upsert_menu", grantee: "authenticated", privilege_type: "EXECUTE" },
     ];
-    const postRecorded = new Set(CANONICAL_NAMES); // 0001..0012 recorded after apply
+    // 0013 adds nullable identity without altering the earlier menu contract.
+    const artworkSql = readFileSync(join(migrationsRoot, "0013_artwork_identity.sql"), "utf8");
+    const artworkCheck = /check \((artwork_id in \([^;]+\))\);/.exec(artworkSql)[1];
+    for (const table of ["meal_items", "menu_items"]) {
+      postSnapshots.columnsByTable.get(table).set("artwork_id", menuCol("artwork_id", "text", true));
+      postSnapshots.constraintsByTable.set(table, [
+        ...(postSnapshots.constraintsByTable.get(table) ?? []),
+        { conname: `${table}_artwork_id_published`, contype: "c", columns: ["artwork_id"], definition: artworkCheck },
+      ]);
+    }
+    const postRecorded = new Set(CANONICAL_NAMES); // 0001..0013 recorded after apply
 
     // GREEN (post-#167): every owner file verifies; nothing is ambiguous.
     const postMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", postSnapshots, postRecorded, false);
@@ -661,17 +662,20 @@ describe("classification and conflict logic", () => {
     const post0012 = classifyMigration("0012_named_menus.sql", postSnapshots, postRecorded, false);
     expect(post0012.state, "post-0012 0012").toBe("VERIFIED_PRESENT");
     expect(post0012.entries.filter((e) => !e.ok), "0012 has zero failing entries").toHaveLength(0);
+    const post0013 = classifyMigration("0013_artwork_identity.sql", postSnapshots, postRecorded, false);
+    expect(post0013.state, "post-0013 owner").toBe("VERIFIED_PRESENT");
+    expect(post0013.entries.filter((e) => !e.ok), "0013 has zero failing entries").toHaveLength(0);
+    expect(CANONICAL_ROUTINES["0013_artwork_identity.sql"].map((r) => r.name).sort()).toEqual(["log_meal_with_items", "log_meal_with_items_client", "upsert_menu"]);
 
-    // RED-FIRST guard: on the current (pre-#167) canonical text the post-0012
-    // live bodies mismatch under the OLD owners 0003/0010 -> BLOCKED_AMBIGUOUS.
-    const currentCanonicalMeal = bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items);
-    const currentCanonicalClient = bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items_client);
-    const pre167CanonicalIsOldBody = currentCanonicalMeal !== menuMealBody && currentCanonicalClient !== menuClientBody;
-    if (pre167CanonicalIsOldBody) {
-      const redMeal = classifyMigration("0003_atomic_meals_and_users_rls.sql", postSnapshots, postRecorded, false);
-      expect(redMeal.state, "RED-FIRST: pre-#167 canonical leaves 0003 BLOCKED on the post-0012 world").toBe("BLOCKED_AMBIGUOUS");
-      const redClient = classifyMigration("0010_meal_outbox_client_ids.sql", postSnapshots, postRecorded, false);
-      expect(redClient.state, "RED-FIRST: pre-#167 canonical leaves 0010 BLOCKED on the post-0012 world").toBe("BLOCKED_AMBIGUOUS");
+    // A recorded owner must refuse either superseded meal body, not silently
+    // verify it under an earlier migration with no routine responsibility.
+    expect(bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items)).toBe(menuMealBody);
+    expect(bodyOfText(FUNCTION_DEFINITIONS.log_meal_with_items_client)).toBe(menuClientBody);
+    for (const [routineName, body] of [["log_meal_with_items", oldMealBody], ["log_meal_with_items_client", oldClientBody]]) {
+      const tampered = { ...postSnapshots, routines: postSnapshots.routines.map((r) => r.routine_name === routineName ? { ...r, body } : r) };
+      const refusal = classifyMigration("0013_artwork_identity.sql", tampered, postRecorded, false);
+      expect(refusal.state, routineName).toBe("BLOCKED_AMBIGUOUS");
+      expect(refusal.entries.some((entry) => entry.kind === "routine" && entry.reason === "exists but does not match the canonical definition")).toBe(true);
     }
   });
 
@@ -778,19 +782,17 @@ describe("contract pins and expression normalization", () => {
   it("FUNCTION_DEFINITIONS bodies are byte-identical to the migration files", () => {
     const expected = {
       compute_targets: "0002_targets.sql",
-      // Issue #167: canonical meal-routine bodies are the menu-aware text
-      // that 0012_named_menus.sql installs (routine ownership re-pointed to
-      // 0012), so the byte-pin follows the canonical body file.
-      log_meal_with_items: "0012_named_menus.sql",
-      log_meal_with_items_client: "0012_named_menus.sql",
+      // Issue #241: the byte-pin follows the latest artwork-aware body owner.
+      log_meal_with_items: "0013_artwork_identity.sql",
+      log_meal_with_items_client: "0013_artwork_identity.sql",
       claim_oauth_authorization_grant: "0005_oauth_authorization_grants.sql",
       upsert_food_catalog: "0006_food_catalog_provider_cache.sql",
-      upsert_menu: "0012_named_menus.sql",
+      upsert_menu: "0013_artwork_identity.sql",
     };
     const root = join(fileURLToPath(new URL("..", import.meta.url)), "db", "migrations");
     for (const [name, file] of Object.entries(expected)) {
       const text = readFileSync(join(root, file), "utf8");
-      // 0012 defines several functions; extract the body of THIS function's
+      // 0013 defines several functions; extract the body of THIS function's
       // own definition (each FUNCTION_DEFINITIONS entry holds one function).
       const ownStart = text.indexOf(`create or replace function public.${name}(`);
       const fileBody = /as \$[a-z_]*\$([\s\S]*?)\$[a-z_]*\$;/m.exec(text.slice(ownStart))[1];
