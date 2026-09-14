@@ -25,26 +25,47 @@ class GoalsContextLazyLoadCase: XCTestCase {
         )
     }
 
-    /// Bounded polling on the main actor: yields until `condition` holds or the
-    /// deadline passes. The parked reads never complete on their own, so any
-    /// state observed while they are parked is pre-release.
-    func waitFor(seconds: TimeInterval = 3, _ condition: @escaping () -> Bool) async -> Bool {
-        let deadline = Date().addingTimeInterval(seconds)
+    private enum WaitFailure: Error { case timedOut }
+
+    /// A missed handshake aborts the test instead of falling through into a task wait.
+    @MainActor
+    func waitFor(
+        _ message: String, _ condition: () -> Bool,
+        file: StaticString = #filePath, line: UInt = #line
+    ) async throws {
+        let deadline = ContinuousClock.now.advanced(by: .seconds(3))
         while !condition() {
-            if Date() >= deadline {
-                return false
+            guard ContinuousClock.now < deadline else {
+                XCTFail("Timed out waiting for \(message)", file: file, line: line)
+                throw WaitFailure.timedOut
             }
             await Task.yield()
         }
-        return true
     }
 
-    /// Await the model's in-flight narrow read: every late-read assertion is
-    /// then deterministic (no sleeps).
+    /// The unstructured observer may suspend; the TEST only awaits a bounded XCTest waiter.
+    @MainActor
+    func finish(
+        _ task: Task<Void, Never>, _ message: String,
+        file: StaticString = #filePath, line: UInt = #line
+    ) async throws {
+        let done = XCTestExpectation(description: message)
+        Task {
+            await task.value
+            done.fulfill()
+        }
+        let result = await XCTWaiter.fulfillment(of: [done], timeout: 3)
+        guard result == .completed else {
+            task.cancel()
+            XCTFail("Timed out waiting for \(message); parked-read handshake did not complete", file: file, line: line)
+            throw WaitFailure.timedOut
+        }
+    }
+
     @MainActor
     func settleDayTotal(of viewModel: GoalsEditorViewModel) async throws {
         let task = try XCTUnwrap(viewModel.dayTotalTask, "the narrow day read must have been started")
-        await task.value
+        try await finish(task, "narrow day read")
     }
 }
 
@@ -61,11 +82,15 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
     @MainActor
     func testOpeningGoalsReadsTheNarrowLocalDayTotalAndNoFullDashboard() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         spy.dayTotals = [993]
         let viewModel = viewModel(spy: spy)
 
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
         try await settleDayTotal(of: viewModel)
 
         XCTAssertEqual(spy.fullDashboardReads, 0, "opening Goals must not run the full Today read")
@@ -91,6 +116,10 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
     @MainActor
     func testHeldLocalReadStillPaintsTargetsAndProfileWithTheTotalPending() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         // A current manual row (written after the profile) keeps its own
         // numbers; the profile supplies the read-only provenance line.
         spy.storedGoal = manualGoal(updatedAt: date(2026, 9, 5, 10, 0))
@@ -103,10 +132,9 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
         spy.holdsStorage = true
         let viewModel = viewModel(spy: spy)
 
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
 
-        let parked = await waitFor { spy.parkedOnStorage }
-        XCTAssertTrue(parked, "the narrow read really is parked")
+        try await waitFor("storage gate installed") { spy.parkedOnStorage }
         XCTAssertEqual(viewModel.calories, "2000.0", "held storage cannot stop the targets")
         XCTAssertNotNil(viewModel.profileLine, "held storage cannot stop the profile line")
         XCTAssertNil(viewModel.todayCalories, "a missing total is pending, never a known zero")
@@ -124,15 +152,18 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
     @MainActor
     func testDayTotalArrivingAfterMidnightIsDropped() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         spy.dayTotals = [900]
         spy.holdsStorage = true
         var clock = date(2026, 9, 5, 23, 50)
         let viewModel = viewModel(spy: spy, now: { clock })
 
-        await viewModel.load()
-        let parked = await waitFor { spy.parkedOnStorage }
-        XCTAssertTrue(parked)
+        try await finish(Task { await viewModel.load() }, "Goals load")
+        try await waitFor("storage gate installed") { spy.parkedOnStorage }
 
         clock = date(2026, 9, 6, 0, 10)
         spy.releaseStorage()
@@ -145,29 +176,36 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
     @MainActor
     func testSupersededLoadCannotPaintItsStaleTotal() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         spy.dayTotals = [111, 222]
         spy.holdsStorage = true
         let viewModel = viewModel(spy: spy)
 
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
         let stale = try XCTUnwrap(viewModel.dayTotalTask)
-        let parked = await waitFor { spy.parkedOnStorage }
-        XCTAssertTrue(parked)
+        try await waitFor("storage gate installed") { spy.parkedOnStorage }
 
         spy.holdsStorage = false
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
         try await settleDayTotal(of: viewModel)
         XCTAssertEqual(viewModel.todayCalories, 222, "the current load's total wins")
 
         spy.releaseStorage()
-        await stale.value
+        try await finish(stale, "superseded day read")
         XCTAssertEqual(viewModel.todayCalories, 222, "a superseded read must not paint over it")
     }
 
     @MainActor
     func testCancelledLoadNeverPaintsItsLateTotal() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         spy.dayTotals = [500]
         spy.holdsStorage = true
@@ -175,28 +213,31 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
         let viewModel = viewModel(spy: spy)
 
         let load = Task { await viewModel.load() }
-        let parked = await waitFor { spy.parkedOnStorage && spy.parkedOnContext }
-        XCTAssertTrue(parked, "both reads are parked")
+        try await waitFor("storage and context gates installed") { spy.parkedOnStorage && spy.parkedOnContext }
 
         load.cancel()
         spy.releaseContext()
-        await load.value
+        try await finish(load, "cancelled Goals load")
         let late = try XCTUnwrap(viewModel.dayTotalTask)
         XCTAssertEqual(viewModel.calories, "2000.0", "the fetched targets still appear")
 
         spy.releaseStorage()
-        await late.value
+        try await finish(late, "cancelled day read")
         XCTAssertNil(viewModel.todayCalories, "a cancelled load must not leave a late paint")
     }
 
     @MainActor
     func testUnreadableDayTotalLeavesTheLinePendingAndGoalsEditable() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         spy.dayTotalError = MorselError.requestFailed(500, "local day cache unreadable")
         let viewModel = viewModel(spy: spy)
 
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
         try await settleDayTotal(of: viewModel)
 
         XCTAssertNil(viewModel.todayCalories)
@@ -214,6 +255,10 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
     @MainActor
     func testLateTotalLeavesTheSupersededManualOutcomeUntouched() async throws {
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal(updatedAt: date(2026, 9, 5, 7, 0))
         let profile = DashboardProfile(
             sex: .male, ageYears: 30, heightCm: 167, weightKg: 63,
@@ -226,7 +271,8 @@ final class GoalsContextLazyLoadTests: GoalsContextLazyLoadCase {
         spy.holdsStorage = true
         let viewModel = viewModel(spy: spy)
 
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
+        try await waitFor("storage gate installed") { spy.parkedOnStorage }
         let computed = DashboardMath.computedGoal(for: profile, latestWeightKg: 61.5)
         let targets = GoalsEditorViewModel.displayValue(computed.calorieTargetKcal)
         XCTAssertEqual(viewModel.calories, targets)
@@ -256,6 +302,10 @@ final class GoalsContextLazyLoadRealPathTests: GoalsContextLazyLoadCase {
         let url = LocalDataStore.storeURL(root: directory, accountID: userID)
 
         let spy = GoalsPageRequestSpy()
+        defer {
+            spy.releaseStorage()
+            spy.releaseContext()
+        }
         spy.storedGoal = manualGoal()
         let reference = date(2026, 9, 5, 12, 0)
         spy.seededToday = DashboardSnapshot(
@@ -270,7 +320,7 @@ final class GoalsContextLazyLoadRealPathTests: GoalsContextLazyLoadCase {
         XCTAssertEqual(spy.fullDashboardReads, 1)
 
         let viewModel = GoalsEditorViewModel(repository: repository, userID: userID, now: { reference })
-        await viewModel.load()
+        try await finish(Task { await viewModel.load() }, "Goals load")
         try await settleDayTotal(of: viewModel)
 
         XCTAssertEqual(spy.fullDashboardReads, 1, "opening Goals must not add a full Today read")

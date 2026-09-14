@@ -7,6 +7,7 @@ import Foundation
 // the narrow local read the page IS allowed to make: it can be parked (a held
 // storage read) and can serve a chosen calorie total or fail.
 
+@MainActor
 final class GoalsPageRequestSpy: DashboardRepository {
     /// Every repository call the goals page makes, in order.
     private(set) var calls: [String] = []
@@ -55,8 +56,10 @@ final class GoalsPageRequestSpy: DashboardRepository {
     func loadGoalsContext(userID: UUID) async throws -> GoalsPageContext {
         calls.append("loadGoalsContext")
         if holdsContext {
-            parkedOnContext = true
-            await withCheckedContinuation { contextGate = $0 }
+            await withCheckedContinuation { continuation in
+                contextGate = continuation
+                parkedOnContext = true
+            }
         }
         if let goalsContextError {
             throw goalsContextError
@@ -74,8 +77,10 @@ final class GoalsPageRequestSpy: DashboardRepository {
         let index = min(servedDayTotals, dayTotals.count - 1)
         servedDayTotals += 1
         if holdsStorage {
-            parkedOnStorage = true
-            await withCheckedContinuation { storageGate = $0 }
+            await withCheckedContinuation { continuation in
+                storageGate = continuation
+                parkedOnStorage = true
+            }
         }
         if let dayTotalError {
             throw dayTotalError
