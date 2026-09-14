@@ -1,16 +1,19 @@
 # Morsel MCP on Fly.io — single-process hosting (issue #72)
 
-Status: **deployed and canonical.** The Fly origin (Bun entry point,
-`Dockerfile`, `fly.toml`, tests) is live: `https://morsel-mcp.fly.dev/mcp`
-is the canonical MCP endpoint that the app build configuration
-(`CANONICAL_MCP_URL`, issue #75), onboarding copy, OAuth discovery, and the
-Vercel consent page (issue #74) target. The deploy steps below are retained
-as the runbook for that deployment and remain the reference for redeploys
-and rollbacks (Guy's Fly account/auth). Remaining human gates: the next
-TestFlight build that carries the canonical copy/URL into the built app,
-live Claude connector acceptance on the canonical URL, and separately
-retiring the Supabase Edge Function transport. No authenticated live
-acceptance is claimed here.
+Status: **deployed; canonical on the custom domain.** The Fly origin (Bun
+entry point, `Dockerfile`, `fly.toml`, tests) is live: the canonical MCP
+endpoint is `https://mcp.morselfood.app/mcp` (the morselfood.app custom
+domain over the Fly deployment, issue #130) — the value the app build
+configuration (`CANONICAL_MCP_URL`, issue #75), onboarding copy, and OAuth
+discovery publish, and the base the Vercel consent page (issue #74) targets.
+The legacy `https://morsel-mcp.fly.dev/mcp` origin still serves the identical
+endpoint, metadata, and 401 challenges until it is retired. The deploy steps
+below are retained as the runbook for that deployment and remain the
+reference for redeploys and rollbacks (Guy's Fly account/auth). Remaining
+human gates: the next TestFlight build that carries the canonical copy/URL
+into the built app, live Claude connector acceptance on the canonical URL,
+and separately retiring the Supabase Edge Function transport. No
+authenticated live acceptance is claimed here.
 
 ## Why Fly
 
@@ -38,21 +41,30 @@ No Supabase gateway strips `/functions/v1` on Fly, so the app runs with
 
 Deliberately absent: `/mcp/mcp` (the pre-#57 Edge compatibility alias has no
 clients on this origin), `/mcp/health` (health lives at the origin root
-only), and origin-root discovery (no metadata duplication). The canonical
-client transport is `https://morsel-mcp.fly.dev/mcp`.
+only), and origin-root discovery (no metadata duplication). That route shape
+is what both origins serve; the canonical client transport is
+`https://mcp.morselfood.app/mcp` (issue #130), and the legacy
+`https://morsel-mcp.fly.dev/mcp` origin serves the same routes identically
+until retired.
 
 ## Metadata contract (served values)
 
-- `issuer` = `https://morsel-mcp.fly.dev/mcp` — never derived from the
-  incoming Host header in production; it comes from the
-  `MORSEL_PUBLIC_BASE_URL` secret.
+The served values derive from the deployed `MORSEL_PUBLIC_BASE_URL` secret —
+never from the incoming Host header in production — whose value is the
+canonical base `https://mcp.morselfood.app/mcp` (flipped in the Fly secret on
+2026-09-07, release `84ed375b2d27`, issues #130/#170).
+
+- `issuer` = `https://mcp.morselfood.app/mcp`.
 - `authorization_endpoint` = `https://morsel-authorize-ui.vercel.app/authorize`
   (the Vercel consent page) when `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is set;
   unset keeps the server-rendered fallback.
-- `token_endpoint` = `https://morsel-mcp.fly.dev/mcp/token`,
-  `registration_endpoint` = `https://morsel-mcp.fly.dev/mcp/register`.
+- `token_endpoint` = `https://mcp.morselfood.app/mcp/token`,
+  `registration_endpoint` = `https://mcp.morselfood.app/mcp/register`.
 - protected-resource `resource`/`authorization_servers` =
-  `https://morsel-mcp.fly.dev/mcp`.
+  `https://mcp.morselfood.app/mcp`.
+- The legacy `https://morsel-mcp.fly.dev/mcp` origin serves this same
+  deployment identically (same transport, discovery documents, and 401
+  challenges) until it is retired, so it advertises the same canonical values.
 - No `/functions/v1`, no `/mcp/mcp`, no doubled prefixes anywhere.
 
 ## Required environment (Fly secrets — names only, values never committed)
@@ -62,7 +74,7 @@ client transport is `https://morsel-mcp.fly.dev/mcp`.
 | `SUPABASE_URL` | `https://<project-ref>.supabase.co` |
 | `SUPABASE_ANON_KEY` | the project anon key |
 | `MORSEL_OAUTH_SIGNING_KEY` | long random value (same one the legacy Edge Function uses while it is retained) |
-| `MORSEL_PUBLIC_BASE_URL` | `https://morsel-mcp.fly.dev/mcp` (validated fail-closed: absolute HTTPS, exactly `/mcp` path, no userinfo/query/fragment/whitespace/trailing slash) |
+| `MORSEL_PUBLIC_BASE_URL` | `https://mcp.morselfood.app/mcp` (deployed value since 2026-09-07; the legacy `https://morsel-mcp.fly.dev/mcp` remains a valid value and serves identically until retired. Validated fail-closed: absolute HTTPS, exactly `/mcp` path, no userinfo/query/fragment/whitespace/trailing slash) |
 | `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` (optional) | `https://morsel-authorize-ui.vercel.app/authorize` |
 
 The entry point refuses to start when any required value is missing or
@@ -71,7 +83,8 @@ malformed (fail closed at boot).
 ## Deploy runbook (Guy)
 
 The steps below are the runbook used for the initial Fly deployment (now
-live and canonical) and remain the reference for redeploys and rollbacks.
+live and serving the canonical endpoint) and remain the reference for
+redeploys and rollbacks.
 All commands are placeholders; replace `<…>` values from the local secret
 store. None of these commands print secret values when run as written.
 
@@ -95,20 +108,26 @@ store. None of these commands print secret values when run as written.
    `fly scale count 1 -a morsel-mcp`
    Then prove it with the read-only check:
    `infra/fly/check-machine-count.sh` → `OK: exactly one started machine`.
-6. Verify (read-back, not static claims):
-   - `curl https://morsel-mcp.fly.dev/health` → `200 {"ok":true}`
-   - `curl https://morsel-mcp.fly.dev/mcp/.well-known/oauth-authorization-server`
-     → `200`; `issuer`/`token_endpoint`/`registration_endpoint` on
-     `https://morsel-mcp.fly.dev/mcp`, `authorization_endpoint` on Vercel.
-   - Unauthenticated `POST https://morsel-mcp.fly.dev/mcp` (initialize) →
-     `401` with a `WWW-Authenticate` `resource_metadata` URL on the Fly base.
+6. Verify (read-back, not static claims). Probe the canonical origin: the
+   legacy `morsel-mcp.fly.dev` origin serves the same deployment and answers
+   identically until retired, so these checks also pass there.
+   - `curl https://mcp.morselfood.app/health` → `200 {"ok":true}`
+   - `curl https://mcp.morselfood.app/mcp/.well-known/oauth-authorization-server`
+     → `200`; `issuer` = `https://mcp.morselfood.app/mcp`, `token_endpoint`
+     and `registration_endpoint` rooted at that issuer,
+     `authorization_endpoint` = the Vercel consent page.
+   - Unauthenticated `POST https://mcp.morselfood.app/mcp` (initialize) →
+     `401` with a `WWW-Authenticate` `resource_metadata` URL on the canonical
+     base:
+     `https://mcp.morselfood.app/mcp/.well-known/oauth-protected-resource/mcp`.
    - Session regression against the live origin (three requests, one
      process): initialize → `200` + `mcp-session-id`;
      `notifications/initialized` with that id → `202`; `tools/list` with
-     that id → `200` with all 13 tools. The same flow runs locally against
+     that id → `200` with the full `EXPECTED_TOOLS` set from
+     `server/fly-entrypoint.bun-test.ts`. The same flow runs locally against
      the committed code with `npm run test:fly` (Bun required).
    - Live Claude acceptance (final human gate): re-add the Morsel connector
-     with `https://morsel-mcp.fly.dev/mcp`; confirm the tool count appears
+     with `https://mcp.morselfood.app/mcp`; confirm the tool count appears
      and `get_profile` returns the profile.
 7. Rollback (Fly has no special rollback command — redeploy the previous
    image; it does not undo config/secrets):
@@ -142,11 +161,14 @@ This runbook is part of the committed infra-as-code set (`infra/` + `docs/`):
 
 ## Cutover and legacy URL
 
-- The Fly origin is the canonical, deployed MCP endpoint: app builds
-  (Fastfile `CANONICAL_MCP_URL`, issue #75), onboarding copy, and OAuth
-  discovery all publish `https://morsel-mcp.fly.dev/mcp`. Client delivery of
-  that copy and of `MORSEL_MCP_URL` in the built app lands with the next
-  TestFlight build, which is human-gated.
+- The canonical, deployed MCP endpoint is the custom domain over the Fly
+  origin: app builds (Fastfile `CANONICAL_MCP_URL`, issues #75/#130),
+  onboarding copy, and OAuth discovery all publish
+  `https://mcp.morselfood.app/mcp`. The legacy
+  `https://morsel-mcp.fly.dev/mcp` origin serves the same deployment and
+  answers identically until retired. Client delivery of that copy and of
+  `MORSEL_MCP_URL` in the built app lands with the next TestFlight build,
+  which is human-gated.
 - The Supabase Edge Function transport is legacy/retained backend
   compatibility only and is no longer the client-facing URL. It stays
   available until it is separately retired (a human decision); the

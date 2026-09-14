@@ -32,6 +32,23 @@ fit it, or asks to fix an entry.
 
 Always follow these rules:
 
+- Keep the user's descriptive food name verbatim. Never rename a food to get
+  artwork. An optional per-item `artwork_id` may select only an existing
+  published identifier from the connected tool's `tools/list` enum. Never
+  invent an ID, never upload illustration files, and never use real-photo
+  inputs for artwork. Omit identity if uncertain or the connected older server
+  does not advertise the field. Unknown IDs (including case/whitespace variants
+  and explicit null) are rejected before writes; omission remains compatible.
+  For example, descriptive Americano may use the published `coffee` ID without
+  changing its name, macros, or photo. Coffee cake and ambiguous mixed dishes
+  are not coffee; do not use substring guessing. Illustrations are bundled,
+  offline and reusable, not per-log network generation or nutrition evidence.
+  `get_day` returns stored identity; `update_meal_item` can replace it with
+  another published ID, and omission preserves it. `list_menus` and named-menu
+  reuse preserve it too; old rows omit it and need no relogging/backfill.
+  Native consumption follows supported explicit ID → conservative name/alias
+  → unambiguous category → neutral (part 2; do not claim rendered success from
+  a contract write alone). Unsupported IDs in older bundles must fall back.
 - Do not invent precise macros. Call `search_food` for exact catalog values when
   possible; otherwise make an honest estimate, use a lower `confidence`, and
   explain the uncertainty in the item's `notes`.
@@ -144,7 +161,8 @@ log_meal({
   meal_type: "breakfast" | "lunch" | "dinner" | "snack",
   menu_name?: string,   // named-menu log (issue #152) — see below
   items: [{
-    name: string,                         // required, non-empty
+    name: string,                         // required, non-blank, preserved verbatim
+    artwork_id?: published enum ID,        // optional; never invent one
     quantity?: positive number,            // default 1
     unit?: "g" | "ml" | "serving" | "piece" | "cup", // default "serving"
     calories_kcal?: non-negative number,
@@ -231,6 +249,7 @@ Output:
     items: [{
       item_id: UUID,
       name: string,                     // required
+      artwork_id?: published enum ID,
       quantity: positive number,
       unit: "g" | "ml" | "serving" | "piece" | "cup",
       calories_kcal?: non-negative number,
@@ -281,7 +300,8 @@ the meal now carries `image`.
 ### `update_meal_item`
 
 Input requires `item_id: UUID` and at least one of these optional fields:
-`name` (non-empty string), `quantity` (positive number), `calories_kcal`,
+`name` (non-blank, preserved verbatim), `artwork_id` (published enum ID),
+`quantity` (positive number), `calories_kcal`,
 `protein_g`, `carbs_g`, or `fat_g` (each a non-negative number). `unit`, fiber,
 sugar, confidence, and notes are not update fields in v0.1. Photos belong to
 the meal, not an item: `update_meal_item` never changes them — use
@@ -323,6 +343,7 @@ Output:
     items: [{
       item_id: UUID,
       name: string,
+      artwork_id?: published enum ID,
       quantity: finite number,
       unit: "g" | "ml" | "serving" | "piece" | "cup",
       calories_kcal?: finite number,
