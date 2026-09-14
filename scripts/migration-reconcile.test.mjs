@@ -24,7 +24,7 @@ const quiet = { log: () => {} };
 const REF = "abcdefghijklmnopqrst";
 const TOKEN = "sbp_validtokenabcdefghijklmnopqrs";
 
-// A canned live-schema inventory that matches every 0001–0009 sentinel.
+// A canned live-schema inventory that matches every 0001–0013 sentinel.
 function fullSchema() {
   return {
     tables: [
@@ -49,8 +49,14 @@ function fullSchema() {
       { table_name: "menu_items", column_name: "menu_id", data_type: "uuid" },
       { table_name: "meal_items", column_name: "menu_name", data_type: "text" },
       { table_name: "meal_items", column_name: "menu_group_id", data_type: "uuid" },
+      { table_name: "meal_items", column_name: "artwork_id", data_type: "text" },
+      { table_name: "menu_items", column_name: "artwork_id", data_type: "text" },
     ],
     routines: ["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog", "upsert_menu"],
+    constraints: [
+      { table_name: "meal_items", constraint_name: "meal_items_artwork_id_published" },
+      { table_name: "menu_items", constraint_name: "menu_items_artwork_id_published" },
+    ],
     policies: [
       { schemaname: "public", tablename: "goals", policyname: "goals_select_own" },
       { schemaname: "public", tablename: "meal_logs", policyname: "meal_logs_select_own" },
@@ -107,6 +113,7 @@ function fakeDatabase(overrides = {}) {
         numeric_scale: row.numeric_scale ?? null,
       }));
     }
+    if (statement === INVENTORY_SQL.constraints) return state.constraints;
     if (statement === INVENTORY_SQL.routines) return state.routines.map((routine_name) => ({ routine_name }));
     if (statement === INVENTORY_SQL.policies) {
       return state.policies.map((row) => ({
@@ -121,7 +128,7 @@ function fakeDatabase(overrides = {}) {
 }
 
 const EXPECTED_TOTAL = Object.values(EXPECTED_SENTINELS).reduce(
-  (sum, sentinels) => sum + sentinels.tables.length + sentinels.columns.length + sentinels.routines.length + sentinels.policies.length,
+  (sum, sentinels) => sum + sentinels.tables.length + sentinels.columns.length + sentinels.routines.length + sentinels.policies.length + (sentinels.constraints?.length ?? 0),
   0,
 );
 
@@ -131,6 +138,32 @@ describe("migration reconciliation report", () => {
       .filter((file) => file.endsWith(".sql"))
       .sort();
     expect(Object.keys(EXPECTED_SENTINELS).sort()).toEqual(files);
+  });
+
+  it("reports the installed artwork columns, checks and RPC sentinels (issue #241)", async () => {
+    const db = fakeDatabase();
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
+    expect(result.checks["0013_artwork_identity.sql"]).toEqual([
+      { kind: "column", label: "meal_items.artwork_id", present: true },
+      { kind: "column", label: "menu_items.artwork_id", present: true },
+      { kind: "routine", label: "public.log_meal_with_items", present: true },
+      { kind: "routine", label: "public.log_meal_with_items_client", present: true },
+      { kind: "routine", label: "public.upsert_menu", present: true },
+      { kind: "constraint", label: "meal_items:meal_items_artwork_id_published", present: true },
+      { kind: "constraint", label: "menu_items:menu_items_artwork_id_published", present: true },
+    ]);
+    expect(db.sql.every((sql) => ALLOWED_QUERIES.includes(sql))).toBe(true);
+  });
+
+  it.each(["meal_items", "menu_items"])("reports missing artwork columns and checks for %s", async (table) => {
+    const db = fakeDatabase();
+    db.state.columns = db.state.columns.filter((row) => row.table_name !== table || row.column_name !== "artwork_id");
+    db.state.constraints = db.state.constraints.filter((row) => row.table_name !== table);
+    const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
+    expect(result.checks["0013_artwork_identity.sql"]).toEqual(expect.arrayContaining([
+      { kind: "column", label: `${table}.artwork_id`, present: false },
+      { kind: "constraint", label: `${table}:${table}_artwork_id_published`, present: false },
+    ]));
   });
 
   it("marks every expected sentinel PRESENT when the live inventory matches", async () => {
@@ -162,6 +195,7 @@ describe("migration reconciliation report", () => {
       columns: [{ table_name: "users", column_name: "timezone", data_type: "text" }],
       routines: [],
       policies: [],
+      constraints: [],
     });
     const result = await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
 
@@ -699,10 +733,10 @@ describe("read-only mutation probes", () => {
     }
   });
 
-  it("accepts exactly the six fixed queries and rejects every near-miss variant", () => {
+  it("accepts exactly the seven fixed queries and rejects every near-miss variant", () => {
     const fixed = [LEDGER_EXISTS_SQL, LEDGER_NAMES_SQL, ...Object.values(INVENTORY_SQL)];
-    expect(fixed).toHaveLength(6);
-    expect(ALLOWED_QUERIES.length).toBe(6);
+    expect(fixed).toHaveLength(7);
+    expect(ALLOWED_QUERIES.length).toBe(7);
     for (const sql of fixed) {
       expect(ALLOWED_QUERIES.includes(sql), sql).toBe(true);
       expect(() => assertReadOnly(sql), sql).not.toThrow();
@@ -726,7 +760,7 @@ describe("read-only mutation probes", () => {
     const db = fakeDatabase({});
     await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
     const issued = new Set(db.sql);
-    expect(issued.size).toBe(6); // ledger existence + names + 4 inventory queries
+    expect(issued.size).toBe(7); // ledger existence + names + 5 inventory queries
     for (const statement of issued) {
       expect(ALLOWED_QUERIES.includes(statement), statement).toBe(true);
     }
@@ -747,7 +781,7 @@ describe("read-only mutation probes", () => {
     expect(typeof ALLOWED_QUERIES.add).toBe("undefined");
     expect(typeof ALLOWED_QUERIES.delete).toBe("undefined");
     expect(typeof ALLOWED_QUERIES.clear).toBe("undefined");
-    // The six fixed queries are still exactly the only accepted statements.
+    // The seven fixed queries are still exactly the only accepted statements.
     expect(ALLOWED_QUERIES).toEqual([
       LEDGER_EXISTS_SQL,
       LEDGER_NAMES_SQL,
@@ -783,7 +817,7 @@ describe("read-only mutation probes", () => {
       INVENTORY_SQL.tables = injected;
     }).toThrow();
     // The injected string is refused by the guard, and a full run still issues
-    // exactly the six fixed queries with the ORIGINAL strings.
+    // exactly the seven fixed queries with the ORIGINAL strings.
     expect(() => assertReadOnly(injected)).toThrow(/non-allowlisted/);
     const db = fakeDatabase({});
     await run({ ref: REF, token: TOKEN, root: repoRoot, queryImpl: db.query, log: quiet });
