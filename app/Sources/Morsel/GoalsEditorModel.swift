@@ -24,7 +24,8 @@ final class GoalsEditorViewModel: ObservableObject {
     /// phase the numbers belong to. Nil without a profile row.
     @Published private(set) var profileDirection: GoalDirection?
     @Published private(set) var didSave = false
-    @Published private(set) var todayCalories = 0.0
+    /// Issue #184 — nil = pending/unavailable (never a known zero): filled by its own narrow, late read.
+    @Published private(set) var todayCalories: Double?
     @Published private(set) var supersededNote: String?
     @Published private(set) var profileLine: String?
     @Published var calories = ""
@@ -34,6 +35,12 @@ final class GoalsEditorViewModel: ObservableObject {
 
     private let repository: any DashboardRepository
     private let userID: UUID
+    /// Issue #184 — injectable clock: a late total is validated against the device-local day it was requested for.
+    private let now: () -> Date
+    /// Issue #184 — the in-flight narrow read (internal so the delayed-response tests await it) +
+    /// its generation: a superseded or cancelled read paints nothing.
+    private(set) var dayTotalTask: Task<Void, Never>?
+    private var dayTotalGeneration = 0
     private let onSaved: () async -> Void
     private let onSeeToday: () -> Void
     /// Issue #123 — fields the user has edited (even to empty). A pristine
@@ -44,11 +51,13 @@ final class GoalsEditorViewModel: ObservableObject {
     init(
         repository: any DashboardRepository,
         userID: UUID,
+        now: @escaping () -> Date = { Date() },
         onSaved: @escaping () async -> Void = {},
         onSeeToday: @escaping () -> Void = {}
     ) {
         self.repository = repository
         self.userID = userID
+        self.now = now
         self.onSaved = onSaved
         self.onSeeToday = onSeeToday
     }
@@ -79,8 +88,10 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     var whatChangesText: String {
-        let consequence = Self.calorieConsequence(goal: goal?.calorieTargetKcal ?? 0, eaten: todayCalories)
-        return "Today: \(MorselFormat.number(todayCalories)) eaten · \(consequence)"
+        let consequence = Self.calorieConsequence(goal: goal?.calorieTargetKcal ?? 0, eaten: todayCalories ?? 0)
+        // Issue #184 — a missing total reads as pending, never as a known zero.
+        let eaten = todayCalories.map { "\(MorselFormat.number($0)) eaten" } ?? "total pending"
+        return "Today: \(eaten) · \(consequence)"
     }
 
     func load() async {
@@ -96,14 +107,45 @@ final class GoalsEditorViewModel: ObservableObject {
                 stored: cached, profile: nil, latestWeight: nil, profileRowRead: false
             ))
         }
+        // Issue #184 — today's calorie total is its OWN narrow read: it runs beside the context
+        // read below and never gates it, so a held Today dashboard cannot stop the targets appearing.
+        startDayTotalRead()
         do {
-            let today = try await repository.loadToday(userID: userID, date: Date())
-            todayCalories = DashboardMath.totals(for: today.meals).caloriesKcal
             let context = try await repository.loadGoalsContext(userID: userID)
             apply(context)
         } catch {
             errorMessage = DashboardUserMessage.userMessage(for: error)
         }
+        // A cancelled load (page turn/teardown) must not leave a late paint.
+        if Task.isCancelled {
+            dayTotalTask?.cancel()
+        }
+    }
+
+    /// Issue #184 — the narrow calorie read: the account/local-day total already
+    /// cached locally (never the full Today dashboard), painted only for the
+    /// account + device-local day it was requested for and only while its load
+    /// is current (a read landing after midnight is yesterday's). A failure
+    /// just leaves the total pending, so goals editing stays available.
+    private func startDayTotalRead() {
+        dayTotalTask?.cancel()
+        dayTotalGeneration &+= 1
+        let generation = dayTotalGeneration
+        let account = userID
+        let day = now()
+        let repository = self.repository
+        dayTotalTask = Task { [weak self] in
+            let total = try? await repository.loadDayCalories(userID: account, date: day)
+            guard let self, !Task.isCancelled, self.userID == account,
+                  self.dayTotalGeneration == generation, self.isCurrentLocalDay(day) else { return }
+            self.todayCalories = total
+        }
+    }
+
+    /// Issue #184 — only the device-local day a total was requested for paints.
+    private func isCurrentLocalDay(_ day: Date) -> Bool {
+        let calendar = Calendar.autoupdatingCurrent
+        return calendar.startOfDay(for: day) == calendar.startOfDay(for: now())
     }
 
     /// Fills the fields with the EFFECTIVE goal (server get_goals mirror):

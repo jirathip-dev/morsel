@@ -53,6 +53,22 @@ extension DashboardRepository {
     /// the local-first facade overrides with the real snapshot cache.
     func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
 
+    /// Issue #184 — the narrow CALORIE read behind the Goals page's
+    /// consequence line: the same-account/device-local-day total already in
+    /// the local cache. Opening Goals must never run the full Today
+    /// dashboard read (meal photos, active energy, 30-day weight trend, goal
+    /// row) merely to sum calories, so the source is the local-first
+    /// facade's day snapshot — no remote request, no photo signing. `nil`
+    /// means nothing is cached for that account/local day yet:
+    /// pending/unavailable, never a known zero (a plain remote repository
+    /// therefore reports pending).
+    func loadDayCalories(userID: UUID, date: Date) async throws -> Double? {
+        guard let cached = try await cachedToday(userID: userID, date: date) else {
+            return nil
+        }
+        return DashboardMath.totals(for: cached.meals).caloriesKcal
+    }
+
     /// Issue #153 — photo attach is a local-first/authenticated capability;
     /// plain doubles that never exercise it refuse loudly instead of
     /// reporting a silent success.

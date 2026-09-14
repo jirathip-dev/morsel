@@ -32,9 +32,11 @@ describe('issue #123 defect 1: cached goal paints first, pristine fields calm', 
   it('paints the cached goals row before the remote refresh in load()', () => {
     const paint = goalsModel.indexOf('repository.cachedGoals(userID: userID)')
     expect(paint, 'load() must consult the goals cache').toBeGreaterThan(-1)
-    const remoteToday = goalsModel.indexOf('repository.loadToday(userID: userID, date: Date())')
+    // Issue #184 — the full Today dashboard read is GONE from the goals-open
+    // path (it only ever existed there to sum calories); the remote round-trip
+    // the cached paint must precede is the goals-context read.
+    expect(goalsModel).not.toContain('repository.loadToday(')
     const remoteContext = goalsModel.indexOf('repository.loadGoalsContext(userID: userID)')
-    expect(remoteToday).toBeGreaterThan(paint)
     expect(remoteContext).toBeGreaterThan(paint)
     // The #113 full-context read stays (cache paints, remote reconciles).
     expect(goalsModel).toContain('apply(context)')
