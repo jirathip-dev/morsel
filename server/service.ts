@@ -87,6 +87,7 @@ function omittedInputAsObject(input: unknown): unknown {
 function menuItemToMealInput(item: MenuTemplateItem): ParsedMealItem {
   return {
     name: item.name,
+    ...(item.artwork_id === undefined ? {} : { artwork_id: item.artwork_id }),
     quantity: item.quantity,
     unit: item.unit,
     ...(item.calories_kcal === undefined ? {} : { calories_kcal: item.calories_kcal }),

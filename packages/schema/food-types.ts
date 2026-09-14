@@ -3,6 +3,7 @@
 // this file first when the contract changes.
 
 import { z } from 'zod'
+import { ArtworkIdValues } from './artwork-ids.ts'
 
 const finiteNumber = z.number()
 const nonNegativeNumber = finiteNumber.nonnegative()
@@ -47,6 +48,13 @@ export const DietGoalSchema = z.enum(['lose', 'maintain', 'gain'])
 export const SexSchema = z.enum(['male', 'female'])
 export const FoodRefIdSchema = z.uuid()
 
+// Explicit identity is an exact published ID, never a name or inferred nutrition.
+// Reject unknown IDs (including case/whitespace variants) before any write.
+export const ArtworkIdSchema = z.enum(ArtworkIdValues).describe(
+  'Optional published illustration ID; select only an enum value, never invent one. Keep name verbatim. Omit when uncertain.',
+)
+const FoodNameSchema = z.string().min(1).refine((value) => value.trim().length > 0, 'name must not be blank')
+
 // Accepted food-photo mime types. This set mirrors the `food-images` bucket
 // allowlist (migration 0004) and the native app's FoodImageStore allowlist —
 // the server stores bytes, so it can only accept what storage accepts.
@@ -68,7 +76,8 @@ export const MealImageBase64Schema = z.object({
 }).strict()
 
 export const MealItemSchema = z.object({
-  name: z.string().trim().min(1),
+  name: FoodNameSchema,
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: positiveNumber.optional().default(1),
   unit: UnitSchema.optional().default('serving'),
   calories_kcal: nonNegativeNumber.optional(),
@@ -154,7 +163,8 @@ export const SearchFoodOutputSchema = z.object({
 
 export const UpdateMealItemInputSchema = z.object({
   item_id: z.uuid(),
-  name: z.string().trim().min(1).optional(),
+  name: FoodNameSchema.optional(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: positiveNumber.optional(),
   calories_kcal: nonNegativeNumber.optional(),
   protein_g: nonNegativeNumber.optional(),
@@ -205,6 +215,7 @@ export const AttachMealImageOutputSchema = z.object({
 export const MealItemRecordSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: finiteNumber,
   unit: UnitSchema,
   calories_kcal: finiteNumber.optional(),
@@ -228,6 +239,7 @@ export const MealItemRecordSchema = z.object({
 export const MenuTemplateItemSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: finiteNumber,
   unit: UnitSchema,
   calories_kcal: finiteNumber.optional(),

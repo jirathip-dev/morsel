@@ -315,6 +315,7 @@ export class InMemoryRepository implements MorselRepository {
       const updatedItem: MealRecord['items'][number] = {
         ...item,
         ...(input.name === undefined ? {} : { name: input.name }),
+        ...(input.artwork_id === undefined ? {} : { artwork_id: input.artwork_id }),
         ...(input.quantity === undefined ? {} : { quantity: input.quantity }),
         ...(input.calories_kcal === undefined ? {} : { calories_kcal: input.calories_kcal }),
         ...(input.protein_g === undefined ? {} : { protein_g: input.protein_g }),
@@ -383,6 +384,7 @@ export class InMemoryRepository implements MorselRepository {
         ...(item.sugar_g === undefined ? {} : { sugar_g: item.sugar_g }),
         ...(item.barcode === undefined ? {} : { barcode: item.barcode }),
         ...(item.food_ref_id === undefined ? {} : { food_ref_id: item.food_ref_id }),
+        ...(item.artwork_id === undefined ? {} : { artwork_id: item.artwork_id }),
       })),
     }
     const menus = userMenus ?? new Map<string, MenuTemplate>()
