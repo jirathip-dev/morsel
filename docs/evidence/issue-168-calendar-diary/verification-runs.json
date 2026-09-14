@@ -1,0 +1,177 @@
+{
+  "raw_exit_records": {
+    "diffcheck-delivery": "diffcheck-delivery=0",
+    "diffcheck-final": "diffcheck=0",
+    "export-verified": "export-verified=0",
+    "focused-final": "focused-final=0",
+    "gesture-priority-green": "0",
+    "lint-final": "lint-final=0",
+    "lint-layout": "lint-layout=0",
+    "lint": "lint=0",
+    "native-base-red": "65",
+    "native-focused-fixed": "65",
+    "native-focused": "65",
+    "native-mutation": "65",
+    "next-day-diagnostic": "65",
+    "npm-after-cleanup": "npm-after-cleanup=1",
+    "npm-close": "npm-close=1",
+    "npm-latest-timeout-diagnostic": "npm-latest-timeout-diagnostic=0",
+    "npm-locale": "npm-locale=1",
+    "npm-test-delivery": "1",
+    "npm-test-final": "npm-test-final=0",
+    "npm-test": "1",
+    "npm-timeout-diagnostic": "npm-timeout-diagnostic=0",
+    "simulator-capture-final": "0",
+    "simulator-capture-fixed": "65",
+    "simulator-capture-settled": "65",
+    "simulator-capture-verified": "65",
+    "simulator-capture": "65",
+    "swiftlint-close": "swiftlint-close=0",
+    "swiftlint-delivery": "swiftlint-delivery=0",
+    "swiftlint-final": "swiftlint=0",
+    "swiftlint-layout": "swiftlint-layout=0",
+    "swiftlint-ready": "swiftlint-ready=0",
+    "swiftlint-touch": "swiftlint-touch=0",
+    "swiftlint": "swiftlint=2",
+    "typecheck-final": "typecheck-final=0",
+    "typecheck-layout": "typecheck-layout=0",
+    "typecheck": "typecheck=0",
+    "vitest-focus-layout": "vitest-focus-layout=0",
+    "vitest-focus": "vitest-focus=0",
+    "xcodebuild-final": "0",
+    "xcodebuild-full-delivery": "65",
+    "xcodebuild-full-final": "0",
+    "xcodebuild-full": "65",
+    "xcodebuild-verified": "0",
+    "xcodegen-final": "xcodegen-final=0",
+    "xcodegen-stability": "xcodegen-stability=0"
+  },
+  "maximum_observed_admission_seconds": 843,
+  "admission_wait_seconds": {
+    "gesture-priority-green-admission.log": 0,
+    "native-base-red-admission.log": 662,
+    "native-focused-admission.log": 120,
+    "native-focused-fixed-admission.log": 0,
+    "native-mutation-admission.log": 60,
+    "next-day-diagnostic-admission.log": 0,
+    "npm-after-cleanup-admission.log": 0,
+    "npm-close-admission.log": 0,
+    "npm-locale-admission.log": 0,
+    "npm-test-admission.log": 843,
+    "npm-test-delivery-admission.log": 120,
+    "simulator-capture-admission.log": 0,
+    "simulator-capture-final-admission.log": 0,
+    "simulator-capture-fixed-admission.log": 664,
+    "simulator-capture-settled-admission.log": 0,
+    "simulator-capture-verified-admission.log": 0,
+    "xcodebuild-final-admission.log": 0,
+    "xcodebuild-full-admission.log": 0,
+    "xcodebuild-full-delivery-admission.log": 60,
+    "xcodebuild-full-final-admission.log": 0,
+    "xcodebuild-verified-admission.log": 60
+  },
+  "selected_raw_log_lines": {
+    "npm-test.log": [
+      "\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 2 \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      " Test Files  2 failed | 48 passed (50)",
+      "      Tests  2 failed | 558 passed (560)"
+    ],
+    "npm-test-final.log": [
+      " Test Files  50 passed (50)",
+      "      Tests  560 passed (560)"
+    ],
+    "npm-test-delivery.log": [
+      "\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 4 \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      " Test Files  3 failed | 47 passed (50)",
+      "      Tests  4 failed | 556 passed (560)"
+    ],
+    "npm-close.log": [
+      "\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 4 \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      " Test Files  3 failed | 47 passed (50)",
+      "      Tests  4 failed | 556 passed (560)"
+    ],
+    "npm-locale.log": [
+      "\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 3 \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      " Test Files  3 failed | 47 passed (50)",
+      "      Tests  3 failed | 557 passed (560)"
+    ],
+    "npm-after-cleanup.log": [
+      "\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 3 \u23af\u23af\u23af\u23af\u23af\u23af\u23af",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      "Error: Test timed out in 5000ms.",
+      " Test Files  3 failed | 47 passed (50)",
+      "      Tests  3 failed | 557 passed (560)"
+    ],
+    "focused-final.log": [
+      " Test Files  14 passed (14)",
+      "      Tests  107 passed (107)"
+    ],
+    "npm-latest-timeout-diagnostic.log": [
+      " Test Files  3 passed (3)",
+      "      Tests  12 passed (12)"
+    ],
+    "native-base-red.log": [
+      "/tmp/morsel168-base/app/Tests/MorselTests/JournalDiaryLoadTests.swift:21: error: -[MorselTests.JournalDiaryLoadTests testDateChangeSupersedesAnInFlightDayWithoutPaintingItsResult] : XCTAssertEqual failed: (\"nil\") is not equal to (\"Optional(2026-05-27 5:00:00\u202fPM +0000)\") - a new date must load without waiting for the old day",
+      "/tmp/morsel168-base/app/Tests/MorselTests/JournalDiaryLoadTests.swift:25: error: -[MorselTests.JournalDiaryLoadTests testDateChangeSupersedesAnInFlightDayWithoutPaintingItsResult] : XCTAssertEqual failed: (\"Optional(2026-05-28 5:00:00\u202fPM +0000)\") is not equal to (\"Optional(2026-05-27 5:00:00\u202fPM +0000)\") - the stale day must never publish over the selected day",
+      "\t Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.413) seconds",
+      "\t Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.888) seconds",
+      "\t Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.889) seconds",
+      "** TEST FAILED **"
+    ],
+    "native-mutation.log": [
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:20: error: -[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal] : XCTAssertEqual failed: (\"Optional(2026-08-04 5:00:00\u202fPM +0000)\") is not equal to (\"Optional(2026-08-03 5:00:00\u202fPM +0000)\")",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:22: error: -[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal] : XCTAssertEqual failed: (\"nil\") is not equal to (\"Optional(2026-08-03 5:00:00\u202fPM +0000)\")",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:140: error: -[MorselTests.JournalDiaryGestureTests testDateRailVerticalDragLeavesHorizontalPagerAloneAndFlipsBothDays] : XCTAssertEqual failed: (\"Optional(2027-01-16 8:00:00\u202fAM +0000)\") is not equal to (\"Optional(2027-01-14 8:00:00\u202fAM +0000)\")",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:143: error: -[MorselTests.JournalDiaryGestureTests testDateRailVerticalDragLeavesHorizontalPagerAloneAndFlipsBothDays] : XCTAssertEqual failed: (\"2027-01-16 8:00:00\u202fAM +0000\") is not equal to (\"2027-01-14 8:00:00\u202fAM +0000\")",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:160: error: -[MorselTests.JournalDiaryGestureTests testHorizontalDragOwnsTabsAndCannotAlsoOwnTheDateRail] : XCTUnwrap failed: expected non-nil value of type \"Effect\"",
+      "\t Executed 10 tests, with 5 failures (0 unexpected) in 0.161 (0.180) seconds",
+      "\t Executed 10 tests, with 5 failures (0 unexpected) in 0.161 (0.181) seconds",
+      "** TEST FAILED **"
+    ],
+    "xcodebuild-final.log": [
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 0.004 (0.005) seconds",
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.001) seconds",
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 0.007 (0.007) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 0.006 (0.007) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds",
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.004) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 0.010 (0.011) seconds",
+      "\t Executed 10 tests, with 0 failures (0 unexpected) in 0.012 (0.013) seconds",
+      "\t Executed 10 tests, with 0 failures (0 unexpected) in 0.046 (0.048) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 0.119 (0.119) seconds",
+      "\t Executed 10 tests, with 0 failures (0 unexpected) in 0.005 (0.010) seconds",
+      "\t Executed 384 tests, with 0 failures (0 unexpected) in 33.744 (33.899) seconds",
+      "\t Executed 384 tests, with 0 failures (0 unexpected) in 33.744 (33.900) seconds",
+      "** TEST SUCCEEDED **"
+    ],
+    "simulator-capture-final.log": [
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.455) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.456) seconds",
+      "\t Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.457) seconds",
+      "** TEST SUCCEEDED **"
+    ],
+    "gesture-priority-green.log": [
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.865) seconds",
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.866) seconds",
+      "\t Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.867) seconds",
+      "** TEST SUCCEEDED **"
+    ]
+  },
+  "native_complete_count": 384,
+  "ui_complete_count": 2,
+  "latest_full_npm_status": "3 timeouts / 557 passed / 560 total; raw exit 1; NOT GREEN"
+}

@@ -1,0 +1,99 @@
+{
+  "capture_count": 11,
+  "captures": [
+    {
+      "attachment": "DBD93805-FE5D-4715-A0F0-875C1A6E5CC3.png",
+      "file": "screenshots/night-empty-boundary.png",
+      "height": 2556,
+      "name": "night-empty-boundary",
+      "sha256": "d83c44ab60b373026652c78fb68fb5d55585ae1a759b4de7915f48a3b0c035d6",
+      "width": 1178
+    },
+    {
+      "attachment": "8D29EAF3-292B-4825-AC33-EBEF40D5084D.png",
+      "file": "screenshots/night-mid-flip.png",
+      "height": 2556,
+      "name": "night-mid-flip",
+      "sha256": "f7d2c2d23593dadf997f4ac65de8da47b788bba432f6d1b1f80eb89620006088",
+      "width": 1178
+    },
+    {
+      "attachment": "11FAB987-3951-4553-8378-EA6A9929A4A1.png",
+      "file": "screenshots/night-month-grid.png",
+      "height": 2556,
+      "name": "night-month-grid",
+      "sha256": "f969a5f7c901040a99ec0341c637c872789bfa33d69758fd378c47bd25652f9a",
+      "width": 1178
+    },
+    {
+      "attachment": "36811B24-F62A-4F7D-BA0C-6621AD218861.png",
+      "file": "screenshots/night-past-date-add-route.png",
+      "height": 2556,
+      "name": "night-past-date-add-route",
+      "sha256": "1d1a7206ef1f52108b77b4a05e898f1ec4d4bbb11680d8dfb642fb0955055d94",
+      "width": 1178
+    },
+    {
+      "attachment": "950FDF24-D5C1-4A2C-A5AC-E45F8E443263.png",
+      "file": "screenshots/night-past-day.png",
+      "height": 2556,
+      "name": "night-past-day",
+      "sha256": "5b867575d521cd398ed533c386fa8e3adf4689005c5a22d837b77c109af9af54",
+      "width": 1178
+    },
+    {
+      "attachment": "742764C9-C918-4E1A-97D1-E8C1C0EF13D8.png",
+      "file": "screenshots/paper-empty-boundary.png",
+      "height": 2556,
+      "name": "paper-empty-boundary",
+      "sha256": "112e5f35b3f667cacb7cff932880f4c14a287b7312a75e2d1b9fa61aeb657cbb",
+      "width": 1178
+    },
+    {
+      "attachment": "C9B69812-19E7-48E0-A47E-2A9DEB6C13E5.png",
+      "file": "screenshots/paper-gesture-scroll-proof.png",
+      "height": 2556,
+      "name": "paper-gesture-scroll-proof",
+      "sha256": "94a8f34d7990bbd4c69eb7bb6f80d112c56148ce438657f6e4e17b387457147b",
+      "width": 1178
+    },
+    {
+      "attachment": "9A10B36A-175D-4B30-B1D0-238921A27463.png",
+      "file": "screenshots/paper-mid-flip.png",
+      "height": 2556,
+      "name": "paper-mid-flip",
+      "sha256": "1b867c101609455182f20e0dd75c9b801bea6087de3de2a3bd3790e2d9b1545f",
+      "width": 1178
+    },
+    {
+      "attachment": "132170F8-ECE0-488F-BD9B-FD749A98228F.png",
+      "file": "screenshots/paper-month-grid.png",
+      "height": 2556,
+      "name": "paper-month-grid",
+      "sha256": "0f81c0ca34858887bfae2278b5b0b524325b3690a696913d00aabcbddee6a6a3",
+      "width": 1178
+    },
+    {
+      "attachment": "C4F9024D-83A5-40F7-83BD-B745D50FF391.png",
+      "file": "screenshots/paper-past-date-add-route.png",
+      "height": 2556,
+      "name": "paper-past-date-add-route",
+      "sha256": "2ff229489b9940d1358356ad55f2070350b432947b0518f52d07513788bf3424",
+      "width": 1178
+    },
+    {
+      "attachment": "0D591668-7E58-44A9-A572-9411EB6BEB80.png",
+      "file": "screenshots/paper-past-day.png",
+      "height": 2556,
+      "name": "paper-past-day",
+      "sha256": "2efcb893d7dffe30202ab204b41ef602ab08338c1043a77e8cb94e6584c36638",
+      "width": 1178
+    }
+  ],
+  "fixture_hashes": {
+    "DiaryCaptureUITests.swift.fixture": "2eb198f115d5b8f3cff8b277a2f7213b6f00ccd61983e8826d94c199882fa2fa",
+    "DiaryFixture.swift.fixture": "e17393cb8fd080fb673ea3ab5c2ee479ab736fb0e2579c3611bcfae0effaee01"
+  },
+  "required_capture_count": 10,
+  "result_bundle": "/tmp/xc-dd-168/Logs/Test/Test-DiaryCapture-2569.09.14_11-55-22-+0700.xcresult"
+}

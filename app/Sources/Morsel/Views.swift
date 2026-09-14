@@ -20,9 +20,9 @@ struct TodayView: View {
     let addMeal: () -> Void
 
     var body: some View {
-        JournalPage(date: viewModel.snapshot?.date ?? Date()) {
+        JournalPage(date: viewModel.selectedDate) {
             TodayHeader(
-                date: viewModel.snapshot?.date ?? Date(),
+                date: viewModel.selectedDate,
                 showSettings: showSettings,
                 addMeal: addMeal
             )
@@ -55,7 +55,7 @@ struct TodayView: View {
                 }
             }
         }
-        .task {
+        .task(id: viewModel.selectedDate) {
             await viewModel.load()
         }
     }
@@ -74,7 +74,8 @@ private struct TodayHeader: View {
                 Text(date.formatted(.dateTime.weekday(.wide).month(.wide).day()))
                     .font(.morselFootnote)
                     .foregroundStyle(Color.morselInkThree)
-                Text("Today")
+                Text(Calendar.autoupdatingCurrent.isDateInToday(date)
+                     ? "Today" : date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated)))
                     .font(.morselDisplay)
                     .foregroundStyle(Color.morselInk)
             }

@@ -116,17 +116,12 @@ enum JournalTab: String, CaseIterable, Hashable {
 // MARK: - Journal page ownership (issue #175)
 enum JournalPageLifecycleEvent { case created, released, activated }
 typealias JournalPageObserver = (JournalPageLifecycleEvent, JournalTab, AnyObject?) -> Void
-/// Issue #175 — the journal page area: one page per visited tab, created by
-/// its first accepted navigation and kept for the signed-in session, so no
-/// settle, retarget or revisit replaces a page, its model or its scroll. The
-/// stage owns the page set, so an accepted navigation invalidates the stage
-/// and the retained page sees its new activation; the shell starts on Today.
+/// #175: one retained page/model/scroll per visited tab; only accepted navigation activates it.
 struct JournalPageStage<Page: View>: View {
     @ObservedObject var pager: JournalPagerModel
     @EnvironmentObject private var machine: JournalTurnMachine
     let active: JournalTab
-    /// Issue #176 — true while the shell's overlay (Add Meal / Menus) covers
-    /// the pages: the overlay owns interaction then, so no page may.
+    /// The shell overlay owns interaction instead of the pages (#176).
     var overlayCoversPages = false
     let makePage: (JournalTab, Int) -> Page
     @State private var activations: [JournalTab: Int] = [.today: 1]
@@ -165,12 +160,7 @@ struct JournalPageStage<Page: View>: View {
             .transition(.opacity) // Reduce Motion cross-fade (#111 AC2)
     }
 
-    /// Issue #176 — the declared active page is the pager's selection: a
-    /// committed swing declares its destination at once, a drag preview or
-    /// rollback leaves the settled page in charge, and a presented overlay
-    /// owns interaction instead of any page. Offscreen, outgoing and preview
-    /// layers own nothing on any channel: touch, control activation or
-    /// accessibility.
+    /// Issue #176 — the declared active page owns interaction unless an overlay covers it.
     private func owns(_ tab: JournalTab) -> Bool {
         !overlayCoversPages && tab == pager.selection
     }
@@ -181,8 +171,9 @@ private struct AuthenticatedDashboardView: View {
     @StateObject private var pager = JournalPagerModel()
     @StateObject private var routeModel = JournalRouteModel()
     @StateObject private var menuLibrary: MenuLibraryModel
-    /// Issue #176 — Today's presentations live here, outside the pages: a
-    /// turn cannot dismiss, duplicate or orphan them.
+    @StateObject private var diary: JournalCalendarModel
+    @State private var showingCalendar = false
+    /// Shell-owned presentations survive page turns (#176).
     @StateObject private var presentations = JournalPresentationModel()
     @State private var showingSettings = false
     @State private var showingOnboarding = false
@@ -192,8 +183,6 @@ private struct AuthenticatedDashboardView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
-    /// Issue #110 — the presented cover re-asserts the preference-derived
-    /// scheme (a Paper/Night switch re-inks the cover, not only the window).
     private var coverColorScheme: ColorScheme? {
         MorselAppearance.scheme(for: MorselThemePreference(rawValue: themePreferenceRaw) ?? .paper)
     }
@@ -202,11 +191,8 @@ private struct AuthenticatedDashboardView: View {
     let session: AuthenticatedSession
     let auth: any SupabaseAuthenticating
     let onSignOut: () -> Void
-    /// Per-account local-first stack; remote-only fallback when unavailable.
     private let reliability: AccountReliabilityServices?
     private let fallbackImporter: HealthKitWeightImporter?
-    /// Issue #121 — mirrors the device zone to profiles.timezone on launch and
-    /// foreground (server day math uses the same zone).
     private let timezoneSync: DeviceTimezoneSync?
 
     init(
@@ -232,6 +218,8 @@ private struct AuthenticatedDashboardView: View {
                 syncEngine: services.engine))
             _menuLibrary = StateObject(wrappedValue: MenuLibraryModel(
                 repository: services.repository, userID: session.userID))
+            _diary = StateObject(wrappedValue: JournalCalendarModel(
+                repository: services.repository, userID: session.userID))
         } else {
             let remote = SupabaseDashboardRepository(client: supabaseClient)
             let importer = supabaseClient.flatMap {
@@ -241,6 +229,8 @@ private struct AuthenticatedDashboardView: View {
             _viewModel = StateObject(wrappedValue: DashboardViewModel(
                 repository: remote, userID: session.userID, weightImporter: importer))
             _menuLibrary = StateObject(wrappedValue: MenuLibraryModel(
+                repository: remote, userID: session.userID))
+            _diary = StateObject(wrappedValue: JournalCalendarModel(
                 repository: remote, userID: session.userID))
         }
         fallbackImporter = fallback
@@ -264,7 +254,8 @@ private struct AuthenticatedDashboardView: View {
                         viewModel: viewModel,
                         onClose: closeAddMeal,
                         menuLibrary: menuLibrary,
-                        onOpenMenus: { routeModel.openMenus() }
+                        onOpenMenus: { routeModel.openMenus() },
+                        targetDate: viewModel.selectedDate
                     )
                 }
                 .transition(reduceMotion ? .opacity : .move(edge: .trailing))
@@ -277,9 +268,14 @@ private struct AuthenticatedDashboardView: View {
                 .zIndex(2)
             }
         }
-        // Issue #153 — the Edit-item sheet loads its photo through the view model.
-        // Issue #176 — the shell anchors the Today presentations it owns (the
-        // environment object wraps the anchor whose sheets inherit it).
+        // The shell owns presentations; the model environment wraps their anchors.
+        .sheet(isPresented: $showingCalendar) {
+            JournalCalendarSheet(model: diary, selectedDate: viewModel.selectedDate) { date in
+                viewModel.selectDate(date)
+                pager.select(.today)
+            }
+            .preferredColorScheme(coverColorScheme)
+        }
         .journalPresentations(presentations, viewModel: viewModel)
         .environmentObject(viewModel)
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
@@ -340,8 +336,7 @@ private struct AuthenticatedDashboardView: View {
             if routeModel.isPresentingAddMeal {
                 routeModel.closeAddMeal()
             }
-            // Issue #175 — the page stage records the accepted navigation; only
-            // Today's shared model refresh is left here.
+            // The stage owns activation; refresh Today's shared model on return.
             if oldTab != newTab, newTab == .today {
                 Task { await viewModel.load() }
             }
@@ -349,7 +344,6 @@ private struct AuthenticatedDashboardView: View {
     }
 
     private func closeAddMeal() { routeModel.closeAddMeal() }
-    /// Three primary journal pages: plain fade under Reduce Motion, hinge otherwise (#111).
     @ViewBuilder
     private var pageContent: some View {
         if reduceMotion {
@@ -363,8 +357,7 @@ private struct AuthenticatedDashboardView: View {
         }
     }
 
-    /// Issue #175 — `tab` is this path's settled page; the stage owns the page.
-    /// Issue #176 — the route overlay owns interaction while it covers them.
+    /// The stage retains pages; route overlays own interaction (#175/#176).
     private func journalPage(for tab: JournalTab) -> some View {
         JournalPageStage(pager: pager, active: tab,
                          overlayCoversPages: routeModel.route != .tabPages) { pageTab, activation in
@@ -376,16 +369,23 @@ private struct AuthenticatedDashboardView: View {
         switch tab {
         case .today:
             MorselActionTint {
-                TodayView(viewModel: viewModel,
-                          presentations: presentations,
-                          showSettings: { showingSettings = true },
-                          addMeal: { routeModel.openAddMeal() })
+                JournalDiaryPage(model: viewModel, calendar: diary,
+                                 isActive: pager.selection == .today && routeModel.route == .tabPages
+                                    && !presentations.isPresenting && !showingCalendar && !showingSettings,
+                                 openCalendar: { showingCalendar = true }, content: {
+                    TodayView(viewModel: viewModel, presentations: presentations,
+                              showSettings: { showingSettings = true },
+                              addMeal: { routeModel.openAddMeal() })
+                })
             }
         case .history:
             MorselActionTint {
                 HistoryView(repository: viewModel.repository,
                             userID: viewModel.userID,
-                            reloadKey: activation)
+                            reloadKey: activation, diary: diary, selectedDate: viewModel.selectedDate) { date in
+                    viewModel.selectDate(date)
+                    pager.select(.today)
+                }
             }
         case .goals:
             MorselActionTint {
