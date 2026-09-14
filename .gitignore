@@ -48,3 +48,13 @@ REVIEW.md
 .worktrees/
 .agent-runs/
 .vercel
+
+# Lane orchestration files (herdr fleet working state, never committed)
+.report.md
+.brief.md
+.fix-*.md
+.review-brief.md
+.review-verdict*.md
+.hermes-context.md
+.lane-logs/
+.lane-tools/
