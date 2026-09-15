@@ -277,7 +277,7 @@ private struct AuthenticatedDashboardView: View {
             .preferredColorScheme(coverColorScheme)
         }
         .journalPresentations(presentations, viewModel: viewModel)
-        .environmentObject(viewModel)
+        .environmentObject(viewModel).trainingFuel(viewModel: viewModel)
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
         .task {

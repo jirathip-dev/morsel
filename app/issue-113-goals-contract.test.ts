@@ -76,13 +76,15 @@ describe('issue #113 amendment C: Today margin note source + freshness', () => {
     expect(stamp).toContain('moved ')
     expect(stamp).toContain('· Apple Health ·')
     expect(stamp).toMatch(/dateFormat = "HH:mm"/)
-    expect(views).toContain('ActiveEnergyMarginNote.line(')
+    // P1 supersedes the upload stamp with independently dated Health reads.
+    expect(views).toContain('TrainingFuelSection(model: trainingFuel)')
     expect(views, 'the old bare "kcal today" hero literal is gone').not.toContain('kcal today')
   })
 
-  it('derives the note time from lastSuccessfulUpload — no second clock', () => {
+  it('retains the existing import-status stamp without using it as a sample timestamp', () => {
     expect(viewModel).toContain('lastHealthImportDate')
     expect(viewModel).toContain('healthStore.lastSuccessfulUpload()')
     expect(stamp).toContain('lastSuccessfulUpload')
+    expect(views).not.toContain('lastImport: viewModel.lastHealthImportDate')
   })
 })

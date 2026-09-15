@@ -129,15 +129,14 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
 
   it('shows the activity margin note that is never an operand', () => {
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
-    // Issue #113 C: the hero renders the note through the shared builder
-    // (moved X kcal [· Apple Health · HH:mm from the #112 stamp]).
-    expect(hero).toMatch(/ActiveEnergyMarginNote\.line\(/)
-    expect(hero).toContain('lastImport: viewModel.lastHealthImportDate')
+    // P1 reads each Health type's real dates instead of the upload stamp.
+    expect(hero).toContain('TrainingFuelSection(model: trainingFuel)')
+    expect(hero).toContain('TrainingFuelHealthReader().read(requestPermission: true)')
     expect(marginNote).toMatch(/moved\b[\s\S]{0,80}?\bkcal/)
     expect(marginNote, 'the margin note must never be subtracted').not.toMatch(/subtract|minus|intake/i)
     expect(hero, 'the hero must render left/over words against the goal').toMatch(/kcal left/)
     expect(hero).toMatch(/kcal over/)
-    expect(hero).toContain('activeEnergyBurned')
+    expect(hero).not.toContain('activeEnergyBurned')
     expect(hero, 'the hero must never compose the margin copy inline').not.toMatch(/kcal today/)
   })
 
