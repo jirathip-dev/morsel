@@ -1,0 +1,156 @@
+{
+  "kind": "simulator fixture evidence",
+  "device": "Morsel254-iPhone16",
+  "udid": "10D1FB53-7D7D-44C2-A3CF-DF1ACFDACC33",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "fixture_clock_utc": "2026-09-13T12:00:00+00:00",
+  "native_command_log": ".lane-logs/native-full.log",
+  "native_raw_exit": 0,
+  "complete_native_tests": 427,
+  "complete_native_failures": 0,
+  "native_log_invocation": ".lane-logs/native-full.log (ONE complete unfiltered xcodebuild test invocation; raw_exit=0, 427 tests, 0 failures, ** TEST SUCCEEDED **)",
+  "captures": [
+    {
+      "file": "254-night-hard-confirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "8673acb41409a6d014669230a83c9d9a1b960ecfd4f208eba890e97d76a9c096",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-manual.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "27814c753618ca3b58c23c1737f530b676e0143317b141b3d2797ac850d87e32",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-missing.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "5f332548668a4b4a9ed64d39020cb46ac99ad9df6d57b3e5e4eb459839c81db0",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-normal.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "014c6dc45b1d91eb677011ee1e85c39a1d590735695645cf7ec794c1ed8e341d",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-rollover.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "91c6accc980282d5e5dfae7bf6b9e928b9e08909c547860a2fcc2a6d2672bff3",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-save-failure.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "e23ef44fb25b7c575d93c93fda976250f1437b5a1e2cacd0a052682949233040",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-stale.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "e86d80ceb93367e07efa2581e36d25e555640accdc23e21a1dc218d5dfd0fc59",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-unconfirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "762e83af1cfb187905cf02770c24b6bc95e29c10e55b51f97dd8b064e42d5531",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-night-undo.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "014c6dc45b1d91eb677011ee1e85c39a1d590735695645cf7ec794c1ed8e341d",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-hard-confirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "4cd0a176a383a8d4b89b28b099561cc7e40e3d8a76adffe8d2fcffd1bb5b843d",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-manual.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "a4f2eee7a01889efbb9f31d512fddd9e4ebe2ef4b64cc135022dde928d1e3492",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-missing.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "4fdbed7c51a668d6f73ea961d095f7b60bd75463d8075ee266b56d576d9ce846",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-normal.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "6406d66135a6d4ab1cfcfd7c227ed755dbb64c615e7dd8b4022a108024eda5a8",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-rollover.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "264e05ba4911b1847caa156895c5f4fb27799c10dd3302daa398d199baf5a00c",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-save-failure.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "cf17403ab281fa88e699c236802d8c21c739bda446299802c3aae554a447e4fb",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-stale.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "77fe12da74ed2969be3a5879f4420395b93685e49b0b7dbc9db8d23c1c0171fc",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-unconfirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "d9f5c0c9db5bee56520cc388062018168f76dfadd633b5511e81bc6e0320f3a1",
+      "visually_inspected": true
+    },
+    {
+      "file": "254-paper-undo.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "6406d66135a6d4ab1cfcfd7c227ed755dbb64c615e7dd8b4022a108024eda5a8",
+      "visually_inspected": true
+    }
+  ],
+  "capture_source": "XCTest attachments of the focused evidence run .lane-logs/native-evidence-captures.log (xcodebuild test -only-testing:MorselTests/TrainingFuelEvidenceTests -resultBundlePath, attachments exported with xcrun xcresulttool), same commit as the full invocation",
+  "capture_run_raw_exit": 0,
+  "byte_identical_pairs": [
+    [
+      "254-paper-normal.png",
+      "254-paper-undo.png",
+      "undo returns the unchanged state; the rendered pixels are identical to the no-adjustment state"
+    ],
+    [
+      "254-night-normal.png",
+      "254-night-undo.png",
+      "same identity in the Night theme"
+    ]
+  ],
+  "capture_dir": "captures",
+  "review_proof_sheets_untracked": ".lane-logs/evidence-montages/montage-paper.png, .lane-logs/evidence-montages/montage-night.png (per-theme 3x3 sheets used for visual inspection)"
+}
