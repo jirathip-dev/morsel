@@ -1,0 +1,102 @@
+import XCTest
+
+@MainActor
+final class DiaryCaptureUITests: XCTestCase {
+    let app = XCUIApplication()
+
+    func testCalendarDiaryInPaperAndNight() {
+        for theme in ["paper", "night"] {
+            launch("past", theme: theme)
+            XCTAssertTrue(app.staticTexts["Oats with banana"].waitForExistence(timeout: 12))
+            capture("\(theme)-past-day")
+            app.buttons["Open calendar"].tap()
+            XCTAssertTrue(app.staticTexts["Calendar"].waitForExistence(timeout: 8))
+            XCTAssertTrue(app.otherElements["diary-calendar"].exists)
+            app.buttons["Done"].tap()
+            app.buttons["History"].tap()
+            app.buttons["calendar"].tap()
+            XCTAssertTrue(app.otherElements["diary-calendar"].waitForExistence(timeout: 10))
+            app.buttons["August 2026"].tap()
+            let legend = app.staticTexts["dots = logged days"]
+            if !legend.isHittable {
+                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.6, dy: 0.7))
+                start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -120)))
+            }
+            XCTAssertTrue(legend.isHittable, "the entire month and legend must fit the capture")
+            XCTAssertTrue(app.buttons["August 2026"].isHittable)
+            capture("\(theme)-month-grid")
+            app.buttons["Next month"].tap()
+            XCTAssertTrue(app.buttons["diary-date-2026-09-15"].waitForExistence(timeout: 8))
+            app.buttons["Previous month"].tap()
+            XCTAssertTrue(app.buttons["diary-date-2026-08-14"].waitForExistence(timeout: 8))
+            let day = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", "August 14, 2026")).firstMatch
+            XCTAssertTrue(day.waitForExistence(timeout: 8))
+            day.tap()
+            XCTAssertTrue(app.buttons["Choose diary date"].waitForExistence(timeout: 8))
+            XCTAssertTrue(app.staticTexts["Oats with banana"].exists)
+            app.buttons["Add meal"].tap()
+            XCTAssertTrue(app.staticTexts["Add to Aug 14"].waitForExistence(timeout: 8))
+            XCTAssertTrue(app.buttons["Save to Aug 14"].exists)
+            XCTAssertFalse(app.staticTexts["Add to Aug 14"].frame.intersects(app.buttons["Save to Aug 14"].frame))
+            capture("\(theme)-past-date-add-route")
+            launch("empty", theme: theme)
+            let previous = app.buttons["Previous day"]
+            XCTAssertTrue(previous.waitForExistence(timeout: 8))
+            XCTAssertFalse(previous.isEnabled)
+            XCTAssertFalse(app.staticTexts["Oats with banana"].exists)
+            capture("\(theme)-empty-boundary")
+            launch("mid", theme: theme)
+            XCTAssertTrue(app.otherElements["diary-mid-ready"].waitForExistence(timeout: 8))
+            capture("\(theme)-mid-flip")
+        }
+    }
+
+    func testRealScrollDoesNotTurnDayAndHorizontalTabsStillFlip() {
+        launch("past", theme: "paper")
+        let date = app.buttons["Choose diary date"]
+        XCTAssertTrue(date.waitForExistence(timeout: 10))
+        let selected = date.value as? String
+        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.75))
+        let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.3))
+        start.press(forDuration: 0.05, thenDragTo: end)
+        XCTAssertEqual(date.value as? String, selected, "scrolling food must not turn a day")
+        XCTAssertTrue(app.staticTexts["Greek yogurt"].isHittable, "scroll must still reach bottom meals")
+        let screen = app.coordinate(withNormalizedOffset: .zero)
+        // Begin in the non-button hint strip, not the date button's glyph box.
+        let railY = date.frame.maxY + 8
+        let right = screen.withOffset(CGVector(dx: app.frame.width - 28, dy: railY))
+        let left = screen.withOffset(CGVector(dx: 40, dy: railY))
+        right.press(forDuration: 0.05, thenDragTo: left)
+        XCTAssertTrue(app.buttons["calendar"].waitForExistence(timeout: 8), "horizontal swipe opens History")
+        app.buttons["Today"].tap()
+        XCTAssertTrue(date.waitForExistence(timeout: 8))
+        XCTAssertEqual(date.value as? String, selected)
+        XCTAssertTrue(app.staticTexts["Greek yogurt"].isHittable, "the retained Today keeps its scroll position")
+        let origin = screen.withOffset(CGVector(dx: date.frame.midX, dy: date.frame.maxY + 8))
+        let above = origin.withOffset(CGVector(dx: 0, dy: -72))
+        origin.press(forDuration: 0.05, thenDragTo: above)
+        XCTAssertNotEqual(date.value as? String, selected, "vertical rail swipe opens previous day")
+        XCTAssertFalse(app.buttons["Done"].exists, "a day drag must not also tap the calendar button")
+        let nextDay = app.buttons["Next day"]
+        XCTAssertTrue(nextDay.isHittable, "day controls remain reachable after the drag")
+        nextDay.tap()
+        let returned = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "value == %@", selected ?? ""), object: date)
+        XCTAssertEqual(XCTWaiter.wait(for: [returned], timeout: 8), .completed,
+                       "accessible button returns exactly one day")
+        capture("paper-gesture-scroll-proof")
+    }
+
+    private func launch(_ mode: String, theme: String) {
+        app.terminate()
+        app.launchEnvironment = ["DIARY_CAPTURE": mode, "DIARY_THEME": theme]
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US@calendar=gregorian"]
+        app.launch()
+    }
+    private func capture(_ name: String) {
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+}

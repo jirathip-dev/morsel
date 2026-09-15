@@ -1,0 +1,112 @@
+[
+  {
+    "name": "paper-month-grid",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      255,
+      247,
+      232
+    ],
+    "dominant_pixel_count": 2813128
+  },
+  {
+    "name": "paper-past-day",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      255,
+      247,
+      232
+    ],
+    "dominant_pixel_count": 2729821
+  },
+  {
+    "name": "paper-empty-boundary",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      255,
+      247,
+      232
+    ],
+    "dominant_pixel_count": 2787747
+  },
+  {
+    "name": "paper-past-date-add-route",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      255,
+      247,
+      232
+    ],
+    "dominant_pixel_count": 2717991
+  },
+  {
+    "name": "paper-mid-flip",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      255,
+      247,
+      232
+    ],
+    "dominant_pixel_count": 2736920
+  },
+  {
+    "name": "night-month-grid",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      42,
+      38,
+      31
+    ],
+    "dominant_pixel_count": 2812904
+  },
+  {
+    "name": "night-past-day",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      42,
+      38,
+      31
+    ],
+    "dominant_pixel_count": 2729613
+  },
+  {
+    "name": "night-empty-boundary",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      42,
+      38,
+      31
+    ],
+    "dominant_pixel_count": 2787531
+  },
+  {
+    "name": "night-past-date-add-route",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      42,
+      38,
+      31
+    ],
+    "dominant_pixel_count": 2717738
+  },
+  {
+    "name": "night-mid-flip",
+    "width": 1178,
+    "height": 2556,
+    "dominant_rgb": [
+      42,
+      38,
+      31
+    ],
+    "dominant_pixel_count": 2734952
+  }
+]
