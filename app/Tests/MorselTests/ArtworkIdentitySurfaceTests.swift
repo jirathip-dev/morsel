@@ -29,7 +29,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
                 let item = try ArtworkIdentityFixture.item(
                     name: fixture.name, identity: fixture.identity, photo: fixture.photo
                 )
-                try captureFixture(fixture, item: item, model: model, window: window, theme: theme)
+                try await captureFixture(fixture, item: item, model: model, window: window, theme: theme)
             }
         }
     }
@@ -57,7 +57,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
     private func captureFixture(
         _ fixture: Fixture, item: MealItem, model: DashboardViewModel,
         window: UIWindow, theme: String
-    ) throws {
+    ) async throws {
         let scheme: ColorScheme = theme == "night" ? .dark : .light
         let original = item
         let row = JournalPage(date: Date(timeIntervalSince1970: 1_783_200_000)) {
@@ -67,16 +67,16 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
                 MealItemRow(item: item, onEdit: { _ in })
             }
         }
-        mount(row, in: window, scheme: scheme)
-        try capture(window, name: "\(theme)-\(fixture.key)-row", fixture: fixture)
-        mount(MealItemEditSheet(item: item, onSave: { _ in false }).environmentObject(model),
+        try await mount(row, in: window, scheme: scheme)
+        try await capture(window, name: "\(theme)-\(fixture.key)-row", fixture: fixture)
+        try await mount(MealItemEditSheet(item: item, onSave: { _ in false }).environmentObject(model),
               in: window, scheme: scheme)
-        try capture(window, name: "\(theme)-\(fixture.key)-detail-top", fixture: fixture)
+        try await capture(window, name: "\(theme)-\(fixture.key)-detail-top", fixture: fixture)
         let scroll = try XCTUnwrap(scrollView(in: try XCTUnwrap(window.rootViewController?.view)))
         let bottom = max(0, scroll.contentSize.height - scroll.bounds.height)
         scroll.setContentOffset(CGPoint(x: 0, y: bottom), animated: false)
-        settle()
-        try capture(window, name: "\(theme)-\(fixture.key)-detail-art", fixture: fixture)
+        try await settle()
+        try await capture(window, name: "\(theme)-\(fixture.key)-detail-art", fixture: fixture)
         XCTAssertEqual(item, original, "painting must not mutate names, nutrition, identity or photo reference")
         XCTAssertEqual(item.name, fixture.name)
         if fixture.photo {
@@ -84,15 +84,16 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         }
     }
 
-    private func mount(_ view: some View, in window: UIWindow, scheme: ColorScheme) {
+    private func mount(_ view: some View, in window: UIWindow, scheme: ColorScheme) async throws {
         window.rootViewController = UIHostingController(rootView: view.preferredColorScheme(scheme))
         window.makeKeyAndVisible()
         window.rootViewController?.view.layoutIfNeeded()
-        settle()
+        try await settle()
     }
 
-    private func settle() {
-        RunLoop.main.run(until: Date().addingTimeInterval(0.5))
+    private func settle() async throws {
+        // Yield the main actor so the real detail view's photo task can publish.
+        try await Task.sleep(for: .milliseconds(500))
     }
 
     private func scrollView(in view: UIView) -> UIScrollView? {
@@ -100,7 +101,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         return view.subviews.lazy.compactMap { self.scrollView(in: $0) }.first
     }
 
-    private func capture(_ window: UIWindow, name: String, fixture: Fixture) throws {
+    private func capture(_ window: UIWindow, name: String, fixture: Fixture) async throws {
         let renderer = UIGraphicsImageRenderer(bounds: window.bounds)
         let image = renderer.image { _ in window.drawHierarchy(in: window.bounds, afterScreenUpdates: true) }
         XCTAssertGreaterThan(try XCTUnwrap(image.pngData()).count, 10_000, "a real rendered surface is required")
@@ -118,7 +119,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         let ack = handshake.appendingPathComponent(name + ".ack")
         let deadline = Date().addingTimeInterval(20)
         while !FileManager.default.fileExists(atPath: ack.path), Date() < deadline {
-            RunLoop.main.run(until: Date().addingTimeInterval(0.05))
+            try await Task.sleep(for: .milliseconds(50))
         }
         XCTAssertTrue(FileManager.default.fileExists(atPath: ack.path), "simctl screenshot acknowledgement: \(name)")
     }
