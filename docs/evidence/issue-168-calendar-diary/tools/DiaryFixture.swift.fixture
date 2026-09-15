@@ -1,0 +1,68 @@
+import SwiftUI
+
+// Synthetic, networkless fixture for the real authenticated shell. Capture driver
+// injects this ONLY in its disposable checkout; no fixture ships in the app.
+final class DiaryCaptureRepository: DashboardRepository, JournalCalendarReading {
+    static let userID = UUID(uuidString: "16800000-0000-0000-0000-000000000001") ?? UUID()
+    static let today = date(2026, 9, 7)
+    static let past = date(2026, 8, 14)
+    static let first = date(2026, 8, 5)
+    static func date(_ year: Int, _ month: Int, _ day: Int) -> Date {
+        Calendar(identifier: .gregorian).date(from: DateComponents(year: year, month: month, day: day)) ?? .distantPast
+    }
+    static var mode: String { ProcessInfo.processInfo.environment["DIARY_CAPTURE"] ?? "past" }
+    static var selection: Date { mode == "empty" ? date(2026, 8, 4) : past }
+    let goal = DashboardGoal(calorieTargetKcal: 2150, proteinG: 150, carbsG: 230, fatG: 70, source: .manual)
+    var meals: [MealRecord] = []
+
+    init() {
+        meals = [record("Oats with banana", calories: 390, type: .breakfast),
+                 record("Grilled chicken rice", calories: 680, type: .lunch),
+                 record("Tofu vegetable stir-fry", calories: 565, type: .dinner),
+                 record("Greek yogurt", calories: 125, type: .snack)]
+    }
+    private func record(_ name: String, calories: Double, type: MealType) -> MealRecord {
+        let item = MealItem(itemID: UUID(), name: name, quantity: 1, unit: .serving,
+                            caloriesKcal: calories, proteinG: 25, carbsG: 45, fatG: 15,
+                            fiberG: 4, sugarG: 6, confidence: 0.95, notes: nil)
+        return MealRecord(mealLogID: UUID(), mealType: type, eatenAt: Self.past, source: .manual, items: [item])
+    }
+    func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot? {
+        try await loadToday(userID: userID, date: date)
+    }
+    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
+        DashboardSnapshot(date: date, meals: date == Self.past ? meals : [], goal: goal)
+    }
+    func calendarDates(userID: UUID) async throws -> [Date] {
+        [5, 6, 7, 9, 10, 11, 12, 14, 16, 18, 20, 22, 25, 27, 29, 31].map { Self.date(2026, 8, $0) }
+            + [1, 2, 4, 6, 7].map { Self.date(2026, 9, $0) }
+    }
+    func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
+        let dates = try await calendarDates(userID: userID)
+        return HistoryOverview(days: dates.enumerated().map { index, date in
+            HistoryDay(date: date, eatenKcal: [1760.0, 2150, 2280][index % 3], logged: true)
+        }, goal: goal)
+    }
+    func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
+    func confirmMealItem(userID: UUID, itemID: UUID) async throws {}
+    func updateMealItem(userID: UUID, update: MealItemUpdate) async throws {}
+    func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {}
+    func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID { UUID() }
+    func loadMealImage(userID: UUID, path: String) async throws -> Data { Data() }
+    func saveGoals(userID: UUID, goal: DashboardGoal) async throws {}
+    func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal { goal }
+}
+
+@main
+struct MorselApp: App {
+    init() { MorselFontCatalog.register() }
+    var body: some Scene {
+        WindowGroup {
+            AuthenticatedDashboardView(
+                supabaseClient: nil,
+                session: AuthenticatedSession(userID: DiaryCaptureRepository.userID, email: nil),
+                mcpEndpoint: "https://example.invalid/mcp", auth: SupabaseAuthClient(client: nil), onSignOut: {})
+                .preferredColorScheme(ProcessInfo.processInfo.environment["DIARY_THEME"] == "night" ? .dark : .light)
+        }
+    }
+}

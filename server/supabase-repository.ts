@@ -3,9 +3,11 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { z } from 'zod'
 import {
   ActivityLevelSchema,
+  ArtworkIdSchema,
   CalendarDateSchema,
   ComputeTargetsOutputSchema,
   DietGoalSchema,
+  DatedTargetSchema,
   FoodRefIdSchema,
   IsoDateTimeSchema,
   MealImageRecordSchema,
@@ -26,6 +28,8 @@ import {
 } from './meal-image.ts'
 import type {
   ComputeTargetsOutput,
+  DatedTarget,
+  SetDatedTargetAdditionInput,
   GoalSummary,
   MealImageRecord,
   MealItemRecord,
@@ -63,6 +67,7 @@ const mealItemRowSchema = z.object({
   id: z.uuid(),
   meal_log_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.nullish(),
   quantity: databaseNumber,
   unit: UnitSchema,
   calories_kcal: databaseNumber.nullable(),
@@ -89,6 +94,7 @@ const menuItemRowSchema = z.object({
   id: z.uuid(),
   menu_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.nullish(),
   quantity: databaseNumber,
   unit: UnitSchema,
   calories_kcal: databaseNumber.nullable(),
@@ -129,6 +135,7 @@ const targetRowSchema = z.object({
 const mealRpcItemSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.nullish(),
   quantity: databaseNumber,
   unit: UnitSchema,
   calories_kcal: databaseNumber.nullable(),
@@ -186,9 +193,9 @@ const energyBurnedRowSchema = z.object({
 }).strict()
 
 const mealLogColumns = 'id,eaten_at,meal_type,image_path'
-const mealItemColumns = 'id,meal_log_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,confidence,source_notes,menu_group_id,menu_name'
+const mealItemColumns = 'id,meal_log_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,confidence,source_notes,menu_group_id,menu_name,artwork_id'
 const menuColumns = 'id,name'
-const menuItemColumns = 'id,menu_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id'
+const menuItemColumns = 'id,menu_id,name,quantity,unit,calories_kcal,protein_g,carbs_g,fat_g,fiber_g,sugar_g,barcode,food_ref_id,artwork_id'
 const foodColumns = 'id,name,brand,barcode,serving_size,serving_unit,calories_kcal,protein_g,carbs_g,fat_g'
 
 function parseStored<T>(schema: z.ZodType<T>, value: unknown, context: string): T {
@@ -218,6 +225,7 @@ function toMealItem(value: unknown): MealItemRecord {
   return parseStored(MealItemRecordSchema, {
     item_id: item.id,
     name: item.name,
+    ...(item.artwork_id == null ? {} : { artwork_id: item.artwork_id }),
     quantity: item.quantity,
     unit: item.unit,
     ...(item.calories_kcal === null ? {} : { calories_kcal: item.calories_kcal }),
@@ -271,6 +279,7 @@ function toRpcMealRecord(value: unknown): MealRecord {
   const items = row.items.map((item) => parseStored(MealItemRecordSchema, {
     item_id: item.item_id,
     name: item.name,
+    ...(item.artwork_id == null ? {} : { artwork_id: item.artwork_id }),
     quantity: item.quantity,
     unit: item.unit,
     ...(item.calories_kcal === null ? {} : { calories_kcal: item.calories_kcal }),
@@ -375,6 +384,7 @@ export class SupabaseRepository implements MorselRepository {
     // group (name + shared group id); the RPC ensures the menu template.
     const items: LogMealFunctionItem[] = meal.items.map((item) => ({
       name: item.name,
+      ...(item.artwork_id === undefined ? {} : { artwork_id: item.artwork_id }),
       quantity: item.quantity,
       unit: item.unit,
       calories_kcal: item.calories_kcal ?? null,
@@ -451,6 +461,7 @@ export class SupabaseRepository implements MorselRepository {
       items.push(parseStored(MenuTemplateItemSchema, {
         item_id: row.id,
         name: row.name,
+        ...(row.artwork_id == null ? {} : { artwork_id: row.artwork_id }),
         quantity: row.quantity,
         unit: row.unit,
         ...(row.calories_kcal === null ? {} : { calories_kcal: row.calories_kcal }),
@@ -696,6 +707,22 @@ export class SupabaseRepository implements MorselRepository {
     })
   }
 
+  async getDatedTargets(userId: string, start: string, end: string, timezone: string): Promise<DatedTarget[]> {
+    const response = await this.client.rpc('get_dated_targets', {
+      p_user_id: userId, p_start_date: start, p_end_date: end, p_timezone: timezone,
+    })
+    return parseStored(z.array(DatedTargetSchema), requireData(response.data, response.error, 'dated target read'), 'dated targets')
+  }
+
+  async setDatedTargetAddition(userId: string, input: SetDatedTargetAdditionInput, timezone: string): Promise<DatedTarget> {
+    const response = await this.client.rpc('set_dated_target_addition', {
+      p_user_id: userId, p_date: input.date, p_timezone: timezone, p_addition_kcal: input.addition_kcal,
+      p_mutation_id: input.mutation_id, p_expected_revision: input.expected_revision ?? null,
+      p_historical_confirmation: input.historical_confirmation, p_manual_goal_acknowledged: input.manual_goal_acknowledged,
+    })
+    return parseStored(DatedTargetSchema, requireData(response.data, response.error, 'dated addition write'), 'dated target')
+  }
+
   async getProfile(userId: string): Promise<StoredProfile | undefined> {
     const response = await this.client
       .from('profiles')
@@ -846,6 +873,7 @@ export class SupabaseRepository implements MorselRepository {
   async updateMealItem(userId: string, input: UpdateMealItemInput): Promise<boolean> {
     const patch: Database['public']['Tables']['meal_items']['Update'] = {
       ...(input.name === undefined ? {} : { name: input.name }),
+      ...(input.artwork_id === undefined ? {} : { artwork_id: input.artwork_id }),
       ...(input.quantity === undefined ? {} : { quantity: input.quantity }),
       ...(input.calories_kcal === undefined ? {} : { calories_kcal: input.calories_kcal }),
       ...(input.protein_g === undefined ? {} : { protein_g: input.protein_g }),

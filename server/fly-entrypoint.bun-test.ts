@@ -8,7 +8,7 @@
 // a single long-lived app from an app rebuilt per request, so this suite
 // starts the real Bun server adapter over a real localhost listener and makes
 // THREE separate HTTP requests against one process: initialize (200 + session
-// header) -> notifications/initialized (202) -> tools/list (200 + 13 tools).
+// header) -> notifications/initialized (202) -> tools/list (200 + EXPECTED_TOOLS).
 // The wire format is the SDK's default SSE; the test parses `data:` frames
 // and stays agnostic of the chosen format.
 import { afterAll, beforeAll, describe, expect, it } from 'bun:test'
@@ -26,7 +26,7 @@ const BEARER_TOKEN = 'fly-session-regression-token'
 // Auth rejects an expired JWT).
 const EXPIRED_TOKEN = 'fly-session-expired-token'
 
-// The canonical 15-tool contract (same list pinned by http.test.ts).
+// The canonical tool contract (same list pinned by http.test.ts).
 const EXPECTED_TOOLS = [
   'attach_meal_image',
   'compute_targets',
@@ -41,6 +41,7 @@ const EXPECTED_TOOLS = [
   'log_meal',
   'reset_goals',
   'search_food',
+  'set_dated_target_addition',
   'set_goals',
   'set_profile',
   'update_meal_item',
@@ -235,7 +236,7 @@ describe('Fly entry point over a real HTTP listener (single process, one session
     const sessionId = initializeResponse.headers.get('mcp-session-id') ?? ''
     expect(sessionId).not.toBe('')
 
-    // 2. tools/list on the same session: every one of the 15 tools carries
+    // 2. tools/list on the same session: every tool in EXPECTED_TOOLS carries
     // the OpenAI oauth2 securitySchemes metadata in its tool-level _meta,
     // and the safety annotations are still on the wire.
     const toolsResponse = await mcpRequest('/mcp', {

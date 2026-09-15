@@ -24,6 +24,8 @@ import {
   SearchFoodInputSchema,
   SearchFoodOutputSchema,
   SetGoalsInputSchema,
+  SetDatedTargetAdditionInputSchema,
+  SetDatedTargetAdditionOutputSchema,
   SetProfileInputSchema,
   UpdateMealItemInputSchema,
   UpdateMealItemOutputSchema,
@@ -53,6 +55,7 @@ import type {
   SearchFoodOutput,
   SetGoalsInput,
   SetGoalsOutput,
+  SetDatedTargetAdditionOutput,
   SetProfileOutput,
   UpdateMealItemOutput,
 } from '../packages/schema/food-types.ts'
@@ -87,6 +90,7 @@ function omittedInputAsObject(input: unknown): unknown {
 function menuItemToMealInput(item: MenuTemplateItem): ParsedMealItem {
   return {
     name: item.name,
+    ...(item.artwork_id === undefined ? {} : { artwork_id: item.artwork_id }),
     quantity: item.quantity,
     unit: item.unit,
     ...(item.calories_kcal === undefined ? {} : { calories_kcal: item.calories_kcal }),
@@ -399,20 +403,41 @@ export class MorselService {
       zonedNextDayStartInstant(parsed.date, timezone),
     )
 
-    const profile = await this.repository.getProfile(this.userId)
-    const stored = await this.repository.getGoals(this.userId)
-    const goal = profile === undefined
-      ? toCompleteManualGoal(stored)
-      : await this.resolveEffectiveGoalSummary(profile, stored)
+    const datedTarget = (await this.repository.getDatedTargets?.(this.userId, parsed.date, parsed.date, timezone))?.[0]
+    // Legacy readers may supply TODAY's goal, NEVER a historical one. Without a
+    // dated observation today is still today, so the shipped effective-goal read
+    // is preserved (with no dated provenance claimed) rather than reporting a
+    // target the server can actually answer as unknown.
+    let goal = datedTarget?.baseline?.goal
+    if (goal === undefined && datedTarget?.baseline === undefined
+      && parsed.date === zonedDateLabel(this.now().getTime(), timezone)) {
+      const profile = await this.repository.getProfile(this.userId)
+      const stored = await this.repository.getGoals(this.userId)
+      goal = profile === undefined ? toCompleteManualGoal(stored) : await this.resolveEffectiveGoalSummary(profile, stored)
+    }
+    if (goal !== undefined && datedTarget?.total_target_kcal !== undefined) {
+      goal = { ...goal, calorie_target_kcal: datedTarget.total_target_kcal }
+    }
     const summary = createRenderSummary(meals, parsed.date, parsed.date, 1, goal, timezone)
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
       timezone,
       meals,
       totals: summary.totals,
+      ...(datedTarget === undefined ? {} : { dated_target: datedTarget }),
       ...(goal === undefined ? {} : { goal, remaining_kcal: goal.calorie_target_kcal - summary.totals.calories_kcal }),
       render: renderDashboardSummary(summary),
     }, 'get_day output')
+  }
+
+  async setDatedTargetAddition(input: unknown): Promise<SetDatedTargetAdditionOutput> {
+    const parsed = parseInput(SetDatedTargetAdditionInputSchema, input, 'set_dated_target_addition')
+    if (this.repository.setDatedTargetAddition === undefined) {
+      throw new MorselError('invalid_input', 'dated target writes are unavailable')
+    }
+    const timezone = await this.resolveDayZone(parsed.timezone)
+    const datedTarget = await this.repository.setDatedTargetAddition(this.userId, parsed, timezone)
+    return parseInput(SetDatedTargetAdditionOutputSchema, { dated_target: datedTarget }, 'set_dated_target_addition output')
   }
 
   async searchFood(input: unknown): Promise<SearchFoodOutput> {
@@ -593,11 +618,20 @@ export class MorselService {
       zonedNextDayStartInstant(today, timezone),
       timezone,
     )
-    const profile = await this.repository.getProfile(this.userId)
-    const stored = await this.repository.getGoals(this.userId)
-    const goal = profile === undefined
-      ? toCompleteManualGoal(stored)
-      : await this.resolveEffectiveGoalSummary(profile, stored)
+    const datedTargets = await this.repository.getDatedTargets?.(this.userId, startDate, today, timezone)
+    let goal: GoalSummary | undefined
+    if (parsed.days === 1) {
+      const target = datedTargets?.[0]
+      if (target?.baseline !== undefined && target.total_target_kcal !== undefined) {
+        goal = { ...target.baseline.goal, calorie_target_kcal: target.total_target_kcal }
+      } else if (target?.baseline === undefined) {
+        // Single-day range == today: keep the shipped effective-goal read when no
+        // dated observation exists; a multi-day range never borrows today's goal.
+        const profile = await this.repository.getProfile(this.userId)
+        const stored = await this.repository.getGoals(this.userId)
+        goal = profile === undefined ? toCompleteManualGoal(stored) : await this.resolveEffectiveGoalSummary(profile, stored)
+      }
+    }
     const summary = createRenderSummary(meals, startDate, today, parsed.days, goal, timezone)
     return parseInput(GetDashboardSummaryOutputSchema, {
       date: today,
@@ -610,6 +644,7 @@ export class MorselService {
         fat_g: summary.totals.fat_g,
       },
       weight_trend: weightTrend,
+      ...(datedTargets === undefined ? {} : { dated_targets: datedTargets }),
       render: renderDashboardSummary(summary),
     }, 'get_dashboard_summary output')
   }

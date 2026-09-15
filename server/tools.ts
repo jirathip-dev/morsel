@@ -25,6 +25,8 @@ import {
   ResetGoalsInputSchema,
   ResetGoalsOutputSchema,
   SetGoalsInputSchema,
+  SetDatedTargetAdditionInputSchema,
+  SetDatedTargetAdditionOutputSchema,
   SetGoalsOutputSchema,
   SetProfileInputSchema,
   SetProfileOutputSchema,
@@ -296,6 +298,15 @@ export function createMcpServer(service: MorselService): McpServer {
     annotations: READ_ONLY_ANNOTATIONS,
     _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
   }, (input) => runTool(() => service.getDashboardSummary(input)))
+
+  server.registerTool('set_dated_target_addition', {
+    title: 'Confirm a dated target addition',
+    description: 'Persist an explicitly confirmed nonnegative addition for one diary date. Zero removes it. Read get_day first for revision; past corrections require historical confirmation and manual targets require acknowledgement. Never invent a baseline or exercise recommendation.',
+    inputSchema: SetDatedTargetAdditionInputSchema,
+    outputSchema: SetDatedTargetAdditionOutputSchema,
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+    _meta: { securitySchemes: OAUTH2_SECURITY_SCHEMES },
+  }, (input) => runTool(() => service.setDatedTargetAddition(input)))
 
   return server
 }

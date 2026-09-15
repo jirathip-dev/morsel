@@ -3,6 +3,7 @@
 // this file first when the contract changes.
 
 import { z } from 'zod'
+import { ArtworkIdValues } from './artwork-ids.ts'
 
 const finiteNumber = z.number()
 const nonNegativeNumber = finiteNumber.nonnegative()
@@ -47,6 +48,13 @@ export const DietGoalSchema = z.enum(['lose', 'maintain', 'gain'])
 export const SexSchema = z.enum(['male', 'female'])
 export const FoodRefIdSchema = z.uuid()
 
+// Explicit identity is an exact published ID, never a name or inferred nutrition.
+// Reject unknown IDs (including case/whitespace variants) before any write.
+export const ArtworkIdSchema = z.enum(ArtworkIdValues).describe(
+  'Optional published illustration ID; select only an enum value, never invent one. Keep name verbatim. Omit when uncertain.',
+)
+const FoodNameSchema = z.string().min(1).refine((value) => value.trim().length > 0, 'name must not be blank')
+
 // Accepted food-photo mime types. This set mirrors the `food-images` bucket
 // allowlist (migration 0004) and the native app's FoodImageStore allowlist —
 // the server stores bytes, so it can only accept what storage accepts.
@@ -68,7 +76,8 @@ export const MealImageBase64Schema = z.object({
 }).strict()
 
 export const MealItemSchema = z.object({
-  name: z.string().trim().min(1),
+  name: FoodNameSchema,
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: positiveNumber.optional().default(1),
   unit: UnitSchema.optional().default('serving'),
   calories_kcal: nonNegativeNumber.optional(),
@@ -154,7 +163,8 @@ export const SearchFoodOutputSchema = z.object({
 
 export const UpdateMealItemInputSchema = z.object({
   item_id: z.uuid(),
-  name: z.string().trim().min(1).optional(),
+  name: FoodNameSchema.optional(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: positiveNumber.optional(),
   calories_kcal: nonNegativeNumber.optional(),
   protein_g: nonNegativeNumber.optional(),
@@ -205,6 +215,7 @@ export const AttachMealImageOutputSchema = z.object({
 export const MealItemRecordSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: finiteNumber,
   unit: UnitSchema,
   calories_kcal: finiteNumber.optional(),
@@ -228,6 +239,7 @@ export const MealItemRecordSchema = z.object({
 export const MenuTemplateItemSchema = z.object({
   item_id: z.uuid(),
   name: z.string(),
+  artwork_id: ArtworkIdSchema.optional(),
   quantity: finiteNumber,
   unit: UnitSchema,
   calories_kcal: finiteNumber.optional(),
@@ -314,6 +326,51 @@ export const GetDayInputSchema = z.object({
   timezone: TimezoneSchema.optional(),
 }).strict()
 
+// Issue #253: observations are prospective, never current-goal backfills.
+export const DatedBaselineSchema = z.object({
+  revision_id: z.uuid(),
+  recorded_at: IsoDateTimeSchema,
+  effective_date: CalendarDateSchema,
+  timezone: TimezoneSchema,
+  source_version: z.literal('targets-v1'),
+  goal: GoalSummarySchema,
+  profile_updated_at: IsoDateTimeSchema.optional(),
+  goals_updated_at: IsoDateTimeSchema.optional(),
+  weight_measured_at: IsoDateTimeSchema.optional(),
+}).strict()
+
+export const DatedAdditionRevisionSchema = z.object({
+  revision_id: z.uuid(),
+  recorded_at: IsoDateTimeSchema,
+  timezone: TimezoneSchema,
+  previous_revision_id: z.uuid().optional(),
+  historical_confirmation: z.boolean(),
+  manual_goal_acknowledged: z.boolean(),
+}).strict()
+
+export const DatedTargetSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema,
+  baseline: DatedBaselineSchema.optional(),
+  confirmed_addition_kcal: nonNegativeNumber,
+  addition_revision: DatedAdditionRevisionSchema.optional(),
+  total_target_kcal: nonNegativeNumber.optional(),
+}).strict()
+
+export const SetDatedTargetAdditionInputSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema.optional(),
+  addition_kcal: nonNegativeNumber.describe('User-confirmed addition only; zero removes it. Never infer an amount from exercise.'),
+  mutation_id: z.uuid().describe('New UUID for this confirmed change; reuse only when retrying this exact change.'),
+  expected_revision: z.uuid().optional().describe('Current addition revision from get_day; omit only if none exists.'),
+  historical_confirmation: z.boolean().optional().default(false),
+  manual_goal_acknowledged: z.boolean().optional().default(false),
+}).strict()
+export const SetDatedTargetAdditionOutputSchema = z.object({ dated_target: DatedTargetSchema }).strict()
+export type DatedTarget = z.infer<typeof DatedTargetSchema>
+export type SetDatedTargetAdditionInput = z.output<typeof SetDatedTargetAdditionInputSchema>
+export type SetDatedTargetAdditionOutput = z.infer<typeof SetDatedTargetAdditionOutputSchema>
+
 export const GetDayOutputSchema = z.object({
   date: CalendarDateSchema,
   timezone: TimezoneSchema,
@@ -321,6 +378,7 @@ export const GetDayOutputSchema = z.object({
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
   remaining_kcal: finiteNumber.optional(),
+  dated_target: DatedTargetSchema.optional(),
   render: RenderPayloadSchema,
 }).strict()
 
@@ -349,6 +407,7 @@ export const GetDashboardSummaryOutputSchema = z.object({
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
+  dated_targets: z.array(DatedTargetSchema).optional(),
   render: RenderPayloadSchema,
 }).strict()
 

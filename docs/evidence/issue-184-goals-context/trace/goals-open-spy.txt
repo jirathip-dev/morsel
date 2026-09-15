@@ -1,0 +1,38 @@
+# Issue #184 — raw evidence lines (lifted verbatim from the lane logs in .lane-logs/, untracked)
+
+## lane base 5cea5bf — the audited mechanism (git show 5cea5bf:app/Sources/Morsel/GoalsEditorModel.swift)
+        do {
+            let today = try await repository.loadToday(userID: userID, date: Date())
+            todayCalories = DashboardMath.totals(for: today.meals).caloriesKcal
+            let context = try await repository.loadGoalsContext(userID: userID)
+            apply(context)
+
+## head — request-spy / delayed-response tests in the ONE complete full-suite run (381 tests / 0 failures)
+Test Case '-[MorselTests.GoalsContextLazyLoadRealPathTests testRealLocalFirstRepositoryServesTheCachedDayTotalWithNoAddedFullRead]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testCancelledLoadNeverPaintsItsLateTotal]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testDayTotalArrivingAfterMidnightIsDropped]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testHeldLocalReadStillPaintsTargetsAndProfileWithTheTotalPending]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testLateTotalLeavesTheSupersededManualOutcomeUntouched]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testOpeningGoalsReadsTheNarrowLocalDayTotalAndNoFullDashboard]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testSupersededLoadCannotPaintItsStaleTotal]' passed.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testUnreadableDayTotalLeavesTheLinePendingAndGoalsEditable]' passed.
+	 Executed 381 tests, with 0 failures (0 unexpected) in 33.780 (34.188) seconds
+xcodebuild-full=0
+
+## base 5cea5bf — behavioural RED (scratch worktree /tmp/morsel184-red, base-compatible probe)
+Issue184GoalsOpenRedProbeTests.swift:57: error: -[MorselTests.Issue184GoalsOpenRedProbeTests testAuditedHeldTodayReadBlocksTheFetchedTargets] : XCTAssertEqual failed: ("") is not equal to ("2000.0") - the fetched targets must appear while the full Today read is held
+Issue184GoalsOpenRedProbeTests.swift:40: error: -[MorselTests.Issue184GoalsOpenRedProbeTests testAuditedOpeningGoalsRunsTheFullTodayReadAndSurfacesItsFailure] : XCTAssertEqual failed: ("1") is not equal to ("0") - the goals page must not run the full Today read
+Issue184GoalsOpenRedProbeTests.swift:41: error: -[MorselTests.Issue184GoalsOpenRedProbeTests testAuditedOpeningGoalsRunsTheFullTodayReadAndSurfacesItsFailure] : XCTAssertNil failed: "The request could not be completed. Try again." - a Today read failure must not reach the Goals page
+	 Executed 2 tests, with 3 failures (0 unexpected) in 0.103 (0.106) seconds
+red-base=65
+
+## head — the first complete full-suite run (before the held-storage fixture fix): 1 failure, raw exit 65
+GoalsContextLazyLoadTests.swift:108: error: -[MorselTests.GoalsContextLazyLoadTests testHeldLocalReadStillPaintsTargetsAndProfileWithTheTotalPending] : XCTAssertEqual failed: ("2137.0") is not equal to ("2000.0") - held storage cannot stop the targets
+xcodebuild-full=65
+
+## hosted source pins — #123 asserted the full read #184 removes (raw exit 1 -> 0)
+AssertionError: expected -1 to be greater than 5181
+vitest-goals-pins-before=1
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+vitest-goals-pins-after=0

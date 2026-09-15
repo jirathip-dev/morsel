@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { createMorselApp } from './app.js'
 import type { Authenticate } from './auth.js'
 import { InMemoryRepository } from './in-memory-repository.js'
+import { ArtworkIdSchema, GetDayOutputSchema, ListMenusOutputSchema } from '../packages/schema/food-types.ts'
 
 // This file pins the client-visible tool contract as it is EMITTED by the real
 // MCP registration/inspection path (server registerTool -> SDK -> tools/list
@@ -127,6 +128,14 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     outputRequired: ['ok', 'source'],
   },
   {
+    name: 'set_dated_target_addition',
+    title: 'Confirm a dated target addition',
+    description: 'Persist an explicitly confirmed nonnegative addition for one diary date. Zero removes it. Read get_day first for revision; past corrections require historical confirmation and manual targets require acknowledgement. Never invent a baseline or exercise recommendation.',
+    annotations: UNCLAIMED,
+    inputRequired: ['date', 'addition_kcal', 'mutation_id'],
+    outputRequired: ['dated_target'],
+  },
+  {
     name: 'reset_goals',
     title: 'Reset manual goals',
     description: 'Discard the stored manual goal override so the effective target returns to the computed values from the profile.',
@@ -204,7 +213,7 @@ async function connectClient(repository: InMemoryRepository): Promise<Client> {
 }
 
 describe('MCP tool registration metadata (tools/list)', () => {
-  it('registers exactly the 16 contract tools with unchanged names', async () => {
+  it('registers the existing tools plus the dated addition writer', async () => {
     const client = await connectClient(new InMemoryRepository())
     try {
       const listed = await client.listTools()
@@ -245,6 +254,41 @@ describe('MCP tool registration metadata (tools/list)', () => {
       await client.close()
     }
   })
+
+  it('publishes artwork IDs and carries them through MCP calls without renaming food', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const listed = await client.listTools()
+      const log = listed.tools.find((tool) => tool.name === 'log_meal')
+      expect(log?.inputSchema.properties?.items).toMatchObject({ items: { properties: { artwork_id: { enum: ArtworkIdSchema.options } } } })
+      const update = listed.tools.find((tool) => tool.name === 'update_meal_item')
+      expect(update?.inputSchema.properties?.artwork_id).toMatchObject({ enum: ArtworkIdSchema.options })
+      const name = '  Americano (black, no sugar, homemade)  '
+      const logged = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'breakfast', eaten_at: '2026-09-01T08:00:00Z', menu_name: 'Synthetic coffee set',
+        items: [{ name, artwork_id: 'coffee', calories_kcal: 3 }],
+      } })
+      expect(logged.isError).not.toBe(true)
+      const read = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-01' } })
+      const day = GetDayOutputSchema.parse(read.structuredContent)
+      const item = day.meals[0]?.items[0]
+      expect(item).toMatchObject({ name, artwork_id: 'coffee', calories_kcal: 3 })
+      const corrected = await client.callTool({ name: 'update_meal_item', arguments: { item_id: item?.item_id, artwork_id: 'banana' } })
+      expect(corrected.isError).not.toBe(true)
+      const updated = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-01' } })
+      expect(GetDayOutputSchema.parse(updated.structuredContent).meals[0]?.items[0]).toMatchObject({ name, artwork_id: 'banana', calories_kcal: 3 })
+      const menus = await client.callTool({ name: 'list_menus', arguments: {} })
+      expect(ListMenusOutputSchema.parse(menus.structuredContent).menus[0]?.items[0]).toMatchObject({ name, artwork_id: 'coffee' })
+      const invalid = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'lunch', eaten_at: '2026-09-01T08:00:00Z', items: [{ name, artwork_id: 'invented' }],
+      } })
+      expect(invalid.isError).toBe(true)
+      const after = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-01' } })
+      expect(GetDayOutputSchema.parse(after.structuredContent).meals).toHaveLength(1)
+    } finally {
+      await client.close()
+    }
+  }, 30_000)
 
   it('emits the metadata a local inspector receives (evidence dump)', async () => {
     const client = await connectClient(new InMemoryRepository())

@@ -358,6 +358,9 @@ describe('SupabaseRepository meal photo storage (HTTP fetch mock)', () => {
           }],
         }])
       }
+      if (request.method === 'POST' && request.url.includes('/rest/v1/rpc/get_dated_targets')) {
+        return jsonResponse([])
+      }
       if (request.method === 'GET' && request.url.includes('/rest/v1/profiles')) {
         return jsonResponse([])
       }

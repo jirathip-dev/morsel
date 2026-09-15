@@ -3,6 +3,8 @@ import Foundation
 struct MealItem: Identifiable, Equatable, Sendable, Codable {
     let itemID: UUID
     let name: String
+    /// Raw read identity; only exact local catalog membership may select art.
+    let artworkID: String?
     let quantity: Double
     let unit: FoodUnit
     let caloriesKcal: Double?
@@ -14,11 +16,9 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
     let confidence: Double?
     let notes: String?
     let source: MealSource
-    /// The parent meal's photo read contract (issue #135) — carried on the
-    /// item because the journal's edit flow presents items alone.
+    /// Parent photo context for the item-only edit flow.
     let mealImage: MealImage?
-    /// Issue #152 — named-menu snapshot grouping: set items carry the menu
-    /// name copy + shared group id; loose items keep both nil.
+    /// Named-menu snapshot grouping; loose items keep both nil.
     let menuGroupID: UUID?
     let menuName: String?
 
@@ -38,7 +38,8 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         source: MealSource = .manual,
         mealImage: MealImage? = nil,
         menuGroupID: UUID? = nil,
-        menuName: String? = nil
+        menuName: String? = nil,
+        artworkID: String? = nil
     ) {
         self.itemID = itemID
         self.name = name
@@ -56,12 +57,12 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
         self.mealImage = mealImage
         self.menuGroupID = menuGroupID
         self.menuName = menuName
+        self.artworkID = artworkID
     }
 
     var id: UUID { itemID }
 
-    /// Copy with the parent meal's photo context (issue #135 — hydration
-    /// happens at the read seam where the meal record is known).
+    /// Hydrates the parent photo without discarding item identity.
     func withMealImage(_ image: MealImage?) -> MealItem {
         MealItem(
             itemID: itemID,
@@ -79,7 +80,8 @@ struct MealItem: Identifiable, Equatable, Sendable, Codable {
             source: source,
             mealImage: image,
             menuGroupID: menuGroupID,
-            menuName: menuName
+            menuName: menuName,
+            artworkID: artworkID
         )
     }
 
@@ -183,13 +185,10 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     let eatenAt: Date
     let source: MealSource
     let imagePath: String?
-    /// #133 image read contract ({path, signed_url, expires_at}); nil when
-    /// the row has no photo (or is still queued with no remote read yet).
+    /// #133 image contract; nil without a photo or before remote read.
     let image: MealImage?
     let items: [MealItem]
-    /// Issue #106 — honest local sync state. `synced` rows come from the
-    /// authoritative remote snapshot; queued rows carry `pending sync` or
-    /// `needs attention` until the server result is read back.
+    /// #106: synced after remote readback; queued rows retain honest local state.
     let syncState: MealSyncState
     init(
         mealLogID: UUID,

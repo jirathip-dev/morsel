@@ -1,0 +1,142 @@
+Issue 168 verification — final implementation sources
+
+Full npm gate remains RED: 3 default-5000ms timeouts, 557 passed of 560, raw exit 1.
+No timeout/configuration was weakened. Longer-timeout reruns are diagnostic ONLY.
+The earlier npm-test-final.log full green is historical, NOT the final-head gate.
+
+Commands (repo root unless stated):
+  npm ci --no-audit --no-fund — raw 0 (initial tool stdout); .lane-logs/npm-ci.log
+  npm run typecheck — typecheck-final=0; .lane-logs/typecheck-final.log
+  npm run lint — lint-final=0; .lane-logs/lint-final.log
+  npx vitest run app/ v1-journal-contract — focused-final=0; .lane-logs/focused-final.log
+  LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 npm test — npm-after-cleanup=1; .lane-logs/npm-after-cleanup.log
+  cd app; swiftlint --strict — swiftlint-close=0; .lane-logs/swiftlint-close.log
+  cd app; xcodegen generate — xcodegen-final=0; .lane-logs/xcodegen-final.log
+
+Native, from app: raw 0, one COMPLETE invocation, 384 tests:
+  HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination "platform=iOS Simulator,id=1DC2978F-90B8-49B9-A973-495930733547" -derivedDataPath /tmp/xc-dd-168 CODE_SIGNING_ALLOWED=NO
+  .lane-logs/xcodebuild-final.log and .exit
+
+UI, from owned capture checkout app: raw 0, two complete tests:
+  HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme DiaryCapture -destination "platform=iOS Simulator,id=1DC2978F-90B8-49B9-A973-495930733547" -derivedDataPath /tmp/xc-dd-168 CODE_SIGNING_ALLOWED=NO
+  .lane-logs/simulator-capture-final.log and .exit
+
+Behavioral RED: base archive + identical JournalDiaryLoadTests.swift:
+  same Morsel command with -only-testing:MorselTests/JournalDiaryLoadTests
+  raw 65; 1 test, 2 assertion failures (NOT a compile failure). The same test passes in head full suite.
+
+Mutation, disposable archive from tools/prepare-mutation.py:
+  same Morsel command with -only-testing:MorselTests/JournalCalendarTests -only-testing:MorselTests/JournalDiaryGestureTests
+  raw 65; 10 tests, 5 failures. The production worktree was never mutated.
+
+Gesture regression: old simultaneous rail drag also opened Calendar; Next day was covered.
+  next-day-diagnostic.log has Sheet Grabber and non-hittable Next day.
+  High-priority rail drag: gesture-priority-green.log raw 0, then full capture suite raw 0.
+
+Native/capture admission polled xcodebuild and xctest every 60 seconds, bounded at 1800.
+Maximum recorded admission wait: 843 seconds (including npm admission).
+No admission timeout was bypassed; no other lane process was killed.
+
+Selected raw output (complete logs retained in the worktree .lane-logs directory):
+
+npm-test.log
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+ Test Files  2 failed | 48 passed (50)
+      Tests  2 failed | 558 passed (560)
+
+npm-test-final.log
+ Test Files  50 passed (50)
+      Tests  560 passed (560)
+
+npm-test-delivery.log
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+ Test Files  3 failed | 47 passed (50)
+      Tests  4 failed | 556 passed (560)
+
+npm-close.log
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+ Test Files  3 failed | 47 passed (50)
+      Tests  4 failed | 556 passed (560)
+
+npm-locale.log
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+ Test Files  3 failed | 47 passed (50)
+      Tests  3 failed | 557 passed (560)
+
+npm-after-cleanup.log
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+Error: Test timed out in 5000ms.
+ Test Files  3 failed | 47 passed (50)
+      Tests  3 failed | 557 passed (560)
+
+focused-final.log
+ Test Files  14 passed (14)
+      Tests  107 passed (107)
+
+npm-latest-timeout-diagnostic.log
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+
+native-base-red.log
+/tmp/morsel168-base/app/Tests/MorselTests/JournalDiaryLoadTests.swift:21: error: -[MorselTests.JournalDiaryLoadTests testDateChangeSupersedesAnInFlightDayWithoutPaintingItsResult] : XCTAssertEqual failed: ("nil") is not equal to ("Optional(2026-05-27 5:00:00 PM +0000)") - a new date must load without waiting for the old day
+/tmp/morsel168-base/app/Tests/MorselTests/JournalDiaryLoadTests.swift:25: error: -[MorselTests.JournalDiaryLoadTests testDateChangeSupersedesAnInFlightDayWithoutPaintingItsResult] : XCTAssertEqual failed: ("Optional(2026-05-28 5:00:00 PM +0000)") is not equal to ("Optional(2026-05-27 5:00:00 PM +0000)") - the stale day must never publish over the selected day
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.413) seconds
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.888) seconds
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.412 (0.889) seconds
+** TEST FAILED **
+
+native-mutation.log
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:20: error: -[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal] : XCTAssertEqual failed: ("Optional(2026-08-04 5:00:00 PM +0000)") is not equal to ("Optional(2026-08-03 5:00:00 PM +0000)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:22: error: -[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal] : XCTAssertEqual failed: ("nil") is not equal to ("Optional(2026-08-03 5:00:00 PM +0000)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:140: error: -[MorselTests.JournalDiaryGestureTests testDateRailVerticalDragLeavesHorizontalPagerAloneAndFlipsBothDays] : XCTAssertEqual failed: ("Optional(2027-01-16 8:00:00 AM +0000)") is not equal to ("Optional(2027-01-14 8:00:00 AM +0000)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:143: error: -[MorselTests.JournalDiaryGestureTests testDateRailVerticalDragLeavesHorizontalPagerAloneAndFlipsBothDays] : XCTAssertEqual failed: ("2027-01-16 8:00:00 AM +0000") is not equal to ("2027-01-14 8:00:00 AM +0000")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel168-mutation-eckqmrj6/app/Tests/MorselTests/JournalCalendarTests.swift:160: error: -[MorselTests.JournalDiaryGestureTests testHorizontalDragOwnsTabsAndCannotAlsoOwnTheDateRail] : XCTUnwrap failed: expected non-nil value of type "Effect"
+	 Executed 10 tests, with 5 failures (0 unexpected) in 0.161 (0.180) seconds
+	 Executed 10 tests, with 5 failures (0 unexpected) in 0.161 (0.181) seconds
+** TEST FAILED **
+
+xcodebuild-final.log
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.007 (0.007) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.006 (0.007) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.004 (0.004) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.004) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.010 (0.011) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.012 (0.013) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.046 (0.048) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.119 (0.119) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.005 (0.010) seconds
+	 Executed 384 tests, with 0 failures (0 unexpected) in 33.744 (33.899) seconds
+	 Executed 384 tests, with 0 failures (0 unexpected) in 33.744 (33.900) seconds
+** TEST SUCCEEDED **
+
+simulator-capture-final.log
+	 Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.455) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.456) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 65.453 (65.457) seconds
+** TEST SUCCEEDED **
+
+gesture-priority-green.log
+	 Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.865) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.866) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 12.864 (12.867) seconds
+** TEST SUCCEEDED **
+
+Own simulator deleted and /tmp/xc-dd-168 removed after exporting evidence.
+No physical-device/feel, live-account or TestFlight acceptance is claimed.

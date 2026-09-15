@@ -10,22 +10,14 @@ import Foundation
 // ID with no network asset dependency and no added per-log latency: the lookup
 // is a pure in-memory match over the catalog.
 //
-// Mapping rules (deterministic, catalog order, documented in the lane evidence):
-//  1. exact name match first, then exact alias match — both normalized by
-//     trimming, lowercasing and collapsing inner whitespace. First match in
-//     catalog order wins, so a stable ID is returned for every input.
-//  2. a food the library cannot identify resolves to the approved neutral
-//     study (`fallback-neutral`: an empty plate and spoon — an eating sign,
-//     never an identified food), so unknown items are never blank.
-//  3. a catalog category alias (`produce category`, …) resolves to that
-//     category's labeled fallback; a composite meal whose foods share ONE
-//     category shows that category's labeled fallback.
-//  4. a meal that spans categories, or carries any unidentified item, shows
-//     the neutral study: never one arbitrary ingredient, and never nothing.
-//  5. an empty item list has no food to depict and resolves to nothing.
-//
-// Nothing here reads or writes logged food or nutrition values — the resolver
-// only ever takes item NAMES and returns an artwork ID.
+// Issue #241 precedence (offline and read-only):
+//  1. exact, case-sensitive explicit ID membership in this bundled catalog;
+//  2. unambiguous normalized full name/alias, including the closed Americano
+//     descriptor grammar below (never substring/ingredient matching);
+//  3. unambiguous catalog category name/alias;
+//  4. approved neutral sign. Unsupported IDs take steps 2–4, never a file path.
+// Composite meals keep the existing shared-category/neutral rules; empty
+// lists have nothing to depict. No logged name, nutrition or photo is changed.
 
 /// Catalog `kind` — a specific food study vs. a fallback study.
 enum FoodArtworkKind: String, Decodable, Equatable, Sendable {
@@ -119,22 +111,44 @@ enum FoodArtworkResolution: Equatable, Sendable {
 }
 
 enum FoodArtworkResolver {
-    /// First exact name match, then exact alias match, in catalog order.
+    /// Explicit IDs are never normalized: an older bundle ignores unknown IDs.
+    static func explicitAsset(_ identity: String?, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
+        guard let identity else { return nil }
+        return assets.first { $0.id == identity }
+    }
+
+    /// Whole terms only. Colliding names/aliases cannot select an arbitrary dish.
     static func match(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
         let key = FoodArtworkCatalog.normalize(name)
         guard !key.isEmpty else { return nil }
-        if let byName = assets.first(where: { FoodArtworkCatalog.normalize($0.name) == key }) {
-            return byName
+        let matches = assets.filter { asset in
+            FoodArtworkCatalog.normalize(asset.name) == key
+                || asset.aliases.contains { FoodArtworkCatalog.normalize($0) == key }
         }
-        return assets.first { asset in
-            asset.aliases.contains { FoodArtworkCatalog.normalize($0) == key }
+        guard matches.count <= 1 else { return nil }
+        if let match = matches.first { return match }
+        if isAmericano(key) { return explicitAsset("coffee", in: assets) }
+        return categoryFallback(for: key, in: assets)
+    }
+
+    /// Only an entire Americano name, optionally followed by a closed list of
+    /// preparation descriptors. Unknown tokens, nested/trailing text and empty
+    /// components fail closed: "Americano (cake)" is not a drink identification.
+    private static func isAmericano(_ key: String) -> Bool {
+        if key == "americano" { return true }
+        let prefix = "americano ("
+        guard key.hasPrefix(prefix), key.hasSuffix(")") else { return false }
+        let descriptors = key.dropFirst(prefix.count).dropLast().split(separator: ",", omittingEmptySubsequences: false)
+        let allowed: Set<String> = ["black", "no sugar", "homemade", "unsweetened", "iced", "hot", "decaf"]
+        return !descriptors.isEmpty && descriptors.allSatisfy {
+            allowed.contains(FoodArtworkCatalog.normalize(String($0)))
         }
     }
 
-    /// Issue #223 — a single item always resolves to something: its approved
-    /// study, else its approved category, else the neutral eating sign.
-    static func resolve(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkResolution {
-        guard let matched = match(name: name, in: assets) else {
+    static func resolve(
+        name: String, artworkID: String? = nil, in assets: [FoodArtworkAsset]
+    ) -> FoodArtworkResolution {
+        guard let matched = explicitAsset(artworkID, in: assets) ?? match(name: name, in: assets) else {
             return neutral(in: assets)
         }
         if matched.kind == .food {
@@ -148,7 +162,7 @@ enum FoodArtworkResolver {
     /// labeled fallback; anything unknown or mixed shows the neutral sign.
     static func resolve(items: [MealItem], in assets: [FoodArtworkAsset]) -> FoodArtworkResolution {
         guard !items.isEmpty, !assets.isEmpty else { return .none }
-        let resolved = items.map { resolve(name: $0.name, in: assets) }
+        let resolved = items.map { resolve(name: $0.name, artworkID: $0.artworkID, in: assets) }
         if resolved.contains(where: { if case .neutral = $0 { true } else { false } }) {
             return neutral(in: assets)
         }
@@ -186,7 +200,8 @@ enum FoodArtworkResolver {
     }
 
     static func categoryFallback(for category: String, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
-        assets.first { $0.kind == .fallback && $0.category == category }
+        let matches = assets.filter { $0.isCategoryFallback && $0.category == category }
+        return matches.count == 1 ? matches.first : nil
     }
 }
 

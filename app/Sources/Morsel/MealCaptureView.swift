@@ -25,7 +25,7 @@ struct AddMealView: View {
     @FocusState private var focusedField: AddMealFieldKey?
 
     @State private var mealType = MealType.lunch
-    @State private var eatenAt = Date()
+    @State private var eatenAt: Date
     @State private var notes = ""
     @State private var itemName = ""
     @State private var quantity = "1"
@@ -41,17 +41,29 @@ struct AddMealView: View {
     @State private var isSubmitting = false
     @State private var message: String?
 
+    init(viewModel: DashboardViewModel, onClose: @escaping () -> Void,
+         menuLibrary: MenuLibraryModel, onOpenMenus: @escaping () -> Void, targetDate: Date? = nil) {
+        self.viewModel = viewModel
+        self.onClose = onClose
+        self.menuLibrary = menuLibrary
+        self.onOpenMenus = onOpenMenus
+        _eatenAt = State(initialValue: JournalDiaryDraft.date(on: targetDate ?? Date()))
+    }
+
     var body: some View {
-        JournalPage(date: Date(), bottomInset: 24) {
+        JournalPage(date: eatenAt, bottomInset: 24) {
             VStack(alignment: .leading, spacing: 0) {
                 JournalPageHeader(
-                    title: "Add meal",
+                    title: Calendar.autoupdatingCurrent.isDateInToday(eatenAt) ? "Add meal" : "",
                     leadingTitle: "Cancel",
                     leadingAction: onClose,
-                    trailingTitle: isSubmitting ? "Saving…" : "Save meal",
+                    trailingTitle: isSubmitting ? "Saving…" : JournalDiaryDraft.saveTitle(for: eatenAt),
                     trailingDisabled: !canSave,
                     trailingAction: save
                 )
+                if !Calendar.autoupdatingCurrent.isDateInToday(eatenAt) {
+                    Text(JournalDiaryDraft.title(for: eatenAt)).font(.morselHand(size: 32)).padding(.bottom, 14)
+                }
 
                 if let message {
                     Text(message)

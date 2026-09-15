@@ -1,0 +1,117 @@
+{
+  "kind": "simulator fixture evidence",
+  "device": "Morsel226-iPhone16",
+  "udid": "10D1FB53-7D7D-44C2-A3CF-DF1ACFDACC33",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "fixture_clock_utc": "2026-09-13T12:00:00+00:00",
+  "native_command_log": ".lane-logs/native-full-driver.log",
+  "native_result_log": ".lane-logs/native-full.log",
+  "native_raw_exit": 0,
+  "complete_native_tests": 389,
+  "complete_native_failures": 0,
+  "built_info_plist": {
+    "NSHealthShareUsageDescription": "Morsel reads weight, active energy and workouts to show dated Health context. It never adds movement calories to your food target.",
+    "NSHealthUpdateUsageDescription": "Morsel reads your weight, active energy and workouts from Apple Health and does not write health data.",
+    "DTPlatformVersion": "26.5"
+  },
+  "captures": [
+    {
+      "file": "226-night-hard-confirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "2e5212aedeafdd5426fe64b4d9558b65d65421bd79899684b449a9d6fa446ef9",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-manual.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "97865ed6e76f3158325f0aa1de0d8af38d2c9c1c5de83d623b77156a63c2bdff",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-missing.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "57c32257b09c0a222882035d7126db1ff48ee470696154d8db0ff0a7849cccad",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-normal.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "4867cb5f3857fc967614b4ffbe1698bed00c7b819142da08e4b4a0f8c8e5b472",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-save-failure.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "ba547aeb9fa6f1904d3e52b7eb8e645c48adf190f76bd5c3d907975c291595f2",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-stale.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "82b2e9742bcdd3099cb3e642dd1c23b0baedc58151c2d5d87dfb23d6d8dc3b8d",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-night-unconfirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "d1597c4facd0fab410ebc0c7d0a737a8668328ff65b3ac174b57d187731de50d",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-hard-confirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "5fe7fc5502a3fa89f55a21c3bf07ceeaf2b4eea2c0733ce4c99f69df8d1c70d8",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-manual.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "52fd8e7c150d738d9b2e2344fddb42de266dd9c5a3722935e168af2420252dc3",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-missing.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "9801bc082fb824275bc690087a060b416627aa9ec1589e57f440ea66e0d1653b",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-normal.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "1ec162d77e643db0960c3f911a1a740d5947efefc22b9f041ff0312612c7d5f9",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-save-failure.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "05f1f790eeec503f2fea7f5539c1b0052d884b5f7d20bdf1215cdafa1c55bb4c",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-stale.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "5a8ff39cc4c65ad3355c90e8b9d71336a37876d49ec9f3b75bbcbab33ca3ee41",
+      "visually_inspected": true
+    },
+    {
+      "file": "226-paper-unconfirmed.png",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "66e2a481d4e2832cfc75fac289e6c21a17b1a14cb19de60658eb7b4b2804f359",
+      "visually_inspected": true
+    }
+  ]
+}

@@ -1,191 +1,12 @@
-import { spawnSync } from 'node:child_process'
-import { accessSync, constants, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
-import { createServer } from 'node:net'
-import { tmpdir } from 'node:os'
-import { join, resolve } from 'node:path'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { findPostgresTools, startLocalPostgres, requireSuccess, supabaseBootstrap, migrationFiles, type LocalPostgres } from './local-postgres-test-support.ts'
 import { describe, expect, it } from 'vitest'
-
-interface CommandResult {
-  status: number | null
-  stdout: string
-  stderr: string
-  error: Error | undefined
-}
-
-interface PostgresTools {
-  initdb: string
-  pgCtl: string
-  psql: string
-}
-
-interface LocalPostgres {
-  execute(sql: string, stopOnError?: boolean): CommandResult
-  stop(): void
-}
-
-const migrationFiles = [
-  'db/migrations/0001_init.sql',
-  'db/migrations/0002_targets.sql',
-  'db/migrations/0003_atomic_meals_and_users_rls.sql',
-  'db/migrations/0004_store_assets.sql',
-  'db/migrations/0005_oauth_authorization_grants.sql',
-  'db/migrations/0006_food_catalog_provider_cache.sql',
-  'db/migrations/0007_weight_logs.sql',
-  'db/migrations/0008_energy_burned_logs.sql',
-  'db/migrations/0009_goals_fractional_calories.sql',
-]
-
-function runCommand(command: string, args: string[], input?: string): CommandResult {
-  const result = spawnSync(command, args, {
-    encoding: 'utf8',
-    input,
-    stdio: ['pipe', 'pipe', 'pipe'],
-  })
-  return {
-    status: result.status,
-    stdout: result.stdout?.toString() ?? '',
-    stderr: result.stderr?.toString() ?? '',
-    error: result.error,
-  }
-}
-
-function firstLine(value: string): string | undefined {
-  const line = value.trim().split(/\r?\n/)[0]
-  return line === undefined || line === '' ? undefined : line
-}
-
-function executableOnPath(name: string): string | undefined {
-  const result = runCommand('sh', ['-c', `command -v ${name}`])
-  return result.status === 0 ? firstLine(result.stdout) : undefined
-}
-
-function executableAt(path: string | undefined): string | undefined {
-  if (path === undefined || !existsSync(path)) {
-    return undefined
-  }
-  try {
-    accessSync(path, constants.X_OK)
-    return path
-  } catch {
-    return undefined
-  }
-}
-
-function findPostgresTools(): PostgresTools | undefined {
-  const pgConfig = executableOnPath('pg_config')
-  const bindir = pgConfig === undefined ? undefined : firstLine(runCommand(pgConfig, ['--bindir']).stdout)
-  const binary = (name: string): string | undefined => executableOnPath(name) ?? executableAt(bindir === undefined ? undefined : join(bindir, name))
-  const initdb = binary('initdb')
-  const pgCtl = binary('pg_ctl')
-  const psql = binary('psql')
-  return initdb === undefined || pgCtl === undefined || psql === undefined
-    ? undefined
-    : { initdb, pgCtl, psql }
-}
-
-async function freePort(): Promise<number> {
-  return new Promise((resolvePort, reject) => {
-    const server = createServer()
-    server.once('error', reject)
-    server.listen(0, '127.0.0.1', () => {
-      const address = server.address()
-      if (address === null || typeof address === 'string') {
-        server.close()
-        reject(new Error('could not determine a free PostgreSQL port'))
-        return
-      }
-      server.close((error) => {
-        if (error !== undefined) {
-          reject(error)
-          return
-        }
-        resolvePort(address.port)
-      })
-    })
-  })
-}
-
-function readDiagnosticLog(path: string): string {
-  try {
-    return readFileSync(path, 'utf8')
-  } catch (error) {
-    return `could not read postgres.log: ${error instanceof Error ? error.message : String(error)}`
-  }
-}
-
-function shellQuote(value: string): string {
-  return `'${value.replaceAll("'", "'\\''")}'`
-}
-
-function requireSuccess(result: CommandResult, description: string, diagnosticLogPath?: string): string {
-  if (result.error !== undefined || result.status !== 0) {
-    const diagnosticLog = diagnosticLogPath === undefined
-      ? ''
-      : `\npostgres.log:\n${readDiagnosticLog(diagnosticLogPath)}`
-    throw new Error(`${description} failed\n${result.stderr}\n${result.error?.message ?? ''}${diagnosticLog}`)
-  }
-  return result.stdout
-}
-
-async function startLocalPostgres(tools: PostgresTools): Promise<LocalPostgres> {
-  const root = mkdtempSync(join(tmpdir(), 'morsel-pg-'))
-  const dataDirectory = join(root, 'data')
-  const socketDirectory = join(root, 'socket')
-  const logPath = join(root, 'postgres.log')
-  let started = false
-
-  try {
-    mkdirSync(socketDirectory)
-    const port = await freePort()
-    requireSuccess(runCommand(tools.initdb, [
-      '--no-locale',
-      '--encoding=UTF8',
-      '--username=postgres',
-      '--auth=trust',
-      dataDirectory,
-    ]), 'initdb')
-    requireSuccess(runCommand(tools.pgCtl, [
-      '-D', dataDirectory,
-      '-o', `-p ${port} -h 127.0.0.1 -k ${shellQuote(socketDirectory)}`,
-      '-l', logPath,
-      '-w',
-      'start',
-    ]), 'pg_ctl start', logPath)
-    started = true
-
-    const execute = (sql: string, stopOnError = true): CommandResult => {
-      const args = [
-        '-X',
-        '-h', '127.0.0.1',
-        '-p', String(port),
-        '-U', 'postgres',
-        '-d', 'postgres',
-        '-A',
-        '-t',
-        '-F', '|',
-      ]
-      if (stopOnError) {
-        args.push('-v', 'ON_ERROR_STOP=1')
-      }
-      args.push('-f', '-')
-      return runCommand(tools.psql, args, sql)
-    }
-    const stop = (): void => {
-      if (started) {
-        runCommand(tools.pgCtl, ['-D', dataDirectory, '-m', 'immediate', '-w', 'stop'])
-        started = false
-      }
-      rmSync(root, { recursive: true, force: true })
-    }
-    return { execute, stop }
-  } catch (error) {
-    if (started) {
-      runCommand(tools.pgCtl, ['-D', dataDirectory, '-m', 'immediate', '-w', 'stop'])
-    }
-    rmSync(root, { recursive: true, force: true })
-    throw error
-  }
-}
+import { z } from 'zod'
+import { ArtworkIdSchema } from '../packages/schema/food-types.ts'
+import { createSupabaseRepository } from '../server/supabase-repository.ts'
+import { MorselService } from '../server/service.ts'
+import { verifyDatedTargetRoundTrip } from './dated-target-roundtrip.ts'
 
 function outputLines(value: string): string[] {
   return value.split(/\r?\n/).map((line) => line.trim()).filter((line) => line !== '')
@@ -199,10 +20,192 @@ function migrationSql(relativePath: string): string {
   return readFileSync(resolve(process.cwd(), relativePath), 'utf8')
 }
 
+// Local transport adapter only: the production Supabase repository sends its
+// real RPC payloads/projections; SQL runs as authenticated in the real cluster.
+// No PostgREST daemon, network service, or canned meal rows are involved.
+function artworkSqlFetch(postgres: LocalPostgres, userId: string): typeof fetch {
+  const literal = (value: string) => `'${value.replaceAll("'", "''")}'`
+  const identifier = (value: string) => z.string().regex(/^[a-z_]+$/).parse(value)
+  const fetchSql = async (input: string | URL | Request, init?: RequestInit): Promise<Response> => {
+    const request = input instanceof Request ? new Request(input, init) : new Request(input.toString(), init)
+    const url = new URL(request.url)
+    let query: string
+    if (url.pathname === '/rest/v1/rpc/get_dated_targets') {
+      const args = z.object({ p_user_id: z.uuid(), p_start_date: z.string(), p_end_date: z.string(), p_timezone: z.string() }).parse(await request.json())
+      const result = requireSuccess(postgres.execute(`set role authenticated; set "request.jwt.claim.sub" = '${userId}';
+        select coalesce(jsonb_agg(t), '[]'::jsonb) from public.get_dated_targets(${literal(args.p_user_id)},
+          ${literal(args.p_start_date)}, ${literal(args.p_end_date)}, ${literal(args.p_timezone)}) t;`), 'dated read RPC')
+      return new Response(queryValues(result).join(''), { headers: { 'content-type': 'application/json' } })
+    }
+    if (url.pathname === '/rest/v1/rpc/log_meal_with_items') {
+      const body = await request.text()
+      query = `select result.* from jsonb_to_record(${literal(body)}::jsonb) as args(
+        p_user_id uuid, p_eaten_at timestamptz, p_meal_type text, p_source text,
+        p_image_path text, p_notes text, p_items jsonb
+      ) cross join lateral public.log_meal_with_items(
+        args.p_user_id, args.p_eaten_at, args.p_meal_type, args.p_source,
+        args.p_image_path, args.p_notes, args.p_items
+      ) as result`
+    } else {
+      const table = z.enum(['meal_logs', 'meal_items', 'meal_menus', 'menu_items', 'profiles', 'goals']).parse(url.pathname.split('/').pop())
+      const columns = (url.searchParams.get('select') ?? 'id').split(',').map(identifier).join(',')
+      const predicates: string[] = []
+      for (const [key, value] of url.searchParams) {
+        if (['select', 'order'].includes(key)) continue
+        const column = identifier(key)
+        if (value.startsWith('in.(') && value.endsWith(')')) {
+          predicates.push(`${column} in (${value.slice(4, -1).split(',').map(literal).join(',')})`)
+        } else {
+          const [operator, ...parts] = value.split('.')
+          const symbol = z.enum(['eq', 'gte', 'lt']).parse(operator)
+          predicates.push(`${column} ${{ eq: '=', gte: '>=', lt: '<' }[symbol]} ${literal(parts.join('.'))}`)
+        }
+      }
+      const where = predicates.length === 0 ? '' : ` where ${predicates.join(' and ')}`
+      if (request.method === 'PATCH') {
+        const patch = z.record(z.string(), z.union([z.string(), z.number()])).parse(await request.json())
+        const assignments = Object.entries(patch).map(([key, value]) => `${identifier(key)} = ${literal(String(value))}`)
+        query = `update public.${table} set ${assignments.join(',')} ${where} returning ${columns}`
+      } else {
+        expect(request.method).toBe('GET')
+        query = `select ${columns} from public.${table}${where}`
+      }
+    }
+    const result = requireSuccess(postgres.execute(`
+      set role authenticated;
+      set "request.jwt.claim.sub" = '${userId}';
+      with rows as (${query}) select coalesce(jsonb_agg(to_jsonb(rows)), '[]'::jsonb) from rows;
+    `), 'artwork repository SQL transport')
+    const rows = z.array(z.unknown()).parse(JSON.parse(queryValues(result).join('')))
+    const single = request.headers.get('accept')?.includes('vnd.pgrst.object') === true
+    return new Response(JSON.stringify(single ? rows[0] ?? null : rows), { headers: { 'content-type': 'application/json' } })
+  }
+  fetchSql.preconnect = (): void => undefined
+  return fetchSql
+}
+
+async function verifyArtworkRoundTrip(postgres: LocalPostgres, userId: string, otherUserId: string): Promise<void> {
+  requireSuccess(postgres.execute(`
+    grant select on public.profiles to authenticated;
+    grant select, insert, update, delete on public.meal_menus, public.menu_items to authenticated;
+    grant update on public.meal_items to authenticated;
+  `), 'artwork API grants')
+  const repository = createSupabaseRepository('https://local-postgres.invalid', 'fixture-key', { fetch: artworkSqlFetch(postgres, userId) })
+  const service = new MorselService({ repository, userId })
+  const names = ['Coffee', 'black coffee', 'กาแฟ', 'Americano', '  Americano (black, no sugar, homemade)  ']
+  const items = names.map((name) => ({ name, artwork_id: 'coffee', quantity: 1, unit: 'cup', calories_kcal: 3, protein_g: 0, carbs_g: 0, fat_g: 0 }))
+  const legacy = ['coffee cake', 'ambiguous mixed dish', 'unknown food'].map((name) => ({ name, quantity: 1, unit: 'serving' }))
+  await repository.withAccessToken('local-fixture', async () => {
+    const logged = await service.logMeal({ meal_type: 'breakfast', eaten_at: '2026-09-01T08:00:00Z', items: [...items, ...legacy] })
+    const day = await service.getDay({ date: '2026-09-01' })
+    const meal = day.meals.find((candidate) => candidate.meal_log_id === logged.meal_log_id)
+    expect(meal?.items).toEqual(expect.arrayContaining(items.map((item) => expect.objectContaining(item))))
+    for (const item of legacy) expect(meal?.items.find((candidate) => candidate.name === item.name)).toEqual({ ...item, item_id: expect.any(String) })
+    const itemId = meal?.items.find((item) => item.name === names[0])?.item_id
+    expect(itemId).toBeDefined()
+    await service.updateMealItem({ item_id: itemId, artwork_id: 'banana' })
+    await service.updateMealItem({ item_id: itemId, calories_kcal: 4 })
+    const reread = await service.getDay({ date: '2026-09-01' })
+    expect(reread.meals.flatMap((meal) => meal.items).find((item) => item.item_id === itemId)).toMatchObject({ name: names[0], artwork_id: 'banana', calories_kcal: 4, quantity: 1, unit: 'cup' })
+    await expect(service.updateMealItem({ item_id: itemId, artwork_id: 'unpublished' })).rejects.toMatchObject({ code: 'invalid_input' })
+    await service.logMeal({ meal_type: 'lunch', eaten_at: '2026-09-02T08:00:00Z', menu_name: 'Synthetic artwork menu', items })
+    expect((await service.listMenus({})).menus[0]?.items).toEqual(expect.arrayContaining(items.map((item) => expect.objectContaining(item))))
+    await service.logMeal({ meal_type: 'dinner', eaten_at: '2026-09-03T08:00:00Z', menu_name: 'Synthetic artwork menu' })
+    expect((await service.getDay({ date: '2026-09-03' })).meals[0]?.items).toEqual(expect.arrayContaining(items.map((item) => expect.objectContaining(item))))
+  })
+  const foreignRepository = createSupabaseRepository('https://local-postgres.invalid', 'fixture-key', { fetch: artworkSqlFetch(postgres, otherUserId) })
+  const foreign = new MorselService({ repository: foreignRepository, userId: otherUserId })
+  await foreignRepository.withAccessToken('local-fixture', async () => {
+    expect((await foreign.getDay({ date: '2026-09-01' })).meals).toEqual([])
+  })
+}
+
+function verifyArtworkDatabaseRules(postgres: LocalPostgres, userId: string, otherUserId: string): void {
+  const clientId = '00000000-0000-4000-8000-000000000241'
+  const allItems = ArtworkIdSchema.options.map((artwork_id) => ({ name: 'Synthetic catalog item', artwork_id, quantity: 1, unit: 'serving' }))
+  const allIds = requireSuccess(postgres.execute(`
+    set role authenticated;
+    set "request.jwt.claim.sub" = '${userId}';
+    select items from public.log_meal_with_items(
+      '${userId}', '2026-09-04T08:00:00Z', 'lunch', 'manual', null, null,
+      '${JSON.stringify(allItems)}'::jsonb
+    );
+  `), 'all published IDs accepted by the database')
+  const stored = z.array(z.object({ artwork_id: z.string() })).parse(JSON.parse(queryValues(allIds).join('')))
+  expect(stored.map((item) => item.artwork_id).sort()).toEqual([...ArtworkIdSchema.options].sort())
+  // Inspect the installed constraints, not migration text: extra DB-only IDs
+  // are drift too, not just missing IDs caught by the insert above.
+  for (const table of ['meal_items', 'menu_items']) {
+    const constraint = requireSuccess(postgres.execute(`select pg_get_constraintdef(oid) from pg_constraint where conname = '${table}_artwork_id_published';`), 'installed artwork allowlist')
+    expect([...constraint.matchAll(/'([^']+)'::text/g)].map((match) => match[1]).sort()).toEqual([...ArtworkIdSchema.options].sort())
+  }
+  const clientCall = `select items->0->>'artwork_id' from public.log_meal_with_items_client(
+    '${userId}', '2026-09-05T08:00:00Z', 'breakfast', 'manual', 'synthetic/photo.jpg', null,
+    '[{"name":"Synthetic Americano","quantity":1,"unit":"cup","artwork_id":"coffee","calories_kcal":3}]', '${clientId}'
+  );`
+  for (let attempt = 0; attempt < 2; attempt++) {
+    expect(queryValues(requireSuccess(postgres.execute(`set role authenticated; set "request.jwt.claim.sub" = '${userId}'; ${clientCall}`), 'client RPC commit and retry'))).toEqual(['coffee'])
+  }
+  expect(queryValues(requireSuccess(postgres.execute(`
+    select name || '|' || artwork_id || '|' || calories_kcal::text from public.meal_items where meal_log_id = '${clientId}';
+    select image_path from public.meal_logs where id = '${clientId}';
+    select artwork_id is null from public.meal_items where name = 'rice';
+  `), 'separate connection durable item and photo readback'))).toEqual(['Synthetic Americano|coffee|3', 'synthetic/photo.jpg', 't'])
+  const denied = postgres.execute(`set role authenticated; set "request.jwt.claim.sub" = '${otherUserId}'; ${clientCall}`)
+  expect(denied.status).toBe(3)
+  expect(denied.stderr).toContain('meal user does not match authenticated user')
+  for (const artwork_id of ['unpublished', 'Coffee', ' coffee ', '']) {
+    const invalid = postgres.execute(`
+      set role authenticated; set "request.jwt.claim.sub" = '${userId}';
+      select * from public.log_meal_with_items('${userId}', '2026-09-06T08:00:00Z', 'lunch', 'manual', null, null,
+        '[{"name":"Synthetic invalid","quantity":1,"unit":"cup","artwork_id":"${artwork_id}","menu_name":"Rejected artwork menu"}]');
+    `)
+    expect(invalid.status).toBe(3)
+    expect(invalid.stderr).toContain('artwork_id_published')
+  }
+  expect(queryValues(requireSuccess(postgres.execute(`
+    select count(*) from public.meal_logs where eaten_at = '2026-09-06T08:00:00Z';
+    select count(*) from public.meal_menus where name = 'Rejected artwork menu';
+  `), 'invalid artwork rolls back logs and new templates'))).toEqual(['0', '0'])
+  const invalidUpdate = postgres.execute(`update public.meal_items set artwork_id = 'unpublished' where meal_log_id = '${clientId}';`)
+  expect(invalidUpdate.status).toBe(3)
+  expect(invalidUpdate.stderr).toContain('meal_items_artwork_id_published')
+  const menuSave = requireSuccess(postgres.execute(`
+    set role authenticated; set "request.jwt.claim.sub" = '${userId}';
+    select menu_id from public.upsert_menu('${userId}', null, 'Synthetic saved menu',
+      '[{"name":"Synthetic menu drink","quantity":1,"unit":"cup","artwork_id":"coffee"}]');
+  `), 'upsert_menu accepts artwork')
+  const menuId = z.uuid().parse(queryValues(menuSave)[0])
+  expect(queryValues(requireSuccess(postgres.execute(`select artwork_id from public.menu_items where menu_id = '${menuId}';`), 'saved template artwork readback'))).toEqual(['coffee'])
+  requireSuccess(postgres.execute(`
+    set role authenticated; set "request.jwt.claim.sub" = '${userId}';
+    select menu_id from public.upsert_menu('${userId}', '${menuId}', 'Synthetic saved menu',
+      '[{"name":"Synthetic edited menu","quantity":1,"unit":"piece","artwork_id":"banana"}]');
+  `), 'template edit with artwork')
+  expect(queryValues(requireSuccess(postgres.execute(`select artwork_id from public.menu_items where menu_id = '${menuId}'; select artwork_id from public.meal_items where meal_log_id = '${clientId}';`), 'template edits do not rewrite meal snapshots'))).toEqual(['banana', 'coffee'])
+}
+
 const postgresTools = findPostgresTools()
 const postgresDescribe = postgresTools === undefined ? describe.skip : describe
 
 postgresDescribe('local PostgreSQL migrations and RLS', () => {
+  it('round-trips dated baselines and additions through real authenticated persistence and read contracts', async () => {
+    if (postgresTools === undefined) return
+    const postgres = await startLocalPostgres(postgresTools)
+    try {
+      requireSuccess(postgres.execute(supabaseBootstrap), 'Supabase-like bootstrap')
+      for (const migration of migrationFiles) requireSuccess(postgres.execute(migrationSql(migration)), migration)
+      requireSuccess(postgres.execute(`
+        grant usage on schema public to authenticated;
+        grant select, insert, update on public.users, public.profiles, public.goals, public.weight_logs to authenticated;
+        grant select, insert on public.meal_logs, public.meal_items to authenticated;
+      `), 'dated API grants')
+      await verifyDatedTargetRoundTrip(postgres)
+    } finally {
+      postgres.stop()
+    }
+  }, 120_000)
+
   it('applies migrations and enforces Supabase-like auth, RPC, and rollback behavior', async () => {
     if (postgresTools === undefined) {
       return
@@ -217,52 +220,25 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
     const catalogDeleteId = 'f0000000-0000-4000-8000-000000000002'
 
     try {
-      requireSuccess(postgres.execute(`
-        create extension if not exists pgcrypto;
-        create schema auth;
-        create role anon nologin;
-        create role authenticated nologin;
-        create role service_role nologin;
-        create or replace function auth.uid()
-        returns uuid
-        language sql
-        stable
-        as $function$
-          select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid;
-        $function$;
-        grant usage on schema auth to public;
-        grant execute on function auth.uid() to public;
-        create schema storage;
-        create table storage.buckets (
-          id text primary key,
-          name text not null unique,
-          public boolean not null default false,
-          file_size_limit bigint,
-          allowed_mime_types text[]
-        );
-        create table storage.objects (
-          id uuid primary key default gen_random_uuid(),
-          bucket_id text not null,
-          name text not null
-        );
-        alter table storage.objects enable row level security;
-        create function storage.foldername(object_name text)
-        returns text[]
-        language sql
-        immutable
-        as $function$
-          select case
-            when object_name is null or strpos(object_name, '/') = 0 then array[]::text[]
-            else (string_to_array(object_name, '/'))[1:cardinality(string_to_array(object_name, '/')) - 1]
-          end;
-        $function$;
-        grant usage on schema storage to authenticated;
-        grant execute on function storage.foldername(text) to authenticated;
-      `), 'Supabase-like bootstrap')
+      requireSuccess(postgres.execute(supabaseBootstrap), 'Supabase-like bootstrap')
 
       for (const migration of migrationFiles) {
+        if (migration.endsWith('0013_artwork_identity.sql')) {
+          requireSuccess(postgres.execute(`
+            insert into public.users (id, email) values ('00000000-0000-4000-8000-000000000240', 'legacy@example.invalid');
+            insert into public.meal_logs (id, user_id, eaten_at, meal_type, source, image_path)
+              values ('00000000-0000-4000-8000-000000000240', '00000000-0000-4000-8000-000000000240', '2026-08-01T08:00:00Z', 'breakfast', 'manual', 'synthetic/legacy.jpg');
+            insert into public.meal_items (meal_log_id, name, quantity, unit, calories_kcal)
+              values ('00000000-0000-4000-8000-000000000240', 'Synthetic legacy Americano', 1, 'cup', 3);
+          `), 'pre-artwork migration row')
+        }
         requireSuccess(postgres.execute(migrationSql(migration)), migration)
       }
+      expect(queryValues(requireSuccess(postgres.execute(`
+        select item.name || '|' || item.calories_kcal::text || '|' || log.image_path || '|' || (item.artwork_id is null)::text
+        from public.meal_items item join public.meal_logs log on log.id = item.meal_log_id
+        where log.id = '00000000-0000-4000-8000-000000000240';
+      `), 'old row unchanged across migration'))).toEqual(['Synthetic legacy Americano|3|synthetic/legacy.jpg|true'])
       requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'food catalog seed')
       requireSuccess(postgres.execute(migrationSql('db/migrations/0004_store_assets.sql')), 'rerunnable store assets migration')
       requireSuccess(postgres.execute(migrationSql('db/seed.sql')), 'rerunnable food catalog seed')
@@ -763,6 +739,9 @@ postgresDescribe('local PostgreSQL migrations and RLS', () => {
       `, false)
       expect(failedRpc.stderr).toMatch(/violates check constraint|invalid.*unit/i)
       expect(queryValues(failedRpc.stdout)).toEqual(['0', '0'])
+      await verifyArtworkRoundTrip(postgres, userOne, userTwo)
+      verifyArtworkDatabaseRules(postgres, userOne, userTwo)
+
     } finally {
       postgres.stop()
     }

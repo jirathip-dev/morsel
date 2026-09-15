@@ -1,5 +1,7 @@
 import type {
   ComputeTargetsOutput,
+  DatedTarget,
+  SetDatedTargetAdditionInput,
   GoalSummary,
   MealImageMimeType,
   MealRecord,
@@ -71,6 +73,8 @@ export interface MorselRepository {
   attachMealImage(userId: string, mealLogId: string, upload: StoredMealImageUpload): Promise<string | undefined>
   getMealsInRange(userId: string, start: string, end: string): Promise<MealRecord[]>
   searchFood(userId: string, query: string, limit: number): Promise<SearchFoodItem[]>
+  getDatedTargets?(userId: string, start: string, end: string, timezone: string): Promise<DatedTarget[]>
+  setDatedTargetAddition?(userId: string, input: SetDatedTargetAdditionInput, timezone: string): Promise<DatedTarget>
   getProfile(userId: string): Promise<StoredProfile | undefined>
   computeTargets(userId: string, profile: Profile): Promise<ComputeTargetsOutput>
   setProfile(userId: string, profile: Profile): Promise<Profile>

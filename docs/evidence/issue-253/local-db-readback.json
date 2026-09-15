@@ -1,0 +1,737 @@
+{
+  "provenance": "initdb cluster; production MorselService/SupabaseRepository; authenticated SQL transport; clock-only control",
+  "user_id": "00000000-0000-4000-8000-000000000253",
+  "timezone": "America/New_York",
+  "today": "2026-03-10T12:00:00Z",
+  "days": [
+    {
+      "date": "2026-03-06",
+      "timezone": "America/New_York",
+      "meals": [
+        {
+          "meal_log_id": "42340bbf-caec-4abe-bab1-da6e9e5a5a44",
+          "meal_type": "lunch",
+          "eaten_at": "2026-03-06T23:00:00+07:00",
+          "items": [
+            {
+              "item_id": "25f73a0e-84dd-4b79-9823-e5e9406065eb",
+              "name": "Synthetic dated meal",
+              "quantity": 1,
+              "unit": "serving",
+              "calories_kcal": 500
+            }
+          ]
+        }
+      ],
+      "totals": {
+        "calories_kcal": 500,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "dated_target": {
+        "date": "2026-03-06",
+        "timezone": "America/New_York",
+        "confirmed_addition_kcal": 300,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002535",
+          "recorded_at": "2026-03-08T12:00:00+07:00",
+          "timezone": "America/New_York",
+          "historical_confirmation": true,
+          "manual_goal_acknowledged": false
+        }
+      },
+      "render": {
+        "markdown": "# Morsel - Mar 6, 2026\nCalories: **500 kcal** - 500 kcal/day average\nGoal: not set\n\n| Macro | Eaten | Goal |\n| --- | ---: | ---: |\n| Protein | 0 g | — |\n| Carbs | 0 g | — |\n| Fat | 0 g | — |\n\nStreak: **1 day**",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 720 300\" role=\"img\" aria-label=\"Morsel nutrition summary for Mar 6, 2026\"><defs><linearGradient id=\"ring-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"ring-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"ring-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-protein\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-carbs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"macro-fat\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-under\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient></defs><rect width=\"720\" height=\"300\" fill=\"#FFF7E8\"/><text x=\"24\" y=\"32\" fill=\"#2A261F\" font-family=\"system-ui, sans-serif\" font-size=\"20\" font-weight=\"700\">Morsel</text><text x=\"696\" y=\"31\" text-anchor=\"end\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"12\">Mar 6, 2026</text><rect x=\"24\" y=\"54\" width=\"672\" height=\"218\" rx=\"12\" fill=\"#FFFCF5\" stroke=\"#E3D2BA\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"#F2E9D9\" stroke-width=\"12\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"url(#ring-on)\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-dasharray=\"0 376.99111843077515\" transform=\"rotate(-90 116 154)\"/><text x=\"116\" y=\"151\" text-anchor=\"middle\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"22\" font-weight=\"700\">500</text><text x=\"116\" y=\"172\" text-anchor=\"middle\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">kcal eaten</text><text x=\"116\" y=\"194\" text-anchor=\"middle\" fill=\"#756955\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">goal not set</text><text x=\"330\" y=\"86\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">CALORIES</text><text x=\"330\" y=\"108\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"17\" font-weight=\"700\">500 / - kcal</text><text x=\"330\" y=\"126\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">Set a goal to compare progress</text><text x=\"330\" y=\"148\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">MACROS</text><text x=\"330\" y=\"164\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Protein</text><rect x=\"390\" y=\"155\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"155\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-protein)\"/><text x=\"680\" y=\"164\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 g</text><text x=\"330\" y=\"190\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Carbs</text><rect x=\"390\" y=\"181\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"181\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-carbs)\"/><text x=\"680\" y=\"190\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 g</text><text x=\"330\" y=\"216\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Fat</text><rect x=\"390\" y=\"207\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"207\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-fat)\"/><text x=\"680\" y=\"216\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 g</text></svg>"
+      }
+    },
+    {
+      "date": "2026-03-07",
+      "timezone": "America/New_York",
+      "meals": [
+        {
+          "meal_log_id": "706a65de-019a-4f79-aec1-1f51bedc5d98",
+          "meal_type": "lunch",
+          "eaten_at": "2026-03-07T23:00:00+07:00",
+          "items": [
+            {
+              "item_id": "096c5759-3a5a-4f35-984d-88c109b3b486",
+              "name": "Synthetic dated meal",
+              "quantity": 1,
+              "unit": "serving",
+              "calories_kcal": 0
+            }
+          ]
+        }
+      ],
+      "totals": {
+        "calories_kcal": 0,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "goal": {
+        "calorie_target_kcal": 2250,
+        "protein_g": 100,
+        "carbs_g": 250,
+        "fat_g": 60,
+        "source": "manual"
+      },
+      "remaining_kcal": 2250,
+      "dated_target": {
+        "date": "2026-03-07",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "85ff52aa-5f0a-4420-8cab-e62e9c23ccf7",
+          "recorded_at": "2026-03-08T11:59:59+07:00",
+          "effective_date": "2026-03-08",
+          "timezone": "UTC",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2250,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "goals_updated_at": "2026-03-08T11:59:59+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002532",
+          "recorded_at": "2026-03-08T12:00:00+07:00",
+          "timezone": "America/New_York",
+          "previous_revision_id": "00000000-0000-4000-8000-000000002531",
+          "historical_confirmation": true,
+          "manual_goal_acknowledged": false
+        },
+        "total_target_kcal": 2250
+      },
+      "render": {
+        "markdown": "# Morsel - Mar 7, 2026\nCalories: **0 / 2,250 kcal** - 0 kcal/day average\nGoal: 2,250 kcal/day (manual)\nRemaining: **2,250 kcal** in range\n\n| Macro | Eaten | Goal |\n| --- | ---: | ---: |\n| Protein | 0 g | 100 g |\n| Carbs | 0 g | 250 g |\n| Fat | 0 g | 60 g |\n\nStreak: **1 day**",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 720 300\" role=\"img\" aria-label=\"Morsel nutrition summary for Mar 7, 2026\"><defs><linearGradient id=\"ring-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"ring-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"ring-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-protein\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-carbs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"macro-fat\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-under\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient></defs><rect width=\"720\" height=\"300\" fill=\"#FFF7E8\"/><text x=\"24\" y=\"32\" fill=\"#2A261F\" font-family=\"system-ui, sans-serif\" font-size=\"20\" font-weight=\"700\">Morsel</text><text x=\"696\" y=\"31\" text-anchor=\"end\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"12\">Mar 7, 2026</text><rect x=\"24\" y=\"54\" width=\"672\" height=\"218\" rx=\"12\" fill=\"#FFFCF5\" stroke=\"#E3D2BA\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"#F2E9D9\" stroke-width=\"12\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"url(#ring-on)\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-dasharray=\"0 376.99111843077515\" transform=\"rotate(-90 116 154)\"/><text x=\"116\" y=\"151\" text-anchor=\"middle\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"22\" font-weight=\"700\">0</text><text x=\"116\" y=\"172\" text-anchor=\"middle\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">kcal eaten</text><text x=\"116\" y=\"194\" text-anchor=\"middle\" fill=\"#756955\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">2,250 kcal goal</text><text x=\"330\" y=\"86\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">CALORIES</text><text x=\"330\" y=\"108\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"17\" font-weight=\"700\">0 / 2,250 kcal</text><text x=\"330\" y=\"126\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"11\">2,250 kcal left</text><text x=\"330\" y=\"148\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">MACROS</text><text x=\"330\" y=\"164\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Protein</text><rect x=\"390\" y=\"155\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"155\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-protein)\"/><text x=\"680\" y=\"164\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 100 g</text><text x=\"330\" y=\"190\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Carbs</text><rect x=\"390\" y=\"181\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"181\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-carbs)\"/><text x=\"680\" y=\"190\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 250 g</text><text x=\"330\" y=\"216\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Fat</text><rect x=\"390\" y=\"207\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"207\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-fat)\"/><text x=\"680\" y=\"216\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 60 g</text></svg>"
+      }
+    },
+    {
+      "date": "2026-03-08",
+      "timezone": "America/New_York",
+      "meals": [
+        {
+          "meal_log_id": "13440cf1-1d96-4be4-ba78-030ba4b4db68",
+          "meal_type": "lunch",
+          "eaten_at": "2026-03-08T23:00:00+07:00",
+          "items": [
+            {
+              "item_id": "e08497fa-330f-42ca-bd23-1b66362e88a1",
+              "name": "Synthetic dated meal",
+              "quantity": 1,
+              "unit": "serving",
+              "calories_kcal": 2400
+            }
+          ]
+        }
+      ],
+      "totals": {
+        "calories_kcal": 2400,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "goal": {
+        "calorie_target_kcal": 2400,
+        "protein_g": 100,
+        "carbs_g": 250,
+        "fat_g": 60,
+        "source": "manual"
+      },
+      "remaining_kcal": 0,
+      "dated_target": {
+        "date": "2026-03-08",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "4115c199-31b6-4d7d-b2d4-ef91d35f0a08",
+          "recorded_at": "2026-03-09T10:59:59+07:00",
+          "effective_date": "2026-03-09",
+          "timezone": "UTC",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2400,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "goals_updated_at": "2026-03-09T10:59:59+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "total_target_kcal": 2400
+      },
+      "render": {
+        "markdown": "# Morsel - Mar 8, 2026\nCalories: **2,400 / 2,400 kcal** - 2,400 kcal/day average\nGoal: 2,400 kcal/day (manual)\nRemaining: **0 kcal** in range\n\n| Macro | Eaten | Goal |\n| --- | ---: | ---: |\n| Protein | 0 g | 100 g |\n| Carbs | 0 g | 250 g |\n| Fat | 0 g | 60 g |\n\nStreak: **1 day**",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 720 300\" role=\"img\" aria-label=\"Morsel nutrition summary for Mar 8, 2026\"><defs><linearGradient id=\"ring-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"ring-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"ring-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-protein\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-carbs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"macro-fat\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-under\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient></defs><rect width=\"720\" height=\"300\" fill=\"#FFF7E8\"/><text x=\"24\" y=\"32\" fill=\"#2A261F\" font-family=\"system-ui, sans-serif\" font-size=\"20\" font-weight=\"700\">Morsel</text><text x=\"696\" y=\"31\" text-anchor=\"end\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"12\">Mar 8, 2026</text><rect x=\"24\" y=\"54\" width=\"672\" height=\"218\" rx=\"12\" fill=\"#FFFCF5\" stroke=\"#E3D2BA\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"#F2E9D9\" stroke-width=\"12\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"url(#ring-near)\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-dasharray=\"376.99111843077515 376.99111843077515\" transform=\"rotate(-90 116 154)\"/><text x=\"116\" y=\"151\" text-anchor=\"middle\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"22\" font-weight=\"700\">2,400</text><text x=\"116\" y=\"172\" text-anchor=\"middle\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">kcal eaten</text><text x=\"116\" y=\"194\" text-anchor=\"middle\" fill=\"#756955\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">2,400 kcal goal</text><text x=\"330\" y=\"86\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">CALORIES</text><text x=\"330\" y=\"108\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"17\" font-weight=\"700\">2,400 / 2,400 kcal</text><text x=\"330\" y=\"126\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"11\">0 kcal left</text><text x=\"330\" y=\"148\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">MACROS</text><text x=\"330\" y=\"164\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Protein</text><rect x=\"390\" y=\"155\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"155\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-protein)\"/><text x=\"680\" y=\"164\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 100 g</text><text x=\"330\" y=\"190\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Carbs</text><rect x=\"390\" y=\"181\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"181\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-carbs)\"/><text x=\"680\" y=\"190\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 250 g</text><text x=\"330\" y=\"216\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Fat</text><rect x=\"390\" y=\"207\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"207\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-fat)\"/><text x=\"680\" y=\"216\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 60 g</text></svg>"
+      }
+    },
+    {
+      "date": "2026-03-09",
+      "timezone": "America/New_York",
+      "meals": [],
+      "totals": {
+        "calories_kcal": 0,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "goal": {
+        "calorie_target_kcal": 2000,
+        "protein_g": 100,
+        "carbs_g": 250,
+        "fat_g": 60,
+        "source": "manual"
+      },
+      "remaining_kcal": 2000,
+      "dated_target": {
+        "date": "2026-03-09",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "c9b35eda-5d1f-418e-bbad-5b2869f05314",
+          "recorded_at": "2026-03-09T19:00:00+07:00",
+          "effective_date": "2026-03-09",
+          "timezone": "America/New_York",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2000,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "profile_updated_at": "2026-03-09T19:00:00+07:00",
+          "goals_updated_at": "2026-03-09T19:00:00+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "total_target_kcal": 2000
+      },
+      "render": {
+        "markdown": "# Morsel - Mar 9, 2026\nNo meals logged for this day.\nCalories: **0 / 2,000 kcal** - 0 kcal/day average\nGoal: 2,000 kcal/day (manual)\nRemaining: **2,000 kcal** in range\n\n| Macro | Eaten | Goal |\n| --- | ---: | ---: |\n| Protein | 0 g | 100 g |\n| Carbs | 0 g | 250 g |\n| Fat | 0 g | 60 g |\n\nStreak: **0 days**",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 720 300\" role=\"img\" aria-label=\"Morsel nutrition summary for Mar 9, 2026\"><defs><linearGradient id=\"ring-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"ring-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"ring-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-protein\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-carbs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"macro-fat\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-under\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient></defs><rect width=\"720\" height=\"300\" fill=\"#FFF7E8\"/><text x=\"24\" y=\"32\" fill=\"#2A261F\" font-family=\"system-ui, sans-serif\" font-size=\"20\" font-weight=\"700\">Morsel</text><text x=\"696\" y=\"31\" text-anchor=\"end\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"12\">Mar 9, 2026</text><rect x=\"24\" y=\"54\" width=\"672\" height=\"218\" rx=\"12\" fill=\"#FFFCF5\" stroke=\"#E3D2BA\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"#F2E9D9\" stroke-width=\"12\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"url(#ring-on)\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-dasharray=\"0 376.99111843077515\" transform=\"rotate(-90 116 154)\"/><text x=\"116\" y=\"151\" text-anchor=\"middle\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"22\" font-weight=\"700\">0</text><text x=\"116\" y=\"172\" text-anchor=\"middle\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">kcal eaten</text><text x=\"116\" y=\"194\" text-anchor=\"middle\" fill=\"#756955\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">2,000 kcal goal</text><text x=\"330\" y=\"86\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">CALORIES</text><text x=\"330\" y=\"108\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"17\" font-weight=\"700\">0 / 2,000 kcal</text><text x=\"330\" y=\"126\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"11\">2,000 kcal left</text><text x=\"330\" y=\"148\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">MACROS</text><text x=\"330\" y=\"164\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Protein</text><rect x=\"390\" y=\"155\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"155\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-protein)\"/><text x=\"680\" y=\"164\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 100 g</text><text x=\"330\" y=\"190\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Carbs</text><rect x=\"390\" y=\"181\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"181\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-carbs)\"/><text x=\"680\" y=\"190\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 250 g</text><text x=\"330\" y=\"216\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Fat</text><rect x=\"390\" y=\"207\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"207\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-fat)\"/><text x=\"680\" y=\"216\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 60 g</text><text x=\"330\" y=\"250\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">No meals logged</text></svg>"
+      }
+    },
+    {
+      "date": "2026-03-10",
+      "timezone": "America/New_York",
+      "meals": [
+        {
+          "meal_log_id": "3603924f-3793-4567-be5e-14a18b8f055f",
+          "meal_type": "lunch",
+          "eaten_at": "2026-03-10T23:00:00+07:00",
+          "items": [
+            {
+              "item_id": "dc125203-bc0a-492e-af70-341a4e3b6ca3",
+              "name": "Synthetic dated meal",
+              "quantity": 1,
+              "unit": "serving",
+              "calories_kcal": 1500
+            }
+          ]
+        }
+      ],
+      "totals": {
+        "calories_kcal": 1500,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 0
+      },
+      "goal": {
+        "calorie_target_kcal": 2882,
+        "protein_g": 201,
+        "carbs_g": 302,
+        "fat_g": 75,
+        "source": "computed"
+      },
+      "remaining_kcal": 1382,
+      "dated_target": {
+        "date": "2026-03-10",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "91f18aac-842f-4f1c-a4a5-324fafdcbdcc",
+          "recorded_at": "2026-03-10T19:00:00+07:00",
+          "effective_date": "2026-03-10",
+          "timezone": "America/New_York",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2682,
+            "protein_g": 201,
+            "carbs_g": 302,
+            "fat_g": 75,
+            "source": "computed"
+          },
+          "profile_updated_at": "2026-03-09T19:00:00+07:00",
+          "goals_updated_at": "2026-03-10T19:00:00+07:00",
+          "weight_measured_at": "2026-03-10T17:00:00+07:00"
+        },
+        "confirmed_addition_kcal": 200,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002538",
+          "recorded_at": "2026-03-10T19:00:00+07:00",
+          "timezone": "America/New_York",
+          "previous_revision_id": "00000000-0000-4000-8000-000000002537",
+          "historical_confirmation": false,
+          "manual_goal_acknowledged": false
+        },
+        "total_target_kcal": 2882
+      },
+      "render": {
+        "markdown": "# Morsel - Mar 10, 2026\nCalories: **1,500 / 2,882 kcal** - 1,500 kcal/day average\nGoal: 2,882 kcal/day (computed)\nRemaining: **1,382 kcal** in range\n\n| Macro | Eaten | Goal |\n| --- | ---: | ---: |\n| Protein | 0 g | 201 g |\n| Carbs | 0 g | 302 g |\n| Fat | 0 g | 75 g |\n\nStreak: **1 day**",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 720 300\" role=\"img\" aria-label=\"Morsel nutrition summary for Mar 10, 2026\"><defs><linearGradient id=\"ring-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"ring-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"ring-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-protein\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient><linearGradient id=\"macro-carbs\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"macro-fat\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-under\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-on\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#5E7E57\"/><stop offset=\"100%\" stop-color=\"#2F654B\"/></linearGradient><linearGradient id=\"trend-near\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B07A13\"/><stop offset=\"100%\" stop-color=\"#875A02\"/></linearGradient><linearGradient id=\"trend-over\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0%\" stop-color=\"#B94738\"/><stop offset=\"100%\" stop-color=\"#9C3A2F\"/></linearGradient></defs><rect width=\"720\" height=\"300\" fill=\"#FFF7E8\"/><text x=\"24\" y=\"32\" fill=\"#2A261F\" font-family=\"system-ui, sans-serif\" font-size=\"20\" font-weight=\"700\">Morsel</text><text x=\"696\" y=\"31\" text-anchor=\"end\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"12\">Mar 10, 2026</text><rect x=\"24\" y=\"54\" width=\"672\" height=\"218\" rx=\"12\" fill=\"#FFFCF5\" stroke=\"#E3D2BA\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"#F2E9D9\" stroke-width=\"12\"/><circle cx=\"116\" cy=\"154\" r=\"60\" fill=\"none\" stroke=\"url(#ring-on)\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-dasharray=\"196.21328162601066 376.99111843077515\" transform=\"rotate(-90 116 154)\"/><text x=\"116\" y=\"151\" text-anchor=\"middle\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"22\" font-weight=\"700\">1,500</text><text x=\"116\" y=\"172\" text-anchor=\"middle\" fill=\"#655A4B\" font-family=\"system-ui, sans-serif\" font-size=\"11\">kcal eaten</text><text x=\"116\" y=\"194\" text-anchor=\"middle\" fill=\"#756955\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">2,882 kcal goal</text><text x=\"330\" y=\"86\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">CALORIES</text><text x=\"330\" y=\"108\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"17\" font-weight=\"700\">1,500 / 2,882 kcal</text><text x=\"330\" y=\"126\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"11\">1,382 kcal left</text><text x=\"330\" y=\"148\" fill=\"#756955\" font-family=\"system-ui, sans-serif\" font-size=\"11\" font-weight=\"700\">MACROS</text><text x=\"330\" y=\"164\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Protein</text><rect x=\"390\" y=\"155\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"155\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-protein)\"/><text x=\"680\" y=\"164\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 201 g</text><text x=\"330\" y=\"190\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Carbs</text><rect x=\"390\" y=\"181\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"181\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-carbs)\"/><text x=\"680\" y=\"190\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 302 g</text><text x=\"330\" y=\"216\" fill=\"#655A4B\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">Fat</text><rect x=\"390\" y=\"207\" width=\"178\" height=\"6\" rx=\"3\" fill=\"#F2E9D9\"/><rect x=\"390\" y=\"207\" width=\"0\" height=\"6\" rx=\"3\" fill=\"url(#macro-fat)\"/><text x=\"680\" y=\"216\" text-anchor=\"end\" fill=\"#2A261F\" font-family=\"ui-monospace, SFMono-Regular, monospace\" font-size=\"10\">0 / 75 g</text></svg>"
+      }
+    }
+  ],
+  "targets": [
+    {
+      "date": "2026-03-06",
+      "timezone": "America/New_York",
+      "confirmed_addition_kcal": 300,
+      "addition_revision": {
+        "revision_id": "00000000-0000-4000-8000-000000002535",
+        "recorded_at": "2026-03-08T12:00:00+07:00",
+        "timezone": "America/New_York",
+        "historical_confirmation": true,
+        "manual_goal_acknowledged": false
+      }
+    },
+    {
+      "date": "2026-03-07",
+      "timezone": "America/New_York",
+      "baseline": {
+        "revision_id": "85ff52aa-5f0a-4420-8cab-e62e9c23ccf7",
+        "recorded_at": "2026-03-08T11:59:59+07:00",
+        "effective_date": "2026-03-08",
+        "timezone": "UTC",
+        "source_version": "targets-v1",
+        "goal": {
+          "calorie_target_kcal": 2250,
+          "protein_g": 100,
+          "carbs_g": 250,
+          "fat_g": 60,
+          "source": "manual"
+        },
+        "goals_updated_at": "2026-03-08T11:59:59+07:00"
+      },
+      "confirmed_addition_kcal": 0,
+      "addition_revision": {
+        "revision_id": "00000000-0000-4000-8000-000000002532",
+        "recorded_at": "2026-03-08T12:00:00+07:00",
+        "timezone": "America/New_York",
+        "previous_revision_id": "00000000-0000-4000-8000-000000002531",
+        "historical_confirmation": true,
+        "manual_goal_acknowledged": false
+      },
+      "total_target_kcal": 2250
+    },
+    {
+      "date": "2026-03-08",
+      "timezone": "America/New_York",
+      "baseline": {
+        "revision_id": "4115c199-31b6-4d7d-b2d4-ef91d35f0a08",
+        "recorded_at": "2026-03-09T10:59:59+07:00",
+        "effective_date": "2026-03-09",
+        "timezone": "UTC",
+        "source_version": "targets-v1",
+        "goal": {
+          "calorie_target_kcal": 2400,
+          "protein_g": 100,
+          "carbs_g": 250,
+          "fat_g": 60,
+          "source": "manual"
+        },
+        "goals_updated_at": "2026-03-09T10:59:59+07:00"
+      },
+      "confirmed_addition_kcal": 0,
+      "total_target_kcal": 2400
+    },
+    {
+      "date": "2026-03-09",
+      "timezone": "America/New_York",
+      "baseline": {
+        "revision_id": "c9b35eda-5d1f-418e-bbad-5b2869f05314",
+        "recorded_at": "2026-03-09T19:00:00+07:00",
+        "effective_date": "2026-03-09",
+        "timezone": "America/New_York",
+        "source_version": "targets-v1",
+        "goal": {
+          "calorie_target_kcal": 2000,
+          "protein_g": 100,
+          "carbs_g": 250,
+          "fat_g": 60,
+          "source": "manual"
+        },
+        "profile_updated_at": "2026-03-09T19:00:00+07:00",
+        "goals_updated_at": "2026-03-09T19:00:00+07:00"
+      },
+      "confirmed_addition_kcal": 0,
+      "total_target_kcal": 2000
+    },
+    {
+      "date": "2026-03-10",
+      "timezone": "America/New_York",
+      "baseline": {
+        "revision_id": "91f18aac-842f-4f1c-a4a5-324fafdcbdcc",
+        "recorded_at": "2026-03-10T19:00:00+07:00",
+        "effective_date": "2026-03-10",
+        "timezone": "America/New_York",
+        "source_version": "targets-v1",
+        "goal": {
+          "calorie_target_kcal": 2682,
+          "protein_g": 201,
+          "carbs_g": 302,
+          "fat_g": 75,
+          "source": "computed"
+        },
+        "profile_updated_at": "2026-03-09T19:00:00+07:00",
+        "goals_updated_at": "2026-03-10T19:00:00+07:00",
+        "weight_measured_at": "2026-03-10T17:00:00+07:00"
+      },
+      "confirmed_addition_kcal": 200,
+      "addition_revision": {
+        "revision_id": "00000000-0000-4000-8000-000000002538",
+        "recorded_at": "2026-03-10T19:00:00+07:00",
+        "timezone": "America/New_York",
+        "previous_revision_id": "00000000-0000-4000-8000-000000002537",
+        "historical_confirmation": false,
+        "manual_goal_acknowledged": false
+      },
+      "total_target_kcal": 2882
+    }
+  ],
+  "native": {
+    "get_dated_targets": [
+      {
+        "date": "2026-03-06",
+        "timezone": "America/New_York",
+        "confirmed_addition_kcal": 300,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002535",
+          "recorded_at": "2026-03-08T12:00:00+07:00",
+          "timezone": "America/New_York",
+          "historical_confirmation": true,
+          "manual_goal_acknowledged": false
+        }
+      },
+      {
+        "date": "2026-03-07",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "85ff52aa-5f0a-4420-8cab-e62e9c23ccf7",
+          "recorded_at": "2026-03-08T11:59:59+07:00",
+          "effective_date": "2026-03-08",
+          "timezone": "UTC",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2250,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "goals_updated_at": "2026-03-08T11:59:59+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002532",
+          "recorded_at": "2026-03-08T12:00:00+07:00",
+          "timezone": "America/New_York",
+          "previous_revision_id": "00000000-0000-4000-8000-000000002531",
+          "historical_confirmation": true,
+          "manual_goal_acknowledged": false
+        },
+        "total_target_kcal": 2250
+      },
+      {
+        "date": "2026-03-08",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "4115c199-31b6-4d7d-b2d4-ef91d35f0a08",
+          "recorded_at": "2026-03-09T10:59:59+07:00",
+          "effective_date": "2026-03-09",
+          "timezone": "UTC",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2400,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "goals_updated_at": "2026-03-09T10:59:59+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "total_target_kcal": 2400
+      },
+      {
+        "date": "2026-03-09",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "c9b35eda-5d1f-418e-bbad-5b2869f05314",
+          "recorded_at": "2026-03-09T19:00:00+07:00",
+          "effective_date": "2026-03-09",
+          "timezone": "America/New_York",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2000,
+            "protein_g": 100,
+            "carbs_g": 250,
+            "fat_g": 60,
+            "source": "manual"
+          },
+          "profile_updated_at": "2026-03-09T19:00:00+07:00",
+          "goals_updated_at": "2026-03-09T19:00:00+07:00"
+        },
+        "confirmed_addition_kcal": 0,
+        "total_target_kcal": 2000
+      },
+      {
+        "date": "2026-03-10",
+        "timezone": "America/New_York",
+        "baseline": {
+          "revision_id": "91f18aac-842f-4f1c-a4a5-324fafdcbdcc",
+          "recorded_at": "2026-03-10T19:00:00+07:00",
+          "effective_date": "2026-03-10",
+          "timezone": "America/New_York",
+          "source_version": "targets-v1",
+          "goal": {
+            "calorie_target_kcal": 2682,
+            "protein_g": 201,
+            "carbs_g": 302,
+            "fat_g": 75,
+            "source": "computed"
+          },
+          "profile_updated_at": "2026-03-09T19:00:00+07:00",
+          "goals_updated_at": "2026-03-10T19:00:00+07:00",
+          "weight_measured_at": "2026-03-10T17:00:00+07:00"
+        },
+        "confirmed_addition_kcal": 200,
+        "addition_revision": {
+          "revision_id": "00000000-0000-4000-8000-000000002538",
+          "recorded_at": "2026-03-10T19:00:00+07:00",
+          "timezone": "America/New_York",
+          "previous_revision_id": "00000000-0000-4000-8000-000000002537",
+          "historical_confirmation": false,
+          "manual_goal_acknowledged": false
+        },
+        "total_target_kcal": 2882
+      }
+    ],
+    "profiles": [
+      {
+        "sex": "male",
+        "user_id": "00000000-0000-4000-8000-000000000253",
+        "timezone": "America/New_York",
+        "age_years": 30,
+        "diet_goal": "maintain",
+        "height_cm": 180,
+        "weight_kg": 80,
+        "updated_at": "2026-03-09T19:00:00+07:00",
+        "activity_level": "moderate",
+        "goal_weight_kg": null
+      }
+    ],
+    "goals": [
+      {
+        "fat_g": null,
+        "source": "computed",
+        "carbs_g": null,
+        "protein_g": null,
+        "updated_at": "2026-03-10T19:00:00+07:00",
+        "calorie_target_kcal": null
+      }
+    ],
+    "meal_logs": [
+      {
+        "id": "42340bbf-caec-4abe-bab1-da6e9e5a5a44",
+        "source": "manual",
+        "eaten_at": "2026-03-06T23:00:00+07:00",
+        "meal_type": "lunch",
+        "image_path": null
+      },
+      {
+        "id": "706a65de-019a-4f79-aec1-1f51bedc5d98",
+        "source": "manual",
+        "eaten_at": "2026-03-07T23:00:00+07:00",
+        "meal_type": "lunch",
+        "image_path": null
+      },
+      {
+        "id": "13440cf1-1d96-4be4-ba78-030ba4b4db68",
+        "source": "manual",
+        "eaten_at": "2026-03-08T23:00:00+07:00",
+        "meal_type": "lunch",
+        "image_path": null
+      },
+      {
+        "id": "3603924f-3793-4567-be5e-14a18b8f055f",
+        "source": "manual",
+        "eaten_at": "2026-03-10T23:00:00+07:00",
+        "meal_type": "lunch",
+        "image_path": null
+      }
+    ],
+    "set_dated_target_addition": {
+      "date": "2026-03-10",
+      "baseline": {
+        "goal": {
+          "fat_g": 75,
+          "source": "computed",
+          "carbs_g": 302,
+          "protein_g": 201,
+          "calorie_target_kcal": 2682
+        },
+        "timezone": "America/New_York",
+        "recorded_at": "2026-03-10T19:00:00+07:00",
+        "revision_id": "91f18aac-842f-4f1c-a4a5-324fafdcbdcc",
+        "effective_date": "2026-03-10",
+        "source_version": "targets-v1",
+        "goals_updated_at": "2026-03-10T19:00:00+07:00",
+        "profile_updated_at": "2026-03-09T19:00:00+07:00",
+        "weight_measured_at": "2026-03-10T17:00:00+07:00"
+      },
+      "timezone": "America/New_York",
+      "addition_revision": {
+        "timezone": "America/New_York",
+        "recorded_at": "2026-03-10T19:00:00+07:00",
+        "revision_id": "00000000-0000-4000-8000-000000002538",
+        "previous_revision_id": "00000000-0000-4000-8000-000000002537",
+        "historical_confirmation": false,
+        "manual_goal_acknowledged": false
+      },
+      "total_target_kcal": 2882,
+      "confirmed_addition_kcal": 200
+    },
+    "weight_logs": [
+      {
+        "kg": 75,
+        "measured_at": "2026-03-10T17:00:00+07:00"
+      }
+    ],
+    "compute_targets": [
+      {
+        "fat_g": 77,
+        "carbs_g": 310,
+        "bmr_kcal": 1780,
+        "protein_g": 207,
+        "tdee_kcal": 2759,
+        "calorie_target_kcal": 2759
+      }
+    ],
+    "log_meal_with_items": [
+      {
+        "items": [
+          {
+            "name": "Synthetic dated meal",
+            "unit": "serving",
+            "fat_g": null,
+            "notes": null,
+            "barcode": null,
+            "carbs_g": null,
+            "fiber_g": null,
+            "item_id": "dc125203-bc0a-492e-af70-341a4e3b6ca3",
+            "sugar_g": null,
+            "quantity": 1,
+            "protein_g": null,
+            "confidence": null,
+            "food_ref_id": null,
+            "calories_kcal": 1500
+          }
+        ],
+        "eaten_at": "2026-03-10T23:00:00+07:00",
+        "meal_type": "lunch",
+        "meal_log_id": "3603924f-3793-4567-be5e-14a18b8f055f"
+      }
+    ],
+    "users": {
+      "id": "00000000-0000-4000-8000-000000000253"
+    },
+    "meal_items": [
+      {
+        "id": "25f73a0e-84dd-4b79-9823-e5e9406065eb",
+        "name": "Synthetic dated meal",
+        "unit": "serving",
+        "fat_g": null,
+        "barcode": null,
+        "carbs_g": null,
+        "fiber_g": null,
+        "sugar_g": null,
+        "quantity": 1,
+        "menu_name": null,
+        "protein_g": null,
+        "artwork_id": null,
+        "confidence": null,
+        "food_ref_id": null,
+        "meal_log_id": "42340bbf-caec-4abe-bab1-da6e9e5a5a44",
+        "source_notes": null,
+        "calories_kcal": 500,
+        "menu_group_id": null
+      },
+      {
+        "id": "096c5759-3a5a-4f35-984d-88c109b3b486",
+        "name": "Synthetic dated meal",
+        "unit": "serving",
+        "fat_g": null,
+        "barcode": null,
+        "carbs_g": null,
+        "fiber_g": null,
+        "sugar_g": null,
+        "quantity": 1,
+        "menu_name": null,
+        "protein_g": null,
+        "artwork_id": null,
+        "confidence": null,
+        "food_ref_id": null,
+        "meal_log_id": "706a65de-019a-4f79-aec1-1f51bedc5d98",
+        "source_notes": null,
+        "calories_kcal": 0,
+        "menu_group_id": null
+      },
+      {
+        "id": "e08497fa-330f-42ca-bd23-1b66362e88a1",
+        "name": "Synthetic dated meal",
+        "unit": "serving",
+        "fat_g": null,
+        "barcode": null,
+        "carbs_g": null,
+        "fiber_g": null,
+        "sugar_g": null,
+        "quantity": 1,
+        "menu_name": null,
+        "protein_g": null,
+        "artwork_id": null,
+        "confidence": null,
+        "food_ref_id": null,
+        "meal_log_id": "13440cf1-1d96-4be4-ba78-030ba4b4db68",
+        "source_notes": null,
+        "calories_kcal": 2400,
+        "menu_group_id": null
+      },
+      {
+        "id": "dc125203-bc0a-492e-af70-341a4e3b6ca3",
+        "name": "Synthetic dated meal",
+        "unit": "serving",
+        "fat_g": null,
+        "barcode": null,
+        "carbs_g": null,
+        "fiber_g": null,
+        "sugar_g": null,
+        "quantity": 1,
+        "menu_name": null,
+        "protein_g": null,
+        "artwork_id": null,
+        "confidence": null,
+        "food_ref_id": null,
+        "meal_log_id": "3603924f-3793-4567-be5e-14a18b8f055f",
+        "source_notes": null,
+        "calories_kcal": 1500,
+        "menu_group_id": null
+      }
+    ]
+  }
+}

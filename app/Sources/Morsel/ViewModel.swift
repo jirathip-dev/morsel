@@ -33,6 +33,12 @@ final class DashboardViewModel: ObservableObject {
     private let dateProvider: () -> Date
     private var reloadAfterLoad = false
     private var observersStarted = false
+    @Published private var diaryDate: Date?
+    private var loadGeneration = 0
+    private var loadingDate: Date?
+
+    var selectedDate: Date { DashboardMath.startOfLocalDay(diaryDate ?? dateProvider()) }
+    var today: Date { DashboardMath.startOfLocalDay(dateProvider()) }
 
     init(
         repository: any DashboardRepository,
@@ -54,9 +60,7 @@ final class DashboardViewModel: ObservableObject {
         DashboardMath.totals(for: snapshot?.meals ?? [])
     }
 
-    /// Issue #113 amendment C — the SAME #112 calm-status stamp that feeds
-    /// `healthStatus` drives the margin note's time (never a second clock).
-    /// Nil when no Apple Health upload has ever succeeded locally.
+    /// The same Health status stamp drives the margin note (nil before first upload).
     var lastHealthImportDate: Date? {
         guard let healthStore else { return nil }
         return try? healthStore.lastSuccessfulUpload()
@@ -78,18 +82,13 @@ final class DashboardViewModel: ObservableObject {
             .filter(\.needsReview) ?? []
     }
 
-    /// User-invokable Health retry/reconnect (Settings): re-request
-    /// authorization, re-import BOTH types independently, and queue the
-    /// durable upload pass.
+    /// Reconnect both Health types independently, then queue the upload pass.
     func retryHealthSync() async {
         healthStatus = .syncing
         await importWeights(registerObservers: true)
     }
 
-    /// Imports body mass and active energy INDEPENDENTLY (one type's
-    /// denial/query failure never suppresses the other), registers both
-    /// observers immediately (independent of any remote result), and queues
-    /// the durable background upload of locally stored rows.
+    /// Import each Health type independently and register both observers.
     func importWeights(registerObservers: Bool = true) async {
         guard let weightImporter else { return }
         if registerObservers, !observersStarted {
@@ -136,43 +135,52 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func load() async {
-        if isLoading {
+        let date = selectedDate
+        if isLoading, loadingDate == date {
             reloadAfterLoad = true
             return
         }
-        // Local-first paint: show the last cached snapshot immediately, then
-        // converge with the authoritative remote state in the background.
-        if snapshot == nil,
-           let cached = try? await repository.cachedToday(userID: userID, date: dateProvider()) {
-            snapshot = cached
-        }
+        loadGeneration &+= 1
+        let generation = loadGeneration
+        loadingDate = date
         isLoading = true
         errorMessage = nil
+        if snapshot?.date != date { snapshot = nil }
         defer {
-            isLoading = false
-            if reloadAfterLoad {
-                reloadAfterLoad = false
-                Task { await load() }
+            if generation == loadGeneration {
+                isLoading = false
+                loadingDate = nil
+                if reloadAfterLoad {
+                    reloadAfterLoad = false
+                    Task { await load() }
+                }
             }
         }
+        if snapshot == nil, let cached = try? await repository.cachedToday(userID: userID, date: date) {
+            guard generation == loadGeneration, date == selectedDate else { return }
+            snapshot = cached
+        }
         do {
-            snapshot = try await repository.loadToday(
-                userID: userID,
-                date: dateProvider()
-            )
+            let loaded = try await repository.loadToday(userID: userID, date: date)
+            guard generation == loadGeneration, date == selectedDate else { return }
+            snapshot = loaded
         } catch is CancellationError {
             return
         } catch {
+            guard generation == loadGeneration, date == selectedDate else { return }
             errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
 
-    /// Saves a meal. At the final head the repository durably commits the
-    /// meal (meal + items + photo in one local transaction) BEFORE returning,
-    /// so this succeeds without waiting for a second full remote loadToday —
-    /// the Add-Meal page closes and the journal shows the row with an honest
-    /// `pending sync` marker until the authoritative server result is read
-    /// back and reconciled.
+    private func refreshSelectedDay() async throws {
+        let date = selectedDate
+        let generation = loadGeneration
+        let loaded = try await repository.loadToday(userID: userID, date: date)
+        guard date == selectedDate, generation == loadGeneration else { return }
+        snapshot = loaded
+    }
+
+    /// Commits locally before closing; queued rows retain their pending marker.
     func addMeal(draft: MealDraft, photo: FoodImageUpload?) async -> Bool {
         isSaving = true
         errorMessage = nil
@@ -190,16 +198,16 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    /// Optimistic journal row for a locally committed (queued) meal — the UI
-    /// must not wait for a reload to show what the user just saved.
+    /// Paint the locally committed row without waiting for a remote read.
     private func showQueuedMealIfNeeded(localMealID: UUID) async {
         guard let record = try? await repository.localMealRecord(
             userID: userID, localMealID: localMealID
         ) else {
+            try? await refreshSelectedDay()
             return
         }
         let calendar = Calendar.autoupdatingCurrent
-        let today = calendar.startOfDay(for: dateProvider())
+        let today = selectedDate
         if let snapshot,
            calendar.startOfDay(for: record.eatenAt) == today,
            !snapshot.meals.contains(where: { $0.mealLogID == record.mealLogID }) {
@@ -221,7 +229,7 @@ final class DashboardViewModel: ObservableObject {
     func markReviewed(_ itemID: UUID) async -> Bool {
         do {
             try await repository.confirmMealItem(userID: userID, itemID: itemID)
-            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            try await refreshSelectedDay()
             return true
         } catch is CancellationError {
             return false
@@ -237,7 +245,7 @@ final class DashboardViewModel: ObservableObject {
         defer { isSaving = false }
         do {
             try await repository.updateMealItem(userID: userID, update: update)
-            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            try await refreshSelectedDay()
             return true
         } catch is CancellationError {
             return false
@@ -247,11 +255,6 @@ final class DashboardViewModel: ObservableObject {
         }
     }
 
-    /// Issue #153 — attach/replace the photo of an item's parent meal
-    /// through the same outbox/image pipeline as Add Meal. The journal
-    /// reloads so the row (and its thumbnail) reflects the photo; a queued
-    /// row stays honest with its `pending sync` marker until the server
-    /// result is read back.
     func attachPhoto(_ photo: FoodImageUpload, toItem itemID: UUID) async -> Bool {
         isSaving = true
         errorMessage = nil
@@ -259,7 +262,7 @@ final class DashboardViewModel: ObservableObject {
         do {
             try await repository.attachMealPhoto(userID: userID, itemID: itemID, photo: photo)
             syncEngine?.syncNow()
-            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            try await refreshSelectedDay()
             return true
         } catch is CancellationError {
             return false
@@ -275,7 +278,7 @@ final class DashboardViewModel: ObservableObject {
         defer { isSaving = false }
         do {
             try await repository.deleteMealLog(userID: userID, mealLogID: mealLogID)
-            snapshot = try await repository.loadToday(userID: userID, date: dateProvider())
+            try await refreshSelectedDay()
             return true
         } catch is CancellationError {
             return false
@@ -289,9 +292,19 @@ final class DashboardViewModel: ObservableObject {
 // MARK: - Health pass helpers (issue #112 truthful per-type status)
 
 extension DashboardViewModel {
-    /// One independent body-mass pass (anchor-bounded re-import); returns
-    /// the number of samples durably stored. Throws so the caller can keep
-    /// the two types' cancellation semantics independent.
+    func selectDate(_ date: Date) {
+        let day = DashboardMath.startOfLocalDay(date)
+        guard day != selectedDate, day <= today else { return }
+        diaryDate = day == today ? nil : day
+        loadGeneration &+= 1
+        snapshot = nil
+        errorMessage = nil
+        isLoading = false
+        loadingDate = nil
+        reloadAfterLoad = false
+    }
+
+    /// Anchor-bounded body-mass import, independently throwing.
     private func importBodyMassPass() async throws -> Int {
         guard let weightImporter else { return 0 }
         let anchor = try? healthStore?.bodyMassAnchor()
@@ -314,8 +327,7 @@ extension DashboardViewModel {
         return stored.count
     }
 
-    /// Observer callback failure: map through the human copy table and
-    /// re-derive the calm status as if both imports failed with zero rows.
+    /// Observer failure: human copy, then derive status with zero imported rows.
     private func handleObserverImportError(_ error: Error) async {
         weightImportError = HealthSyncUserMessage.userMessage(for: error)
         await updateCalmStatus(
@@ -329,18 +341,8 @@ extension DashboardViewModel {
         weightImportError = HealthSyncUserMessage.userMessage(for: error)
     }
 
-    /// Calm status derivation (issue #112 — truthful per type). Read-side
-    /// truth comes from the typed reader seam (getRequestStatusForAuthorization
-    /// — never share status, which stays false for the toShare: [] request):
-    /// a still-pending read prompt means the app cannot make ANY claim for
-    /// that type, so the status is `permissionRequired` — never a green
-    /// "synced". `synced` names only kinds whose per-type upload mark matches
-    /// the last successful pass stamp; a decided read with zero body-mass
-    /// rows anywhere is the calm `noWeightData` state.
-    /// Issue #173: the two per-type status reads are AWAITED async — the
-    /// MainActor stays responsive while HealthKit answers; an unanswered or
-    /// errored query (`false`) is "cannot claim", never denied and never
-    /// treated as proof that read access was granted.
+    /// #112/#173: await per-type read decisions (not share status). Unknown
+    /// permission cannot claim sync; only matching upload stamps name synced kinds.
     private func updateCalmStatus(
         bodyMassFailed: Bool, energyFailed: Bool,
         bodyImported: Int, energyImported: Int
@@ -379,9 +381,7 @@ extension DashboardViewModel {
         healthStatus = .unknown
     }
 
-    /// Kinds that uploaded ≥1 row in the pass stamped `stamp`. The sync
-    /// engine writes each per-type mark with the SAME time as the last
-    /// successful upload, so equality identifies the pass (issue #112).
+    /// Matching per-type upload stamps identify the successful pass (#112).
     private func syncedKinds(matching stamp: Date) -> Set<HealthSyncedKind> {
         var kinds = Set<HealthSyncedKind>()
         if (try? healthStore?.lastWeightUpload()) == stamp { kinds.insert(.bodyMass) }

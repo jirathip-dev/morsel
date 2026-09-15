@@ -4,7 +4,7 @@ import Supabase
 let mealItemColumns = [
     "id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g",
     "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes",
-    "menu_group_id", "menu_name"
+    "menu_group_id", "menu_name", "artwork_id"
 ].joined(separator: ",")
 
 /// Issue #178 — declared ceiling on concurrent read requests in this read
@@ -51,7 +51,6 @@ struct SupabaseDashboardRepository: DashboardRepository {
         }
         let authenticatedUserID = try await requireSession(client, userID: userID)
 
-        // Issue #121 — the "today" window is the DEVICE'S LOCAL day.
         let calendar = Calendar.autoupdatingCurrent
         let start = calendar.startOfDay(for: date)
         guard let end = calendar.date(byAdding: .day, value: 1, to: start),
@@ -59,14 +58,12 @@ struct SupabaseDashboardRepository: DashboardRepository {
             throw MorselError.invalidData("The dashboard date could not be calculated.")
         }
 
-        // Issue #178 — the independent reads overlap the logs→items chain (bounded).
         async let goalRowsTask = loadGoals(client, userID: authenticatedUserID)
         async let profileRowsTask = loadProfiles(client, userID: authenticatedUserID)
         async let weightRowsTask = loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
         async let energyRowsTask = loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
         let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
         let items = try await loadMealItems(client, logs: logs)
-        // Issue #179 — attach photo paths with no signing request on first paint.
         let imagesByMealID = mealImagePaths(logs: logs, userID: authenticatedUserID)
         let (goalRows, profileRows, weightRows, energyRows) = try await (
             goalRowsTask, profileRowsTask, weightRowsTask, energyRowsTask
@@ -209,7 +206,8 @@ struct SupabaseDashboardRepository: DashboardRepository {
             notes: response.sourceNotes,
             source: source,
             menuGroupID: menuGroupID,
-            menuName: response.menuName
+            menuName: response.menuName,
+            artworkID: response.artworkID
         )
     }
 
@@ -318,6 +316,7 @@ struct MealItemResponse: Decodable {
     let sugarG: Double?
     let confidence: Double?
     let sourceNotes: String?
+    let artworkID: String?
     let menuGroupID: String?
     let menuName: String?
 
@@ -335,6 +334,7 @@ struct MealItemResponse: Decodable {
         case sugarG = "sugar_g"
         case confidence
         case sourceNotes = "source_notes"
+        case artworkID = "artwork_id"
         case menuGroupID = "menu_group_id"
         case menuName = "menu_name"
     }

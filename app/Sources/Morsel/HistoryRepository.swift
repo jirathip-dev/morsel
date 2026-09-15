@@ -8,13 +8,16 @@ extension SupabaseDashboardRepository {
     // MARK: History (issue #94)
 
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
+        try await loadHistory(userID: userID, end: end, days: days, calendar: .autoupdatingCurrent)
+    }
+
+    func loadHistory(userID: UUID, end: Date, days: Int, calendar: Calendar) async throws -> HistoryOverview {
         guard let client else {
             throw MorselError.configurationMissing
         }
         let authenticatedUserID = try await requireSession(client, userID: userID)
 
         // Issue #121 — day windows are the DEVICE'S LOCAL days (device zone).
-        let calendar = Calendar.autoupdatingCurrent
         let endStart = calendar.startOfDay(for: end)
         let clampedDays = min(max(days, 1), 30)
         guard let start = calendar.date(byAdding: .day, value: -(clampedDays - 1), to: endStart),
@@ -34,11 +37,12 @@ extension SupabaseDashboardRepository {
         let items = try await loadMealItems(client, logs: logs)
         let (goalRows, profileRows, weightRows) = try await (goalRowsTask, profileRowsTask, weightRowsTask)
 
-        let storedGoal = try goalRows.first.map(parseStoredGoal)
-        let profile = try profileRows.first.map(parseProfile)
+        let targets = try await loadDatedTargets(userID: authenticatedUserID, start: start, end: endStart,
+                                               calendar: calendar)
         // Issue #113 — newest synced weight feeds the computed path (profile
         // weight remains the fallback), like the server's weight_used.
-        let goal = historyEffectiveGoal(stored: storedGoal, profile: profile, weightRows: weightRows)
+        let goal = historyEffectiveGoal(stored: try goalRows.first.map(parseStoredGoal),
+                                        profile: try profileRows.first.map(parseProfile), weightRows: weightRows)
 
         // Bucket meal logs into LOCAL calendar days; aggregate item calories.
         var caloriesByMealID: [String: Double] = [:]
@@ -58,9 +62,9 @@ extension SupabaseDashboardRepository {
         var historyDays: [HistoryDay] = []
         while day < nextDay {
             let logged = (mealCountByDay[day] ?? 0) > 0
-            historyDays.append(
-                HistoryDay(date: day, eatenKcal: logged ? (caloriesByDay[day] ?? 0) : 0, logged: logged)
-            )
+            historyDays.append(HistoryDay(
+                date: day, eatenKcal: logged ? (caloriesByDay[day] ?? 0) : 0, logged: logged,
+                datedTarget: targets.first { $0.date == DatedTarget.label(day, calendar: calendar) }))
             guard let following = calendar.date(byAdding: .day, value: 1, to: day) else { break }
             day = following
         }

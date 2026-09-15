@@ -20,6 +20,33 @@ structured result. There is no in-app chat or in-app AI.
 The Morsel MCP server must be connected and the user authenticated before
 calling tools; writes are scoped to that account.
 
+## Dated target provenance and confirmed additions
+
+- The comparison is eaten − (dated baseline + confirmed addition), not an
+  energy-deficit or weight-causation claim. Show the baseline and addition
+  separately. Never borrow `get_goals` as historical truth or invent/backfill
+  an unavailable historical baseline.
+- Read `get_day` for the date and timezone first. Its optional `dated_target`
+  carries baseline/total and revision provenance; `get_dashboard_summary`
+  provides `dated_targets`. Missing baseline means unavailable even when an
+  addition is known. Old servers may omit these fields; do not fabricate them.
+- Only if the connected server advertises `set_dated_target_addition`, use it
+  for an explicitly user-confirmed amount/date. Addition-only, nonnegative;
+  zero removes it. Send `date`, `timezone`, `addition_kcal`, a fresh UUID
+  `mutation_id`, and the read addition revision as `expected_revision` (null
+  if none). A stale-revision error requires a new read and confirmation.
+- Past correction requires the user's explicit historical confirmation before
+  sending `historical_confirmation: true`. A positive addition to a manual goal
+  requires explicit consent before `manual_goal_acknowledged: true`. Zero
+  removal does not require new manual-goal consent. Never infer either consent.
+  Future-date writes are unsupported. Never infer an amount from exercise or
+  automatically recommend an addition.
+- For a committed retry use the identical mutation UUID and parameters; the
+  returned readback can reflect newer changes. Baseline edits take effect today
+  with a revision and preserve the existing addition. Additions persist per
+  account/date across devices, restart and authenticated agent access; they
+  are not session-local state. Zero removal keeps revision provenance.
+
 ## Scope and invariants
 
 Use this skill for meal logging, food-history readback, profile and goal setup,
@@ -32,6 +59,23 @@ fit it, or asks to fix an entry.
 
 Always follow these rules:
 
+- Keep the user's descriptive food name verbatim. Never rename a food to get
+  artwork. An optional per-item `artwork_id` may select only an existing
+  published identifier from the connected tool's `tools/list` enum. Never
+  invent an ID, never upload illustration files, and never use real-photo
+  inputs for artwork. Omit identity if uncertain or the connected older server
+  does not advertise the field. Unknown IDs (including case/whitespace variants
+  and explicit null) are rejected before writes; omission remains compatible.
+  For example, descriptive Americano may use the published `coffee` ID without
+  changing its name, macros, or photo. Coffee cake and ambiguous mixed dishes
+  are not coffee; do not use substring guessing. Illustrations are bundled,
+  offline and reusable, not per-log network generation or nutrition evidence.
+  `get_day` returns stored identity; `update_meal_item` can replace it with
+  another published ID, and omission preserves it. `list_menus` and named-menu
+  reuse preserve it too; old rows omit it and need no relogging/backfill.
+  Native consumption follows supported explicit ID → conservative name/alias
+  → unambiguous category → neutral (part 2; do not claim rendered success from
+  a contract write alone). Unsupported IDs in older bundles must fall back.
 - Do not invent precise macros. Call `search_food` for exact catalog values when
   possible; otherwise make an honest estimate, use a lower `confidence`, and
   explain the uncertainty in the item's `notes`.
@@ -144,7 +188,8 @@ log_meal({
   meal_type: "breakfast" | "lunch" | "dinner" | "snack",
   menu_name?: string,   // named-menu log (issue #152) — see below
   items: [{
-    name: string,                         // required, non-empty
+    name: string,                         // required, non-blank, preserved verbatim
+    artwork_id?: published enum ID,        // optional; never invent one
     quantity?: positive number,            // default 1
     unit?: "g" | "ml" | "serving" | "piece" | "cup", // default "serving"
     calories_kcal?: non-negative number,
@@ -231,6 +276,7 @@ Output:
     items: [{
       item_id: UUID,
       name: string,                     // required
+      artwork_id?: published enum ID,
       quantity: positive number,
       unit: "g" | "ml" | "serving" | "piece" | "cup",
       calories_kcal?: non-negative number,
@@ -281,7 +327,8 @@ the meal now carries `image`.
 ### `update_meal_item`
 
 Input requires `item_id: UUID` and at least one of these optional fields:
-`name` (non-empty string), `quantity` (positive number), `calories_kcal`,
+`name` (non-blank, preserved verbatim), `artwork_id` (published enum ID),
+`quantity` (positive number), `calories_kcal`,
 `protein_g`, `carbs_g`, or `fat_g` (each a non-negative number). `unit`, fiber,
 sugar, confidence, and notes are not update fields in v0.1. Photos belong to
 the meal, not an item: `update_meal_item` never changes them — use
@@ -323,6 +370,7 @@ Output:
     items: [{
       item_id: UUID,
       name: string,
+      artwork_id?: published enum ID,
       quantity: finite number,
       unit: "g" | "ml" | "serving" | "piece" | "cup",
       calories_kcal?: finite number,

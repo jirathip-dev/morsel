@@ -18,14 +18,16 @@ const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8'
 
 const turner = read('app/Sources/Morsel/JournalPageTurner.swift')
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
+const diary = read('app/Sources/Morsel/JournalDiaryPage.swift')
 
 describe('issue #111 AC1: the journal pager turns pages on the V1 hinge', () => {
   it('renders the incoming page through a 3D rotation seam, not a plain offset', () => {
     // Mutation target: replacing rotation3DEffect with .offset must fail.
     expect(turner).toContain('.rotation3DEffect(')
-    expect(turner).toMatch(/axis: \(x: 0, y: 1, z: 0\)/)
+    expect(turner).toContain('var vertical = false')
+    expect(turner).toContain('axis: vertical ? (x: 1, y: 0, z: 0) : (x: 0, y: 1, z: 0)')
     expect(turner).toContain('perspective: JournalTurnSeam.perspective')
-    expect(turner).toContain('anchor: JournalTurnSeam.anchor(for: direction)')
+    expect(turner).toContain(': JournalTurnSeam.anchor(for: direction)')
   })
 
   it('hinges forward turns on the leading edge and backward turns on the trailing edge', () => {
@@ -50,7 +52,9 @@ describe('issue #111 AC1: the journal pager turns pages on the V1 hinge', () => 
 
   it('drives the preview from an interactive drag that respects no-wrap boundaries', () => {
     expect(turner).toContain('DragGesture(minimumDistance: 15')
-    expect(turner).toContain('JournalTabNavigation.adjacent(to: baseTab')
+    expect(turner).toContain('adjacent(baseTab, direction)')
+    expect(diary).toContain('typealias JournalTurnMachine = JournalTurnState<JournalTab>')
+    expect(diary).toContain('JournalTabNavigation.adjacent(to: $0, turning: $1)')
     expect(turner).toContain('pager.swipe(active.direction)')
     expect(turner).toContain('abs(deltaX) > abs(deltaY)')
   })

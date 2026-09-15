@@ -167,9 +167,18 @@ struct HistoryView: View {
     @StateObject private var viewModel: HistoryViewModel
     /// Issue #105: page-turn revisit bump — returning to History reloads.
     private let reloadKey: Int
+    private let diary: JournalCalendarModel?
+    private let selectedDate: Date
+    private let openDay: (Date) -> Void
+    @State private var showingCalendar = false
 
-    init(repository: any DashboardRepository, userID: UUID, reloadKey: Int = 0) {
+    init(repository: any DashboardRepository, userID: UUID, reloadKey: Int = 0,
+         diary: JournalCalendarModel? = nil, selectedDate: Date = Date(),
+         openDay: @escaping (Date) -> Void = { _ in }) {
         self.reloadKey = reloadKey
+        self.diary = diary
+        self.selectedDate = selectedDate
+        self.openDay = openDay
         _viewModel = StateObject(
             wrappedValue: HistoryViewModel(repository: repository, userID: userID)
         )
@@ -179,14 +188,22 @@ struct HistoryView: View {
         JournalPage(date: viewModel.today, bottomInset: 56) {
             HistoryHeader(viewModel: viewModel)
                 .padding(.bottom, 6)
-            if let errorMessage = viewModel.errorMessage, viewModel.overview == nil {
-                HistoryErrorNotice(message: errorMessage) {
-                    Task { await viewModel.load() }
+            VStack(alignment: .leading, spacing: 0) {
+                JournalHistoryRangePicker(viewModel: viewModel, showingCalendar: $showingCalendar,
+                                          offersCalendar: diary != nil)
+                    .padding(.vertical, 10)
+                if showingCalendar, let diary {
+                    JournalCalendarView(model: diary, selectedDate: selectedDate, openDay: openDay)
+                        .task { await diary.showMonth(containing: selectedDate) }
+                } else if let errorMessage = viewModel.errorMessage, viewModel.overview == nil {
+                    HistoryErrorNotice(message: errorMessage) {
+                        Task { await viewModel.load() }
+                    }
+                } else if viewModel.isLoading && viewModel.overview == nil {
+                    HistoryLedgerSkeleton()
+                } else {
+                    historyContent
                 }
-            } else if viewModel.isLoading && viewModel.overview == nil {
-                HistoryLedgerSkeleton()
-            } else {
-                historyContent
             }
         }
         .task(id: reloadKey) {
@@ -205,9 +222,6 @@ struct HistoryView: View {
             } else {
                 ProvenanceLabel(text: "your daily target is not set yet · tap a day to open it")
             }
-            RangePicker(viewModel: viewModel)
-                .padding(.top, 12)
-                .padding(.bottom, 10)
 
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(viewModel.chartDays) { day in
@@ -259,14 +273,15 @@ struct HistoryView: View {
                 }
             }
 
-            if let trend = viewModel.overview?.weightTrend, !trend.isEmpty {
+            if let trend = viewModel.overview?.weightTrend {
                 JournalRule()
                     .padding(.vertical, 12)
                 V1WeightTrendView(
                     points: trend,
                     delta: viewModel.weightDeltaOverRange,
                     isThirtyDay: viewModel.range == .thirty,
-                    today: viewModel.today
+                    today: viewModel.today,
+                    foodDays: viewModel.chartDays.map(WeightDeltaDay.init(day:))
                 )
             }
         }
@@ -296,35 +311,6 @@ private struct HistoryHeader: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
                 .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-}
-
-private struct RangePicker: View {
-    @ObservedObject var viewModel: HistoryViewModel
-
-    var body: some View {
-        HStack(spacing: 24) {
-            ForEach(HistoryViewModel.RangeDays.allCases) { option in
-                Button {
-                    viewModel.range = option
-                    Task { await viewModel.load() }
-                } label: {
-                    VStack(spacing: 3) {
-                        Text(option.title)
-                            .font(Font.morselHand(size: 20))
-                            .foregroundStyle(viewModel.range == option ? Color.morselForest : Color.morselInkTwo)
-                        MarkerStroke(
-                            color: viewModel.range == option ? Color.morselForest : .clear,
-                            width: option == .seven ? 34 : 42,
-                            height: 4
-                        )
-                    }
-                }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(viewModel.range == option ? .isSelected : [])
-            }
-            Spacer()
         }
     }
 }
