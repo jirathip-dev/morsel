@@ -20,6 +20,33 @@ structured result. There is no in-app chat or in-app AI.
 The Morsel MCP server must be connected and the user authenticated before
 calling tools; writes are scoped to that account.
 
+## Dated target provenance and confirmed additions
+
+- The comparison is eaten − (dated baseline + confirmed addition), not an
+  energy-deficit or weight-causation claim. Show the baseline and addition
+  separately. Never borrow `get_goals` as historical truth or invent/backfill
+  an unavailable historical baseline.
+- Read `get_day` for the date and timezone first. Its optional `dated_target`
+  carries baseline/total and revision provenance; `get_dashboard_summary`
+  provides `dated_targets`. Missing baseline means unavailable even when an
+  addition is known. Old servers may omit these fields; do not fabricate them.
+- Only if the connected server advertises `set_dated_target_addition`, use it
+  for an explicitly user-confirmed amount/date. Addition-only, nonnegative;
+  zero removes it. Send `date`, `timezone`, `addition_kcal`, a fresh UUID
+  `mutation_id`, and the read addition revision as `expected_revision` (null
+  if none). A stale-revision error requires a new read and confirmation.
+- Past correction requires the user's explicit historical confirmation before
+  sending `historical_confirmation: true`. A positive addition to a manual goal
+  requires explicit consent before `manual_goal_acknowledged: true`. Zero
+  removal does not require new manual-goal consent. Never infer either consent.
+  Future-date writes are unsupported. Never infer an amount from exercise or
+  automatically recommend an addition.
+- For a committed retry use the identical mutation UUID and parameters; the
+  returned readback can reflect newer changes. Baseline edits take effect today
+  with a revision and preserve the existing addition. Additions persist per
+  account/date across devices, restart and authenticated agent access; they
+  are not session-local state. Zero removal keeps revision provenance.
+
 ## Scope and invariants
 
 Use this skill for meal logging, food-history readback, profile and goal setup,

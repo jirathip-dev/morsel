@@ -765,8 +765,12 @@ export async function inspect({ root, query }) {
   const localFiles = readdirSync(join(root, "db", "migrations")).filter((f) => f.endsWith(".sql"));
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
-  if (localSet.size !== CANONICAL_FILES.length || !CANONICAL_FILES.every((f) => localSet.has(f))) {
-    throw new SanitizedError("manifest mismatch: this checkout does not contain exactly db/migrations/0001..0013");
+  // 0014 is forward-apply only: its presence must not prevent recovery of
+  // 0001–0013 on an older database. Never converge or attest it here; an
+  // already-recorded forward migration still blocks this older recovery tool.
+  const allowedFiles = new Set([...CANONICAL_FILES, "0014_dated_targets.sql"]);
+  if (!CANONICAL_FILES.every((f) => localSet.has(f)) || localFiles.some((f) => !allowedFiles.has(f))) {
+    throw new SanitizedError("manifest mismatch: expected db/migrations/0001..0013 and optional 0014_dated_targets.sql");
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};

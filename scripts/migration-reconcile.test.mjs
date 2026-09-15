@@ -30,9 +30,11 @@ function fullSchema() {
     tables: [
       "users", "goals", "meal_logs", "meal_items", "water_logs", "weight_logs",
       "food_catalog", "profiles", "oauth_authorization_grants", "energy_burned_logs",
-      "meal_menus", "menu_items",
+      "meal_menus", "menu_items", "target_baseline_revisions", "target_addition_revisions",
     ],
     columns: [
+      { table_name: "target_baseline_revisions", column_name: "source_inputs", data_type: "jsonb" },
+      { table_name: "target_addition_revisions", column_name: "previous_revision_id", data_type: "uuid" },
       { table_name: "users", column_name: "timezone", data_type: "text" },
       { table_name: "meal_logs", column_name: "meal_type", data_type: "text" },
       { table_name: "meal_items", column_name: "confidence", data_type: "numeric" },
@@ -52,12 +54,14 @@ function fullSchema() {
       { table_name: "meal_items", column_name: "artwork_id", data_type: "text" },
       { table_name: "menu_items", column_name: "artwork_id", data_type: "text" },
     ],
-    routines: ["compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog", "upsert_menu"],
+    routines: ["get_dated_targets", "set_dated_target_addition", "compute_targets", "log_meal_with_items", "log_meal_with_items_client", "claim_oauth_authorization_grant", "upsert_food_catalog", "upsert_menu"],
     constraints: [
       { table_name: "meal_items", constraint_name: "meal_items_artwork_id_published" },
       { table_name: "menu_items", constraint_name: "menu_items_artwork_id_published" },
     ],
     policies: [
+      { schemaname: "public", tablename: "target_baseline_revisions", policyname: "target_baseline_select_own" },
+      { schemaname: "public", tablename: "target_addition_revisions", policyname: "target_addition_select_own" },
       { schemaname: "public", tablename: "goals", policyname: "goals_select_own" },
       { schemaname: "public", tablename: "meal_logs", policyname: "meal_logs_select_own" },
       { schemaname: "public", tablename: "meal_items", policyname: "meal_items_select_own" },

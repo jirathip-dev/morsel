@@ -11,10 +11,19 @@ in one atomic transaction and fails with zero writes when the ledger is
 missing/empty). Production was provisioned before the ledger existed; the
 human-gated reconciliation flow in
 [`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
-classifies its recovery contract set (0001–0012) against their
+classifies its recovery contract set (0001–0013) against their
 end-state contracts and converges missing/partial states idempotently before
-recording them; new forward migrations (including `0013_artwork_identity.sql`) are
+recording them; new forward migrations (including `0014_dated_targets.sql`) are
 appended through `apply-migrations.mjs` in the same atomic ledger transaction.
+
+## Dated targets
+
+[The dated-target contract](DATED_TARGETS.md) defines prospective baseline
+observations and confirmed per-account/date additions in
+`target_baseline_revisions` and `target_addition_revisions`. Migration 0014
+adds owner-read RLS, private append-only writers and unchanged-legacy-writer
+triggers. Today-only baseline revisions preserve additions; historical
+baselines remain unavailable without trustworthy observations. No backfill.
 
 ## Entities
 

@@ -26,6 +26,7 @@ struct HistoryDay: Identifiable, Equatable, Sendable, Codable {
     let date: Date
     let eatenKcal: Double
     let logged: Bool
+    var datedTarget: DatedTarget?
 
     var id: Date { date }
 }

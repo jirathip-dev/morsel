@@ -326,6 +326,51 @@ export const GetDayInputSchema = z.object({
   timezone: TimezoneSchema.optional(),
 }).strict()
 
+// Issue #253: observations are prospective, never current-goal backfills.
+export const DatedBaselineSchema = z.object({
+  revision_id: z.uuid(),
+  recorded_at: IsoDateTimeSchema,
+  effective_date: CalendarDateSchema,
+  timezone: TimezoneSchema,
+  source_version: z.literal('targets-v1'),
+  goal: GoalSummarySchema,
+  profile_updated_at: IsoDateTimeSchema.optional(),
+  goals_updated_at: IsoDateTimeSchema.optional(),
+  weight_measured_at: IsoDateTimeSchema.optional(),
+}).strict()
+
+export const DatedAdditionRevisionSchema = z.object({
+  revision_id: z.uuid(),
+  recorded_at: IsoDateTimeSchema,
+  timezone: TimezoneSchema,
+  previous_revision_id: z.uuid().optional(),
+  historical_confirmation: z.boolean(),
+  manual_goal_acknowledged: z.boolean(),
+}).strict()
+
+export const DatedTargetSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema,
+  baseline: DatedBaselineSchema.optional(),
+  confirmed_addition_kcal: nonNegativeNumber,
+  addition_revision: DatedAdditionRevisionSchema.optional(),
+  total_target_kcal: nonNegativeNumber.optional(),
+}).strict()
+
+export const SetDatedTargetAdditionInputSchema = z.object({
+  date: CalendarDateSchema,
+  timezone: TimezoneSchema.optional(),
+  addition_kcal: nonNegativeNumber.describe('User-confirmed addition only; zero removes it. Never infer an amount from exercise.'),
+  mutation_id: z.uuid().describe('New UUID for this confirmed change; reuse only when retrying this exact change.'),
+  expected_revision: z.uuid().optional().describe('Current addition revision from get_day; omit only if none exists.'),
+  historical_confirmation: z.boolean().optional().default(false),
+  manual_goal_acknowledged: z.boolean().optional().default(false),
+}).strict()
+export const SetDatedTargetAdditionOutputSchema = z.object({ dated_target: DatedTargetSchema }).strict()
+export type DatedTarget = z.infer<typeof DatedTargetSchema>
+export type SetDatedTargetAdditionInput = z.output<typeof SetDatedTargetAdditionInputSchema>
+export type SetDatedTargetAdditionOutput = z.infer<typeof SetDatedTargetAdditionOutputSchema>
+
 export const GetDayOutputSchema = z.object({
   date: CalendarDateSchema,
   timezone: TimezoneSchema,
@@ -333,6 +378,7 @@ export const GetDayOutputSchema = z.object({
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
   remaining_kcal: finiteNumber.optional(),
+  dated_target: DatedTargetSchema.optional(),
   render: RenderPayloadSchema,
 }).strict()
 
@@ -361,6 +407,7 @@ export const GetDashboardSummaryOutputSchema = z.object({
   streak_days: z.number().int().nonnegative(),
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
+  dated_targets: z.array(DatedTargetSchema).optional(),
   render: RenderPayloadSchema,
 }).strict()
 
