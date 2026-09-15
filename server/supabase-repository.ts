@@ -7,6 +7,7 @@ import {
   CalendarDateSchema,
   ComputeTargetsOutputSchema,
   DietGoalSchema,
+  DatedTargetSchema,
   FoodRefIdSchema,
   IsoDateTimeSchema,
   MealImageRecordSchema,
@@ -27,6 +28,8 @@ import {
 } from './meal-image.ts'
 import type {
   ComputeTargetsOutput,
+  DatedTarget,
+  SetDatedTargetAdditionInput,
   GoalSummary,
   MealImageRecord,
   MealItemRecord,
@@ -702,6 +705,22 @@ export class SupabaseRepository implements MorselRepository {
       void fdc_id
       return publicFood
     })
+  }
+
+  async getDatedTargets(userId: string, start: string, end: string, timezone: string): Promise<DatedTarget[]> {
+    const response = await this.client.rpc('get_dated_targets', {
+      p_user_id: userId, p_start_date: start, p_end_date: end, p_timezone: timezone,
+    })
+    return parseStored(z.array(DatedTargetSchema), requireData(response.data, response.error, 'dated target read'), 'dated targets')
+  }
+
+  async setDatedTargetAddition(userId: string, input: SetDatedTargetAdditionInput, timezone: string): Promise<DatedTarget> {
+    const response = await this.client.rpc('set_dated_target_addition', {
+      p_user_id: userId, p_date: input.date, p_timezone: timezone, p_addition_kcal: input.addition_kcal,
+      p_mutation_id: input.mutation_id, p_expected_revision: input.expected_revision ?? null,
+      p_historical_confirmation: input.historical_confirmation, p_manual_goal_acknowledged: input.manual_goal_acknowledged,
+    })
+    return parseStored(DatedTargetSchema, requireData(response.data, response.error, 'dated addition write'), 'dated target')
   }
 
   async getProfile(userId: string): Promise<StoredProfile | undefined> {

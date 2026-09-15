@@ -441,6 +441,18 @@ export interface Database {
     }
     Views: Record<string, never>
     Functions: {
+      get_dated_targets: {
+        Args: { p_user_id: string; p_start_date: string; p_end_date: string; p_timezone: string }
+        Returns: unknown[]
+      }
+      set_dated_target_addition: {
+        Args: {
+          p_user_id: string; p_date: string; p_timezone: string; p_addition_kcal: number
+          p_mutation_id: string; p_expected_revision: string | null
+          p_historical_confirmation: boolean; p_manual_goal_acknowledged: boolean
+        }
+        Returns: unknown
+      }
       compute_targets: {
         Args: { p: ComputeTargetsFunctionInput }
         Returns: ComputeTargetsFunctionRow[]

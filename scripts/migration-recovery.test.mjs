@@ -220,6 +220,16 @@ describe("recovery runner CLI and preconditions", () => {
     expect(result.stderr).toMatch(/non-main branch/);
   }, 20_000);
 
+  it("allows pending 0014 without attesting it and refuses unknown forward files", async () => {
+    const { root } = await fixture();
+    writeFileSync(join(root, "db/migrations/0014_dated_targets.sql"), "-- pending forward-only migration");
+    const db = emptyDb();
+    const outcome = await run({ ref, token, root, apply: false, queryImpl: db.queryImpl, log: quiet });
+    expect(JSON.stringify(outcome)).not.toContain("0014_dated_targets.sql");
+    writeFileSync(join(root, "db/migrations/0015_unknown.sql"), "-- unknown");
+    await expect(run({ ref, token, root, apply: false, queryImpl: db.queryImpl, log: quiet })).rejects.toThrow(/manifest mismatch/);
+  });
+
   it("plan mode requires no confirmation and issues only allowlisted reads", async () => {
     const { root } = await fixture();
     const db = emptyDb();

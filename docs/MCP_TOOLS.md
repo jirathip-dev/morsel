@@ -7,6 +7,27 @@ skill together.
 
 Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types.ts).
 
+## Dated target reads and confirmed additions (issue #253)
+
+The [shared dated-target contract](DATED_TARGETS.md) specifies persistence,
+RPC signatures, provenance, date/DST behavior and rollout. `get_day` adds
+optional `dated_target`; `get_dashboard_summary` adds optional `dated_targets`.
+Both carry the dated baseline, confirmed addition, revisions and total. An
+unattributable historical date has no `goal` or `remaining_kcal`; never use
+`get_goals` as its history. Multi-day rendering does not borrow today's goal.
+
+`set_dated_target_addition` accepts `date`, optional `timezone`, nonnegative
+`addition_kcal`, `mutation_id` (UUID), optional `expected_revision` (UUID/null),
+`historical_confirmation` and `manual_goal_acknowledged` (both default false).
+It returns `{ dated_target: ... }`. Read `get_day` first for the prior addition
+revision; pass it as `expected_revision`, or null when none. Confirm the exact
+amount/date with the user; past corrections require explicit historical
+confirmation and positive additions to manual goals require acknowledgement. Zero removes the
+addition with a recorded revision. Retries use the same mutation UUID and
+identical parameters; new intent uses a new UUID. No caller may supply or
+backfill a baseline. Baseline changes apply today, preserving any confirmed
+addition. Chart value is eaten − (dated baseline + confirmed addition).
+
 ## Tool list
 
 Every registered tool carries a client-visible `title`, the existing
@@ -29,6 +50,7 @@ description, explicit input and output schemas, and an explicit SDK
 | `compute_targets` | Compute nutrition targets | read | BMR/TDEE + kcal + macro split derived from profile. | `readOnlyHint` |
 | `get_goals` | Get the effective goal | read | **Effective** targets — "latest update wins" (computed default; manual override only while at least as new as the profile, else `superseded_manual`) + `source`. | `readOnlyHint` |
 | `set_goals` | Set manual goals | write | Manual override (marks `source='manual'`). | — |
+| `set_dated_target_addition` | Confirm a dated target addition | write | Persist a confirmed addition for one diary date, with consent and revision provenance. | — |
 | `reset_goals` | Reset manual goals | write | Discard the stored manual override; effective target returns to computed. | — |
 | `get_weight_trend` | Get the weight trend | read | Apple Health body-mass series and latest measurement. | `readOnlyHint` |
 | `get_energy_burned` | Get energy burned | read | Apple Health daily active-energy burn series. | `readOnlyHint` |

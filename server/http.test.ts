@@ -149,6 +149,7 @@ describe('MCP HTTP server', () => {
       'log_meal',
       'reset_goals',
       'search_food',
+      'set_dated_target_addition',
       'set_goals',
       'set_profile',
       'update_meal_item',
