@@ -41,6 +41,12 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         var photo = false
     }
 
+    override func tearDown() async throws {
+        // Drain unmount work before later tests synchronously read the pasteboard.
+        try await settle()
+        try await super.tearDown()
+    }
+
     private var fixtures: [Fixture] {
         let keys = ["coffee", "black-coffee", "thai-coffee", "americano", "descriptive-americano"]
         var result = zip(keys, ArtworkIdentityFixture.positives).map { Fixture(key: $0, name: $1) }

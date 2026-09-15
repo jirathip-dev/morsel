@@ -23,6 +23,9 @@ explicit, await the photo upload, and suspend during settling/handshake waits
 so the real detail view's asynchronous photo load can paint. No assertions
 were removed. An earlier synchronous-settling capture showed a loading spinner;
 the retained matrix was fully recaptured after the test-harness correction.
+The final test harness also suspends during teardown after restoring the old
+window. This drains unmount work before later tests read the native pasteboard;
+it occurs after all capture frames and does not change their rendering steps.
 
 The lane's `.report.md` records the separate complete unfiltered native result
 at the final evidence-packaging head. This README records the focused run and
