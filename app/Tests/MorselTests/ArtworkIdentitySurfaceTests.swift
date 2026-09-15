@@ -10,7 +10,7 @@ import XCTest
 final class ArtworkIdentitySurfaceTests: XCTestCase {
     private let handshake = URL(fileURLWithPath: "/tmp/m241-capture")
 
-    func testRowAndDetailSurfacesInPaperAndNight() throws {
+    func testRowAndDetailSurfacesInPaperAndNight() async throws {
         let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
         let previous = scene.windows.first { $0.isKeyWindow }
         let window = UIWindow(windowScene: scene)
@@ -21,7 +21,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
         let photoURL = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "coffee-photo", withExtension: "png"))
         let photo = FoodImageUpload(data: try Data(contentsOf: photoURL), mimeType: "image/png")
-        _ = try repository.uploadImage(userID: account, path: ArtworkIdentityFixture.photoPath, upload: photo)
+        _ = try await repository.uploadImage(userID: account, path: ArtworkIdentityFixture.photoPath, upload: photo)
         let model = DashboardViewModel(repository: repository, userID: account)
         for (theme, scheme) in [("paper", ColorScheme.light), ("night", ColorScheme.dark)] {
             window.overrideUserInterfaceStyle = scheme == .dark ? .dark : .light
