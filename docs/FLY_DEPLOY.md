@@ -123,7 +123,8 @@ store. None of these commands print secret values when run as written.
    - Session regression against the live origin (three requests, one
      process): initialize → `200` + `mcp-session-id`;
      `notifications/initialized` with that id → `202`; `tools/list` with
-     that id → `200` with all 13 tools. The same flow runs locally against
+     that id → `200` with the full `EXPECTED_TOOLS` set from
+     `server/fly-entrypoint.bun-test.ts`. The same flow runs locally against
      the committed code with `npm run test:fly` (Bun required).
    - Live Claude acceptance (final human gate): re-add the Morsel connector
      with `https://mcp.morselfood.app/mcp`; confirm the tool count appears

@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
+import { execFileSync } from 'node:child_process'
+import catalog from '../../docs/art/food-library/catalog.json'
+import bundledCatalog from '../../app/Resources/FoodArt/catalog.json'
 import {
+  ArtworkIdSchema,
+  UpdateMealItemInputSchema,
+  MenuTemplateItemSchema,
   AttachMealImageInputSchema,
   AttachMealImageOutputSchema,
   GetDashboardSummaryOutputSchema,
@@ -16,6 +22,36 @@ import {
 } from './food-types'
 
 describe('Morsel tool schemas', () => {
+  it('publishes exactly the shipped artwork catalog without snapshot drift', () => {
+    const ids = bundledCatalog.assets.map((asset) => asset.id).sort()
+    expect(ids.length).toBeGreaterThan(0)
+    expect(new Set(ids).size).toBe(ids.length)
+    // The older design catalog is a subset; the shipped bundle also has neutral.
+    expect(ids).toEqual(expect.arrayContaining(catalog.assets.map((asset) => asset.id)))
+    expect([...ArtworkIdSchema.options].sort()).toEqual(ids)
+    expect(() => execFileSync(process.execPath, ['packages/schema/generate-artwork-ids.mjs', '--check'])).not.toThrow()
+    for (const artwork_id of ids) {
+      const item = { name: 'Synthetic item', artwork_id }
+      expect(LogMealInputSchema.parse({ meal_type: 'lunch', items: [item] }).items?.[0]).toMatchObject(item)
+      expect(UpdateMealItemInputSchema.parse({ item_id: '00000000-0000-4000-8000-000000000241', artwork_id })).toMatchObject({ artwork_id })
+      for (const schema of [MealItemRecordSchema, MenuTemplateItemSchema]) {
+        expect(schema.parse({ ...item, item_id: '00000000-0000-4000-8000-000000000241', quantity: 1, unit: 'cup' })).toMatchObject(item)
+      }
+    }
+  })
+
+  it('keeps absent identity compatible and rejects invalid update/read identities', () => {
+    const item = { item_id: '00000000-0000-4000-8000-000000000241', name: 'coffee cake', quantity: 1, unit: 'piece' }
+    expect(MealItemRecordSchema.parse(item)).toEqual(item)
+    expect(MenuTemplateItemSchema.parse(item)).toEqual(item)
+    expect(UpdateMealItemInputSchema.parse({ item_id: item.item_id, name: '  descriptive name  ' })).toEqual({ item_id: item.item_id, name: '  descriptive name  ' })
+    for (const artwork_id of ['unknown', 'Coffee', ' coffee ', '', null, 1]) {
+      expect(UpdateMealItemInputSchema.safeParse({ item_id: item.item_id, artwork_id }).success).toBe(false)
+      expect(MealItemRecordSchema.safeParse({ ...item, artwork_id }).success).toBe(false)
+    }
+    expect(LogMealInputSchema.safeParse({ meal_type: 'lunch', items: [{ name: '   ' }] }).success).toBe(false)
+  })
+
   it('validates a minimal log_meal input and applies documented defaults', () => {
     const input = LogMealInputSchema.parse({
       meal_type: 'breakfast',
@@ -36,6 +72,24 @@ describe('Morsel tool schemas', () => {
       meal_log_id: '00000000-0000-4000-8000-000000000001',
       recorded: true,
     }).success).toBe(true)
+  })
+
+  it('carries artwork identity without rewriting descriptive names (issue #241)', () => {
+    const item = { name: '  Americano (black, no sugar, homemade)  ', artwork_id: 'coffee', calories_kcal: 3 }
+    expect(LogMealInputSchema.parse({ meal_type: 'breakfast', items: [item] }).items?.[0]).toEqual({
+      ...item, quantity: 1, unit: 'serving',
+    })
+    expect(MealItemRecordSchema.parse({
+      ...item, item_id: '00000000-0000-4000-8000-000000000241', quantity: 1, unit: 'serving',
+    })).toMatchObject(item)
+  })
+
+  it('rejects unpublished artwork identities instead of silently dropping them', () => {
+    for (const artwork_id of ['not-published', 'Coffee', ' coffee ', '', null, 1]) {
+      expect(LogMealInputSchema.safeParse({
+        meal_type: 'breakfast', items: [{ name: 'Americano', artwork_id }],
+      }).success).toBe(false)
+    }
   })
 
   it('requires food_ref_id to be a UUID at the meal input boundary', () => {

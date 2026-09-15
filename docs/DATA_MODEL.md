@@ -11,9 +11,9 @@ in one atomic transaction and fails with zero writes when the ledger is
 missing/empty). Production was provisioned before the ledger existed; the
 human-gated reconciliation flow in
 [`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
-classifies the canonical migration set (currently 0001–0012) against their
+classifies its recovery contract set (0001–0012) against their
 end-state contracts and converges missing/partial states idempotently before
-recording them; later migrations (such as `0012_named_menus.sql`) are
+recording them; new forward migrations (including `0013_artwork_identity.sql`) are
 appended through `apply-migrations.mjs` in the same atomic ledger transaction.
 
 ## Entities
@@ -68,6 +68,53 @@ overwritten by a log. `public.upsert_menu(p_user_id, p_menu_id, p_name,
 p_items)` is the atomic app-side save (create or full item-list replace in
 one call); menu deletion is a plain owner-scoped `meal_menus` delete (FK
 cascade removes `menu_items`).
+
+## Stable artwork identity (issue #241)
+
+Migration `0013_artwork_identity.sql` adds nullable `text` columns
+`meal_items.artwork_id` and `menu_items.artwork_id`. The second column is
+necessary to preserve identity through the existing named-menu create/reuse/save
+paths, not a new meal-level field. The agent selects an optional published ID;
+Morsel owns catalog publication and validation. This is an illustration choice,
+not a nutrition lookup, photo, asset upload, or replacement display name.
+Names remain verbatim; IDs never infer or rewrite nutrition or photo references.
+
+The published source is the shipped `app/Resources/FoodArt/catalog.json`
+(18 entries, including neutral; the older design catalog has 17). A generated
+`packages/schema/artwork-ids.ts` snapshot supplies the MCP enum. The generator
+`node packages/schema/generate-artwork-ids.mjs --sql` derives the migration
+CHECK constraints; tests compare the enum to the shipped catalog and verify the
+installed database constraints admit exactly the same set. Catalog changes
+require a new migration, never an edit to an applied one.
+
+Both `log_meal_with_items` and `log_meal_with_items_client` keep their existing
+signatures and accept the optional `artwork_id` key in `p_items`. Their returned
+item JSON includes the key only when non-null. Old RPC payloads still write
+NULL and keep the old response keys. Client-ID retries return the committed
+identity without overwriting items. `upsert_menu` stores the template identity;
+named logs snapshot it, and later template edits leave logged meals unchanged.
+The new migration also qualifies the existing `upsert_menu` delete's `menu_id`
+column to avoid collision with its output parameter on stock PostgreSQL.
+
+The public MCP schema rejects unknown IDs, blank IDs, whitespace/case variants,
+and explicit JSON null before writing. SQL permits NULL for compatibility and
+rejects any unpublished non-null value atomically, including direct item
+updates. `get_day`/`list_menus` omit the key for NULL/absent values;
+`update_meal_item` may replace it with a published ID, while omission preserves
+it. No MCP clear-to-null operation is added. User scoping, RLS, security-invoker
+RPCs and privileges remain unchanged. Existing rows gain NULL without a backfill;
+no data is relogged or migrated by this lane. The migration must precede new
+server projections; an unmigrated database is not supported by the new server.
+
+Native consumption is **deferred to part 2**. Its deterministic contract is:
+supported explicit ID → conservative unambiguous full name/alias match →
+unambiguous catalog category fallback → neutral. Unsupported IDs in an older
+bundle take that fallback path safely. Descriptive Americano rules must be
+conservative (never coffee-cake substring matching); fallback is read-only,
+offline, non-destructive and needs no owner relogging. Rows use illustrations
+even with a photo; the real photo belongs in detail. See
+[MCP artwork identity](MCP_TOOLS.md#artwork-identity-issue-241-contract-half).
+Native rendering and production data behavior are not verified here.
 
 ## Local days and timezones (issue #121)
 

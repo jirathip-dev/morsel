@@ -153,6 +153,7 @@ required for plain logs and for creating a brand-new menu.
         "required": ["name"],
         "properties": {
           "name":        { "type": "string" },
+          "artwork_id":  { "type": "string", "description": "Optional exact published ID from the tools/list enum; see Artwork identity. Invalid IDs are rejected." },
           "quantity":    { "type": "number", "default": 1 },
           "unit":        { "type": "string", "enum": ["g", "ml", "serving", "piece", "cup"] },
           "calories_kcal": { "type": "number" },
@@ -225,6 +226,63 @@ when the photo stored. If the response includes `image_error`, tell the user
 the meal logged without the photo and offer `attach_meal_image` with the same
 bytes once storage is available.
 
+### Artwork identity (issue #241; contract half)
+
+`artwork_id` is an **optional per-item illustration identity**, independent of
+`name`, `food_ref_id`, nutrition, menu grouping, and the meal photo. The agent
+may select an existing published ID; Morsel owns the catalog and validation.
+The user's descriptive `name` is preserved verbatim (including whitespace;
+blank names are rejected), never replaced with a catalog name.
+
+- **Discovery:** the `artwork_id` enum in `log_meal` and `update_meal_item`
+  input schemas (`tools/list`) publishes all allowed IDs. No new tool is added.
+  The canonical published set is derived from the **shipped**
+  [`app/Resources/FoodArt/catalog.json`](../app/Resources/FoodArt/catalog.json).
+  It includes 13 food and 5 fallback assets. The older design catalog at
+  `docs/art/food-library/catalog.json` has only 17 entries (no neutral fallback),
+  so it is not the complete publication list.
+- **Validation:** exact, case-sensitive enum membership; unknown IDs, empty
+  strings, case/whitespace variants, and explicit JSON `null` are rejected as
+  invalid input before writes. Nothing is silently dropped. Omit the field
+  when uncertain; never invent an ID or upload illustration files. PostgreSQL
+  also rejects unpublished non-null IDs with CHECK constraints.
+- **Persistence/readback:** both meal-log RPCs accept the optional JSON key,
+  store it in `meal_items.artwork_id`, and return it when non-null. `get_day`
+  items return the same value. `update_meal_item` can replace it with another
+  published ID; omitting it preserves the existing identity (no MCP clear-to-null
+  operation). Changing identity does not rename food or change macros/photos.
+  Named-menu templates also retain it in `menu_items`; `list_menus`, menu save,
+  and item-less `log_meal(menu_name)` reuse preserve it. Template edits never
+  rewrite prior meal snapshots.
+- **Compatibility:** omitted keys remain SQL NULL; pre-migration rows are not
+  backfilled. NULL/absent identity is omitted on MCP reads and RPC responses,
+  so old payloads keep their old result fields and defaults. Apply migration
+  `0013_artwork_identity.sql` before running the new server's projections;
+  this contract is not a claim of compatibility with an unmigrated database.
+  No owner relogging, production migration, or backfill is part of this work.
+- **Native precedence contract (next lane, not implemented here):** first a
+  valid explicit ID supported by the local bundle; otherwise a conservative,
+  unambiguous full name/alias match (including approved descriptive Americano
+  rules), then an unambiguous catalog category fallback, then neutral. Unknown
+  IDs in older bundles must take that fallback path, never blank/crash. No
+  naive substring matching: coffee cake, ambiguous mixed dishes, and unknown
+  foods must not become coffee. An explicit supported ID outranks names;
+  fallback changes no stored name, nutrition, or photo. Bundled offline artwork
+  remains the row illustration regardless of photo; real photos stay in detail.
+  Native decoding, resolver behavior, Paper/Night, and rendered evidence remain
+  acceptance work for part 2, not verified by this contract-only lane.
+
+Example: `{ "name": "Americano (black, no sugar, homemade)", "artwork_id": "coffee" }`.
+The illustration is not portion/nutrition evidence and needs no network generation.
+
+For catalog updates, run `node packages/schema/generate-artwork-ids.mjs` to
+regenerate `packages/schema/artwork-ids.ts`; `--check` verifies byte stability.
+`--sql` prints catalog-derived constraints for a **new forward-only migration**;
+never rewrite an applied migration. Schema tests compare the generated enum to
+the bundled catalog (and ensure every design-catalog ID is published); the real
+Postgres test inserts every ID and checks the installed constraint sets for
+both missing and extra values.
+
 ### `attach_meal_image`
 
 **Purpose:** attach the real photo bytes to a meal that was already logged
@@ -267,7 +325,7 @@ search, while an unavailable provider returns a typed tool error.
 
 ### `list_menus`
 
-**Input** `{}` — **Output** `{ "menus": [ { "menu_id": "uuid", "name": "string", "items": [ { "item_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "barcode", "food_ref_id" } ] } ] }`
+**Input** `{}` — **Output** `{ "menus": [ { "menu_id": "uuid", "name": "string", "items": [ { "item_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "barcode", "food_ref_id", "artwork_id?" } ] } ] }`
 
 Lists the caller's reusable named menus (issue #152), ordered by name. A menu
 is a meal-type-free bundle: the same items can be logged under ANY meal
@@ -282,7 +340,7 @@ loose items omit both.
 
 ### `update_meal_item`
 
-**Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string" }`
+**Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string", "artwork_id?": "published ID" }`
 **Output** `{ "ok": true, "updated": true }`
 
 At least one optional field must be supplied with `item_id`. This tool corrects
@@ -303,7 +361,7 @@ longer references it).
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD", "timezone?": "IANA zone" }`
-**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, image: { path, signed_url, expires_at }?, items: [ { item_id, name, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, image: { path, signed_url, expires_at }?, items: [ { item_id, name, artwork_id?, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
 
 A meal with a stored photo carries `image` on reads: `path` is the storage
 object path (`food-images/{user_id}/{meal_log_id}.jpg`, what the dashboard
