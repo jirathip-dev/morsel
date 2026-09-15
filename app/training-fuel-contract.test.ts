@@ -12,7 +12,10 @@ const hero = read('Views').split('private struct JournalHeroView')[1]?.split('//
 
 describe('P1 native production wiring', () => {
   it('routes the Today denominator and ring through confirmed day-only state, never Movement', () => {
-    expect(hero).toContain('private var target: Double? { trainingFuel.target }')
+    expect(hero).toContain('private var isToday: Bool { viewModel.selectedDate == viewModel.today }')
+    expect(hero).toContain('private var target: Double? { isToday ? trainingFuel.target : nil }')
+    expect(hero).toContain('isToday && trainingFuel.isCurrentDay ? trainingFuel.baseline : nil')
+    expect(hero).toMatch(/if isToday\s*\{\s*TrainingFuelSection\(model: trainingFuel\)/)
     expect(hero).toContain('goal: target,')
     expect(hero).toContain('viewModel.totals.caloriesKcal - target')
     expect(hero).toContain('MorselFormat.number(target)')

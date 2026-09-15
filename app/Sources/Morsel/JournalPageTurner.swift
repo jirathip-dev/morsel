@@ -2,12 +2,8 @@ import Combine
 import Foundation
 import SwiftUI
 
-// Issue #111 — hinged journal page turn: the incoming page swings in on the
-// approved V1 hinge (−70° → 0° with an 0.2 → 1 fade over ~0.55 s, mirrored to
-// the trailing edge for a backward turn). JournalPagerModel stays the single
-// source of truth (tab taps settle on the last requested tab; drags preview
-// the adjacent page through JournalTabNavigation and never wrap). Reduce
-// Motion never mounts this view — the shell swaps pages with a plain fade.
+// Issue #111 — V1 hinge (±70°, 0.2 → 1, .55s). The shell retains its
+// Reduce Motion fade; #168 specializes the same machine for calendar dates.
 //
 // Issue #174 — the turn is an explicit state machine (idle / dragging /
 // committing / rollingBack) with drag axis ownership and cancellation: every
@@ -65,13 +61,16 @@ struct HingeTurnPose: ViewModifier {
     let progress: Double
     var isIncoming = true
     var isActive = true
+    var vertical = false
+    var reduceMotion = false
 
     func body(content: Content) -> some View {
         content
             .rotation3DEffect(
-                .degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress) * (isIncoming ? 1 : 0)),
-                axis: (x: 0, y: 1, z: 0),
-                anchor: JournalTurnSeam.anchor(for: direction),
+                .degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress)
+                         * (isIncoming && !reduceMotion ? 1 : 0)),
+                axis: vertical ? (x: 1, y: 0, z: 0) : (x: 0, y: 1, z: 0),
+                anchor: vertical ? (direction == .forward ? .bottom : .top) : JournalTurnSeam.anchor(for: direction),
                 perspective: JournalTurnSeam.perspective
             )
             .opacity(isIncoming
@@ -92,7 +91,7 @@ enum JournalTurnCompletion: Equatable {
 /// explicit, the drag gesture owns one axis, and every operation carries a
 /// monotonic token honoured only while it is current (the audited #111 shape
 /// let a stale completion mutate newer state).
-final class JournalTurnMachine: ObservableObject {
+final class JournalTurnState<Page: Hashable>: ObservableObject {
     enum Phase: Equatable {
         case idle, dragging, committing, rollingBack
     }
@@ -105,7 +104,7 @@ final class JournalTurnMachine: ObservableObject {
     /// A turn in flight: `incoming` swings from the seam's start pose flat.
     struct Turn: Equatable {
         let id: UUID
-        let incoming: JournalTab
+        let incoming: Page
         let direction: PageTurnDirection
         var progress: Double
         var committed: Bool
@@ -124,15 +123,21 @@ final class JournalTurnMachine: ObservableObject {
     }
 
     @Published private(set) var phase: Phase = .idle
-    @Published private(set) var baseTab: JournalTab
+    @Published private(set) var baseTab: Page
     @Published private(set) var turn: Turn?
     /// Monotonic operation token: every new gesture/animation operation bumps
     /// it, which invalidates all previous completions.
     private(set) var operation: UInt = 0
     private var axis: Axis?
 
-    init(base: JournalTab = .today) {
+    private let adjacent: (Page, PageTurnDirection) -> Page?
+    private let direction: (Page, Page) -> PageTurnDirection?
+
+    init(base: Page, adjacent: @escaping (Page, PageTurnDirection) -> Page?,
+         direction: @escaping (Page, Page) -> PageTurnDirection?) {
         baseTab = base
+        self.adjacent = adjacent
+        self.direction = direction
     }
 
     /// Exactly one page is settled at rest: no preview, no swing in flight.
@@ -157,7 +162,7 @@ final class JournalTurnMachine: ObservableObject {
         }
         let direction: PageTurnDirection = deltaX < 0 ? .forward : .backward
         let progress = min(abs(deltaX) / max(Double(width), 1), 1)
-        guard let adjacent = JournalTabNavigation.adjacent(to: baseTab, turning: direction) else {
+        guard let adjacent = adjacent(baseTab, direction) else {
             dropPreview() // boundary drag (or a reversal into one) previews nothing
             return
         }
@@ -205,7 +210,7 @@ final class JournalTurnMachine: ObservableObject {
 
     /// Tab taps / external selects. The echo of our own drag commit leaves the
     /// running swing alone; anything else settles or drops what is in flight.
-    func selectionChanged(to newTab: JournalTab) {
+    func selectionChanged(to newTab: Page) {
         switch phase {
         case .committing:
             guard let active = turn else {
@@ -229,7 +234,7 @@ final class JournalTurnMachine: ObservableObject {
             break
         }
         guard newTab != baseTab,
-              let direction = JournalTabNavigation.direction(from: baseTab, to: newTab) else {
+              let direction = direction(baseTab, newTab) else {
             return
         }
         turn = Turn(id: UUID(), incoming: newTab, direction: direction, progress: 0, committed: true)
@@ -317,13 +322,7 @@ struct JournalTurnDriver {
         if effect.swipesModel, let active = machine.turn {
             pager.swipe(active.direction)
         }
-        withAnimation(.timingCurve(0.2, 0.7, 0.2, 1, duration: effect.duration)) {
-            machine.apply(effect)
-        }
-        Task { @MainActor in
-            try? await Task.sleep(for: .seconds(effect.duration))
-            machine.complete(operation: effect.operation)
-        }
+        animateJournalTurn(machine, effect: effect)
     }
 }
 

@@ -30,9 +30,9 @@ struct TodayView: View {
     }
 
     private var page: some View {
-        JournalPage(date: viewModel.snapshot?.date ?? Date()) {
+        JournalPage(date: viewModel.selectedDate) {
             TodayHeader(
-                date: viewModel.snapshot?.date ?? Date(),
+                date: viewModel.selectedDate,
                 showSettings: showSettings,
                 addMeal: addMeal
             )
@@ -65,7 +65,7 @@ struct TodayView: View {
                 }
             }
         }
-        .task {
+        .task(id: viewModel.selectedDate) {
             await viewModel.load()
         }
     }
@@ -84,7 +84,8 @@ private struct TodayHeader: View {
                 Text(date.formatted(.dateTime.weekday(.wide).month(.wide).day()))
                     .font(.morselFootnote)
                     .foregroundStyle(Color.morselInkThree)
-                Text("Today")
+                Text(Calendar.autoupdatingCurrent.isDateInToday(date)
+                     ? "Today" : date.formatted(.dateTime.weekday(.wide).day().month(.abbreviated)))
                     .font(.morselDisplay)
                     .foregroundStyle(Color.morselInk)
             }
@@ -112,8 +113,9 @@ private struct JournalHeroView: View {
 
     @EnvironmentObject private var trainingFuel: TrainingFuelModel
 
-    private var goal: DashboardGoal? { trainingFuel.isCurrentDay ? trainingFuel.baseline : nil }
-    private var target: Double? { trainingFuel.target }
+    private var isToday: Bool { viewModel.selectedDate == viewModel.today }
+    private var goal: DashboardGoal? { isToday && trainingFuel.isCurrentDay ? trainingFuel.baseline : nil }
+    private var target: Double? { isToday ? trainingFuel.target : nil }
 
     private var status: GoalStatus {
         DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: target)
@@ -187,12 +189,14 @@ private struct JournalHeroView: View {
                 )
             }
 
-            TrainingFuelSection(model: trainingFuel) {
-                Task {
-                    let day = trainingFuel.day
-                    let context = await TrainingFuelHealthReader().read(requestPermission: true)
-                    guard day == trainingFuel.day else { return }
-                    trainingFuel.context = context
+            if isToday {
+                TrainingFuelSection(model: trainingFuel) {
+                    Task {
+                        let day = trainingFuel.day
+                        let context = await TrainingFuelHealthReader().read(requestPermission: true)
+                        guard day == trainingFuel.day else { return }
+                        trainingFuel.context = context
+                    }
                 }
             }
         }
