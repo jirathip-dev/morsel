@@ -188,6 +188,12 @@ export const EXPECTED_SENTINELS = {
       "public.menu_items:menu_items_delete_own",
     ],
   },
+  "0014_dated_targets.sql": {
+    tables: ["target_baseline_revisions", "target_addition_revisions"],
+    columns: ["target_baseline_revisions.source_inputs", "target_addition_revisions.previous_revision_id"],
+    routines: ["get_dated_targets", "set_dated_target_addition"],
+    policies: ["public.target_baseline_revisions:target_baseline_select_own", "public.target_addition_revisions:target_addition_select_own"],
+  },
   "0013_artwork_identity.sql": {
     tables: [],
     columns: ["meal_items.artwork_id", "menu_items.artwork_id"],

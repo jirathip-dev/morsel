@@ -78,6 +78,9 @@ function createHarness(meals: MealRow[], signModes: Record<string, SignMode>): H
       ? new Request(input, init)
       : new Request(input.toString(), init)
 
+    if (request.method === 'POST' && request.url.includes('/rest/v1/rpc/get_dated_targets')) {
+      return Promise.resolve(jsonResponse([]))
+    }
     if (request.method === 'GET' && request.url.includes('/rest/v1/profiles')) {
       return Promise.resolve(jsonResponse([]))
     }

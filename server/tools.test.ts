@@ -128,6 +128,14 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     outputRequired: ['ok', 'source'],
   },
   {
+    name: 'set_dated_target_addition',
+    title: 'Confirm a dated target addition',
+    description: 'Persist an explicitly confirmed nonnegative addition for one diary date. Zero removes it. Read get_day first for revision; past corrections require historical confirmation and manual targets require acknowledgement. Never invent a baseline or exercise recommendation.',
+    annotations: UNCLAIMED,
+    inputRequired: ['date', 'addition_kcal', 'mutation_id'],
+    outputRequired: ['dated_target'],
+  },
+  {
     name: 'reset_goals',
     title: 'Reset manual goals',
     description: 'Discard the stored manual goal override so the effective target returns to the computed values from the profile.',
@@ -205,7 +213,7 @@ async function connectClient(repository: InMemoryRepository): Promise<Client> {
 }
 
 describe('MCP tool registration metadata (tools/list)', () => {
-  it('registers exactly the 16 contract tools with unchanged names', async () => {
+  it('registers the existing tools plus the dated addition writer', async () => {
     const client = await connectClient(new InMemoryRepository())
     try {
       const listed = await client.listTools()

@@ -1,0 +1,9 @@
+[
+  "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000253&measured_at=gte.2026-02-09T05%3A00%3A00.000Z&measured_at=lt.2026-03-11T04%3A00%3A00.000Z&order=measured_at.asc.nullslast",
+  "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000253&eaten_at=gte.2026-03-06T05%3A00%3A00.000Z&eaten_at=lt.2026-03-11T04%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
+  "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000253&limit=1",
+  "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000253&limit=1",
+  "GET /rest/v1/meal_items?select=id%2Cmeal_log_id%2Cname%2Cquantity%2Cunit%2Ccalories_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Cfiber_g%2Csugar_g%2Cconfidence%2Csource_notes%2Cmenu_group_id%2Cmenu_name%2Cartwork_id&meal_log_id=in.%28330e6a99-a6a1-4642-880b-d2e02ad9b577%2C35375b5c-86d1-4f16-ac73-cd7bf677bf7b%2Cf6f45983-4c9c-45e7-bc2e-84edb580c8ec%2C7c13e9c2-8d82-4d96-b857-382e7e108f88%29&order=created_at.asc.nullslast",
+  "POST /rest/v1/rpc/get_dated_targets",
+  "GET /server-readback"
+]

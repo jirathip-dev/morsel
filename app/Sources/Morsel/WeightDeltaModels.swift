@@ -1,12 +1,14 @@
 import Foundation
 
-/// Presentation values only; not a stored/API dated-target contract.
+/// Presentation values; production targets come only from the dated read contract.
 struct WeightDeltaDay: Identifiable, Equatable {
     let date: Date
     let logged: Bool?
     let eatenKcal: Double?
     var foodTargetKcal: Double?
     var targetSource: String?
+    var baselineKcal: Double?
+    var confirmedAdditionKcal: Double?
     var id: Date { date }
 
     init(date: Date, logged: Bool?, eatenKcal: Double?,
@@ -18,10 +20,18 @@ struct WeightDeltaDay: Identifiable, Equatable {
         self.targetSource = targetSource
     }
 
-    /// The payload's single current goal proves no dated target, even on a
-    /// cached read. In particular, do not promote it into today's snapshot.
-    init(day: HistoryDay) {
+    /// Never borrow HistoryOverview.goal, including on cached legacy reads.
+    init(day: HistoryDay) { self.init(day: day, calendar: .autoupdatingCurrent) }
+
+    init(day: HistoryDay, calendar: Calendar) {
         self.init(date: day.date, logged: day.logged, eatenKcal: day.eatenKcal)
+        guard let target = day.datedTarget else { return }
+        confirmedAdditionKcal = target.confirmedAdditionKcal
+        guard let total = target.attributableTotal(on: day.date, calendar: calendar),
+              let baseline = target.baseline else { return }
+        foodTargetKcal = total
+        baselineKcal = baseline.goal.calorieTargetKcal
+        targetSource = "Dated \(baseline.goal.source.rawValue) baseline · \(baseline.effectiveDate)"
     }
 
     var deltaKcal: Double? {

@@ -125,6 +125,12 @@ struct WeightDeltaBand: View {
             let weightText = weight.map { "\($0.kilograms.formatted(.number.precision(.fractionLength(1)))) kg" }
             valueRow("Weight", weightText ?? "no weight recorded")
             valueRow("Food recorded", day.eatenKcal.map { "\(MorselFormat.number($0)) kcal" } ?? day.status)
+            if day.baselineKcal != nil || day.confirmedAdditionKcal != nil {
+                valueRow("Dated baseline", day.baselineKcal.map { "\(MorselFormat.number($0)) kcal" } ?? "unavailable")
+                valueRow("Confirmed addition", day.confirmedAdditionKcal.map {
+                    "+\(MorselFormat.number($0)) kcal"
+                } ?? "unavailable")
+            }
             valueRow("Food target", day.foodTargetKcal.map { "\(MorselFormat.number($0)) kcal" } ?? "unavailable")
             valueRow("Eaten − target", day.status)
             if let source = day.targetSource {
