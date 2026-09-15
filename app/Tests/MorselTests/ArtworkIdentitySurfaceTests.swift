@@ -18,7 +18,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
         window.windowLevel = .alert + 1
         defer { window.isHidden = true; window.rootViewController = nil; previous?.makeKeyAndVisible() }
         let account = try XCTUnwrap(UUID(uuidString: "33333333-3333-4333-8333-333333333333"))
-        let repository = MockDashboardRepository()
+        let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil))
         let photoURL = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "coffee-photo", withExtension: "png"))
         let photo = FoodImageUpload(data: try Data(contentsOf: photoURL), mimeType: "image/png")
         _ = try repository.uploadImage(userID: account, path: ArtworkIdentityFixture.photoPath, upload: photo)
@@ -97,7 +97,7 @@ final class ArtworkIdentitySurfaceTests: XCTestCase {
 
     private func scrollView(in view: UIView) -> UIScrollView? {
         if let scroll = view as? UIScrollView { return scroll }
-        return view.subviews.lazy.compactMap { scrollView(in: $0) }.first
+        return view.subviews.lazy.compactMap { self.scrollView(in: $0) }.first
     }
 
     private func capture(_ window: UIWindow, name: String, fixture: Fixture) throws {
