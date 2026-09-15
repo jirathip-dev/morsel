@@ -20,7 +20,7 @@ import UIKit
 //
 // Lookup is offline and stable: a normalized name/alias table plus a bundled
 // `Bundle.url(forResource:)` read. No network, no generation service, no
-// logged-value reads — the resolver only ever takes item NAMES.
+// nutrition/photo mutation. A supported explicit identity outranks this name table.
 
 /// One approved A study. `unknown` is the neutral sign (an eating sign for an
 /// unknown or mixed meal), never an identified food.
@@ -112,18 +112,19 @@ enum JournalRowArtwork: Equatable, Sendable {
     /// Nothing to depict (no items, or no bundled library).
     case none
 
-    /// Issue #229 resolution order, mirroring the #199/#223 semantics:
-    ///  1. every item carries an approved A study → that study (or the
-    ///     neutral sign when the studies disagree);
-    ///  2. otherwise the #199/#223 library rules run; a neutral outcome is
-    ///     painted with the approved A `unknown` study, food/category
-    ///     outcomes keep their approved library artwork;
-    ///  3. an empty item list resolves to nothing.
+    /// Issue #241: supported explicit identities outrank ALL name-based art,
+    /// including Variant A. Without one, retain the approved A name/alias path,
+    /// then the conservative library/category fallback and A neutral sign.
+    /// Explicit neutral uses its published library asset, not a named dish.
+    /// An empty item list still resolves to nothing.
     static func resolve(
         items: [MealItem],
         assets: [FoodArtworkAsset] = FoodArtworkCatalog.bundled
     ) -> JournalRowArtwork {
         guard !items.isEmpty, !assets.isEmpty else { return .none }
+        if items.contains(where: { FoodArtworkResolver.explicitAsset($0.artworkID, in: assets) != nil }) {
+            return .library(FoodArtworkResolver.resolve(items: items, in: assets))
+        }
         if let study = JournalArtworkCatalog.study(for: items) {
             return .study(study)
         }
