@@ -150,6 +150,33 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
   })
 })
 
+describe('issue #165: unavailable-first shared-date bands', () => {
+  it('wires the real ledger days without promoting the single current goal', () => {
+    const start = history.indexOf('V1WeightTrendView(')
+    expect(start).toBeGreaterThan(-1)
+    const call = history.slice(start, history.indexOf('\n                )', start))
+    expect(call).toContain('points: trend')
+    expect(call).toContain('foodDays: viewModel.chartDays.map(WeightDeltaDay.init(day:))')
+    expect(call).not.toContain('viewModel.goal')
+    const model = read('app/Sources/Morsel/WeightDeltaModels.swift')
+    const adapter = model.slice(model.indexOf('init(day: HistoryDay)'), model.indexOf('var deltaKcal:'))
+    expect(adapter).toContain('self.init(date: day.date, logged: day.logged, eatenKcal: day.eatenKcal)')
+    expect(adapter).not.toMatch(/foodTargetKcal:|targetSource:/)
+  })
+
+  it('gives both plot areas the same date domain and insets', () => {
+    const weight = read('app/Sources/Morsel/WeightTrendView.swift')
+    const food = read('app/Sources/Morsel/WeightDeltaBand.swift')
+    const axis = '.chartXScale(domain: timeline.domain, range: .plotDimension(startPadding: 8, endPadding: 8))'
+    for (const source of [weight, food]) {
+      expect(source).toContain(axis)
+      expect(source).toContain('.chartYAxis(.hidden)')
+    }
+    expect(weight).toContain('WeightDeltaTimeline(days: foodDays, points: points, today: today)')
+    expect(weight).toContain('WeightDeltaBand(timeline: timeline, points: points, today: today)')
+  })
+})
+
 describe('issue #94: V1 journal hierarchy is implemented natively', () => {
   it('builds the Today hero from the journal chrome (ring + wash strips)', () => {
     expect(views).toContain('JournalCalorieRing(')
