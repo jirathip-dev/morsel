@@ -10,6 +10,11 @@ struct V1WeightTrendView: View {
     let delta: Double?
     let isThirtyDay: Bool
     let today: Date
+    var foodDays: [WeightDeltaDay] = []
+
+    private var timeline: WeightDeltaTimeline {
+        WeightDeltaTimeline(days: foodDays, points: points, today: today)
+    }
 
     private var sortedPoints: [WeightTrendPoint] {
         points.sorted { $0.date < $1.date }
@@ -23,13 +28,6 @@ struct V1WeightTrendView: View {
         let lower = floor(minValue - 0.5)
         let upper = ceil(maxValue + 0.5)
         return max(lower, 20)...min(upper, 300)
-    }
-
-    private var xAxisDateValues: [Date] {
-        let dates = sortedPoints.map(\.date)
-        guard let last = dates.last, dates.count > 1 else { return dates }
-        let step = max(1, dates.count / 3)
-        return stride(from: 0, to: dates.count, by: step).map { dates[$0] } + [last]
     }
 
     var body: some View {
@@ -69,33 +67,17 @@ struct V1WeightTrendView: View {
                 }
             }
             .chartYScale(domain: domain)
-            .chartXAxis {
-                AxisMarks(values: xAxisDateValues) { value in
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                        .foregroundStyle(Color.morselInkLine.opacity(0.4))
-                    AxisValueLabel {
-                        if let date = value.as(Date.self) {
-                            Text(date.formatted(.dateTime.day().month(.abbreviated)))
-                                .font(Font.morselMono(size: 9))
-                                .foregroundStyle(Color.morselInkThree)
-                        }
-                    }
-                }
-            }
-            .chartYAxis {
-                AxisMarks(position: .leading) { _ in
-                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                        .foregroundStyle(Color.morselInkLine.opacity(0.3))
-                    AxisValueLabel {
-                        Text("")
-                    }
-                }
-            }
-            .chartYAxisLabel("kg")
-                .font(Font.morselMono(size: 9))
-                .foregroundStyle(Color.morselInkThree)
+            .chartXScale(domain: timeline.domain, range: .plotDimension(startPadding: 8, endPadding: 8))
+            .chartXAxis(.hidden)
+            .chartYAxis(.hidden)
             .frame(height: 130)
+            .overlay {
+                if points.isEmpty {
+                    Text("No weight recorded").font(.morselFootnote).foregroundStyle(Color.morselInkTwo)
+                }
+            }
             .accessibilityLabel("Weight trend line")
+            WeightDeltaBand(timeline: timeline, points: points, today: today)
             if isThirtyDay {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("the line, not one day")

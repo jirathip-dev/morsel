@@ -273,14 +273,15 @@ struct HistoryView: View {
                 }
             }
 
-            if let trend = viewModel.overview?.weightTrend, !trend.isEmpty {
+            if let trend = viewModel.overview?.weightTrend {
                 JournalRule()
                     .padding(.vertical, 12)
                 V1WeightTrendView(
                     points: trend,
                     delta: viewModel.weightDeltaOverRange,
                     isThirtyDay: viewModel.range == .thirty,
-                    today: viewModel.today
+                    today: viewModel.today,
+                    foodDays: viewModel.chartDays.map(WeightDeltaDay.init(day:))
                 )
             }
         }
