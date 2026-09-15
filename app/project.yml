@@ -77,6 +77,8 @@ targets:
     deploymentTarget: "17.0"
     sources:
       - path: Tests/MorselTests
+      - path: ../docs/evidence/issue-241-artwork-native/fixtures
+        buildPhase: resources
     dependencies:
       - target: Morsel
     settings:
