@@ -14,7 +14,8 @@ final class TrainingFuelEvidenceTests: XCTestCase {
         let window = UIWindow(windowScene: scene)
         window.frame = scene.coordinateSpace.bounds
         defer { window.isHidden = true; window.rootViewController = nil }
-        let states = ["normal", "hard-confirmed", "unconfirmed", "missing", "stale", "manual", "save-failure"]
+        let states = ["normal", "hard-confirmed", "unconfirmed", "missing", "stale", "manual", "save-failure",
+                      "undo", "rollover"]
         for (theme, scheme) in [("paper", ColorScheme.light), ("night", ColorScheme.dark)] {
             for state in states {
                 let fixture = try await fixture(state)
@@ -33,7 +34,7 @@ final class TrainingFuelEvidenceTests: XCTestCase {
                     scroll.setContentOffset(CGPoint(x: 0, y: 375), animated: false)
                     try await Task.sleep(for: .milliseconds(100))
                 }
-                let name = "226-\(theme)-\(state)"
+                let name = "254-\(theme)-\(state)"
                 let image = UIGraphicsImageRenderer(bounds: window.bounds).image { _ in
                     window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
                 }
@@ -55,8 +56,12 @@ final class TrainingFuelEvidenceTests: XCTestCase {
     }
 
     private func fixture(_ state: String) async throws -> (model: TrainingFuelModel, viewModel: DashboardViewModel) {
-        let date = Date(timeIntervalSince1970: 1_789_300_800)
-        let model = TrainingFuelModel(now: { date }, accept: {
+        let day = Date(timeIntervalSince1970: 1_789_300_800)
+        let nextDay = day.addingTimeInterval(86_400)
+        // Issue #254 — the evidence fixture drives the real model clock so a
+        // day rollover is exercised through the production day-ownership code.
+        var clock = day
+        let model = TrainingFuelModel(now: { clock }, accept: {
             if state == "save-failure" { throw CocoaError(.fileWriteUnknown) }
         })
         let goal = DashboardGoal(calorieTargetKcal: 2_000, proteinG: 90, carbsG: 250, fatG: 60,
@@ -64,26 +69,42 @@ final class TrainingFuelEvidenceTests: XCTestCase {
         let item = MealItem(itemID: UUID(), name: "Focaccia", quantity: 1, unit: .serving, caloriesKcal: 230,
                             proteinG: 7, carbsG: 40, fatG: 5, fiberG: nil, sugarG: nil,
                             confidence: 0.9, notes: "Fictional simulator fixture")
-        let meal = MealRecord(mealLogID: UUID(), mealType: .lunch, eatenAt: date, source: .manual, items: [item])
-        let snapshot = DashboardSnapshot(date: date, meals: [meal], goal: goal)
-        let viewModel = DashboardViewModel(repository: MockDashboardRepository(snapshot: snapshot),
-                                           userID: UUID(), dateProvider: { date })
+        let shown = state == "rollover" ? nextDay : day
+        let meal = MealRecord(mealLogID: UUID(), mealType: .lunch, eatenAt: shown, source: .manual, items: [item])
+        func snapshot(for shown: Date) -> DashboardSnapshot {
+            DashboardSnapshot(date: shown, meals: [meal], goal: goal)
+        }
+        let viewModel = DashboardViewModel(repository: MockDashboardRepository(snapshot: snapshot(for: shown)),
+                                           userID: UUID(), dateProvider: { shown })
         await viewModel.load()
-        model.synchronize(snapshot)
+        model.synchronize(snapshot(for: day))
         if state != "missing" {
-            let sampleDate = state == "stale" ? date.addingTimeInterval(-86_400) : date
+            let sampleDate = state == "stale" ? day.addingTimeInterval(-86_400) : day
             model.context = TrainingFuelContext(
                 movement: TrainingFuelReading(value: "415 kcal", sampleDate: sampleDate,
-                                              source: "Apple Health · active energy", checkedAt: date),
+                                              source: "Apple Health · active energy", checkedAt: day),
                 workout: TrainingFuelReading(value: "Run · 40 min", sampleDate: sampleDate,
-                                             source: "Apple Health · Watch", checkedAt: date.addingTimeInterval(90)))
+                                             source: "Apple Health · Watch", checkedAt: day.addingTimeInterval(90)))
         }
         model.longerDay = ["hard-confirmed", "unconfirmed"].contains(state)
-        if ["unconfirmed", "manual", "save-failure", "hard-confirmed"].contains(state) { model.beginReview() }
+        if ["unconfirmed", "manual", "save-failure", "hard-confirmed", "undo", "rollover"].contains(state) {
+            model.beginReview()
+        }
         if state == "manual" { model.draft = "125" }
-        if ["hard-confirmed", "save-failure"].contains(state) {
+        if ["hard-confirmed", "save-failure", "undo", "rollover"].contains(state) {
             model.draft = "271.5"
             await model.confirm()
+        }
+        switch state {
+        case "undo":
+            model.undo()
+        case "rollover":
+            // The clock crosses midnight and the refreshed new day is adopted:
+            // the confirmed note belongs to the previous day and is gone.
+            clock = nextDay
+            model.synchronize(snapshot(for: nextDay))
+        default:
+            break
         }
         return (model, viewModel)
     }

@@ -7,8 +7,15 @@ import Foundation
 @MainActor
 final class TrainingFuelModel: ObservableObject {
     @Published private(set) var day: Date?
-    @Published private(set) var baseline: DashboardGoal?
-    @Published private(set) var addition: Double?
+    /// Issue #254 — the baseline and the confirmed addition are stored with
+    /// day ownership and only READ through `baseline`/`addition`, which expose
+    /// the current day's state alone. A rollover therefore cannot leak the
+    /// previous day's note or target into the new day, even before the next
+    /// refresh. Confirmed contract: a goal observed for TODAY is a baseline
+    /// revision (it takes effect today and preserves a confirmed addition);
+    /// a goal observed for any other date is never used as this day's baseline.
+    @Published private var storedBaseline: DashboardGoal?
+    @Published private var confirmedAddition: Double?
     @Published var draft = ""
     @Published var acknowledgesDayOnly = false
     @Published private(set) var isEditing = false
@@ -30,8 +37,10 @@ final class TrainingFuelModel: ObservableObject {
     }
 
     var isCurrentDay: Bool { day.map { calendar.isDate($0, inSameDayAs: now()) } ?? false }
+    var baseline: DashboardGoal? { isCurrentDay ? storedBaseline : nil }
+    var addition: Double? { isCurrentDay ? confirmedAddition : nil }
     var target: Double? {
-        guard isCurrentDay, let baseline else { return nil }
+        guard let baseline else { return nil }
         return baseline.calorieTargetKcal + (addition ?? 0)
     }
     var requiresAcknowledgement: Bool { baseline?.source == .manual }
@@ -41,7 +50,8 @@ final class TrainingFuelModel: ObservableObject {
     }
     private var parsedAmount: Double? {
         // Technical validation only: a finite, positive addition, no clinical
-        // upper bound, suggestion, preset or target reduction.
+        // upper bound, suggestion, preset or target reduction. A zero or a
+        // removal is expressed by undo, never by an entered amount.
         let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty,
               let amount = Double(text.replacingOccurrences(of: Locale.current.decimalSeparator ?? ".", with: ".")),
@@ -58,9 +68,10 @@ final class TrainingFuelModel: ObservableObject {
         let today = self.calendar.startOfDay(for: now())
         if day != today { reset(); day = today }
         guard let snapshot, self.calendar.isDate(snapshot.date, inSameDayAs: today) else { return }
-        // Capture only a goal actually observed for today. A refresh must not
-        // overwrite the baseline/source while a draft or confirmation exists.
-        if !isEditing && addition == nil { baseline = snapshot.goal }
+        // Only a goal observed for TODAY supplies a baseline, so a completed
+        // past date is never rewritten. A revision of today's goal takes
+        // effect immediately and leaves a confirmed addition in place.
+        storedBaseline = snapshot.goal
     }
 
     func beginReview() {
@@ -92,7 +103,7 @@ final class TrainingFuelModel: ObservableObject {
                 error = "The day changed. Nothing applied; cancel and review the new day."
                 return
             }
-            addition = amount
+            confirmedAddition = amount
             isPending = false
             isEditing = false
         } catch {
@@ -104,7 +115,7 @@ final class TrainingFuelModel: ObservableObject {
 
     func undo() {
         guard isCurrentDay, !isPending else { return }
-        addition = nil
+        confirmedAddition = nil
         cancel()
         draft = ""
         acknowledgesDayOnly = false
@@ -112,8 +123,8 @@ final class TrainingFuelModel: ObservableObject {
 
     private func reset() {
         cancel()
-        baseline = nil
-        addition = nil
+        storedBaseline = nil
+        confirmedAddition = nil
         draft = ""
         acknowledgesDayOnly = false
         longerDay = false

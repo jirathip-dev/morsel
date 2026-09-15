@@ -50,8 +50,16 @@ describe('P1 native production wiring', () => {
     expect(read('TrainingFuelHealthReader')).toContain('toShare: []')
     expect(read('TrainingFuelHealthReader')).toContain('options: .cumulativeSum')
   })
+  it('keeps the confirmed note and the baseline day-owned, never leaking across a rollover', () => {
+    // Issue #254 — one confirmed addition belongs to one diary date; a goal
+    // observed for today is a revision that preserves the addition.
+    expect(model).toContain('var baseline: DashboardGoal? { isCurrentDay ? storedBaseline : nil }')
+    expect(model).toContain('var addition: Double? { isCurrentDay ? confirmedAddition : nil }')
+    expect(model).toContain('storedBaseline = snapshot.goal')
+    expect(model).not.toContain('addition == nil { baseline = snapshot.goal }')
+  })
   it('commits only after acceptance and keeps all durable write capabilities out', () => {
-    expect(model.indexOf('addition = amount')).toBeGreaterThan(model.indexOf('try await accept()'))
+    expect(model.indexOf('confirmedAddition = amount')).toBeGreaterThan(model.indexOf('try await accept()'))
     expect(model).toContain('guard operation == token else { return }')
     expect(model).toContain('guard isCurrentDay else')
     expect(model).not.toMatch(/repository\.|saveGoals|deleteMeal|UserDefaults|HKHealthStore/)

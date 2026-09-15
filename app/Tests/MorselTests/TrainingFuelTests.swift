@@ -111,7 +111,7 @@ final class TrainingFuelTests: XCTestCase {
         XCTAssertNil(subject.addition)
     }
 
-    func testNoCurrentGoalIsInventedForOldDatesOrNextDay() async {
+    func testPastDatedSnapshotAndNextDayNeverBorrowTheCurrentGoal() async {
         var clock = today
         let subject = TrainingFuelModel(calendar: calendar, now: { clock })
         subject.synchronize(snapshot(date: today.addingTimeInterval(-86_400)))
@@ -120,18 +120,114 @@ final class TrainingFuelTests: XCTestCase {
         subject.beginReview()
         subject.draft = "137"
         await subject.confirm()
-        let baseline = subject.baseline
-        let changed = DashboardSnapshot(date: today, meals: [], goal: DashboardGoal(
-            calorieTargetKcal: 2_500, proteinG: 100, carbsG: 250, fatG: 70, source: .manual))
-        subject.synchronize(changed)
-        XCTAssertEqual(subject.baseline, baseline)
-        XCTAssertEqual(subject.target, 2_137)
+        let confirmed = subject.baseline
         clock = today.addingTimeInterval(86_400)
-        XCTAssertNil(subject.target)
-        subject.synchronize(changed)
-        XCTAssertNil(subject.target)
+        // Issue #254 — the confirmed note belongs to the day it was confirmed
+        // for. After a rollover nothing about the previous day is presented as
+        // the new day's note, with or without a refresh.
+        XCTAssertFalse(subject.isCurrentDay)
         XCTAssertNil(subject.addition)
-        XCTAssertEqual(changed.goal?.calorieTargetKcal, 2_500)
+        XCTAssertNil(subject.baseline)
+        XCTAssertNil(subject.target)
+        subject.beginReview()
+        XCTAssertFalse(subject.isEditing)
+        subject.undo()
+        XCTAssertNil(subject.addition)
+        let next = DashboardSnapshot(date: clock, meals: [], goal: DashboardGoal(
+            calorieTargetKcal: 2_100, proteinG: 95, carbsG: 250, fatG: 60, source: .computed))
+        subject.synchronize(next)
+        XCTAssertEqual(subject.target, 2_100)
+        XCTAssertNotEqual(subject.baseline, confirmed, "the new day never borrows the previous day's note")
+    }
+
+    func testTodayBaselineRevisionTakesEffectAndPreservesTheConfirmedAddition() async {
+        let subject = model()
+        subject.synchronize(snapshot())
+        subject.beginReview()
+        subject.draft = "137"
+        await subject.confirm()
+        XCTAssertEqual(subject.target, 2_137)
+        // Confirmed contract: a goal observed for TODAY is a baseline revision.
+        // It takes effect today, keeps the confirmed addition, and the revised
+        // total is shown. No past date is rewritten.
+        let revised = DashboardSnapshot(date: today, meals: [MealRecord(
+            mealLogID: UUID(), mealType: .lunch, eatenAt: today, source: .manual, items: [])],
+            goal: DashboardGoal(calorieTargetKcal: 2_500, proteinG: 100, carbsG: 250, fatG: 70, source: .manual))
+        subject.synchronize(revised)
+        XCTAssertEqual(subject.baseline?.calorieTargetKcal, 2_500)
+        XCTAssertEqual(subject.addition, 137, "a baseline revision preserves the confirmed addition")
+        XCTAssertEqual(subject.target, 2_637)
+        XCTAssertEqual(revised.goal?.calorieTargetKcal, 2_500, "the revision never writes the goal")
+        subject.beginReview()
+        subject.draft = "63"
+        subject.acknowledgesDayOnly = true
+        await subject.confirm()
+        XCTAssertEqual(subject.addition, 63)
+        XCTAssertEqual(subject.target, 2_563)
+    }
+
+    func testDuplicateConfirmAndOfflineRetryApplyTheNoteExactlyOnce() async {
+        let gate = TrainingFuelTestGate()
+        var accepted = 0
+        let subject = TrainingFuelModel(calendar: calendar, now: { self.today }, accept: {
+            accepted += 1
+            try await gate.wait()
+        })
+        subject.synchronize(snapshot())
+        subject.beginReview()
+        subject.draft = "150"
+        let first = Task { await subject.confirm() }
+        await gate.entered()
+        await subject.confirm() // duplicate confirm while the first is pending
+        gate.finish()
+        await first.value
+        XCTAssertEqual(accepted, 1, "a duplicate confirm never applies the note twice")
+        XCTAssertEqual(subject.addition, 150)
+        XCTAssertEqual(subject.target, 2_150)
+
+        var attempts = 0
+        let retried = TrainingFuelModel(calendar: calendar, now: { self.today }, accept: {
+            attempts += 1
+            if attempts == 1 { throw CocoaError(.fileWriteUnknown) }
+        })
+        retried.synchronize(snapshot())
+        retried.beginReview()
+        retried.draft = "225"
+        await retried.confirm() // offline failure
+        XCTAssertNil(retried.addition)
+        XCTAssertEqual(retried.target, 2_000)
+        XCTAssertEqual(retried.draft, "225", "a failure retains the draft")
+        XCTAssertNotNil(retried.error)
+        XCTAssertTrue(retried.isEditing)
+        await retried.confirm() // retry
+        XCTAssertEqual(attempts, 2)
+        XCTAssertEqual(retried.addition, 225)
+        XCTAssertEqual(retried.target, 2_225)
+        XCTAssertNil(retried.error)
+        XCTAssertFalse(retried.isEditing)
+    }
+
+    func testUndoNeverTouchesTheBaselineMealsOrHealthContext() async {
+        let subject = model()
+        let original = snapshot()
+        subject.synchronize(original)
+        let reading = TrainingFuelReading(value: "415 kcal", sampleDate: today,
+                                          source: "Apple Health · active energy", checkedAt: today)
+        subject.context = TrainingFuelContext(movement: reading, workout: nil)
+        subject.longerDay = true
+        subject.beginReview()
+        subject.draft = "271.5"
+        await subject.confirm()
+        XCTAssertEqual(subject.addition, 271.5)
+        subject.undo()
+        XCTAssertNil(subject.addition)
+        XCTAssertEqual(subject.target, 2_000)
+        XCTAssertEqual(subject.baseline, original.goal)
+        XCTAssertEqual(subject.context.movement, reading)
+        XCTAssertEqual(subject.context.workout, nil)
+        XCTAssertEqual(original.meals.count, 1)
+        XCTAssertEqual(original.goal?.calorieTargetKcal, 2_000)
+        XCTAssertEqual(original.activeEnergyBurned, 820)
     }
 
     func testInvalidNumbersCannotBecomeAdjustments() async {
@@ -161,6 +257,20 @@ final class TrainingFuelTests: XCTestCase {
         let checked = workout.checkedAt.formatted(date: .abbreviated, time: .shortened)
         XCTAssertTrue(workout.detail(for: today).contains(checked))
         XCTAssertFalse(workout.detail(for: today).contains("Last known"))
+    }
+
+    func testATrueZeroReadingIsNeverRenderedAsMissingHealth() {
+        let zero = TrainingFuelReading(value: "0 kcal", sampleDate: today,
+                                       source: "Apple Health · active energy", checkedAt: today)
+        let context = TrainingFuelContext(movement: zero, workout: nil)
+        XCTAssertEqual(TrainingFuelContext.value(context.movement), "0 kcal")
+        XCTAssertEqual(TrainingFuelContext.value(nil), "Unavailable")
+        XCTAssertNotEqual(TrainingFuelContext.value(context.movement), TrainingFuelContext.value(nil),
+                          "a real zero is not missing, denied or unavailable Health")
+        XCTAssertTrue(zero.detail(for: today).contains("Recorded"))
+        XCTAssertFalse(zero.detail(for: today).contains("Last known"))
+        XCTAssertEqual(TrainingFuelContext.value(context.workout), "Unavailable",
+                       "separate types stay separate: no Movement value stands in for a workout")
     }
 }
 
