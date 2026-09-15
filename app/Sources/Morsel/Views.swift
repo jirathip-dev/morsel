@@ -6,6 +6,7 @@ import SwiftUI
 
 struct TodayView: View {
     @ObservedObject var viewModel: DashboardViewModel
+    @Environment(\.trainingFuelHosted) private var trainingFuelHosted
     /// Issue #176 — Today's presentations (item edit, meal delete) are owned
     /// by the shell, OUTSIDE this transient page: a turn can pose, hide or
     /// replace the page while a presentation opens, and settlement must
@@ -20,6 +21,15 @@ struct TodayView: View {
     let addMeal: () -> Void
 
     var body: some View {
+        if trainingFuelHosted {
+            page
+        } else {
+            // Standalone previews/tests use the same owner as the app shell.
+            page.trainingFuel(viewModel: viewModel)
+        }
+    }
+
+    private var page: some View {
         JournalPage(date: viewModel.snapshot?.date ?? Date()) {
             TodayHeader(
                 date: viewModel.snapshot?.date ?? Date(),
@@ -100,15 +110,18 @@ private struct TodayHeader: View {
 private struct JournalHeroView: View {
     @ObservedObject var viewModel: DashboardViewModel
 
-    private var goal: DashboardGoal? { viewModel.snapshot?.goal }
+    @EnvironmentObject private var trainingFuel: TrainingFuelModel
+
+    private var goal: DashboardGoal? { trainingFuel.isCurrentDay ? trainingFuel.baseline : nil }
+    private var target: Double? { trainingFuel.target }
 
     private var status: GoalStatus {
-        DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: goal?.calorieTargetKcal)
+        DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: target)
     }
 
     private var remaining: String? {
-        guard let goal else { return nil }
-        let delta = viewModel.totals.caloriesKcal - goal.calorieTargetKcal
+        guard let target else { return nil }
+        let delta = viewModel.totals.caloriesKcal - target
         if delta > 0 {
             return "\(MorselFormat.number(delta)) kcal over"
         }
@@ -120,7 +133,7 @@ private struct JournalHeroView: View {
             HStack(alignment: .center, spacing: 16) {
                 JournalCalorieRing(
                     eaten: viewModel.totals.caloriesKcal,
-                    goal: goal?.calorieTargetKcal,
+                    goal: target,
                     status: status
                 )
                 VStack(alignment: .leading, spacing: 5) {
@@ -131,8 +144,8 @@ private struct JournalHeroView: View {
                             .font(.morselHero)
                             .foregroundStyle(Color.morselInk)
                             .monospacedDigit()
-                        if let goal {
-                            Text("/ \(MorselFormat.number(goal.calorieTargetKcal)) kcal")
+                        if let target {
+                            Text("/ \(MorselFormat.number(target)) kcal")
                                 .font(.morselBody)
                                 .foregroundStyle(Color.morselInkTwo)
                         }
@@ -174,18 +187,12 @@ private struct JournalHeroView: View {
                 )
             }
 
-            if let margin = ActiveEnergyMarginNote.line(
-                totalKcal: viewModel.snapshot?.activeEnergyBurned ?? 0,
-                lastImport: viewModel.lastHealthImportDate
-            ) {
-                // V1 locked semantics: activity is a margin note; it never
-                // feeds the eaten readout (issue #113 C adds the Apple Health
-                // source + last-import time to the same note).
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(margin)
-                        .font(.morselFootnote)
-                        .foregroundStyle(Color.morselInkTwo)
-                    MarkerStroke(color: Color.morselInkLine.opacity(0.8), width: 150, height: 2)
+            TrainingFuelSection(model: trainingFuel) {
+                Task {
+                    let day = trainingFuel.day
+                    let context = await TrainingFuelHealthReader().read(requestPermission: true)
+                    guard day == trainingFuel.day else { return }
+                    trainingFuel.context = context
                 }
             }
         }

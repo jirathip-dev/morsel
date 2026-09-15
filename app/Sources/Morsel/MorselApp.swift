@@ -281,7 +281,7 @@ private struct AuthenticatedDashboardView: View {
         // Issue #176 — the shell anchors the Today presentations it owns (the
         // environment object wraps the anchor whose sheets inherit it).
         .journalPresentations(presentations, viewModel: viewModel)
-        .environmentObject(viewModel)
+        .environmentObject(viewModel).trainingFuel(viewModel: viewModel)
         .animation(reduceMotion ? .easeInOut(duration: 0.15) : .easeInOut(duration: 0.3),
                    value: routeModel.isPresentingAddMeal)
         .task {
