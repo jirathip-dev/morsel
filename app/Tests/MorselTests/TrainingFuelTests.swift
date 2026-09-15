@@ -274,6 +274,43 @@ final class TrainingFuelTests: XCTestCase {
     }
 }
 
+/// Fix round 1 — the reachable path that wiped today's baseline: a locally
+/// queued meal is painted before any dashboard read, so ViewModel.swift
+/// publishes a today-dated snapshot whose goal is absent and
+/// TrainingFuelHost.swift forwards it to the model. Its own class keeps
+/// `TrainingFuelTests` inside the type-body budget.
+@MainActor
+final class TrainingFuelNilGoalRegressionTests: XCTestCase {
+    private let today = Date(timeIntervalSince1970: 1_789_300_800)
+
+    func testAbsentGoalSnapshotFromAQueuedMealPaintKeepsBaselineAndConfirmation() async {
+        let subject = TrainingFuelModel(calendar: Calendar(identifier: .gregorian), now: { self.today })
+        subject.synchronize(DashboardSnapshot(date: today, meals: [], goal: DashboardGoal(
+            calorieTargetKcal: 2_000, proteinG: 90, carbsG: 250, fatG: 60, source: .computed)))
+        XCTAssertEqual(subject.target, 2_000)
+        let record = MealRecord(mealLogID: UUID(), mealType: .lunch, eatenAt: today, source: .manual, items: [])
+        let viewModel = DashboardViewModel(repository: QueuedMealWithoutGoalRepository(record: record),
+                                           userID: UUID(), dateProvider: { self.today })
+        let saved = await viewModel.addMeal(
+            draft: MealDraft(mealType: .lunch, eatenAt: today, notes: nil, items: []), photo: nil)
+        XCTAssertTrue(saved)
+        XCTAssertNil(viewModel.errorMessage)
+        let published = viewModel.snapshot
+        XCTAssertNil(published?.goal, "the queued-meal paint publishes a today-dated snapshot with no goal")
+        subject.synchronize(published, calendar: .autoupdatingCurrent) // TrainingFuelHost.swift forwards this
+        XCTAssertEqual(subject.baseline?.calorieTargetKcal, 2_000, "an absent goal is not an observation")
+        XCTAssertEqual(subject.target, 2_000)
+        subject.beginReview()
+        subject.draft = "150"
+        XCTAssertTrue(subject.canConfirm, "an absent goal must not disable confirmation")
+        await subject.confirm()
+        XCTAssertEqual(subject.target, 2_150)
+        subject.synchronize(DashboardSnapshot(date: today, meals: [], goal: nil))
+        XCTAssertEqual(subject.addition, 150, "a confirmed addition survives an absent-goal snapshot")
+        XCTAssertEqual(subject.target, 2_150)
+    }
+}
+
 @MainActor
 private final class TrainingFuelTestGate {
     private var continuation: CheckedContinuation<Void, Error>?
@@ -292,4 +329,39 @@ private final class TrainingFuelTestGate {
         continuation = nil
         if failing { waiting?.resume(throwing: CocoaError(.fileWriteUnknown)) } else { waiting?.resume() }
     }
+}
+
+/// Fix round 1 — the repository state behind ViewModel.swift's queued-meal
+/// paint: the meal is committed locally, no dashboard read has produced a
+/// snapshot yet, and the follow-up reload fails rather than supplying a goal.
+private final class QueuedMealWithoutGoalRepository: DashboardRepository {
+    private let record: MealRecord
+
+    init(record: MealRecord) {
+        self.record = record
+    }
+
+    func logMeal(userID: UUID, draft: MealDraft, photo: FoodImageUpload?) async throws -> UUID {
+        record.mealLogID
+    }
+
+    func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? { record }
+
+    func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
+        throw MorselError.requestFailed(503, "dashboard read not available yet")
+    }
+
+    func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
+        throw MorselError.requestFailed(503, "dashboard read not available yet")
+    }
+
+    func confirmMealItem(userID: UUID, itemID: UUID) async throws {}
+    func updateMealItem(userID: UUID, update: MealItemUpdate) async throws {}
+    func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {}
+    func loadMealImage(userID: UUID, path: String) async throws -> Data { Data() }
+    func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
+    func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal {
+        throw MorselError.requestFailed(503, "goals read not available yet")
+    }
+    func saveGoals(userID: UUID, goal: DashboardGoal) async throws {}
 }

@@ -69,9 +69,13 @@ final class TrainingFuelModel: ObservableObject {
         if day != today { reset(); day = today }
         guard let snapshot, self.calendar.isDate(snapshot.date, inSameDayAs: today) else { return }
         // Only a goal observed for TODAY supplies a baseline, so a completed
-        // past date is never rewritten. A revision of today's goal takes
-        // effect immediately and leaves a confirmed addition in place.
-        storedBaseline = snapshot.goal
+        // past date is never rewritten. A revision of today's goal takes effect
+        // immediately and leaves a confirmed addition in place. An ABSENT goal
+        // is not an observation: the queued-meal paint publishes a today-dated
+        // snapshot with no goal, and adopting it would wipe today's baseline and
+        // silently disable confirmation, so only a genuinely present goal is
+        // adopted — a nil goal leaves the existing baseline and target intact.
+        if let goal = snapshot.goal { storedBaseline = goal }
     }
 
     func beginReview() {

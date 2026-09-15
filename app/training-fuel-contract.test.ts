@@ -52,10 +52,12 @@ describe('P1 native production wiring', () => {
   })
   it('keeps the confirmed note and the baseline day-owned, never leaking across a rollover', () => {
     // Issue #254 — one confirmed addition belongs to one diary date; a goal
-    // observed for today is a revision that preserves the addition.
+    // observed for today is a revision that preserves the addition. An absent
+    // goal is not an observation: it must never wipe the baseline (fix round 1).
     expect(model).toContain('var baseline: DashboardGoal? { isCurrentDay ? storedBaseline : nil }')
     expect(model).toContain('var addition: Double? { isCurrentDay ? confirmedAddition : nil }')
-    expect(model).toContain('storedBaseline = snapshot.goal')
+    expect(model).toContain('if let goal = snapshot.goal { storedBaseline = goal }')
+    expect(model).not.toMatch(/^\s*storedBaseline = snapshot\.goal$/m)
     expect(model).not.toContain('addition == nil { baseline = snapshot.goal }')
   })
   it('commits only after acceptance and keeps all durable write capabilities out', () => {
