@@ -129,15 +129,14 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
 
   it('shows the activity margin note that is never an operand', () => {
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
-    // Issue #113 C: the hero renders the note through the shared builder
-    // (moved X kcal [· Apple Health · HH:mm from the #112 stamp]).
-    expect(hero).toMatch(/ActiveEnergyMarginNote\.line\(/)
-    expect(hero).toContain('lastImport: viewModel.lastHealthImportDate')
+    // P1 reads each Health type's real dates instead of the upload stamp.
+    expect(hero).toContain('TrainingFuelSection(model: trainingFuel)')
+    expect(hero).toContain('TrainingFuelHealthReader().read(requestPermission: true)')
     expect(marginNote).toMatch(/moved\b[\s\S]{0,80}?\bkcal/)
     expect(marginNote, 'the margin note must never be subtracted').not.toMatch(/subtract|minus|intake/i)
     expect(hero, 'the hero must render left/over words against the goal').toMatch(/kcal left/)
     expect(hero).toMatch(/kcal over/)
-    expect(hero).toContain('activeEnergyBurned')
+    expect(hero).not.toContain('activeEnergyBurned')
     expect(hero, 'the hero must never compose the margin copy inline').not.toMatch(/kcal today/)
   })
 
@@ -148,6 +147,33 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
     expect(historyModels).toMatch(/return "under"/)
     expect(historyModels).toMatch(/return "on target"/)
     expect(historyModels).toMatch(/return "over"/)
+  })
+})
+
+describe('issue #165: unavailable-first shared-date bands', () => {
+  it('wires the real ledger days without promoting the single current goal', () => {
+    const start = history.indexOf('V1WeightTrendView(')
+    expect(start).toBeGreaterThan(-1)
+    const call = history.slice(start, history.indexOf('\n                )', start))
+    expect(call).toContain('points: trend')
+    expect(call).toContain('foodDays: viewModel.chartDays.map(WeightDeltaDay.init(day:))')
+    expect(call).not.toContain('viewModel.goal')
+    const model = read('app/Sources/Morsel/WeightDeltaModels.swift')
+    const adapter = model.slice(model.indexOf('init(day: HistoryDay)'), model.indexOf('var deltaKcal:'))
+    expect(adapter).toContain('self.init(date: day.date, logged: day.logged, eatenKcal: day.eatenKcal)')
+    expect(adapter).not.toMatch(/foodTargetKcal:|targetSource:/)
+  })
+
+  it('gives both plot areas the same date domain and insets', () => {
+    const weight = read('app/Sources/Morsel/WeightTrendView.swift')
+    const food = read('app/Sources/Morsel/WeightDeltaBand.swift')
+    const axis = '.chartXScale(domain: timeline.domain, range: .plotDimension(startPadding: 8, endPadding: 8))'
+    for (const source of [weight, food]) {
+      expect(source).toContain(axis)
+      expect(source).toContain('.chartYAxis(.hidden)')
+    }
+    expect(weight).toContain('WeightDeltaTimeline(days: foodDays, points: points, today: today)')
+    expect(weight).toContain('WeightDeltaBand(timeline: timeline, points: points, today: today)')
   })
 })
 

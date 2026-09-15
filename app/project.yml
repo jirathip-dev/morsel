@@ -61,8 +61,8 @@ targets:
         INFOPLIST_KEY_MORSEL_MCP_URL: ""
         INFOPLIST_KEY_NSCameraUsageDescription: "Morsel uses the camera to attach a photo to your meal log."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Morsel uses your photo library to attach a photo to your meal log."
-        INFOPLIST_KEY_NSHealthShareUsageDescription: "Morsel reads body mass from Apple Health to show your weight trend."
-        INFOPLIST_KEY_NSHealthUpdateUsageDescription: "Morsel reads your weight and active energy from Apple Health and does not write health data."
+        INFOPLIST_KEY_NSHealthShareUsageDescription: "Morsel reads weight, active energy and workouts to show dated Health context. It never adds movement calories to your food target."
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: "Morsel reads your weight, active energy and workouts from Apple Health and does not write health data."
         # Standard-encryption exemption: Morsel uses only Apple OS encryption
         # (HTTPS, Keychain, Sign in with Apple), so TestFlight compliance is
         # declared in the generated Info.plist instead of the ASC questionnaire.
