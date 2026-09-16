@@ -41,7 +41,7 @@ struct TodayView: View {
             if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
                 VStack(spacing: 20) {
                     ErrorNotice(message: errorMessage) {
-                        Task { await viewModel.load() }
+                        Task { await viewModel.load(superseding: true) }
                     }
                     if viewModel.selectedDate == viewModel.today { TrainingDayUnavailableRow() }
                 }
@@ -57,12 +57,12 @@ struct TodayView: View {
                     // read) says so above the values it is showing.
                     if viewModel.isShowingCachedDay {
                         CachedDayNotice(lastLoadedAt: viewModel.lastLoadedAt) {
-                            Task { await viewModel.load() }
+                            Task { await viewModel.load(superseding: true) }
                         }
                     }
                     if viewModel.incompleteMealCount > 0 {
                         IncompleteDayNotice(mealCount: viewModel.incompleteMealCount) {
-                            Task { await viewModel.load() }
+                            Task { await viewModel.load(superseding: true) }
                         }
                     }
                     if let errorMessage = viewModel.errorMessage {

@@ -73,6 +73,7 @@ private struct MorselRootView: View {
                     supabaseClient: supabaseClient, session: session, mcpEndpoint: mcpEndpoint,
                     auth: auth, onSignOut: { Task { await sessionStore.signOut(using: auth) } }
                 )
+                .id(session.userID)
             } else if sessionStore.isSetupDeferred {
                 MorselActionTint {
                     SignInView(auth: auth) { session in
@@ -282,15 +283,15 @@ private struct AuthenticatedDashboardView: View {
                    value: routeModel.isPresentingAddMeal)
         .task {
             if let timezoneSync { Task { await timezoneSync.syncIfChanged() } }
-            async let health: Void = viewModel.importWeights()
-            await viewModel.load()
-            _ = await health
             reliability?.engine.onSyncCompleted = { [weak viewModel] in
                 Task { @MainActor in
-                    await viewModel?.load()
+                    await viewModel?.invalidateDay()
                     await viewModel?.refreshHealthCalmStatus()
                 }
             }
+            async let health: Void = viewModel.importWeights()
+            await viewModel.load()
+            _ = await health
             if !OnboardingStore().hasCompleted(for: viewModel.userID) {
                 showingOnboarding = true
             }
@@ -300,9 +301,10 @@ private struct AuthenticatedDashboardView: View {
                 Task { await timezoneSync?.syncIfChanged() }
                 reliability?.engine.syncNow()
                 Task { await viewModel.load() }
-            }
+            } else if phase == .background { viewModel.cancelRefresh() }
         }
         .onDisappear {
+            viewModel.cancelRefresh()
             reliability?.shutdownAndClear()
         }
         .fullScreenCover(isPresented: $showingSettings) {
@@ -333,10 +335,10 @@ private struct AuthenticatedDashboardView: View {
             .preferredColorScheme(coverColorScheme)
         }
         .onChange(of: pager.selection) { oldTab, newTab in
+            if oldTab == .today, newTab != .today { viewModel.cancelRefresh() }
             if routeModel.isPresentingAddMeal {
                 routeModel.closeAddMeal()
             }
-            // The stage owns activation; refresh Today's shared model on return.
             if oldTab != newTab, newTab == .today {
                 Task { await viewModel.load() }
             }
@@ -356,8 +358,6 @@ private struct AuthenticatedDashboardView: View {
             }
         }
     }
-
-    /// The stage retains pages; route overlays own interaction (#175/#176).
     private func journalPage(for tab: JournalTab) -> some View {
         JournalPageStage(pager: pager, active: tab,
                          overlayCoversPages: routeModel.route != .tabPages) { pageTab, activation in
@@ -392,7 +392,7 @@ private struct AuthenticatedDashboardView: View {
                 GoalsView(repository: viewModel.repository,
                           userID: viewModel.userID,
                           reloadKey: activation,
-                          onSaved: { await viewModel.load() },
+                          onSaved: { await viewModel.invalidateDay() },
                           seeToday: { pager.select(.today) })
             }
         }
