@@ -765,12 +765,19 @@ export async function inspect({ root, query }) {
   const localFiles = readdirSync(join(root, "db", "migrations")).filter((f) => f.endsWith(".sql"));
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
-  // 0014 is forward-apply only: its presence must not prevent recovery of
-  // 0001–0013 on an older database. Never converge or attest it here; an
-  // already-recorded forward migration still blocks this older recovery tool.
-  const allowedFiles = new Set([...CANONICAL_FILES, "0014_dated_targets.sql"]);
+  // Forward-apply-only migrations (0014 dated targets, 0015 artwork allowlist
+  // widening): their presence must not prevent recovery of 0001–0013 on an
+  // older database. Never converge or attest them here; an already-recorded
+  // forward migration still blocks this older recovery tool.
+  const allowedFiles = new Set([
+    ...CANONICAL_FILES,
+    "0014_dated_targets.sql",
+    "0015_artwork_identity_expansion.sql",
+  ]);
   if (!CANONICAL_FILES.every((f) => localSet.has(f)) || localFiles.some((f) => !allowedFiles.has(f))) {
-    throw new SanitizedError("manifest mismatch: expected db/migrations/0001..0013 and optional 0014_dated_targets.sql");
+    throw new SanitizedError(
+      "manifest mismatch: expected db/migrations/0001..0013 and optional 0014_dated_targets.sql / 0015_artwork_identity_expansion.sql",
+    );
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};
