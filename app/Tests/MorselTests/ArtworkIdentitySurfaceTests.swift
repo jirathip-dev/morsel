@@ -152,14 +152,13 @@ final class FoodArtworkQualifierSurfaceTests: XCTestCase {
     }
 
     /// The issue's observed agent-written names (qualifier positives), the
-    /// no-regression Americano form, two compound false friends, and two real
-    /// names this bounded lane deliberately leaves neutral (no asset exists —
-    /// that catalog gap is #262's, recorded in the lane's `.report.md`).
+    /// no-regression Americano form, two compound false friends, and two names
+    /// whose noun parentheticals remain outside the shipped qualifier grammar.
     private let fixtures = [
         Fixture(key: "rice-qualified", name: "White rice, cooked (half portion)", identity: "jasmine-rice"),
         Fixture(key: "black-coffee-large", name: "black coffee, large", identity: "coffee"),
         Fixture(key: "descriptive-americano", name: "Americano (black, no sugar, homemade)", identity: "coffee"),
-        Fixture(key: "coffee-cake", name: "coffee cake", identity: nil),
+        Fixture(key: "coffee-cake", name: "coffee cake", identity: "cake"),
         Fixture(key: "rice-cake", name: "Rice cake", identity: nil),
         Fixture(key: "pasta-gap", name: "Pasta (linguine), cooked", identity: nil),
         Fixture(key: "kale-gap", name: "Chinese kale, cooked (kana)", identity: nil)

@@ -24,8 +24,8 @@ targets:
       # template cannot carry UIAppFonts without release-tooling edits).
       - path: Fonts
         buildPhase: resources
-      # Issue #199 — approved ink/wash food illustrations (issue #197 art,
-      # byte-identical copies of docs/art/food-library-v2/exports/*-64.png)
+      # Issue #266 — frozen approved library from design/262-library-expansion
+      # at 4e67e66, copied as one unchanged 64px PNG per theme and identity
       # plus the committed catalog.json the offline resolver maps names and
       # aliases through. Bundled so a missing-photo meal renders immediately
       # with no network asset dependency.
@@ -38,6 +38,12 @@ targets:
       # artwork lookup; 4× the 56pt row target so every placement downsamples.
       - path: Resources/JournalArt
         buildPhase: resources
+    postBuildScripts:
+      - name: Validate food-art completeness
+        script: |
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          xcrun --sdk macosx swift "$SRCROOT/Scripts/validate-food-art.swift" "$SRCROOT/Resources/FoodArt" "$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
+        basedOnDependencyAnalysis: false
     dependencies:
       - package: Supabase
         product: Supabase

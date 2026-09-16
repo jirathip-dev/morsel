@@ -204,6 +204,21 @@ export const EXPECTED_SENTINELS = {
       "menu_items:menu_items_artwork_id_published",
     ],
   },
+  // Issue #266: forward-only WIDENING of the two allowlist CHECKs 0013 created.
+  // It adds no named object, so there is no structural sentinel that could
+  // distinguish it from 0013 alone (the constraint NAME is identical either
+  // way — only its id list changes, and this tool never compares definitions).
+  // Listing the constraints here would report PRESENT on a database where the
+  // widening was never applied; the exact id set is pinned instead by
+  // packages/schema/food-types.test.ts (enum == bundled catalog),
+  // app/Scripts/food-art-sha256.json's generator check and
+  // db/postgres-integration.test.ts (installed constraint ids == enum).
+  "0015_artwork_identity_expansion.sql": {
+    tables: [],
+    columns: [],
+    routines: [],
+    policies: [],
+  },
 };
 
 export class UsageError extends Error {

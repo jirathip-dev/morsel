@@ -1,0 +1,11 @@
+{
+  "identified-food-differs-from-the-neutral-sign": true,
+  "identified-food-differs-from-the-neutral-sign-night": true,
+  "new-category-marks-are-distinct-from-each-other": true,
+  "new-category-marks-are-distinct-from-the-neutral-sign": true,
+  "paper-and-night-cells-differ": true,
+  "resolver-neutral-cases-share-one-neutral-sign": true,
+  "resolver-neutral-cases-share-one-neutral-sign-night": true,
+  "same-asset-cases-are-pixel-identical": true,
+  "same-asset-cases-are-pixel-identical-night": true
+}
