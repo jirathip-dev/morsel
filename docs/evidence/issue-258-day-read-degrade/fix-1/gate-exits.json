@@ -1,0 +1,62 @@
+[
+  {
+    "command": "npm ci",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/npm-ci.log",
+    "log_sha256": "f90121cb7e5b6ff21941f438cbc5c2747c8d78759ecfa4c5ea64a7b29d408567"
+  },
+  {
+    "command": "npm run typecheck",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/typecheck.log",
+    "log_sha256": "3dfea7c6f8c4d9af4a369fe7ca2779bbaa9d73d47a172faad45b607c44e46ade"
+  },
+  {
+    "command": "npm run lint",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/lint.log",
+    "log_sha256": "6424e92c65df89802ed722d60815f62958fe60111fe9037dddc068736a964f38"
+  },
+  {
+    "command": "npm test",
+    "raw_exit": 1,
+    "log": ".lane-logs/fix-1/npm-test.log",
+    "log_sha256": "520f282ac20fa499ea28227d17262f29dd3a1917329e55c13e539b7ae63248b9"
+  },
+  {
+    "command": "npx vitest run server/day-read-degrade.test.ts",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/server-green.log",
+    "log_sha256": "23c68b1e6dd28b80ccb5bd50a4b0306989ec282959ab203b2582893db0676237"
+  },
+  {
+    "command": "git diff --check",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/diff-check.log",
+    "log_sha256": "d0ab9de5216259938bee4ffaf612cfa566d6e4b53a8cb3d6e0a0e55b28e253b9"
+  },
+  {
+    "command": "cd app && xcodegen generate",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/xcodegen.log",
+    "log_sha256": "b538d8e435a258c3f3c90c9eaab1e67657105c4f7e3fe4a3b9cb45479903f410"
+  },
+  {
+    "command": "cd app && swiftlint --strict",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/swiftlint.log",
+    "log_sha256": "7d956629bc5ceadc0fc0c08aaad34b5cca75e116af41380b523ecb5c278a2d35"
+  },
+  {
+    "command": "cd app && swiftlint --strict (initial diagnostic; fixed file length/comment line)",
+    "raw_exit": 2,
+    "log": ".lane-logs/fix-1/swiftlint-initial.log",
+    "log_sha256": "baff807e4d792329fba1f50317620bc332b49c40156506f4903cebc72a923804"
+  },
+  {
+    "command": "xcrun xcresulttool export attachments --path /tmp/morsel-258-fix1/native-green.xcresult --output-path /tmp/morsel-258-fix1/attachments",
+    "raw_exit": 0,
+    "log": ".lane-logs/fix-1/export-attachments.log",
+    "log_sha256": "9f6210561b0f417d0853c8fa9c3f5571304c5de719be20ceebe228e69f0f6742"
+  }
+]

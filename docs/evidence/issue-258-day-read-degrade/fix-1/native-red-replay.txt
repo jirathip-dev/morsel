@@ -1,0 +1,63 @@
+Excerpt from .lane-logs/fix-1/native-red-replay.log
+Full raw log SHA-256: 4cd2614fb7ee18f2d8859ac4db31610665c74f1dead47051650a56ece1c859e1
+ANSI color removed; trailing whitespace trimmed. Native build chatter omitted.
+
+HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination platform=iOS Simulator,id=152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB -derivedDataPath /tmp/morsel-258-fix1/dd -resultBundlePath /tmp/morsel-258-fix1/native-red-replay.xcresult -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/DayReadDegradeTests -only-testing:MorselTests/DayReadCompositionTests
+Test Suite 'Selected tests' started at 2569-09-16 7:54:47.611 PM.
+Test Suite 'MorselTests.xctest' started at 2569-09-16 7:54:47.612 PM.
+Test Suite 'DayReadCompositionTests' started at 2569-09-16 7:54:47.612 PM.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' started.
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:36: error: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertTrue failed - cache fallback must be visible through the real facade
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:37: error: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertEqual failed: ("Optional(2026-09-05 6:00:00 AM +0000)") is not equal to ("Optional(2026-09-05 4:00:00 AM +0000)") - failed refresh must not stamp success
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:45: error: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertTrue failed
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:46: error: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertEqual failed: ("Optional(2026-09-05 6:00:00 AM +0000)") is not equal to ("Optional(2026-09-05 4:00:00 AM +0000)")
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' failed (0.186 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' started.
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:76: error: -[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors] : XCTAssertTrue failed
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadCompositionTests.swift:77: error: -[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors] : XCTAssertNil failed: "2026-09-05 4:00:00 AM +0000" - a legacy cache without provenance must not invent a time
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' failed (0.010 seconds).
+Test Suite 'DayReadCompositionTests' failed at 2569-09-16 7:54:47.809 PM.
+	 Executed 2 tests, with 6 failures (0 unexpected) in 0.196 (0.197) seconds
+Test Suite 'DayReadDegradeTests' started at 2569-09-16 7:54:47.809 PM.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' passed (0.001 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' passed (0.004 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' passed (0.001 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' passed (0.003 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' passed (0.003 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' passed (0.003 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' started.
+/tmp/morsel-258-fix1/pre-fix-replay/app/Tests/MorselTests/DayReadDegradeTests.swift:73: error: -[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows] : XCTAssertEqual failed: ("[Morsel.MealItemsReadState.complete, Morsel.MealItemsReadState.complete]") is not equal to ("[Morsel.MealItemsReadState.incomplete, Morsel.MealItemsReadState.incomplete]")
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' failed (0.007 seconds).
+Test Suite 'DayReadDegradeTests' failed at 2569-09-16 7:54:47.832 PM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.021 (0.023) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-16 7:54:47.832 PM.
+	 Executed 9 tests, with 7 failures (0 unexpected) in 0.218 (0.221) seconds
+Test Suite 'Selected tests' failed at 2569-09-16 7:54:47.832 PM.
+	 Executed 9 tests, with 7 failures (0 unexpected) in 0.218 (0.221) seconds
+2026-09-16 19:55:15.592 xcodebuild[26900:1121606] [MT] IDETestOperationsObserverDebug: 34.181 elapsed -- Testing started completed.
+2026-09-16 19:55:15.592 xcodebuild[26900:1121606] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-16 19:55:15.592 xcodebuild[26900:1121606] [MT] IDETestOperationsObserverDebug: 34.181 sec, +34.181 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/morsel-258-fix1/native-red-replay.xcresult
+
+Failing tests:
+	DayReadCompositionTests.testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers()
+	DayReadCompositionTests.testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers()
+	DayReadCompositionTests.testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers()
+	DayReadCompositionTests.testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers()
+	DayReadCompositionTests.testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors()
+	DayReadCompositionTests.testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors()
+	DayReadDegradeTests.testUnattributableItemFlagsEveryMealWithoutLosingReadableRows()
+
+** TEST FAILED **
+
+Testing started
+
+RAW_EXIT=65 timed_out=False elapsed_seconds=101.204

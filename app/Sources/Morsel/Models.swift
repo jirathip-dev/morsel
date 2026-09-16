@@ -169,7 +169,8 @@ struct MealImage: Equatable, Sendable, Codable {
         self.expiresAt = expiresAt
     }
 
-    /// A signed URL is only usable before its expiry instant (issue #135).
+    /// A signed URL is only usable before its expiry instant (issue #135 —
+    /// callers must not fetch an expired URL; reads re-mint per refresh).
     func isExpired(at date: Date = Date()) -> Bool {
         guard let expiresAt else {
             return false
@@ -251,25 +252,6 @@ struct StoredDashboardGoal: Equatable, Sendable, Codable {
     var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
 }
 
-struct DashboardSnapshot: Equatable, Sendable, Codable {
-    let date: Date
-    let meals: [MealRecord]
-    let goal: DashboardGoal?
-    let weightTrend: [WeightTrendPoint]
-    let activeEnergyBurned: Double
-
-    init(
-        date: Date, meals: [MealRecord], goal: DashboardGoal?, weightTrend: [WeightTrendPoint] = [],
-        activeEnergyBurned: Double = 0
-    ) {
-        self.date = date
-        self.meals = meals
-        self.goal = goal
-        self.weightTrend = weightTrend
-        self.activeEnergyBurned = activeEnergyBurned
-    }
-}
-
 enum ConfidenceBadge: Equatable, Sendable {
     case high
     case low
@@ -290,7 +272,8 @@ enum GoalStatus: Equatable, Sendable {
 enum DashboardMath {
     static let lowConfidenceThreshold = 0.8
     static let nearGoalThreshold = 0.85
-    /// V1 goal tolerance: the History "soft ±50 kcal" band (on target/over/under).
+    /// V1 goal tolerance: the History "soft ±50 kcal" band — a day within ±50
+    /// of the target reads "on target"; beyond it reads under/over.
     static let onTargetToleranceKcal = 50.0
 
     /// The ONE displayed delta semantics (issue #94): eaten minus goal. Active
@@ -321,7 +304,8 @@ enum DashboardMath {
         }
     }
 
-    /// Effective goal resolution mirrors the server (GoalsMath.swift, #113).
+    /// Effective goal resolution mirrors the server's "latest update wins"
+    /// rule — implemented in GoalsMath.swift (issue #113).
     static func confidenceBadge(for confidence: Double?) -> ConfidenceBadge {
         guard let confidence, confidence.isFinite else {
             return .missing

@@ -9,10 +9,10 @@ import XCTest
 /// with the last successful load time and a retry), and the day read DEGRADED
 /// (meals still render, one of them says its items could not be read).
 ///
-/// Both fixtures drive the PRODUCTION `SupabaseDashboardRepository` through
-/// the controlled transport, so the rendered state is the real read path's
-/// outcome, not a hand-built view model. Fictional meals, no network, no
-/// writes. Captures are XCTest attachments; the committed PNGs are that run's
+/// Both fixtures compose `LocalFirstDashboardRepository` with the production
+/// `SupabaseDashboardRepository` through controlled transport and temporary
+/// account-scoped SQLite. Fictional meals, no network or production writes.
+/// Captures are XCTest attachments; the committed PNGs are that run's
 /// exported attachments (`258-<theme>-<state>`).
 
 @MainActor
@@ -20,6 +20,8 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
     private let account = UUID(uuidString: "47474747-4747-4747-8747-474747474747") ?? UUID()
     private let lunchID = "48484848-4848-4848-8848-484848484848"
     private let dinnerID = "49494949-4949-4949-8949-494949494949"
+    private let directory = FileManager.default.temporaryDirectory
+        .appendingPathComponent("morsel-258-evidence-\(UUID().uuidString)", isDirectory: true)
     private let referenceInstant = ISO8601DateFormatter().date(from: "2026-09-05T04:00:00Z") ?? Date()
 
     override func setUp() {
@@ -33,6 +35,7 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
         try await Task.sleep(for: .milliseconds(500))
         StubTransport.release()
         StubTransport.reset()
+        try? FileManager.default.removeItem(at: directory)
         try await super.tearDown()
     }
 
@@ -74,7 +77,7 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
                 switch state {
                 case "stale":
                     XCTAssertTrue(fixture.viewModel.isShowingCachedDay)
-                    XCTAssertNotNil(fixture.viewModel.lastLoadedAt)
+                    XCTAssertEqual(fixture.viewModel.lastLoadedAt, referenceInstant)
                     XCTAssertEqual(fixture.viewModel.incompleteMealCount, 0)
                 default:
                     XCTAssertFalse(fixture.viewModel.isShowingCachedDay)
@@ -90,10 +93,13 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
     private func fixture(_ state: String) async throws -> (viewModel: DashboardViewModel, fuel: TrainingFuelModel) {
         StubTransport.respond("meal_logs", .init(body: mealLogsBody()))
         StubTransport.respond("meal_items", .init(body: itemRowsBody(corruptDinner: state == "degraded")))
-        let viewModel = DashboardViewModel(
-            repository: try await makeRepository(), userID: account,
-            dateProvider: { self.referenceInstant }
+        let database = LocalDataStore.storeURL(root: directory, accountID: UUID())
+        let repository = LocalFirstDashboardRepository(
+            remote: try await makeRepository(), store: try LocalDataStore(databaseURL: database),
+            snapshotCache: try LocalSnapshotCache(databaseURL: database), dateProvider: { self.referenceInstant }
         )
+        var now = referenceInstant
+        let viewModel = DashboardViewModel(repository: repository, userID: account, dateProvider: { now })
         await viewModel.load()
         // The fuel model shares the fixture clock so the day is genuinely
         // "today" for the hero (a real clock would render every fixture day
@@ -106,6 +112,7 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
             // The refresh now fails outright (the day read itself): the day on
             // screen is the last good copy and must say so.
             StubTransport.respond("meal_logs", .init(status: 500, body: "{\"message\":\"permission denied\"}"))
+            now = referenceInstant.addingTimeInterval(7_200)
             await viewModel.load()
         }
         return (viewModel, fuel)

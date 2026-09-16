@@ -17,6 +17,7 @@
 		0587A79CF555FEB145A5F89E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1096DD7210666ACB8358567E /* Repository.swift */; };
 		063D145FB418A8F40B09164C /* HistoryFreezeRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831705084A25885D3664C7E /* HistoryFreezeRegressionTests.swift */; };
 		07172B3271E4208E22736457 /* JournalCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2FE8C66978887A6E89CD26 /* JournalCalendarTests.swift */; };
+		07B444C7E3A96A369CB8A4E4 /* DayReadCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */; };
 		086B3A61512495E2A1B16DBD /* MealThumbnailKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46118488FDFBDD113CB9E7DA /* MealThumbnailKey.swift */; };
 		0A3FE48881FB11BE338345A4 /* a-paper-unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210E5558B4B804F5EBEE03D /* a-paper-unknown.png */; };
 		0B4D54E67AD30211982B17F4 /* WeightDeltaCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18336B0358C7A2945CA34D8 /* WeightDeltaCaptureTests.swift */; };
@@ -204,6 +205,7 @@
 		F5915D64A275682E08A53926 /* JournalFollowUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */; };
 		F5F2E25453D37114687D569F /* broccoli-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5C7D926644AA5C85E4C1FF /* broccoli-paper-64.png */; };
 		F621B686BC433F5C0F95CCC5 /* DayReadDegradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */; };
+		F6795BBF7AFD67FCE9511DBC /* DayReadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1CCB8EE3D5AA0535985C1 /* DayReadState.swift */; };
 		F7293144CD46638158371B2C /* JournalArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755535266865EDC817D760FE /* JournalArtwork.swift */; };
 		F7C5F8D5F24ADC69D8A2C091 /* MealCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */; };
 		F864F9127EDDDBEE5A7F2261 /* JournalShellChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */; };
@@ -252,6 +254,7 @@
 		140BA242F9E4049F72DAAF37 /* stir-fried-noodles-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stir-fried-noodles-night-64.png"; sourceTree = "<group>"; };
 		17842C63698FF267F75039CA /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		17910B2CF40361EC1AA86DCF /* GoalsDirectionProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDirectionProfileTests.swift; sourceTree = "<group>"; };
+		180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadCompositionTests.swift; sourceTree = "<group>"; };
 		1887F4CC3E98C8E906CFF203 /* MealCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCapture.swift; sourceTree = "<group>"; };
 		18BC8E468859EF199C5CCD32 /* JournalCalendarRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalCalendarRepository.swift; sourceTree = "<group>"; };
 		19C1C0258B7A800F46DCEDFB /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
@@ -289,6 +292,7 @@
 		473CFD249CD566AE38553B80 /* JournalSemanticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalSemanticsTests.swift; sourceTree = "<group>"; };
 		488B61EAEAA08402876D5FC7 /* JournalDiaryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDiaryPage.swift; sourceTree = "<group>"; };
 		4BD0114325E5D9927029C9B7 /* MealThumbnailCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailCacheTests.swift; sourceTree = "<group>"; };
+		4CF1CCB8EE3D5AA0535985C1 /* DayReadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadState.swift; sourceTree = "<group>"; };
 		4D1B4606D790401E103547DC /* fallback-drinks-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-drinks-paper-64.png"; sourceTree = "<group>"; };
 		4E31C1B481AD03D49D0A23C5 /* a-paper-focaccia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-paper-focaccia.png"; sourceTree = "<group>"; };
 		4F9E6261C91086065F01D569 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
@@ -528,6 +532,7 @@
 				8B945E15B916830A85CE5BA3 /* AuthView.swift */,
 				8A48B137154BF3A85E92C071 /* DatedTargets.swift */,
 				941533B57CA67FE64677BDCE /* DayDrillDown.swift */,
+				4CF1CCB8EE3D5AA0535985C1 /* DayReadState.swift */,
 				4F9E6261C91086065F01D569 /* DesignSystem.swift */,
 				258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */,
 				2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */,
@@ -703,6 +708,7 @@
 				5085C82B033CB96C02AD36EC /* AuthEmailErrorCopyTests.swift */,
 				37A12A89F0EF310480905F84 /* DashboardMathTests.swift */,
 				36E5435614DF98E20B770119 /* DatedTargetReadRenderTests.swift */,
+				180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */,
 				A12AC8D7BF90AB36E5A6410F /* DayReadDegradeEvidenceTests.swift */,
 				D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */,
 				8A2DAAEC85CD0B377D1B036A /* EndpointCopyTests.swift */,
@@ -950,6 +956,7 @@
 				474515288390A81C4A1198B2 /* AuthView.swift in Sources */,
 				937503F3B58EFE69F18D6DE2 /* DatedTargets.swift in Sources */,
 				C49FD84B1BA5972846B5AF00 /* DayDrillDown.swift in Sources */,
+				F6795BBF7AFD67FCE9511DBC /* DayReadState.swift in Sources */,
 				B451125CEB7EC80352749F5A /* DesignSystem.swift in Sources */,
 				70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */,
 				FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */,
@@ -1047,6 +1054,7 @@
 				47B7E3734699B38D25B0FDBF /* AuthEmailErrorCopyTests.swift in Sources */,
 				23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */,
 				A99FED669C22A78D5798B927 /* DatedTargetReadRenderTests.swift in Sources */,
+				07B444C7E3A96A369CB8A4E4 /* DayReadCompositionTests.swift in Sources */,
 				67B58D17DD8A2F2894A30664 /* DayReadDegradeEvidenceTests.swift in Sources */,
 				F621B686BC433F5C0F95CCC5 /* DayReadDegradeTests.swift in Sources */,
 				9CECA75F07D5B89BFB81BE29 /* EndpointCopyTests.swift in Sources */,

@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createSupabaseRepository, type SupabaseRepository } from './supabase-repository.js'
 import { MorselService } from './service.js'
+import { InMemoryRepository } from './in-memory-repository.js'
 
 // Issue #258 — a `meal_items` read failure used to ABORT the whole day: the
 // items query was unwrapped (`requireData(... 'meal item read')` throws), so
@@ -260,6 +261,24 @@ describe('day read degrades on meal-item failure (issue #258)', () => {
         { meal_log_id: snackMealId, category: 'invalid_row' },
       ],
     })
+  })
+
+  it('marks in-memory day reads complete with and without a photo', async () => {
+    const repository = new InMemoryRepository()
+    const service = new MorselService({ repository, userId, now: fixedNow })
+    const logged = await service.logMeal({
+      meal_type: 'lunch', eaten_at: fixedNow().toISOString(),
+      items: [{ name: 'rice', quantity: 1, unit: 'serving', calories_kcal: 220 }],
+    })
+    const plain = await service.getDay({ date: '2026-08-25' })
+    expect(plain.meals.map((meal) => meal.items_read)).toEqual(['complete'])
+    await repository.attachMealImage(userId, logged.meal_log_id, {
+      bytes: Uint8Array.of(1, 2, 3), contentType: 'image/jpeg',
+    })
+    const pictured = await service.getDay({ date: '2026-08-25' })
+    expect(pictured.meals.map((meal) => meal.items_read)).toEqual(['complete'])
+    expect(pictured.meals[0]?.image).toBeDefined()
+    expect(pictured.meals[0]?.items).toEqual(plain.meals[0]?.items)
   })
 
   it('marks every meal complete and logs nothing on a healthy read', async () => {

@@ -62,6 +62,18 @@ final class DayReadDegradeTests: XCTestCase {
         XCTAssertEqual(snapshot.meals.last?.items.map(\.name), ["salad"])
     }
 
+    func testUnattributableItemFlagsEveryMealWithoutLosingReadableRows() async throws {
+        StubTransport.respond("meal_logs", .init(body: mealLogsBody()))
+        StubTransport.respond("meal_items", .init(body: itemRowsBody([
+            ItemRow(id: "77777777-7777-4777-8777-777777777777", meal: lunchID, name: "jasmine rice"),
+            ItemRow(id: "88888888-8888-4888-8888-888888888888", meal: UUID().uuidString, name: "unknown meal"),
+            ItemRow(id: "99999999-9999-4999-8999-999999999999", meal: dinnerID, name: "salad")
+        ])))
+        let snapshot = try await makeRepository().loadToday(userID: account, date: referenceInstant)
+        XCTAssertEqual(snapshot.meals.compactMap(\.itemsRead), [.incomplete, .incomplete])
+        XCTAssertEqual(snapshot.meals.map { $0.items.map(\.name) }, [["jasmine rice"], ["salad"]])
+    }
+
     func testHealthyReadMarksEveryMealComplete() async throws {
         StubTransport.respond("meal_logs", .init(body: mealLogsBody()))
         StubTransport.respond("meal_items", .init(body: itemRowsBody([
@@ -174,7 +186,7 @@ final class DayReadDegradeTests: XCTestCase {
                 )
             ]
         )
-        return DashboardSnapshot(date: referenceInstant, meals: [meal], goal: nil)
+        return DashboardSnapshot(date: DashboardMath.startOfLocalDay(referenceInstant), meals: [meal], goal: nil)
     }
 
     private func mealLogsBody() -> String {

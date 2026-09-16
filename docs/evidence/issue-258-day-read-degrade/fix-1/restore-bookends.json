@@ -1,0 +1,26 @@
+{
+  "base": "72a004b14722f7eb4eb8437fa7fa28c451aa71a4",
+  "before": {
+    "app/Sources/Morsel/Models.swift": "4157a1a6c5b9d2e291eb86c43051819910aff033118209ebdfde89b5341f9a8d",
+    "app/Sources/Morsel/ViewModel.swift": "c7fe7e538346edbd8958e6396a9cae634c7cdf597d67ea27fec9d15f201f3c7e",
+    "app/Sources/Morsel/LocalFirstRepository.swift": "4bc83813066d18eb3372731b0a8d84209595ca8a5f4ae047833abc6fa9220969",
+    "app/Sources/Morsel/SupabaseMealReadModel.swift": "8b78afd1ef0eb6a52c7cb102b7ec70b207a28b41378d95f66cc10d3876c31b67",
+    "app/Sources/Morsel/DayReadState.swift": "5a4ca544ffcc6bf00ac28951c969d547ea4445745857fb8923f263d4209db743",
+    "app/Tests/MorselTests/DayReadCompositionTests.swift": "b015235ba05abab4cfc811b382a6df9711b5acb8dc213b57e846081a2420c181",
+    "app/Tests/MorselTests/DayReadDegradeTests.swift": "3362225240b46e85d0e3dc3c86d24dc2533b18bcf9a97f683793b18d6155cf61",
+    "app/Tests/MorselTests/DayReadDegradeEvidenceTests.swift": "230efbe2549e5f1badcd962e6c6e60b4d00ad910b85edc7e26543d800c925523",
+    "app/Morsel.xcodeproj/project.pbxproj": "3f94c7610aae9cc42472e09f21161f9ae856f06dfdebcaaf32ce61bea85ffc64"
+  },
+  "after": {
+    "app/Sources/Morsel/Models.swift": "4157a1a6c5b9d2e291eb86c43051819910aff033118209ebdfde89b5341f9a8d",
+    "app/Sources/Morsel/ViewModel.swift": "c7fe7e538346edbd8958e6396a9cae634c7cdf597d67ea27fec9d15f201f3c7e",
+    "app/Sources/Morsel/LocalFirstRepository.swift": "4bc83813066d18eb3372731b0a8d84209595ca8a5f4ae047833abc6fa9220969",
+    "app/Sources/Morsel/SupabaseMealReadModel.swift": "8b78afd1ef0eb6a52c7cb102b7ec70b207a28b41378d95f66cc10d3876c31b67",
+    "app/Sources/Morsel/DayReadState.swift": "5a4ca544ffcc6bf00ac28951c969d547ea4445745857fb8923f263d4209db743",
+    "app/Tests/MorselTests/DayReadCompositionTests.swift": "b015235ba05abab4cfc811b382a6df9711b5acb8dc213b57e846081a2420c181",
+    "app/Tests/MorselTests/DayReadDegradeTests.swift": "3362225240b46e85d0e3dc3c86d24dc2533b18bcf9a97f683793b18d6155cf61",
+    "app/Tests/MorselTests/DayReadDegradeEvidenceTests.swift": "230efbe2549e5f1badcd962e6c6e60b4d00ad910b85edc7e26543d800c925523",
+    "app/Morsel.xcodeproj/project.pbxproj": "3f94c7610aae9cc42472e09f21161f9ae856f06dfdebcaaf32ce61bea85ffc64"
+  },
+  "byte_exact_restore": true
+}

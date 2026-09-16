@@ -49,9 +49,11 @@ extension SupabaseDashboardRepository {
         // The read failed as a whole, or only some rows did.
         var incompleteMealIDs = items == nil ? Set(logs.map(\.id)) : []
         for item in items ?? [] {
-            // A row whose meal is not in this day cannot be attributed (and is
-            // not part of the day): drop it rather than aborting the read.
-            guard let source = sourcesByMealID[item.mealLogID] else { continue }
+            // Match the server: an unattributable row makes the whole read uncertain.
+            guard let source = sourcesByMealID[item.mealLogID] else {
+                incompleteMealIDs.formUnion(logs.map(\.id))
+                continue
+            }
             guard let parsed = try? parseItem(item, source: source) else {
                 incompleteMealIDs.insert(item.mealLogID)
                 continue

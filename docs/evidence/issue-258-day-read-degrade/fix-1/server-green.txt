@@ -1,0 +1,30 @@
+Excerpt from .lane-logs/fix-1/server-green.log
+Full raw log SHA-256: 23c68b1e6dd28b80ccb5bd50a4b0306989ec282959ab203b2582893db0676237
+ANSI color removed; trailing whitespace trimmed. Native build chatter omitted.
+
+RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-258-day-read-degrade
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > get_day returns every meal flagged incomplete when the item read fails
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > keeps the unaffected meals and rows intact when ONE item row is unreadable
+meal items unavailable {"count":1,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"invalid_row"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > flags the whole read when an unreadable row cannot be attributed to a meal
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"invalid_row"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"invalid_row"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"invalid_row"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > degrades the item read and the photo together, without aborting the day (#149 preserved)
+meal image signed URL unavailable {"count":1,"meal_image_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"storage_request_failed"}]}
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > get_dashboard_summary resolves with items_read incomplete and an honest render
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+ ✓ server/day-read-degrade.test.ts (8 tests) 90ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  19:48:26
+   Duration  853ms (transform 204ms, setup 0ms, collect 353ms, tests 90ms, environment 0ms, prepare 60ms)
+
+RAW_EXIT=0
