@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Gravy — pouring sauce boat, original ink and wash</title>
+<desc>A small pale sauce boat with a pointed lip, a short brown pour and an adjacent spoon rest. The brown sauce is a generic sign, not a claim about a sauce recipe.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="small-gravy-pool">
+ <path d="M43 192 C48 184 62 187 71 183 C78 181 87 188 99 190 C109 193 110 202 98 208 C86 213 72 208 62 210 C48 210 39 203 43 192Z" fill="{{ochre}}" opacity=".35" filter="url(#wash)"/>
+ <path d="M47 195 Q51 187 67 190 C76 185 82 189 88 193 L101 197 C97 206 84 207 74 204 C62 207 44 203 47 195Z" fill="{{brown}}" opacity=".94"/>
+ <path d="M51 198 C61 194 69 199 77 194 Q83 192 88 196 L99 198 Q92 205 77 202 C66 205 55 202 51 198Z" fill="{{dark}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M53 194 Q60 191 66 193 M80 204 L91 204" fill="none" stroke="{{peach}}" stroke-width="1.65" opacity=".55" filter="url(#dry)"/>
+</g>
+<g id="boat-loop-handle">
+ <path d="M174 91 C190 74 214 84 218 102 C223 123 207 143 187 148 L179 138 C197 136 208 121 207 107 C206 95 194 92 183 104Z M188 106 C194 99 202 102 202 109 C204 118 196 128 188 132 L183 120Z" fill="{{cream}}" opacity=".97" fill-rule="evenodd"/>
+ <path d="M201 87 Q222 95 216 113 C214 133 200 143 187 147 L183 140 Q205 132 209 115 Q214 98 201 94Z" fill="{{sage}}" opacity=".28" filter="url(#wash)"/>
+ <path d="M186 86 C207 77 223 93 218 111 M213 126 Q204 143 188 147 M188 132 Q203 124 202 109 Q201 100 194 101" fill="none" stroke="{{line}}" stroke-width="1.06" stroke-linecap="round"/>
+</g>
+<g id="small-boat-foot">
+ <path d="M123 164 L151 158 L156 170 Q166 176 169 182 C153 192 128 191 114 182 L118 176Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M125 172 L153 165 L156 173 L167 182 Q141 193 117 182 L124 179Z" fill="{{sage}}" opacity=".26" filter="url(#wash)"/>
+ <path d="M117 181 Q133 195 163 185 M166 182 L159 176" fill="none" stroke="{{line}}" stroke-width=".88"/>
+</g>
+<g id="tilted-ceramic-boat">
+ <path d="M57 114 C65 115 73 104 86 100 C113 90 155 77 179 89 C197 102 188 138 174 156 C161 174 135 179 117 170 C95 160 87 143 80 128 C72 126 61 122 57 114Z" fill="{{paper}}" opacity=".97"/>
+ <path d="M79 123 C100 130 111 145 139 146 C164 146 177 128 188 112 C187 137 177 158 158 168 C141 179 118 173 105 161 Q88 147 79 123Z" fill="{{cream}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M94 140 C111 150 120 160 138 160 C158 160 176 145 183 136 C174 161 151 180 128 173 C110 170 101 157 94 140Z" fill="{{sage}}" opacity=".26" filter="url(#wash)"/>
+ <path d="M149 157 Q170 148 180 136 Q173 161 151 171 L133 174 C149 169 145 162 149 157Z" fill="{{brown}}" opacity=".15" filter="url(#wash)"/>
+ <path d="M97 130 C106 135 108 144 121 148 L129 156 Q109 152 101 143Z" fill="{{paper}}" opacity=".79" filter="url(#dry)"/>
+</g>
+<g id="gravy-surface-and-pointed-lip">
+ <path d="M57 114 C71 111 75 102 90 98 C117 87 152 77 174 86 C197 95 190 110 171 120 C144 134 113 137 88 127 L74 119Z" fill="{{cream}}"/>
+ <path d="M65 113 C77 111 82 105 96 101 C117 91 155 83 172 91 C187 97 182 106 169 113 C143 128 111 130 91 123 L77 115Z" fill="{{brown}}" opacity=".98"/>
+ <path d="M79 113 C99 113 104 102 124 101 C146 103 155 90 175 96 Q184 101 168 111 C143 127 116 129 91 121Z" fill="{{dark}}" opacity=".53" filter="url(#wash)"/>
+ <path d="M98 103 C119 101 131 93 146 92 L158 93 C142 101 130 106 109 107Z" fill="{{ochre}}" opacity=".41" filter="url(#wash)"/>
+ <path d="M96 118 Q118 130 153 117 M164 112 L173 106" fill="none" stroke="{{peach}}" stroke-width="2" opacity=".38" filter="url(#dry)"/>
+ <path d="M57 114 Q72 112 83 101 M96 95 Q139 77 165 83 M176 86 Q197 94 187 106 M178 114 Q148 133 117 132 M105 131 L91 128" fill="none" stroke="{{line}}" stroke-width=".71" stroke-linecap="round"/>
+ <path d="M57 115 Q61 122 79 128 Q88 150 105 163 M117 171 Q145 185 169 161 M180 145 Q190 130 192 107" fill="none" stroke="{{line}}" stroke-width="1.18" stroke-linecap="round"/>
+ <path d="M99 154 L105 161 M108 165 L115 168 M164 165 L172 158" fill="none" stroke="{{line}}" stroke-width=".52" opacity=".7"/>
+</g>
+<g id="short-thick-pour">
+ <path d="M76 113 C68 113 64 119 65 128 C67 141 56 146 60 159 C62 172 74 178 76 189 L71 194 C72 182 57 175 54 161 C50 145 60 138 58 128 C56 117 61 113 65 112Z" fill="{{brown}}" opacity=".97"/>
+ <path d="M63 120 C61 136 63 139 57 151 C55 165 67 176 71 180 L76 189 L73 193 C70 180 56 175 54 160 C51 145 59 138 59 129Z" fill="{{dark}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M63 132 Q66 140 60 149 M61 165 Q64 171 68 173" fill="none" stroke="{{ochre}}" stroke-width="2.5" opacity=".63" filter="url(#dry)"/>
+ <path d="M54 150 Q50 165 62 178 M75 185 L77 191" fill="none" stroke="{{line}}" stroke-width=".63" stroke-linecap="round"/>
+</g>
+<g id="spoon-and-spoon-rest">
+ <path d="M167 197 C167 188 182 182 195 184 C208 184 219 190 220 198 C215 208 181 212 170 204Z" fill="{{cream}}" opacity=".91"/>
+ <path d="M170 199 Q192 207 217 196 C215 205 191 210 175 205Z" fill="{{sage}}" opacity=".19" filter="url(#wash)"/>
+ <path d="M170 194 Q180 184 195 186 M218 199 Q213 210 186 208 M176 206 L169 202" fill="none" stroke="{{line}}" stroke-width=".64"/>
+ <path d="M181 194 L204 160 Q207 156 210 159 Q212 161 208 165 L188 197Z" fill="{{cream}}"/>
+ <path d="M186 190 L208 160 L210 160 L189 196Z" fill="{{brown}}" opacity=".31"/>
+ <path d="M177 192 C181 187 189 189 192 194 C195 201 184 207 177 202 C173 199 174 195 177 192Z" fill="{{paper}}"/>
+ <path d="M178 195 Q185 191 189 197 Q184 203 178 199Z" fill="{{brown}}" opacity=".74" filter="url(#wash)"/>
+ <path d="M191 188 L210 161 M177 191 Q189 186 193 195 Q194 202 183 204 M177 202 L174 199" fill="none" stroke="{{line}}" stroke-width=".63" stroke-linecap="round"/>
+</g>
+</svg>

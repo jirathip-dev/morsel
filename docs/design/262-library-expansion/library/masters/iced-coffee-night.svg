@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Iced coffee — dark coffee, floating ice and a narrow straw</title>
+<desc>Original ink and wash in warm pigments. A clear tapered cup, pale angular ice and dark liquid distinguish the cold coffee category from the hot ceramic study.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="glass-foot-contact">
+ <path d="M81 213 C99 205 153 204 178 215 C167 224 110 225 86 219Z" fill="#655A4B" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="clear-tapered-cup-underpainting">
+ <path d="M72 76 C73 64 95 59 123 60 C153 59 178 65 182 77 L169 206 C165 220 102 222 89 209Z" fill="#FFF7E8" opacity=".84"/>
+ <path d="M74 85 L90 205 C91 216 129 221 153 214 L161 208 C129 215 99 207 98 197 L85 85Z" fill="#F2E9D9" opacity=".81" filter="url(#wash)"/>
+ <path d="M171 84 L166 200 Q160 211 140 213 L160 215 Q171 213 172 202 L181 83Z" fill="#F2E9D9" opacity=".72" filter="url(#wash)"/>
+</g>
+<g id="deep-coffee-layered-wash">
+ <path d="M80 92 C99 82 151 82 175 93 L164 201 C159 213 109 214 96 204Z" fill="#655A4B" opacity=".96"/>
+ <path d="M82 103 C102 114 124 100 143 105 C157 100 165 104 174 104 L164 199 Q159 212 126 209 L97 203Z" fill="#2A261F" opacity=".7" filter="url(#wash)"/>
+ <path d="M85 115 Q105 120 117 141 C123 156 111 171 120 185 Q144 191 167 171 L163 202 Q143 212 112 208 L98 202Z" fill="#655A4B" opacity=".56" filter="url(#wash)"/>
+ <path d="M 80 93 Q111 82 141 87 C159 85 173 90 175 94 L172 107 C152 97 132 101 114 101 L83 108Z" fill="#A5750B" opacity=".37" filter="url(#wash)"/>
+ <path d="M99 183 C109 193 125 195 138 191 Q153 184 166 190 L164 201 C150 211 112 211 98 203Z" fill="#2A261F" opacity=".57" filter="url(#wash)"/>
+</g>
+<g id="narrow-bent-straw">
+ <path d="M128 155 L134 155 L164 63 L181 37 L176 34 L158  60Z" fill="#F2E9D9"/>
+ <path d="M131 152 L160  60 L178 35 L181 37 L164 63 L134 155Z" fill="#655A4B" opacity=".33" filter="url(#wash)"/>
+ <path d="M130 151 L160 61 L177 35 M163 62 L180 38" fill="none" stroke="#9D917F" stroke-width=".65" opacity=".88"/>
+</g>
+<g id="floating-ice-large-negative-shapes">
+ <path d="M84 85 L106 77 Q110 76 113 81 L124 98 L107 113 L88 109Z" fill="#FFF7E8" opacity=".9"/>
+ <path d="M84 85 L102 91 L107 113 L88 109Z" fill="#F2E9D9" opacity=".93" filter="url(#wash)"/>
+ <path d="M104 92 L123 98 L107 113Z" fill="#655A4B" opacity=".25" filter="url(#wash)"/>
+ <path d="M85 85 L103 91 L120 96 M103 92 l3 17 M91 108 l12 3" fill="none" stroke="#9D917F" stroke-width=".64" opacity=".7"/>
+ <path d="M133 82 L153 77 L169 92 L165 109 L147 117 L132 100Z" fill="#FFF7E8" opacity=".86"/>
+ <path d="M134 83 L146 96 L168 93 L164 109 L147 116 L133 100Z" fill="#F2E9D9" opacity=".92" filter="url(#wash)"/>
+ <path d="M146 97 L165 94 L164 108 L148 115Z" fill="#655A4B" opacity=".23" filter="url(#wash)"/>
+ <path d="M136 84 l11 11 l17 -3 M147 97 l0 15 M134  90 l0 9" fill="none" stroke="#9D917F" stroke-width=".6" opacity=".68"/>
+ <path d="M99 123 L120 117 L137 131 L134 150 L116 157 L102 143Z" fill="#FFF7E8" opacity=".77"/>
+ <path d="M101 125 L115 136 L135 131 L133 149 L116 155 L103 142Z" fill="#F2E9D9" opacity=".77" filter="url(#wash)"/>
+ <path d="M116 137 L134 133 L133 149 L117 155Z" fill="#655A4B" opacity=".29" filter="url(#wash)"/>
+ <path d="M102 125 l13 11 l17 -5 M115 138 l2 13" fill="none" stroke="#9D917F" stroke-width=".62" opacity=".63"/>
+ <path d="M144 131 L160 126 L169 139 L162 158 L147 156 L140 145Z" fill="#F2E9D9" opacity=".51" filter="url(#wash)"/>
+ <path d="M144 133 l8 9 l12 -3 M151 144 l-2 9" fill="none" stroke="#FFF7E8" stroke-width="1.8" opacity=".55" filter="url(#dry)"/>
+ <path d="M89 86 l15 -5 M137 84 l13 -4 M105 125 l12 -4" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".83" filter="url(#dry)"/>
+</g>
+<g id="rim-and-selective-glass-ink" fill="none" stroke-linecap="round">
+ <path d="M73 76 C72 66 96  60 117 60 M133 60 Q169 61 179 72 M181 80 Q174 92 142 94 M130 94 Q91 96 75 83" stroke="#9D917F" stroke-width=".83"/>
+ <path d="M73 87 L 80 146 M82 165 L89 204 Q91 215 115 218 M129 219 Q162 219 169 209 L175 153 M177 134 l4 -42" stroke="#9D917F" stroke-width="1.07"/>
+ <path d="M96 209 Q122 217 158 209 M 80 100 l4 31 M172 173 l-2 26" stroke="#FFF7E8" stroke-width="2.2" opacity=".73" filter="url(#dry)"/>
+ <path d="M88 145 l5 39 M174 105 l-3 36" stroke="#FFF7E8" stroke-width="2.9" opacity=".53" filter="url(#dry)"/>
+ <path d="M79 151 q-3 4 0 6 M176 153 q3 4 -1 7 M86 185 l0 5" stroke="#9D917F" stroke-width=".58" opacity=".55"/>
+</g>
+</svg>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Minced pork — loose browned crumbles</title>
+<desc>Original irregular ochre and brown mince heap with broken clump edges and restrained oil marks. A generic cooked-mince sign; species and preparation require the accompanying label.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="low-serving-plate">
+ <path d="M35 152 C38 130 83 115 127 117 C174 115 216 137 222 158 C224 182 181 205 130 207 C79 208 38 190 33 167Z" fill="#FFF7E8" opacity=".87"/>
+ <path d="M39 165 Q83 187 131 190 Q184 189 218 161 C213 188 171 202 130 203 Q67 203 39 176Z" fill="#F2E9D9" opacity=".94" filter="url(#wash)"/>
+ <path d="M59 155 Q86 136 129 137 Q179 137 201 159 C183 177 149 190 111 180 Q78 178 59 155Z" fill="#655A4B" opacity=".2" filter="url(#wash)"/>
+ <path d="M36 149 Q43 133 70 124 M192 132 Q222 148 221 164 M213 179 Q184 205 133 207 M113 206 Q64 202 39 181" fill="none" stroke="#9D917F" stroke-width=".78" stroke-linecap="round"/>
+</g>
+<g id="crumbly-heap-underpainting">
+ <path d="M51 144 L57 136 L54 129 L65 120 L73 121 L76 111 L88 108 L93 100 L105 102 L111 94 L123 96 L132 91 L145 98 L157 97 L163 107 L174 107 L176 116 L188 117 L191 128 L201 132 L198 141 L207 148 L202 158 L206 165 L191 171 L183 167 L174 176 L162 173 L151 180 L139 176 L128 181 L116 175 L104 177 L95 170 L84 172 L75 164 L65 165 L60 156 L51 153Z" fill="#655A4B" opacity=".94"/>
+ <path d="M59 138 Q62 122 80 125 L85 114 Q98 109 111 115 L116 103 L135 101 L148 108 Q166 103 174 119 L189 126 L189 141 Q162 154 143 149 L132 157 Q105 148 87 157 Q67 152 59 145Z" fill="#A5750B" opacity=".64" filter="url(#wash)"/>
+ <path d="M73 122 Q89 118 102 123 L113 113 L132 118 L148 110 L162 117 L169 132 L188 137 L193 151 L172 163 L151 157 L139 168 L119 158 L104 164 L89 154 L75 151Z" fill="#B94738" opacity=".3" filter="url(#wash)"/>
+ <path d="M55 148 L70 143 L87 158 L102 152 L111 164 L133 158 L148 170 L166 157 L177 164 L195 149 L204 155 L198 165 L184 168 L174 175 L161 171 L150 179 L138 175 L127 180 L115 173 L104 176 L96 169 L84 171 L75 161 L62 164Z" fill="#2A261F" opacity=".32" filter="url(#wash)"/>
+</g>
+<g id="broken-meat-clumps" fill="#FBE1C9" opacity=".64" filter="url(#wash)">
+ <path d="M66 128 L73 123 L80 127 L80 132 L75 138 L69 136 L64 133Z M87 113 L94 106 L102 109 L101 116 L107 120 L98 125 L93 119 L86 120Z M112 103 L118 98 L126 103 L133 102 L139 108 L134 115 L124 112 L118 116 L113 110Z"/>
+ <path d="M144 104 L153 102 L159 109 L164 110 L167 119 L158 121 L153 116 L145 117 L142 112Z M175 121 L184 122 L187 129 L192 133 L187 139 L177 136 L178 131 L172 127Z"/>
+ <path d="M81 142 L89 132 L98 134 L102 142 L96 148 L88 145 L86 151 L79 148Z M113 130 L118 124 L128 126 L131 133 L140 136 L137 143 L128 146 L121 139 L113 140Z M149 132 L158 125 L167 130 L164 137 L170 142 L163 149 L155 145 L149 147 L145 140Z"/>
+ <path d="M68 150 L77 148 L83 155 L81 161 L72 159Z M99 157 L108 151 L115 154 L116 160 L123 163 L118 169 L109 165 L104 168Z M135 159 L143 153 L153 158 L155 163 L150 170 L140 168Z M177 151 L185 144 L193 146 L196 153 L189 160 L181 157 L177 161 L171 157Z"/>
+</g>
+<g id="browned-crumb-facets" fill="#A5750B" opacity=".81" filter="url(#dry)">
+ <path d="M73 124 l6 3 l-1 5 l-5 -1Z M96 110 l6 2 l-2 7 l-5 -2Z M116 104 l5 -2 l5 5 l-3 4 l-6 -2Z M150 107 l6 2 l2 5 l-8 0Z M178 126 l6 2 l-1 7 l-5 -2Z"/>
+ <path d="M91 136 l6 1 l3 6 l-6 2 l-5 -5Z M121 128 l7 1 l1 6 l-6 1Z M152 135 l7 -4 l5 5 l-4 5 l-8 -1Z M104 156 l6 -2 l4 4 l-4 5 l-7 -2Z M140 159 l6 -2 l5 4 l-3 5 l-7 -1Z M180 151 l6 -3 l5 5 l-6 3Z"/>
+</g>
+<g id="crumb-clefts-and-short-grain" fill="none" stroke-linecap="round">
+ <path d="M61 137 l5 4 l7 -1 M84 124 l4 6 M104 111 l5 4 M136 115 l7 2 l2 6 M166 123 l4 2 M98 151 l8 -4 l3 3 M132 149 l6 2 M163 153 l5 -4 M79 162 l7 -2 M122 173 l7 -3 M153 176 l7 -5 M188 164 l6 -3" stroke="#2A261F" stroke-width="1.15" opacity=".69"/>
+ <path d="M71 131 l4 2 M95 116 l4 3 M122 107 l5 2 M155 111 l4 3 M181 129 l2 4 M88 140 l5 2 M117 133 l6 3 M153 139 l6 1 M108 160 l3 3 M144 164 l4 -1 M184 153 l4 -2" stroke="#FFF7E8" stroke-width="1.65" opacity=".52" filter="url(#dry)"/>
+ <path d="M53 146 l-1 6 l7 3 M76 113 l8 -4 M111 96 l11 1 M158 99 l4 7 M193 130 l6 4 M200 162 l-8 7 M173 177 l-9 -2 M91 169 l-7 3" stroke="#9D917F" stroke-width=".7"/>
+</g>
+<g id="loose-crumbs-and-oil">
+ <path d="M53 168 l7 -3 l6 4 l-3 5 l-7 -1Z M188 182 l6 -6 l6 2 l-2 6Z M80 183 l5 -3 l5 4 l-2 4Z" fill="#655A4B" opacity=".74" filter="url(#wash)"/>
+ <path d="M57 168 l4 0 M193 179 l3 1 M119 184 l5 0 M169 181 l4 -1" fill="none" stroke="#D6A62C" stroke-width="2.5" opacity=".5" filter="url(#dry)"/>
+ <path d="M94 126 Q96 123 99 125 L97 127Z M143 125 Q146 121 149 124 L147 126Z M171 148 l3 -2 l2 2 l-3 2Z M121 156 l3 -2 l2 2 l-4 1Z" fill="#FFF7E8" opacity=".56"/>
+</g>
+</svg>

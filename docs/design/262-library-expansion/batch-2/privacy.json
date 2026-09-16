@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "private_names_checked": 200,
+  "text_files_checked": 387,
+  "raw_names_tracked": false,
+  "method": "Exact private row-name exclusion, allowing approved generic aliases and the already public issue examples; names never emitted."
+}

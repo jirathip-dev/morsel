@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sardines — three warm-grey fish in an open rolled-lid tin</title>
+<desc>Original ink and wash study. Pale bellies, tapered bodies and a peeled tin identify tinned fish; species, packing liquid and portion remain generic.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="rolled-back-lid">
+ <path d="M49 102 L44 89 C40 79 45 70 55 67 L167 44 C177 42 183 48 184 56 L188 77 L172 83 L59 108Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M50 84 C52 78 61 77 68 75 L167 55 C175 52 180 56 181 62 L184 75 L66 101Z" fill="{{brown}}" opacity=".29" filter="url(#wash)"/>
+ <path d="M45 81 Q40 70 57 67 L166 44 Q182 40 184 56 L177 59 Q171 49 164 52 L58 75 Q50 77 51 86Z" fill="{{paper}}" opacity=".95"/>
+ <path d="M56 83 L171 59 L175 65 L62 93Z" fill="{{paper}}" opacity=".67" filter="url(#dry)"/>
+ <path d="M48 99 Q37 77 48 70 M57 66 L163 45 Q179 40 183 52 M53 80 Q49 85 56 93 M69 95 L177 73 M175 57 Q165 54 162 60 Q158 69 171 71" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M135 61 C127 49 133 36 144 35 C157 33 163 43 159 51 L151 61 L145 63 L150 52 C158 45 151 40 144 43 Q136 46 141 58Z" fill="{{cream}}"/>
+ <path d="M138 58 Q129 42 140 37 Q157 29 160 44 Q162 51 153 58 M143 53 Q138 47 144 43 Q151 40 154 46" fill="none" stroke="{{line}}" stroke-width=".95"/>
+</g>
+<g id="pressed-tin-body">
+ <path d="M39 108 Q36 97 51 93 L176 69 Q189 68 195 81 L223 168 Q227 180 215 187 L80 215 Q63 219 58 204Z" fill="{{cream}}" opacity=".97"/>
+ <path d="M43 117 L63 194 Q67 207 80 205 L217 175 L220 185 L81 215 Q65 219 59 206Z" fill="{{brown}}" opacity=".3" filter="url(#wash)"/>
+ <path d="M64 198 Q77 207 86 202 L209 176 L215 181 L82 211 Q68 214 64 198Z" fill="{{paper}}" opacity=".69" filter="url(#dry)"/>
+ <path d="M45 105 Q43 100 57 98 L176 76 Q185 74 189 87 L214 165 Q219 174 207 178 L82 204 Q71 206 66 193Z" fill="{{paper}}"/>
+ <path d="M49 107 Q49 104 60 102 L175 81 Q182 80 185 90 L209 161 Q213 169 204 174 L82 198 Q73 200 70 189Z" fill="{{gold}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M51 113 Q73 118 98 108 L178 85 L189 118 Q184 123 166 129 L87 162 L72 186Z" fill="{{ochre}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M39 111 L58 199 Q62 220 79 215 M91 213 L214 187 Q227 183 223 170 M200 98 L194 80 Q190 66 176 69 M45 98 L160 76 M68 190 Q71 205 84 202 L205 177 M210 166 L187 91" fill="none" stroke="{{line}}" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M80 209 L123 200 M135 197 l49 -10 M50 127 l4 15 M54 146 l6 18" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".63"/>
+</g>
+<g id="upper-sardine">
+ <path d="M65 121 L52 113 L57 129 L54 139 L70 133 C86 137 112 128 133 122 C155 118 174 112 180 101 C178 91 166 88 150 91 C118 94 88 104 70 118Z" fill="{{cream}}"/>
+ <path d="M67 120 C94 105 125 97 151 94 C166 92 174 96 178 101 C161 99 149 105 133 110 Q96 116 70 131 L59 133Z" fill="{{brown}}" opacity=".56" filter="url(#wash)"/>
+ <path d="M76 131 C101 120 125 113 153 108 L176 103 C168 116 144 116 129 123 Q96 136 76 131Z" fill="{{paper}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M87 115 Q113 101 143 98 L154 98 Q124 106 108 111Z" fill="{{sage}}" opacity=".21" filter="url(#wash)"/>
+ <path d="M122 107 l-6 -9 l15 2 l9 3 M110 126 l12 6 l5 -10" fill="{{brown}}" opacity=".35"/>
+ <path d="M70 118 Q104 99 141 94 M156 91 Q173 88 180 101 Q177 111 161 115 M143 120 Q97 137  70 132" fill="none" stroke="{{line}}" stroke-width=".78"/>
+ <path d="M154 94 Q146 103 158 114 M160 104 l13 -4 M67 123 l-9 -5 M66 128 l-8 7" fill="none" stroke="{{line}}" stroke-width=".65"/>
+ <circle cx="166" cy="98" r="2.1" fill="{{dark}}" opacity=".88"/>
+ <path d="M83 124 Q115 112 143 107" fill="none" stroke="{{paper}}" stroke-width="2.2" opacity=".82" filter="url(#dry)"/>
+</g>
+<g id="middle-sardine">
+ <path d="M76 149 L62 142 L66 154 L63 166 L80 160 C99 164 124 156 147 150 C172 143 192 137 198 125 C194 114 177 114 160 118 C127 124 96 134 80 146Z" fill="{{cream}}"/>
+ <path d="M78 148 C104 132 135 125 163 120 C180 117 192 120 195 126 Q171 125 151 134 C127 139 101 143 80 158 L69 159Z" fill="{{brown}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M83 159 C112 149 132 142 151 139 Q179 130 193 129 C182 142 165 145 143 151 Q106 165 83 159Z" fill="{{paper}}" opacity=".92" filter="url(#wash)"/>
+ <path d="M108 137 C122 126 146 124 162 124 L155 130 L127 135Z" fill="{{forest}}" opacity=".15" filter="url(#wash)"/>
+ <path d="M131 132 l-7 -9 l16 2 l6 3 M128 156 l12 5 l9 -12" fill="{{brown}}" opacity=".43"/>
+ <path d="M80 145 Q119 124 158 118 M175 116 Q194 112 198 125 Q193 138 173 143 M153 149 Q110 166 82 161 M175 119 Q164 128 177 141 M79 151 l-10 -3 M 70 158 l-3 4" fill="none" stroke="{{line}}" stroke-width=".83" stroke-linecap="round"/>
+ <circle cx="184" cy="124" r="2.2" fill="{{dark}}" opacity=".91"/>
+ <path d="M93 150 Q118 143 132 139 M139 137 l21 -6" fill="none" stroke="{{paper}}" stroke-width="2.4" opacity=".75" filter="url(#dry)"/>
+</g>
+<g id="lower-sardine">
+ <path d="M87 178 L 70 171 L76 184 L74 195 L91 187 C109 191 137 180 157 175 C182 169 203 162 207 151 C203 141 187 141 172 145 C143 148 107 160 92 174Z" fill="{{cream}}"/>
+ <path d="M89 176 C117 159 148 152 173 147 Q196 140 205 151 C185 148 171 157 150 162 Q117 168 93 184 L80 188Z" fill="{{brown}}" opacity=".57" filter="url(#wash)"/>
+ <path d="M96 185 Q125 174 149 168 C172 163 184 159 202 154 C190 166 174 170 154 175 Q122 188 96 185Z" fill="{{paper}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M143 159 l-9 -8 l17 -2 l5 5 M133 182 l12 5 l11 -12" fill="{{brown}}" opacity=".4"/>
+ <path d="M94 172 Q131 150 171 145 M187 143 Q202 140 207 151 Q204 162 184 168 M170 172 Q129 190 100 188 M186 146 Q177 155 188 166 M88 179 l-9 -2 M87 183 l-8 8" fill="none" stroke="{{line}}" stroke-width=".86" stroke-linecap="round"/>
+ <circle cx="195" cy="150" r="2" fill="{{dark}}" opacity=".91"/>
+ <path d="M103 177 Q126 166 144 163 M159 159 l14 -4" fill="none" stroke="{{paper}}" stroke-width="2.2" opacity=".83" filter="url(#dry)"/>
+</g>
+<g id="selective-gill-and-scale-ink" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".6">
+ <path d="M106 108 l2 4 M114 105 l2 4 M123 103 l2 4 M122 133 l2 4 M134 130 l2 4 M146 127 l2 4 M136 158 l2 4 M148 155 l2 4 M160 152 l2 4"/>
+</g>
+</svg>

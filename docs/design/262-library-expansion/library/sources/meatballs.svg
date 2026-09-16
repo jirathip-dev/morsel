@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Meatballs — three grilled rounds on bamboo and two loose</title>
+<desc>Original cream-brown ink and wash. A single pointed skewer passes through three irregular round meatballs; two rest separately. The illustration does not establish meat type or portion.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="quiet-contact-washes">
+ <path d="M47 136 Q64 132 84 137 L94 144 Q75 151 53 145Z M145 191 Q176 186 204 193 Q194 205 164 205 L148 201Z M69 189 Q94 189 118 192 Q108 203 88 201Z" fill="{{brown}}" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="single-tapered-bamboo-skewer">
+ <path d="M59 217 L64 220 L208 44 L206 40Z" fill="{{cream}}"/>
+ <path d="M61 216 L64 218 L207 42 L202 50Z" fill="{{ochre}}" opacity=".71" filter="url(#wash)"/>
+ <path d="M60 216 L80 193 M113 155 l9 -11 M149 112 l10 -12 M190 63 l16 -21" fill="none" stroke="{{line}}" stroke-width=".83" stroke-linecap="round"/>
+</g>
+<g id="skewered-top-meatball">
+ <path d="M154 67 C165 58 180 58 190 69 C201 79 200 96 191 107 C180 118 162 118 151 106 C140 95 142 79 154 67Z" fill="{{cream}}"/>
+ <path d="M151 71 C165 61 181 65 190 75 C199 87 194 103 183 110 C169 120 151 108 147 96 C142 86 146 77 151 71Z" fill="{{peach}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M183 71 C190 91 180 98 166 99 L149 95 Q152 111 168 114 C183 119 198 105 197 91 Q200 77 183 71Z" fill="{{ochre}}" opacity=".49" filter="url(#wash)"/>
+ <path d="M161 72 C165 67 178 68 181 77 Q180 86 165 89 C155 90 151 81 161 72Z" fill="{{paper}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M150 80 Q154 76 158 76 L161 81 L156 85 L152 91 L148 89Z M177 101 l7 -6 l5 1 l-2 6 l-8 4Z M188 78 l5 3 l2 7 l-4 3Z" fill="{{brown}}" opacity=".78" filter="url(#dry)"/>
+ <path d="M153 68 Q164 59 175 61 M188 67 Q205 79 197 99 M190 108 Q176 122 158 112 M148 102 Q142 93 145 84" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M158 72 l5 -3 M170 70 l8 2 M158 108 l7 3" fill="none" stroke="{{paper}}" stroke-width="2" filter="url(#dry)" opacity=".7"/>
+</g>
+<g id="loose-left-meatball">
+ <path d="M49 97 C61 88 79 90 87 101 C97 112 94 129 84 140 C74 150 55 148 45 137 C34 126 36 108 49 97Z" fill="{{cream}}"/>
+ <path d="M44 109 C51 94 70 97 81 103 Q99 119  80 138 C68 150 48 140 43 129Z" fill="{{peach}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M83 106 C90 120 76 131 64 130 L43 127 C46 144 64 149 79 143 C93 137 100 118 83 106Z" fill="{{brown}}" opacity=".28" filter="url(#wash)"/>
+ <path d="M51 102 Q66 94 76 105 C80 111 66 118 57 116 Q47 114 51 102Z" fill="{{paper}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M45 119 l6 -4 l4 3 l-3 7 l-6 2Z M71 134 l8 -5 l4 3 l-2 5 l-9 3Z" fill="{{ochre}}" opacity=".46" filter="url(#dry)"/>
+ <path d="M43 104 Q52 91 67 92 M79 95 Q96 102 95 119 M92 130 Q81 151 60 147 M49 141 Q38 134 38 121" fill="none" stroke="{{line}}" stroke-width=".79" stroke-linecap="round"/>
+ <path d="M50 101 l7 -3 M43 131 l4 5 M84 136 l-4 5" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".48"/>
+</g>
+<g id="skewered-middle-meatball">
+ <path d="M116 108 C126 100 142 101 152 111 C165 122 162 139 153 150 C143 161 124 161 113 150 C102 139 103 119 116 108Z" fill="{{cream}}"/>
+ <path d="M112 118 C118 106 139 106 149 115 C162 129 151 146 140 152 C126 159 113 148 109 136Z" fill="{{peach}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M150 114 C155 130 145 140 133 141 C123 143 115 140 108 134 Q108 151 125 157 C144 166 162 148 161 132 Q162 120 150 114Z" fill="{{ochre}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M121 114 Q131 105 143 115 Q152 126 138 132 C125 136 113 127 121 114Z" fill="{{paper}}" opacity=".69" filter="url(#wash)"/>
+ <path d="M111 126 l6 -5 l5 3 l-2 8 l-6 4 l-5 -3Z M140 148 l9 -8 l5 2 l-2 6 l-9 5Z M145 111 l5 3 l2 5 l-5 3Z" fill="{{brown}}" opacity=".86" filter="url(#dry)"/>
+ <path d="M116 108 Q129 100 142 105 M152 111 Q167 122 160 140 M153 150 Q139 166 121 155 M112 148 Q102 135 107 121" fill="none" stroke="{{line}}" stroke-width=".99" stroke-linecap="round"/>
+ <path d="M123 113 l7 -2 M135 114 l5 3 M116 146 l6 6" fill="none" stroke="{{paper}}" stroke-width="1.8" opacity=".73" filter="url(#dry)"/>
+</g>
+<g id="loose-right-meatball">
+ <path d="M159 150 C170 142 189 142 201 154 C212 167 210 185 198 196 C184 207 165 203 154 191 C143 178 145 161 159 150Z" fill="{{cream}}"/>
+ <path d="M155 158 C162 146 183 147 194 155 C209 166 203 186 192 195 C177 205 157 192 152 181Z" fill="{{peach}}" opacity=".84" filter="url(#wash)"/>
+ <path d="M196 157 C200 173 190 184 178 187 C167 189 157 183 150 177 C151 195 170 205 185 202 C204 201 216 179 205 163Z" fill="{{brown}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M163 155 C171 149 188 151 192 159 C196 169 180 176 167 172 Q154 168 163 155Z" fill="{{paper}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M155 169 l6 -5 l4 2 l-1 7 l-7 4Z M185 190 l10 -6 l4 2 l-4 7 l-8 2Z" fill="{{ochre}}" opacity=".49" filter="url(#dry)"/>
+ <path d="M158 151 Q172 140 188 147 M201 155 Q216 171 207 187 M197 198 Q179 211 162 197 M153 189 Q143 177 149 163" fill="none" stroke="{{line}}" stroke-width=".94" stroke-linecap="round"/>
+ <path d="M166 155 l9 -2 M156 185 l3 6 M188 200 l6 -3" fill="none" stroke="{{line}}" stroke-width=".46" opacity=".5"/>
+</g>
+<g id="skewered-front-meatball">
+ <path d="M78 150 C89 140 106 144 117 154 C129 166 126 184 114 194 C101 205  80 200 73 187 C65 174 65 160 78 150Z" fill="{{cream}}"/>
+ <path d="M74 160 C82 146 104 150 113 159 C124 170 116 187 106 193 C94 201 75 187 71 176Z" fill="{{peach}}" opacity=".83" filter="url(#wash)"/>
+ <path d="M112 154 C121 172 103 183 93 183 L71 176 Q73 196  90 199 C106 205 125 191 126 175 Q126 161 112 154Z" fill="{{ochre}}" opacity=".53" filter="url(#wash)"/>
+ <path d="M83 155 Q94 149 105 158 C116 169 98 176 85 172 Q77 168 83 155Z" fill="{{paper}}" opacity=".71" filter="url(#wash)"/>
+ <path d="M73 169 l8 -6 l5 3 l-4 9 l-8 5 l-3 -4Z M100 190 l10 -7 l5 2 l-4 7 l-9 3Z M110 155 l6 4 l2 7 l-5 3Z" fill="{{brown}}" opacity=".84" filter="url(#dry)"/>
+ <path d="M76 151 Q89 140 103 147 M115 153 Q131 167 124 185 M114 195 Q99 208  80 197 M73 187 Q64 174 68 162" fill="none" stroke="{{line}}" stroke-width="1.02" stroke-linecap="round"/>
+ <path d="M84 154 l7 -1 M97 156 l6 4 M78 187 l6 6" fill="none" stroke="{{paper}}" stroke-width="2.2" opacity=".7" filter="url(#dry)"/>
+</g>
+</svg>

@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Boiled pork — pale belly slices in a loose fan</title>
+<desc>Original ink and wash study of rounded pork slices with broad cream fat ribbons, peach and dilute red lean meat, and selective grain. No pink pigment; a generic boiled-pork sign rather than an exact cut or portion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="celadon-serving-plate">
+ <path d="M35 143 C42 123 80 111 121 111 C168 110 211 125 221 148 C235 174 197 204 146 213 C93 222 43 201 33 178 Q27 158 35 143Z" fill="#F2E9D9" opacity=".92"/>
+ <path d="M35 156 Q61 181 113 190 C159 196 197 178 223 151 C227 176 203 197 169 208 C117 225 57 210 38 183Z" fill="#5E7E57" opacity=".45" filter="url(#wash)"/>
+ <path d="M137 195 Q187 193 219 164 C214 186 183 207 143 213 Q111 219 87 210 C113 212 129 204 137 195Z" fill="#2F654B" opacity=".2" filter="url(#wash)"/>
+ <path d="M36 141 Q46 124 77 116 M184 121 Q217 131 224 153 M219 175 Q200 205 149 214 M126 217 Q72 216 42 191 M34 179 l-3 -14" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M48 168 Q66 196 101 201 M172 196 l18 -9" fill="none" stroke="#FFF7E8" stroke-width="2.8" opacity=".47" filter="url(#dry)"/>
+</g>
+<g id="back-slice-fat-and-lean">
+ <path d="M57 99 C53 91 57 85 66 83 L120 73 Q130 70 137 78 L153 96 Q157 104 146 109 L92 129 Q81 132 74 123Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M60 91 Q61 87 69 86 L122 77 Q130 76 135 83 L148 97 Q150 101 142 105 L91 123 Q83 125 78 117Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M72 88 L122 79 Q130 78 135 84 L141 92 L115 98 L88 107 L78 106Z" fill="#B94738" opacity=".21" filter="url(#wash)"/>
+ <path d="M77 108 Q99 100 117 97 L143 91 L147 97 L116 105 L83 117Z" fill="#FFF7E8" opacity=".95"/>
+ <path d="M82 118 L112 108 L143 101 L147 105 L92 126 Q87 128 82 124Z" fill="#655A4B" opacity=".19" filter="url(#wash)"/>
+ <path d="M58 96 Q55 87 64 84 M82 80 l37 -7 M137 79 l14 16 M75 123 l9 6 l12 -2" fill="none" stroke="#9D917F" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="second-slice-fat-and-lean">
+ <path d="M72 117 Q66 106 78 102 L133 89 Q145 87 151 97 L168 118 Q172 126 161 131 L104 149 Q92 151 86 141Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M75 111 Q76 106 83 105 L135 94 Q143 92 148 100 L163 119 Q165 123 157 126 L104 144 Q95 146 90 138Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M86 105 L136 95 L146 99 L155 112 Q133 113 118 121 L97 126Z" fill="#B94738" opacity=".19" filter="url(#wash)"/>
+ <path d="M91 126 Q109 121 122 117 Q140 109 155 111 L160 118 Q140 118 121 126 L96 134Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M96 136 Q124 128 141 125 L160 121 L163 126 L105 145 Q100 147 96 142Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M74 116 Q69 108 78 104 M99 98 l30 -7 M152 98 l13 18 M87 141 l9 7 l12 -1" fill="none" stroke="#9D917F" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="middle-slice-fat-and-lean">
+ <path d="M84 139 Q78 128 91 122 L145 105 Q156 102 164 111 L184 134 Q191 144 177 150 L123 168 Q112 172 104 162Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M88 133 Q87 128 97 125 L148 110 Q155 107 161 115 L178 135 Q184 141 172 145 L121 162 Q115 165 109 158Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M99 124 L148 111 Q155 108 162 117 L170 126 Q151 125 133 135 L112 141Z" fill="#B94738" opacity=".23" filter="url(#wash)"/>
+ <path d="M105 139 Q125 135 142 128 Q159 122 170 124 L176 132 Q161 130 143 137 L111 148Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M112 151 Q137 143 150 142 L179 136 Q185 141 173 147 L122 165 L117 163Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M86 137 Q80 129 91 124 M111 117 l30 -10 M165 112 l17 20 M105 163 l10 6 l12 -2 M144 137 l14 -4" fill="none" stroke="#9D917F" stroke-width=".78" stroke-linecap="round"/>
+</g>
+<g id="fourth-slice-fat-and-lean">
+ <path d="M93 160 Q88 150 100 145 L155 127 Q167 123 175 132 L197 153 Q204 163 192 170 L140 189 Q127 194 119 183Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M98 153 L158 132 Q166 129 172 135 L192 155 Q198 161 187 165 L138 182 Q130 186 124 179Z" fill="#FBE1C9" opacity=".99"/>
+ <path d="M109 147 L159 133 Q166 131 173 138 L182 145 Q164 145 146 154 L122 162Z" fill="#B94738" opacity=".21" filter="url(#wash)"/>
+ <path d="M114 163 Q134 157 146 152 Q168 142 183 145 L189 151 Q171 150 151 159 L122 170Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M124 173 L157 162 L192 156 Q197 161 186 166 L139 185 Q131 188 126 182Z" fill="#655A4B" opacity=".16" filter="url(#wash)"/>
+ <path d="M94 159 Q88 150 102 145 M123 137 l26 -8 M178 135 l18 17 M120 183 l10 7 l13 -2 M149 161 l16 -5" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round"/>
+</g>
+<g id="front-slice-fat-and-lean">
+ <path d="M101 184 Q95 173 109 166 L163 146 Q175 141 183 150 L207 173 Q214 184 198 191 L148 208 Q134 212 125 203Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M105 177 Q103 173 113 169 L166 151 Q173 148 180 156 L201 175 Q206 181 195 185 L148 202 Q139 206 131 197Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M116 168 L166 152 Q175 149 182 157 L191 166 Q171 164 154 174 L130 182Z" fill="#B94738" opacity=".23" filter="url(#wash)"/>
+ <path d="M122 181 Q138 177 153 171 Q174 162 191 165 L198 172 Q181 170 162 178 L130 190Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M130 192 Q151 185 166 181 L201 176 Q206 181 195 186 L148 203 Q139 208 134 200Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M106 183 Q100 176 109 170 M128 162 l25 -10 M185 153 l17 17 M126 203 Q136 213 150 208 L180 198 M191 194 l10 -5 Q211 184 209 179" fill="none" stroke="#9D917F" stroke-width=".92" stroke-linecap="round"/>
+</g>
+<g id="short-cooked-meat-grain" fill="none" stroke-linecap="round">
+ <path d="M86 90 l7 5 M100 86 l7 5 M112 82 l8 5 M99 109 l7 4 M117 104 l8 5 M112 128 l7 5 M133 121 l8 5 M126 149 l7 5 M147 142 l9 5 M139 171 l7 5 M160 162 l9 4 M177 160 l7 4" stroke="#F2E9D9" stroke-width="1.6" opacity=".87" filter="url(#dry)"/>
+ <path d="M99 92 l6 3 M123 86 l6 3 M115 112 l5 2 M136 104 l5 3 M130 130 l6 2 M151 119 l5 4 M143 151 l6 3 M164 139 l5 3 M153 173 l5 2 M176 163 l5 4" stroke="#9D917F" stroke-width=".55" opacity=".53"/>
+</g>
+</svg>

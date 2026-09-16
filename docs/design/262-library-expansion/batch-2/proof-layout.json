@@ -1,0 +1,80 @@
+{
+  "batch": 2,
+  "cohorts": {
+    "01": [
+      "purple-rice",
+      "rice-porridge",
+      "steamed-bun",
+      "sushi",
+      "tofu"
+    ],
+    "02": [
+      "minced-pork",
+      "larb",
+      "boiled-pork",
+      "poached-chicken",
+      "sardines"
+    ],
+    "03": [
+      "cold-cuts",
+      "dumplings",
+      "meatballs",
+      "iced-coffee",
+      "matcha-latte"
+    ],
+    "04": [
+      "soy-milk",
+      "milk-tea",
+      "som-tum",
+      "eggplant",
+      "green-salad"
+    ],
+    "05": [
+      "chili-oil",
+      "gravy",
+      "thai-sweets",
+      "curry"
+    ]
+  },
+  "ids": [
+    "purple-rice",
+    "rice-porridge",
+    "steamed-bun",
+    "sushi",
+    "tofu",
+    "minced-pork",
+    "larb",
+    "boiled-pork",
+    "poached-chicken",
+    "sardines",
+    "cold-cuts",
+    "dumplings",
+    "meatballs",
+    "iced-coffee",
+    "matcha-latte",
+    "soy-milk",
+    "milk-tea",
+    "som-tum",
+    "eggplant",
+    "green-salad",
+    "chili-oil",
+    "gravy",
+    "thai-sweets",
+    "curry"
+  ],
+  "contact_size": [
+    1200,
+    1760
+  ],
+  "phone_viewport": [
+    390,
+    844
+  ],
+  "native_art_size": 64,
+  "diagnostic_size": 40,
+  "fonts": [
+    "EB Garamond",
+    "Caveat",
+    "IBM Plex Mono"
+  ]
+}

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Milk tea — orange iced tea, original ink and wash</title>
+<desc>A tapered glass of orange Thai-style tea, pale swirled wash and angular ice with a wide straw. Generic drink illustration, not evidence of a recipe or ingredients.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="glass-underpainting">
+ <path d="M77 80 C74 65 163 59 180 77 L166 201 C161 215 103 220 92 204Z" fill="{{cream}}" opacity=".83"/>
+ <path d="M85 99 C108 107 153 105 172 95 L163 198 C152 211 111 215 98 201Z" fill="{{peach}}" opacity=".9"/>
+ <path d="M82 86 L96 198 Q99 208 119 210 L113 215 Q94 213 90 201 L77 87Z" fill="{{brown}}" opacity=".17" filter="url(#wash)"/>
+</g>
+<g id="orange-tea-pigment">
+ <path d="M85 100 C109 113 149 108 171 96 L160 195 C153 206 119 210 101 200 L94 153Z" fill="{{orange}}" opacity=".78" filter="url(#wash)"/>
+ <path d="M95 124 C113 122 120 146 144 136 C158 130 161 118 170 112 L160 194 Q145 207 118 202 C127 185 115 163 102 158Z" fill="{{orange}}" opacity=".59" filter="url(#wash)"/>
+ <path d="M136 159 C145 157 153 164 164 155 L160 194 Q149 204 129 204 C148 189 135 175 136 159Z" fill="{{red}}" opacity=".2" filter="url(#wash)"/>
+ <path d="M89 107 C105 107 111 117 119 120 C138 128 150 108 168 112 L166 128 C145 126 140 145 123 142 C104 139 108 125 91 129Z" fill="{{cream}}" opacity=".69" filter="url(#wash)"/>
+ <path d="M97 142 C113 139 111 152 121 160 C139 173 143 160 164 169 L163 179 C145 169 132 186 119 174 C110 167 116 155 100 158Z" fill="{{peach}}" opacity=".63" filter="url(#wash)"/>
+ <path d="M112 179 C119 182 122 195 141 197 L151 201 Q124 209 104 199 L102 187Z" fill="{{gold}}" opacity=".31" filter="url(#wash)"/>
+</g>
+<g id="tea-surface-and-straw">
+ <path d="M81 80 C83 69 155 64 176 79 C177 91 153 103 124 104 C103 104 84 94 81 80Z" fill="{{peach}}" opacity=".92"/>
+ <path d="M85 83 C99 72 154 71 172 81 C169 91 148 99 124 98 C103 99 90 92 85 83Z" fill="{{orange}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M141 101 L152 33 Q154 30 160 33 L150 103Z" fill="{{paper}}" opacity=".92"/>
+ <path d="M149 97 L156 35 L159 34 L150 103Z" fill="{{sage}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M145 82 L152 35 M158 38 L152 84" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M153 33 Q156 31 159 34" fill="none" stroke="{{brown}}" stroke-width="1.1"/>
+</g>
+<g id="floating-ice-facets">
+ <path d="M91 79 L107 68 Q112 67 119 71 L122 87 L108 94 L94 90Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M92 80 L108 84 L120 74 L122 87 L108 94 L94 90Z" fill="{{leaf}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M125 75 L138 65 L149 74 L145 89 L133 95 L122 88Z" fill="{{paper}}" opacity=".82"/>
+ <path d="M126 77 L136 81 L145 74 L144 88 L133 94 L124 88Z" fill="{{peach}}" opacity=".6" filter="url(#wash)"/>
+ <path d="M150 91 L161 80 L172 86 L169 98 L158 106 L149 100Z" fill="{{cream}}" opacity=".91"/>
+ <path d="M151 94 L160 97 L171 87 L169 98 L158 106 L150 101Z" fill="{{leaf}}" opacity=".31"/>
+ <path d="M98 105 L111 101 L122 110 L116 124 L103 125 L97 118Z" fill="{{cream}}" opacity=".62" filter="url(#wash)"/>
+ <path d="M95 79 L107 83 L118 75 M108 84 L108 91 M125 75 L136 80 M145 75 L142 87 M152 92 L159 96 L168 88" fill="none" stroke="{{line}}" stroke-width=".58" opacity=".78" stroke-linecap="round"/>
+</g>
+<g id="glass-dry-light">
+ <path d="M86 105 C88 125 92 136 93 147 L96 150 C96 129 93 114 93 108Z M98 162 L102 191 Q104 195 110 196 L108 167Z" fill="{{paper}}" opacity=".67" filter="url(#dry)"/>
+ <path d="M166 111 L161 144 M159 163 L155 185 M102 206 Q125 214 148 207" fill="none" stroke="{{paper}}" stroke-width="2.1" opacity=".72" filter="url(#dry)"/>
+ <path d="M99 75 L105 73 M129 75 L135 71 M154 92 L159 86" fill="none" stroke="{{paper}}" stroke-width="2.6" opacity=".76" filter="url(#dry)"/>
+</g>
+<g id="selective-glass-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M77 79 Q78 69 101 66 M113 65 Q132 62 144 66 M164 69 Q181 71 180 79" stroke-width=".62"/>
+ <path d="M78 86 L88 175 M90 189 L92 204 Q94 211 111 215" stroke-width=".94"/>
+ <path d="M180 87 L170 176 M168 188 L166 201 Q164 211 143 215 M132 217 L121 217" stroke-width="1.24"/>
+ <path d="M79 83 Q88 99 114 104 M124 105 Q157 105 174 91" stroke-width=".7"/>
+ <path d="M96 200 Q114 210 139 207 M151 205 L159 201 M92 180 L94 192 M165 193 L163 199" stroke-width=".5" opacity=".68"/>
+</g>
+</svg>

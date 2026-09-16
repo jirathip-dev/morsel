@@ -609,5 +609,317 @@
       "exports/fallback-condiments-night-192.png": "733797efdb86a415e9825a5a9dc5f17f335cd2fc58d188425135d11512515203",
       "exports/fallback-condiments-night-512.png": "a4994c92df9ca65331eac5826f1dd7c2e4e332a529695764b2548f7abbdc1f8a"
     }
+  },
+  "purple-rice": {
+    "identity": "ad48a32259140e6e75c6ec22d8575bebe48dfd0f251382a6c37ec49c007c18db",
+    "outputs": {
+      "masters/purple-rice-paper.svg": "a33e8ed8c1a992cf94c8b7d90689e227c7f3eb43be6aa73e2735d8685576a687",
+      "masters/purple-rice-night.svg": "13143201878b1fe5c16622810a677fd03e9e1ba528f095eff769ea867b98c426",
+      "exports/purple-rice-paper-64.png": "a93bec3a0d00131b681f3d03caabd892046edc7faf97b8999ed0ebc6c5a5e54c",
+      "exports/purple-rice-paper-192.png": "73c8d2d8bb45ad22952b457b38c998a254f212737411662106fb6d5258ea1d20",
+      "exports/purple-rice-paper-512.png": "42edbfee14bffd393e02fa5bd71d22ec0514b1b76ff41c483eb7f6468d1e8e2a",
+      "exports/purple-rice-night-64.png": "e4d95336d199272a114c8a16249c9f51b18ce38280ee963c2663bbe649901b10",
+      "exports/purple-rice-night-192.png": "5ddcc1dfe452e2dd52165db2df89c34552e97df39634efe8da1806c095a3531d",
+      "exports/purple-rice-night-512.png": "901a07ac17e2061afffdaa9835436774eefbc971a13b538b648c85ac6d7c84e6"
+    }
+  },
+  "rice-porridge": {
+    "identity": "0aced7f892ea14901f55f8391c41ff4d9c261e76a0bcf644edde8e6cd769226e",
+    "outputs": {
+      "masters/rice-porridge-paper.svg": "47fab7cf98172daae166a42bd717e4c60a38e98f81f369c08c1082082cfa189e",
+      "masters/rice-porridge-night.svg": "825eaad64885c4478d589fe39013a0d31377b9b28618c0940d4aca6a063dd9bb",
+      "exports/rice-porridge-paper-64.png": "27c9ecffd53cab5cff5b567a7328c4ab463b59ad55dddea93d90e500d27470fa",
+      "exports/rice-porridge-paper-192.png": "4ea28b7dc40e9c8cb70e1226d6fd054023f017bcc11c91da9797a3d17247fafa",
+      "exports/rice-porridge-paper-512.png": "8ec8a926301bed39a70f8c9e0ee334a19e2f2c7565746b08a89bc2c5e9e0534d",
+      "exports/rice-porridge-night-64.png": "47c56e04c976e9acd7b2bffcda995fdcd751510cacc5b1aad31643cfa3740864",
+      "exports/rice-porridge-night-192.png": "1f9a2febd13953df8a32ef3fa165fed1e1c92d10144f9b0684434e1aeda5b30a",
+      "exports/rice-porridge-night-512.png": "92c454604f7ee7024914aeef97a6be0a91b8525d25560ad89e38cbfdaec46fb0"
+    }
+  },
+  "steamed-bun": {
+    "identity": "1ff5b33c4d33d1abc1dc90fb89a4f119b15f7175e7f7ecb3abf755c6537b0f4b",
+    "outputs": {
+      "masters/steamed-bun-paper.svg": "7ce374d5c9ea57b5480cb4caf086ccbf96ed0edf9b92e27b61f3101275e88fb3",
+      "masters/steamed-bun-night.svg": "5d5c2627db512fe1c1e69c4ca7dd66789840249080944b83518bd6c86910afcb",
+      "exports/steamed-bun-paper-64.png": "5d6e2357f16bb777c6dc827ac1651bce63df1158932805c00e098415c3b2f659",
+      "exports/steamed-bun-paper-192.png": "ab0d63e42af23c1d0cb13c6889277ce3ab42415c6ebfb556d1f9e649e97201f5",
+      "exports/steamed-bun-paper-512.png": "c874a960d3e357b380fdbec06853cf974c2e650cf83a592ba5dc4eda1553e5f7",
+      "exports/steamed-bun-night-64.png": "5d32e8060e746651c1536b5ad75cb92d481e72041c987558aa2dcc3d674a9e7e",
+      "exports/steamed-bun-night-192.png": "d96255e57a95dc2f7662d727c759e14084be02da650456f1caf6ae1dfdf758f1",
+      "exports/steamed-bun-night-512.png": "8d6a004b40dfa432b3441f1163b98f765ead82129b088b5cd080854091ad9f31"
+    }
+  },
+  "sushi": {
+    "identity": "d15ab48565b423f70119aff7cda4d81c80e764ef3550f6325d9f5b87ae1cb7c3",
+    "outputs": {
+      "masters/sushi-paper.svg": "58c1a1f5e787cb3ba4be83fa7d8baca51c5c005d3cb2c41210b6bef310503e47",
+      "masters/sushi-night.svg": "5a6f085a015013ae4d35ea3919f1a4fd1cb833722cad2be7e9657d4dc9ae9314",
+      "exports/sushi-paper-64.png": "a83d71f4ed6155c94859c15dcf15b934b6767c4fdb73d935be643b8ce953310e",
+      "exports/sushi-paper-192.png": "616fb7557947a35ac7efa900077e9ec045231e0865cdb8426bd77f8e7b8445d4",
+      "exports/sushi-paper-512.png": "34f66d6c16dfddba126fabb844d90f508538e8720030ef06093649fe223c4c19",
+      "exports/sushi-night-64.png": "aed49139a5366c1a9d746b6cd1492941c355f49e1bab1cdd539953414780ce2a",
+      "exports/sushi-night-192.png": "d9693534c60a72d137e8f5b7e875dcccf7ec35528996e4f775c6eb6e3a4657de",
+      "exports/sushi-night-512.png": "1d785527f58640be17c3be2b09fba59d899639ae279c11652161e0e4655458ae"
+    }
+  },
+  "tofu": {
+    "identity": "2b7fb8f2ebf910bcfcb58fbfcef81213fea32222d1a398369966e6a19e485ce8",
+    "outputs": {
+      "masters/tofu-paper.svg": "ac96d4ee243aae348b77191a9d68e9517ecf7372b5e1b43d695cc4be005b1adf",
+      "masters/tofu-night.svg": "daa7b1e618b608f68ff6d766ec45a105d7910a632581a2668cd2af788f8ac500",
+      "exports/tofu-paper-64.png": "a927d378da1844918fff27a5b5b9dd4f2e60a99843d9d94926461c6af107cbc6",
+      "exports/tofu-paper-192.png": "e4d065097352807fc12033f5d2d2418c7d94fb5f771ad51ee2b561255eed1b5b",
+      "exports/tofu-paper-512.png": "b552c5d4c7a29c3210d6eef3bdd3ac47fad8a76845a9f474a8d906298a5becf7",
+      "exports/tofu-night-64.png": "39ab28b26a3d3b1d70aeeb0236ca6c44f9c49ab690004f56c45b5faf98df987d",
+      "exports/tofu-night-192.png": "543d566405357180a5a03bb88d833db7d5eb1940054510aec895f44c9ba4ceea",
+      "exports/tofu-night-512.png": "8cedb0b215ce71c562784fe452ff31165705fe66be3e15f2ffc3b46c574d5bf8"
+    }
+  },
+  "minced-pork": {
+    "identity": "6e0eb7851236dfcdbea30ee596fc8ded5ff720e1f0b7abf100c439fac131c1d5",
+    "outputs": {
+      "masters/minced-pork-paper.svg": "05f870649d37b9e60d0b4f36d999220cabe1eea7053e23543fc20d2b8eacaa1b",
+      "masters/minced-pork-night.svg": "6c3ba6c91a4009a5c9125fa0bee3a8ed67184aa06b40cc29f19dc236010ec2f9",
+      "exports/minced-pork-paper-64.png": "6de6124a4b558925c7e3c5472ca514e973c616735bcc2b195a81a3385a1e7b0b",
+      "exports/minced-pork-paper-192.png": "9778ef0960b25f764c8cbb2d80161b2cbad9599db82d2b9eea01e0916a3c6371",
+      "exports/minced-pork-paper-512.png": "71520cea33549f7f2701327f1263fcc9b0775bf3758bb82fbda7ff630fa5e312",
+      "exports/minced-pork-night-64.png": "724974e1f19998f20c3330f26b38a84ef63ed358aa7b8775ef6974351f917fab",
+      "exports/minced-pork-night-192.png": "2836b63b370b48aeb2d7956900c28fae604d37330e54bf138e976c56058814e3",
+      "exports/minced-pork-night-512.png": "b44e878098f98488a997f4330ea1e71ba6e1e3cba5bd50d0df237c0ac9c16332"
+    }
+  },
+  "larb": {
+    "identity": "e812bb89fe6141c9535dba8b5d0de9df9e60391ecc8823b283a78ef19f3c1a08",
+    "outputs": {
+      "masters/larb-paper.svg": "f91d4af7f927efa33ccb16569a1a6860aca1f3d266eae6c2ba58fbd8fa90039b",
+      "masters/larb-night.svg": "d70bac64cc3e638636cfc0f20d9cfa3898598a651ef8e0bc3ab19b3fb8d85c31",
+      "exports/larb-paper-64.png": "92875a78d157888ee6364c97c11522916ce89f817ea9cfed966894d4c72d3a7f",
+      "exports/larb-paper-192.png": "29d5cc0176b7891206dd902213e3eb479441d08cc0b96b967b7d36aa18a1e00d",
+      "exports/larb-paper-512.png": "6925cdbf02816dbf3605cecb0cdef3eca697663cd6f5075a86d30eaed235f65f",
+      "exports/larb-night-64.png": "270f0f4940c955407396ee3e541f8b051d3758b9cc77cf36484e86b17931257c",
+      "exports/larb-night-192.png": "cf10dff74ee02ebf7461501f2682c8e8adaaa3a23b7b5e59e8ee671b0a014921",
+      "exports/larb-night-512.png": "5d2324d8d8de12135ae8d1655080da1753cdf9a7f98fa0f9b56e7ecc73d99792"
+    }
+  },
+  "boiled-pork": {
+    "identity": "a1d82b6bb58f09841151a00d9d6eb3872a935bafd539b7914935b9b5c81a0860",
+    "outputs": {
+      "masters/boiled-pork-paper.svg": "ccaaa2bcaffd792850b70414c42f870769d2389a06876b7b385b806ed0a32212",
+      "masters/boiled-pork-night.svg": "1cde18143bc5413dc681ff8a8989d5f785b6f2e79440ccce15942f8c1557ba20",
+      "exports/boiled-pork-paper-64.png": "33bad6347d1b04e40364267fde5060a240ae5c3a125d988d47e8ada57e137723",
+      "exports/boiled-pork-paper-192.png": "edfd4818b1d96f2db7cf1fc6fcbf67fa54334b17db7439ae1c9eb63a03c0814b",
+      "exports/boiled-pork-paper-512.png": "96be5734f6e8d93644e33d4c48ae9d40ddba8546236dd5b40db7806bbf8700cf",
+      "exports/boiled-pork-night-64.png": "0373a01102982567e52b9058001c8f148f452ceb806dce1c92902990884866d1",
+      "exports/boiled-pork-night-192.png": "64c4dd15204ed2ef8430bb660ff3d2f159ead4a902d38e6f9355b7215d7bbfc5",
+      "exports/boiled-pork-night-512.png": "b81f8ed525f20287bb1e377a457e8cd6aff29a12b503e92199cb9df8b0e1b454"
+    }
+  },
+  "poached-chicken": {
+    "identity": "06c58d209f346d0a490b2f646509482ed879e3a1a1423cfd9ff173a022781404",
+    "outputs": {
+      "masters/poached-chicken-paper.svg": "b636b857fe70f5e4996a9d8568e2ab3e99ba8276db342df6ac3bae7ac0fb2a6d",
+      "masters/poached-chicken-night.svg": "fd9dcaab688c7baf614962c314c1f3ed081081b9d3f8fb58d497aabab00a4789",
+      "exports/poached-chicken-paper-64.png": "d3b644d9ffe3cf8b80de99461443c1b5e82f6c0bc48cd324b19e4c0829b87ec4",
+      "exports/poached-chicken-paper-192.png": "8479f6fdceba619f4a2e3088fb049c4d64509bc84ade9637a8c061b525f1a227",
+      "exports/poached-chicken-paper-512.png": "f5fca327465f4bb58b37e0de34f254736642ad866ea47e6748963a8c2059f144",
+      "exports/poached-chicken-night-64.png": "4b6c28df3eb78a783da15d947f9b64d4236bece41742566746b77ec153add399",
+      "exports/poached-chicken-night-192.png": "a4c1f1ac508ef52dd37cb3eda229a303b446fe6b225f1d52469b12fa1a6cf81a",
+      "exports/poached-chicken-night-512.png": "3807419cbb0a4bd5d67421af68c413bb607b768870d3960461825872cb20d3ee"
+    }
+  },
+  "sardines": {
+    "identity": "6b652cdb8210ff8e4025a108b628b85b84791243e32cff8803bd49be3f00117f",
+    "outputs": {
+      "masters/sardines-paper.svg": "f5bde16b2302ac5dd7f7824e71ad82c56aa33ca6e2d3b2a8da5981a8cd4c87a8",
+      "masters/sardines-night.svg": "50a9f2080eb10af3b8c431b95bdc7106a23ec386eefde6f374a63585e600ed9b",
+      "exports/sardines-paper-64.png": "dc85bb431aa6737dacbe48a8b6fbd5ef8a4a5b4dacde9525e90d55a9a9d74a4d",
+      "exports/sardines-paper-192.png": "44aeb5bafe6fda6c6228b990b3e740fc5cc9aad87a31db3f33219c699dc46b8b",
+      "exports/sardines-paper-512.png": "3f58fdf599ed9024c9560935dd86fdf5fc400d970e0fc6e3e5c52cb69a3d892a",
+      "exports/sardines-night-64.png": "b0fddc9b7a4b428765c1ecfc3934ce4902fed0a24fab18daaf711fd856628e46",
+      "exports/sardines-night-192.png": "bb7edd1c6773e39cb2ceeb7d96cc79c2fce6422ca587053a6c5d8887fe3e2b6a",
+      "exports/sardines-night-512.png": "545017aa06f4b8d185d6aa62783c2a1c3b021264bcd472016bf056b51fb426e5"
+    }
+  },
+  "cold-cuts": {
+    "identity": "96c462d2eca5c0e40587f415cc84c8ef5cb65d5eae300162bf1067349457dd86",
+    "outputs": {
+      "masters/cold-cuts-paper.svg": "1cca1060ada091aebc2f6bf432b40c0c041343af1de6135ab183391fbe289a1b",
+      "masters/cold-cuts-night.svg": "eeeb6bca0e1247130b35962482ffd512f525aebe3f6c38216da077bcf8d9fb80",
+      "exports/cold-cuts-paper-64.png": "8b8e83907b3f4da3bbc606c92619c46e789e2b55a46cc90f9ba9cd3f0c6d4658",
+      "exports/cold-cuts-paper-192.png": "4feb6cb46ce77c3ec51a1b4328a97e334ce8226d9da7349bc3bf951669f7bc2f",
+      "exports/cold-cuts-paper-512.png": "b3abd8301a02614a260331911dc64786635f67c2917e14f3621ec1903036ff24",
+      "exports/cold-cuts-night-64.png": "9f15b97a37ebbb29b8e879eacf60e5b853975210bc4ae40094dfde0b667b992d",
+      "exports/cold-cuts-night-192.png": "dbec012f055effc6dd540d88639f0f1b8649c6667fbeed7bed79b2847529cc51",
+      "exports/cold-cuts-night-512.png": "694875c722e4320270d35bf666dc4d1f5e8afe6b7557101f28f12d3edd937c3e"
+    }
+  },
+  "dumplings": {
+    "identity": "ca3ee3d40b58c7082fc77c4f5a60b16fc4f605424b332c3fc3326c53dda8ee65",
+    "outputs": {
+      "masters/dumplings-paper.svg": "5145bf5370bc4deb246dee8322da6751bc349e13cee1ffebed5f6738f446d1f3",
+      "masters/dumplings-night.svg": "381563eaa4d57b5f3aea29e03dd39a34ba43256cb2df2eac8255885e636c2635",
+      "exports/dumplings-paper-64.png": "e6e6447e9696d563ebe235c295e1fed964bf4be44ee44a51b346abc0a2316398",
+      "exports/dumplings-paper-192.png": "f70430b9433ab468799735c0190684a49d11784081b761f690c4364a4f59b877",
+      "exports/dumplings-paper-512.png": "8aa450c21306be1461d03220dbf6405dd826dc087feface99828a8d94e27daad",
+      "exports/dumplings-night-64.png": "2af53b524f36d7cb13ae8f215ae7907834b7439cced02f15d2fa0c0272c6f694",
+      "exports/dumplings-night-192.png": "a5492ee7e95e4aeb1150e7601328fa0ce7183edf306bc242ef56940e783bcc69",
+      "exports/dumplings-night-512.png": "d68319a845ea585fe183b2cee99f7229ed9a19d522145596c1a93741707f1bdb"
+    }
+  },
+  "meatballs": {
+    "identity": "786a12ef27dead9b48445f3d2056d7e522d35fced595f3387fe1545d63a7ef6d",
+    "outputs": {
+      "masters/meatballs-paper.svg": "d4c35b33d1e642fd18d0ad9369163d25e990563512848f7b4abf0eb8119493b2",
+      "masters/meatballs-night.svg": "211ab5e1f5e3f522497c7d233cc8a146163e36b0fd3d7918932414ef562db99c",
+      "exports/meatballs-paper-64.png": "8efd3b99931f746ff54a1438c1779d3b062d747865a0200d0e1dbec64a34ab11",
+      "exports/meatballs-paper-192.png": "6bc6d2985fe095d50e53ab6c142c10162a20dc71112c43b0f4aa60f8d65ed920",
+      "exports/meatballs-paper-512.png": "544f9ba215042643955520646a1f8afdd54584f5fbf613eacaea375021051ce7",
+      "exports/meatballs-night-64.png": "2b38b0b7b9f09dd744a97a0402bfff17c5895927e536b87a34261f778f9eb537",
+      "exports/meatballs-night-192.png": "ce86b40a3112f73b0bda6c101628794479e264c88f27042ac4c0f534de5e89d2",
+      "exports/meatballs-night-512.png": "541c2c0cfd5892af76c7f4a5dd5992775649dbf6e0eae374856200aa61d87881"
+    }
+  },
+  "iced-coffee": {
+    "identity": "bd1de296544049d40adc766bc05dd81accd5016610d3f1a3b1084d2cf8a02e3c",
+    "outputs": {
+      "masters/iced-coffee-paper.svg": "27851c63d31ce4c9097c312b1b7ee961b162aa31e4ae4d563c5b88340c08a687",
+      "masters/iced-coffee-night.svg": "2bce17d6c6b264f2556f10c9ce07dfbb00bff02ee1e930ddb5645e900ac481e2",
+      "exports/iced-coffee-paper-64.png": "c9dce1fb73c4dca9cf44ef5d9a156708d565ac8a422deabd8adedde8dd652a61",
+      "exports/iced-coffee-paper-192.png": "a966335727275c0edba9f2e40345116cdd76483eff7a7f7f94b8a96730357075",
+      "exports/iced-coffee-paper-512.png": "b6bdfaa4a9f43585fcb42bf066cd752136f513efcb0720b56a5b9b597cb01c4c",
+      "exports/iced-coffee-night-64.png": "88af4aa14751bc1d8a1f22f25a571d9361f2867028ef3c5f67d42cc9fdf8b579",
+      "exports/iced-coffee-night-192.png": "222e91a035eed69431f128b0d33d244b1be5370b4dc5c90b50f640945b9ce20b",
+      "exports/iced-coffee-night-512.png": "799863959dd5b43ad5f12dd9fa6ec3201667fa188415de9909e3eac3ae2cd987"
+    }
+  },
+  "matcha-latte": {
+    "identity": "2255fd8608fadb366c1b79e104e306dab9fe52ac5ce70206b16396aeada6367d",
+    "outputs": {
+      "masters/matcha-latte-paper.svg": "f1b00d75f49a1c9eee09d29ba7636fa9b7d3cebec798a3e42cc8eed79751d190",
+      "masters/matcha-latte-night.svg": "6e7630774a25e63f3b85fe2446bfdbb01c670aa8d74dc9b1769b9591bb4d94d8",
+      "exports/matcha-latte-paper-64.png": "66e23f60b3d41c49a18b40ef9957220d7111618294900509fae776f810b6a262",
+      "exports/matcha-latte-paper-192.png": "2ccff955c0d57c26b9c25509051523907d1e374a61e90ca572deddffd18f7279",
+      "exports/matcha-latte-paper-512.png": "1aaf20b2bb499ae720d53e33b167955deb6efdc0e0a333109568da032958970a",
+      "exports/matcha-latte-night-64.png": "2d4cd2479137f9387896c4b6bc37da7336e31552dbf5d2459c950d3860f8fef1",
+      "exports/matcha-latte-night-192.png": "8fdd63182d09badae2b6e3040cc871f39e6d7e0117b4b3fdcfcff18bb4236ca2",
+      "exports/matcha-latte-night-512.png": "df72fd0fb46f694ce275a7290839226caebacd53524e0f670134119cdb531397"
+    }
+  },
+  "soy-milk": {
+    "identity": "5baff2f8964978f2a4e90c5003f864a46b576c0652127a12b2b38185b3dfad32",
+    "outputs": {
+      "masters/soy-milk-paper.svg": "fd695b5669431f365bc184e43f10f5828909ac94748d1569d24fff6e4a943baf",
+      "masters/soy-milk-night.svg": "8ac698f7befe414f0f5bde044d6fc97b88c75a33de74a5057019a4963e89a4b3",
+      "exports/soy-milk-paper-64.png": "d237485022b666e7001640c2ce3c21fdab829631b7a8d804a6cf9553bf70f161",
+      "exports/soy-milk-paper-192.png": "f07587c63985a4d02c187d123591431a7e788c9609667125dcba414d3c8980f9",
+      "exports/soy-milk-paper-512.png": "9b05363bd1e7655411c91cf42b932af89a5971a4bb495ef18e895d62c31e21ae",
+      "exports/soy-milk-night-64.png": "852539af033419724aeb5ae4fc0e4eeb5fbf45cb8d14d80dc3047a10c5ef2c7e",
+      "exports/soy-milk-night-192.png": "aef53ead88de43b298fb2bec309e6ec12150125d9a7c84495a6cdcb452e8be10",
+      "exports/soy-milk-night-512.png": "16bf9d0e67483d61a9fcddc75c8d1675a8e6d782200ba41198c925dcc9e2b755"
+    }
+  },
+  "milk-tea": {
+    "identity": "8230ef957ec138adfcfe97953adc368456cbd61c02d0d9f159ed8b825105c344",
+    "outputs": {
+      "masters/milk-tea-paper.svg": "3fdcf208ca975e5ef2e74cf8e5362a35e6cd8b5de4e3942014ed92f4bf2c79f7",
+      "masters/milk-tea-night.svg": "eb0f4b5c1b0f24eb5cc8b987f504408115ee95db60fc70db72e884945fe1bd42",
+      "exports/milk-tea-paper-64.png": "aea0490bf895e48f91bd34d29926c7f1d0c81a0755ae9a9ad48b5881ef975425",
+      "exports/milk-tea-paper-192.png": "7b7f011452c29d57ebcec6f5edc45512fb83a6769a27bdc8395961a6da04c5cc",
+      "exports/milk-tea-paper-512.png": "48956cbdf56622338ad1e9c1704d5c573e5d08cda76a3c123436147953ce9d65",
+      "exports/milk-tea-night-64.png": "a030ca5e7469aae545ce362648ac571525ff4367e794e259fdf7883139624099",
+      "exports/milk-tea-night-192.png": "5a173a2463a9aa0a84c1660c5d58e6c5b6bb846b97ade44c1d7a30cbed7e9252",
+      "exports/milk-tea-night-512.png": "009c365f575d8a1139d5c75448e641f545e4f98ee0a6fffcaa92152d2aeb10bf"
+    }
+  },
+  "som-tum": {
+    "identity": "7b79e79c0cdffd60ba6d15455411821ad096bb4c378c6ed88253b6b311ddc5d9",
+    "outputs": {
+      "masters/som-tum-paper.svg": "1f3daa02042b5910538d8c39cf2bbd8c52c2cd54401389b5746944846459a3ed",
+      "masters/som-tum-night.svg": "a21150b8fa54993b4a6fdec2c0590121978c9fe72c87fb52b5e749af7f67e306",
+      "exports/som-tum-paper-64.png": "7577502f4ef7766919e684832ebc0e7a3821838144484fab4f877803a84c2fdc",
+      "exports/som-tum-paper-192.png": "0462892b68f8b1150844fc47fed6917d328c90a7409cfab7cdc5750fc91a17cc",
+      "exports/som-tum-paper-512.png": "d23491fc51683454b10e9883609eb6ee282ffe97c6e4e65308946fb40f099cf2",
+      "exports/som-tum-night-64.png": "7637fa93723f37867409d5fdbf5da3af85c915c7c320cd55149e49dd9539b036",
+      "exports/som-tum-night-192.png": "3754e856570d957943cdb50e01a0af7bff626464fd0ac0657d420d28bb9e9f1a",
+      "exports/som-tum-night-512.png": "17ebb6169e4b4740b9f1e6e474f90b5520bd0107885e77ac235118e28dbd233a"
+    }
+  },
+  "eggplant": {
+    "identity": "735065d83424eb5fad850546ff8e22087eb8b0473d3c808318f47b5b52de6f56",
+    "outputs": {
+      "masters/eggplant-paper.svg": "076f8be61a64a206a0436537becafdb4a5e99e53e9e7c0458fd55d3c2de16411",
+      "masters/eggplant-night.svg": "0e24e6eb15a8556ffadde19300f33fd438b970f5ca14c6191856cc41e2e7bf35",
+      "exports/eggplant-paper-64.png": "7f601ac55465d3b1cb3ad169d4600b5f803b580ca2422fabf9698156ff99c5e8",
+      "exports/eggplant-paper-192.png": "2776d98db7f2a014de8a20b20e40a9fd90198fcce436e10b6b2a3a5342f0bbf5",
+      "exports/eggplant-paper-512.png": "48032ff6daef2f96fd5e8d7aaf1131d05abf17bb7572468574b13ac0d839f26b",
+      "exports/eggplant-night-64.png": "0361227fb9be79d45e0a91254743f7ea64651a7cd15315ddcd1cf16e37071f8e",
+      "exports/eggplant-night-192.png": "97b4d6aab0d9e0882181cd876ae67d8979a63e759e384e206a263e6a368b11e2",
+      "exports/eggplant-night-512.png": "aa5c3316341f2656c5c97209380315d3d25492fd1b92bc198ea96b5ffb616dae"
+    }
+  },
+  "green-salad": {
+    "identity": "1184a3d6e6dd22a4c6323ac74d467beb5715e234fbe088f30b60510b714ff4df",
+    "outputs": {
+      "masters/green-salad-paper.svg": "408a00d4dcb5e42b048e8d759b6bfcf187d60a3edd42846d164a2cddd20964eb",
+      "masters/green-salad-night.svg": "a5eb9595eacf9973710087f963c24a871226669764db6c14de994a903f48d373",
+      "exports/green-salad-paper-64.png": "773f0db498930c9e143598aa1131164136468851f19a60fd25bf59ce207a7aa4",
+      "exports/green-salad-paper-192.png": "9c7bea2ad6feb747f1a8129a64cad5f6f0a7eff1f3053faa39208149320485a1",
+      "exports/green-salad-paper-512.png": "1e8c22dfa9f1a9aac08779016c508492151b8142b6a7dd7597535f8d1b21c019",
+      "exports/green-salad-night-64.png": "e8461a6736f1d031cb43ab1f8d9f65a043cb07870c21f1dd47ad78b94df6916c",
+      "exports/green-salad-night-192.png": "0798e0e21b9b5b9dbc81e62fcfa225e0eb09998643a7e017a912a3f4982dea07",
+      "exports/green-salad-night-512.png": "071bcf64434a50f6832a92b1d709f815d5ef9f96cf0ef187dab0124537dc553e"
+    }
+  },
+  "chili-oil": {
+    "identity": "fbc2d4fb68d32f1c295050ad6623e305eae9b3cc9e2a6e7728a382661c89ecb1",
+    "outputs": {
+      "masters/chili-oil-paper.svg": "57e2f20b5afa81a6b321d1422719045cf79e769a7d774281c8e673542a9cdf6a",
+      "masters/chili-oil-night.svg": "781b7e8d5090fbecda07c6c6ca5887db1eb5568563eb3b11d6dd9a8b1d5a432c",
+      "exports/chili-oil-paper-64.png": "491d20ae034dab1912ee245e22a9f29a8fe8f7b4b1eb6d3b66f45ad9999f66fc",
+      "exports/chili-oil-paper-192.png": "5547f6325439821a051e74e0c140b74d3e0cc237d34a011475f6561047ed0b36",
+      "exports/chili-oil-paper-512.png": "82afc432918b08fb2f288078ba2a2218895b5c4ff3b4f5b29c1fbcf0e9d73def",
+      "exports/chili-oil-night-64.png": "2de0e8b9011bb9746acc4cee471937e24c412d4a9a1d51eb84ad11498337e490",
+      "exports/chili-oil-night-192.png": "89137b63663af56dba3ec6bd8e9e4937d3c72c108532b1de4849e8e030f076e3",
+      "exports/chili-oil-night-512.png": "dfeb3bb5ecf91038f8c584b8fad24417cb2b6de23910a8b75e6ee4df1e717047"
+    }
+  },
+  "gravy": {
+    "identity": "a95e087deb3c12a7763d764cf1f5b747cb1d9fc6476c175636d252b0e1444299",
+    "outputs": {
+      "masters/gravy-paper.svg": "4784638aa45413ec182968fe15bfccfd1e539e873b73f5af77e818384955ad1f",
+      "masters/gravy-night.svg": "3ca9238389e0ade370ac031065891ca68f827bec09e2fb11ed64e082ce7314aa",
+      "exports/gravy-paper-64.png": "51fcd07afbd9364829cf1aff2bae2b72869c6762eb25c107dbd328a8a742ded9",
+      "exports/gravy-paper-192.png": "1b9d3244d260a2433c931da21621168aa052b3f50d2c6822b4b6910833033312",
+      "exports/gravy-paper-512.png": "6eb7b4314a753fbdb87a6c275fc4c8d90f72c1fee6e6d9328cca49d3097542d0",
+      "exports/gravy-night-64.png": "b1ffc5f908da5141e5ddb9edab6538239d42cd1aa4fe0240e23264be469ea6ca",
+      "exports/gravy-night-192.png": "1f4957c25dd1d9ea8e2c0807999b2cbdfc918c4557ae7f6d7b27cde1c0ff7d75",
+      "exports/gravy-night-512.png": "06d08fd2861e6df6e8c6b124ddffed7b0a49b72cebcad4348d1d1978cd2fc48d"
+    }
+  },
+  "thai-sweets": {
+    "identity": "e00f8f86e54c3aeb63411e037612de9eafc054aa792c6424924915b948fb15f8",
+    "outputs": {
+      "masters/thai-sweets-paper.svg": "a433be7ab71ae9f7bf69fe880fa4209891716551518ee49e7442280064dad531",
+      "masters/thai-sweets-night.svg": "4790fdbcd88547996ad016832d852adf448cebbeedb45010b84c5d855e3dc255",
+      "exports/thai-sweets-paper-64.png": "499a8bf9749c2d8e6309c8fab4cb8ba6c0e067e8ae29b95604179287bac77446",
+      "exports/thai-sweets-paper-192.png": "6dbfcf3430f9fdaae0125d1105af0d09ef0d4ce629954dee89d7bfc53ecc4692",
+      "exports/thai-sweets-paper-512.png": "b0c098165d7026fae652c3a7c5fa4e438ec69a6a3b73e057e3469c025fdfbe5a",
+      "exports/thai-sweets-night-64.png": "a0dfd700bcaa5d82ef07186a47bbca9d12ea62397308714b8fc8227f247d0a5b",
+      "exports/thai-sweets-night-192.png": "00267a1a98caff24dce179c59e93ef601d598e825f1135a4346fd62098a4b8bc",
+      "exports/thai-sweets-night-512.png": "6acb193b9fbf87c735fc0a549cb0d6b6ae9dfc8861ea17d9dae18a553d7e1cc5"
+    }
+  },
+  "curry": {
+    "identity": "0e6d74f0d36bb9d080eda08678e04d6a5ddbbb5cfa38afd84db7665b73e97a2d",
+    "outputs": {
+      "masters/curry-paper.svg": "e956bf092489638a3de589dd17df6589db5502e4aa6f6cb4fdb749d8aecf12ec",
+      "masters/curry-night.svg": "8576809bbab067a5bef97f453300f6c88632a5e955bdae04171f853210b7ada2",
+      "exports/curry-paper-64.png": "e258bef2e761834a06496939546aedb84922e86709255ad9ed43ff720a4ccd82",
+      "exports/curry-paper-192.png": "af0badf5742550cb5e42fc9b2e54caea23fbfe93b89ead5f2cbdfc603decd0da",
+      "exports/curry-paper-512.png": "e8605654c65e8738c33b62131df64064f579501b35d324399797fe4b1d2853d5",
+      "exports/curry-night-64.png": "a75fda345d6b0f43ca2a10ca8291efa6871ac320625c76af4d17f9eca5713cb4",
+      "exports/curry-night-192.png": "9d957d012c2f2671a5a96809d66ef2108492a4e612512b6f574e23c0693a1cc7",
+      "exports/curry-night-512.png": "56f3ff8c283b0d129fbb4f013a3df6cbe806b42deef3ace72359af0d559dbe05"
+    }
   }
 }

@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/pipeline.py",
+        "build",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-01-pipeline.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/pipeline.py",
+        "coverage",
+        "--batch",
+        "2",
+        "--private-names",
+        "/Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion/.lane-logs/logged-names.json"
+      ],
+      "raw_exit": 0,
+      "log": "gate-02-pipeline.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/pipeline.py",
+        "verify",
+        "--batch",
+        "2",
+        "--product",
+        "/Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion"
+      ],
+      "raw_exit": 0,
+      "log": "gate-03-pipeline.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/pipeline.py",
+        "reproduce",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-04-pipeline.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/proofs.py",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-05-proofs.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/reports.py",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-06-reports.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/capture.py",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-07-capture.log"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/reports.py",
+        "--batch",
+        "2"
+      ],
+      "raw_exit": 0,
+      "log": "gate-08-reports.log"
+    }
+  ]
+}

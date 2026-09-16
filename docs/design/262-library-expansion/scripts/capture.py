@@ -27,6 +27,9 @@ def run(batch):
     evidence.mkdir(exist_ok=True)
     scratch=ROOT.parent/'.262-scratch'
     scratch.mkdir(exist_ok=True)
+    inputs={dest/f'{page}.html' for page,_,_ in cases} | {dest/'proof.css'} | set((ROOT/'library/fonts').glob('*.ttf'))
+    inputs |= {ROOT/f'library/exports/{iid}-{theme}-{size}.png' for iid in layout['ids'] for theme in ('paper','night') for size in (64,192)}
+    input_hashes={str(p.relative_to(ROOT)):sha(p) for p in inputs}
     results=[]
     for index,(page,w,h) in enumerate(cases):
         if index and index % 4 == 0:
@@ -67,7 +70,8 @@ def run(batch):
         for i,c in enumerate(layout['cohorts']):
             strip.paste(Image.open(proofs/f'phone-{c}-{theme}.png'),(390*i,0))
         strip.save(proofs/f'phone-all-{theme}.png')
-    result={'status':'PASS','raw_exit':0,'engine':subprocess.check_output([engine,'--version'],text=True).strip(),'capture_count':len(results),'phone_catalog_coverage':coverage,'captures':results,'scope':'Real browser + DOM checks of fictional labeled contexts, not actual app UI. Visual judgment and owner approval are separate.'}
+    require(all(sha(ROOT/p)==h for p,h in input_hashes.items()),'capture inputs changed mid-batch')
+    result={'inputs_sha256':input_hashes,'status':'PASS','raw_exit':0,'engine':subprocess.check_output([engine,'--version'],text=True).strip(),'capture_count':len(results),'phone_catalog_coverage':coverage,'captures':results,'scope':'Real browser + DOM checks of fictional labeled contexts, not actual app UI. Visual judgment and owner approval are separate.'}
     save(dest/'browser.json',result)
     print(json.dumps({k:v for k,v in result.items() if k!='captures'}))
 

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Gravy — long pointed sauce boat pouring, original ink and wash</title>
+<desc>A shallow elongated ceramic sauce boat tips its pointed lip toward a thick falling ribbon of brown gravy. A small pool receives the pour. Generic illustration, not recipe or ingredient evidence.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="receiving-pool">
+ <path d="M32 190 C40 179 55 184 65 181 C76 183 84 189 91 194 C99 202 90 211 74 212 C60 209 48 214 37 207 C29 204 26 197 32 190Z" fill="#A5750B" opacity=".74" filter="url(#wash)"/>
+ <path d="M34 193 Q43 185 54 188 Q65 184 76 192 L89 199 Q82 208 66 207 C55 212 31 204 34 193Z" fill="#655A4B"/>
+ <path d="M38 194 Q53 189 65 196 L77 199 Q63 204 48 200Z" fill="#FBE1C9" opacity=".64" filter="url(#dry)"/>
+</g>
+<g id="low-rear-handle">
+ <path d="M178 99 C188 80 216 80 226 98 C234 119 219 138 195 145 L183 137 C204 132 218 119 215 105 C212 93 196 91 189 107Z M195 107 Q204 96 210 106 Q214 118 196 129 L190 120Z" fill="#F2E9D9" fill-rule="evenodd"/>
+ <path d="M214 89 C232 99 231 124 206 139 L193 143 L187 136 Q217 125 218 108Z" fill="#5E7E57" opacity=".28" filter="url(#wash)"/>
+ <path d="M199 85 Q221 82 228 102 M225 117 Q215 137 196 141 M196 106 Q209 97 211 109" fill="none" stroke="#8B7355" stroke-width="1.25" stroke-linecap="round"/>
+</g>
+<g id="elongated-shallow-boat">
+ <path d="M31 111 L70 97 C98 74 158 71 188 86 C205 94 207 110 191 131 C167 163 133 171 103 157 C87 149 77 135 69 124Z" fill="#FFF7E8"/>
+ <path d="M55 115 L80 118 C118 139 170 128 202 102 C198 130 166 161 137 164 C108 169 90 148 76 129Z" fill="#F2E9D9" opacity=".95" filter="url(#wash)"/>
+ <path d="M83 132 C114 153 161 144 190 124 C170 154 145 171 119 160 Q99 155 83 132Z" fill="#5E7E57" opacity=".38" filter="url(#wash)"/>
+ <path d="M94 139 Q120 153 143 148 L132 158 Q109 160 94 147Z" fill="#FFF7E8" opacity=".76" filter="url(#dry)"/>
+ <path d="M31 111 L70 97 C95 78 153 72 180 83 C204 90 203 106 181 119 C148 139 104 139 77 123Z" fill="#F2E9D9"/>
+ <path d="M41 110 L78 102 C104 84 149 80 176 89 C195 95 188 106 171 115 C143 129 109 129 80 116Z" fill="#655A4B"/>
+ <path d="M68 109 C99 108 112 93 141 96 Q166 87 184 99 C169 119 118 135 82 116Z" fill="#2A261F" opacity=".43" filter="url(#wash)"/>
+ <path d="M88 105 C110 95 135 90 159 94 L170 97 C137 98 120 110 103 111Z" fill="#A5750B" opacity=".57" filter="url(#wash)"/>
+ <path d="M34 111 L73 98 M81 91 Q123 74 162 80 M178 83 Q207 89 201 105 M193 119 Q168 154 144 163 M128 165 Q96 163 72 127 L34 114" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
+ <path d="M43 114 L81 120 Q127 143 176 119" fill="none" stroke="#FFF7E8" stroke-width="3.3" opacity=".88" stroke-linecap="round"/>
+</g>
+<g id="visible-gravy-ribbon">
+ <path d="M48 109 C35 116 38 130 44 139 C49 148 40 156 40 168 C39 181 50 188 56 195 L68 198 C68 182 52 178 53 168 C54 157 62 148 57 137 C51 126 48 122 58 116Z" fill="#A5750B"/>
+ <path d="M47 114 C38 124 45 132 49 143 C53 153 46 162 47 172 C48 181 58 188 60 196 L68 198 C68 184 53 178 53 167 C54 156 61 149 57 137 Q48 121 54 116Z" fill="#655A4B" opacity=".9" filter="url(#wash)"/>
+ <path d="M44 119 Q40 128 46 139 C53 153 43 158 44 170 Q44 181 56 190" fill="none" stroke="#FBE1C9" stroke-width="3.7" opacity=".82" stroke-linecap="round" filter="url(#dry)"/>
+ <path d="M62 189 L67 198 M51 135 Q63 148 54 165" fill="none" stroke="#8B7355" stroke-width=".85" stroke-linecap="round"/>
+</g>
+</svg>

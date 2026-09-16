@@ -1,0 +1,1075 @@
+{
+  "inputs_sha256": {
+    "library/fonts/IBMPlexMono-Regular.ttf": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
+    "library/exports/soy-milk-night-64.png": "852539af033419724aeb5ae4fc0e4eeb5fbf45cb8d14d80dc3047a10c5ef2c7e",
+    "library/exports/boiled-pork-night-64.png": "0373a01102982567e52b9058001c8f148f452ceb806dce1c92902990884866d1",
+    "library/exports/milk-tea-paper-192.png": "7b7f011452c29d57ebcec6f5edc45512fb83a6769a27bdc8395961a6da04c5cc",
+    "library/exports/matcha-latte-night-192.png": "8fdd63182d09badae2b6e3040cc871f39e6d7e0117b4b3fdcfcff18bb4236ca2",
+    "library/exports/som-tum-night-64.png": "7637fa93723f37867409d5fdbf5da3af85c915c7c320cd55149e49dd9539b036",
+    "library/exports/rice-porridge-night-64.png": "47c56e04c976e9acd7b2bffcda995fdcd751510cacc5b1aad31643cfa3740864",
+    "library/exports/poached-chicken-night-192.png": "a4c1f1ac508ef52dd37cb3eda229a303b446fe6b225f1d52469b12fa1a6cf81a",
+    "batch-2/phone-04-night.html": "451186a4be73a07c4e9dbe24aa090dcafcf936ec075bf5ee61c28ed75ea1c0be",
+    "library/exports/larb-paper-192.png": "29d5cc0176b7891206dd902213e3eb479441d08cc0b96b967b7d36aa18a1e00d",
+    "library/exports/eggplant-paper-192.png": "2776d98db7f2a014de8a20b20e40a9fd90198fcce436e10b6b2a3a5342f0bbf5",
+    "library/exports/curry-paper-192.png": "af0badf5742550cb5e42fc9b2e54caea23fbfe93b89ead5f2cbdfc603decd0da",
+    "library/exports/minced-pork-paper-64.png": "6de6124a4b558925c7e3c5472ca514e973c616735bcc2b195a81a3385a1e7b0b",
+    "batch-2/phone-02-night.html": "05d090ae561979cd67c017335cfcaf7eacd7c0f8132249d0e1315bc400836b61",
+    "batch-2/phone-05-paper.html": "bbc57e6e54e7a49d9b5287a78b20c14d5b9f3bc469de5cfe9c5cd14e03a17d02",
+    "library/exports/iced-coffee-night-192.png": "222e91a035eed69431f128b0d33d244b1be5370b4dc5c90b50f640945b9ce20b",
+    "library/exports/minced-pork-night-64.png": "724974e1f19998f20c3330f26b38a84ef63ed358aa7b8775ef6974351f917fab",
+    "batch-2/phone-01-paper.html": "a09101b4bf1408633feeed653fcf8155fd509146fbbc8d739007e872604126f4",
+    "library/exports/rice-porridge-paper-192.png": "4ea28b7dc40e9c8cb70e1226d6fd054023f017bcc11c91da9797a3d17247fafa",
+    "library/exports/rice-porridge-paper-64.png": "27c9ecffd53cab5cff5b567a7328c4ab463b59ad55dddea93d90e500d27470fa",
+    "library/exports/tofu-paper-192.png": "e4d065097352807fc12033f5d2d2418c7d94fb5f771ad51ee2b561255eed1b5b",
+    "library/exports/som-tum-night-192.png": "3754e856570d957943cdb50e01a0af7bff626464fd0ac0657d420d28bb9e9f1a",
+    "library/exports/cold-cuts-night-64.png": "9f15b97a37ebbb29b8e879eacf60e5b853975210bc4ae40094dfde0b667b992d",
+    "library/exports/meatballs-paper-192.png": "6bc6d2985fe095d50e53ab6c142c10162a20dc71112c43b0f4aa60f8d65ed920",
+    "library/exports/eggplant-paper-64.png": "7f601ac55465d3b1cb3ad169d4600b5f803b580ca2422fabf9698156ff99c5e8",
+    "library/exports/curry-night-64.png": "a75fda345d6b0f43ca2a10ca8291efa6871ac320625c76af4d17f9eca5713cb4",
+    "library/exports/chili-oil-paper-192.png": "5547f6325439821a051e74e0c140b74d3e0cc237d34a011475f6561047ed0b36",
+    "library/exports/chili-oil-night-192.png": "89137b63663af56dba3ec6bd8e9e4937d3c72c108532b1de4849e8e030f076e3",
+    "library/exports/meatballs-night-192.png": "ce86b40a3112f73b0bda6c101628794479e264c88f27042ac4c0f534de5e89d2",
+    "batch-2/phone-02-paper.html": "900f2972e83d310524c12daced5cd4a667ad64eeff0a3bf10f634c7799ad96c2",
+    "library/exports/green-salad-paper-192.png": "9c7bea2ad6feb747f1a8129a64cad5f6f0a7eff1f3053faa39208149320485a1",
+    "library/exports/iced-coffee-paper-192.png": "a966335727275c0edba9f2e40345116cdd76483eff7a7f7f94b8a96730357075",
+    "library/exports/curry-paper-64.png": "e258bef2e761834a06496939546aedb84922e86709255ad9ed43ff720a4ccd82",
+    "library/exports/purple-rice-paper-64.png": "a93bec3a0d00131b681f3d03caabd892046edc7faf97b8999ed0ebc6c5a5e54c",
+    "library/exports/dumplings-night-192.png": "a5492ee7e95e4aeb1150e7601328fa0ce7183edf306bc242ef56940e783bcc69",
+    "library/exports/green-salad-night-192.png": "0798e0e21b9b5b9dbc81e62fcfa225e0eb09998643a7e017a912a3f4982dea07",
+    "library/exports/minced-pork-night-192.png": "2836b63b370b48aeb2d7956900c28fae604d37330e54bf138e976c56058814e3",
+    "library/exports/dumplings-paper-64.png": "e6e6447e9696d563ebe235c295e1fed964bf4be44ee44a51b346abc0a2316398",
+    "library/exports/cold-cuts-paper-192.png": "4feb6cb46ce77c3ec51a1b4328a97e334ce8226d9da7349bc3bf951669f7bc2f",
+    "library/exports/purple-rice-paper-192.png": "73c8d2d8bb45ad22952b457b38c998a254f212737411662106fb6d5258ea1d20",
+    "library/exports/eggplant-night-64.png": "0361227fb9be79d45e0a91254743f7ea64651a7cd15315ddcd1cf16e37071f8e",
+    "library/exports/gravy-paper-64.png": "51fcd07afbd9364829cf1aff2bae2b72869c6762eb25c107dbd328a8a742ded9",
+    "library/exports/meatballs-paper-64.png": "8efd3b99931f746ff54a1438c1779d3b062d747865a0200d0e1dbec64a34ab11",
+    "library/exports/thai-sweets-night-192.png": "00267a1a98caff24dce179c59e93ef601d598e825f1135a4346fd62098a4b8bc",
+    "library/exports/soy-milk-night-192.png": "aef53ead88de43b298fb2bec309e6ec12150125d9a7c84495a6cdcb452e8be10",
+    "library/exports/boiled-pork-paper-64.png": "33bad6347d1b04e40364267fde5060a240ae5c3a125d988d47e8ada57e137723",
+    "library/exports/matcha-latte-paper-64.png": "66e23f60b3d41c49a18b40ef9957220d7111618294900509fae776f810b6a262",
+    "library/exports/sardines-night-64.png": "b0fddc9b7a4b428765c1ecfc3934ce4902fed0a24fab18daaf711fd856628e46",
+    "library/exports/sardines-paper-64.png": "dc85bb431aa6737dacbe48a8b6fbd5ef8a4a5b4dacde9525e90d55a9a9d74a4d",
+    "library/exports/sushi-night-192.png": "d9693534c60a72d137e8f5b7e875dcccf7ec35528996e4f775c6eb6e3a4657de",
+    "library/exports/gravy-night-192.png": "1f4957c25dd1d9ea8e2c0807999b2cbdfc918c4557ae7f6d7b27cde1c0ff7d75",
+    "library/exports/poached-chicken-paper-64.png": "d3b644d9ffe3cf8b80de99461443c1b5e82f6c0bc48cd324b19e4c0829b87ec4",
+    "library/exports/boiled-pork-paper-192.png": "edfd4818b1d96f2db7cf1fc6fcbf67fa54334b17db7439ae1c9eb63a03c0814b",
+    "library/exports/larb-night-64.png": "270f0f4940c955407396ee3e541f8b051d3758b9cc77cf36484e86b17931257c",
+    "library/fonts/Caveat[wght].ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+    "library/fonts/EBGaramond[wght].ttf": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+    "library/exports/chili-oil-night-64.png": "2de0e8b9011bb9746acc4cee471937e24c412d4a9a1d51eb84ad11498337e490",
+    "library/exports/rice-porridge-night-192.png": "1f9a2febd13953df8a32ef3fa165fed1e1c92d10144f9b0684434e1aeda5b30a",
+    "library/exports/sushi-paper-192.png": "616fb7557947a35ac7efa900077e9ec045231e0865cdb8426bd77f8e7b8445d4",
+    "library/exports/chili-oil-paper-64.png": "491d20ae034dab1912ee245e22a9f29a8fe8f7b4b1eb6d3b66f45ad9999f66fc",
+    "batch-2/phone-03-night.html": "d385a2689ee98bb9198eda7ff837a8d07e9f196aa6da990c9d9307a845eec992",
+    "library/exports/sushi-paper-64.png": "a83d71f4ed6155c94859c15dcf15b934b6767c4fdb73d935be643b8ce953310e",
+    "library/exports/purple-rice-night-64.png": "e4d95336d199272a114c8a16249c9f51b18ce38280ee963c2663bbe649901b10",
+    "library/exports/steamed-bun-night-64.png": "5d32e8060e746651c1536b5ad75cb92d481e72041c987558aa2dcc3d674a9e7e",
+    "library/exports/larb-night-192.png": "cf10dff74ee02ebf7461501f2682c8e8adaaa3a23b7b5e59e8ee671b0a014921",
+    "library/exports/sardines-night-192.png": "bb7edd1c6773e39cb2ceeb7d96cc79c2fce6422ca587053a6c5d8887fe3e2b6a",
+    "library/exports/som-tum-paper-64.png": "7577502f4ef7766919e684832ebc0e7a3821838144484fab4f877803a84c2fdc",
+    "library/exports/green-salad-paper-64.png": "773f0db498930c9e143598aa1131164136468851f19a60fd25bf59ce207a7aa4",
+    "library/exports/tofu-paper-64.png": "a927d378da1844918fff27a5b5b9dd4f2e60a99843d9d94926461c6af107cbc6",
+    "library/exports/iced-coffee-paper-64.png": "c9dce1fb73c4dca9cf44ef5d9a156708d565ac8a422deabd8adedde8dd652a61",
+    "batch-2/phone-03-paper.html": "1bd2af9fab85cd34588b819e8b36448a784223d2de48edd23a85e4c645d1e6dc",
+    "batch-2/gallery-paper.html": "5fea50b366ece3cc9eba6f37f138b06bc0e9e532674de5d4877786961fd23ae5",
+    "batch-2/proof.css": "d2bde00229e4d8a649b31795249e25391292f5a53f0d18cf9d894724251e72de",
+    "library/exports/soy-milk-paper-64.png": "d237485022b666e7001640c2ce3c21fdab829631b7a8d804a6cf9553bf70f161",
+    "library/exports/curry-night-192.png": "9d957d012c2f2671a5a96809d66ef2108492a4e612512b6f574e23c0693a1cc7",
+    "library/exports/matcha-latte-night-64.png": "2d4cd2479137f9387896c4b6bc37da7336e31552dbf5d2459c950d3860f8fef1",
+    "library/exports/steamed-bun-paper-64.png": "5d6e2357f16bb777c6dc827ac1651bce63df1158932805c00e098415c3b2f659",
+    "library/exports/dumplings-night-64.png": "2af53b524f36d7cb13ae8f215ae7907834b7439cced02f15d2fa0c0272c6f694",
+    "batch-2/phone-04-paper.html": "588289473a4f0ce12a3a3ee7c83fdda6124889e433aebc495387247e6f2f6b55",
+    "library/exports/dumplings-paper-192.png": "f70430b9433ab468799735c0190684a49d11784081b761f690c4364a4f59b877",
+    "library/exports/iced-coffee-night-64.png": "88af4aa14751bc1d8a1f22f25a571d9361f2867028ef3c5f67d42cc9fdf8b579",
+    "library/exports/gravy-paper-192.png": "1b9d3244d260a2433c931da21621168aa052b3f50d2c6822b4b6910833033312",
+    "library/exports/sushi-night-64.png": "aed49139a5366c1a9d746b6cd1492941c355f49e1bab1cdd539953414780ce2a",
+    "library/exports/cold-cuts-night-192.png": "dbec012f055effc6dd540d88639f0f1b8649c6667fbeed7bed79b2847529cc51",
+    "library/exports/thai-sweets-paper-192.png": "6dbfcf3430f9fdaae0125d1105af0d09ef0d4ce629954dee89d7bfc53ecc4692",
+    "library/exports/thai-sweets-night-64.png": "a0dfd700bcaa5d82ef07186a47bbca9d12ea62397308714b8fc8227f247d0a5b",
+    "batch-2/phone-01-night.html": "dd0d62ca60e3afe4639117993d494218f9cb9474ea2496ce06a351df9a275dab",
+    "library/exports/minced-pork-paper-192.png": "9778ef0960b25f764c8cbb2d80161b2cbad9599db82d2b9eea01e0916a3c6371",
+    "library/exports/poached-chicken-night-64.png": "4b6c28df3eb78a783da15d947f9b64d4236bece41742566746b77ec153add399",
+    "batch-2/phone-05-night.html": "4315cec9f272fcfdb5d2aa152cb8f2952c10d13803686bdcee4d9de4b0b31c4e",
+    "library/exports/milk-tea-night-64.png": "a030ca5e7469aae545ce362648ac571525ff4367e794e259fdf7883139624099",
+    "library/exports/matcha-latte-paper-192.png": "2ccff955c0d57c26b9c25509051523907d1e374a61e90ca572deddffd18f7279",
+    "library/exports/steamed-bun-paper-192.png": "ab0d63e42af23c1d0cb13c6889277ce3ab42415c6ebfb556d1f9e649e97201f5",
+    "batch-2/gallery-night.html": "b4e501dc2e1c966dd8dc3f0a4b7e83f548e879e749326e8de42e260e91d4c2e0",
+    "library/exports/som-tum-paper-192.png": "0462892b68f8b1150844fc47fed6917d328c90a7409cfab7cdc5750fc91a17cc",
+    "library/exports/thai-sweets-paper-64.png": "499a8bf9749c2d8e6309c8fab4cb8ba6c0e067e8ae29b95604179287bac77446",
+    "library/exports/larb-paper-64.png": "92875a78d157888ee6364c97c11522916ce89f817ea9cfed966894d4c72d3a7f",
+    "library/exports/meatballs-night-64.png": "2b38b0b7b9f09dd744a97a0402bfff17c5895927e536b87a34261f778f9eb537",
+    "library/exports/boiled-pork-night-192.png": "64c4dd15204ed2ef8430bb660ff3d2f159ead4a902d38e6f9355b7215d7bbfc5",
+    "library/exports/tofu-night-64.png": "39ab28b26a3d3b1d70aeeb0236ca6c44f9c49ab690004f56c45b5faf98df987d",
+    "library/exports/milk-tea-night-192.png": "5a173a2463a9aa0a84c1660c5d58e6c5b6bb846b97ade44c1d7a30cbed7e9252",
+    "library/exports/gravy-night-64.png": "b1ffc5f908da5141e5ddb9edab6538239d42cd1aa4fe0240e23264be469ea6ca",
+    "library/exports/milk-tea-paper-64.png": "aea0490bf895e48f91bd34d29926c7f1d0c81a0755ae9a9ad48b5881ef975425",
+    "library/exports/poached-chicken-paper-192.png": "8479f6fdceba619f4a2e3088fb049c4d64509bc84ade9637a8c061b525f1a227",
+    "library/exports/soy-milk-paper-192.png": "f07587c63985a4d02c187d123591431a7e788c9609667125dcba414d3c8980f9",
+    "library/exports/steamed-bun-night-192.png": "d96255e57a95dc2f7662d727c759e14084be02da650456f1caf6ae1dfdf758f1",
+    "library/exports/cold-cuts-paper-64.png": "8b8e83907b3f4da3bbc606c92619c46e789e2b55a46cc90f9ba9cd3f0c6d4658",
+    "library/exports/sardines-paper-192.png": "44aeb5bafe6fda6c6228b990b3e740fc5cc9aad87a31db3f33219c699dc46b8b",
+    "library/exports/purple-rice-night-192.png": "5ddcc1dfe452e2dd52165db2df89c34552e97df39634efe8da1806c095a3531d",
+    "library/exports/green-salad-night-64.png": "e8461a6736f1d031cb43ab1f8d9f65a043cb07870c21f1dd47ad78b94df6916c",
+    "library/exports/eggplant-night-192.png": "97b4d6aab0d9e0882181cd876ae67d8979a63e759e384e206a263e6a368b11e2",
+    "library/exports/tofu-night-192.png": "543d566405357180a5a03bb88d833db7d5eb1940054510aec895f44c9ba4ceea"
+  },
+  "status": "PASS",
+  "raw_exit": 0,
+  "engine": "Google Chrome for Testing 151.0.7922.34",
+  "capture_count": 14,
+  "phone_catalog_coverage": {
+    "paper": [
+      "purple-rice",
+      "rice-porridge",
+      "steamed-bun",
+      "sushi",
+      "tofu",
+      "minced-pork",
+      "larb",
+      "boiled-pork",
+      "poached-chicken",
+      "sardines",
+      "cold-cuts",
+      "dumplings",
+      "meatballs",
+      "iced-coffee",
+      "matcha-latte",
+      "soy-milk",
+      "milk-tea",
+      "som-tum",
+      "eggplant",
+      "green-salad",
+      "chili-oil",
+      "gravy",
+      "thai-sweets",
+      "curry"
+    ],
+    "night": [
+      "purple-rice",
+      "rice-porridge",
+      "steamed-bun",
+      "sushi",
+      "tofu",
+      "minced-pork",
+      "larb",
+      "boiled-pork",
+      "poached-chicken",
+      "sardines",
+      "cold-cuts",
+      "dumplings",
+      "meatballs",
+      "iced-coffee",
+      "matcha-latte",
+      "soy-milk",
+      "milk-tea",
+      "som-tum",
+      "eggplant",
+      "green-salad",
+      "chili-oil",
+      "gravy",
+      "thai-sweets",
+      "curry"
+    ]
+  },
+  "captures": [
+    {
+      "page": "phone-01-paper",
+      "capture": "batch-2/proofs/phone-01-paper.png",
+      "raw_exit": 0,
+      "sha256": "5061217f18a3a4792eed797ddec4c4ef8edc2b3f606fda30aac55585cb1378f0",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-02-paper",
+      "capture": "batch-2/proofs/phone-02-paper.png",
+      "raw_exit": 0,
+      "sha256": "e5add585748d089e61f6bc4f802d0bf54a9c817d1206bfbc729de5c2068756e0",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-03-paper",
+      "capture": "batch-2/proofs/phone-03-paper.png",
+      "raw_exit": 0,
+      "sha256": "a72fd21c92829c32515206c202687200d1ef9fad8160ef8934333827022acc5e",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-04-paper",
+      "capture": "batch-2/proofs/phone-04-paper.png",
+      "raw_exit": 0,
+      "sha256": "d7195eb0a9a1678ef5d794f24db308b5be8722a8ee337a1a7b59853182784bcb",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-05-paper",
+      "capture": "batch-2/proofs/phone-05-paper.png",
+      "raw_exit": 0,
+      "sha256": "fc9dd7451fcc317ad94db74f278b1e776db8bfeb4768452ee0cbe3f77cf5b937",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-01-night",
+      "capture": "batch-2/proofs/phone-01-night.png",
+      "raw_exit": 0,
+      "sha256": "11b6c8a9edf8fc23bec7110382e0eebf1dd02c568fd57dbb5d5e679f0448d046",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-02-night",
+      "capture": "batch-2/proofs/phone-02-night.png",
+      "raw_exit": 0,
+      "sha256": "844cb4a41f9f332d59a068b1c240a2b3cc397b1bcb12f3507d9f2aeb1a207855",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-03-night",
+      "capture": "batch-2/proofs/phone-03-night.png",
+      "raw_exit": 0,
+      "sha256": "7863c1ad69152bd78fe42f341a61a35cb740133445c5a9d1d461e07e3d70868f",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-04-night",
+      "capture": "batch-2/proofs/phone-04-night.png",
+      "raw_exit": 0,
+      "sha256": "8be4abc9a226427cfb1b5498a964d604a94dd164a1e6c50506beb77f18582070",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ]
+      }
+    },
+    {
+      "page": "phone-05-night",
+      "capture": "batch-2/proofs/phone-05-night.png",
+      "raw_exit": 0,
+      "sha256": "2aeb0e84f05d7d0966eeaf63e1356be381b7a162a187ea45f97eef5b2c236c53",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ],
+          [
+            64,
+            64
+          ]
+        ],
+        "allRowsVisible": true,
+        "minHitWidth": 104.015625,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html"
+        ]
+      }
+    },
+    {
+      "page": "gallery-paper",
+      "capture": "batch-2/proofs/gallery-paper-1440.png",
+      "raw_exit": 0,
+      "sha256": "365121ed17ffe2b90e0161f3c647768d9be46aed7bb5754ef8cb14d0ea13e71e",
+      "dom": {
+        "viewport": [
+          1440,
+          1000
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu",
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines",
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte",
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad",
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html",
+          "index.html",
+          "phone-01-paper.html",
+          "phone-02-paper.html",
+          "phone-03-paper.html",
+          "phone-04-paper.html",
+          "phone-05-paper.html",
+          "../library/masters/purple-rice-paper.svg",
+          "../library/exports/purple-rice-paper-512.png",
+          "../library/masters/rice-porridge-paper.svg",
+          "../library/exports/rice-porridge-paper-512.png",
+          "../library/masters/steamed-bun-paper.svg",
+          "../library/exports/steamed-bun-paper-512.png",
+          "../library/masters/sushi-paper.svg",
+          "../library/exports/sushi-paper-512.png",
+          "../library/masters/tofu-paper.svg",
+          "../library/exports/tofu-paper-512.png",
+          "../library/masters/minced-pork-paper.svg",
+          "../library/exports/minced-pork-paper-512.png",
+          "../library/masters/larb-paper.svg",
+          "../library/exports/larb-paper-512.png",
+          "../library/masters/boiled-pork-paper.svg",
+          "../library/exports/boiled-pork-paper-512.png",
+          "../library/masters/poached-chicken-paper.svg",
+          "../library/exports/poached-chicken-paper-512.png",
+          "../library/masters/sardines-paper.svg",
+          "../library/exports/sardines-paper-512.png",
+          "../library/masters/cold-cuts-paper.svg",
+          "../library/exports/cold-cuts-paper-512.png",
+          "../library/masters/dumplings-paper.svg",
+          "../library/exports/dumplings-paper-512.png",
+          "../library/masters/meatballs-paper.svg",
+          "../library/exports/meatballs-paper-512.png",
+          "../library/masters/iced-coffee-paper.svg",
+          "../library/exports/iced-coffee-paper-512.png",
+          "../library/masters/matcha-latte-paper.svg",
+          "../library/exports/matcha-latte-paper-512.png",
+          "../library/masters/soy-milk-paper.svg",
+          "../library/exports/soy-milk-paper-512.png",
+          "../library/masters/milk-tea-paper.svg",
+          "../library/exports/milk-tea-paper-512.png",
+          "../library/masters/som-tum-paper.svg",
+          "../library/exports/som-tum-paper-512.png",
+          "../library/masters/eggplant-paper.svg",
+          "../library/exports/eggplant-paper-512.png",
+          "../library/masters/green-salad-paper.svg",
+          "../library/exports/green-salad-paper-512.png",
+          "../library/masters/chili-oil-paper.svg",
+          "../library/exports/chili-oil-paper-512.png",
+          "../library/masters/gravy-paper.svg",
+          "../library/exports/gravy-paper-512.png",
+          "../library/masters/thai-sweets-paper.svg",
+          "../library/exports/thai-sweets-paper-512.png",
+          "../library/masters/curry-paper.svg",
+          "../library/exports/curry-paper-512.png"
+        ]
+      }
+    },
+    {
+      "page": "gallery-paper",
+      "capture": "batch-2/proofs/gallery-paper-390.png",
+      "raw_exit": 0,
+      "sha256": "3aa3bc0e1b16ccad7215f95755432d833ac8a8a93bb9033ee7a26fd26b40af8a",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu",
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines",
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte",
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad",
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-night.html",
+          "index.html",
+          "phone-01-paper.html",
+          "phone-02-paper.html",
+          "phone-03-paper.html",
+          "phone-04-paper.html",
+          "phone-05-paper.html",
+          "../library/masters/purple-rice-paper.svg",
+          "../library/exports/purple-rice-paper-512.png",
+          "../library/masters/rice-porridge-paper.svg",
+          "../library/exports/rice-porridge-paper-512.png",
+          "../library/masters/steamed-bun-paper.svg",
+          "../library/exports/steamed-bun-paper-512.png",
+          "../library/masters/sushi-paper.svg",
+          "../library/exports/sushi-paper-512.png",
+          "../library/masters/tofu-paper.svg",
+          "../library/exports/tofu-paper-512.png",
+          "../library/masters/minced-pork-paper.svg",
+          "../library/exports/minced-pork-paper-512.png",
+          "../library/masters/larb-paper.svg",
+          "../library/exports/larb-paper-512.png",
+          "../library/masters/boiled-pork-paper.svg",
+          "../library/exports/boiled-pork-paper-512.png",
+          "../library/masters/poached-chicken-paper.svg",
+          "../library/exports/poached-chicken-paper-512.png",
+          "../library/masters/sardines-paper.svg",
+          "../library/exports/sardines-paper-512.png",
+          "../library/masters/cold-cuts-paper.svg",
+          "../library/exports/cold-cuts-paper-512.png",
+          "../library/masters/dumplings-paper.svg",
+          "../library/exports/dumplings-paper-512.png",
+          "../library/masters/meatballs-paper.svg",
+          "../library/exports/meatballs-paper-512.png",
+          "../library/masters/iced-coffee-paper.svg",
+          "../library/exports/iced-coffee-paper-512.png",
+          "../library/masters/matcha-latte-paper.svg",
+          "../library/exports/matcha-latte-paper-512.png",
+          "../library/masters/soy-milk-paper.svg",
+          "../library/exports/soy-milk-paper-512.png",
+          "../library/masters/milk-tea-paper.svg",
+          "../library/exports/milk-tea-paper-512.png",
+          "../library/masters/som-tum-paper.svg",
+          "../library/exports/som-tum-paper-512.png",
+          "../library/masters/eggplant-paper.svg",
+          "../library/exports/eggplant-paper-512.png",
+          "../library/masters/green-salad-paper.svg",
+          "../library/exports/green-salad-paper-512.png",
+          "../library/masters/chili-oil-paper.svg",
+          "../library/exports/chili-oil-paper-512.png",
+          "../library/masters/gravy-paper.svg",
+          "../library/exports/gravy-paper-512.png",
+          "../library/masters/thai-sweets-paper.svg",
+          "../library/exports/thai-sweets-paper-512.png",
+          "../library/masters/curry-paper.svg",
+          "../library/exports/curry-paper-512.png"
+        ]
+      }
+    },
+    {
+      "page": "gallery-night",
+      "capture": "batch-2/proofs/gallery-night-1440.png",
+      "raw_exit": 0,
+      "sha256": "75af4b8339e936c14644d6cf923fb829b83d5f08d681e7c8ab839415ae4bfea7",
+      "dom": {
+        "viewport": [
+          1440,
+          1000
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu",
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines",
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte",
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad",
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html",
+          "index.html",
+          "phone-01-night.html",
+          "phone-02-night.html",
+          "phone-03-night.html",
+          "phone-04-night.html",
+          "phone-05-night.html",
+          "../library/masters/purple-rice-night.svg",
+          "../library/exports/purple-rice-night-512.png",
+          "../library/masters/rice-porridge-night.svg",
+          "../library/exports/rice-porridge-night-512.png",
+          "../library/masters/steamed-bun-night.svg",
+          "../library/exports/steamed-bun-night-512.png",
+          "../library/masters/sushi-night.svg",
+          "../library/exports/sushi-night-512.png",
+          "../library/masters/tofu-night.svg",
+          "../library/exports/tofu-night-512.png",
+          "../library/masters/minced-pork-night.svg",
+          "../library/exports/minced-pork-night-512.png",
+          "../library/masters/larb-night.svg",
+          "../library/exports/larb-night-512.png",
+          "../library/masters/boiled-pork-night.svg",
+          "../library/exports/boiled-pork-night-512.png",
+          "../library/masters/poached-chicken-night.svg",
+          "../library/exports/poached-chicken-night-512.png",
+          "../library/masters/sardines-night.svg",
+          "../library/exports/sardines-night-512.png",
+          "../library/masters/cold-cuts-night.svg",
+          "../library/exports/cold-cuts-night-512.png",
+          "../library/masters/dumplings-night.svg",
+          "../library/exports/dumplings-night-512.png",
+          "../library/masters/meatballs-night.svg",
+          "../library/exports/meatballs-night-512.png",
+          "../library/masters/iced-coffee-night.svg",
+          "../library/exports/iced-coffee-night-512.png",
+          "../library/masters/matcha-latte-night.svg",
+          "../library/exports/matcha-latte-night-512.png",
+          "../library/masters/soy-milk-night.svg",
+          "../library/exports/soy-milk-night-512.png",
+          "../library/masters/milk-tea-night.svg",
+          "../library/exports/milk-tea-night-512.png",
+          "../library/masters/som-tum-night.svg",
+          "../library/exports/som-tum-night-512.png",
+          "../library/masters/eggplant-night.svg",
+          "../library/exports/eggplant-night-512.png",
+          "../library/masters/green-salad-night.svg",
+          "../library/exports/green-salad-night-512.png",
+          "../library/masters/chili-oil-night.svg",
+          "../library/exports/chili-oil-night-512.png",
+          "../library/masters/gravy-night.svg",
+          "../library/exports/gravy-night-512.png",
+          "../library/masters/thai-sweets-night.svg",
+          "../library/exports/thai-sweets-night-512.png",
+          "../library/masters/curry-night.svg",
+          "../library/exports/curry-night-512.png"
+        ]
+      }
+    },
+    {
+      "page": "gallery-night",
+      "capture": "batch-2/proofs/gallery-night-390.png",
+      "raw_exit": 0,
+      "sha256": "e997fe811a5c6eb7ef27c8f93dbe08d63db30c9b40c2cae93053995b5edbec26",
+      "dom": {
+        "viewport": [
+          390,
+          844
+        ],
+        "overflow": false,
+        "images": true,
+        "fonts": true,
+        "ids": [
+          "purple-rice",
+          "rice-porridge",
+          "steamed-bun",
+          "sushi",
+          "tofu",
+          "minced-pork",
+          "larb",
+          "boiled-pork",
+          "poached-chicken",
+          "sardines",
+          "cold-cuts",
+          "dumplings",
+          "meatballs",
+          "iced-coffee",
+          "matcha-latte",
+          "soy-milk",
+          "milk-tea",
+          "som-tum",
+          "eggplant",
+          "green-salad",
+          "chili-oil",
+          "gravy",
+          "thai-sweets",
+          "curry"
+        ],
+        "imageSizes": [],
+        "allRowsVisible": true,
+        "minHitWidth": 50.796875,
+        "minHitHeight": 44,
+        "links": [
+          "gallery-paper.html",
+          "index.html",
+          "phone-01-night.html",
+          "phone-02-night.html",
+          "phone-03-night.html",
+          "phone-04-night.html",
+          "phone-05-night.html",
+          "../library/masters/purple-rice-night.svg",
+          "../library/exports/purple-rice-night-512.png",
+          "../library/masters/rice-porridge-night.svg",
+          "../library/exports/rice-porridge-night-512.png",
+          "../library/masters/steamed-bun-night.svg",
+          "../library/exports/steamed-bun-night-512.png",
+          "../library/masters/sushi-night.svg",
+          "../library/exports/sushi-night-512.png",
+          "../library/masters/tofu-night.svg",
+          "../library/exports/tofu-night-512.png",
+          "../library/masters/minced-pork-night.svg",
+          "../library/exports/minced-pork-night-512.png",
+          "../library/masters/larb-night.svg",
+          "../library/exports/larb-night-512.png",
+          "../library/masters/boiled-pork-night.svg",
+          "../library/exports/boiled-pork-night-512.png",
+          "../library/masters/poached-chicken-night.svg",
+          "../library/exports/poached-chicken-night-512.png",
+          "../library/masters/sardines-night.svg",
+          "../library/exports/sardines-night-512.png",
+          "../library/masters/cold-cuts-night.svg",
+          "../library/exports/cold-cuts-night-512.png",
+          "../library/masters/dumplings-night.svg",
+          "../library/exports/dumplings-night-512.png",
+          "../library/masters/meatballs-night.svg",
+          "../library/exports/meatballs-night-512.png",
+          "../library/masters/iced-coffee-night.svg",
+          "../library/exports/iced-coffee-night-512.png",
+          "../library/masters/matcha-latte-night.svg",
+          "../library/exports/matcha-latte-night-512.png",
+          "../library/masters/soy-milk-night.svg",
+          "../library/exports/soy-milk-night-512.png",
+          "../library/masters/milk-tea-night.svg",
+          "../library/exports/milk-tea-night-512.png",
+          "../library/masters/som-tum-night.svg",
+          "../library/exports/som-tum-night-512.png",
+          "../library/masters/eggplant-night.svg",
+          "../library/exports/eggplant-night-512.png",
+          "../library/masters/green-salad-night.svg",
+          "../library/exports/green-salad-night-512.png",
+          "../library/masters/chili-oil-night.svg",
+          "../library/exports/chili-oil-night-512.png",
+          "../library/masters/gravy-night.svg",
+          "../library/exports/gravy-night-512.png",
+          "../library/masters/thai-sweets-night.svg",
+          "../library/exports/thai-sweets-night-512.png",
+          "../library/masters/curry-night.svg",
+          "../library/exports/curry-night-512.png"
+        ]
+      }
+    }
+  ],
+  "scope": "Real browser + DOM checks of fictional labeled contexts, not actual app UI. Visual judgment and owner approval are separate."
+}

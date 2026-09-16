@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Rice porridge — soft rice, ginger and egg in a breakfast bowl</title>
+<desc>Original watery cream ink and wash study with a spoon, swollen grain islands and a small soft egg. Generic porridge sign, not a claim about a logged meal's ingredients.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="porridge-bowl-body">
+ <path d="M37 125 C39 144 51 176 71 190 C97 213 149 216 178 192 C198 177 211 151 215 127 Q186 106 124 103 Q61 104 37 125Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M43 138 Q64 160 89 164 C111 167 142 173 173 162 C163 187 142 204 119 202 C80 203 58 177 43 138Z" fill="#FBE1C9" opacity=".61" filter="url(#wash)"/>
+ <path d="M165 170 Q198 153 209 137 C199 170 182 198 147 205 Q125 211 105 204 C135 204 158 185 165 170Z" fill="#655A4B" opacity=".22" filter="url(#wash)"/>
+ <path d="M62 167 Q82 192 105 194 L127 197 C97 200 80 191 69 181Z" fill="#FFF7E8" opacity=".74" filter="url(#dry)"/>
+ <path d="M36 125 C37 106 77 95 120 95 C163 93 207 107 216 124 C219 144 174 160 127 159 C78 158 43 144 36 125Z" fill="#FFF7E8" opacity=".98"/>
+</g>
+<g id="watery-rice-surface">
+ <path d="M46 122 C52 107 89 103 119 103 C157 101 194 113 205 125 C201 139 168 150 126 150 C90 149 56 139 46 122Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M50 123 C72 118 81 131 103 127 C125 122 147 117 161 125 Q179 135 201 126 C188 148 133 153 107 145 C83 143 62 138 50 123Z" fill="#FBE1C9" opacity=".5" filter="url(#wash)"/>
+ <path d="M57 119 Q76 106 97 109 L112 115 Q91 114 88 122 Q73 128 57 119Z M135 137 Q151 129 164 134 L181 134 Q168 145 150 145Z" fill="#FFF7E8" opacity=".81" filter="url(#wash)"/>
+ <path d="M52 128 Q62 138 79 139 M150 146 Q180 145 197 132" fill="none" stroke="#A5750B" stroke-width="2.4" opacity=".17" filter="url(#wash)"/>
+</g>
+<g id="resting-spoon">
+ <path d="M150 120 C152 112 163 109 171 108 L205 66 Q209 61 213 64 Q217 67 212 73 L177 114 C179 123 170 133 160 134 Q144 134 150 120Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M155 118 Q165 111 173 115 C180 120 168 130 160 130 Q151 128 155 118Z" fill="#655A4B" opacity=".31" filter="url(#wash)"/>
+ <path d="M172 111 L209 66 L211 68 L177 113Z" fill="#FFF7E8" opacity=".84"/>
+ <path d="M153 118 Q161 109 172 111 L206 65 Q210 61 213 65 M211 73 L177 114 M174 124 Q165 136 155 132" fill="none" stroke="#9D917F" stroke-width=".85" stroke-linecap="round"/>
+</g>
+<g id="soft-egg-island">
+ <path d="M73 122 Q69 111 81 105 C84 97 103 96 112 100 Q130 97 138 110 C147 118 138 132 125 136 C112 142 96 136 86 135 Q76 134 73 122Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M77 120 Q82 130 98 127 Q111 131 126 125 L139 115 Q143 129 126 135 Q104 142 84 133Z" fill="#F2E9D9" opacity=".9" filter="url(#wash)"/>
+ <path d="M92 110 C98 103 112 102 120 108 C129 112 126 123 117 127 C107 131 94 125 92 117Z" fill="#D6A62C" opacity=".93" filter="url(#wash)"/>
+ <path d="M100 118 Q114 123 124 113 Q129 122 118 127 Q102 130 96 121Z" fill="#E66A2C" opacity=".53" filter="url(#wash)"/>
+ <path d="M97 111 Q105 106 112 109 L106 112Z" fill="#FFF7E8" opacity=".5" filter="url(#dry)"/>
+ <path d="M77 111 Q76 105 85 103 M82 131 Q88 136 97 135 M126 133 Q138 129 139 120" fill="none" stroke="#9D917F" stroke-width=".55" opacity=".76"/>
+</g>
+<g id="swollen-rice-grain-islands" fill="#FFF7E8" opacity=".91">
+ <path d="M57 121 Q59 115 64 117 Q68 121 61 125Z M66 132 Q71 128 76 130 Q79 134 72 135Z M91 141 Q94 135 99 137 Q102 143 96 145Z M125 143 Q128 137 132 139 Q136 144 129 146Z M139 108 Q144 104 149 108 Q149 114 143 113Z M178 121 Q182 116 187 120 Q188 125 183 125Z M170 140 Q173 134 177 136 Q183 141 174 143Z M194 130 Q196 125 200 127 L198 132Z"/>
+</g>
+<g id="ginger-threads-and-scallion">
+ <path d="M124 111 Q142 109 154 101 L157 103 Q143 115 126 114Z M125 119 Q136 114 147 117 L158 113 L160 115 Q147 122 138 120 L126 122Z M140 105 Q147 114 157 120 L157 123 Q143 119 138 107Z" fill="#A5750B" opacity=".64"/>
+ <path d="M127 112 Q142 111 151 105 M130 120 Q143 116 152 117" fill="none" stroke="#FFF7E8" stroke-width=".8" opacity=".65" filter="url(#dry)"/>
+ <path d="M66 114 l7 -5 l4 3 l-7 6Z M153 139 l5 -5 l5 3 l-6 6Z M175 108 l5 1 l-1 5 l-5 -1Z" fill="#5E7E57" opacity=".87" filter="url(#wash)"/>
+</g>
+<g id="ceramic-broken-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M39 140 Q48 177 75 194 M87 201 Q125 216 154 204 M166 199 Q198 180 210 145" stroke-width="1.15"/>
+ <path d="M37 120 Q39 108 68 101 M79 98 Q118 90 151 98 M184 104 Q215 115 215 127 M208 136 Q183 155 143 158 M127 159 Q67 158 44 135" stroke-width=".75"/>
+ <path d="M58 172 l7 10 M67 185 l8 6 M177 185 l7 -10" stroke-width=".5" opacity=".65"/>
+</g>
+</svg>

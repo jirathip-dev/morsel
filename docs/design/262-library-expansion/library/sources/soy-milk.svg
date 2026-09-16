@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Soy milk — stout bottle and a small off-white glass</title>
+<desc>Original cream and ochre ink-wash study with a few sesame marks. The bottle-and-glass silhouette is a generic plant-milk sign; the accompanying label supplies soy identity, not image-only ingredient recognition.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="separate-vessel-contact-shadows">
+ <path d="M48 207 Q92 198 143 205 C146 215 78 218 51 212Z M135 218 C151 212 193 211 215 216 Q205 226 166 226 L138 223Z" fill="{{brown}}" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="stout-bottle-opaque-underpainting">
+ <path d="M77 55 Q94  50 114 55 L115 78 C118 88 134 89 138 103 C143 126 142 171 141 198 Q141 211 120 214 C97 218 65 214 56 207 C51 202 52 185 51 167 L51 111 C51 96 65 89 74  80Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M77 72 Q 90 76 113 72 L115 80 Q117 88 128 93 C140 99 140 119 139 132 L138 199 C133 211 111 212 91 211 Q64 209 57 202 L56 110 C59 97 74 91 77 81Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M63 110 C 70 97 88 96 104 97 C122 95 134 103 135 116 L133 195 Q134 205 111 207 C 90 209 66 205  60 198 L59 120Z" fill="{{paper}}" opacity=".89"/>
+ <path d="M57 110 C63 120 66 132 64 146 L66 183 C67 200 91 203 108 207 Q83 214 60 203 L56 195Z" fill="{{ochre}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M118 97 C135 103 137 119 135 137 L134 192 C132 204 119 208 106 209 Q129 213 139 201 L140 128 Q142 102 129 95Z" fill="{{brown}}" opacity=".14" filter="url(#wash)"/>
+ <path d="M 80 91 Q 90 86 108 91 L122 99 Q101 94 82 102 L 60 109Z" fill="{{peach}}" opacity=".38" filter="url(#wash)"/>
+ <path d="M73 113 C69 133 72 148 71 165 L76 185 C78 162 75 138 81 114Z" fill="{{paper}}" opacity=".86" filter="url(#dry)"/>
+ <path d="M75 79 Q 70 87 61 93 Q50 101 51 118 L52 168 M53 183 L54 202 Q55 215 89 216 M105 216 Q133 215 140 205 M142 184 L142 120 Q143 100 134 94 L120 84 Q115 80 115 72" fill="none" stroke="{{line}}" stroke-width=".99" stroke-linecap="round"/>
+ <path d="M64 104 Q83 94 103 97 M117 99 l11 5 M60 200 Q 70 209 93 209" fill="none" stroke="{{line}}" stroke-width=".51" opacity=".52"/>
+</g>
+<g id="short-neck-and-ribbed-closure">
+ <path d="M76 44 C83 39 104 39 114 43 L117 55 L115  60 C104 65  80 63 74 58Z" fill="{{cream}}"/>
+ <path d="M76 50 Q96 55 115 48 L116 59 Q98 65 75 58Z" fill="{{ochre}}" opacity=".33" filter="url(#wash)"/>
+ <path d="M76 44 C83 39 103 40 114 44 Q119 49 106 51 C95 53 82 51 76 48Z" fill="{{paper}}" opacity=".89"/>
+ <path d="M78 63 L77 73 Q94 80 114 72 L113 63Z" fill="{{paper}}" opacity=".93"/>
+ <path d="M79 68 Q93 73 112 68" fill="none" stroke="{{brown}}" stroke-width="2" opacity=".18" filter="url(#wash)"/>
+ <path d="M76 44 Q85 38 105 41 M114 44 Q121 50 115 59 M106 62 Q86 64 75 58 L75 50 M79 73 Q95 78 111 73" fill="none" stroke="{{line}}" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M81 53 l0 5 M87 54 l0 5 M94 54 l0 5 M102 54 l0 5 M109 53 l0 5" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".7"/>
+</g>
+<g id="small-glass-opaque-underpainting">
+ <path d="M133 143 C134 134 150 130 173 130 C194 130 212 135 216 144 L209 209 C205 221 151 224 140 212Z" fill="{{paper}}" opacity=".92"/>
+ <path d="M135 150 C153 160 194 161 214 149 L208 208 Q207 220 173 220 C155 220 142 215 141 209Z" fill="{{cream}}" opacity=".88"/>
+ <path d="M140 151 C155 143 191 144 210 153 L203 206 C196 214 153 217 145 205Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M141 158 C153 167 157 179 157 194 Q157 208 181 212 C161 218 146 211 145 205Z" fill="{{cream}}" opacity=".94" filter="url(#wash)"/>
+ <path d="M199 157 C205 174 200 190 192 199 L178 209 Q194 214 204 205 L210 156Z" fill="{{ochre}}" opacity=".12" filter="url(#wash)"/>
+ <path d="M144 153 C151 148 164 146 177 147 C193 146 207 151 209 155 C197 162 167 163 150 159Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M147 152 Q167 145 184 149 L201 153 Q189 157 174 155 C162 160 151 157 147 152Z" fill="{{paper}}" opacity=".88" filter="url(#wash)"/>
+</g>
+<g id="few-sesame-marks">
+ <path d="M157 151 Q160 147 163 149 Q163 152 159 153Z M179 153 Q182 151 184 153 Q183 157 180 156Z M194 150 Q197 149 198 151 L195 153Z" fill="{{brown}}" opacity=".9"/>
+ <path d="M162 181 Q165 177 166 180 Q167 183 164 184Z M189 195 Q191 192 193 194 Q193 197 190 197Z" fill="{{brown}}" opacity=".62" filter="url(#dry)"/>
+</g>
+<g id="glass-rim-and-selective-edge-ink" fill="none" stroke-linecap="round">
+ <path d="M134 142 Q137 131 162 130 M177 130 Q208 131 215 141 M216 146 Q211 158 185 160 M172 161 Q147 161 136 152" stroke="{{line}}" stroke-width=".79"/>
+ <path d="M134 155 L139 201 Q139 217 158 220 M171 222 Q205 222 209 211 L213 177 M215 162 l1 -9" stroke="{{line}}" stroke-width=".96"/>
+ <path d="M143 164 l3 22 M148 200 l2 7 M207 165 l-2 26 M160 216 Q181 221 201 212" stroke="{{paper}}" stroke-width="2.3" opacity=".91" filter="url(#dry)"/>
+ <path d="M143 209 l6 5 M202 213 l4 -5" stroke="{{line}}" stroke-width=".5" opacity=".48"/>
+</g>
+</svg>

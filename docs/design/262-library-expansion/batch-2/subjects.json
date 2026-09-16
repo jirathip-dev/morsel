@@ -1,0 +1,366 @@
+{
+  "assets": [
+    {
+      "id": "purple-rice",
+      "name": "Purple rice",
+      "aliases": [
+        "riceberry",
+        "riceberry rice",
+        "black rice",
+        "mixed rice",
+        "brown rice",
+        "multigrain rice",
+        "ข้าวไรซ์เบอร์รี่",
+        "ข้าวกล้อง"
+      ],
+      "category": "grains",
+      "description": "A bowl of dark brown-red rice grains with a few pale kernels, loose mound above the rim.",
+      "kind": "food"
+    },
+    {
+      "id": "rice-porridge",
+      "name": "Rice porridge",
+      "aliases": [
+        "khao tom",
+        "jok",
+        "congee",
+        "โจ๊ก",
+        "ข้าวต้ม"
+      ],
+      "category": "grains",
+      "description": "A bowl of loose white rice soup with a spoon, ginger threads and a soft-egg mark, watery cream wash.",
+      "kind": "food"
+    },
+    {
+      "id": "steamed-bun",
+      "name": "Steamed bun",
+      "aliases": [
+        "salapao",
+        "bao",
+        "kaya bun",
+        "pork bun",
+        "ซาลาเปา"
+      ],
+      "category": "grains",
+      "description": "Two plump white steamed buns, one split to show a dark filling, soft cream wash and pleat ink.",
+      "kind": "food"
+    },
+    {
+      "id": "sushi",
+      "name": "Sushi",
+      "aliases": [
+        "nigiri",
+        "maki",
+        "sushi roll",
+        "gunkan",
+        "inari",
+        "ซูชิ"
+      ],
+      "category": "prepared",
+      "description": "Two nigiri and three maki pieces on a slate, rice grain marks, a red-orange fish wash and nori band.",
+      "kind": "food"
+    },
+    {
+      "id": "tofu",
+      "name": "Tofu",
+      "aliases": [
+        "fried tofu",
+        "bean curd",
+        "tofu skin",
+        "เต้าหู้",
+        "เต้าหู้ทอด",
+        "ฟองเต้าหู้"
+      ],
+      "category": "protein",
+      "description": "Golden fried tofu cubes and one pale soft block, dry-brush crust over cream interior.",
+      "kind": "food"
+    },
+    {
+      "id": "minced-pork",
+      "name": "Minced pork",
+      "aliases": [
+        "ground pork",
+        "moo sap",
+        "pork mince",
+        "bolognese",
+        "minced meat",
+        "หมูสับ"
+      ],
+      "category": "protein",
+      "description": "A crumbly heap of browned minced pork with oil sheen dots, ochre-brown broken wash.",
+      "kind": "food"
+    },
+    {
+      "id": "larb",
+      "name": "Larb",
+      "aliases": [
+        "laab",
+        "beef larb",
+        "pork larb",
+        "koi",
+        "ลาบ",
+        "ก้อย"
+      ],
+      "category": "prepared",
+      "description": "A plate of minced meat salad with mint leaves, toasted rice and chili flake marks, herb-green over brown.",
+      "kind": "food"
+    },
+    {
+      "id": "boiled-pork",
+      "name": "Boiled pork slices",
+      "aliases": [
+        "suyuk",
+        "bossam",
+        "boiled pork",
+        "pork belly boiled",
+        "หมูต้ม"
+      ],
+      "category": "protein",
+      "description": "Pale sliced boiled pork belly fanned on a plate, layered cream-pink wash with a thin fat line.",
+      "kind": "food"
+    },
+    {
+      "id": "poached-chicken",
+      "name": "Poached chicken",
+      "aliases": [
+        "shredded chicken",
+        "boiled chicken",
+        "chicken slices",
+        "ไก่ต้ม",
+        "ไก่ฉีก"
+      ],
+      "category": "protein",
+      "description": "Pale poached chicken sliced and partly shredded, soft cream wash and minimal ink.",
+      "kind": "food"
+    },
+    {
+      "id": "sardines",
+      "name": "Sardines",
+      "aliases": [
+        "canned sardines",
+        "sardines in oil",
+        "tinned fish",
+        "ปลาซาร์ดีน",
+        "ปลากระป๋อง"
+      ],
+      "category": "protein",
+      "description": "An open rectangular tin with three sardines in oil, muted warm-grey fish wash and a rolled lid.",
+      "kind": "food"
+    },
+    {
+      "id": "cold-cuts",
+      "name": "Cold cuts",
+      "aliases": [
+        "mortadella",
+        "chorizo",
+        "ham",
+        "salami",
+        "moo yor",
+        "sausage slices",
+        "หมูยอ",
+        "แฮม"
+      ],
+      "category": "protein",
+      "description": "Overlapping thin rounds of pink cured meat with fat flecks, one slice folded, on a board.",
+      "kind": "food"
+    },
+    {
+      "id": "dumplings",
+      "name": "Dumplings",
+      "aliases": [
+        "wonton",
+        "fried wonton",
+        "gyoza",
+        "dim sum",
+        "เกี๊ยว",
+        "เกี๊ยวทอด",
+        "เกี๊ยวซ่า"
+      ],
+      "category": "prepared",
+      "description": "Four pleated dumplings, two pan-browned and two pale steamed, on a small plate with a dip cup.",
+      "kind": "food"
+    },
+    {
+      "id": "meatballs",
+      "name": "Meatballs",
+      "aliases": [
+        "fish balls",
+        "beef balls",
+        "pork balls",
+        "meatball skewer",
+        "look chin",
+        "ลูกชิ้น",
+        "ลูกชิ้นปิ้ง"
+      ],
+      "category": "protein",
+      "description": "Five round meatballs, three on a bamboo skewer with char marks, cream-brown wash.",
+      "kind": "food"
+    },
+    {
+      "id": "iced-coffee",
+      "name": "Iced coffee",
+      "aliases": [
+        "iced americano",
+        "iced black coffee",
+        "cold brew",
+        "กาแฟเย็น",
+        "อเมริกาโน่เย็น"
+      ],
+      "category": "drinks",
+      "description": "A tall clear cup of dark coffee over ice with a straw, cubes as pale negative shapes.",
+      "kind": "food"
+    },
+    {
+      "id": "matcha-latte",
+      "name": "Matcha latte",
+      "aliases": [
+        "matcha",
+        "green tea latte",
+        "matcha oat milk",
+        "มัทฉะ",
+        "มัทฉะลาเต้"
+      ],
+      "category": "drinks",
+      "description": "A glass of pale green matcha over milk with a swirl line, sage/leaf wash and a straw.",
+      "kind": "food"
+    },
+    {
+      "id": "soy-milk",
+      "name": "Soy milk",
+      "aliases": [
+        "soymilk",
+        "high-protein soy milk",
+        "tofusan",
+        "น้ำเต้าหู้"
+      ],
+      "category": "drinks",
+      "description": "A stout bottle and a small glass of off-white soy milk with a few dark sesame specks.",
+      "kind": "food"
+    },
+    {
+      "id": "milk-tea",
+      "name": "Milk tea",
+      "aliases": [
+        "thai tea",
+        "cha yen",
+        "bubble tea",
+        "taro milk tea",
+        "ชานม",
+        "ชาเย็น",
+        "ชานมไข่มุก"
+      ],
+      "category": "drinks",
+      "description": "A tall cup of orange-cream tea with ice and a wide straw, dark pearls settled at the base.",
+      "kind": "food"
+    },
+    {
+      "id": "som-tum",
+      "name": "Som tum",
+      "aliases": [
+        "papaya salad",
+        "somtum",
+        "som tam",
+        "ส้มตำ"
+      ],
+      "category": "prepared",
+      "description": "A mound of shredded pale-green papaya with tomato wedges, long bean and chili marks in a shallow dish.",
+      "kind": "food"
+    },
+    {
+      "id": "eggplant",
+      "name": "Eggplant",
+      "aliases": [
+        "aubergine",
+        "sauteed eggplant",
+        "grilled eggplant",
+        "มะเขือ",
+        "มะเขือยาว"
+      ],
+      "category": "produce",
+      "description": "Sautéed eggplant rounds with glossy brown-red skin and pale soft flesh, oil sheen marks.",
+      "kind": "food"
+    },
+    {
+      "id": "green-salad",
+      "name": "Green salad",
+      "aliases": [
+        "mixed salad",
+        "mixed leaf salad",
+        "side salad",
+        "garden salad",
+        "สลัด",
+        "สลัดผัก"
+      ],
+      "category": "produce",
+      "description": "A bowl of loose mixed leaves with a beet slice and almond slivers, leaf/sage overlapping washes.",
+      "kind": "food"
+    },
+    {
+      "id": "chili-oil",
+      "name": "Chili oil",
+      "aliases": [
+        "chili crisp",
+        "chili flakes",
+        "chili butter",
+        "crispy chili topping",
+        "fried shallot topping",
+        "พริกน้ำมัน",
+        "พริกป่น"
+      ],
+      "category": "condiments",
+      "description": "A small jar of red-orange oil with sunk chili flake sediment and a drizzle spoon.",
+      "kind": "food"
+    },
+    {
+      "id": "gravy",
+      "name": "Gravy",
+      "aliases": [
+        "sauce",
+        "brown sauce",
+        "peppercorn sauce",
+        "creamy sauce",
+        "tomato sauce",
+        "pan sauce",
+        "น้ำเกรวี่",
+        "ซอส"
+      ],
+      "category": "condiments",
+      "description": "A small sauce boat with dark gravy pouring a short arc, brown wash and a spoon rest.",
+      "kind": "food"
+    },
+    {
+      "id": "thai-sweets",
+      "name": "Thai sweets",
+      "aliases": [
+        "khanom thai",
+        "khanom thuay",
+        "man nup",
+        "coconut cups",
+        "khanom",
+        "ขนมไทย",
+        "ขนมถ้วย"
+      ],
+      "category": "sweets",
+      "description": "Three small ceramic cups of layered coconut custard and one chewy dark taro piece, cream/peach wash.",
+      "kind": "food"
+    },
+    {
+      "id": "curry",
+      "name": "Curry",
+      "aliases": [
+        "thai curry",
+        "panang",
+        "red curry",
+        "massaman",
+        "coconut curry",
+        "แกง",
+        "พะแนง",
+        "แกงเผ็ด",
+        "มัสมั่น"
+      ],
+      "category": "soup",
+      "description": "A bowl of red-orange coconut curry with meat pieces and basil leaf marks, oil sheen ring at the rim.",
+      "kind": "food"
+    }
+  ]
+}

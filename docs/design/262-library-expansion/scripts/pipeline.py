@@ -188,6 +188,7 @@ def build(batch):
         old[iid] = {'identity': key, 'outputs': {p: sha(LIB / p) for p in paths}}
         save(LIB / 'build-cache.json', old) # checkpoint completed identity before the next admission window
         catalog.append({**e, 'dimensions': [512, 512], 'master_dimensions': [256, 256], 'viewBox': [0, 0, 256, 256], 'source': f'sources/{iid}.svg', 'masters': paths[:2], 'exports': paths[2:], 'provenance': {'type': 'original-agent-authored-svg-ink-wash', 'direction_approval': 'https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904', 'addition_authority': AMENDMENT if batch == 5 else AUTHORITY, 'model': 'gpt-6-astra', 'rights': 'Original artwork for Morsel; no third-party food artwork', 'approval': 'subject-list-approved-pixels-awaiting-owner-review', 'meaning': 'Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim', 'demand': 'general-coverage-only; evidence-free for this account; 0 observed rows' if batch == 5 else 'approved-list; per-identity estimator rows in coverage.json', 'batch': batch}})
+    save(dest / 'source-inventory.json', {'status':'PASS', 'expected_ids':[e['id'] for e in entries(batch)], 'source_sha256':{e['id']:sha(LIB/f"sources/{e['id']}.svg") for e in entries(batch)}, 'compiled_themes':list(THEMES)})
     save(dest / 'catalog-delta.json', {'schema_version': 2, 'batch': batch, 'assets': catalog})
     save(dest / 'subjects.json', {'assets': entries(batch)})
     save(dest / 'build-cache.json', {a['id']: old[a['id']] for a in catalog})
@@ -335,6 +336,19 @@ def privacy(names):
 
 
 def package(batch, names):
+    # Do not package future/partial sources or stale evidence as a completed batch.
+    verify(batch, DEFAULT_PRODUCT)
+    for filename in ('gates.json','browser.json','reproducibility.json'):
+        require(read(ROOT/f'batch-{batch}'/filename)['status']=='PASS', 'unfinished batch evidence: '+filename)
+    browser=read(ROOT/f'batch-{batch}/browser.json')
+    for rel,h in browser.get('inputs_sha256',{}).items():
+        require(sha(ROOT/rel)==h, 'stale browser input: '+rel)
+    for shot in browser['captures']:
+        require(sha(ROOT/shot['capture'])==shot['sha256'], 'capture hash drift')
+    for rel,pair in read(ROOT/f'batch-{batch}/reproducibility.json')['sha256'].items():
+        require(sha(LIB/rel)==pair['committed']==pair['clean'], 'stale clean rebuild: '+rel)
+    review=ROOT/f'batch-{batch}/VISUAL-REVIEW.md'
+    require(review.is_file() and 'ready for owner review' in review.read_text().lower(), 'visual review not recorded')
     gate = privacy(names)
     save(ROOT / f'batch-{batch}/privacy.json', gate)
     for p in ROOT.rglob('*'):

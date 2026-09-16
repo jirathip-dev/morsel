@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Tofu — pale soft block and broken golden crust</title>
+<desc>Original ink and wash study of one plain bean-curd block with three fried pieces. Soft rectangular planes, cream interiors and uneven ochre crust are category cues, not preparation claims for an individual meal.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="shallow-ceramic-dish">
+ <path d="M35 159 C38 138 79 127 130 132 C175 133 214 148 222 168 C223 190 179 210 130 211 C78 211 39 188 35 170Z" fill="#FFF7E8" opacity=".75"/>
+ <path d="M42 172 Q81 193 132 196 Q185 197 217 171 C209 192 179 204 140 207 Q81 211 42 179Z" fill="#F2E9D9" opacity=".85" filter="url(#wash)"/>
+ <path d="M65 165 Q121 145 197 171 C189 190 140 197 102 188 Q77 181 65 165Z" fill="#5E7E57" opacity=".17" filter="url(#wash)"/>
+ <path d="M36 155 Q43 140 76 135 M184 143 Q217 153 221 170 M216 180 Q189 209 139 211 M122 211 Q66 205 42 184" fill="none" stroke="#9D917F" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="pale-soft-tofu-block">
+ <path d="M53 94 L102 76 Q106 74 113 77 L146 96 L145 138 L94 158 L53 136Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M54 94 L104 78 L143 97 L93 116 Q74 108 54 98Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M94 116 L145 97 L144 136 L95 157Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M56 102 L94 117 L94 154 L57 135Z" fill="#FBE1C9" opacity=".46" filter="url(#wash)"/>
+ <path d="M127 106 L142 101 L141 135 L97 153 L97 142 Q124 138 127 106Z" fill="#655A4B" opacity=".14" filter="url(#wash)"/>
+ <path d="M65 95 L91 85 L119 91 L97 101Z M70 116 L83 121 L84 143 L73 137Z" fill="#FFF7E8" opacity=".87" filter="url(#dry)"/>
+ <path d="M68 94 l5 -2 M89 98 l5 2 M112 93 l7 2 M66 119 l2 4 M83 134 l3 1 M108 128 l5 -2 M126 119 l4 -2 M121 141 l3 -1" fill="none" stroke="#655A4B" stroke-width="1.25" opacity=".23" filter="url(#dry)"/>
+ <path d="M54 104 l0 30 l17 10 M81 151 l12 6 l34 -13 M141 137 l4 -23 M55 93 L89 81 M113 78 l29 16 M66 106 l27 10 l27 -10" fill="none" stroke="#9D917F" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="rear-fried-tofu-piece">
+ <path d="M136 120 L166 103 L193 113 L200 143 L176 166 L145 153Z" fill="#D6A62C" opacity=".94"/>
+ <path d="M137 121 L168 107 L192 115 L174 139Z" fill="#FBE1C9" opacity=".81" filter="url(#wash)"/>
+ <path d="M175 138 L193 115 L199 143 L176 165 L169 144Z" fill="#A5750B" opacity=".79" filter="url(#wash)"/>
+ <path d="M139 124 L173 140 L175 164 L146 151Z" fill="#E66A2C" opacity=".46" filter="url(#wash)"/>
+ <path d="M146 120 l11 -7 l8 2 l-9 8Z M163 125 l13 -6 l5 2 l-5 9Z M144 135 l9 3 l3 11 l-8 -3Z M181 145 l10 -9 l2 7 l-10 10Z" fill="#A5750B" opacity=".53" filter="url(#dry)"/>
+ <path d="M145 123 l13 -7 M163 128 l11 -4 M147 134 l4 9" fill="none" stroke="#FFF7E8" stroke-width="2.6" opacity=".6" filter="url(#dry)"/>
+ <path d="M138 129 l7 23 l17 9 M179 162 l17 -17 M177 137 l12 -17 M145 116 l15 -9" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round"/>
+</g>
+<g id="front-cut-tofu-piece">
+ <path d="M83 159 L112 140 L151 151 L158 178 L128 198 L93 184Z" fill="#D6A62C" opacity=".96"/>
+ <path d="M85 160 L112 141 L151 152 L125 174Z" fill="#D6A62C" opacity=".82" filter="url(#wash)"/>
+ <path d="M85 160 L124 174 L127 197 L95 184Z" fill="#A5750B" opacity=".61" filter="url(#wash)"/>
+ <path d="M125 173 L150 153 L156 178 L129 196Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M131 175 L148 161 L150 176 L132 189Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M95 156 L103 149 L111 151 L106 158 L97 161Z M114 154 L129 150 L139 154 L130 161 L119 160Z M102 173 l9 2 l5 10 l-10 -1Z M91 165 l6 2 l5 12 l-7 -2Z" fill="#A5750B" opacity=".65" filter="url(#dry)"/>
+ <path d="M94 157 l8 -5 M115 163 l10 2 M99 169 l6 1" fill="none" stroke="#FFF7E8" stroke-width="2.7" opacity=".66" filter="url(#dry)"/>
+ <path d="M135 176 l2 -2 M143 173 l1 3 M134 184 l2 -1" fill="none" stroke="#655A4B" stroke-width="1.3" opacity=".37"/>
+ <path d="M85 167 l9 16 l23 11 M132 195 l21 -14 M126 174 l21 -18 M91 155 l17 -13 M123 144 l24 6" fill="none" stroke="#9D917F" stroke-width=".85" stroke-linecap="round"/>
+</g>
+<g id="small-fried-tofu-piece">
+ <path d="M169 169 L187 153 L210 160 L214 183 L193 196 L173 187Z" fill="#D6A62C" opacity=".94"/>
+ <path d="M171 168 L188 154 L208 161 L191 179Z" fill="#FBE1C9" opacity=".48" filter="url(#wash)"/>
+ <path d="M192 178 L209 162 L214 183 L194 194Z" fill="#A5750B" opacity=".67" filter="url(#wash)"/>
+ <path d="M177 167 l9 -8 l6 3 l-8 9Z M195 169 l7 -5 l2 4 l-6 7Z M177 176 l10 4 l2 8 l-8 -3Z" fill="#A5750B" opacity=".58" filter="url(#dry)"/>
+ <path d="M177 168 l9 -6 M176 173 l7 4" fill="none" stroke="#FFF7E8" stroke-width="2.3" opacity=".65" filter="url(#dry)"/>
+ <path d="M170 174 l3 12 l16 8 M198 193 l15 -10 M193 178 l11 -10" fill="none" stroke="#9D917F" stroke-width=".75" stroke-linecap="round"/>
+</g>
+</svg>

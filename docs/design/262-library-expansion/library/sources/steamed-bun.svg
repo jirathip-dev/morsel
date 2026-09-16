@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Steamed buns — gathered crown and torn filling</title>
+<desc>Two original soft white bun forms, one whole and one opened. Broad cream folds and a dark exposed filling are the durable cues; the filling does not identify a recipe.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="quiet-paper-rest">
+ <path d="M43 150 L95 128 L157 143 L140 170 L75 173Z" fill="{{cream}}" opacity=".68"/>
+ <path d="M99 186 L133 154 L218 169 L204 199 L144 207Z" fill="{{cream}}" opacity=".65"/>
+ <path d="M54 154 L83 165 L125 165 M116 189 L145 201 L174 198" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".58"/>
+</g>
+<g id="whole-bun-soft-mass">
+ <path d="M49 118 C48 94 61 80 79 75 Q91 56 106 69 C118 65 130 81 140 94 C150 112 147 137 134 148 C114 164 76 162 60 145 Q49 132 49 118Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M58 94 Q64 84 80 79 C65 103 71 130 90 141 Q115 155 140 138 C131 160 98 164 76 152 C56 143 50 119 58 94Z" fill="{{cream}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M116 83 C136 90 149 115 140 135 Q130 153 112 154 L97 151 C120 145 122 127 121 115Z" fill="{{peach}}" opacity=".63" filter="url(#wash)"/>
+ <path d="M123 132 Q139 127 144 119 C145 139 132 154 107 156 Q94 157 83 152 Q111 153 123 132Z" fill="{{brown}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M67 96 C58 119 70 138 83 144 L88 144 Q70 125 75 103Z" fill="{{paper}}" opacity=".78" filter="url(#dry)"/>
+</g>
+<g id="gathered-crown-pleat-washes">
+ <path d="M87 78 Q70 88 68 106 Q78 94 95 80Z M98 79 Q89 95 96 118 C97 99 102 90 104 81Z M107 78 Q120 88 128 113 C128 94 120 81 110 75Z M105 72 Q109 84 116 86 L117 79Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M84 77 Q89 70 94 73 L99 79 L105 71 Q110 73 110 79 L102 85 L94 84Z" fill="{{cream}}" opacity=".95"/>
+ <path d="M64 107 Q71 88 89 79 M97 84 Q91 98 96 110 M108 83 Q120 94 123 108 M93 74 l6 6 l7 -5" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M87 80 l7 2 M104 81 l5 -3" fill="none" stroke="{{line}}" stroke-width="1.15" opacity=".64"/>
+</g>
+<g id="opened-bun-outer-shell">
+ <path d="M106 161 C108 139 124 123 141 119 Q162 108 184 121 C204 129 214 144 214 162 Q214 184 195 192 C173 204 132 199 115 183 Q105 174 106 161Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M108 157 Q130 171 148 172 C173 181 199 169 211 155 Q220 179 196 191 C172 204 134 198 116 184 Q109 175 108 157Z" fill="{{cream}}" opacity=".96" filter="url(#wash)"/>
+ <path d="M132 182 Q159 197 181 186 Q198 181 208 171 C204 194 170 202 145 194 Q126 190 119 179Z" fill="{{peach}}" opacity=".66" filter="url(#wash)"/>
+ <path d="M188 179 L209 164 Q216 180 197 190 Q182 199 159 198 C176 194 182 188 188 179Z" fill="{{brown}}" opacity=".15" filter="url(#wash)"/>
+</g>
+<g id="torn-open-crumb-and-dark-filling">
+ <path d="M113 150 L122 139 L128 140 L136 129 L145 132 L151 123 L158 129 L169 124 L176 131 L185 130 L197 142 L203 149 L197 162 L185 168 L173 165 L163 172 L151 166 L141 169 L132 160 L124 162Z" fill="{{cream}}" opacity=".97"/>
+ <path d="M123 150 L132 143 L138 142 L142 136 L153 137 L160 132 L167 137 L179 137 L186 144 L192 146 L194 155 L184 160 L172 158 L162 165 L151 160 L142 161 L134 155Z" fill="{{brown}}" opacity=".95"/>
+ <path d="M129 149 Q145 137 158 141 L167 136 Q184 138 192 151 C184 161 173 152 162 161 L149 157 L139 157Z" fill="{{red}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M127 151 L139 153 L147 149 L157 155 L167 149 L175 153 L190 150 L192 157 L181 163 L171 160 L162 166 L150 161 L142 162Z" fill="{{dark}}" opacity=".52" filter="url(#wash)"/>
+ <path d="M138 146 l8 -4 l3 4 l-8 4Z M164 143 l8 -2 l4 4 l-7 3Z M175 154 l7 1 l-2 4 l-7 -2Z" fill="{{ochre}}" opacity=".58" filter="url(#dry)"/>
+ <path d="M121 149 l6 -6 M139 133 l6 3 M154 129 l5 6 M180 132 l5 5 M192 160 l-7 5 M165 171 l7 -4 M131 158 l5 5" fill="none" stroke="{{paper}}" stroke-width="3.3" opacity=".9" filter="url(#dry)"/>
+</g>
+<g id="selective-bun-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M49 120 Q48 96 62 84 M78 76 Q84 64 95 65 M116 72 Q134 82 141 103" stroke-width=".65"/>
+ <path d="M51 133 Q62 157 87 159 M98 160 Q115 160 128 153 M107 165 Q107 182 129 191 M140 195 Q173 205 199 190 Q211 183 214 169" stroke-width="1.15"/>
+ <path d="M116 141 Q127 125 141 122 M174 117 Q193 122 204 136 M124 150 l9 -8 M146 137 l9 0 M177 137 l8 5 M189 161 l-7 2 M153 161 l8 4 M116 173 l5 7 M198 179 l5 -6" stroke-width=".6"/>
+</g>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Chili oil — sedimented red oil and drizzle spoon, ink and wash</title>
+<desc>A squat open glass jar, red-orange oil above irregular dark chili sediment, and an angled spoon with a short drizzle. An illustrative condiment sign, not recipe evidence.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="glass-jar-underpainting">
+ <path d="M60 112 C60 101 80 93 103 94 C127 92 152 100 156 111 L158 190 C160 208 117 216 87 207 C71 202 62 198 61 188Z" fill="{{cream}}" opacity=".84"/>
+ <path d="M68 125 C86 132 128 136 149 121 L151 189 C149 203 120 209 96 204 C80 202 70 198 69 189Z" fill="{{peach}}" opacity=".9"/>
+ <path d="M63 139 L66 189 Q66 199 86 203 L86 209 Q62 202 61 190Z" fill="{{brown}}" opacity=".16" filter="url(#wash)"/>
+</g>
+<g id="clear-oil-overlapping-pigment">
+ <path d="M68 127 C85 117 128 116 150 129 L151 187 C147 204 103 210 73 195 L69 189Z" fill="{{orange}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M77 130 C93 133 104 143 121 135 L149 128 L150 188 C139 200 114 202 97 198 C109 177 83 163 77 147Z" fill="{{red}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M70 141 C90 143 89 154 104 157 C122 162 126 149 150 151 L150 165 C132 157 124 178 106 171 C92 166 87 154 72 157Z" fill="{{gold}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M136 140 L149 132 L150 189 Q143 197 130 199 C139 184 130 165 136 140Z" fill="{{red}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M71 126 C84 116 126 117 149 128 C144 140 105 145 80 135Z" fill="{{orange}}" opacity=".75"/>
+ <path d="M78 125 Q107 116 134 125 M83 134 Q110 141 133 133" fill="none" stroke="{{gold}}" stroke-width="2.7" opacity=".6" filter="url(#dry)"/>
+</g>
+<g id="sunken-chili-sediment">
+ <path d="M71 177 L81 174 L90 180 L102 173 L113 177 L121 172 L131 178 L141 170 L149 175 L151 190 C138 205 98 208 73 195Z" fill="{{red}}" opacity=".94" filter="url(#wash)"/>
+ <path d="M74 185 L85 182 L91 187 L106 180 L115 185 L131 180 L143 183 L149 178 L150 193 C131 204 103 207 77 197Z" fill="{{brown}}" opacity=".77" filter="url(#wash)"/>
+ <path d="M81 189 L90 191 L94 185 L103 189 L98 196 L86 196Z M119 188 L125 181 L133 185 L135 192 L129 195Z M143 183 L149 179 L150 190 L144 194Z" fill="{{dark}}" opacity=".69"/>
+ <path d="M78 177 L84 169 L91 173 L88 180Z M104 171 L110 164 L117 167 L115 174Z M127 165 L137 161 L139 168 L132 172Z M92 183 L99 175 L104 179 L100 185Z" fill="{{red}}" opacity=".93"/>
+ <path d="M80 179 L85 175 M109 170 L113 168 M132 169 L136 166 M111 191 L117 188 M94 198 L100 197" fill="none" stroke="{{orange}}" stroke-width="2.2" opacity=".76" filter="url(#dry)"/>
+ <path d="M94 166 l3 -2 M123 179 l4 1 M140 198 l3 -2" fill="none" stroke="{{gold}}" stroke-width="1.7" opacity=".78" stroke-linecap="round"/>
+</g>
+<g id="jar-rim-and-thread">
+ <path d="M60 111 C59 99 80 94 104 94 C125 92 152 100 156 111 C157 120 137 130 111 130 C83 129 65 124 60 116Z M67 110 C70 104 91 101 107 102 C124 100 143 105 148 112 C142 121 123 123 107 123 C86 122 73 119 67 110Z" fill="{{paper}}" opacity=".86" fill-rule="evenodd"/>
+ <path d="M62 117 C82 132 131 134 155 117 L155 123 C132 137 85 136 63 123Z" fill="{{cream}}" opacity=".7"/>
+ <path d="M61 108 Q62 98 86 95 M98 94 Q134 91 152 104 M156 112 Q156 127 121 130 M111 131 Q77 131 64 119" fill="none" stroke="{{line}}" stroke-width=".87" stroke-linecap="round"/>
+ <path d="M66 110 Q74 101 93 101 M116 102 Q141 102 148 112 M65 126 Q90 140 125 135 M138 132 L152 127" fill="none" stroke="{{line}}" stroke-width=".53" opacity=".77"/>
+</g>
+<g id="slanted-drizzle-spoon">
+ <path d="M144 101 L201 49 Q207 44 211 49 C213 52 209 57 205 60 L158 109Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M153 105 L205 52 L210 49 Q215 51 205 61 L158 110Z" fill="{{ochre}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M126 108 C128 98 144 91 155 94 C170 99 168 112 158 120 C145 132 123 124 126 108Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M130 108 C135 100 147 99 156 103 C164 107 159 116 150 120 C139 124 130 117 130 108Z" fill="{{red}}" opacity=".9"/>
+ <path d="M133 108 C142 103 153 109 158 109 Q153 122 140 119Z" fill="{{orange}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M136 112 L142 107 L148 112 L145 116Z M151 116 L156 112 L155 117Z" fill="{{brown}}" opacity=".8"/>
+ <path d="M141 119 C141 125 136 127 138 133 C140 138 133 144 131 146 C133 139 136 135 134 131 C132 126 139 124 137 120Z" fill="{{red}}" opacity=".82"/>
+ <path d="M156 99 L202 53 M210 52 L174 89 M160 96 Q173 107 157 120 M146 125 Q130 128 125 115 M127 106 Q132 96 144 94" fill="none" stroke="{{line}}" stroke-width=".84" stroke-linecap="round"/>
+ <path d="M136 106 L144 104 M148 123 L156 119" fill="none" stroke="{{paper}}" stroke-width="1.8" opacity=".79" filter="url(#dry)"/>
+</g>
+<g id="glass-broken-reflections">
+ <path d="M72 140 L75 159 L79 160 L78 142Z M78 169 L80 187 Q82 191 87 191 L83 171Z" fill="{{paper}}" opacity=".7" filter="url(#dry)"/>
+ <path d="M151 139 L152 160 M153 177 L153 190 M91 208 Q116 214 139 205" fill="none" stroke="{{paper}}" stroke-width="2.3" opacity=".77" filter="url(#dry)"/>
+ <path d="M61 134 L61 180 M62 190 Q62 201 86 208 M99 212 Q137 218 155 200 M159 190 L157 146 M157 136 L156 127" fill="none" stroke="{{line}}" stroke-width="1.12" stroke-linecap="round"/>
+ <path d="M67 187 L69 195 M142 206 L150 201" fill="none" stroke="{{line}}" stroke-width=".51" opacity=".72"/>
+</g>
+</svg>

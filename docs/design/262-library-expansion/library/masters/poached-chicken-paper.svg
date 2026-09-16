@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Poached chicken — pale slices and pulled breast fibres</title>
+<desc>Original ink and wash study of overlapping poached chicken slices and a torn portion. A generic food sign, not a claim about a meal, cut or portion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="quiet-oval-dish">
+ <path d="M33 151 C37 129 76 112 115 111 C159 107 207 121 223 145 C238 167 204 190 166 199 C117 211 58 197 39 175 C34 169 30 159 33 151Z" fill="#FFF7E8" opacity=".84"/>
+ <path d="M36 160 C52 184 102 196 144 193 C174 192 207 180 223 158 C218 184 178 202 141 203 C96 205 54 190 40 174Z" fill="#F2E9D9" opacity=".84" filter="url(#wash)"/>
+ <path d="M51 151 C73 131 110 128 149 135 C178 137 199 146 205 158 C187 178 150 185 119 181 C83 181 63 168 51 151Z" fill="#655A4B" opacity=".10" filter="url(#wash)"/>
+ <path d="M33 151 Q36 133 66 122 M184 121 Q213 130 223 145 M225 155 Q226 178 184 193 M166 199 Q95 217 47 183 M40 176 l-5 -9" fill="none" stroke="#8B7355" stroke-width=".82" stroke-linecap="round"/>
+ <path d="M49 160 Q62 183 100 189 M177 185 Q201 176 209 166" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".55"/>
+</g>
+<g id="torn-breast-underpainting">
+ <path d="M74 118 C61 101 71 82 88 76 C106 68 128 76 144 84 C154 89 166 100 175 112 L164 116 L173 122 L158 122 L168 132 L153 128 L157 139 L143 132 L141 144 C128 148 110 140 97 135Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M73 111 C72 91 91 80 108 82 C126 81 151 96 163 108 C149 103 136 102 127 107 C111 116 96 118 84 120Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M83 82 C101 72 121 79 138 88 L151 101 C133 96 126 87 112 90 C100 88 94 92 82 94Z" fill="#FBE1C9" opacity=".5" filter="url(#wash)"/>
+ <path d="M75 110 C92 126 111 117 128 122 L154 135 L141 144 C116 141 92 134 79 124Z" fill="#655A4B" opacity=".13" filter="url(#wash)"/>
+ <path d="M119 95 C137 99 151 107 162 113 L146 109 L152 117 L133 108Z M106 103 Q130 111 149 129 L131 121 L137 131 L117 117Z" fill="#FBE1C9" opacity=".62" filter="url(#wash)"/>
+ <path d="M75 93 Q79 79 94 76 M112 76 Q134 79 151 94 M166 111 l-10 -3 M157 126 l-12 -7 M143 136 l-12 -9" fill="none" stroke="#8B7355" stroke-width=".64" stroke-linecap="round" opacity=".76"/>
+</g>
+<g id="separated-soft-slices">
+ <path d="M65 121 C70 109 89 103 101 104 C119 105 137 116 145 125 L148 133 Q130 150 101 147 C79 145 66 136 65 121Z" fill="#FFF7E8"/>
+ <path d="M68 122 C76 111 91 108 104 110 C122 112 135 120 140 126 Q119 138 99 134 Q80 132 68 122Z" fill="#F2E9D9" opacity=".88" filter="url(#wash)"/>
+ <path d="M67 125 Q91 144 119 137 L145 128 L146 135 C128 149 92 151 72 138Z" fill="#FBE1C9" opacity=".47" filter="url(#wash)"/>
+ <path d="M57 137 C62 126 79 120 94 122 C112 124 126 134 135 144 L136 153 C117 167 88 164 68 153 Q58 147 57 137Z" fill="#FFF7E8"/>
+ <path d="M61 137 Q76 126 93 128 C111 130 121 138 129 145 Q110 155 92 151 Q72 148 61 137Z" fill="#F2E9D9" opacity=".91" filter="url(#wash)"/>
+ <path d="M61 143 C80 155 108 159 133 149 L135 155 C116 169 82 163 67 153Z" fill="#655A4B" opacity=".13" filter="url(#wash)"/>
+ <path d="M58 154 C68 141 82 140 99 146 C110 150 120 157 124 166 L118 174 C102 182 83 174 68 168 Q57 164 58 154Z" fill="#FFF7E8"/>
+ <path d="M62 154 C76 145 91 148 103 153 L119 165 Q97 171 78 163Z" fill="#F2E9D9" opacity=".94" filter="url(#wash)"/>
+ <path d="M59 159 Q80 175 103 174 L120 169 L116 176 Q86 180 63 166Z" fill="#FBE1C9" opacity=".55" filter="url(#wash)"/>
+</g>
+<g id="grain-not-grill-lines" fill="none" stroke-linecap="round">
+ <path d="M69 126 Q80 136 94 138 M109 141 Q132 140 146 131 M60 142 Q70 153 85 156 M106 161 Q125 160 134 152 M59 161 Q65 169 80 172 M96 176 Q109 179 118 174" stroke="#8B7355" stroke-width=".95"/>
+ <path d="M86 114 Q103 119 115 127 M97 112 Q113 117 125 128 M75 131 l17 8 M87 133 Q101 138 111 145 M72 150 l16 9 M85 150 l20 13 M105 99 Q126 100 143 110 M99 105 Q112 108 122 116" stroke="#8B7355" stroke-width=".5" opacity=".48"/>
+ <path d="M79 113 Q92 112 108 120 M68 134 Q81 130 97 137 M67 153 l18 5 M93 87 Q111 80 127 89" stroke="#FFF7E8" stroke-width="2.5" opacity=".78" filter="url(#dry)"/>
+</g>
+<g id="hand-pulled-ribbons">
+ <path d="M149 135 C158 136 163 144 172 149 L190 158 L198 163 L186 163 C165 158 155 149 143 141Z" fill="#FFF7E8"/>
+ <path d="M151 139 C165 145 171 153 185 157 L193 163 L180 160 Q160 151 151 139Z" fill="#F2E9D9" filter="url(#wash)"/>
+ <path d="M138 148 C151 149 159 161 173 165 L191 170 L203 176 L189 178 C172 175 156 167 146 162 L134 154Z" fill="#FFF7E8"/>
+ <path d="M139 153 Q156 156 169 166 Q183 171 197 174 L191 177 C172 174 155 167 139 153Z" fill="#FBE1C9" opacity=".55" filter="url(#wash)"/>
+ <path d="M128 163 C141 166 148 173 159 176 L181 180 L174 186 L158 182 L144 179 L126 171Z" fill="#FFF7E8"/>
+ <path d="M167 131 Q176 134 181 143 L195 150 L205 154 L195 157 L184 152 L176 148 L163 139Z" fill="#F2E9D9"/>
+ <path d="M153 145 Q168 156 188 162 M142 157 Q162 170 181 173 M132 171 l18 7 M161 182 l11 3 M170 137 Q183 148 196 151" fill="none" stroke="#8B7355" stroke-width=".62" stroke-linecap="round" opacity=".7"/>
+ <path d="M146 151 l13 9 M174 170 l15 4 M169 134 l12 10" fill="none" stroke="#FFF7E8" stroke-width="1.6" filter="url(#dry)"/>
+</g>
+</svg>

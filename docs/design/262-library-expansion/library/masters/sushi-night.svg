@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sushi — two nigiri and three maki on a warm slate</title>
+<desc>Original ink and wash assortment. Broad fish caps, compact rice beds and three nori-ring cross-sections distinguish the forms. Generic sushi illustration, not a recipe or portion assertion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="irregular-slate-support">
+ <path d="M36 123 L174 76 L212 104 L223 169 L116 211 L35 161 L32 141Z" fill="#655A4B" opacity=".56"/>
+ <path d="M36 141 L106 187 L217 148 L223 169 L117 212 L35 162Z" fill="#2A261F" opacity=".24" filter="url(#wash)"/>
+ <path d="M47 128 L91 161 L179 111 L199 106 L178 83Z" fill="#5E7E57" opacity=".17" filter="url(#wash)"/>
+ <path d="M37 151 L116 204 L209 170 M43 125 L82 112 M190 94 l16 12 M221 157 l1 10" fill="none" stroke="#9D917F" stroke-width=".7" opacity=".75"/>
+</g>
+<g id="left-nigiri-rice-bed">
+ <path d="M49 111 Q51 98 67 95 L91 99 Q110 103 116 115 L115 129 L108 135 L93 137 L79 133 L68 133 L57 124 Q49 125 49 111Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M51 112 Q67 121 87 122 Q104 122 115 115 L115 129 L107 135 L94 136 L80 132 L69 133 Q56 126 51 119Z" fill="#F2E9D9" opacity=".96" filter="url(#wash)"/>
+ <path d="M75 127 Q94 132 114 120 L111 132 L99 137 L84 133Z" fill="#655A4B" opacity=".19" filter="url(#wash)"/>
+</g>
+<g id="left-fish-cap">
+ <path d="M48 105 C52 93 71 84 86 89 C99 89 113 98 120 109 L116 119 C99 122 82 116 71 113 L58 114 L48 112Z" fill="#E66A2C" opacity=".9"/>
+ <path d="M50 107 Q65 96 80 99 L95 104 Q110 104 119 111 L115 119 L100 117 L84 114 L70 110 L57 114Z" fill="#B94738" opacity=".48" filter="url(#wash)"/>
+ <path d="M62 95 Q64 103 75 112 M77 91 Q80 101 91 115 M92 92 Q95 102 105 115" fill="none" stroke="#FBE1C9" stroke-width="2.8" opacity=".76" filter="url(#dry)"/>
+ <path d="M50 102 Q60 90 75 89 M98 95 Q113 100 119 110 M59 114 l12 -1 M93 117 l17 2" fill="none" stroke="#9D917F" stroke-width=".65" stroke-linecap="round"/>
+</g>
+<g id="right-nigiri-rice-bed">
+ <path d="M133 102 Q137 90 151 90 L176 95 Q195 102 200 113 L195 124 L187 129 L171 128 L164 124 L153 126 L138 117Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M138 109 L153 116 Q177 124 197 111 L197 122 L187 129 L171 128 L164 124 L153 126 L141 118Z" fill="#F2E9D9" opacity=".94" filter="url(#wash)"/>
+ <path d="M170 122 Q186 123 196 115 L193 124 L185 128 L172 127Z" fill="#655A4B" opacity=".2" filter="url(#wash)"/>
+</g>
+<g id="right-fish-cap-and-nori-band">
+ <path d="M130 96 C134 84 150 80 163 84 C182 85 196 94 204 108 L200 116 L184 115 L169 110 L155 107 L141 106 L131 101Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M133 95 C151 88 164 94 177 98 Q194 99 202 109 L199 116 Q177 113 165 108 Q148 102 135 103Z" fill="#E66A2C" opacity=".68" filter="url(#wash)"/>
+ <path d="M150 85 Q151 95 162 105 M181 92 Q182 101 192 111" fill="none" stroke="#FFF7E8" stroke-width="2.7" opacity=".7" filter="url(#dry)"/>
+ <path d="M164 84 L174 88 Q170 97 166 108 L167 125 L157 125 L157 109 Q159 96 164 84Z" fill="#2F654B" opacity=".92"/>
+ <path d="M168 87 L173 88 L165 109 L165 123 L161 125 L161 108Z" fill="#2A261F" opacity=".64" filter="url(#wash)"/>
+ <path d="M133 92 Q145 78 163 84 M183 91 Q201 99 204 109 M170 126 l11 2" fill="none" stroke="#9D917F" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="left-maki-nori-cylinder">
+ <path d="M61 151 C58 143 69 134 82 134 C96 133 108 142 108 151 L106 169 Q103 181 84 180 C70 179 62 173 62 164Z" fill="#2F654B" opacity=".95"/>
+ <path d="M64 153 Q85 166 107 151 L105 170 Q97 182 80 177 L64 168Z" fill="#2A261F" opacity=".67" filter="url(#wash)"/>
+ <path d="M66 149 C65 142 75 138 84 139 Q100 139 103 149 C101 158 72 161 66 149Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M70 147 Q78 141 88 143 L99 148 Q94 156 81 155 L72 151Z" fill="#F2E9D9" opacity=".9" filter="url(#wash)"/>
+ <path d="M78 144 L86 142 L93 147 L92 153 L82 154 L77 150Z" fill="#E66A2C" opacity=".93"/>
+ <path d="M88 143 l6 3 l-3 7 l-4 -2Z" fill="#5E7E57" opacity=".93"/>
+ <path d="M65 160 l2 8 M70 171 l6 3 M99 162 l-1 9" fill="none" stroke="#5E7E57" stroke-width="2.1" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="middle-maki-nori-cylinder">
+ <path d="M115 164 C112 154 123 145 136 145 C149 144 161 153 160 161 L158 180 C155 191 130 194 119 182Z" fill="#2F654B" opacity=".96"/>
+ <path d="M116 165 Q137 177 159 163 L157 181 Q142 196 123 184Z" fill="#2A261F" opacity=".67" filter="url(#wash)"/>
+ <path d="M119 161 Q120 149 135 149 C146 148 155 154 155 161 Q151 171 136 169 Q123 170 119 161Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M124 161 Q128 153 138 154 Q147 154 152 160 L144 167 L132 166Z" fill="#F2E9D9" opacity=".93" filter="url(#wash)"/>
+ <path d="M130 158 L137 154 L145 158 L144 164 L135 166 L129 162Z" fill="#B94738" opacity=".88"/>
+ <path d="M138 155 l7 3 l-1 6 l-5 -3Z" fill="#5E7E57" opacity=".98"/>
+ <path d="M120 171 l3 8 M128 183 l7 2 M150 174 l-2 9" fill="none" stroke="#5E7E57" stroke-width="2" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="right-maki-nori-cylinder">
+ <path d="M163 149 C160 139 171 131 184 131 C197 131 206 138 207 147 L204 164 C198 177 176 178 166 166Z" fill="#2F654B" opacity=".95"/>
+ <path d="M165 152 Q184 161 206 146 L203 166 Q192 178 173 171Z" fill="#2A261F" opacity=".67" filter="url(#wash)"/>
+ <path d="M167 145 C168 137 176 135 185 136 Q200 136 202 145 C200 155 173 158 167 145Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M172 145 Q174 139 185 140 Q194 139 198 145 Q190 153 178 151Z" fill="#F2E9D9" opacity=".95" filter="url(#wash)"/>
+ <path d="M177 143 L184 139 L192 142 L191 149 L181 151 L177 147Z" fill="#E66A2C" opacity=".94"/>
+ <path d="M188 140 l6 4 l-4 6 l-5 -3Z" fill="#2F654B" opacity=".9"/>
+ <path d="M168 157 l3 7 M178 169 l6 1 M198 156 l-1 7" fill="none" stroke="#5E7E57" stroke-width="2.2" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="rice-and-structural-edge-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M57 124 l5 3 M73 129 l4 1 M90 131 l4 -2 M105 126 l3 -2 M142 116 l4 3 M150 120 l3 1 M179 123 l4 0 M190 119 l3 -2 M70 148 l3 -2 M95 148 l3 1 M126 158 l3 -2 M145 168 l3 -2 M172 144 l2 -2 M195 145 l3 0" stroke-width=".6" opacity=".82"/>
+ <path d="M61 153 L63 167 Q68 179 83 180 M89 180 Q100 179 105 171 M116 168 l3 13 Q128 192 143 189 M150 186 l6 -4 M164 151 l2 13 Q173 175 189 174 M198 170 l6 -8" stroke-width=".95"/>
+</g>
+</svg>

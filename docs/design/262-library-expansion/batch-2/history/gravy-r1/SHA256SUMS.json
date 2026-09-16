@@ -1,0 +1,13 @@
+{
+  "library/sources/gravy.svg": "d4a48a16f4ad00be8697c1eaa5f18885eb05890a2aeb039ecf7bc0dd86941302",
+  "library/masters/gravy-paper.svg": "530cd15371ec519892712b1ad369db829f61da0400f3eeddd0c827380fc100eb",
+  "library/masters/gravy-night.svg": "d9baabeeb3e1c4034bd1913e7d37af09e53edb76220c907d8d7e5c8dbbcf428d",
+  "library/exports/gravy-paper-64.png": "24352fc1f33e558a8f56dc103459d268916f5de9bf3be98a6148e8d6b08e6ad3",
+  "library/exports/gravy-paper-192.png": "b7cbcc37be7f7b313a2a1daa222e0aa9e6afbebed42982199c04045895f43ff5",
+  "library/exports/gravy-paper-512.png": "3622ed02368afd3da8a4d574a4ccac90a8877b34effb52ce127bb8b0b4b3425f",
+  "library/exports/gravy-night-64.png": "04e6bb68192a8e447c305a3d409615682b15507d82df329f2058c7d3b5fda895",
+  "library/exports/gravy-night-192.png": "4c7f6b2b3ee750e1a2d63ace7b61fe486066a3fbae5fa0ab41bdf3cf891ca352",
+  "library/exports/gravy-night-512.png": "3f3332be84835cc54909417ec79183b10963e3ce009cc5c8ac342aa254373292",
+  "batch-2/proofs/phone-05-paper.png": "fba08c074d6cfa9227890c38d8eda03a95f35f032d24bdab4cd11c1b700f3efd",
+  "batch-2/proofs/phone-05-night.png": "55d33a2c5b052c1ed185bae725a764b5ba36f46beecda308078e1a17eeac19c8"
+}

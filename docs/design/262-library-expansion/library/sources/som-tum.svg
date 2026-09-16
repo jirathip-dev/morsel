@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Som tum — shredded papaya and tomato ink-wash study</title>
+<desc>A loose mound of pale pointed shreds crossed with bean pieces and red wedges in a shallow dish. A generic som tum sign, not an ingredient or recipe assertion.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="low-serving-dish">
+ <path d="M34 148 C39 122 91 116 131 119 C174 118 216 134 220 154 C222 178 176 194 131 196 C86 195 41 178 34 157Z" fill="{{cream}}" opacity=".87"/>
+ <path d="M39 157 C65 176 110 188 147 183 C180 181 204 170 218 158 C210 181 174 194 132 194 C88 194 54 178 39 157Z" fill="{{sage}}" opacity=".2" filter="url(#wash)"/>
+ <path d="M46 149 C53 131 96 127 130 128 C166 126 203 139 208 154 C195 173 149 182 116 177 C83 175 58 166 46 149Z" fill="{{paper}}" opacity=".92"/>
+ <path d="M59 150 C94 145 109 155 133 151 C162 141 178 142 199 151 Q185 174 125 175 C95 173 69 168 59 150Z" fill="{{ochre}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M35 148 Q38 135 58 129 M73 124 L92 122 M194 131 Q218 140 220 155 M214 169 Q188 191 147 195 M129 196 Q70 192 44 169" fill="none" stroke="{{line}}" stroke-width=".88" stroke-linecap="round"/>
+ <path d="M52 163 Q76 177 100 178 M159 178 Q188 173 202 162" fill="none" stroke="{{line}}" stroke-width=".52" opacity=".6"/>
+</g>
+<g id="papaya-mound-underwash">
+ <path d="M53 143 L69 116 L87 110 L96 86 L118 91 L137 78 L158 94 L176 97 L182 117 L201 131 L193 152 L163 163 L136 166 L107 161 L78 164Z" fill="{{cream}}" opacity=".97"/>
+ <path d="M58 139 C80 115 92 123 103 102 C123 85 134 98 146 92 C167 95 163 118 184 121 L197 137 C187 154 163 154 138 164 C111 155 91 167 66 149Z" fill="{{leaf}}" opacity=".84" filter="url(#wash)"/>
+ <path d="M68 137 C86 129 102 138 117 129 L143 139 L167 129 L189 141 C180 151 161 164 139 163 L105 157 L83 160Z" fill="{{sage}}" opacity=".28" filter="url(#wash)"/>
+</g>
+<g id="long-pointed-papaya-ribbons">
+ <path d="M62 139 C92 131 111 98 148 85 C121 102 103 137 64 144Z M75 119 C104 121 143 142 183 140 L193 144 C148 150 116 130 75 125Z M89 95 C94 120 126 132 138 158 L135 166 C125 136 93 126 85 106Z" fill="{{cream}}"/>
+ <path d="M72 154 C107 133 118 103 148 98 C126 112 115 141 78 160Z M102 98 C125 107 150 130 176 155 L169 158 C148 135 122 112 102 103Z M113 90 C129 99 155 107 183 122 L195 133 C166 119 134 109 113 94Z" fill="{{paper}}" opacity=".91"/>
+ <path d="M56 141 C82 130 112 133 155 147 L179 151 C137 154 102 131 68 143Z M96 153 C118 141 145 121 165 101 L171 100 C162 117 136 138 102 159Z M147 95 C152 117 164 130 196 150 L187 151 C160 137 147 117 147 95Z" fill="{{leaf}}"/>
+ <path d="M86 111 Q119 122 161 119 L180 114 C159 129 117 126 87 117Z M101 88 C105 110 119 139 152 159 L147 164 C117 146 104 119 101 88Z M74 146 Q121 153 160 140 L191 130 C170 149 118 161 74 150Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M63 139 C89 132 115 99 139 91 M92 102 Q99 122 119 134 M126 143 L134 158 M81 123 Q119 128 143 140 M155 144 L178 147 M111 154 Q142 137 162 115 M114 96 Q136 109 159 115 M101 148 Q128 153 152 145" fill="none" stroke="{{line}}" stroke-width=".62" stroke-linecap="round" opacity=".73"/>
+ <path d="M92 140 L109 124 M124 109 L138 101 M113 111 L132 126 M150 118 L164 126 M135 158 L144 162" fill="none" stroke="{{paper}}" stroke-width="2.6" opacity=".72" filter="url(#dry)"/>
+</g>
+<g id="tomato-wedges">
+ <path d="M55 132 Q57 111 75 104 L91 133 Q78 145 55 132Z" fill="{{red}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M59 129 Q63 115 73 111 L85 131 Q74 135 59 129Z" fill="{{orange}}" opacity=".73"/>
+ <path d="M65 123 L72 117 L78 129Z" fill="{{peach}}" opacity=".71"/>
+ <path d="M163 153 L182 122 Q202 131 201 147 Q184 158 163 153Z" fill="{{red}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M172 149 L184 129 Q196 133 197 143 Q187 151 172 149Z" fill="{{orange}}" opacity=".74"/>
+ <path d="M180 145 L185 134 L190 142Z" fill="{{peach}}" opacity=".81"/>
+ <path d="M55 129 Q53 114 70 105 M57 134 Q75 142 87 133 M169 153 Q190 158 202 146 M187 125 L194 129" fill="none" stroke="{{line}}" stroke-width="1.07" stroke-linecap="round"/>
+</g>
+<g id="bean-segments-and-chili">
+ <path d="M79 145 Q91 132 97 118 L103 121 Q99 137 86 151Z M143 127 L159 104 Q162 102 166 106 L150 132Z M139 160 L155 145 L160 150 L147 167Z" fill="{{forest}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M82 145 Q94 131 98 122 M148 125 L161 106 M143 161 L155 150" fill="none" stroke="{{leaf}}" stroke-width="2.2" opacity=".72" filter="url(#dry)"/>
+ <path d="M83 150 Q99 133 103 123 M147 133 L165 109 M146 167 L159 152" fill="none" stroke="{{line}}" stroke-width=".72"/>
+ <path d="M106 149 C118 145 122 129 134 124 C128 134 128 151 112 155Z" fill="{{red}}" opacity=".9"/>
+ <path d="M132 125 Q135 119 140 120" fill="none" stroke="{{forest}}" stroke-width="1.3"/>
+ <path d="M112 151 Q123 148 127 136" fill="none" stroke="{{orange}}" stroke-width="1.8" opacity=".75" filter="url(#dry)"/>
+</g>
+</svg>

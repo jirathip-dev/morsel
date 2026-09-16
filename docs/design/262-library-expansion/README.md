@@ -33,11 +33,11 @@ Original `skills/food-art` compiler/validator files are retained byte-for-byte u
 
 Requirements already available on the authoring host: Python 3 + Pillow, `rsvg-convert`, a Chromium headless shell. Exact renderer versions are recorded per batch. No install, network service, account credentials or API keys are required to generate art/proofs. The browser uses fresh owned profiles. Font/OFL files are included.
 
-Run from this bundle. Set `N` to the batch to reproduce. Execute the batches in order when rebuilding cumulative catalog metadata; earlier source/master/export bytes are retained. No script writes the production library or app resources.
+Run from this bundle. The command derives `N` as the highest delivered batch (so the full-library closed-set verification matches all retained sources). To independently reproduce earlier art, use `pipeline.py reproduce --batch N` for each earlier N without shrinking the cumulative catalog. Execute the batches in order when rebuilding cumulative catalog metadata; earlier source/master/export bytes are retained. No script writes the production library or app resources.
 
 ```sh
 export PYTHONDONTWRITEBYTECODE=1
-N=1
+N=$(python3 -c 'import json; from pathlib import Path; print(max(int(p.parent.name.split("-")[1]) for p in Path(".").glob("batch-*/catalog-delta.json")))')
 python3 scripts/pipeline.py build --batch "$N"
 python3 scripts/pipeline.py coverage --batch "$N"
 python3 scripts/pipeline.py verify --batch "$N" --product /path/to/morsel-checkout

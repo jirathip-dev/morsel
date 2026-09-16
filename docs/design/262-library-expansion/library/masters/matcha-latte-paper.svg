@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Matcha latte — sage tea folding into pale milk</title>
+<desc>Original ink and wash. A green upper layer curls into an off-white milk base inside a clear glass with a slender straw. The picture does not establish dairy type, sweetness or recipe.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="quiet-glass-contact">
+ <path d="M74 214 Q121 204 181 213 C174 224 104 225 78 220Z" fill="#655A4B" opacity=".12" filter="url(#wash)"/>
+</g>
+<g id="straight-sided-glass-and-milk-underpainting">
+ <path d="M73 83 C73 70 96 65 126 65 C152 64 179 70 183 82 L177 203 C175 218 155 221 130 221 C104 221 81 218 79 206Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M80 103 L85 200 C86 211 105 215 127 215 Q161 217 172 204 L177 104Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M89 143 C105 150 120 141 138 147 C153 151 163 143 175 144 L172 201 Q171 213 130 215 Q98 214 85 203Z" fill="#FFF7E8" opacity=".93"/>
+ <path d="M87 151 C95 167 106 172 105 188 Q108 205 139 211 Q114 219 91 207 L85 199Z" fill="#F2E9D9" opacity=".89" filter="url(#wash)"/>
+ <path d="M164 156 Q170 170 164 192 C157 202 143 207 130 209 Q152 217 172 204 L175 164Z" fill="#FBE1C9" opacity=".22" filter="url(#wash)"/>
+</g>
+<g id="matcha-upper-layer">
+ <path d="M79 86 C89 77 116 75 139 77 Q165 76 177 87 L174 148 C156 150 148 141 134 145 C116 151 97 148 82 140Z" fill="#E1E9D7" opacity=".98"/>
+ <path d="M80 88 Q102 95 123 87 C145 84 162 90 177 87 L174 145 C156 146 151 136 133 142 Q105 151 82 138Z" fill="#5E7E57" opacity=".8" filter="url(#wash)"/>
+ <path d="M88 98 C107 110 114 105 130 100 C149 95 165 102 176 108 L174 137 C153 142 137 127 122 136 C105 141 94 133 83 134Z" fill="#5E7E57" opacity=".4" filter="url(#wash)"/>
+ <path d="M158 96 C171 109 154 123 162 139 L174 145 L177 91Z" fill="#2F654B" opacity=".22" filter="url(#wash)"/>
+ <path d="M83 108 C95 110 97 125 106 130 Q118 139 138 131 C151 125 160 129 166 138 C149 134 144 143 131 145 Q105 153 83 138Z" fill="#E1E9D7" opacity=".56" filter="url(#wash)"/>
+</g>
+<g id="milk-and-tea-folding-swirl">
+ <path d="M84 135 C106 151 128 131 147 140 C167 149 169 164 154 173 C146 178 134 174 135 182 Q137 189 155 185 C148 196 125 191 126 182 C126 168 153 173 155 161 C158 151 144 148 131 151 C111 157 95 150 83 145Z" fill="#E1E9D7" opacity=".95"/>
+ <path d="M89 139 C107 151 124 141 140 143 C156 144 166 158 155 169 Q150 174 140 175 C154 168 158 158 147 153 C132 147 119 156 105 152Z" fill="#5E7E57" opacity=".58" filter="url(#wash)"/>
+ <path d="M87 155 C103 157 115 165 129 163 C139 159 137 153 125 155 C141 148 150 159 138 167 C117 178 98 157 87 165Z" fill="#FFF7E8" opacity=".91" filter="url(#wash)"/>
+ <path d="M133 179 Q132 187 150 188 M145 147 C159 151 164 161 153 169" fill="none" stroke="#5E7E57" stroke-width=".9" opacity=".72" stroke-linecap="round"/>
+</g>
+<g id="slender-straw-behind-foam">
+ <path d="M112 126 L118 125 L91 36 L86 38Z" fill="#F2E9D9"/>
+ <path d="M115 124 L118 125 L91 36 L89 38Z" fill="#5E7E57" opacity=".43" filter="url(#wash)"/>
+ <path d="M88 38 L105 95 M108 107 l6 17 M90 36 l6 21" fill="none" stroke="#8B7355" stroke-width=".64" stroke-linecap="round"/>
+</g>
+<g id="uneven-foam-surface">
+ <path d="M79 83 C 80 73 103 70 126 71 C151 70 174 77 177 85 C169 97 147 99 128 98 C104 99 85 93 79 83Z" fill="#E1E9D7" opacity=".94"/>
+ <path d="M85 82 C99  70 120 77 135 76 C152 73 166 81 171 85 Q158 96 133 93 C111 98 92 88 85 82Z" fill="#5E7E57" opacity=".5" filter="url(#wash)"/>
+ <path d="M96  80 C113 74 148 76 157 84 C163 89 143 93 126 89 C119 87 129 82 143 85 C133 79 109 81 110 85 Q115 93 135 94 C113 96  90 86 96 80Z" fill="#FFF7E8" opacity=".77" filter="url(#wash)"/>
+ <path d="M92 78 l6 -1 M164 87 l5 -2 M 90 88 l5 2" fill="none" stroke="#FFF7E8" stroke-width="2" opacity=".71" filter="url(#dry)"/>
+</g>
+<g id="broken-glass-edges" fill="none" stroke-linecap="round">
+ <path d="M73 81 Q73 70 97 67 M111 65 Q154 62 176 75 M182 83 Q182 93 161 98 M150 100 Q104 105 79 91" stroke="#8B7355" stroke-width=".79"/>
+ <path d="M73 92 L76 148 M77 163 L79 203 Q80 217 107 220 M121 221 Q167 225 177 207 L180 150 M181 130 l2 -35" stroke="#8B7355" stroke-width="1"/>
+ <path d="M87 108 L90 140 M 90 176 l1 23 M174 105 l-2 38 M172 180 l-2 20 M94 211 Q122 220 151 214" stroke="#FFF7E8" stroke-width="2.4" opacity=".84" filter="url(#dry)"/>
+ <path d="M88 204 l5 6 M163 212 l7 -6" stroke="#8B7355" stroke-width=".48" opacity=".52"/>
+</g>
+</svg>

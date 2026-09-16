@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Larb — minced meat salad with fresh mint</title>
+<desc>Original ink and wash study. Broad serrated mint leaves and scattered chili sit over a loose browned mince salad; toasted-rice marks are secondary. Generic larb, not an assertion of actual ingredients or species.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="off-centre-salad-plate">
+ <path d="M34 157 C32 137 68 118 111 113 C160 106 207 121 220 146 C234 171 196 199 146 209 C94 221 45 201 34 175Z" fill="#FFF7E8" opacity=".92"/>
+ <path d="M39 167 Q72 190 121 190 C159 190 197 173 222 151 Q225 176 193 195 C160 215 96 219 63 196Z" fill="#F2E9D9" opacity=".91" filter="url(#wash)"/>
+ <path d="M60 161 Q102 129 156 136 Q190 138 205 157 C185 184 137 199 94 187Z" fill="#5E7E57" opacity=".21" filter="url(#wash)"/>
+ <path d="M35 148 Q41 128 77 118 M172 117 Q205 121 218 140 M222 159 Q211 193 164 206 M146 209 Q81 223 45 189" fill="none" stroke="#8B7355" stroke-width=".82" stroke-linecap="round"/>
+</g>
+<g id="loose-mince-salad-mass">
+ <path d="M57 149 L63 138 L61 131 L73 125 L80 115 L91 117 L98 109 L110 111 L120 104 L132 110 L145 105 L155 113 L164 112 L171 122 L183 122 L186 131 L196 136 L196 145 L205 151 L200 162 L205 170 L192 177 L181 175 L170 185 L158 182 L146 189 L133 183 L120 188 L109 181 L96 182 L88 176 L77 175 L73 165 L63 164Z" fill="#655A4B" opacity=".91"/>
+ <path d="M63 142 L78 128 L97 130 L108 115 L123 117 L137 114 L153 119 L166 127 L180 129 L184 141 L198 150 L188 164 L171 162 L152 173 L135 170 L121 177 L102 168 L88 170 L79 156 L66 153Z" fill="#FBE1C9" opacity=".59" filter="url(#wash)"/>
+ <path d="M65 150 Q84 141 103 154 L121 143 L132 155 L150 145 L163 154 L179 140 L194 151 L198 165 L180 172 L169 182 L157 178 L145 185 L132 179 L120 184 L108 176 L96 179 L86 172 L78 170Z" fill="#A5750B" opacity=".37" filter="url(#wash)"/>
+ <path d="M77 130 L89 126 L94 133 L88 142 L76 139Z M106 126 L119 121 L127 127 L121 136 L112 133Z M143 120 L153 123 L155 132 L148 136 L141 130Z M162 141 L173 135 L183 143 L180 152 L169 151Z M97 159 L108 156 L115 166 L104 172 L97 166Z M131 163 L139 159 L150 164 L146 173 L135 174Z M181 163 L190 159 L195 166 L184 173Z" fill="#F2E9D9" opacity=".59" filter="url(#wash)"/>
+ <path d="M69 154 l7 5 l7 -1 M96 139 l6 3 M126 146 l6 -3 l6 4 M156 157 l4 4 M116 174 l6 -5 M162 179 l7 -4 M192 150 l6 2" fill="none" stroke="#655A4B" stroke-width="1.25" opacity=".81"/>
+</g>
+<g id="shallot-curls">
+ <path d="M93 129 C84 124 81 137 92 142 Q103 145 109 137 L107 134 Q99 142 92 137 Q85 132 93 132Z M153 160 C145 147 159 140 168 146 L168 149 Q157 144 154 152 L157 160Z" fill="#F2E9D9" opacity=".93"/>
+ <path d="M92 129 Q84 128 85 134 M100 141 l7 -5 M151 155 Q147 144 160 144" fill="none" stroke="#B94738" stroke-width=".8" opacity=".65"/>
+</g>
+<g id="mint-sprig-stems">
+ <path d="M151 146 Q157 118 171 91 L174 91 Q163 119 155 147Z M107 138 Q112 114 102 97 L105 96 Q117 116 111 139Z" fill="#5E7E57" opacity=".91"/>
+ <path d="M155 140 Q161 118 172 94 M109 131 Q113 116 105 101" fill="none" stroke="#8B7355" stroke-width=".6"/>
+</g>
+<g id="large-serrated-mint-leaves">
+ <path d="M163 114 L158 110 L157 105 L151 104 L151 98 L147 94 L149 89 L147 84 L153 82 L157 76 L163 79 L168 79 L171 85 L176 89 L174 95 L176 101 L170 105 L169 111Z" fill="#5E7E57" opacity=".96"/>
+ <path d="M163 114 Q151 101 151 86 L158 80 Q168 91 166 105Z" fill="#2F654B" opacity=".6" filter="url(#wash)"/>
+ <path d="M165 121 L168 114 L174 114 L176 107 L182 107 L187 102 L192 105 L198 103 L201 109 L208 112 L204 118 L205 124 L198 126 L195 132 L188 130 L183 133 L178 129 L170 129Z" fill="#5E7E57" opacity=".95"/>
+ <path d="M167 122 Q181 111 201 112 L204 119 L197 125 L190 126 L184 131 L176 126Z" fill="#2F654B" opacity=".57" filter="url(#wash)"/>
+ <path d="M109 118 L102 116 L99 111 L92 112 L89 106 L83 103 L86 97 L84 91 L92 90 L96 84 L102 89 L108 89 L109 96 L114 100 L111 106 L113 112Z" fill="#5E7E57" opacity=".96"/>
+ <path d="M109 117 Q91 109 88 94 L97 88 Q105 98 107 106Z" fill="#2F654B" opacity=".54" filter="url(#wash)"/>
+ <path d="M122 153 L119 146 L122 141 L129 141 L134 138 L139 143 L141 149 L137 154 L128 157Z" fill="#2F654B" opacity=".9" filter="url(#wash)"/>
+ <path d="M161 84 Q166 99 163 112 M172 121 Q187 113 199 113 M95 94 Q105 105 109 116 M125 153 l10 -8" fill="none" stroke="#E1E9D7" stroke-width="1" opacity=".77"/>
+ <path d="M160 94 l-5 -3 M165 101 l5 -6 M183 117 l-1 -6 M190 115 l6 8 M100 102 l-8 -2 M106 109 l2 -6" fill="none" stroke="#E1E9D7" stroke-width=".6" opacity=".63"/>
+ <path d="M149 89 l-2 -5 l6 -2 M175 91 l-1 5 M181 130 l7 0 M195 132 l3 -6 M85 99 l-1 -7 l7 -2 M111 107 l2 5" fill="none" stroke="#8B7355" stroke-width=".65"/>
+</g>
+<g id="chili-flakes-and-toasted-rice">
+ <path d="M78 144 l6 -3 l4 4 l-3 5 l-5 -1Z M118 116 l5 -3 l5 4 l-3 5Z M148 137 l5 -4 l4 5 l-3 4Z M176 159 l7 -2 l3 5 l-6 4Z M120 174 l4 -4 l6 3 l-2 5Z M89 164 l4 -2 l4 3 l-3 3Z" fill="#B94738" opacity=".92" filter="url(#dry)"/>
+ <path d="M75 132 l4 1 M101 123 l3 2 M139 124 l3 -1 M157 134 l4 2 M85 157 l4 -1 M107 150 l4 1 M138 169 l3 -2 M161 170 l4 1 M191 160 l2 1 M102 174 l3 1" fill="none" stroke="#D6A62C" stroke-width="2.2" opacity=".81" filter="url(#dry)"/>
+ <path d="M70 167 l5 3 M82 177 l5 -1 M134 184 l8 3 M171 183 l9 -8 M201 163 l4 6" fill="none" stroke="#8B7355" stroke-width=".65"/>
+</g>
+</svg>

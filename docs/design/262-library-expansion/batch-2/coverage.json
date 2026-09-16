@@ -1,0 +1,96 @@
+{
+  "batch": 2,
+  "method": "Frozen round-1 qualifier-tolerant estimator applied to delivered studies; NOT the shipped #260 matcher or live application coverage.",
+  "evidence_window": "public.meal_items, read-only SELECT via Management API, 2026-09-05..2026-09-15, 284 rows / 250 distinct names (raw names stay local, untracked)",
+  "reference_recomputed_against_private_input": true,
+  "distinct_names": 250,
+  "total_rows": 284,
+  "specific": {
+    "distinct": 201,
+    "rows": 234,
+    "distinct_pct": 80.4,
+    "rows_pct": 82.4
+  },
+  "category_fallback": {
+    "distinct": 20,
+    "rows": 20,
+    "distinct_pct": 8.0,
+    "rows_pct": 7.0
+  },
+  "neutral": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "pending_later_studies": {
+    "distinct": 29,
+    "rows": 30,
+    "distinct_pct": 11.6,
+    "rows_pct": 10.6
+  },
+  "specific_delta_distinct": 63,
+  "specific_delta_rows": 63,
+  "new_foods": 24,
+  "cumulative_foods": 61,
+  "observed_rows_by_added_identity": {
+    "purple-rice": 3,
+    "rice-porridge": 2,
+    "steamed-bun": 3,
+    "sushi": 4,
+    "tofu": 1,
+    "minced-pork": 2,
+    "larb": 2,
+    "boiled-pork": 3,
+    "poached-chicken": 4,
+    "sardines": 2,
+    "cold-cuts": 3,
+    "dumplings": 1,
+    "meatballs": 2,
+    "iced-coffee": 2,
+    "matcha-latte": 3,
+    "soy-milk": 4,
+    "milk-tea": 1,
+    "som-tum": 1,
+    "eggplant": 1,
+    "green-salad": 2,
+    "chili-oil": 5,
+    "gravy": 6,
+    "thai-sweets": 5,
+    "curry": 1
+  },
+  "coverage_driven_zero_observed_ids": [],
+  "demand_note": "Observed and zero-observed general-coverage additions are distinguished above.",
+  "public_issue_examples_estimated_targets": [
+    {
+      "name": "Americano (black, no sugar, homemade)",
+      "target": "coffee",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Pork with brown gravy (moo ob style)",
+      "target": "braised-pork",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "White rice, cooked (half portion)",
+      "target": "jasmine-rice",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Chinese kale, cooked (kana)",
+      "target": "stir-fried-greens",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "Pasta (linguine), cooked",
+      "target": "pasta",
+      "tier": "specific",
+      "batch": 1
+    }
+  ]
+}

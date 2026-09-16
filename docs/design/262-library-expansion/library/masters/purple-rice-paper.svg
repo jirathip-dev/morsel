@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Purple rice — dark bran grains in a small ceramic bowl</title>
+<desc>Original ink and wash study. Warm brown and red overlaps stand for dark rice within the locked palette; no purple pigment. A dry, uneven grain mound rises above the bowl.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="deep-bowl-underpainting">
+ <path d="M43 129 C49 159 60 185 90 199 C113 210 148 208 171 196 C193 185 207 159 211 132 C184 109 75 107 43 129Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M48 146 C65 163 83 173 104 174 C124 177 157 173 173 167 C162 188 141 197 117 198 C86 196 63 181 56 164Z" fill="#5E7E57" opacity=".3" filter="url(#wash)"/>
+ <path d="M169 166 Q194 151 208 140 C202 170 183 196 156 201 Q137 206 119 202 C145 196 162 184 169 166Z" fill="#2F654B" opacity=".22" filter="url(#wash)"/>
+ <path d="M72 169 Q85 188 106 191 L121 193 C99 197 76 183 72 169Z" fill="#FFF7E8" opacity=".63" filter="url(#dry)"/>
+ <path d="M43 129 C47 111 84 106 122 108 C161 106 203 117 211 132 C209 148 173 161 134 161 C93 163 53 149 43 129Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M51 131 Q67 150 115 155 Q162 163 200 140 L195 131 Q130 105 51 131Z" fill="#655A4B" opacity=".24" filter="url(#wash)"/>
+</g>
+<g id="irregular-bran-mound">
+ <path d="M53 129 L59 119 Q55 110 66 109 L74 103 Q75 94 86 97 L97 87 L109 88 Q116 77 129 84 L140 81 L153 87 Q166 82 173 96 L184 96 L190 107 Q201 110 199 120 L205 132 Q183 150 148 151 C111 154 78 145 53 129Z" fill="#655A4B" opacity=".95"/>
+ <path d="M61 123 Q73 108 91 105 C105 91 122 87 143 89 Q168 87 181 105 L196 125 C179 134 172 141 149 142 C117 147 81 136 61 123Z" fill="#B94738" opacity=".53" filter="url(#wash)"/>
+ <path d="M57 125 Q78 124 92 133 L117 133 Q135 126 148 137 Q174 130 197 123 L204 133 C181 151 148 154 118 148 Q80 147 57 132Z" fill="#2A261F" opacity=".59" filter="url(#wash)"/>
+ <path d="M113 96 Q133 80 150 91 L147 103 Q132 104 124 114 L105 110Z M161 119 Q174 106 190 115 L195 125 L172 132Z" fill="#2F654B" opacity=".24" filter="url(#wash)"/>
+ <path d="M68 116 Q86 99 96 102 L89 112 Q80 122 68 116Z M137 126 Q155 111 164 112 L158 123 L145 130Z" fill="#A5750B" opacity=".42" filter="url(#wash)"/>
+</g>
+<g id="loose-long-kernels" fill="#FBE1C9" opacity=".59" filter="url(#dry)">
+ <path d="M70 110 Q65 103 68 101 Q75 104 78 110 Q77 114 70 110Z M84 99 Q86 90 90 92 Q93 98 88 105Z M105 99 Q96 94 98 91 Q104 89 111 96Z M118 87 Q124 83 131 87 Q128 93 118 91Z M145 90 Q151 91 155 98 Q152 102 146 96Z M165 101 Q168 94 171 96 Q174 101 168 107Z"/>
+ <path d="M60 121 Q66 116 71 119 Q70 123 63 126Z M84 124 Q75 122 77 118 Q85 116 90 121Z M99 115 Q101 106 105 107 Q108 112 103 119Z M118 112 Q109 107 111 104 Q117 103 123 109Z M130 122 Q131 114 135 114 Q138 121 133 126Z M151 112 Q142 109 143 105 Q149 103 157 109Z M179 115 Q181 106 185 110 Q188 115 182 119Z"/>
+ <path d="M87 137 Q83 131 87 129 Q93 131 97 136Z M109 139 Q103 133 107 131 Q114 134 115 139Z M145 139 Q149 131 153 132 Q155 136 149 142Z M171 137 Q163 133 165 130 Q172 129 179 134Z M188 132 Q189 122 193 124 Q196 129 192 134Z"/>
+</g>
+<g id="dark-kernel-clefts" fill="none" stroke="#2A261F" stroke-linecap="round" opacity=".66">
+ <path d="M79 109 l5 3 M93 104 l3 5 M128 98 l6 2 M140 106 l-4 6 M163 115 l5 2 M74 130 l6 4 M115 122 l8 2 M155 145 l7 -2 M182 143 l5 -4" stroke-width="1.1"/>
+ <path d="M65 114 l3 3 M99 126 l-4 5 M118 98 l4 -2 M152 100 l5 2 M176 123 l6 1 M132 141 l5 1" stroke-width=".65"/>
+</g>
+<g id="pale-mixed-kernels" fill="#F2E9D9" opacity=".9">
+ <path d="M91 113 Q87 106 90 104 Q95 106 98 113 Q97 117 91 113Z M130 108 Q136 101 139 104 Q139 110 133 112Z M157 123 Q154 116 158 116 Q163 120 164 125Z M113 143 Q115 135 119 136 Q122 141 117 145Z M187 117 Q191 119 193 124 Q188 127 184 122Z"/>
+</g>
+<g id="bowl-and-mound-broken-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M45 142 Q53 175 77 191 M89 198 Q128 216 166 199 M176 194 Q200 175 208 151" stroke-width="1.15"/>
+ <path d="M43 127 Q43 119 56 116 M198 122 Q215 129 208 137 M202 142 Q183 154 151 158 M135 160 Q79 160 50 137" stroke-width=".75"/>
+ <path d="M71 103 l5 -6 M98 87 l10 1 M128 84 l9 -2 M174 97 l9 0 M57 124 l-3 4 M64 167 l6 9 M74 183 l7 5 M184 179 l5 -8" stroke-width=".55" opacity=".75"/>
+</g>
+</svg>

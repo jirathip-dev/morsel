@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cold cuts — thin cured rounds and a folded slice</title>
+<desc>Original warm-pigment ink and wash. Broad cream fat inclusions and one turned-over slice suggest cold cuts on a board, not an exact sausage, recipe or portion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="worn-serving-board">
+ <path d="M38 123 Q35 114 49 109 L180 76 Q190 73 197 82 L220 169 Q223 180 211 184 L75 216 Q63 219 58 207Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M39 122 L58 201 Q64 211 74 209 L218 174 L218 182 L76 217 Q63 220 58 208Z" fill="#A5750B" opacity=".36" filter="url(#wash)"/>
+ <path d="M44 119 L181 82 Q189 78 193 88 L213 166 Q216 172 206 175 L 70 207Z" fill="#FBE1C9" opacity=".54" filter="url(#wash)"/>
+ <path d="M48 127 Q100 105 146 100 M 60 177 Q110 158 187 143 M75 197 Q128 180 158 178 M166 177 l32 -8" fill="none" stroke="#A5750B" stroke-width="1.5" opacity=".15" filter="url(#dry)"/>
+ <path d="M38 123 L58 205 Q62 219 75 216 L205 186 M218 178 Q223 176 219 162 L201 96 M48 109 L104 95 M 70 210 L113 200" fill="none" stroke="#9D917F" stroke-width=".83" stroke-linecap="round"/>
+</g>
+<g id="rear-thin-round">
+ <path d="M109 82 C129 67 159 70 176  80 C194 94 190 115 174 127 C156 140 131 141 113 129 C96 118 92 97 109 82Z" fill="#F2E9D9"/>
+ <path d="M110 83 C130  70 156 74 173 84 C188 95 185 111 172 123 C153 137 131 136 115 127 C99 117 97 97 110 83Z" fill="#FBE1C9"/>
+ <path d="M109 85 C121 76 139 77 148 82 C159 85 170 82 179 94 C185 105 173 111 165 118 C149 131 132 123 118 126 C101 117 101 98 109 85Z" fill="#B94738" opacity=".32" filter="url(#wash)"/>
+ <path d="M101 107 Q108 131 139 136 Q165 139 180 119 L182 113 C165 128 151 125 136 131 C118 129 110 123 101 107Z" fill="#B94738" opacity=".39" filter="url(#wash)"/>
+ <path d="M118 87 l10 -3 l5 7 l-9 5Z M151 91 l11 1 l-2 9 l-10 -2Z M168 109 l7 -5 l3 5 l-8 7Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M110 83 Q129 68 151 73 M167 77 Q187 84 189 101 M183 117 Q165 139 140 138" fill="none" stroke="#9D917F" stroke-width=".76" stroke-linecap="round"/>
+</g>
+<g id="middle-round-with-fat-islands">
+ <path d="M76 105 C94 87 122 91 140 103 C158 118 150 140 135 151 C115 167 86 162 72 148 C59 134 63 118 76 105Z" fill="#F2E9D9"/>
+ <path d="M77 106 C93 93 121 94 137 106 C153 117 146 138 132 149 C113 163 89 159  70 143 C 60 130 67 116 77 106Z" fill="#FBE1C9"/>
+ <path d="M76 109 C90 98 106 98 116 102 C136 105 142 113 142 127 C137 133 132 144 118 148 C105 149 99 143 86 147 C71 141  60 124 76 109Z" fill="#B94738" opacity=".38" filter="url(#wash)"/>
+ <path d="M 70 135 C83 152 104 155 123 151 L143 139 C130 160 107 165 88 156 Q73 151 70 135Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M83 111 l11 -5 l5 7 l-9 7 l-7 -3Z M118 113 l10 -1 l3 8 l-9 3Z M110 136 l8 -5 l5 6 l-5 8 l-8 -2Z M78 135 l5 -5 l5 4 l-2 6Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M72 110 Q84 97 99 94 M119 97 Q137 98 146 115 M146 136 Q134 154 116 159 M103 161 Q80 160 69 143" fill="none" stroke="#9D917F" stroke-width=".81" stroke-linecap="round"/>
+</g>
+<g id="front-round-paper-thin-rim">
+ <path d="M 60 140 C79 126 104 132 122 145 C135 154 135 172 123 182 C103 199 75 195 57 181 C40 168 45 152 60 140Z" fill="#F2E9D9"/>
+ <path d="M 60 141 C78 129 105 135 120 146 C134 157 131 173 120 180 C101 194 77 190 59 179 C44 168 48 152 60 141Z" fill="#FBE1C9"/>
+ <path d="M 60 146 C 70 136 86 140 96 144 C107 140 121 150 125 160 C127 173 113 174 105 183 C91 189 76 181 64 179 C49 171 50 155 60 146Z" fill="#B94738" opacity=".38" filter="url(#wash)"/>
+ <path d="M49 163 C57 180 82 190 101 188 Q118 186 128 174 L127 182 C109 199 78 194  60 181Z" fill="#B94738" opacity=".44" filter="url(#wash)"/>
+ <path d="M68 147 l11 1 l3 7 l-8 5 l-9 -6Z M97 151 l9 -2 l6 7 l-6 6 l-10 -3Z M88 171 l9 -4 l7 7 l-4 7 l-13 -2Z M 60 165 l7 -1 l2 6 l-6 4Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M51 151 Q61 137 75 135 M94 135 Q112 139 125 149 M131 160 Q138 178 119 187 M107 192 Q77 202 53 178 M50 174 l-4 -9" fill="none" stroke="#9D917F" stroke-width=".91" stroke-linecap="round"/>
+ <path d="M 60 143 l9 -4 M111 144 l7 4" fill="none" stroke="#FFF7E8" stroke-width="2.1" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="folded-slice-undercurl">
+ <path d="M132 139 C146 127 178 124 193 135 C204 145 205 161 198 171 C187 184 158 189 136 180 C125 175 121 158 132 139Z" fill="#F2E9D9"/>
+ <path d="M132 144 C155 138 180 131 196 144 C207 156 197 173 183 178 C163 186 138 181 131 170Z" fill="#B94738" opacity=".46" filter="url(#wash)"/>
+ <path d="M135 160 C154 145 178 145 197 154 C201 165 191 176 177 178 C155 182 143 175 135 160Z" fill="#655A4B" opacity=".23" filter="url(#wash)"/>
+ <path d="M126 151 C124 138 134 122 149 117 C169 111 188 119 198 135 Q204 146 199 158 C183 149 173 153 163 156 C148 164 137 164 126 151Z" fill="#FBE1C9"/>
+ <path d="M131 149 C129 136 141 124 154 123 C172 116 185 128 192 138 L198 153 C183 143 165 153 154 156 C143 160 137 157 131 149Z" fill="#B94738" opacity=".33" filter="url(#wash)"/>
+ <path d="M129 143 C139 154 150 153 162 148 C177 143 191 145 198 155 L197 161 C177 152 168 159 155 162 Q138 168 127 153Z" fill="#F2E9D9" opacity=".67" filter="url(#wash)"/>
+ <path d="M145 130 l9 -3 l6 6 l-8 6 l-9 -3Z M173 129 l8 3 l2 7 l-9 2 l-5 -6Z M161 145 l7 -1 l4 6 l-7 3Z M155 171 l8 -3 l6 5 l-8 4Z M185 165 l6 -2 l1 6 l-6 3Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M128 139 Q132 123 148 117 M164 115 Q188 116 199 136 M201 145 Q204 151 199 160 C186 149 172 156 160 160 M147 163 Q134 164 126 153 M129 171 Q139 185 161 185 M177 183 Q193 180 199 170" fill="none" stroke="#9D917F" stroke-width=".95" stroke-linecap="round"/>
+ <path d="M135 134 Q141 127 147 126 M157 120 l10 0 M139 158 l10 2" fill="none" stroke="#FFF7E8" stroke-width="1.8" opacity=".75" filter="url(#dry)"/>
+</g>
+</svg>
