@@ -20,9 +20,9 @@ import Foundation
 // lists have nothing to depict. No logged name, nutrition or photo is changed.
 //
 // Issue #260 keeps that order and adds ONE bounded tolerance: before each step a
-// recognized TRAILING qualifier (a parenthetical, a cooking method, a
-// portion/size token, a metric quantity) may be dropped, one at a time. The
-// closed grammar below holds no food nouns, so a distinct compound food keeps
+// recognized trailing qualifier or leading portion may be dropped one at a
+// time. Noun parentheticals must be aliases of the SAME asset, not qualifiers.
+// The closed qualifier grammar holds no food nouns, so a compound food keeps
 // its whole meaning (`coffee cake` is never a coffee) and ambiguity still
 // resolves to neutral instead of a guess.
 
@@ -148,8 +148,18 @@ enum FoodArtworkResolver {
     }
 
     private static func matchesWholeTerm(_ asset: FoodArtworkAsset, _ term: String) -> Bool {
-        FoodArtworkCatalog.normalize(asset.name) == term
-            || asset.aliases.contains { FoodArtworkCatalog.normalize($0) == term }
+        let vocabulary = ([asset.name] + asset.aliases).map(FoodArtworkCatalog.normalize)
+        if vocabulary.contains(term) { return true }
+        // A noun parenthetical is not a disposable qualifier. Both complete
+        // terms must independently name THIS same asset (pasta + linguine).
+        guard term.hasSuffix(")"), let open = term.firstIndex(of: "(") else { return false }
+        let head = FoodArtworkCatalog.normalize(String(term[..<open]))
+        let inner = FoodArtworkCatalog.normalize(
+            String(term[term.index(after: open)..<term.index(before: term.endIndex)])
+        )
+        guard !head.isEmpty, !head.contains(")"), !inner.contains("("), !inner.contains(")"),
+              vocabulary.contains(inner) else { return false }
+        return ([head] + qualifiedTerms(of: head)).contains { vocabulary.contains($0) }
     }
 
     // MARK: - Issue #260 trailing qualifiers
@@ -163,7 +173,7 @@ enum FoodArtworkResolver {
         "cooked", "steamed", "grilled", "fried", "stir-fried", "stir fried", "boiled", "roasted",
         "baked", "toasted", "sauteed", "sautéed", "poached", "scrambled", "mashed", "raw", "fresh",
         "homemade", "smoked", "marinated", "reheated", "warm", "hot", "iced", "cold", "decaf",
-        "unsweetened", "unsalted", "no sugar", "sugar-free", "low-fat", "sliced", "diced", "chopped",
+        "unsweetened", "unsalted", "no sugar", "sugar free", "low fat", "sliced", "diced", "chopped",
         "shredded", "grated", "peeled", "drained", "rinsed", "frozen", "half", "half portion",
         "portion", "small", "medium", "large", "regular", "single", "double", "triple", "side",
         "serving", "servings", "slice", "slices", "piece", "pieces", "bowl", "plate", "cup", "cups",
@@ -183,7 +193,7 @@ enum FoodArtworkResolver {
     private static func isQualifierPhrase(_ text: String) -> Bool {
         let parts = text.split(separator: ",", omittingEmptySubsequences: false)
         return parts.allSatisfy { part in
-            let token = FoodArtworkCatalog.normalize(String(part))
+            let token = FoodArtworkCatalog.normalize(String(part).replacingOccurrences(of: "-", with: " "))
             return !token.isEmpty
                 && (trailingDescriptors.contains(token) || isQuantity(token))
         }
@@ -230,12 +240,26 @@ enum FoodArtworkResolver {
         return droppingTrailingDescriptor(key)
     }
 
+    /// Only portion/size prefixes move before the food; cooking methods remain
+    /// identity-bearing there (fried egg is not a boiled egg).
+    private static func strippingLeadingPortion(_ key: String) -> String? {
+        let portions = ["half portion", "small portion", "medium portion", "large portion", "half", "small", "large"]
+        for portion in portions {
+            for spelling in [portion, portion.replacingOccurrences(of: " ", with: "-")] {
+                let prefix = spelling + " "
+                if key.hasPrefix(prefix) { return String(key.dropFirst(prefix.count)) }
+            }
+        }
+        return nil
+    }
+
     /// Successive qualifier removals, longest first, bounded: a name can carry
     /// at most a handful of trailing descriptors.
     private static func qualifiedTerms(of key: String) -> [String] {
         var terms: [String] = []
         var current = key
-        while terms.count < 4, let stripped = strippingTrailingQualifier(current) {
+        while terms.count < 4,
+              let stripped = strippingLeadingPortion(current) ?? strippingTrailingQualifier(current) {
             guard stripped != current else { break }
             if !terms.contains(stripped) { terms.append(stripped) }
             current = stripped
@@ -263,6 +287,9 @@ enum FoodArtworkResolver {
         guard let matched = explicitAsset(artworkID, in: assets) ?? match(name: name, in: assets) else {
             return neutral(in: assets)
         }
+        // This approved study depicts a cooked-greens class, not a leaf variety.
+        // Keep the frozen catalog bytes; use the existing labelled Produce path.
+        if matched.id == "stir-fried-greens" { return .category(matched) }
         if matched.kind == .food {
             return .food(matched)
         }

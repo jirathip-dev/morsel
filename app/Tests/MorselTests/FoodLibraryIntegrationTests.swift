@@ -20,6 +20,7 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         .init(key: "qualified-pasta", names: ["pasta (linguine), cooked"], desired: "pasta"),
         .init(key: "white-rice", names: ["white rice"], desired: "jasmine-rice"),
         .init(key: "half-rice", names: ["half-portion white rice"], desired: "jasmine-rice"),
+        .init(key: "rice-qualified", names: ["white rice, cooked (half portion)"], desired: "jasmine-rice"),
         .init(key: "americano", names: ["Americano (black, no sugar, homemade)"], desired: "coffee"),
         .init(key: "coffee-cake", names: ["coffee cake"], desired: "cake"),
         .init(key: "milk-tea", names: ["milk tea"], desired: "milk-tea"),
@@ -63,8 +64,15 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         ]
         let json = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
         print("ISSUE266_RESOLVER \(try XCTUnwrap(String(data: json, encoding: .utf8)))")
-        // This is an observation gate, not a matcher rewrite. Missing named positives
-        // remain explicit FINDINGs in the raw report rather than being tuned to pass.
+        // The named closure cases are now assertions; retain the extra historical
+        // observations without rewriting their desired identities to hide gaps.
+        if !["pork-gravy", "generic-noodles"].contains(fixture.key) {
+            XCTAssertEqual(actual, fixture.desired, fixture.key)
+        }
+        if ["chinese-kale", "kana"].contains(fixture.key) {
+            XCTAssertEqual(kind(resolution), "category")
+            XCTAssertEqual(resolution.asset?.categoryLabel, "Produce")
+        }
         XCTAssertNotEqual(rowResolution, .none, "every named case must paint honest artwork")
         let page = JournalPage(date: Date(timeIntervalSince1970: 1_783_200_000)) {
             VStack(alignment: .leading, spacing: 16) {

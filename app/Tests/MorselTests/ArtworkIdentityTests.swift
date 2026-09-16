@@ -139,7 +139,7 @@ final class ArtworkIdentityTests: JournalRenderingTestCase {
     private func food(_ identity: String) throws -> FoodArtworkResolution {
         let asset = try XCTUnwrap(assets.first { $0.id == identity })
         if asset.isNeutralFallback { return .neutral(asset) }
-        return asset.kind == .food ? .food(asset) : .category(asset)
+        return asset.kind == .food && identity != "stir-fried-greens" ? .food(asset) : .category(asset)
     }
 
     private func library(_ identity: String) throws -> JournalRowArtwork { .library(try food(identity)) }
