@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 @testable import Morsel
 import HealthKit
@@ -174,6 +175,81 @@ final class HealthStatusAsyncTests: XCTestCase {
         let deadline = Date().addingTimeInterval(timeout)
         while !condition(), Date() < deadline {
             try await Task.sleep(nanoseconds: 5_000_000)
+        }
+    }
+}
+
+/// #209: outer deadlines fail the regression instead of hanging the suite on
+/// the old bridge. Silent completions are drained only AFTER that assertion.
+@MainActor
+final class HealthStatusDeadlineTests: XCTestCase {
+    func testNeverInvokingStatusReturnsUnknownWithinBound() async throws {
+        let store = ScriptedStatusHealthStore()
+        store.script([.silence])
+        let reader = try HealthKitWeightReader(healthStore: store)
+        var answer: Bool?
+        let started = ContinuousClock.now
+        let poll = Task { answer = await reader.authorizationStatus(for: .bodyMass) }
+        defer { store.firePending(with: .unknown); poll.cancel() }
+
+        await waitUntil(timeout: .seconds(3)) { answer != nil }
+        let elapsed = started.duration(to: .now)
+        print("DEADLINE[issue-209] answer=\(String(describing: answer)) elapsed=\(elapsed)")
+        XCTAssertEqual(answer, false, "silent HealthKit must resolve unknown before the 3s outer deadline")
+        XCTAssertLessThan(elapsed, .seconds(3), "production deadline is 2s; outer budget allows scheduling")
+        XCTAssertEqual(store.completedCallbacks, 0, "no callback supplied the result")
+    }
+
+    func testBothSilentTypesFinishAndLateCallbacksCannotPublish() async throws {
+        let store = ScriptedStatusHealthStore()
+        store.script([.silence, .silence])
+        let reader = try HealthKitWeightReader(healthStore: store)
+        let importer = try HealthKitWeightImporter(reader: reader, store: MockWeightLogStore())
+        let viewModel = DashboardViewModel(
+            repository: MockDashboardRepository(snapshot: DashboardSnapshot(date: Date(), meals: [], goal: nil)),
+            userID: UUID(), weightImporter: importer
+        )
+        var publications: [HealthCalmStatus] = []
+        let subscription = viewModel.$healthStatus.dropFirst().sink { publications.append($0) }
+        defer { subscription.cancel() }
+        var finished = false
+        let started = ContinuousClock.now
+        let refresh = Task {
+            await viewModel.refreshHealthCalmStatus()
+            finished = true
+        }
+        defer {
+            store.script([]) // Let a base-RED refresh drain its second request too.
+            store.firePending(with: .unknown)
+            refresh.cancel()
+        }
+
+        await waitUntil(timeout: .seconds(5)) { finished }
+        let elapsed = started.duration(to: .now)
+        print("STATUS-CHAIN[issue-209] finished=\(finished) elapsed=\(elapsed) publishes=\(publications.count)")
+        XCTAssertTrue(finished, "two silent per-type requests must finish before the 5s outer deadline")
+        guard finished else { return }
+        XCTAssertLessThan(elapsed, .seconds(5))
+        XCTAssertEqual(store.startedCallbacks, 2)
+        XCTAssertEqual(store.completedCallbacks, 0)
+        XCTAssertEqual(publications, [.permissionRequired], "false stays unknown, never denied or synced")
+
+        // A later real refresh owns the state. Old completions may not overwrite
+        // it OR cause a duplicate publication of the same value.
+        store.script([.status(.unnecessary), .status(.unnecessary)])
+        await viewModel.refreshHealthCalmStatus()
+        XCTAssertEqual(publications, [.permissionRequired, .noWeightData])
+        store.firePending(with: .unnecessary)
+        XCTAssertEqual(store.completedCallbacks, 4, "both late callbacks really fired")
+        try await Task.sleep(for: .milliseconds(100))
+        XCTAssertEqual(viewModel.healthStatus, .noWeightData)
+        XCTAssertEqual(publications, [.permissionRequired, .noWeightData], "late callbacks must be inert")
+    }
+
+    private func waitUntil(timeout: Duration, _ condition: () -> Bool) async {
+        let deadline = ContinuousClock.now.advanced(by: timeout)
+        while !condition(), ContinuousClock.now < deadline {
+            try? await Task.sleep(for: .milliseconds(5))
         }
     }
 }
