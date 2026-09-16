@@ -1,21 +1,6 @@
 import Combine
 import Foundation
 
-struct MealGroup: Identifiable, Equatable {
-    let type: MealType
-    let meals: [MealRecord]
-
-    var id: MealType { type }
-
-    var totalCalories: Double {
-        DashboardMath.totals(for: meals).caloriesKcal
-    }
-
-    var firstMealTime: Date? {
-        meals.first?.eatenAt
-    }
-}
-
 @MainActor
 final class DashboardViewModel: ObservableObject {
     @Published private(set) var snapshot: DashboardSnapshot?
@@ -158,16 +143,17 @@ final class DashboardViewModel: ObservableObject {
         }
         if snapshot == nil, let cached = try? await repository.cachedToday(userID: userID, date: date) {
             guard generation == loadGeneration, date == selectedDate else { return }
-            snapshot = cached
+            snapshot = cached.cachedCopy
         }
         do {
             let loaded = try await repository.loadToday(userID: userID, date: date)
             guard generation == loadGeneration, date == selectedDate else { return }
-            snapshot = loaded
+            publishDay(loaded)
         } catch is CancellationError {
             return
         } catch {
             guard generation == loadGeneration, date == selectedDate else { return }
+            snapshot = snapshot?.cachedCopy
             errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
@@ -177,7 +163,7 @@ final class DashboardViewModel: ObservableObject {
         let generation = loadGeneration
         let loaded = try await repository.loadToday(userID: userID, date: date)
         guard date == selectedDate, generation == loadGeneration else { return }
-        snapshot = loaded
+        publishDay(loaded)
     }
 
     /// Commits locally before closing; queued rows retain their pending marker.
@@ -219,7 +205,7 @@ final class DashboardViewModel: ObservableObject {
                 meals: meals,
                 goal: snapshot.goal,
                 weightTrend: snapshot.weightTrend,
-                activeEnergyBurned: snapshot.activeEnergyBurned
+                activeEnergyBurned: snapshot.activeEnergyBurned, readProvenance: snapshot.readProvenance
             )
         } else if snapshot == nil, calendar.startOfDay(for: record.eatenAt) == today {
             self.snapshot = DashboardSnapshot(date: today, meals: [record], goal: nil)
@@ -292,6 +278,12 @@ final class DashboardViewModel: ObservableObject {
 // MARK: - Health pass helpers (issue #112 truthful per-type status)
 
 extension DashboardViewModel {
+    private func publishDay(_ loaded: DashboardSnapshot) {
+        var day = loaded
+        day.readProvenance = day.readProvenance ?? DayReadProvenance(isCached: false, loadedAt: dateProvider())
+        snapshot = day
+    }
+
     func selectDate(_ date: Date) {
         let day = DashboardMath.startOfLocalDay(date)
         guard day != selectedDate, day <= today else { return }

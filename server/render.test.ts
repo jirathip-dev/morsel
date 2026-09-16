@@ -26,6 +26,7 @@ const summary: DashboardRenderSummary = {
   goal,
   streakDays: 2,
   mealCount: 2,
+  incompleteMealCount: 0,
   dailyCalories: [
     { date: '2026-08-24', calories_kcal: 400 },
     { date: '2026-08-25', calories_kcal: 300 },
@@ -229,6 +230,7 @@ describe('in-chat dashboard renderer', () => {
       totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
       streakDays: 0,
       mealCount: 0,
+      incompleteMealCount: 0,
       dailyCalories: [{ date: '2026-08-25', calories_kcal: 0 }],
       lowConfidenceItemCount: 0,
     }

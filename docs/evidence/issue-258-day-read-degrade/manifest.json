@@ -1,0 +1,83 @@
+{
+  "kind": "simulator fixture evidence",
+  "issue": 258,
+  "fix_round": 1,
+  "reviewed_head": "72a004b14722f7eb4eb8437fa7fa28c451aa71a4",
+  "device": "Morsel258-iPhone16",
+  "udid": "152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "fixture_clock_utc": "2026-09-05T04:00:00+00:00",
+  "failed_refresh_clock_utc": "2026-09-05T06:00:00+00:00",
+  "fixture_read_path": "DashboardViewModel -> LocalFirstDashboardRepository (temporary account-scoped SQLite) -> SupabaseDashboardRepository -> StubTransport; no external network",
+  "evidence_run_log": ".lane-logs/fix-1/native-green.log",
+  "evidence_run_raw_exit": 0,
+  "evidence_run_tests": 10,
+  "evidence_run_failures": 0,
+  "evidence_receipt": "fix-1/native-green-receipt.json",
+  "unfiltered_native_run": "Not rerun in fix round 1; this is the brief-required focused invocation, not the prior 437-test gate.",
+  "state_assertions": {
+    "stale": "isShowingCachedDay == true, lastLoadedAt == fixture instant (not failed refresh clock), incompleteMealCount == 0, 2 meals",
+    "degraded": "isShowingCachedDay == false, incompleteMealCount == 1, 2 meals"
+  },
+  "captures": [
+    {
+      "file": "258-night-degraded.png",
+      "theme": "night",
+      "state": "degraded",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "833f4d9108457ceaea4b130d17a182b0a68987e7b15859ff5f4a27d955e1caa2",
+      "corner_rgb": [
+        41,
+        38,
+        31
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "258-night-stale.png",
+      "theme": "night",
+      "state": "stale",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "a5772a79d0467fd53b8bbaedc96781a822f6e9bb8fe96653e388c4df29ae1756",
+      "corner_rgb": [
+        41,
+        38,
+        31
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "258-paper-degraded.png",
+      "theme": "paper",
+      "state": "degraded",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "c20259b21d6aa510e8e28f43037c6faf4576198182e5ce39d76f9916c17738b8",
+      "corner_rgb": [
+        254,
+        248,
+        234
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "258-paper-stale.png",
+      "theme": "paper",
+      "state": "stale",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "d11eafd0dad71d384dcda78ed490b522df9bf36f896c062e849da3d257433478",
+      "corner_rgb": [
+        254,
+        248,
+        234
+      ],
+      "visually_inspected": true
+    }
+  ],
+  "inspection": "Both stale images show Cached — last updated 11:00 AM, saved-copy wording, Try again and 1,180 kcal. Both degraded images show the incomplete-read notice, Try again and 570 kcal. Meal rows are below the captured viewport; per-meal identity/completeness is tested natively.",
+  "color_note": "corner_rgb is the raw RGB sample in the exported PNG color profile, not a color-managed sRGB token measurement.",
+  "degraded_reproduction": "Both degraded attachments were reminted and match the previous PNG bytes exactly; stale attachments are new bytes."
+}

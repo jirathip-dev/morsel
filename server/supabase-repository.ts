@@ -31,6 +31,7 @@ import type {
   DatedTarget,
   SetDatedTargetAdditionInput,
   GoalSummary,
+  ItemsReadState,
   MealImageRecord,
   MealItemRecord,
   MealRecord,
@@ -216,6 +217,16 @@ function requireData<T>(data: T | null, error: { message: string } | null, opera
   return data
 }
 
+/** The `meal_log_id` of a raw item row, readable even when the rest of the row
+ *  fails its shape (issue #258): a row that cannot be attributed to a meal of
+ *  the read is unreadable, never silently dropped. */
+function itemRowMealLogId(value: unknown): string | undefined {
+  if (typeof value !== 'object' || value === null || !('meal_log_id' in value)) {
+    return undefined
+  }
+  return typeof value.meal_log_id === 'string' ? value.meal_log_id : undefined
+}
+
 function escapeIlikePattern(value: string): string {
   return value.replaceAll('\\', '\\\\').replaceAll('%', '\\%').replaceAll('_', '\\_').replaceAll('*', '\\*')
 }
@@ -243,7 +254,63 @@ function toMealItem(value: unknown): MealItemRecord {
   }, 'meal item')
 }
 
-function toMealRecord(value: unknown, items: MealItemRecord[], image?: unknown): MealRecord {
+interface MealItemRowsRead {
+  itemsByMeal: Map<string, MealItemRecord[]>
+  incompleteReasons: Map<string, MealItemsIncompleteReason>
+}
+
+/**
+ * Issue #258 — item rows DEGRADE, they never abort the day. A failed
+ * `meal_items` query flags every meal of the read `read_failed`; one row that
+ * cannot be read flags only the meal that owns it (`invalid_row`), or the
+ * whole read when the row cannot be attributed to any meal of the day at all.
+ * Every readable row is kept, so one bad row never hides the rest of the day.
+ */
+function readMealItemRows(
+  response: { data: unknown; error: { message: string } | null },
+  mealIds: string[],
+): MealItemRowsRead {
+  const itemsByMeal = new Map<string, MealItemRecord[]>()
+  const incompleteReasons = new Map<string, MealItemsIncompleteReason>()
+  if (response.error !== null || !Array.isArray(response.data)) {
+    for (const mealId of mealIds) {
+      incompleteReasons.set(mealId, 'read_failed')
+    }
+    return { itemsByMeal, incompleteReasons }
+  }
+  const ownedMealIds = new Set(mealIds)
+  for (const row of response.data) {
+    const parsed = mealItemRowSchema.safeParse(row)
+    if (parsed.success) {
+      let item: MealItemRecord
+      try {
+        item = toMealItem(parsed.data)
+      } catch {
+        // A row whose values cannot be projected into the item contract (e.g.
+        // a nutrition value outside it) is unreadable data, not a day failure.
+        incompleteReasons.set(parsed.data.meal_log_id, 'invalid_row')
+        continue
+      }
+      const mealItems = itemsByMeal.get(parsed.data.meal_log_id) ?? []
+      mealItems.push(item)
+      itemsByMeal.set(parsed.data.meal_log_id, mealItems)
+      continue
+    }
+    const owner = itemRowMealLogId(row)
+    const flagged = owner !== undefined && ownedMealIds.has(owner) ? [owner] : mealIds
+    for (const mealId of flagged) {
+      incompleteReasons.set(mealId, 'invalid_row')
+    }
+  }
+  return { itemsByMeal, incompleteReasons }
+}
+
+function toMealRecord(
+  value: unknown,
+  items: MealItemRecord[],
+  itemsRead: ItemsReadState,
+  image?: unknown,
+): MealRecord {
   const log = parseStored(mealLogRowSchema, value, 'meal log')
   const mealImage = image === undefined
     ? undefined
@@ -253,6 +320,7 @@ function toMealRecord(value: unknown, items: MealItemRecord[], image?: unknown):
     meal_type: log.meal_type,
     eaten_at: log.eaten_at,
     items,
+    items_read: itemsRead,
     ...(mealImage === undefined ? {} : { image: mealImage }),
   }, 'meal log')
 }
@@ -271,6 +339,18 @@ function logMealImageUnavailable(mealLogIds: string[]): void {
       meal_log_id,
       category: 'storage_request_failed',
     })),
+  })}`)
+}
+
+type MealItemsIncompleteReason = 'read_failed' | 'invalid_row'
+
+function logMealItemsIncomplete(reasons: Map<string, MealItemsIncompleteReason>): void {
+  // Issue #258 structured drift signal: count + per-meal id + category, so the
+  // degraded read is observable in production like the #149 photo failures —
+  // and NEVER the item names, nutrition values or any row payload.
+  console.error(`meal items unavailable ${JSON.stringify({
+    count: reasons.size,
+    meal_item_failures: [...reasons].map(([meal_log_id, category]) => ({ meal_log_id, category })),
   })}`)
 }
 
@@ -561,14 +641,7 @@ export class SupabaseRepository implements MorselRepository {
       .from('meal_items')
       .select(mealItemColumns)
       .in('meal_log_id', mealIds)
-    const itemRows = parseStored(z.array(mealItemRowSchema), requireData(itemsResponse.data, itemsResponse.error, 'meal item read'), 'meal items')
-    const itemsByMeal = new Map<string, MealItemRecord[]>()
-    for (const row of itemRows) {
-      const item = toMealItem(row)
-      const mealItems = itemsByMeal.get(row.meal_log_id) ?? []
-      mealItems.push(item)
-      itemsByMeal.set(row.meal_log_id, mealItems)
-    }
+    const { itemsByMeal, incompleteReasons } = readMealItemRows(itemsResponse, mealIds)
 
     const meals: MealRecord[] = []
     const unavailableImageMealIds: string[] = []
@@ -586,10 +659,18 @@ export class SupabaseRepository implements MorselRepository {
           unavailableImageMealIds.push(log.id)
         }
       }
-      meals.push(toMealRecord(log, itemsByMeal.get(log.id) ?? [], image))
+      meals.push(toMealRecord(
+        log,
+        itemsByMeal.get(log.id) ?? [],
+        incompleteReasons.has(log.id) ? 'incomplete' : 'complete',
+        image,
+      ))
     }
     if (unavailableImageMealIds.length > 0) {
       logMealImageUnavailable(unavailableImageMealIds)
+    }
+    if (incompleteReasons.size > 0) {
+      logMealItemsIncomplete(incompleteReasons)
     }
     return meals
   }

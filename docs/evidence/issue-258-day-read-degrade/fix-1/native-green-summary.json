@@ -1,0 +1,42 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB",
+        "deviceName" : "Morsel258-iPhone16",
+        "modelName" : "iPhone 16",
+        "osBuildNumber" : "23F77",
+        "osVersion" : "26.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 0,
+      "passedTests" : 10,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "Morsel · Built with macOS 26.6.2",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1789563084.994,
+  "passedTests" : 10,
+  "result" : "Passed",
+  "skippedTests" : 0,
+  "startTime" : 1789563057.982,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - Morsel",
+  "topInsights" : [
+
+  ],
+  "totalTestCount" : 10
+}
