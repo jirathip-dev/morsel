@@ -1,4 +1,5 @@
 import SwiftUI
+import Supabase
 import XCTest
 @testable import Morsel
 
@@ -142,6 +143,103 @@ final class JournalCalendarTests: XCTestCase {
                             caloriesKcal: 400, proteinG: 10, carbsG: 50, fatG: 15,
                             fiberG: nil, sugarG: nil, confidence: 1, notes: nil)
         return MealRecord(mealLogID: UUID(), mealType: .lunch, eatenAt: date, source: .manual, items: [item])
+    }
+}
+
+@MainActor
+final class JournalMonthSpanTests: XCTestCase {
+    override func tearDown() {
+        StubTransport.release()
+        StubTransport.reset()
+        super.tearDown()
+    }
+
+    func testThirtyOneDayMonthKeepsBothEdgeDotComparisonsWhenASecondReadWouldFail() async throws {
+        // The old trailing-30 + first-day read loses ALL colours if that second read throws.
+        try await assertMonth(year: 2026, month: 8, lastDay: 31, zone: "Asia/Bangkok")
+    }
+
+    func testMonthLengthsPartialMonthAndDSTUseExactLocalDayBounds() async throws {
+        for (year, month, lastDay) in [(2026, 2, 28), (2024, 2, 29), (2026, 4, 30),
+                                        (2026, 3, 31), (2026, 11, 30), (2026, 8, 14), (2026, 8, 1)] {
+            try await assertMonth(year: year, month: month, lastDay: lastDay, zone: "America/New_York")
+        }
+    }
+
+    private func assertMonth(year: Int, month: Int, lastDay: Int, zone: String) async throws {
+        StubTransport.reset()
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try XCTUnwrap(TimeZone(identifier: zone))
+        let first = try XCTUnwrap(calendar.date(from: DateComponents(year: year, month: month, day: 1)))
+        let last = try XCTUnwrap(calendar.date(byAdding: .day, value: lastDay - 1, to: first))
+        let next = try XCTUnwrap(calendar.date(byAdding: .day, value: 1, to: last))
+        let edges = Array(Set([first, last])).sorted()
+        seedMeals(on: edges)
+        let userID = UUID()
+        let remote = try makeRemote(userID: userID)
+        let repository = DiaryReadRepository()
+        repository.indexedDates = edges
+        var reads: [(Date, Int)] = []
+        repository.historyRead = { userID, end, days in
+            reads.append((end, days))
+            let overview = try await remote.loadHistory(userID: userID, end: end, days: days, calendar: calendar)
+            // Fail the actual transport if the model attempts another totals read.
+            StubTransport.respond("goals", .init(status: 503, body: "{\"message\":\"second read unavailable\"}"))
+            return overview
+        }
+        let model = JournalCalendarModel(repository: repository, userID: userID, today: last, calendar: calendar)
+        await model.load()
+        XCTAssertNil(model.errorMessage)
+        XCTAssertEqual(reads.count, 1, "one month overview, never a patch-up read")
+        XCTAssertEqual(reads.first?.0, last)
+        XCTAssertEqual(reads.first?.1, lastDay)
+        XCTAssertEqual(model.days.count, lastDay, "the real repository must not clamp a month to 30")
+        XCTAssertEqual(model.days.first?.date, first)
+        XCTAssertEqual(model.days.last?.date, last)
+        XCTAssertEqual(model.loggedDates, Set(edges))
+        for edge in edges {
+            let day = try XCTUnwrap(model.days.first { $0.date == edge })
+            let target = try XCTUnwrap(model.goal?.calorieTargetKcal)
+            XCTAssertTrue(day.logged)
+            XCTAssertEqual(day.eatenKcal, 3000)
+            // These are the exact inputs JournalCalendarView.dotColor uses, not the forest fallback.
+            XCTAssertEqual(DashboardMath.comparison(delta: day.eatenKcal - target), .over)
+        }
+        let requests = StubTransport.snapshot()
+        XCTAssertEqual(requests.count(.started, "meal_logs"), 1)
+        XCTAssertEqual(Set(requests.queryValues("meal_logs", "eaten_at")),
+                       Set(["gte.\(MorselDate.iso8601(first))", "lt.\(MorselDate.iso8601(next))"]))
+    }
+
+    private func seedMeals(on dates: [Date]) {
+        let ids = dates.map { _ in UUID().uuidString }
+        let logs = zip(dates, ids).map { date, identifier in
+            """
+            {"id":"\(identifier)","eaten_at":"\(MorselDate.iso8601(date))","meal_type":"lunch",\
+            "source":"manual","image_path":null}
+            """
+        }
+        let items = ids.map { identifier in
+            """
+            {"id":"\(UUID().uuidString)","meal_log_id":"\(identifier)","name":"Rice","quantity":1,\
+            "unit":"serving","calories_kcal":3000}
+            """
+        }
+        StubTransport.respond("meal_logs", .init(body: "[" + logs.joined(separator: ",") + "]"))
+        StubTransport.respond("meal_items", .init(body: "[" + items.joined(separator: ",") + "]"))
+    }
+
+    private func makeRemote(userID: UUID) throws -> SupabaseDashboardRepository {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [StubTransport.self]
+        configuration.urlCache = nil
+        let client = SupabaseClient(
+            supabaseURL: try XCTUnwrap(URL(string: "https://stub.supabase.test")), supabaseKey: "stub-anon-key",
+            options: SupabaseClientOptions(
+                auth: .init(storage: StubSessionStorage(userID: userID, expiresAt: Date().addingTimeInterval(3600)),
+                            storageKey: "sb-stub-auth-token", autoRefreshToken: false),
+                global: .init(session: URLSession(configuration: configuration))))
+        return SupabaseDashboardRepository(client: client)
     }
 }
 

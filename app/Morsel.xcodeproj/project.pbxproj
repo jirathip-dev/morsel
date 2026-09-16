@@ -19,6 +19,7 @@
 		07172B3271E4208E22736457 /* JournalCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2FE8C66978887A6E89CD26 /* JournalCalendarTests.swift */; };
 		07B444C7E3A96A369CB8A4E4 /* DayReadCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */; };
 		086B3A61512495E2A1B16DBD /* MealThumbnailKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46118488FDFBDD113CB9E7DA /* MealThumbnailKey.swift */; };
+		08C5E274B3876E9785B8DE27 /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A050457A339BEFC8E821412 /* coffee-photo.png */; };
 		0A3FE48881FB11BE338345A4 /* a-paper-unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210E5558B4B804F5EBEE03D /* a-paper-unknown.png */; };
 		0B4D54E67AD30211982B17F4 /* WeightDeltaCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18336B0358C7A2945CA34D8 /* WeightDeltaCaptureTests.swift */; };
 		0C3B24DE51B59630E82496B3 /* JournalPageTurner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */; };
@@ -175,7 +176,6 @@
 		C8C9E248C2A4E1D2E85405CC /* fallback-produce-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C3D6B7E37091403640E9764 /* fallback-produce-paper-64.png */; };
 		CCCEEAE3A5127FDB9851198E /* HealthStatusAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32734D6A1D870452F230883 /* HealthStatusAsyncTests.swift */; };
 		CFB6A3D4AB37D0793BB42F3A /* MealThumbnailPreparationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D114C563B4AF938F7DEB7A /* MealThumbnailPreparationTests.swift */; };
-		D0B032B357EEE7BCD9E2AC96 /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 088129235CBDEE6C5B0DE55A /* coffee-photo.png */; };
 		D1D361D3A1AE549F4F7D5DED /* MenusScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A13E2AC66E93B0B5052C8B32 /* MenusScreen.swift */; };
 		D97AD3117122E1C04E9E0E50 /* banana-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7313391517C477283D3DCE8C /* banana-paper-64.png */; };
 		DC8914938C47262A27325D4A /* salmon-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 69EB1ACD13B6C96D558AFFC9 /* salmon-paper-64.png */; };
@@ -243,7 +243,6 @@
 		053F0099A7042AE48E5E37C8 /* LocalDayMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayMigrationTests.swift; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
-		088129235CBDEE6C5B0DE55A /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		0919CF260EC13E0B8F8964F9 /* MealThumbnailReuseEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailReuseEvidenceTests.swift; sourceTree = "<group>"; };
 		0BAB57477972D0F0736DB548 /* NamedMenusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedMenusTests.swift; sourceTree = "<group>"; };
 		0BEFAC04B2DE0B14DF38D757 /* catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = catalog.json; sourceTree = "<group>"; };
@@ -289,6 +288,7 @@
 		3995F66FE5DE2679A3953315 /* MealPhotoEditorSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoEditorSection.swift; sourceTree = "<group>"; };
 		39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStoreTests.swift; sourceTree = "<group>"; };
 		39CDB4B3EC371D5158AEB736 /* RowNoiseRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowNoiseRegressionTests.swift; sourceTree = "<group>"; };
+		3A050457A339BEFC8E821412 /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		3BB760A6B6FB4D11A85BDB79 /* HealthReliabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthReliabilityTests.swift; sourceTree = "<group>"; };
 		43790D1E91CCB3C1BA59B1C6 /* salmon-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "salmon-night-64.png"; sourceTree = "<group>"; };
 		44D2E829F7FC0C86462E96D5 /* MealPhotoRevisionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoRevisionsTests.swift; sourceTree = "<group>"; };
@@ -468,12 +468,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		016D866BCDD940EB67103B8F /* issue-249-month-span */ = {
+			isa = PBXGroup;
+			children = (
+				C703434C00A05A105B5EBEDA /* docs */,
+			);
+			name = "issue-249-month-span";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		1AFDA4B412B398A53D28BA2A = {
 			isa = PBXGroup;
 			children = (
 				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				1C625302EE592BC774CC3FA7 /* Fonts */,
-				BC0CC1AAABDBB4FB3F95F7A9 /* issue-248-local-date-ids */,
+				016D866BCDD940EB67103B8F /* issue-249-month-span */,
 				441456F0892E00AAF3B9BAFD /* Resources */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
@@ -653,12 +662,12 @@
 			path = FoodArt;
 			sourceTree = "<group>";
 		};
-		6C999FE50BD37FDE520D63A5 /* fixtures */ = {
+		506C0F85449487E6CB8A64A7 /* issue-241-artwork-native */ = {
 			isa = PBXGroup;
 			children = (
-				088129235CBDEE6C5B0DE55A /* coffee-photo.png */,
+				8C809631CA0FAB39611B6C6D /* fixtures */,
 			);
-			path = fixtures;
+			path = "issue-241-artwork-native";
 			sourceTree = "<group>";
 		};
 		72FA8734899AB1DF14045A55 /* Tests */ = {
@@ -667,6 +676,14 @@
 				BB77CBB642C5C90A5C95394E /* MorselTests */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		8C809631CA0FAB39611B6C6D /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				3A050457A339BEFC8E821412 /* coffee-photo.png */,
+			);
+			path = fixtures;
 			sourceTree = "<group>";
 		};
 		97A4D9B8557C5A8E72B0EFE5 /* Products */ = {
@@ -678,10 +695,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		ACB69E6540D305C5C9CA2765 /* evidence */ = {
+		B51F3C9736DBA6589137D147 /* evidence */ = {
 			isa = PBXGroup;
 			children = (
-				F7133CBF10EE0D12E8BF98CE /* issue-241-artwork-native */,
+				506C0F85449487E6CB8A64A7 /* issue-241-artwork-native */,
 			);
 			path = evidence;
 			sourceTree = "<group>";
@@ -763,13 +780,12 @@
 			path = MorselTests;
 			sourceTree = "<group>";
 		};
-		BC0CC1AAABDBB4FB3F95F7A9 /* issue-248-local-date-ids */ = {
+		C703434C00A05A105B5EBEDA /* docs */ = {
 			isa = PBXGroup;
 			children = (
-				F17562A223588AED6355CA65 /* docs */,
+				B51F3C9736DBA6589137D147 /* evidence */,
 			);
-			name = "issue-248-local-date-ids";
-			path = ..;
+			path = docs;
 			sourceTree = "<group>";
 		};
 		CBAD6484E6C141A6B0F32E72 /* JournalArt */ = {
@@ -787,22 +803,6 @@
 				D417EF818CCA426C7F37AFFC /* a-paper-vegetables.png */,
 			);
 			path = JournalArt;
-			sourceTree = "<group>";
-		};
-		F17562A223588AED6355CA65 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				ACB69E6540D305C5C9CA2765 /* evidence */,
-			);
-			path = docs;
-			sourceTree = "<group>";
-		};
-		F7133CBF10EE0D12E8BF98CE /* issue-241-artwork-native */ = {
-			isa = PBXGroup;
-			children = (
-				6C999FE50BD37FDE520D63A5 /* fixtures */,
-			);
-			path = "issue-241-artwork-native";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -886,7 +886,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0B032B357EEE7BCD9E2AC96 /* coffee-photo.png in Resources */,
+				08C5E274B3876E9785B8DE27 /* coffee-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

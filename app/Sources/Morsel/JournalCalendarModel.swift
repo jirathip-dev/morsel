@@ -85,14 +85,11 @@ final class JournalCalendarModel: ObservableObject {
             hasIndex = true
             guard let interval = calendar.dateInterval(of: .month, for: requestedMonth),
                   let last = calendar.date(byAdding: .day, value: -1, to: interval.end) else { return }
-            let overview = try await repository.loadHistory(userID: userID, end: min(last, today), days: 30)
-            var loadedDays = overview.days
-            if calendar.range(of: .day, in: .month, for: requestedMonth)?.count == 31, last <= today {
-                let first = try await repository.loadHistory(userID: userID, end: interval.start, days: 1)
-                loadedDays += first.days
-            }
+            let end = min(last, today)
+            let overview = try await repository.loadHistory(
+                userID: userID, end: end, days: calendar.component(.day, from: end))
             guard request == generation else { return }
-            days = loadedDays
+            days = overview.days
             goal = overview.goal
         } catch is CancellationError {
             return
