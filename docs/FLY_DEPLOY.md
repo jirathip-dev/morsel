@@ -33,6 +33,7 @@ No Supabase gateway strips `/functions/v1` on Fly, so the app runs with
 | Path | Purpose |
 | --- | --- |
 | `/health` | health check (`{"ok":true}`), origin root (fly.toml check) |
+| `/version` | build identity of the RUNNING image (issue #261): `MORSEL_BUILD_REVISION` + `FLY_IMAGE_REF`/`FLY_MACHINE_ID`/`FLY_APP_NAME` |
 | `/mcp` | **canonical MCP transport** (streamable HTTP; POST/GET/DELETE/OPTIONS) |
 | `/mcp/.well-known/oauth-authorization-server` | authorization-server metadata (RFC 8414 path for the `/mcp` path issuer) |
 | `/mcp/.well-known/openid-configuration` | same document at the OIDC-appended path (issue #59) |
@@ -46,6 +47,75 @@ is what both origins serve; the canonical client transport is
 `https://mcp.morselfood.app/mcp` (issue #130), and the legacy
 `https://morsel-mcp.fly.dev/mcp` origin serves the same routes identically
 until retired.
+
+## Deployed revision: source of truth and failure modes (issue #261)
+
+The Fly deploy is human-dispatched, so a lagging production is invisible unless
+something compares what is **RUNNING** with `main`. This is that comparison.
+
+**Source of truth — the running process, not a workflow.** The image carries the
+git revision it was built from, and the running server publishes it:
+
+| Field of `GET /version` | Where the value comes from |
+| --- | --- |
+| `revision` | `MORSEL_BUILD_REVISION`, a Docker **build arg** passed by `.github/workflows/deploy-fly.yml` (`flyctl deploy --build-arg MORSEL_BUILD_REVISION="$(git rev-parse HEAD)"`), baked with `ENV` in the `Dockerfile`, read by `buildIdentity()` in `server/app.ts` and served at the origin root |
+| `image` | `FLY_IMAGE_REF` — the image THIS machine runs |
+| `machineId` / `app` | `FLY_MACHINE_ID` / `FLY_APP_NAME`, injected by the Fly platform |
+
+`curl https://mcp.morselfood.app/version` →
+`{"revision":"<40-hex sha>","image":"registry.fly.io/morsel-mcp:deployment-…","machineId":"…","app":"morsel-mcp"}`
+(the legacy `morsel-mcp.fly.dev` origin answers identically until retired).
+
+Two tempting sources are deliberately NOT used: the image **tag**
+(`deployment-01M2KRMKT3W7EX5SGVYRNPM66V` does not encode a git revision), and
+**the last green deploy run** — a claim about intent, not about what is
+executing. `/health` is not evidence either: it answered 200 throughout the
+2026-09-15 incident while the deployed code was 3 days old.
+
+**The check.** `node scripts/fly-revision-watchdog.mjs` (READ-ONLY; GET requests
+only) reads the two revisions and reports one verdict, machine-readable on
+stdout (`VERDICT=`, `BEHIND=`, `FLY_REVISION_JSON={…}`):
+
+| Verdict | Meaning | Exit | Scheduled workflow |
+| --- | --- | --- | --- |
+| `IN_SYNC` | the deployed revision IS `main`'s HEAD | 0 | silent, no issue |
+| `BEHIND` | a different revision is running; the commits `main` is ahead by are listed | 0 | opens/refreshes exactly one issue |
+| `UNKNOWN` | the deployed revision could not be observed | 1 | **fails closed** (never a green skip) |
+
+`.github/workflows/fly-revision-watchdog.yml` runs it daily (02:00 UTC) and on
+dispatch; the issue it files is titled
+`Morsel Fly revision drift: deployed morsel-mcp is behind main` and an existing
+open issue is refreshed with a comment instead of duplicated.
+
+**Failure modes, stated honestly:**
+
+- **No bake / malformed revision** (image built without the build arg, or
+  `MORSEL_BUILD_REVISION` is not a full 40-hex revision): `/version` reports
+  `revision: null` and the watchdog reports `UNKNOWN` + exit 1. It never
+  degrades to a green `IN_SYNC`. This is the expected state for any image built
+  BEFORE this change, so production reports `UNKNOWN` until the next
+  human-dispatched deploy carries the bake.
+- **A runtime `MORSEL_BUILD_REVISION` env/secret would shadow the baked value.**
+  The deploy-time postcondition below catches exactly that: a deploy fails when
+  either origin reports a revision other than the one it shipped.
+- **Origin unreachable, non-200, or non-JSON:** `UNKNOWN` + exit 1 with the
+  reason; no cached or assumed value is substituted.
+- **GitHub read API unreachable:** `main` is unavailable → `UNKNOWN`; the
+  watchdog never assumes "in sync".
+- **Divergence** (production rolled back/forward to a commit that is not an
+  ancestor of `main`): reported `BEHIND` with the compare `status` named, and the
+  commit list is explicitly labelled as not necessarily a fast-forward.
+- **Privacy:** the response and the report carry a public git revision plus
+  machine/image identifiers for a public repo — no secret, token, or user data;
+  the watchdog never prints the token it sends to the GitHub API.
+- The watchdog is READ-ONLY and fixes nothing: the fix is the human-dispatched
+  `Deploy Fly (morsel-mcp)` workflow.
+
+**Deploy-time verification:** `deploy-fly.yml` resolves the head revision
+fail-closed, passes it as the build arg, and — after the machine-count and
+health postconditions — asserts that BOTH origins report exactly that revision
+on `/version`. A broken bake therefore fails the deploy instead of silently
+disarming the watchdog.
 
 ## Metadata contract (served values)
 
@@ -112,6 +182,10 @@ store. None of these commands print secret values when run as written.
    legacy `morsel-mcp.fly.dev` origin serves the same deployment and answers
    identically until retired, so these checks also pass there.
    - `curl https://mcp.morselfood.app/health` → `200 {"ok":true}`
+   - `curl https://mcp.morselfood.app/version` → `200` whose `revision` equals
+     the SHA being deployed (issue #261). A `null` revision means the image
+     predates the revision bake: the revision watchdog then reports `UNKNOWN`
+     and fails closed until a deploy carries the bake (see §"Deployed revision").
    - `curl https://mcp.morselfood.app/mcp/.well-known/oauth-authorization-server`
      → `200`; `issuer` = `https://mcp.morselfood.app/mcp`, `token_endpoint`
      and `registration_endpoint` rooted at that issuer,
@@ -191,8 +265,15 @@ This runbook is part of the committed infra-as-code set (`infra/` + `docs/`):
   `bun-fly-entrypoint` job with `oven-sh/setup-bun` plus a boot probe of
   `/health`, metadata, and the 401 challenge.
 - `server/fly-entrypoint.test.ts` (plain `npm test`) covers the route/
-  metadata contract, fail-closed env validation, and the committed
+  metadata contract, fail-closed env validation, the `/version` build-identity
+  route, and the committed
   deployment-input static contract with synthetic values only.
+- Deployed-revision watchdog (issue #261):
+  `npx vitest run scripts/fly-revision-watchdog.test.mjs scripts/fly-revision-watchdog.e2e.test.mjs`
+  — unit + static-contract tests plus a real-HTTP end-to-end run: the committed
+  Fly entry point served on a loopback listener, the committed CLI spawned as a
+  subprocess (`node scripts/fly-revision-watchdog.mjs`), with the GitHub read API
+  stubbed locally so nothing reaches the network.
 - Docker build/run gate (local, no Fly):
   `docker build -t morsel-mcp:local .`
   `docker run --rm -p 8080:8080 -e SUPABASE_URL=… -e SUPABASE_ANON_KEY=… -e MORSEL_OAUTH_SIGNING_KEY=… -e MORSEL_PUBLIC_BASE_URL=http://127.0.0.1:8080/mcp morsel-mcp:local`

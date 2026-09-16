@@ -13,6 +13,9 @@ import type { OAuthAuthorizationGrant, OAuthGrantStore, OAuthIdentityService, OA
 // suite ever leaves the process (Supabase hosts use .invalid).
 const CANONICAL = 'https://mcp.morselfood.app/mcp'
 const AUTHORIZE_PAGE = 'https://morsel-authorize-ui.vercel.app/authorize'
+// Issue #261: a synthetic full-length git revision (40 hex) for the build
+// identity route; no real revision is pinned here.
+const REVISION = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678'
 const TEST_USER_ID = '00000000-0000-4000-8000-000000000002'
 
 function baseEnv(overrides: Record<string, string | undefined> = {}): FlyEntrypointEnv {
@@ -193,6 +196,49 @@ describe('Fly origin route and metadata contract', () => {
     expect(await health.json()).toEqual({ ok: true })
     const prefixed = await app.fetch(new Request('https://fly.test/mcp/health'))
     expect(prefixed.status).toBe(404)
+  })
+
+  // Issue #261: the origin publishes the revision it is RUNNING (baked at image
+  // build time) plus the Fly-injected machine identity, so the read-only
+  // revision watchdog can compare it with main. Values come from the env source
+  // only — a build with no (or a malformed) revision reports null, never a
+  // guess, and the route stays origin-only like /health.
+  it('publishes the baked build identity at the origin root /version', async () => {
+    const { app } = createFlyApp(baseEnv({
+      MORSEL_BUILD_REVISION: REVISION,
+      FLY_IMAGE_REF: 'registry.fly.io/morsel-mcp:deployment-01M2KRMKT3W7EX5SGVYRNPM66V',
+      FLY_MACHINE_ID: '8a1b2c3d4e5f68',
+      FLY_APP_NAME: 'morsel-mcp',
+    }))
+    const version = await app.fetch(new Request('https://fly.test/version'))
+    expect(version.status).toBe(200)
+    expect(await version.json()).toEqual({
+      revision: REVISION,
+      image: 'registry.fly.io/morsel-mcp:deployment-01M2KRMKT3W7EX5SGVYRNPM66V',
+      machineId: '8a1b2c3d4e5f68',
+      app: 'morsel-mcp',
+    })
+    // No revision duplication below the base path (Fly origin only).
+    expect((await app.fetch(new Request('https://fly.test/mcp/version'))).status).toBe(404)
+  })
+
+  it('reports a NULL revision rather than a guess when the bake is absent or malformed', async () => {
+    const absent = await createFlyApp(baseEnv()).app.fetch(new Request('https://fly.test/version'))
+    expect(await absent.json()).toMatchObject({ revision: null })
+
+    for (const malformed of ['', '   ', 'main', '5fd423e', REVISION.toUpperCase(), `${REVISION}0`]) {
+      const response = await createFlyApp(baseEnv({ MORSEL_BUILD_REVISION: malformed })).app.fetch(
+        new Request('https://fly.test/version'),
+      )
+      const body: unknown = await response.json()
+      expect(isRecord(body), malformed).toBe(true)
+      if (!isRecord(body)) {
+        throw new Error(`/version did not return an object for ${malformed}`)
+      }
+      expect(body.revision, malformed).toBeNull()
+      // Exactly the four published keys: no invented or inferred field.
+      expect(Object.keys(body).sort()).toEqual(['app', 'image', 'machineId', 'revision'])
+    }
   })
 
   it('serves the MCP transport exactly at /mcp with no doubled-prefix routes', async () => {
@@ -404,6 +450,12 @@ describe('Fly deploy materials static contract', () => {
     expect(dockerfile).toContain('EXPOSE 8080')
     expect(dockerfile).toContain('USER bun')
     expect(dockerfile).toContain('CMD ["bun", "server/fly-entrypoint.ts"]')
+    // Issue #261: the git revision is baked at BUILD time (the Deploy Fly
+    // workflow passes it, and the server reports it on /version). The empty
+    // default keeps a plain `docker build` valid — the server then reports a
+    // null revision instead of a fabricated one.
+    expect(dockerfile).toContain('ARG MORSEL_BUILD_REVISION=""')
+    expect(dockerfile).toContain('ENV MORSEL_BUILD_REVISION=${MORSEL_BUILD_REVISION}')
     // No secret values in image config.
     expect(dockerfile).not.toContain('SUPABASE_URL=')
     expect(dockerfile).not.toContain('ANON_KEY=')

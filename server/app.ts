@@ -25,6 +25,42 @@ interface McpSession {
 const MAX_MCP_SESSIONS = 1_000
 const MCP_SESSION_IDLE_TTL_MS = 24 * 60 * 60 * 1_000
 
+/** Full-length git revision (the ONLY shape the watchdog accepts). */
+const GIT_REVISION_PATTERN = /^[0-9a-f]{40}$/
+
+/** Build identity of the running server, as published by the Fly origin's
+ * `/version` route (issue #261). Every field is READ FROM THE ENVIRONMENT —
+ * nothing is inferred, cached, or defaulted: `revision` is the git revision
+ * baked into THIS image at build time (`MORSEL_BUILD_REVISION`, a Docker
+ * build arg passed by the Deploy Fly workflow), and the rest are the
+ * identifiers Fly injects into the running machine. A build without a valid
+ * revision reports `revision: null`, so the read-only revision watchdog
+ * reports UNKNOWN instead of guessing IN_SYNC. */
+export interface BuildIdentity {
+  revision: string | null
+  image: string | null
+  machineId: string | null
+  app: string | null
+}
+
+function nonBlankValue(value: string | undefined): string | null {
+  if (value === undefined) {
+    return null
+  }
+  const trimmed = value.trim()
+  return trimmed === '' ? null : trimmed
+}
+
+export function buildIdentity(env: Record<string, string | undefined> = process.env): BuildIdentity {
+  const rawRevision = nonBlankValue(env.MORSEL_BUILD_REVISION)
+  return {
+    revision: rawRevision !== null && GIT_REVISION_PATTERN.test(rawRevision) ? rawRevision : null,
+    image: nonBlankValue(env.FLY_IMAGE_REF),
+    machineId: nonBlankValue(env.FLY_MACHINE_ID),
+    app: nonBlankValue(env.FLY_APP_NAME),
+  }
+}
+
 export interface MorselAppOptions {
   authenticate?: Authenticate
   repositoryFactory?: (user: AuthenticatedUser) => MorselRepository | Promise<MorselRepository>
@@ -44,6 +80,10 @@ export interface MorselAppOptions {
    * Fly origin has no legacy clients, so its entry point disables the alias
    * and never exposes a doubled `/mcp/mcp` path. */
   legacyTransportAlias?: boolean
+  /** Build identity published by the Fly origin's `/version` route (issue
+   * #261). The Fly entry point passes the identity resolved from its own env
+   * source (`buildIdentity(env)`); the default reads the process environment. */
+  identity?: BuildIdentity
   oauth?: MorselOAuthOptions
 }
 
@@ -307,11 +347,19 @@ export function createMorselApp(options: MorselAppOptions = {}): Hono {
   }
 
   const healthHandler = (context: Context) => context.json({ ok: true })
+  // Issue #261: the Fly origin also publishes its own build identity so a
+  // read-only watchdog can compare the revision that is RUNNING with main's
+  // head. The identity is the one the entry point resolved from its env source
+  // (never inferred or cached); the route is Fly-only (like the origin-root
+  // health check) so a prefixed deployment exposes no revision route it cannot
+  // answer honestly.
+  const versionHandler = (context: Context) => context.json(options.identity ?? buildIdentity())
   if (options.originHealth === true && routes !== app) {
     // Fly single-process origin: no gateway strips a function prefix, so the
     // health check is served at the raw origin root and the basePath-relative
     // route is omitted (no /mcp/health duplication).
     app.get('/health', healthHandler)
+    app.get('/version', versionHandler)
   } else {
     routes.get('/health', healthHandler)
   }
