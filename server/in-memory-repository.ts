@@ -197,11 +197,12 @@ export class InMemoryRepository implements MorselRepository {
       .map((meal) => {
         const stored = this.mealImages.get(userId)?.get(meal.meal_log_id)
         if (stored === undefined) {
-          return cloneMeal(meal)
+          return cloneMeal({ ...meal, items_read: 'complete' })
         }
         const path = `${userId}/${meal.meal_log_id}.jpg`
         return cloneMeal({
           ...meal,
+          items_read: 'complete',
           image: {
             path,
             signed_url: `https://morsel.test/storage/v1/object/sign/food-images/${path}?token=test-signature`,

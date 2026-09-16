@@ -63,28 +63,23 @@ struct SupabaseDashboardRepository: DashboardRepository {
         async let weightRowsTask = loadWeightTrend(client, userID: authenticatedUserID, start: trendStart, end: end)
         async let energyRowsTask = loadEnergyBurned(client, userID: authenticatedUserID, start: start, end: end)
         let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: end)
-        let items = try await loadMealItems(client, logs: logs)
+        // Issue #258 — a failed item read degrades the day (every meal flagged
+        // `incomplete`) instead of failing it: the day, its meals and its
+        // totals render, and the read never presents a failed day as empty.
+        let items = try? await loadMealItems(client, logs: logs)
         let imagesByMealID = mealImagePaths(logs: logs, userID: authenticatedUserID)
         let (goalRows, profileRows, weightRows, energyRows) = try await (
             goalRowsTask, profileRowsTask, weightRowsTask, energyRowsTask
         )
+        let dayRead = try dayItems(logs: logs, items: items)
 
-        var itemsByMealID: [String: [MealItem]] = [:]
-        var sourcesByMealID: [String: MealSource] = [:]
-        for log in logs {
-            guard let source = MealSource(rawValue: log.source) else {
-                throw MorselError.invalidData("Supabase returned an invalid meal log.")
-            }
-            sourcesByMealID[log.id] = source
-        }
-        for item in items {
-            guard let source = sourcesByMealID[item.mealLogID] else {
-                throw MorselError.invalidData("Supabase returned an item for an unknown meal.")
-            }
-            itemsByMealID[item.mealLogID, default: []].append(try parseItem(item, source: source))
-        }
         let meals = try logs.map { log in
-            try parseMeal(log, items: itemsByMealID[log.id] ?? [], image: imagesByMealID[log.id])
+            try parseMeal(
+                log,
+                items: dayRead.itemsByMealID[log.id] ?? [],
+                image: imagesByMealID[log.id],
+                itemsIncomplete: dayRead.incompleteMealIDs.contains(log.id)
+            )
         }
         let storedGoal = try goalRows.first.map(parseStoredGoal)
         let profile = try profileRows.first.map(parseProfile)

@@ -362,6 +362,7 @@ Output:
     meal_log_id: UUID,
     meal_type: "breakfast" | "lunch" | "dinner" | "snack",
     eaten_at: ISO date-time with an offset,
+    items_read?: "complete" | "incomplete",  // issue #258 read completeness
     image?: {
       path: string,           // food-images/{user_id}/{meal_log_id}.jpg
       signed_url: HTTPS URL,  // short-lived (15 minutes), minted per read
@@ -398,6 +399,13 @@ path the dashboard thumbnail downloads, `signed_url` is short-lived (15
 minutes) and minted per read, and `expires_at` is when it stops working. Use
 the read-back `image` field to confirm a photo actually attached; its absence
 means the meal has no photo.
+
+`items_read` is the read's completeness: `"incomplete"` means that meal's item
+rows could not be read, so its `items` (and the totals derived from them) are
+SHORT of what was logged. The read never fails for this and never reports the
+day as `meals: []` — `meals: []` always means nothing was logged. When a meal
+reads `incomplete`, say which meals could not be read and that nothing was
+deleted, and read the day again instead of reporting the short totals as final.
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal works without a profile. A

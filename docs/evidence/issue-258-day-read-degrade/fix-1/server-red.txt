@@ -1,0 +1,63 @@
+Excerpt from .lane-logs/fix-1/server-red.log
+Full raw log SHA-256: d7db83010272ff1636c94b90bddac662c4e498b673da20a8f3d3fdf6e0e9d8ae
+ANSI color removed; trailing whitespace trimmed. Native build chatter omitted.
+
+RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-258-day-read-degrade
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > get_day returns every meal flagged incomplete when the item read fails
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > keeps the unaffected meals and rows intact when ONE item row is unreadable
+meal items unavailable {"count":1,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"invalid_row"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > flags the whole read when an unreadable row cannot be attributed to a meal
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"invalid_row"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"invalid_row"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"invalid_row"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > degrades the item read and the photo together, without aborting the day (#149 preserved)
+meal image signed URL unavailable {"count":1,"meal_image_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"storage_request_failed"}]}
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+stderr | server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > get_dashboard_summary resolves with items_read incomplete and an honest render
+meal items unavailable {"count":3,"meal_item_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000006","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"read_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"read_failed"}]}
+
+ ❯ server/day-read-degrade.test.ts (8 tests | 1 failed) 422ms
+   ✓ day read degrades on meal-item failure (issue #258) > get_day returns every meal flagged incomplete when the item read fails 193ms
+   ✓ day read degrades on meal-item failure (issue #258) > keeps the unaffected meals and rows intact when ONE item row is unreadable 36ms
+   ✓ day read degrades on meal-item failure (issue #258) > flags the whole read when an unreadable row cannot be attributed to a meal 54ms
+   × day read degrades on meal-item failure (issue #258) > marks in-memory day reads complete with and without a photo 54ms
+     → expected [ undefined ] to deeply equal [ 'complete' ]
+   ✓ day read degrades on meal-item failure (issue #258) > marks every meal complete and logs nothing on a healthy read 11ms
+   ✓ day read degrades on meal-item failure (issue #258) > degrades the item read and the photo together, without aborting the day (#149 preserved) 12ms
+   ✓ day read degrades on meal-item failure (issue #258) > get_dashboard_summary resolves with items_read incomplete and an honest render 33ms
+   ✓ day read degrades on meal-item failure (issue #258) > omits the summary marker and the render caveat on a healthy window 27ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  server/day-read-degrade.test.ts > day read degrades on meal-item failure (issue #258) > marks in-memory day reads complete with and without a photo
+AssertionError: expected [ undefined ] to deeply equal [ 'complete' ]
+
+- Expected
++ Received
+
+  [
+-   "complete",
++   undefined,
+  ]
+
+ ❯ server/day-read-degrade.test.ts:274:56
+    272|     })
+    273|     const plain = await service.getDay({ date: '2026-08-25' })
+    274|     expect(plain.meals.map((meal) => meal.items_read)).toEqual(['compl…
+       |                                                        ^
+    275|     await repository.attachMealImage(userId, logged.meal_log_id, {
+    276|       bytes: Uint8Array.of(1, 2, 3), contentType: 'image/jpeg',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 passed (8)
+   Start at  19:43:28
+   Duration  1.96s (transform 270ms, setup 0ms, collect 631ms, tests 422ms, environment 0ms, prepare 294ms)
+
+RAW_EXIT=1

@@ -23,6 +23,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     /// Issue #188 — revalidation epochs for stored photo objects (internal for
     /// the across-file revision conformance, like `remote`/`snapshotCache`).
     let revisions: MealPhotoRevisions
+    private let dateProvider: () -> Date
 
     init(
         remote: any DashboardRepository,
@@ -30,7 +31,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         snapshotCache: LocalSnapshotCache,
         healthStore: LocalHealthStore? = nil,
         requestSync: @escaping () -> Void = {},
-        revisions: MealPhotoRevisions = .shared
+        revisions: MealPhotoRevisions = .shared,
+        dateProvider: @escaping () -> Date = Date.init
     ) {
         self.remote = remote
         self.store = store
@@ -38,6 +40,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         self.healthStore = healthStore
         self.requestSync = requestSync
         self.revisions = revisions
+        self.dateProvider = dateProvider
     }
 
     // MARK: - Today
@@ -45,7 +48,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
         let dayKey = Self.dayKey(date)
         do {
-            let snapshot = try await remote.loadToday(userID: userID, date: date)
+            var snapshot = try await remote.loadToday(userID: userID, date: date)
+            snapshot.readProvenance = DayReadProvenance(isCached: false, loadedAt: dateProvider())
             try snapshotCache.saveDashboardCache(dayKey: dayKey, payload: try Self.encode(snapshot))
             return try merged(snapshot, userID: userID, date: date)
         } catch {
@@ -56,17 +60,6 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             }
             throw error
         }
-    }
-
-    func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot? {
-        try cachedSnapshot(dayKey: Self.dayKey(date))
-    }
-
-    private func cachedSnapshot(dayKey: String) throws -> DashboardSnapshot? {
-        guard let payload = try snapshotCache.loadDashboardCache(dayKey: dayKey) else {
-            return nil
-        }
-        return try Self.decode(DashboardSnapshot.self, payload)
     }
 
     // MARK: - History + Goals
@@ -234,7 +227,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             meals: meals,
             goal: snapshot.goal,
             weightTrend: try mergedWeightTrend(snapshot.weightTrend, from: trendStart, to: trendEnd),
-            activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart)
+            activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart),
+            readProvenance: snapshot.readProvenance
         )
     }
 
