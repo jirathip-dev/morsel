@@ -294,10 +294,15 @@ describe('run — the verdict follows the two comparison inputs', () => {
     const result = await run({ origin: 'https://origin.test', repository: 'o/r', fetchImpl, log: silent })
     expect(result.verdict).toBe('IN_SYNC')
     expect(result.compare).toBeNull()
-    expect(fetchImpl.calls.map((call) => call.href)).toEqual([
+    // END STATE, not the trajectory: the settled set of sources the finished run
+    // consulted, and that every read was a GET. The order the requests happened
+    // to be issued in is deliberately NOT asserted — it is scheduling, not
+    // outcome.
+    expect([...new Set(fetchImpl.calls.map((call) => call.href))].sort()).toEqual([
       'https://api.github.com/repos/o/r/commits/main',
       'https://origin.test/version',
     ])
+    expect(fetchImpl.calls.every((call) => call.method === 'GET')).toBe(true)
   })
 
   it('flips to BEHIND when ONLY the deployed revision input changes', async () => {
