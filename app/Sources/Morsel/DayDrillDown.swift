@@ -12,6 +12,12 @@ struct DayDrillDown: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if let snapshot = viewModel.daySnapshot {
+                if let error = viewModel.expandedError {
+                    ProvenanceLabel(text: error)
+                } else if snapshot.readProvenance?.isCached == true {
+                    ProvenanceLabel(text: viewModel.isExpandedLoading
+                                    ? "Showing saved meals · refreshing…" : "Showing saved meals")
+                }
                 dayContent(snapshot)
             } else if viewModel.isExpandedLoading {
                 DayDrillDownSkeleton()
