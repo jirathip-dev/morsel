@@ -267,6 +267,8 @@ extension Font {
 
 // MARK: - Native component primitives
 
+// Keep the 40pt painted box; the transparent 2pt margins belong to the Button.
+// Call sites subtract those margins OUTSIDE the Button to preserve journal layout.
 struct MorselPrimaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -276,6 +278,9 @@ struct MorselPrimaryButtonStyle: ButtonStyle {
             .padding(.horizontal, 14)
             .background(Color.morselAccent, in: RoundedRectangle(cornerRadius: 8))
             .opacity(configuration.isPressed ? 0.8 : 1)
+            .padding(.vertical, 2)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
     }
 }
 
@@ -288,6 +293,9 @@ struct MorselGhostButtonStyle: ButtonStyle {
             .padding(.horizontal, 14)
             .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 8))
             .opacity(configuration.isPressed ? 0.8 : 1)
+            .padding(.vertical, 2)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
     }
 }
 

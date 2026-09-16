@@ -273,7 +273,8 @@ struct OnboardingView: View {
                 .font(.morselBody).foregroundStyle(Color.morselInk)
             Text("Pick where you talk to me:").font(.morselBody).foregroundStyle(Color.morselInk)
             Button("Continue to connector setup") { _ = state.proceedToConnect() }
-                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .padding(.vertical, -2).frame(maxWidth: .infinity)
         }
     }
     @ViewBuilder private var connectContent: some View {
@@ -312,11 +313,13 @@ struct OnboardingView: View {
                     didCopy = true
                 }
                 .buttonStyle(MorselPrimaryButtonStyle())
+                .padding(.vertical, -2)
                 .frame(maxWidth: .infinity)
             }
 
             Button("Continue to first log") { _ = state.proceedToCoach() }
                 .buttonStyle(MorselGhostButtonStyle())
+                .padding(.vertical, -2)
                 .frame(maxWidth: .infinity)
         }
     }
@@ -358,7 +361,8 @@ struct OnboardingView: View {
             }
             .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Button("Continue") { _ = state.proceedToConfirm() }
-                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .padding(.vertical, -2).frame(maxWidth: .infinity)
         }
     }
 
@@ -368,7 +372,8 @@ struct OnboardingView: View {
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("you").font(.morselData).foregroundStyle(Color.morselInkThree)
             Button("I'm connected") { _ = state.confirmConnection() }
-                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .padding(.vertical, -2).frame(maxWidth: .infinity)
         }
     }
 
@@ -379,7 +384,8 @@ struct OnboardingView: View {
             Text("Your next meal is ready to log.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Button("Open today's log") { onFinished() }
-                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)
+                .buttonStyle(MorselPrimaryButtonStyle())
+                .padding(.vertical, -2).frame(maxWidth: .infinity)
         }
     }
 }
