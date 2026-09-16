@@ -1,0 +1,45 @@
+{
+  "command": [
+    "xcodebuild",
+    "test",
+    "-project",
+    "Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,id=152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB",
+    "-derivedDataPath",
+    "/tmp/morsel-258-fix1/dd",
+    "-resultBundlePath",
+    "/tmp/morsel-258-fix1/native-red.xcresult",
+    "-parallel-testing-enabled",
+    "NO",
+    "CODE_SIGNING_ALLOWED=NO",
+    "-only-testing:MorselTests/DayReadDegradeTests",
+    "-only-testing:MorselTests/DayReadCompositionTests"
+  ],
+  "env": {
+    "HERDR_XCODEBUILD_DIRECT": "1"
+  },
+  "raw_exit": 65,
+  "timed_out": false,
+  "elapsed_seconds": 175.16119187499953,
+  "before": {
+    "app/Sources/Morsel/Models.swift": "e44f40454476289e5db85d038699aedbe002ac2ac21fd39eccee19b2ac46ff31",
+    "app/Sources/Morsel/ViewModel.swift": "2b7166ea97f04c825af0830bfad47b7fa200f2f19ef16f70964dd1e697666968",
+    "app/Sources/Morsel/LocalFirstRepository.swift": "feef65a7b6425aad876fc8a30650d6de5afb3d350f86e80c2592b29419113d10",
+    "app/Sources/Morsel/SupabaseMealReadModel.swift": "e57fb1cb000ac6fc4c6db4c390d1dbd54b869795e81f74dd2d90b15530cd6d1a",
+    "app/Tests/MorselTests/DayReadCompositionTests.swift": "b015235ba05abab4cfc811b382a6df9711b5acb8dc213b57e846081a2420c181",
+    "app/Tests/MorselTests/DayReadDegradeTests.swift": "f14ee42cf71fbe103117581a865be3d1d0361af6f4d1005c1fc26391814ffe99",
+    "app/Tests/MorselTests/DayReadDegradeEvidenceTests.swift": "ccabb24df7dd66c4adb69de7a7f1892a5b4176620f8a56d1466fa4e77eb1f766"
+  },
+  "after": {
+    "app/Sources/Morsel/Models.swift": "e44f40454476289e5db85d038699aedbe002ac2ac21fd39eccee19b2ac46ff31",
+    "app/Sources/Morsel/ViewModel.swift": "2b7166ea97f04c825af0830bfad47b7fa200f2f19ef16f70964dd1e697666968",
+    "app/Sources/Morsel/LocalFirstRepository.swift": "feef65a7b6425aad876fc8a30650d6de5afb3d350f86e80c2592b29419113d10",
+    "app/Sources/Morsel/SupabaseMealReadModel.swift": "e57fb1cb000ac6fc4c6db4c390d1dbd54b869795e81f74dd2d90b15530cd6d1a",
+    "app/Tests/MorselTests/DayReadCompositionTests.swift": "b015235ba05abab4cfc811b382a6df9711b5acb8dc213b57e846081a2420c181",
+    "app/Tests/MorselTests/DayReadDegradeTests.swift": "f14ee42cf71fbe103117581a865be3d1d0361af6f4d1005c1fc26391814ffe99",
+    "app/Tests/MorselTests/DayReadDegradeEvidenceTests.swift": "ccabb24df7dd66c4adb69de7a7f1892a5b4176620f8a56d1466fa4e77eb1f766"
+  }
+}

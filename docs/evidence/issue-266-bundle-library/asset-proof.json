@@ -1,0 +1,1354 @@
+{
+  "base": "6f3199e2e044f9eaba09cd577b38a5434a01fd8e",
+  "source": "4e67e66933752cca3bf0be4812ee29d4b4b4b35b",
+  "catalog_sha256": "996177e2d8b52f1b4ebfdb6ef890c98a04011ef29dceb71f9faf9f20e938893b",
+  "original_assets": [
+    {
+      "path": "app/Resources/FoodArt/avocado-paper-64.png",
+      "before_sha256": "52de7fdbd15a876644f228ad11c663b5ebad5e8b00041f01746537c2d008ad54",
+      "after_sha256": "52de7fdbd15a876644f228ad11c663b5ebad5e8b00041f01746537c2d008ad54",
+      "approved_sha256": "52de7fdbd15a876644f228ad11c663b5ebad5e8b00041f01746537c2d008ad54"
+    },
+    {
+      "path": "app/Resources/FoodArt/avocado-night-64.png",
+      "before_sha256": "692a080d2ed0c3be4c549f76bc8bc6c8a481d68d13bd52cb2dfd04fa879e5415",
+      "after_sha256": "692a080d2ed0c3be4c549f76bc8bc6c8a481d68d13bd52cb2dfd04fa879e5415",
+      "approved_sha256": "692a080d2ed0c3be4c549f76bc8bc6c8a481d68d13bd52cb2dfd04fa879e5415"
+    },
+    {
+      "path": "app/Resources/FoodArt/banana-paper-64.png",
+      "before_sha256": "5c473b047cfeb1ac1bb3603d0fbf8a3fcbc8caa8f8091bd25e30cbe13591a3df",
+      "after_sha256": "5c473b047cfeb1ac1bb3603d0fbf8a3fcbc8caa8f8091bd25e30cbe13591a3df",
+      "approved_sha256": "5c473b047cfeb1ac1bb3603d0fbf8a3fcbc8caa8f8091bd25e30cbe13591a3df"
+    },
+    {
+      "path": "app/Resources/FoodArt/banana-night-64.png",
+      "before_sha256": "2718a5e8863b13e9bd1a251e5190d4cbedaf2e1b30bdd57705c19153c5d94e1d",
+      "after_sha256": "2718a5e8863b13e9bd1a251e5190d4cbedaf2e1b30bdd57705c19153c5d94e1d",
+      "approved_sha256": "2718a5e8863b13e9bd1a251e5190d4cbedaf2e1b30bdd57705c19153c5d94e1d"
+    },
+    {
+      "path": "app/Resources/FoodArt/broccoli-paper-64.png",
+      "before_sha256": "1b53948bf27c2e312d72f3dfd3866bfc7ca408ccd27d76ed54ad6c1fddf2e27c",
+      "after_sha256": "1b53948bf27c2e312d72f3dfd3866bfc7ca408ccd27d76ed54ad6c1fddf2e27c",
+      "approved_sha256": "1b53948bf27c2e312d72f3dfd3866bfc7ca408ccd27d76ed54ad6c1fddf2e27c"
+    },
+    {
+      "path": "app/Resources/FoodArt/broccoli-night-64.png",
+      "before_sha256": "a0f2993e945d5f3f2c3ea256446a4333a75146070016d405a69ac77eac22643c",
+      "after_sha256": "a0f2993e945d5f3f2c3ea256446a4333a75146070016d405a69ac77eac22643c",
+      "approved_sha256": "a0f2993e945d5f3f2c3ea256446a4333a75146070016d405a69ac77eac22643c"
+    },
+    {
+      "path": "app/Resources/FoodArt/coffee-paper-64.png",
+      "before_sha256": "a9628ca25d4dfc00c40b043c87b687cae3a59349ceab97868ff568cd9c21ef66",
+      "after_sha256": "a9628ca25d4dfc00c40b043c87b687cae3a59349ceab97868ff568cd9c21ef66",
+      "approved_sha256": "a9628ca25d4dfc00c40b043c87b687cae3a59349ceab97868ff568cd9c21ef66"
+    },
+    {
+      "path": "app/Resources/FoodArt/coffee-night-64.png",
+      "before_sha256": "9560657ce7cd0216c181f36c97fd0911c9f73b6aac29e24b36f7e0092d5f635a",
+      "after_sha256": "9560657ce7cd0216c181f36c97fd0911c9f73b6aac29e24b36f7e0092d5f635a",
+      "approved_sha256": "9560657ce7cd0216c181f36c97fd0911c9f73b6aac29e24b36f7e0092d5f635a"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-drinks-paper-64.png",
+      "before_sha256": "cbe845266a7d99d941ea98c40b4d3123e298c71cf531bad2f132da2c517125fc",
+      "after_sha256": "cbe845266a7d99d941ea98c40b4d3123e298c71cf531bad2f132da2c517125fc",
+      "approved_sha256": "cbe845266a7d99d941ea98c40b4d3123e298c71cf531bad2f132da2c517125fc"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-drinks-night-64.png",
+      "before_sha256": "da7abfd77198191af304715fc3a21b52f5a672e177aaef7358f42ac158dd75b9",
+      "after_sha256": "da7abfd77198191af304715fc3a21b52f5a672e177aaef7358f42ac158dd75b9",
+      "approved_sha256": "da7abfd77198191af304715fc3a21b52f5a672e177aaef7358f42ac158dd75b9"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-grains-paper-64.png",
+      "before_sha256": "01f6b9697de39547649e80fadb519cba1e8847e49869694f9ae8c2dee61e0848",
+      "after_sha256": "01f6b9697de39547649e80fadb519cba1e8847e49869694f9ae8c2dee61e0848",
+      "approved_sha256": "01f6b9697de39547649e80fadb519cba1e8847e49869694f9ae8c2dee61e0848"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-grains-night-64.png",
+      "before_sha256": "b6dd1f59c070f99d13868cd9df041ebe8e80ea1fbe155ff0b063479c7ca4c8da",
+      "after_sha256": "b6dd1f59c070f99d13868cd9df041ebe8e80ea1fbe155ff0b063479c7ca4c8da",
+      "approved_sha256": "b6dd1f59c070f99d13868cd9df041ebe8e80ea1fbe155ff0b063479c7ca4c8da"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-neutral-paper-64.png",
+      "before_sha256": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "after_sha256": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17",
+      "approved_sha256": "eba52364970b9698195ab9a26953b3b7598efad3abd9009aeff02976fb8e5f17"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-neutral-night-64.png",
+      "before_sha256": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "after_sha256": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab",
+      "approved_sha256": "7c364519c18d6b03583be11889a259630a6cfb642f9f052aaf2acb8b0f2dc2ab"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-produce-paper-64.png",
+      "before_sha256": "c13b471850f039e8cc2be97e8289e72f85d8b66126e656924450b36331c625cc",
+      "after_sha256": "c13b471850f039e8cc2be97e8289e72f85d8b66126e656924450b36331c625cc",
+      "approved_sha256": "c13b471850f039e8cc2be97e8289e72f85d8b66126e656924450b36331c625cc"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-produce-night-64.png",
+      "before_sha256": "9e47c1384ea1a8ad95ea7160afcdc1293a85453412871b5793226d07138088a8",
+      "after_sha256": "9e47c1384ea1a8ad95ea7160afcdc1293a85453412871b5793226d07138088a8",
+      "approved_sha256": "9e47c1384ea1a8ad95ea7160afcdc1293a85453412871b5793226d07138088a8"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-protein-paper-64.png",
+      "before_sha256": "b4515cd1e2b34bdc77daa4778bd1d1e9ae739676fce2ec3cf8cd93ac4a54b0b5",
+      "after_sha256": "b4515cd1e2b34bdc77daa4778bd1d1e9ae739676fce2ec3cf8cd93ac4a54b0b5",
+      "approved_sha256": "b4515cd1e2b34bdc77daa4778bd1d1e9ae739676fce2ec3cf8cd93ac4a54b0b5"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-protein-night-64.png",
+      "before_sha256": "3d07ebba4acd75ca0948d42909a18dca6434c109c95f8b48ab28eb7df96e8929",
+      "after_sha256": "3d07ebba4acd75ca0948d42909a18dca6434c109c95f8b48ab28eb7df96e8929",
+      "approved_sha256": "3d07ebba4acd75ca0948d42909a18dca6434c109c95f8b48ab28eb7df96e8929"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-egg-paper-64.png",
+      "before_sha256": "0921b64a52228da6e0eeb89b0352a05b3a510701d387a1707bbcba8d14c9e578",
+      "after_sha256": "0921b64a52228da6e0eeb89b0352a05b3a510701d387a1707bbcba8d14c9e578",
+      "approved_sha256": "0921b64a52228da6e0eeb89b0352a05b3a510701d387a1707bbcba8d14c9e578"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-egg-night-64.png",
+      "before_sha256": "caee7154f3db83d9bbe81a254b88ae6dfb46d46725ec4a793434aaaf651152e0",
+      "after_sha256": "caee7154f3db83d9bbe81a254b88ae6dfb46d46725ec4a793434aaaf651152e0",
+      "approved_sha256": "caee7154f3db83d9bbe81a254b88ae6dfb46d46725ec4a793434aaaf651152e0"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-chicken-paper-64.png",
+      "before_sha256": "46d7aee7bd827b3598b315efd30e34dda00c5b83efb34c87876aebdd84ac073d",
+      "after_sha256": "46d7aee7bd827b3598b315efd30e34dda00c5b83efb34c87876aebdd84ac073d",
+      "approved_sha256": "46d7aee7bd827b3598b315efd30e34dda00c5b83efb34c87876aebdd84ac073d"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-chicken-night-64.png",
+      "before_sha256": "424da9b26fc6aea190908346df6e176f9139734c9490265f167c61505d1fa794",
+      "after_sha256": "424da9b26fc6aea190908346df6e176f9139734c9490265f167c61505d1fa794",
+      "approved_sha256": "424da9b26fc6aea190908346df6e176f9139734c9490265f167c61505d1fa794"
+    },
+    {
+      "path": "app/Resources/FoodArt/jasmine-rice-paper-64.png",
+      "before_sha256": "09e0f83a3edb72d83db450787e8d108602a2e232cf77124833377bb04d83b1ab",
+      "after_sha256": "09e0f83a3edb72d83db450787e8d108602a2e232cf77124833377bb04d83b1ab",
+      "approved_sha256": "09e0f83a3edb72d83db450787e8d108602a2e232cf77124833377bb04d83b1ab"
+    },
+    {
+      "path": "app/Resources/FoodArt/jasmine-rice-night-64.png",
+      "before_sha256": "499091e9757dcce8be79205bfe84bfa01cfab1a69ffb16379cca79a4290b2cee",
+      "after_sha256": "499091e9757dcce8be79205bfe84bfa01cfab1a69ffb16379cca79a4290b2cee",
+      "approved_sha256": "499091e9757dcce8be79205bfe84bfa01cfab1a69ffb16379cca79a4290b2cee"
+    },
+    {
+      "path": "app/Resources/FoodArt/mango-paper-64.png",
+      "before_sha256": "49dfca63ddd7001256c2917230c93a8ae336e407f5d5b6724e22f47222bdc165",
+      "after_sha256": "49dfca63ddd7001256c2917230c93a8ae336e407f5d5b6724e22f47222bdc165",
+      "approved_sha256": "49dfca63ddd7001256c2917230c93a8ae336e407f5d5b6724e22f47222bdc165"
+    },
+    {
+      "path": "app/Resources/FoodArt/mango-night-64.png",
+      "before_sha256": "cc825ef394f9ccf15f4b114d2d69cdc2491a7507a46a6c3fd6a99ba5fcdcecdf",
+      "after_sha256": "cc825ef394f9ccf15f4b114d2d69cdc2491a7507a46a6c3fd6a99ba5fcdcecdf",
+      "approved_sha256": "cc825ef394f9ccf15f4b114d2d69cdc2491a7507a46a6c3fd6a99ba5fcdcecdf"
+    },
+    {
+      "path": "app/Resources/FoodArt/orange-paper-64.png",
+      "before_sha256": "e2b51dd27e38700a5aa0ca87c15cdc7d2f745167fa3a2c5228e46d44e1588b2f",
+      "after_sha256": "e2b51dd27e38700a5aa0ca87c15cdc7d2f745167fa3a2c5228e46d44e1588b2f",
+      "approved_sha256": "e2b51dd27e38700a5aa0ca87c15cdc7d2f745167fa3a2c5228e46d44e1588b2f"
+    },
+    {
+      "path": "app/Resources/FoodArt/orange-night-64.png",
+      "before_sha256": "87ac189bb16b7c9b4c3f0b855bdea810a8ffa88734c1f659e1709192f67d67aa",
+      "after_sha256": "87ac189bb16b7c9b4c3f0b855bdea810a8ffa88734c1f659e1709192f67d67aa",
+      "approved_sha256": "87ac189bb16b7c9b4c3f0b855bdea810a8ffa88734c1f659e1709192f67d67aa"
+    },
+    {
+      "path": "app/Resources/FoodArt/salmon-paper-64.png",
+      "before_sha256": "f87ab1e3f55bbab19c6ef24c438061de0e8b846db063f9632e3e1a5b561f73f3",
+      "after_sha256": "f87ab1e3f55bbab19c6ef24c438061de0e8b846db063f9632e3e1a5b561f73f3",
+      "approved_sha256": "f87ab1e3f55bbab19c6ef24c438061de0e8b846db063f9632e3e1a5b561f73f3"
+    },
+    {
+      "path": "app/Resources/FoodArt/salmon-night-64.png",
+      "before_sha256": "2680863b878b9cca4b6d8a86b28f3161e97c21b85c984cce062faf2a1d5ef2e6",
+      "after_sha256": "2680863b878b9cca4b6d8a86b28f3161e97c21b85c984cce062faf2a1d5ef2e6",
+      "approved_sha256": "2680863b878b9cca4b6d8a86b28f3161e97c21b85c984cce062faf2a1d5ef2e6"
+    },
+    {
+      "path": "app/Resources/FoodArt/stir-fried-noodles-paper-64.png",
+      "before_sha256": "7daa6c0e798e60a48a63419a1289b03f2911e53bf7b6d95f8cc24e16105d0115",
+      "after_sha256": "7daa6c0e798e60a48a63419a1289b03f2911e53bf7b6d95f8cc24e16105d0115",
+      "approved_sha256": "7daa6c0e798e60a48a63419a1289b03f2911e53bf7b6d95f8cc24e16105d0115"
+    },
+    {
+      "path": "app/Resources/FoodArt/stir-fried-noodles-night-64.png",
+      "before_sha256": "7e50e03f4fa6eeeb4b421a8c44a2c7bf8c9f726633d09b15803325874191bbfb",
+      "after_sha256": "7e50e03f4fa6eeeb4b421a8c44a2c7bf8c9f726633d09b15803325874191bbfb",
+      "approved_sha256": "7e50e03f4fa6eeeb4b421a8c44a2c7bf8c9f726633d09b15803325874191bbfb"
+    },
+    {
+      "path": "app/Resources/FoodArt/toast-paper-64.png",
+      "before_sha256": "ee33fbe47da090c70cdcf18bf710313de55543ae65671d0fe583d29630d51359",
+      "after_sha256": "ee33fbe47da090c70cdcf18bf710313de55543ae65671d0fe583d29630d51359",
+      "approved_sha256": "ee33fbe47da090c70cdcf18bf710313de55543ae65671d0fe583d29630d51359"
+    },
+    {
+      "path": "app/Resources/FoodArt/toast-night-64.png",
+      "before_sha256": "40d2a02def5d6705c63f96be0665573e541ec22b25d595ef261cc5de78c59695",
+      "after_sha256": "40d2a02def5d6705c63f96be0665573e541ec22b25d595ef261cc5de78c59695",
+      "approved_sha256": "40d2a02def5d6705c63f96be0665573e541ec22b25d595ef261cc5de78c59695"
+    },
+    {
+      "path": "app/Resources/FoodArt/vegetable-soup-paper-64.png",
+      "before_sha256": "3a520c04104ccf3351b8cb1aafb08446cab2360d1cff67c71e8a07e0d726c94f",
+      "after_sha256": "3a520c04104ccf3351b8cb1aafb08446cab2360d1cff67c71e8a07e0d726c94f",
+      "approved_sha256": "3a520c04104ccf3351b8cb1aafb08446cab2360d1cff67c71e8a07e0d726c94f"
+    },
+    {
+      "path": "app/Resources/FoodArt/vegetable-soup-night-64.png",
+      "before_sha256": "92e9e0658a482c013e3f881948bb24f11c3c188a2d35b551173f4cf8eb2abded",
+      "after_sha256": "92e9e0658a482c013e3f881948bb24f11c3c188a2d35b551173f4cf8eb2abded",
+      "approved_sha256": "92e9e0658a482c013e3f881948bb24f11c3c188a2d35b551173f4cf8eb2abded"
+    }
+  ],
+  "new_assets": [
+    {
+      "path": "app/Resources/FoodArt/sweet-potato-paper-64.png",
+      "approved_sha256": "4f735c04ca7aa07731fb51c52228073cbab32c89c781962093bf3a94b6de88ad",
+      "bundled_sha256": "4f735c04ca7aa07731fb51c52228073cbab32c89c781962093bf3a94b6de88ad"
+    },
+    {
+      "path": "app/Resources/FoodArt/sweet-potato-night-64.png",
+      "approved_sha256": "13f6a9e2abd8ab861fd472cff728da2d12ef1bf2e5d5ceae26afad1003f5eda9",
+      "bundled_sha256": "13f6a9e2abd8ab861fd472cff728da2d12ef1bf2e5d5ceae26afad1003f5eda9"
+    },
+    {
+      "path": "app/Resources/FoodArt/yogurt-paper-64.png",
+      "approved_sha256": "323e6e8b33726b0a1edf94cbd6faa7ef53e129d8114741d72632acea48bb9513",
+      "bundled_sha256": "323e6e8b33726b0a1edf94cbd6faa7ef53e129d8114741d72632acea48bb9513"
+    },
+    {
+      "path": "app/Resources/FoodArt/yogurt-night-64.png",
+      "approved_sha256": "847f34c9bd9e3d82341ab13237e7438e5c1aad1853eb3929af0a52afa350c737",
+      "bundled_sha256": "847f34c9bd9e3d82341ab13237e7438e5c1aad1853eb3929af0a52afa350c737"
+    },
+    {
+      "path": "app/Resources/FoodArt/berries-paper-64.png",
+      "approved_sha256": "08ea1f22773882cd6296bcd714b10bcc26ab03ea40788c92332bbe143e76adc5",
+      "bundled_sha256": "08ea1f22773882cd6296bcd714b10bcc26ab03ea40788c92332bbe143e76adc5"
+    },
+    {
+      "path": "app/Resources/FoodArt/berries-night-64.png",
+      "approved_sha256": "e46b4bbadeadd1628e57aaa35b19d3b845b8d21e246229268e564fddd69ced3b",
+      "bundled_sha256": "e46b4bbadeadd1628e57aaa35b19d3b845b8d21e246229268e564fddd69ced3b"
+    },
+    {
+      "path": "app/Resources/FoodArt/boiled-egg-paper-64.png",
+      "approved_sha256": "b74d2229d4cd50fe3840f6afa543f03cfd049894c4bdc9ee2b070847b4e73e03",
+      "bundled_sha256": "b74d2229d4cd50fe3840f6afa543f03cfd049894c4bdc9ee2b070847b4e73e03"
+    },
+    {
+      "path": "app/Resources/FoodArt/boiled-egg-night-64.png",
+      "approved_sha256": "1f66c87d47e3d2415027a9c914524d44adc615a25fe396851a054bfba552d71b",
+      "bundled_sha256": "1f66c87d47e3d2415027a9c914524d44adc615a25fe396851a054bfba552d71b"
+    },
+    {
+      "path": "app/Resources/FoodArt/egg-paper-64.png",
+      "approved_sha256": "655f05467ca5e4900d4de9758f94453b1d1dbff2ed65bfa06efa4de0838667b6",
+      "bundled_sha256": "655f05467ca5e4900d4de9758f94453b1d1dbff2ed65bfa06efa4de0838667b6"
+    },
+    {
+      "path": "app/Resources/FoodArt/egg-night-64.png",
+      "approved_sha256": "cb19437b00d210c6bbce16cdf9948908d6f4c693ab77664765ac71a1dfd598ae",
+      "bundled_sha256": "cb19437b00d210c6bbce16cdf9948908d6f4c693ab77664765ac71a1dfd598ae"
+    },
+    {
+      "path": "app/Resources/FoodArt/sticky-rice-paper-64.png",
+      "approved_sha256": "9b68822d766078ecb23f427e96c22d57b226faa347500ccc642deb316ba0656c",
+      "bundled_sha256": "9b68822d766078ecb23f427e96c22d57b226faa347500ccc642deb316ba0656c"
+    },
+    {
+      "path": "app/Resources/FoodArt/sticky-rice-night-64.png",
+      "approved_sha256": "12b8771c1566da3bfabb59841b75efbb967ebebb959b5310ae458d50dfd4ffad",
+      "bundled_sha256": "12b8771c1566da3bfabb59841b75efbb967ebebb959b5310ae458d50dfd4ffad"
+    },
+    {
+      "path": "app/Resources/FoodArt/braised-pork-paper-64.png",
+      "approved_sha256": "548f28a7ae79c0a7a4be6730ba1b129ce4c23bf1a00c17dcb5f93c506bce5bcc",
+      "bundled_sha256": "548f28a7ae79c0a7a4be6730ba1b129ce4c23bf1a00c17dcb5f93c506bce5bcc"
+    },
+    {
+      "path": "app/Resources/FoodArt/braised-pork-night-64.png",
+      "approved_sha256": "6c499d4977a2239c7a38baea2d546fa982e83809302869b4c8964c5959e8fad0",
+      "bundled_sha256": "6c499d4977a2239c7a38baea2d546fa982e83809302869b4c8964c5959e8fad0"
+    },
+    {
+      "path": "app/Resources/FoodArt/stir-fried-greens-paper-64.png",
+      "approved_sha256": "c8b345832d494d4a62c891550450aee0ad4cf180e1f1903eabc03ee1fbd0a736",
+      "bundled_sha256": "c8b345832d494d4a62c891550450aee0ad4cf180e1f1903eabc03ee1fbd0a736"
+    },
+    {
+      "path": "app/Resources/FoodArt/stir-fried-greens-night-64.png",
+      "approved_sha256": "8caa70f0796b14b05b5dc28a186b941495ffa5ffe714536ca01a0823144abe4d",
+      "bundled_sha256": "8caa70f0796b14b05b5dc28a186b941495ffa5ffe714536ca01a0823144abe4d"
+    },
+    {
+      "path": "app/Resources/FoodArt/pasta-paper-64.png",
+      "approved_sha256": "65df5513115057662aa400e94e6e8bf06652cbc10a92c7342f9fc3c113552a40",
+      "bundled_sha256": "65df5513115057662aa400e94e6e8bf06652cbc10a92c7342f9fc3c113552a40"
+    },
+    {
+      "path": "app/Resources/FoodArt/pasta-night-64.png",
+      "approved_sha256": "3e544d40732e6a8579c6097a99c8c23e3016339c34e497e9503f0e2e83e92994",
+      "bundled_sha256": "3e544d40732e6a8579c6097a99c8c23e3016339c34e497e9503f0e2e83e92994"
+    },
+    {
+      "path": "app/Resources/FoodArt/sourdough-bread-paper-64.png",
+      "approved_sha256": "38c9e6152727f4f9d7c2780a43536e509fb2187496a17e4ef6e373b48fc98cd4",
+      "bundled_sha256": "38c9e6152727f4f9d7c2780a43536e509fb2187496a17e4ef6e373b48fc98cd4"
+    },
+    {
+      "path": "app/Resources/FoodArt/sourdough-bread-night-64.png",
+      "approved_sha256": "565f5ca4d1cb3cb49c750167dc6f88d79a1bd7abd5fab00744f9d3c548e64c7d",
+      "bundled_sha256": "565f5ca4d1cb3cb49c750167dc6f88d79a1bd7abd5fab00744f9d3c548e64c7d"
+    },
+    {
+      "path": "app/Resources/FoodArt/cereal-flakes-paper-64.png",
+      "approved_sha256": "a6e896708a25d3ffcd7ec79df0f07a93cac909cd2b740e6506664883c3565633",
+      "bundled_sha256": "a6e896708a25d3ffcd7ec79df0f07a93cac909cd2b740e6506664883c3565633"
+    },
+    {
+      "path": "app/Resources/FoodArt/cereal-flakes-night-64.png",
+      "approved_sha256": "e9aeef980535b7142f2e427918969f4a4478e13138eee37ddd5db8f53439767f",
+      "bundled_sha256": "e9aeef980535b7142f2e427918969f4a4478e13138eee37ddd5db8f53439767f"
+    },
+    {
+      "path": "app/Resources/FoodArt/smoothie-paper-64.png",
+      "approved_sha256": "28688f8f9aebb846cfcd7e3b2fe9519589c4d418b73112a45faded11c9b7b8d2",
+      "bundled_sha256": "28688f8f9aebb846cfcd7e3b2fe9519589c4d418b73112a45faded11c9b7b8d2"
+    },
+    {
+      "path": "app/Resources/FoodArt/smoothie-night-64.png",
+      "approved_sha256": "c747d4cd97e23df9f94c84efd4e1abffe2938b8538aecd9fe7f0aab3241bddfc",
+      "bundled_sha256": "c747d4cd97e23df9f94c84efd4e1abffe2938b8538aecd9fe7f0aab3241bddfc"
+    },
+    {
+      "path": "app/Resources/FoodArt/cheese-paper-64.png",
+      "approved_sha256": "df909080379f9c3577a1138cea420c2bc45f71979ca48a6813593e36b015a25c",
+      "bundled_sha256": "df909080379f9c3577a1138cea420c2bc45f71979ca48a6813593e36b015a25c"
+    },
+    {
+      "path": "app/Resources/FoodArt/cheese-night-64.png",
+      "approved_sha256": "b02d3844b5ecb64303d515f9d2976a20a0507d731b439c930166467100228fbc",
+      "bundled_sha256": "b02d3844b5ecb64303d515f9d2976a20a0507d731b439c930166467100228fbc"
+    },
+    {
+      "path": "app/Resources/FoodArt/ice-cream-paper-64.png",
+      "approved_sha256": "169c390ee4bc4571693d57598b6ad10acbfb25a02e92c2166e6c05d4ddaa4cf8",
+      "bundled_sha256": "169c390ee4bc4571693d57598b6ad10acbfb25a02e92c2166e6c05d4ddaa4cf8"
+    },
+    {
+      "path": "app/Resources/FoodArt/ice-cream-night-64.png",
+      "approved_sha256": "47cbae7b1614dc7aa8cff46219e51d2aab1cbae034295967523dd4b9fe6812a8",
+      "bundled_sha256": "47cbae7b1614dc7aa8cff46219e51d2aab1cbae034295967523dd4b9fe6812a8"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-pork-paper-64.png",
+      "approved_sha256": "b48f1610b2865a448a61f7b9c8a6a26845eafbfa5c064038cfa353e97e8b6d2b",
+      "bundled_sha256": "b48f1610b2865a448a61f7b9c8a6a26845eafbfa5c064038cfa353e97e8b6d2b"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-pork-night-64.png",
+      "approved_sha256": "0ff14a929546bc204016d01b33bb3af6897f165d1fe74b01da2fd35a5e0033b3",
+      "bundled_sha256": "0ff14a929546bc204016d01b33bb3af6897f165d1fe74b01da2fd35a5e0033b3"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-beef-paper-64.png",
+      "approved_sha256": "119b6fa76a5d284a98c8d44d691969b2fc193a950e1eae6dcf1e5533a12c4bd0",
+      "bundled_sha256": "119b6fa76a5d284a98c8d44d691969b2fc193a950e1eae6dcf1e5533a12c4bd0"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-beef-night-64.png",
+      "approved_sha256": "f2cb6e34ff7f36c9260c7f29347a7f3633f609d70512691550da8c64716b2f32",
+      "bundled_sha256": "f2cb6e34ff7f36c9260c7f29347a7f3633f609d70512691550da8c64716b2f32"
+    },
+    {
+      "path": "app/Resources/FoodArt/steamed-fish-paper-64.png",
+      "approved_sha256": "7ffc9e67fe9daf3f7e8e782ba7505c77ba6cdb14923c3377912ce1aeb3685f8b",
+      "bundled_sha256": "7ffc9e67fe9daf3f7e8e782ba7505c77ba6cdb14923c3377912ce1aeb3685f8b"
+    },
+    {
+      "path": "app/Resources/FoodArt/steamed-fish-night-64.png",
+      "approved_sha256": "1b3ef79024e6d099c83796e8eedaefb4e762cae01d8bd91d87ace42f9b5d8427",
+      "bundled_sha256": "1b3ef79024e6d099c83796e8eedaefb4e762cae01d8bd91d87ace42f9b5d8427"
+    },
+    {
+      "path": "app/Resources/FoodArt/hot-pot-paper-64.png",
+      "approved_sha256": "95be1c22fa402e2bda780f4ca577c46d0fa2365b5d4cf728eb28b12991c46c95",
+      "bundled_sha256": "95be1c22fa402e2bda780f4ca577c46d0fa2365b5d4cf728eb28b12991c46c95"
+    },
+    {
+      "path": "app/Resources/FoodArt/hot-pot-night-64.png",
+      "approved_sha256": "2f816a88199533ed12193d5ae028711453d09238ace0a694042f24d71774adc6",
+      "bundled_sha256": "2f816a88199533ed12193d5ae028711453d09238ace0a694042f24d71774adc6"
+    },
+    {
+      "path": "app/Resources/FoodArt/tom-yum-paper-64.png",
+      "approved_sha256": "5dd3e707dcbf2a11b62a541ae60537cf58c19b5f19af6f4945b18866320a7a52",
+      "bundled_sha256": "5dd3e707dcbf2a11b62a541ae60537cf58c19b5f19af6f4945b18866320a7a52"
+    },
+    {
+      "path": "app/Resources/FoodArt/tom-yum-night-64.png",
+      "approved_sha256": "a293d901b81d873efae9398447e76c59599b1edd683e37d7779138c14ea11f0b",
+      "bundled_sha256": "a293d901b81d873efae9398447e76c59599b1edd683e37d7779138c14ea11f0b"
+    },
+    {
+      "path": "app/Resources/FoodArt/noodle-soup-paper-64.png",
+      "approved_sha256": "851c5040af6b2687bc854ebb2568cd29d02c4df74f36c55f111880391d5f65fb",
+      "bundled_sha256": "851c5040af6b2687bc854ebb2568cd29d02c4df74f36c55f111880391d5f65fb"
+    },
+    {
+      "path": "app/Resources/FoodArt/noodle-soup-night-64.png",
+      "approved_sha256": "8162a3298b5eff8dc988d23514cb1d7a8ffc483a5ef249c471bd0237a1e83609",
+      "bundled_sha256": "8162a3298b5eff8dc988d23514cb1d7a8ffc483a5ef249c471bd0237a1e83609"
+    },
+    {
+      "path": "app/Resources/FoodArt/nam-jim-paper-64.png",
+      "approved_sha256": "2bde50f9b2da38889ca5a650845f5aaf627f302b5bffc54762872115d4066c48",
+      "bundled_sha256": "2bde50f9b2da38889ca5a650845f5aaf627f302b5bffc54762872115d4066c48"
+    },
+    {
+      "path": "app/Resources/FoodArt/nam-jim-night-64.png",
+      "approved_sha256": "b1b1c674adf4552d5f8ecc78ebd80a1855ba2dad5cc15085f22799fe12f6e55b",
+      "bundled_sha256": "b1b1c674adf4552d5f8ecc78ebd80a1855ba2dad5cc15085f22799fe12f6e55b"
+    },
+    {
+      "path": "app/Resources/FoodArt/wrap-paper-64.png",
+      "approved_sha256": "e5a88004a76cb02777f86ed6f5f11eb6366925104b7ab9a8abf8e8c77b1834dd",
+      "bundled_sha256": "e5a88004a76cb02777f86ed6f5f11eb6366925104b7ab9a8abf8e8c77b1834dd"
+    },
+    {
+      "path": "app/Resources/FoodArt/wrap-night-64.png",
+      "approved_sha256": "c409568d246f1bc20b66a9d3619fa52ddec02a8f79b713ec96fb4c85473221c4",
+      "bundled_sha256": "c409568d246f1bc20b66a9d3619fa52ddec02a8f79b713ec96fb4c85473221c4"
+    },
+    {
+      "path": "app/Resources/FoodArt/chicken-rice-paper-64.png",
+      "approved_sha256": "ca19dc989ea4a9775421d6298dc8434e93d0fdd7854c065e59a63463b849b5a5",
+      "bundled_sha256": "ca19dc989ea4a9775421d6298dc8434e93d0fdd7854c065e59a63463b849b5a5"
+    },
+    {
+      "path": "app/Resources/FoodArt/chicken-rice-night-64.png",
+      "approved_sha256": "a9165bb9c07a99480c265ba615ae704131b92043f4767091a81f6088c5bc59fc",
+      "bundled_sha256": "a9165bb9c07a99480c265ba615ae704131b92043f4767091a81f6088c5bc59fc"
+    },
+    {
+      "path": "app/Resources/FoodArt/milk-paper-64.png",
+      "approved_sha256": "b50c98deb7c3395fe337171d38a126b66fa1353939ee7b7042a87950104d50d3",
+      "bundled_sha256": "b50c98deb7c3395fe337171d38a126b66fa1353939ee7b7042a87950104d50d3"
+    },
+    {
+      "path": "app/Resources/FoodArt/milk-night-64.png",
+      "approved_sha256": "6aa576140676a4c8b1aff36d6684f506e0b1c9a8f3e3e2d1490727c0c83049cd",
+      "bundled_sha256": "6aa576140676a4c8b1aff36d6684f506e0b1c9a8f3e3e2d1490727c0c83049cd"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-soup-paper-64.png",
+      "approved_sha256": "32f96b65598d3a21b383336b5610dbe463e64b131e5588facadddf24d26f26fc",
+      "bundled_sha256": "32f96b65598d3a21b383336b5610dbe463e64b131e5588facadddf24d26f26fc"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-soup-night-64.png",
+      "approved_sha256": "824b825b916e81ee66e1617f806222417fc9db4b44786dcf4ef8c8f3e1d01721",
+      "bundled_sha256": "824b825b916e81ee66e1617f806222417fc9db4b44786dcf4ef8c8f3e1d01721"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-dairy-paper-64.png",
+      "approved_sha256": "7df55ebbc7be532c7a2bd7d3bc6dedab8b49ec51887a85c34c6e4db00f4339f0",
+      "bundled_sha256": "7df55ebbc7be532c7a2bd7d3bc6dedab8b49ec51887a85c34c6e4db00f4339f0"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-dairy-night-64.png",
+      "approved_sha256": "e4213646833f780bf62d4f47e79d0d776f7a5c6dd85b9b863e6757fc8ba62262",
+      "bundled_sha256": "e4213646833f780bf62d4f47e79d0d776f7a5c6dd85b9b863e6757fc8ba62262"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-sweets-paper-64.png",
+      "approved_sha256": "0ff5c13bce2ca65fd8b03c84d38cbe6cf54bece629087b93b9631750f3e45e6e",
+      "bundled_sha256": "0ff5c13bce2ca65fd8b03c84d38cbe6cf54bece629087b93b9631750f3e45e6e"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-sweets-night-64.png",
+      "approved_sha256": "0a33f9eac8a1f1a2c9dfa170e1e024f44421cfdb3e3d5bb4ded1c31386f64052",
+      "bundled_sha256": "0a33f9eac8a1f1a2c9dfa170e1e024f44421cfdb3e3d5bb4ded1c31386f64052"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-prepared-paper-64.png",
+      "approved_sha256": "7040466f58cbd537612618abe7ac86bb7bf94343c4cc48ebfbb0889ce2faf22a",
+      "bundled_sha256": "7040466f58cbd537612618abe7ac86bb7bf94343c4cc48ebfbb0889ce2faf22a"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-prepared-night-64.png",
+      "approved_sha256": "8a260b6dc63c4524337f271daf43ef6a9274187fc3eccd60993219deec5a4b9a",
+      "bundled_sha256": "8a260b6dc63c4524337f271daf43ef6a9274187fc3eccd60993219deec5a4b9a"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-condiments-paper-64.png",
+      "approved_sha256": "bf8bf091f55a24b2e83446d446068601abc1b3b358d09e996e53bb6fe9f215e2",
+      "bundled_sha256": "bf8bf091f55a24b2e83446d446068601abc1b3b358d09e996e53bb6fe9f215e2"
+    },
+    {
+      "path": "app/Resources/FoodArt/fallback-condiments-night-64.png",
+      "approved_sha256": "030e6ed4c3acf15181f3cd7c0b0ec53051eb1eb550c5a1461c74ab9ee54bf69e",
+      "bundled_sha256": "030e6ed4c3acf15181f3cd7c0b0ec53051eb1eb550c5a1461c74ab9ee54bf69e"
+    },
+    {
+      "path": "app/Resources/FoodArt/purple-rice-paper-64.png",
+      "approved_sha256": "a93bec3a0d00131b681f3d03caabd892046edc7faf97b8999ed0ebc6c5a5e54c",
+      "bundled_sha256": "a93bec3a0d00131b681f3d03caabd892046edc7faf97b8999ed0ebc6c5a5e54c"
+    },
+    {
+      "path": "app/Resources/FoodArt/purple-rice-night-64.png",
+      "approved_sha256": "e4d95336d199272a114c8a16249c9f51b18ce38280ee963c2663bbe649901b10",
+      "bundled_sha256": "e4d95336d199272a114c8a16249c9f51b18ce38280ee963c2663bbe649901b10"
+    },
+    {
+      "path": "app/Resources/FoodArt/rice-porridge-paper-64.png",
+      "approved_sha256": "27c9ecffd53cab5cff5b567a7328c4ab463b59ad55dddea93d90e500d27470fa",
+      "bundled_sha256": "27c9ecffd53cab5cff5b567a7328c4ab463b59ad55dddea93d90e500d27470fa"
+    },
+    {
+      "path": "app/Resources/FoodArt/rice-porridge-night-64.png",
+      "approved_sha256": "47c56e04c976e9acd7b2bffcda995fdcd751510cacc5b1aad31643cfa3740864",
+      "bundled_sha256": "47c56e04c976e9acd7b2bffcda995fdcd751510cacc5b1aad31643cfa3740864"
+    },
+    {
+      "path": "app/Resources/FoodArt/steamed-bun-paper-64.png",
+      "approved_sha256": "5d6e2357f16bb777c6dc827ac1651bce63df1158932805c00e098415c3b2f659",
+      "bundled_sha256": "5d6e2357f16bb777c6dc827ac1651bce63df1158932805c00e098415c3b2f659"
+    },
+    {
+      "path": "app/Resources/FoodArt/steamed-bun-night-64.png",
+      "approved_sha256": "5d32e8060e746651c1536b5ad75cb92d481e72041c987558aa2dcc3d674a9e7e",
+      "bundled_sha256": "5d32e8060e746651c1536b5ad75cb92d481e72041c987558aa2dcc3d674a9e7e"
+    },
+    {
+      "path": "app/Resources/FoodArt/sushi-paper-64.png",
+      "approved_sha256": "a83d71f4ed6155c94859c15dcf15b934b6767c4fdb73d935be643b8ce953310e",
+      "bundled_sha256": "a83d71f4ed6155c94859c15dcf15b934b6767c4fdb73d935be643b8ce953310e"
+    },
+    {
+      "path": "app/Resources/FoodArt/sushi-night-64.png",
+      "approved_sha256": "aed49139a5366c1a9d746b6cd1492941c355f49e1bab1cdd539953414780ce2a",
+      "bundled_sha256": "aed49139a5366c1a9d746b6cd1492941c355f49e1bab1cdd539953414780ce2a"
+    },
+    {
+      "path": "app/Resources/FoodArt/tofu-paper-64.png",
+      "approved_sha256": "a927d378da1844918fff27a5b5b9dd4f2e60a99843d9d94926461c6af107cbc6",
+      "bundled_sha256": "a927d378da1844918fff27a5b5b9dd4f2e60a99843d9d94926461c6af107cbc6"
+    },
+    {
+      "path": "app/Resources/FoodArt/tofu-night-64.png",
+      "approved_sha256": "39ab28b26a3d3b1d70aeeb0236ca6c44f9c49ab690004f56c45b5faf98df987d",
+      "bundled_sha256": "39ab28b26a3d3b1d70aeeb0236ca6c44f9c49ab690004f56c45b5faf98df987d"
+    },
+    {
+      "path": "app/Resources/FoodArt/minced-pork-paper-64.png",
+      "approved_sha256": "6de6124a4b558925c7e3c5472ca514e973c616735bcc2b195a81a3385a1e7b0b",
+      "bundled_sha256": "6de6124a4b558925c7e3c5472ca514e973c616735bcc2b195a81a3385a1e7b0b"
+    },
+    {
+      "path": "app/Resources/FoodArt/minced-pork-night-64.png",
+      "approved_sha256": "724974e1f19998f20c3330f26b38a84ef63ed358aa7b8775ef6974351f917fab",
+      "bundled_sha256": "724974e1f19998f20c3330f26b38a84ef63ed358aa7b8775ef6974351f917fab"
+    },
+    {
+      "path": "app/Resources/FoodArt/larb-paper-64.png",
+      "approved_sha256": "92875a78d157888ee6364c97c11522916ce89f817ea9cfed966894d4c72d3a7f",
+      "bundled_sha256": "92875a78d157888ee6364c97c11522916ce89f817ea9cfed966894d4c72d3a7f"
+    },
+    {
+      "path": "app/Resources/FoodArt/larb-night-64.png",
+      "approved_sha256": "270f0f4940c955407396ee3e541f8b051d3758b9cc77cf36484e86b17931257c",
+      "bundled_sha256": "270f0f4940c955407396ee3e541f8b051d3758b9cc77cf36484e86b17931257c"
+    },
+    {
+      "path": "app/Resources/FoodArt/boiled-pork-paper-64.png",
+      "approved_sha256": "33bad6347d1b04e40364267fde5060a240ae5c3a125d988d47e8ada57e137723",
+      "bundled_sha256": "33bad6347d1b04e40364267fde5060a240ae5c3a125d988d47e8ada57e137723"
+    },
+    {
+      "path": "app/Resources/FoodArt/boiled-pork-night-64.png",
+      "approved_sha256": "0373a01102982567e52b9058001c8f148f452ceb806dce1c92902990884866d1",
+      "bundled_sha256": "0373a01102982567e52b9058001c8f148f452ceb806dce1c92902990884866d1"
+    },
+    {
+      "path": "app/Resources/FoodArt/poached-chicken-paper-64.png",
+      "approved_sha256": "d3b644d9ffe3cf8b80de99461443c1b5e82f6c0bc48cd324b19e4c0829b87ec4",
+      "bundled_sha256": "d3b644d9ffe3cf8b80de99461443c1b5e82f6c0bc48cd324b19e4c0829b87ec4"
+    },
+    {
+      "path": "app/Resources/FoodArt/poached-chicken-night-64.png",
+      "approved_sha256": "4b6c28df3eb78a783da15d947f9b64d4236bece41742566746b77ec153add399",
+      "bundled_sha256": "4b6c28df3eb78a783da15d947f9b64d4236bece41742566746b77ec153add399"
+    },
+    {
+      "path": "app/Resources/FoodArt/sardines-paper-64.png",
+      "approved_sha256": "dc85bb431aa6737dacbe48a8b6fbd5ef8a4a5b4dacde9525e90d55a9a9d74a4d",
+      "bundled_sha256": "dc85bb431aa6737dacbe48a8b6fbd5ef8a4a5b4dacde9525e90d55a9a9d74a4d"
+    },
+    {
+      "path": "app/Resources/FoodArt/sardines-night-64.png",
+      "approved_sha256": "b0fddc9b7a4b428765c1ecfc3934ce4902fed0a24fab18daaf711fd856628e46",
+      "bundled_sha256": "b0fddc9b7a4b428765c1ecfc3934ce4902fed0a24fab18daaf711fd856628e46"
+    },
+    {
+      "path": "app/Resources/FoodArt/cold-cuts-paper-64.png",
+      "approved_sha256": "8b8e83907b3f4da3bbc606c92619c46e789e2b55a46cc90f9ba9cd3f0c6d4658",
+      "bundled_sha256": "8b8e83907b3f4da3bbc606c92619c46e789e2b55a46cc90f9ba9cd3f0c6d4658"
+    },
+    {
+      "path": "app/Resources/FoodArt/cold-cuts-night-64.png",
+      "approved_sha256": "9f15b97a37ebbb29b8e879eacf60e5b853975210bc4ae40094dfde0b667b992d",
+      "bundled_sha256": "9f15b97a37ebbb29b8e879eacf60e5b853975210bc4ae40094dfde0b667b992d"
+    },
+    {
+      "path": "app/Resources/FoodArt/dumplings-paper-64.png",
+      "approved_sha256": "e6e6447e9696d563ebe235c295e1fed964bf4be44ee44a51b346abc0a2316398",
+      "bundled_sha256": "e6e6447e9696d563ebe235c295e1fed964bf4be44ee44a51b346abc0a2316398"
+    },
+    {
+      "path": "app/Resources/FoodArt/dumplings-night-64.png",
+      "approved_sha256": "2af53b524f36d7cb13ae8f215ae7907834b7439cced02f15d2fa0c0272c6f694",
+      "bundled_sha256": "2af53b524f36d7cb13ae8f215ae7907834b7439cced02f15d2fa0c0272c6f694"
+    },
+    {
+      "path": "app/Resources/FoodArt/meatballs-paper-64.png",
+      "approved_sha256": "8efd3b99931f746ff54a1438c1779d3b062d747865a0200d0e1dbec64a34ab11",
+      "bundled_sha256": "8efd3b99931f746ff54a1438c1779d3b062d747865a0200d0e1dbec64a34ab11"
+    },
+    {
+      "path": "app/Resources/FoodArt/meatballs-night-64.png",
+      "approved_sha256": "2b38b0b7b9f09dd744a97a0402bfff17c5895927e536b87a34261f778f9eb537",
+      "bundled_sha256": "2b38b0b7b9f09dd744a97a0402bfff17c5895927e536b87a34261f778f9eb537"
+    },
+    {
+      "path": "app/Resources/FoodArt/iced-coffee-paper-64.png",
+      "approved_sha256": "c9dce1fb73c4dca9cf44ef5d9a156708d565ac8a422deabd8adedde8dd652a61",
+      "bundled_sha256": "c9dce1fb73c4dca9cf44ef5d9a156708d565ac8a422deabd8adedde8dd652a61"
+    },
+    {
+      "path": "app/Resources/FoodArt/iced-coffee-night-64.png",
+      "approved_sha256": "88af4aa14751bc1d8a1f22f25a571d9361f2867028ef3c5f67d42cc9fdf8b579",
+      "bundled_sha256": "88af4aa14751bc1d8a1f22f25a571d9361f2867028ef3c5f67d42cc9fdf8b579"
+    },
+    {
+      "path": "app/Resources/FoodArt/matcha-latte-paper-64.png",
+      "approved_sha256": "66e23f60b3d41c49a18b40ef9957220d7111618294900509fae776f810b6a262",
+      "bundled_sha256": "66e23f60b3d41c49a18b40ef9957220d7111618294900509fae776f810b6a262"
+    },
+    {
+      "path": "app/Resources/FoodArt/matcha-latte-night-64.png",
+      "approved_sha256": "2d4cd2479137f9387896c4b6bc37da7336e31552dbf5d2459c950d3860f8fef1",
+      "bundled_sha256": "2d4cd2479137f9387896c4b6bc37da7336e31552dbf5d2459c950d3860f8fef1"
+    },
+    {
+      "path": "app/Resources/FoodArt/soy-milk-paper-64.png",
+      "approved_sha256": "d237485022b666e7001640c2ce3c21fdab829631b7a8d804a6cf9553bf70f161",
+      "bundled_sha256": "d237485022b666e7001640c2ce3c21fdab829631b7a8d804a6cf9553bf70f161"
+    },
+    {
+      "path": "app/Resources/FoodArt/soy-milk-night-64.png",
+      "approved_sha256": "852539af033419724aeb5ae4fc0e4eeb5fbf45cb8d14d80dc3047a10c5ef2c7e",
+      "bundled_sha256": "852539af033419724aeb5ae4fc0e4eeb5fbf45cb8d14d80dc3047a10c5ef2c7e"
+    },
+    {
+      "path": "app/Resources/FoodArt/milk-tea-paper-64.png",
+      "approved_sha256": "aea0490bf895e48f91bd34d29926c7f1d0c81a0755ae9a9ad48b5881ef975425",
+      "bundled_sha256": "aea0490bf895e48f91bd34d29926c7f1d0c81a0755ae9a9ad48b5881ef975425"
+    },
+    {
+      "path": "app/Resources/FoodArt/milk-tea-night-64.png",
+      "approved_sha256": "a030ca5e7469aae545ce362648ac571525ff4367e794e259fdf7883139624099",
+      "bundled_sha256": "a030ca5e7469aae545ce362648ac571525ff4367e794e259fdf7883139624099"
+    },
+    {
+      "path": "app/Resources/FoodArt/som-tum-paper-64.png",
+      "approved_sha256": "7577502f4ef7766919e684832ebc0e7a3821838144484fab4f877803a84c2fdc",
+      "bundled_sha256": "7577502f4ef7766919e684832ebc0e7a3821838144484fab4f877803a84c2fdc"
+    },
+    {
+      "path": "app/Resources/FoodArt/som-tum-night-64.png",
+      "approved_sha256": "7637fa93723f37867409d5fdbf5da3af85c915c7c320cd55149e49dd9539b036",
+      "bundled_sha256": "7637fa93723f37867409d5fdbf5da3af85c915c7c320cd55149e49dd9539b036"
+    },
+    {
+      "path": "app/Resources/FoodArt/eggplant-paper-64.png",
+      "approved_sha256": "7f601ac55465d3b1cb3ad169d4600b5f803b580ca2422fabf9698156ff99c5e8",
+      "bundled_sha256": "7f601ac55465d3b1cb3ad169d4600b5f803b580ca2422fabf9698156ff99c5e8"
+    },
+    {
+      "path": "app/Resources/FoodArt/eggplant-night-64.png",
+      "approved_sha256": "0361227fb9be79d45e0a91254743f7ea64651a7cd15315ddcd1cf16e37071f8e",
+      "bundled_sha256": "0361227fb9be79d45e0a91254743f7ea64651a7cd15315ddcd1cf16e37071f8e"
+    },
+    {
+      "path": "app/Resources/FoodArt/green-salad-paper-64.png",
+      "approved_sha256": "773f0db498930c9e143598aa1131164136468851f19a60fd25bf59ce207a7aa4",
+      "bundled_sha256": "773f0db498930c9e143598aa1131164136468851f19a60fd25bf59ce207a7aa4"
+    },
+    {
+      "path": "app/Resources/FoodArt/green-salad-night-64.png",
+      "approved_sha256": "e8461a6736f1d031cb43ab1f8d9f65a043cb07870c21f1dd47ad78b94df6916c",
+      "bundled_sha256": "e8461a6736f1d031cb43ab1f8d9f65a043cb07870c21f1dd47ad78b94df6916c"
+    },
+    {
+      "path": "app/Resources/FoodArt/chili-oil-paper-64.png",
+      "approved_sha256": "491d20ae034dab1912ee245e22a9f29a8fe8f7b4b1eb6d3b66f45ad9999f66fc",
+      "bundled_sha256": "491d20ae034dab1912ee245e22a9f29a8fe8f7b4b1eb6d3b66f45ad9999f66fc"
+    },
+    {
+      "path": "app/Resources/FoodArt/chili-oil-night-64.png",
+      "approved_sha256": "2de0e8b9011bb9746acc4cee471937e24c412d4a9a1d51eb84ad11498337e490",
+      "bundled_sha256": "2de0e8b9011bb9746acc4cee471937e24c412d4a9a1d51eb84ad11498337e490"
+    },
+    {
+      "path": "app/Resources/FoodArt/gravy-paper-64.png",
+      "approved_sha256": "51fcd07afbd9364829cf1aff2bae2b72869c6762eb25c107dbd328a8a742ded9",
+      "bundled_sha256": "51fcd07afbd9364829cf1aff2bae2b72869c6762eb25c107dbd328a8a742ded9"
+    },
+    {
+      "path": "app/Resources/FoodArt/gravy-night-64.png",
+      "approved_sha256": "b1ffc5f908da5141e5ddb9edab6538239d42cd1aa4fe0240e23264be469ea6ca",
+      "bundled_sha256": "b1ffc5f908da5141e5ddb9edab6538239d42cd1aa4fe0240e23264be469ea6ca"
+    },
+    {
+      "path": "app/Resources/FoodArt/thai-sweets-paper-64.png",
+      "approved_sha256": "499a8bf9749c2d8e6309c8fab4cb8ba6c0e067e8ae29b95604179287bac77446",
+      "bundled_sha256": "499a8bf9749c2d8e6309c8fab4cb8ba6c0e067e8ae29b95604179287bac77446"
+    },
+    {
+      "path": "app/Resources/FoodArt/thai-sweets-night-64.png",
+      "approved_sha256": "a0dfd700bcaa5d82ef07186a47bbca9d12ea62397308714b8fc8227f247d0a5b",
+      "bundled_sha256": "a0dfd700bcaa5d82ef07186a47bbca9d12ea62397308714b8fc8227f247d0a5b"
+    },
+    {
+      "path": "app/Resources/FoodArt/curry-paper-64.png",
+      "approved_sha256": "e258bef2e761834a06496939546aedb84922e86709255ad9ed43ff720a4ccd82",
+      "bundled_sha256": "e258bef2e761834a06496939546aedb84922e86709255ad9ed43ff720a4ccd82"
+    },
+    {
+      "path": "app/Resources/FoodArt/curry-night-64.png",
+      "approved_sha256": "a75fda345d6b0f43ca2a10ca8291efa6871ac320625c76af4d17f9eca5713cb4",
+      "bundled_sha256": "a75fda345d6b0f43ca2a10ca8291efa6871ac320625c76af4d17f9eca5713cb4"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-rice-paper-64.png",
+      "approved_sha256": "5be2868a2a2ab723adfe8c6d7acac27f8f9b8fbf78229b3ccef1b1656bcd499d",
+      "bundled_sha256": "5be2868a2a2ab723adfe8c6d7acac27f8f9b8fbf78229b3ccef1b1656bcd499d"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-rice-night-64.png",
+      "approved_sha256": "a1dd34699ccfa8e68e86b94d8eeda39a5d15ac40722ae9f6f7fc7cc40cbcda06",
+      "bundled_sha256": "a1dd34699ccfa8e68e86b94d8eeda39a5d15ac40722ae9f6f7fc7cc40cbcda06"
+    },
+    {
+      "path": "app/Resources/FoodArt/basil-stir-fry-paper-64.png",
+      "approved_sha256": "4a10bba28b8daadce7df2ec72d80fe7a647461ff478d88041fd20de78a59a404",
+      "bundled_sha256": "4a10bba28b8daadce7df2ec72d80fe7a647461ff478d88041fd20de78a59a404"
+    },
+    {
+      "path": "app/Resources/FoodArt/basil-stir-fry-night-64.png",
+      "approved_sha256": "a43ef12756a5f6d442bc4e98d5e4c5c78847effa68a876c3efb558219f2fc8cc",
+      "bundled_sha256": "a43ef12756a5f6d442bc4e98d5e4c5c78847effa68a876c3efb558219f2fc8cc"
+    },
+    {
+      "path": "app/Resources/FoodArt/omelette-paper-64.png",
+      "approved_sha256": "a8f705691868364a4c87a6b0e70ae269963efd770f2eaa4649055826c8e5e0fa",
+      "bundled_sha256": "a8f705691868364a4c87a6b0e70ae269963efd770f2eaa4649055826c8e5e0fa"
+    },
+    {
+      "path": "app/Resources/FoodArt/omelette-night-64.png",
+      "approved_sha256": "3998e8c9072ada151dd09930d32c5ceea155e8dc70e1c4a19290005604e73cd5",
+      "bundled_sha256": "3998e8c9072ada151dd09930d32c5ceea155e8dc70e1c4a19290005604e73cd5"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-chicken-paper-64.png",
+      "approved_sha256": "f9ff4ac923448a167f3a57cd031c2b2288e8838f6c263d2cf613f1cebf4ce709",
+      "bundled_sha256": "f9ff4ac923448a167f3a57cd031c2b2288e8838f6c263d2cf613f1cebf4ce709"
+    },
+    {
+      "path": "app/Resources/FoodArt/fried-chicken-night-64.png",
+      "approved_sha256": "e6df19386ce9a0b3c8184d2f7e22d8d34aea19e0801263cdf82ed682f0962d94",
+      "bundled_sha256": "e6df19386ce9a0b3c8184d2f7e22d8d34aea19e0801263cdf82ed682f0962d94"
+    },
+    {
+      "path": "app/Resources/FoodArt/pizza-slice-paper-64.png",
+      "approved_sha256": "accf188c29d6dc9aa11c43cfa92a3db1fb2b7991b3658286af5180fabb8c4b85",
+      "bundled_sha256": "accf188c29d6dc9aa11c43cfa92a3db1fb2b7991b3658286af5180fabb8c4b85"
+    },
+    {
+      "path": "app/Resources/FoodArt/pizza-slice-night-64.png",
+      "approved_sha256": "c10534b0449fb311bae89ea320db1d901bf584769abd1f827434f0ad83f99a8a",
+      "bundled_sha256": "c10534b0449fb311bae89ea320db1d901bf584769abd1f827434f0ad83f99a8a"
+    },
+    {
+      "path": "app/Resources/FoodArt/sandwich-paper-64.png",
+      "approved_sha256": "414d66140c278606bcb170458e003153c0fb9d4f936ddaa32def6f0a71f8c10b",
+      "bundled_sha256": "414d66140c278606bcb170458e003153c0fb9d4f936ddaa32def6f0a71f8c10b"
+    },
+    {
+      "path": "app/Resources/FoodArt/sandwich-night-64.png",
+      "approved_sha256": "66aeb9a309ed5ea8d2a0e6238c708b6b74b19c96f11830ea2bfa5d659323bba4",
+      "bundled_sha256": "66aeb9a309ed5ea8d2a0e6238c708b6b74b19c96f11830ea2bfa5d659323bba4"
+    },
+    {
+      "path": "app/Resources/FoodArt/focaccia-paper-64.png",
+      "approved_sha256": "e8679f379625be8cd8069b87d0cda5f619cc2ed4ecd65fca016c3621105a72d1",
+      "bundled_sha256": "e8679f379625be8cd8069b87d0cda5f619cc2ed4ecd65fca016c3621105a72d1"
+    },
+    {
+      "path": "app/Resources/FoodArt/focaccia-night-64.png",
+      "approved_sha256": "306472703d3cafa79642f3f16ac1eaab6f0c4e872ae1ad88d411b57313898253",
+      "bundled_sha256": "306472703d3cafa79642f3f16ac1eaab6f0c4e872ae1ad88d411b57313898253"
+    },
+    {
+      "path": "app/Resources/FoodArt/instant-noodles-paper-64.png",
+      "approved_sha256": "5a2b87c3301b637a4bd72c384b878fed6877a04058ccdb2798ab5a76195c037c",
+      "bundled_sha256": "5a2b87c3301b637a4bd72c384b878fed6877a04058ccdb2798ab5a76195c037c"
+    },
+    {
+      "path": "app/Resources/FoodArt/instant-noodles-night-64.png",
+      "approved_sha256": "b4b9ffe9c6f67b298b1abdce92fa1227901e63eab6cd3ec79c57d24cbdce0d6f",
+      "bundled_sha256": "b4b9ffe9c6f67b298b1abdce92fa1227901e63eab6cd3ec79c57d24cbdce0d6f"
+    },
+    {
+      "path": "app/Resources/FoodArt/roti-paper-64.png",
+      "approved_sha256": "03abfa4d537030702ad641ec155266c083217e69749419a5d101944d0024ce6d",
+      "bundled_sha256": "03abfa4d537030702ad641ec155266c083217e69749419a5d101944d0024ce6d"
+    },
+    {
+      "path": "app/Resources/FoodArt/roti-night-64.png",
+      "approved_sha256": "b8402ad766a58407f2e3400539aba180ee3fdd4b91d07d4be0b6142a08c24982",
+      "bundled_sha256": "b8402ad766a58407f2e3400539aba180ee3fdd4b91d07d4be0b6142a08c24982"
+    },
+    {
+      "path": "app/Resources/FoodArt/mashed-potato-paper-64.png",
+      "approved_sha256": "a33d467488470fb088d517eb001f36d64ab8ac47291ec13497de8261abbef879",
+      "bundled_sha256": "a33d467488470fb088d517eb001f36d64ab8ac47291ec13497de8261abbef879"
+    },
+    {
+      "path": "app/Resources/FoodArt/mashed-potato-night-64.png",
+      "approved_sha256": "71a5a1e817ed0daba5a2fb2eda28012ed6ea305e2fd08dad927f7782f83cc7f5",
+      "bundled_sha256": "71a5a1e817ed0daba5a2fb2eda28012ed6ea305e2fd08dad927f7782f83cc7f5"
+    },
+    {
+      "path": "app/Resources/FoodArt/cooking-oil-paper-64.png",
+      "approved_sha256": "27f80ae40439668fbbff2e1749629e4265edcd7882e4f3e853617f203699d30f",
+      "bundled_sha256": "27f80ae40439668fbbff2e1749629e4265edcd7882e4f3e853617f203699d30f"
+    },
+    {
+      "path": "app/Resources/FoodArt/cooking-oil-night-64.png",
+      "approved_sha256": "efb4bd62425ca4187964388bf642955366caae361d7c60ac1911964e9bfac752",
+      "bundled_sha256": "efb4bd62425ca4187964388bf642955366caae361d7c60ac1911964e9bfac752"
+    },
+    {
+      "path": "app/Resources/FoodArt/raw-vegetable-plate-paper-64.png",
+      "approved_sha256": "43df8d61b08a224ef8f38d596d7f5ca980d810cb97a2fa021fdcc9a5ddc0c0a8",
+      "bundled_sha256": "43df8d61b08a224ef8f38d596d7f5ca980d810cb97a2fa021fdcc9a5ddc0c0a8"
+    },
+    {
+      "path": "app/Resources/FoodArt/raw-vegetable-plate-night-64.png",
+      "approved_sha256": "261bd98b35cb9430e6a53faaae223eb6d15f4fb0d0324020dc7ada2c19e73441",
+      "bundled_sha256": "261bd98b35cb9430e6a53faaae223eb6d15f4fb0d0324020dc7ada2c19e73441"
+    },
+    {
+      "path": "app/Resources/FoodArt/mixed-nuts-paper-64.png",
+      "approved_sha256": "ca2cef2cc583fc61aef0116d1ea399480257c4a6267a048a30e3d376bc12952c",
+      "bundled_sha256": "ca2cef2cc583fc61aef0116d1ea399480257c4a6267a048a30e3d376bc12952c"
+    },
+    {
+      "path": "app/Resources/FoodArt/mixed-nuts-night-64.png",
+      "approved_sha256": "f5fe23885291bfd9c45b7644a8f1adbd7d4f9c279a2d65bac69984d182ccc616",
+      "bundled_sha256": "f5fe23885291bfd9c45b7644a8f1adbd7d4f9c279a2d65bac69984d182ccc616"
+    },
+    {
+      "path": "app/Resources/FoodArt/shabu-slices-paper-64.png",
+      "approved_sha256": "ad5174a9fb13f112e018ea045896e42c6ec14d62112d4aa968107adb1fbb8c94",
+      "bundled_sha256": "ad5174a9fb13f112e018ea045896e42c6ec14d62112d4aa968107adb1fbb8c94"
+    },
+    {
+      "path": "app/Resources/FoodArt/shabu-slices-night-64.png",
+      "approved_sha256": "ac818dcd8b87752e5036db399ee4072d10488bde63018994591dc5b0b03278d0",
+      "bundled_sha256": "ac818dcd8b87752e5036db399ee4072d10488bde63018994591dc5b0b03278d0"
+    },
+    {
+      "path": "app/Resources/FoodArt/beef-rice-bowl-paper-64.png",
+      "approved_sha256": "8c3f1811dfdb1dfd37ffd82f2bf161fb98c06c6b3f60cedd23646e9029f3d49f",
+      "bundled_sha256": "8c3f1811dfdb1dfd37ffd82f2bf161fb98c06c6b3f60cedd23646e9029f3d49f"
+    },
+    {
+      "path": "app/Resources/FoodArt/beef-rice-bowl-night-64.png",
+      "approved_sha256": "675f4b189b61fd87aaf9eea490f398d3c630b54b264c8b26a6d56dda41e21924",
+      "bundled_sha256": "675f4b189b61fd87aaf9eea490f398d3c630b54b264c8b26a6d56dda41e21924"
+    },
+    {
+      "path": "app/Resources/FoodArt/protein-shake-paper-64.png",
+      "approved_sha256": "8438fc6d613f232a9ead74876be0fb26b35fcd9c954b7a7211f1ba162a6c0539",
+      "bundled_sha256": "8438fc6d613f232a9ead74876be0fb26b35fcd9c954b7a7211f1ba162a6c0539"
+    },
+    {
+      "path": "app/Resources/FoodArt/protein-shake-night-64.png",
+      "approved_sha256": "95da1e01eb478b9c3a76169224678754c41427d660746728ed753bce710c63b5",
+      "bundled_sha256": "95da1e01eb478b9c3a76169224678754c41427d660746728ed753bce710c63b5"
+    },
+    {
+      "path": "app/Resources/FoodArt/apple-paper-64.png",
+      "approved_sha256": "056439571d17299a286faf9dbfc0a8ee7b44368c2503fe05cb3d29a5db2468cd",
+      "bundled_sha256": "056439571d17299a286faf9dbfc0a8ee7b44368c2503fe05cb3d29a5db2468cd"
+    },
+    {
+      "path": "app/Resources/FoodArt/apple-night-64.png",
+      "approved_sha256": "7e4f25a918473f1195fee0500ae98f2486bc9a166f81f34ad3cd01577d4bb166",
+      "bundled_sha256": "7e4f25a918473f1195fee0500ae98f2486bc9a166f81f34ad3cd01577d4bb166"
+    },
+    {
+      "path": "app/Resources/FoodArt/pomelo-paper-64.png",
+      "approved_sha256": "3dcdc356bbd6a01f002d950dfc320dd2e707ca5e55b548b5c7651d0b0374cd85",
+      "bundled_sha256": "3dcdc356bbd6a01f002d950dfc320dd2e707ca5e55b548b5c7651d0b0374cd85"
+    },
+    {
+      "path": "app/Resources/FoodArt/pomelo-night-64.png",
+      "approved_sha256": "345948443af6194364eb4ab028804331037124ca6ccbc51ff0194361d3656072",
+      "bundled_sha256": "345948443af6194364eb4ab028804331037124ca6ccbc51ff0194361d3656072"
+    },
+    {
+      "path": "app/Resources/FoodArt/cucumber-paper-64.png",
+      "approved_sha256": "b0bb30ff9ae826647cb0145ccdcb40211d530e74f87fc0b2350b2e26da51bfc6",
+      "bundled_sha256": "b0bb30ff9ae826647cb0145ccdcb40211d530e74f87fc0b2350b2e26da51bfc6"
+    },
+    {
+      "path": "app/Resources/FoodArt/cucumber-night-64.png",
+      "approved_sha256": "1708921c92c5097773a9a5008f01e766bb600a58697ac86fedacddde2a2eeb0b",
+      "bundled_sha256": "1708921c92c5097773a9a5008f01e766bb600a58697ac86fedacddde2a2eeb0b"
+    },
+    {
+      "path": "app/Resources/FoodArt/kimchi-paper-64.png",
+      "approved_sha256": "1d65647c20fd8a0696a2f0a97a29e4bbac1c44f9de750333b3f0883a93e5b758",
+      "bundled_sha256": "1d65647c20fd8a0696a2f0a97a29e4bbac1c44f9de750333b3f0883a93e5b758"
+    },
+    {
+      "path": "app/Resources/FoodArt/kimchi-night-64.png",
+      "approved_sha256": "3adbcde4ba2b8f6f271841d9507431b23118389ff666152df14d6c5040cbafba",
+      "bundled_sha256": "3adbcde4ba2b8f6f271841d9507431b23118389ff666152df14d6c5040cbafba"
+    },
+    {
+      "path": "app/Resources/FoodArt/mushrooms-paper-64.png",
+      "approved_sha256": "88061dcac3a372aa039915bffacb9394a4ef1175da3205987a8b133ca8ed590c",
+      "bundled_sha256": "88061dcac3a372aa039915bffacb9394a4ef1175da3205987a8b133ca8ed590c"
+    },
+    {
+      "path": "app/Resources/FoodArt/mushrooms-night-64.png",
+      "approved_sha256": "772651a6c730810dc6c4df0d9159e45fd076653f107965796eee5698e797e5c7",
+      "bundled_sha256": "772651a6c730810dc6c4df0d9159e45fd076653f107965796eee5698e797e5c7"
+    },
+    {
+      "path": "app/Resources/FoodArt/shrimp-paper-64.png",
+      "approved_sha256": "e3ae73d2b90a4f6a194a7e30cabcd06ea059acd84f2686def08e4c0563b73f03",
+      "bundled_sha256": "e3ae73d2b90a4f6a194a7e30cabcd06ea059acd84f2686def08e4c0563b73f03"
+    },
+    {
+      "path": "app/Resources/FoodArt/shrimp-night-64.png",
+      "approved_sha256": "4db0d0dcaef7e92f8c619362f098adc1a963c926b0c5a725ebeb923911c3e9b1",
+      "bundled_sha256": "4db0d0dcaef7e92f8c619362f098adc1a963c926b0c5a725ebeb923911c3e9b1"
+    },
+    {
+      "path": "app/Resources/FoodArt/stewed-duck-paper-64.png",
+      "approved_sha256": "086811407aed315fbb9593bbb84b80ea6608d1f77b942f8efcc1d5ea3666dc60",
+      "bundled_sha256": "086811407aed315fbb9593bbb84b80ea6608d1f77b942f8efcc1d5ea3666dc60"
+    },
+    {
+      "path": "app/Resources/FoodArt/stewed-duck-night-64.png",
+      "approved_sha256": "990765f94ef71352d395137e31d6208903b0673ad077820403eb766ee9964756",
+      "bundled_sha256": "990765f94ef71352d395137e31d6208903b0673ad077820403eb766ee9964756"
+    },
+    {
+      "path": "app/Resources/FoodArt/cake-paper-64.png",
+      "approved_sha256": "527efc69f72b8d7dae8092e83a1d2b98bdeed823c8cebaa9ae095e2fd5f65582",
+      "bundled_sha256": "527efc69f72b8d7dae8092e83a1d2b98bdeed823c8cebaa9ae095e2fd5f65582"
+    },
+    {
+      "path": "app/Resources/FoodArt/cake-night-64.png",
+      "approved_sha256": "51e8491065d2b1dfbf2c7ac34e82a9597d2060a8a92ca840557389567ee35191",
+      "bundled_sha256": "51e8491065d2b1dfbf2c7ac34e82a9597d2060a8a92ca840557389567ee35191"
+    },
+    {
+      "path": "app/Resources/FoodArt/tea-paper-64.png",
+      "approved_sha256": "8c0cfbf144ad453b3fd078ef769e3674eb842d8d676addbec5c556f91eef79a6",
+      "bundled_sha256": "8c0cfbf144ad453b3fd078ef769e3674eb842d8d676addbec5c556f91eef79a6"
+    },
+    {
+      "path": "app/Resources/FoodArt/tea-night-64.png",
+      "approved_sha256": "cbcf0c0154a5f60219604edaf32d21e59142b13899db636d0aa7f55e4d7702b0",
+      "bundled_sha256": "cbcf0c0154a5f60219604edaf32d21e59142b13899db636d0aa7f55e4d7702b0"
+    },
+    {
+      "path": "app/Resources/FoodArt/latte-paper-64.png",
+      "approved_sha256": "1ce5583ba8c22439d1b8b4ab40ce5d2a719880109626a03f393e54084e904c25",
+      "bundled_sha256": "1ce5583ba8c22439d1b8b4ab40ce5d2a719880109626a03f393e54084e904c25"
+    },
+    {
+      "path": "app/Resources/FoodArt/latte-night-64.png",
+      "approved_sha256": "e1dd5306e7b1ae8453bbaa65e762ca3eb883f40ef00e3ecd7814b17c196f8e6e",
+      "bundled_sha256": "e1dd5306e7b1ae8453bbaa65e762ca3eb883f40ef00e3ecd7814b17c196f8e6e"
+    },
+    {
+      "path": "app/Resources/FoodArt/orange-juice-paper-64.png",
+      "approved_sha256": "123a8163e0a2914b5477982f2a7fec4f557030332c353e83366d92712d97e73b",
+      "bundled_sha256": "123a8163e0a2914b5477982f2a7fec4f557030332c353e83366d92712d97e73b"
+    },
+    {
+      "path": "app/Resources/FoodArt/orange-juice-night-64.png",
+      "approved_sha256": "b3a408451c36e05301c67c05705c0cac9a8df0551419cbe724b07acd7f0209af",
+      "bundled_sha256": "b3a408451c36e05301c67c05705c0cac9a8df0551419cbe724b07acd7f0209af"
+    },
+    {
+      "path": "app/Resources/FoodArt/coconut-water-paper-64.png",
+      "approved_sha256": "05f17bf5c4ac0569601c68fd9058a9bc6ff9222f45a2414c3ad1a5c31c797cce",
+      "bundled_sha256": "05f17bf5c4ac0569601c68fd9058a9bc6ff9222f45a2414c3ad1a5c31c797cce"
+    },
+    {
+      "path": "app/Resources/FoodArt/coconut-water-night-64.png",
+      "approved_sha256": "96b825dfbfc445f994440780eaf3c97322256f2681737ebbd3f0ade3db11c304",
+      "bundled_sha256": "96b825dfbfc445f994440780eaf3c97322256f2681737ebbd3f0ade3db11c304"
+    },
+    {
+      "path": "app/Resources/FoodArt/beer-paper-64.png",
+      "approved_sha256": "789efa7d2c07a894f89d2baf74334b8f56b3c5eef0043dfdd60feceee9f2ea9b",
+      "bundled_sha256": "789efa7d2c07a894f89d2baf74334b8f56b3c5eef0043dfdd60feceee9f2ea9b"
+    },
+    {
+      "path": "app/Resources/FoodArt/beer-night-64.png",
+      "approved_sha256": "ec558caea9034b98bc64ff911cfa5e82a08a11c6a1b66a02e9d2b768cb16911b",
+      "bundled_sha256": "ec558caea9034b98bc64ff911cfa5e82a08a11c6a1b66a02e9d2b768cb16911b"
+    },
+    {
+      "path": "app/Resources/FoodArt/watermelon-paper-64.png",
+      "approved_sha256": "b5f0410f79f48d2b87b7613dd6c4e10acbf643e33f1a7e6729eac332cdeb51a0",
+      "bundled_sha256": "b5f0410f79f48d2b87b7613dd6c4e10acbf643e33f1a7e6729eac332cdeb51a0"
+    },
+    {
+      "path": "app/Resources/FoodArt/watermelon-night-64.png",
+      "approved_sha256": "c76e72013e7b38f80231640a6cb1e53022ac150e90cb2aac93947273afaeb369",
+      "bundled_sha256": "c76e72013e7b38f80231640a6cb1e53022ac150e90cb2aac93947273afaeb369"
+    },
+    {
+      "path": "app/Resources/FoodArt/pineapple-paper-64.png",
+      "approved_sha256": "3c9b44243d6fb2ae8992e40ee24500f4061f8ce6a3522741fa44eabfef741238",
+      "bundled_sha256": "3c9b44243d6fb2ae8992e40ee24500f4061f8ce6a3522741fa44eabfef741238"
+    },
+    {
+      "path": "app/Resources/FoodArt/pineapple-night-64.png",
+      "approved_sha256": "905d72ab0a990d088fb897b9bbd24a113ab36cd2c3815499771ef5873ec4a707",
+      "bundled_sha256": "905d72ab0a990d088fb897b9bbd24a113ab36cd2c3815499771ef5873ec4a707"
+    },
+    {
+      "path": "app/Resources/FoodArt/papaya-paper-64.png",
+      "approved_sha256": "befb1d185045beb34e30db2482cd1b1b617af7584a87a740ec3aab7cdda743bd",
+      "bundled_sha256": "befb1d185045beb34e30db2482cd1b1b617af7584a87a740ec3aab7cdda743bd"
+    },
+    {
+      "path": "app/Resources/FoodArt/papaya-night-64.png",
+      "approved_sha256": "f8711206c4287cbb651094f02774d0a7f9b119ff1823a5f7d7475cef3d0fd97f",
+      "bundled_sha256": "f8711206c4287cbb651094f02774d0a7f9b119ff1823a5f7d7475cef3d0fd97f"
+    },
+    {
+      "path": "app/Resources/FoodArt/dragon-fruit-paper-64.png",
+      "approved_sha256": "da45c2a673246e5798ae13ce1ca63a1d1476e0009ed045ab760a18e1d65235bd",
+      "bundled_sha256": "da45c2a673246e5798ae13ce1ca63a1d1476e0009ed045ab760a18e1d65235bd"
+    },
+    {
+      "path": "app/Resources/FoodArt/dragon-fruit-night-64.png",
+      "approved_sha256": "d0ea0b005e2caa12598c66a0a31a9f9a4cdb98d3f81594f9eef5f2e24fdd3518",
+      "bundled_sha256": "d0ea0b005e2caa12598c66a0a31a9f9a4cdb98d3f81594f9eef5f2e24fdd3518"
+    },
+    {
+      "path": "app/Resources/FoodArt/guava-paper-64.png",
+      "approved_sha256": "7e7653439c2e0bfd3b1a4412af347d36cce869494c9da2e2bc9c390da4865207",
+      "bundled_sha256": "7e7653439c2e0bfd3b1a4412af347d36cce869494c9da2e2bc9c390da4865207"
+    },
+    {
+      "path": "app/Resources/FoodArt/guava-night-64.png",
+      "approved_sha256": "7ff6e96739daaf39985c030f781d9732c21df30e5cc5af6285db9fcce7e63939",
+      "bundled_sha256": "7ff6e96739daaf39985c030f781d9732c21df30e5cc5af6285db9fcce7e63939"
+    },
+    {
+      "path": "app/Resources/FoodArt/grapes-paper-64.png",
+      "approved_sha256": "3696836b1db79610a5bb943e0dfc99ed7b04d62bdcea9cd3678fd8edd97098ea",
+      "bundled_sha256": "3696836b1db79610a5bb943e0dfc99ed7b04d62bdcea9cd3678fd8edd97098ea"
+    },
+    {
+      "path": "app/Resources/FoodArt/grapes-night-64.png",
+      "approved_sha256": "9745ed7dfd09d71db79cfbc2b41fe711f329ebe41024fafe38fa8d9423b5864f",
+      "bundled_sha256": "9745ed7dfd09d71db79cfbc2b41fe711f329ebe41024fafe38fa8d9423b5864f"
+    },
+    {
+      "path": "app/Resources/FoodArt/strawberry-paper-64.png",
+      "approved_sha256": "311f075641f20cfa1dc2fbf09aba2d4db60fca2b2b6becc14975619d998b974e",
+      "bundled_sha256": "311f075641f20cfa1dc2fbf09aba2d4db60fca2b2b6becc14975619d998b974e"
+    },
+    {
+      "path": "app/Resources/FoodArt/strawberry-night-64.png",
+      "approved_sha256": "71da5f7a44281d728e7f48532977ce9cb2ba3681149dc941d8072862a1d0ee8e",
+      "bundled_sha256": "71da5f7a44281d728e7f48532977ce9cb2ba3681149dc941d8072862a1d0ee8e"
+    },
+    {
+      "path": "app/Resources/FoodArt/tomato-paper-64.png",
+      "approved_sha256": "456ee5889603463803eeaca4794adb12ce0f75bc1a0a06a3675c26038a04ff66",
+      "bundled_sha256": "456ee5889603463803eeaca4794adb12ce0f75bc1a0a06a3675c26038a04ff66"
+    },
+    {
+      "path": "app/Resources/FoodArt/tomato-night-64.png",
+      "approved_sha256": "5cef126ef1e679a31e14df290669b5d2b62ff3b1493d6b5aecd3ce88ab0281c8",
+      "bundled_sha256": "5cef126ef1e679a31e14df290669b5d2b62ff3b1493d6b5aecd3ce88ab0281c8"
+    },
+    {
+      "path": "app/Resources/FoodArt/corn-paper-64.png",
+      "approved_sha256": "f8afc5cf676cd560d751a33a8adc686c882fe747e14ec084848d5d4c42c5b8ba",
+      "bundled_sha256": "f8afc5cf676cd560d751a33a8adc686c882fe747e14ec084848d5d4c42c5b8ba"
+    },
+    {
+      "path": "app/Resources/FoodArt/corn-night-64.png",
+      "approved_sha256": "c902c5ae0a476865c4ee0470d4cd11ff44d9220434111b8f37c566515c6523b0",
+      "bundled_sha256": "c902c5ae0a476865c4ee0470d4cd11ff44d9220434111b8f37c566515c6523b0"
+    },
+    {
+      "path": "app/Resources/FoodArt/french-fries-paper-64.png",
+      "approved_sha256": "0f3ece05bfdacaf4f1c494c678329f82e514d68078a97a8c805025125b66292b",
+      "bundled_sha256": "0f3ece05bfdacaf4f1c494c678329f82e514d68078a97a8c805025125b66292b"
+    },
+    {
+      "path": "app/Resources/FoodArt/french-fries-night-64.png",
+      "approved_sha256": "e884431dedb4cd5050b9999d351f21153822f3d1f5e63b61f87505c50d18d49d",
+      "bundled_sha256": "e884431dedb4cd5050b9999d351f21153822f3d1f5e63b61f87505c50d18d49d"
+    },
+    {
+      "path": "app/Resources/FoodArt/burger-paper-64.png",
+      "approved_sha256": "16aa56c791f220dfe1ba6e0c29efdc0d0f799f06810d86b834789d45dd37b707",
+      "bundled_sha256": "16aa56c791f220dfe1ba6e0c29efdc0d0f799f06810d86b834789d45dd37b707"
+    },
+    {
+      "path": "app/Resources/FoodArt/burger-night-64.png",
+      "approved_sha256": "ff8bd156029c2bb18fa63a1c4aa817b2be220c6c456c4f2f0d5a3ac156d351d7",
+      "bundled_sha256": "ff8bd156029c2bb18fa63a1c4aa817b2be220c6c456c4f2f0d5a3ac156d351d7"
+    },
+    {
+      "path": "app/Resources/FoodArt/spring-roll-paper-64.png",
+      "approved_sha256": "acd51072180680c452cb643aac1b1ec8b0bbaf73f9fd3c37096b611893e63696",
+      "bundled_sha256": "acd51072180680c452cb643aac1b1ec8b0bbaf73f9fd3c37096b611893e63696"
+    },
+    {
+      "path": "app/Resources/FoodArt/spring-roll-night-64.png",
+      "approved_sha256": "1063a28c75e9b3b37f09043b45a59af53f13ee725ff95508b0284e04d63bfd91",
+      "bundled_sha256": "1063a28c75e9b3b37f09043b45a59af53f13ee725ff95508b0284e04d63bfd91"
+    },
+    {
+      "path": "app/Resources/FoodArt/satay-paper-64.png",
+      "approved_sha256": "240eadb4a5294d42143331c861a170b452e93e40fc974dc8d189640f688b9f3d",
+      "bundled_sha256": "240eadb4a5294d42143331c861a170b452e93e40fc974dc8d189640f688b9f3d"
+    },
+    {
+      "path": "app/Resources/FoodArt/satay-night-64.png",
+      "approved_sha256": "ca1a1742cd0adc3f561262c02296bd6c43a217f029f31cdd9757803896f83450",
+      "bundled_sha256": "ca1a1742cd0adc3f561262c02296bd6c43a217f029f31cdd9757803896f83450"
+    },
+    {
+      "path": "app/Resources/FoodArt/mango-sticky-rice-paper-64.png",
+      "approved_sha256": "2f9a95888b76f89c2406cac7caf8fd9ab49ae69ae656405e9c7a4062ecf4ebbb",
+      "bundled_sha256": "2f9a95888b76f89c2406cac7caf8fd9ab49ae69ae656405e9c7a4062ecf4ebbb"
+    },
+    {
+      "path": "app/Resources/FoodArt/mango-sticky-rice-night-64.png",
+      "approved_sha256": "63e97b076c249e69d71024555191a205d4b52e4742b7df302232cabb35017de4",
+      "bundled_sha256": "63e97b076c249e69d71024555191a205d4b52e4742b7df302232cabb35017de4"
+    },
+    {
+      "path": "app/Resources/FoodArt/chocolate-paper-64.png",
+      "approved_sha256": "d8e64c39c8e94f8a2d9890c9887b559b3291e63dc2e4bcd1a2abdab1a848d4b4",
+      "bundled_sha256": "d8e64c39c8e94f8a2d9890c9887b559b3291e63dc2e4bcd1a2abdab1a848d4b4"
+    },
+    {
+      "path": "app/Resources/FoodArt/chocolate-night-64.png",
+      "approved_sha256": "55f235ba63d73061842aec84e128069f759c25aadef77d4e470c2106bb1e176f",
+      "bundled_sha256": "55f235ba63d73061842aec84e128069f759c25aadef77d4e470c2106bb1e176f"
+    },
+    {
+      "path": "app/Resources/FoodArt/cookie-paper-64.png",
+      "approved_sha256": "9273252da79766344013f9c4cf741d05e530c2ebbd61261b2bb732b7c29c4855",
+      "bundled_sha256": "9273252da79766344013f9c4cf741d05e530c2ebbd61261b2bb732b7c29c4855"
+    },
+    {
+      "path": "app/Resources/FoodArt/cookie-night-64.png",
+      "approved_sha256": "f1a87b46a7968b291ceb4038a5d6f1bb0485189fb41418839a72bd1887389570",
+      "bundled_sha256": "f1a87b46a7968b291ceb4038a5d6f1bb0485189fb41418839a72bd1887389570"
+    },
+    {
+      "path": "app/Resources/FoodArt/oatmeal-paper-64.png",
+      "approved_sha256": "5332008a3a8893ae37f24512fa2fa32aa850f25ffe9e088db039f5e7b68ba245",
+      "bundled_sha256": "5332008a3a8893ae37f24512fa2fa32aa850f25ffe9e088db039f5e7b68ba245"
+    },
+    {
+      "path": "app/Resources/FoodArt/oatmeal-night-64.png",
+      "approved_sha256": "11ab89a84f972d81f51d06855e65d703547bd047133cbe71b79b28e3657064be",
+      "bundled_sha256": "11ab89a84f972d81f51d06855e65d703547bd047133cbe71b79b28e3657064be"
+    },
+    {
+      "path": "app/Resources/FoodArt/miso-soup-paper-64.png",
+      "approved_sha256": "28e21f16785b8a0c648dda3ef8405bbe7370412e5b40139200c61a7698b1c260",
+      "bundled_sha256": "28e21f16785b8a0c648dda3ef8405bbe7370412e5b40139200c61a7698b1c260"
+    },
+    {
+      "path": "app/Resources/FoodArt/miso-soup-night-64.png",
+      "approved_sha256": "645f3c17020c47fc9251d27303bca2d98d4ee45fdfbf775bef9198927560368b",
+      "bundled_sha256": "645f3c17020c47fc9251d27303bca2d98d4ee45fdfbf775bef9198927560368b"
+    },
+    {
+      "path": "app/Resources/FoodArt/pancake-paper-64.png",
+      "approved_sha256": "0a31031f280b5e8cae6b167b1aacb5e3f2bb99e275c8ce394826016419fc969a",
+      "bundled_sha256": "0a31031f280b5e8cae6b167b1aacb5e3f2bb99e275c8ce394826016419fc969a"
+    },
+    {
+      "path": "app/Resources/FoodArt/pancake-night-64.png",
+      "approved_sha256": "fe3c868dca027f67cd2904cafbc1975769777a8aa4a603db8b195acc521d8a4f",
+      "bundled_sha256": "fe3c868dca027f67cd2904cafbc1975769777a8aa4a603db8b195acc521d8a4f"
+    },
+    {
+      "path": "app/Resources/FoodArt/croissant-paper-64.png",
+      "approved_sha256": "a0fb5efaddded2c058e92628c5f648d13e4e9063cd0528831814bad011f42a62",
+      "bundled_sha256": "a0fb5efaddded2c058e92628c5f648d13e4e9063cd0528831814bad011f42a62"
+    },
+    {
+      "path": "app/Resources/FoodArt/croissant-night-64.png",
+      "approved_sha256": "c17dc1a95a6ac64e8bc384e18b96efdf798c9a6c48dd7b24a98a9e9e82f6390c",
+      "bundled_sha256": "c17dc1a95a6ac64e8bc384e18b96efdf798c9a6c48dd7b24a98a9e9e82f6390c"
+    },
+    {
+      "path": "app/Resources/FoodArt/bacon-paper-64.png",
+      "approved_sha256": "4a0780ee4697a0f56e9f02676d9ce54ad6080265452595867836cc400acf7e69",
+      "bundled_sha256": "4a0780ee4697a0f56e9f02676d9ce54ad6080265452595867836cc400acf7e69"
+    },
+    {
+      "path": "app/Resources/FoodArt/bacon-night-64.png",
+      "approved_sha256": "4f3b4e1881aadfbb033892729d9948a4e475a2e069ea55060b70d43b4e4b62c4",
+      "bundled_sha256": "4f3b4e1881aadfbb033892729d9948a4e475a2e069ea55060b70d43b4e4b62c4"
+    },
+    {
+      "path": "app/Resources/FoodArt/sausage-paper-64.png",
+      "approved_sha256": "0bc0af2efb3c7afbb310a65b59c3238abfc53d9bb33ba2059e505e85df27abef",
+      "bundled_sha256": "0bc0af2efb3c7afbb310a65b59c3238abfc53d9bb33ba2059e505e85df27abef"
+    },
+    {
+      "path": "app/Resources/FoodArt/sausage-night-64.png",
+      "approved_sha256": "f20486b53656724d62d0ab54a764a71865283333a6757e7ca13fbb9a059defbe",
+      "bundled_sha256": "f20486b53656724d62d0ab54a764a71865283333a6757e7ca13fbb9a059defbe"
+    },
+    {
+      "path": "app/Resources/FoodArt/peanuts-paper-64.png",
+      "approved_sha256": "50102e02b4f6709efbd388615fc24b1e0f134dc1f08ad15a3837c4cc62af412d",
+      "bundled_sha256": "50102e02b4f6709efbd388615fc24b1e0f134dc1f08ad15a3837c4cc62af412d"
+    },
+    {
+      "path": "app/Resources/FoodArt/peanuts-night-64.png",
+      "approved_sha256": "5d01cea1bcac435ddb35a5436d61f92c4c1ab5a427fc9759aa701018cb8a6774",
+      "bundled_sha256": "5d01cea1bcac435ddb35a5436d61f92c4c1ab5a427fc9759aa701018cb8a6774"
+    },
+    {
+      "path": "app/Resources/FoodArt/ramen-paper-64.png",
+      "approved_sha256": "489c67413d0c5ca4dbccc3e382cfe08f243b849653e576125113790a629eccde",
+      "bundled_sha256": "489c67413d0c5ca4dbccc3e382cfe08f243b849653e576125113790a629eccde"
+    },
+    {
+      "path": "app/Resources/FoodArt/ramen-night-64.png",
+      "approved_sha256": "c5d039a50df624474b07bd9d79f05806c6daff43d8090bb41828549525c02d04",
+      "bundled_sha256": "c5d039a50df624474b07bd9d79f05806c6daff43d8090bb41828549525c02d04"
+    },
+    {
+      "path": "app/Resources/FoodArt/donut-paper-64.png",
+      "approved_sha256": "248643103e1358fe4129117c8a3cebaedfdc7d79f927ba9325c2b1b8e8c16378",
+      "bundled_sha256": "248643103e1358fe4129117c8a3cebaedfdc7d79f927ba9325c2b1b8e8c16378"
+    },
+    {
+      "path": "app/Resources/FoodArt/donut-night-64.png",
+      "approved_sha256": "817d484d294d8f65888bf7598012c9eddcf1e5956dfe3f4fa162a5af2fb7f347",
+      "bundled_sha256": "817d484d294d8f65888bf7598012c9eddcf1e5956dfe3f4fa162a5af2fb7f347"
+    },
+    {
+      "path": "app/Resources/FoodArt/chicken-wings-paper-64.png",
+      "approved_sha256": "5eece111770af5cbeff5e2c2af3b1797be616104364c7dba3e7dab59c5187ba4",
+      "bundled_sha256": "5eece111770af5cbeff5e2c2af3b1797be616104364c7dba3e7dab59c5187ba4"
+    },
+    {
+      "path": "app/Resources/FoodArt/chicken-wings-night-64.png",
+      "approved_sha256": "2a70a137e2b8a9bd5149bd2b65febbffff52b9ac98bc5d7aca3a47ee6d3f9d29",
+      "bundled_sha256": "2a70a137e2b8a9bd5149bd2b65febbffff52b9ac98bc5d7aca3a47ee6d3f9d29"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-squid-paper-64.png",
+      "approved_sha256": "03bc6eb21dd19cbfa882f6278f8506badcea6bd1a5d4b8ad3f74469084f2a3fa",
+      "bundled_sha256": "03bc6eb21dd19cbfa882f6278f8506badcea6bd1a5d4b8ad3f74469084f2a3fa"
+    },
+    {
+      "path": "app/Resources/FoodArt/grilled-squid-night-64.png",
+      "approved_sha256": "4002f8474efad512aaf089d82e12b9058cd27e92ffa6b7ade0c1a93fba25fad1",
+      "bundled_sha256": "4002f8474efad512aaf089d82e12b9058cd27e92ffa6b7ade0c1a93fba25fad1"
+    },
+    {
+      "path": "app/Resources/FoodArt/khanom-jeen-paper-64.png",
+      "approved_sha256": "dadd8446bac8fd3679f4a5ee8d33020ba6e257d0340864ec5e9085f0b7d97a9f",
+      "bundled_sha256": "dadd8446bac8fd3679f4a5ee8d33020ba6e257d0340864ec5e9085f0b7d97a9f"
+    },
+    {
+      "path": "app/Resources/FoodArt/khanom-jeen-night-64.png",
+      "approved_sha256": "542ebe68a68eaf693e376860ffd847f49dffacffe4acb3846e6479fbbc5e984f",
+      "bundled_sha256": "542ebe68a68eaf693e376860ffd847f49dffacffe4acb3846e6479fbbc5e984f"
+    },
+    {
+      "path": "app/Resources/FoodArt/pad-thai-paper-64.png",
+      "approved_sha256": "ae9e361602a5fbdac1852e45175ba4d379a37145259b6eb0b913550c2fdc3b1f",
+      "bundled_sha256": "ae9e361602a5fbdac1852e45175ba4d379a37145259b6eb0b913550c2fdc3b1f"
+    },
+    {
+      "path": "app/Resources/FoodArt/pad-thai-night-64.png",
+      "approved_sha256": "88aab7e1f6002c88fa5e4cafc17902349b355d742820b1f8aa70b55505d43e2b",
+      "bundled_sha256": "88aab7e1f6002c88fa5e4cafc17902349b355d742820b1f8aa70b55505d43e2b"
+    },
+    {
+      "path": "app/Resources/FoodArt/boba-tea-paper-64.png",
+      "approved_sha256": "e37888fe71beaec929ce4f1889bd3c531e8367323deead864e634b87234cfffa",
+      "bundled_sha256": "e37888fe71beaec929ce4f1889bd3c531e8367323deead864e634b87234cfffa"
+    },
+    {
+      "path": "app/Resources/FoodArt/boba-tea-night-64.png",
+      "approved_sha256": "94aab86da766b58301e48c85f15b0d19b7c3c18940182490cc91e40c23c20455",
+      "bundled_sha256": "94aab86da766b58301e48c85f15b0d19b7c3c18940182490cc91e40c23c20455"
+    }
+  ],
+  "metadata_unchanged": true,
+  "counts": {
+    "before_identities": 18,
+    "after_identities": 130,
+    "before_pngs": 36,
+    "after_pngs": 260,
+    "before_resource_bytes": 144093,
+    "after_resource_bytes": 1161313
+  }
+}

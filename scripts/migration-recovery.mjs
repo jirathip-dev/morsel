@@ -34,6 +34,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { checkoutFreshness, checkoutGuardExitCode, parseMigrationNames } from "./migration-safety.mjs";
 import {
   ABSENT_COLUMNS,
+  acceptedConstraintDefs,
   CANONICAL_COLUMNS,
   CANONICAL_CONSTRAINTS,
   CANONICAL_FILES,
@@ -357,7 +358,11 @@ export function verifyMigration(file, snapshots) {
       }
       let ok = observed.contype === expected.kind;
       if (ok && expected.kind === "c") {
-        ok = normalizeExpr(observed.definition) === normalizeExpr(expected.def ?? "");
+        // A forward-only successor (0015) may legitimately rewrite a CHECK this
+        // migration owns: the pinned successor rendering is accepted too, and
+        // nothing else is — a partial or foreign id set stays drift.
+        const accepted = [expected.def ?? "", ...acceptedConstraintDefs(file, table, expected.name)];
+        ok = accepted.some((def) => normalizeExpr(observed.definition) === normalizeExpr(def));
       }
       if (ok && (expected.kind === "p" || expected.kind === "u" || expected.kind === "f")) {
         const columns = Array.isArray(observed.columns) ? observed.columns : [];
@@ -765,12 +770,19 @@ export async function inspect({ root, query }) {
   const localFiles = readdirSync(join(root, "db", "migrations")).filter((f) => f.endsWith(".sql"));
   parseMigrationNames(localFiles);
   const localSet = new Set(localFiles);
-  // 0014 is forward-apply only: its presence must not prevent recovery of
-  // 0001–0013 on an older database. Never converge or attest it here; an
-  // already-recorded forward migration still blocks this older recovery tool.
-  const allowedFiles = new Set([...CANONICAL_FILES, "0014_dated_targets.sql"]);
+  // Forward-apply-only migrations (0014 dated targets, 0015 artwork allowlist
+  // widening): their presence must not prevent recovery of 0001–0013 on an
+  // older database. Never converge or attest them here; an already-recorded
+  // forward migration still blocks this older recovery tool.
+  const allowedFiles = new Set([
+    ...CANONICAL_FILES,
+    "0014_dated_targets.sql",
+    "0015_artwork_identity_expansion.sql",
+  ]);
   if (!CANONICAL_FILES.every((f) => localSet.has(f)) || localFiles.some((f) => !allowedFiles.has(f))) {
-    throw new SanitizedError("manifest mismatch: expected db/migrations/0001..0013 and optional 0014_dated_targets.sql");
+    throw new SanitizedError(
+      "manifest mismatch: expected db/migrations/0001..0013 and optional 0014_dated_targets.sql / 0015_artwork_identity_expansion.sql",
+    );
   }
 
   const ledgerRow = (await query(RECOVERY_QUERIES.ledgerExists, "ledger existence"))[0] ?? {};

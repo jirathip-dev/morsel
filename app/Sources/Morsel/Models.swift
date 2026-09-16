@@ -188,6 +188,8 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     /// #133 image contract; nil without a photo or before remote read.
     let image: MealImage?
     let items: [MealItem]
+    /// Issue #258 — item-read completeness; nil when no remote item read produced it.
+    let itemsRead: MealItemsReadState?
     /// #106: synced after remote readback; queued rows retain honest local state.
     let syncState: MealSyncState
     init(
@@ -198,6 +200,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         imagePath: String? = nil,
         image: MealImage? = nil,
         items: [MealItem],
+        itemsRead: MealItemsReadState? = nil,
         syncState: MealSyncState = .synced
     ) {
         self.mealLogID = mealLogID
@@ -207,6 +210,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         self.imagePath = imagePath
         self.image = image
         self.items = items
+        self.itemsRead = itemsRead
         self.syncState = syncState
     }
 
@@ -246,25 +250,6 @@ struct StoredDashboardGoal: Equatable, Sendable, Codable {
     let fatG: Double?
     let source: GoalSource
     var updatedAt: Date? = nil // swiftlint:disable:this implicit_optional_initialization
-}
-
-struct DashboardSnapshot: Equatable, Sendable, Codable {
-    let date: Date
-    let meals: [MealRecord]
-    let goal: DashboardGoal?
-    let weightTrend: [WeightTrendPoint]
-    let activeEnergyBurned: Double
-
-    init(
-        date: Date, meals: [MealRecord], goal: DashboardGoal?, weightTrend: [WeightTrendPoint] = [],
-        activeEnergyBurned: Double = 0
-    ) {
-        self.date = date
-        self.meals = meals
-        self.goal = goal
-        self.weightTrend = weightTrend
-        self.activeEnergyBurned = activeEnergyBurned
-    }
 }
 
 enum ConfidenceBadge: Equatable, Sendable {

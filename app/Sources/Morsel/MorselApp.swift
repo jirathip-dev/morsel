@@ -112,7 +112,7 @@ enum JournalTab: String, CaseIterable, Hashable {
         }
     }
 }
-
+// see docs/NATIVE_JOURNAL_PROVENANCE.md
 // MARK: - Journal page ownership (issue #175)
 enum JournalPageLifecycleEvent { case created, released, activated }
 typealias JournalPageObserver = (JournalPageLifecycleEvent, JournalTab, AnyObject?) -> Void

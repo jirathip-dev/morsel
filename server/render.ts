@@ -47,6 +47,9 @@ export interface DashboardRenderSummary {
   goal?: GoalSummary
   streakDays: number
   mealCount: number
+  // Issue #258 — meals whose item rows could not be read, so `totals` and
+  // `mealCount` undercount. Non-zero renders the incomplete-read caveat.
+  incompleteMealCount: number
   dailyCalories: DailyCalories[]
   lowConfidenceItemCount: number
 }
@@ -145,6 +148,14 @@ function renderMarkdown(summary: DashboardRenderSummary, goal: RangeGoal | undef
     lines.push(
       '',
       `Review: **needs-review** - ${formatNumber(summary.lowConfidenceItemCount)} low-confidence ${plural(summary.lowConfidenceItemCount, 'item')}.`,
+    )
+  }
+  if (summary.incompleteMealCount > 0) {
+    // Issue #258 — a degraded read must never read as a complete day: the
+    // totals above are short because those meals' item rows were unavailable.
+    lines.push(
+      '',
+      `Read incomplete: **${formatNumber(summary.incompleteMealCount)} ${plural(summary.incompleteMealCount, 'meal')}** could not be read, so the totals above are short of what was logged. Retry the read; nothing was deleted.`,
     )
   }
   lines.push('', `Streak: **${formatNumber(summary.streakDays)} ${plural(summary.streakDays, 'day')}**`)

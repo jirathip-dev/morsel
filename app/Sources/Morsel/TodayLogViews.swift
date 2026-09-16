@@ -221,6 +221,87 @@ struct MealSyncMarker: View {
     }
 }
 
+// MARK: - Issue #258 honest day-read states
+
+extension DashboardViewModel {
+    /// Meals whose item rows could not be read on this load: the day is
+    /// incomplete, never empty, and the notice below says so.
+    var incompleteMealCount: Int {
+        snapshot?.meals.filter { $0.itemsRead?.isIncomplete == true }.count ?? 0
+    }
+}
+
+/// Issue #258 — the day on screen is the cached copy after a refresh failed:
+/// it stays visible but is labelled as cached, with the last successful load
+/// time and a retry, so it is never presented as current.
+struct CachedDayNotice: View {
+    let lastLoadedAt: Date?
+    let retry: () -> Void
+
+    var body: some View {
+        DayReadNotice(
+            identifier: "today-cached-notice",
+            title: lastLoadedAt.map {
+                "Cached — last updated \($0.formatted(date: .omitted, time: .shortened))"
+            } ?? "Offline — showing cached data",
+            detail: "Couldn't refresh today's log. The values below are the last saved copy.",
+            retry: retry
+        )
+    }
+}
+
+/// Issue #258 — the fresh read degraded: some meals' items could not be read.
+/// The day renders with what is known and says what is missing, so a partial
+/// read is never shown as "nothing logged".
+struct IncompleteDayNotice: View {
+    let mealCount: Int
+    let retry: () -> Void
+
+    var body: some View {
+        DayReadNotice(
+            identifier: "today-incomplete-notice",
+            title: mealCount == 1
+                ? "1 meal couldn't be fully read"
+                : "\(mealCount) meals couldn't be fully read",
+            detail: "Some items are missing from today's log and the totals are short. "
+                + "Nothing was deleted — try again.",
+            retry: retry
+        )
+    }
+}
+
+/// The shared paper/night notice surface for both degraded day-read states.
+private struct DayReadNotice: View {
+    let identifier: String
+    let title: String
+    let detail: String
+    let retry: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.morselBodyStrong)
+                .foregroundStyle(Color.morselInk)
+            Text(detail)
+                .font(.morselFootnote)
+                .foregroundStyle(Color.morselInkTwo)
+            Button("Try again", action: retry)
+                .buttonStyle(MorselGhostButtonStyle())
+                .padding(.vertical, -2)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.morselAccentSoft, in: RoundedRectangle(cornerRadius: 8))
+        .overlay {
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.morselInkLine.opacity(0.5), lineWidth: 1)
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier(identifier)
+        .padding(.bottom, 12)
+    }
+}
+
 // MARK: - Issue #136 Today log skeleton rows (paper placeholders, no spinner)
 
 /// Journal log-row placeholders used by Today's first-load skeleton: a

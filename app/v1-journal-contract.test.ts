@@ -127,15 +127,15 @@ describe('issue #94: eaten-vs-goal semantics — net-energy display paths are go
     expect(tokensDoc).toMatch(/never\s+subtracted/i)
   })
 
-  it('shows the activity margin note that is never an operand', () => {
+  it('moves Health context into the Training day sheet, never a calorie operand', () => {
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
     // P1 reads each Health type's real dates instead of the upload stamp.
     expect(hero).toContain('TrainingFuelSection(model: trainingFuel)')
-    expect(hero).toContain('TrainingFuelHealthReader().read(requestPermission: true)')
+    expect(read('app/Sources/Morsel/TrainingFuelViews.swift')).toContain('TrainingFuelHealthReader().read(requestPermission: true)')
     expect(marginNote).toMatch(/moved\b[\s\S]{0,80}?\bkcal/)
     expect(marginNote, 'the margin note must never be subtracted').not.toMatch(/subtract|minus|intake/i)
-    expect(hero, 'the hero must render left/over words against the goal').toMatch(/kcal left/)
-    expect(hero).toMatch(/kcal over/)
+    expect(hero).not.toMatch(/kcal left|kcal over/)
+    expect(hero).toContain('From your logged food')
     expect(hero).not.toContain('activeEnergyBurned')
     expect(hero, 'the hero must never compose the margin copy inline').not.toMatch(/kcal today/)
   })
@@ -218,7 +218,8 @@ describe('issue #94: V1 journal hierarchy is implemented natively', () => {
     const todayLog = todayLogViews
     expect(todayLog).toContain('No meals logged for this date.')
     const hero = views.slice(views.indexOf('private struct JournalHeroView'))
-    expect(hero).toContain('Goal unavailable')
+    expect(read('app/Sources/Morsel/TrainingFuelModel.swift')).toContain('Usual target · unavailable')
+    expect(hero).toContain('Meal nutrition incomplete')
     // Friendly-boundary copy: never raw Supabase text in UI. Issue #106:
     // MealRepository.swift classifies the SDK's PostgrestError SQLSTATE
     // codes into retry categories (permanent auth/validation vs transient)

@@ -1,4 +1,6 @@
 import SwiftUI
+import ImageIO
+import CryptoKit
 import UIKit
 import XCTest
 @testable import Morsel
@@ -23,12 +25,15 @@ final class RowArtworkRendererTests: XCTestCase {
 
     // MARK: - Offline bundle presence, both themes
 
-    func testBundledCatalogIsTheApprovedEighteenAssetLibrary() {
-        XCTAssertEqual(assets.count, 18)
-        XCTAssertEqual(assets.filter { $0.kind == .food }.count, 13)
-        XCTAssertEqual(assets.filter { $0.kind == .fallback }.count, 5)
-        XCTAssertEqual(Set(assets.map(\.id)).count, 18, "stable IDs are unique")
-        XCTAssertEqual(assets.filter { $0.isCategoryFallback }.count, 4, "four labeled category fallbacks")
+    func testBundledCatalogIsTheApproved130AssetLibrary() throws {
+        let url = try XCTUnwrap(Bundle.main.url(forResource: "catalog", withExtension: "json"))
+        let digest = SHA256.hash(data: try Data(contentsOf: url)).map { String(format: "%02x", $0) }.joined()
+        XCTAssertEqual(digest, "996177e2d8b52f1b4ebfdb6ef890c98a04011ef29dceb71f9faf9f20e938893b")
+        XCTAssertEqual(assets.count, 130)
+        XCTAssertEqual(assets.filter { $0.kind == .food }.count, 120)
+        XCTAssertEqual(assets.filter { $0.kind == .fallback }.count, 10)
+        XCTAssertEqual(Set(assets.map(\.id)).count, 130, "stable IDs are unique")
+        XCTAssertEqual(assets.filter { $0.isCategoryFallback }.count, 9, "nine labeled category fallbacks")
         XCTAssertEqual(assets.filter { $0.isNeutralFallback }.count, 1, "exactly one neutral sentinel")
         XCTAssertEqual(
             assets.first { $0.isNeutralFallback }?.name, "Food · fallback",
@@ -36,7 +41,8 @@ final class RowArtworkRendererTests: XCTestCase {
         )
     }
 
-    func testEveryApprovedAssetShipsBothThemesOfflineAt64px() {
+    func testEveryApprovedAssetShipsBothThemesOfflineAt64px() throws {
+        XCTAssertEqual(assets.count, 130, "an unreadable/partial catalog cannot vacuously pass")
         for asset in assets {
             for theme in FoodArtworkTheme.allCases {
                 let label = "\(asset.id)-\(theme.rawValue)"
@@ -47,6 +53,12 @@ final class RowArtworkRendererTests: XCTestCase {
                     image?.size, CGSize(width: 64, height: 64),
                     "\(label) must render at the approved 64px export size"
                 )
+                // Decode fresh bytes, not the image cache; require the pixel stream to be complete.
+                let source = try XCTUnwrap(CGImageSourceCreateWithData(try XCTUnwrap(data) as CFData, nil), label)
+                XCTAssertNotNil(CGImageSourceCreateImageAtIndex(
+                    source, 0, [kCGImageSourceShouldCacheImmediately: true] as CFDictionary
+                ), label)
+                XCTAssertEqual(CGImageSourceGetStatusAtIndex(source, 0), .statusComplete, label)
             }
             XCTAssertNotEqual(
                 FoodArtworkImageStore.data(assetID: asset.id, theme: .paper),

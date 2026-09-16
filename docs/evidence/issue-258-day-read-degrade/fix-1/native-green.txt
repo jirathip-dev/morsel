@@ -1,0 +1,61 @@
+Excerpt from .lane-logs/fix-1/native-green.log
+Full raw log SHA-256: f20b903ef90231ad0da4063d6016338c427783a225d76bbe1b777de14cefe429
+ANSI color removed; trailing whitespace trimmed. Native build chatter omitted.
+
+HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination platform=iOS Simulator,id=152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB -derivedDataPath /tmp/morsel-258-fix1/dd -resultBundlePath /tmp/morsel-258-fix1/native-green.xcresult -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/DayReadDegradeTests -only-testing:MorselTests/DayReadCompositionTests -only-testing:MorselTests/DayReadDegradeEvidenceTests
+Test Suite 'Selected tests' started at 2569-09-16 7:51:21.380 PM.
+Test Suite 'MorselTests.xctest' started at 2569-09-16 7:51:21.380 PM.
+Test Suite 'DayReadCompositionTests' started at 2569-09-16 7:51:21.380 PM.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' passed (0.049 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' passed (0.010 seconds).
+Test Suite 'DayReadCompositionTests' passed at 2569-09-16 7:51:21.440 PM.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.059 (0.060) seconds
+Test Suite 'DayReadDegradeEvidenceTests' started at 2569-09-16 7:51:21.440 PM.
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' started.
+2026-09-16 19:51:21.441220+0700 Morsel[13612:1095306] GSFont: file already registered - "file:///Users/jirathip/Library/Developer/CoreSimulator/Devices/152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB/data/Containers/Bundle/Application/566D9365-4D62-4ED5-A1B1-E06FBE033BEF/Morsel.app/Caveat%5Bwght%5D.ttf"
+2026-09-16 19:51:21.443516+0700 Morsel[13612:1095306] GSFont: file already registered - "file:///Users/jirathip/Library/Developer/CoreSimulator/Devices/152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB/data/Containers/Bundle/Application/566D9365-4D62-4ED5-A1B1-E06FBE033BEF/Morsel.app/EBGaramond%5Bwght%5D.ttf"
+2026-09-16 19:51:21.443932+0700 Morsel[13612:1095306] GSFont: file already registered - "file:///Users/jirathip/Library/Developer/CoreSimulator/Devices/152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB/data/Containers/Bundle/Application/566D9365-4D62-4ED5-A1B1-E06FBE033BEF/Morsel.app/EBGaramond-Italic%5Bwght%5D.ttf"
+2026-09-16 19:51:21.448071+0700 Morsel[13612:1095306] GSFont: file already registered - "file:///Users/jirathip/Library/Developer/CoreSimulator/Devices/152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB/data/Containers/Bundle/Application/566D9365-4D62-4ED5-A1B1-E06FBE033BEF/Morsel.app/IBMPlexMono-Regular.ttf"
+2026-09-16 19:51:21.448328+0700 Morsel[13612:1095306] GSFont: file already registered - "file:///Users/jirathip/Library/Developer/CoreSimulator/Devices/152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB/data/Containers/Bundle/Application/566D9365-4D62-4ED5-A1B1-E06FBE033BEF/Morsel.app/IBMPlexMono-Medium.ttf"
+DAYREAD_CAPTURE_READY 258-paper-stale
+DAYREAD_CAPTURE_READY 258-paper-degraded
+DAYREAD_CAPTURE_READY 258-night-stale
+DAYREAD_CAPTURE_READY 258-night-degraded
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' passed (3.131 seconds).
+Test Suite 'DayReadDegradeEvidenceTests' passed at 2569-09-16 7:51:24.572 PM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 3.131 (3.132) seconds
+Test Suite 'DayReadDegradeTests' started at 2569-09-16 7:51:24.573 PM.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' passed (0.002 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' passed (0.011 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' passed (0.002 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' passed (0.007 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' passed (0.007 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' passed (0.006 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' passed (0.005 seconds).
+Test Suite 'DayReadDegradeTests' passed at 2569-09-16 7:51:24.620 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.038 (0.047) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-16 7:51:24.621 PM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 3.229 (3.241) seconds
+Test Suite 'Selected tests' passed at 2569-09-16 7:51:24.621 PM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 3.229 (3.241) seconds
+2026-09-16 19:51:24.980 xcodebuild[11992:1090902] [MT] IDETestOperationsObserverDebug: 6.431 elapsed -- Testing started completed.
+2026-09-16 19:51:24.980 xcodebuild[11992:1090902] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-16 19:51:24.980 xcodebuild[11992:1090902] [MT] IDETestOperationsObserverDebug: 6.431 sec, +6.431 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/morsel-258-fix1/native-green.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started
+
+RAW_EXIT=0 timed_out=False elapsed_seconds=31.774

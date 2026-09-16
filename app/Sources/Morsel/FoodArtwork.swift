@@ -18,6 +18,13 @@ import Foundation
 //  4. approved neutral sign. Unsupported IDs take steps 2–4, never a file path.
 // Composite meals keep the existing shared-category/neutral rules; empty
 // lists have nothing to depict. No logged name, nutrition or photo is changed.
+//
+// Issue #260 keeps that order and adds ONE bounded tolerance: before each step a
+// recognized TRAILING qualifier (a parenthetical, a cooking method, a
+// portion/size token, a metric quantity) may be dropped, one at a time. The
+// closed grammar below holds no food nouns, so a distinct compound food keeps
+// its whole meaning (`coffee cake` is never a coffee) and ambiguity still
+// resolves to neutral instead of a guess.
 
 /// Catalog `kind` — a specific food study vs. a fallback study.
 enum FoodArtworkKind: String, Decodable, Equatable, Sendable {
@@ -55,7 +62,11 @@ struct FoodArtworkAsset: Decodable, Equatable, Sendable {
         "drinks": "Drinks",
         "grains": "Grains",
         "protein": "Protein",
-        "soup": "Soup"
+        "soup": "Soup",
+        "dairy": "Dairy",
+        "sweets": "Sweets",
+        "prepared": "Prepared",
+        "condiments": "Condiments"
     ]
 }
 
@@ -118,17 +129,118 @@ enum FoodArtworkResolver {
     }
 
     /// Whole terms only. Colliding names/aliases cannot select an arbitrary dish.
+    /// Issue #260: a name may additionally carry recognized trailing qualifiers
+    /// (see below). Those are dropped one at a time and every remaining whole
+    /// term is tried in the same precedence, so a descriptive name reaches the
+    /// entry it describes without ever matching a substring.
     static func match(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
         let key = FoodArtworkCatalog.normalize(name)
         guard !key.isEmpty else { return nil }
-        let matches = assets.filter { asset in
-            FoodArtworkCatalog.normalize(asset.name) == key
-                || asset.aliases.contains { FoodArtworkCatalog.normalize($0) == key }
-        }
+        let terms = [key] + qualifiedTerms(of: key)
+        let matches = uniqueByID(terms.flatMap { term in assets.filter { matchesWholeTerm($0, term) } })
         guard matches.count <= 1 else { return nil }
         if let match = matches.first { return match }
-        if isAmericano(key) { return explicitAsset("coffee", in: assets) }
-        return categoryFallback(for: key, in: assets)
+        if terms.contains(where: isAmericano) { return explicitAsset("coffee", in: assets) }
+        for term in terms {
+            if let fallback = categoryFallback(for: term, in: assets) { return fallback }
+        }
+        return nil
+    }
+
+    private static func matchesWholeTerm(_ asset: FoodArtworkAsset, _ term: String) -> Bool {
+        FoodArtworkCatalog.normalize(asset.name) == term
+            || asset.aliases.contains { FoodArtworkCatalog.normalize($0) == term }
+    }
+
+    // MARK: - Issue #260 trailing qualifiers
+
+    /// Cooking/preparation descriptors and portion/size tokens a logging agent
+    /// may append to an otherwise whole food name. Deliberately a closed list of
+    /// NON-food words: a distinct compound food keeps its whole meaning, because
+    /// `cake`, `juice`, `bread` and every other noun are absent here and can
+    /// never be dropped (`coffee cake` stays whole and unresolved).
+    private static let trailingDescriptors: Set<String> = [
+        "cooked", "steamed", "grilled", "fried", "stir-fried", "stir fried", "boiled", "roasted",
+        "baked", "toasted", "sauteed", "sautéed", "poached", "scrambled", "mashed", "raw", "fresh",
+        "homemade", "smoked", "marinated", "reheated", "warm", "hot", "iced", "cold", "decaf",
+        "unsweetened", "unsalted", "no sugar", "sugar-free", "low-fat", "sliced", "diced", "chopped",
+        "shredded", "grated", "peeled", "drained", "rinsed", "frozen", "half", "half portion",
+        "portion", "small", "medium", "large", "regular", "single", "double", "triple", "side",
+        "serving", "servings", "slice", "slices", "piece", "pieces", "bowl", "plate", "cup", "cups",
+        "glass", "mug", "shot", "helping", "extra"
+    ]
+
+    /// Metric/imperial measures for a quantity qualifier ("120 g", "1.5 cups").
+    private static let quantityUnits: Set<String> = [
+        "g", "gram", "grams", "kg", "ml", "l", "oz", "lb", "lbs", "kcal", "cal", "tbsp", "tsp",
+        "cup", "cups"
+    ]
+
+    /// One recognized qualifier phrase: a comma-separated list of known
+    /// descriptors or quantities. Empty components, unknown words ("cake") and
+    /// unknown units fail closed, so nothing is dropped from a name that does
+    /// not end in the closed grammar.
+    private static func isQualifierPhrase(_ text: String) -> Bool {
+        let parts = text.split(separator: ",", omittingEmptySubsequences: false)
+        return parts.allSatisfy { part in
+            let token = FoodArtworkCatalog.normalize(String(part))
+            return !token.isEmpty
+                && (trailingDescriptors.contains(token) || isQuantity(token))
+        }
+    }
+
+    /// "120 g", "1.5 cups": a number plus a measure. A bare number or a bare
+    /// unit is not a qualifier.
+    private static func isQuantity(_ token: String) -> Bool {
+        let parts = token.split(separator: " ").map(String.init)
+        if parts.count == 2, Double(parts[0]) != nil { return quantityUnits.contains(parts[1]) }
+        guard parts.count == 1, parts[0].count > 1, Double(parts[0].dropLast()) != nil else { return false }
+        return quantityUnits.contains(String(parts[0].suffix(1)))
+    }
+
+    /// Drops the longest recognized descriptor suffix of a comma-free name —
+    /// never the whole name, so the head term always survives.
+    private static func droppingTrailingDescriptor(_ text: String) -> String? {
+        let words = text.split(separator: " ").map(String.init)
+        guard words.count >= 2 else { return nil }
+        for length in stride(from: min(2, words.count - 1), through: 1, by: -1) where
+            isQualifierPhrase(words.suffix(length).joined(separator: " ")) {
+            return FoodArtworkCatalog.normalize(words.dropLast(length).joined(separator: " "))
+        }
+        return nil
+    }
+
+    /// The same name with ONE trailing qualifier removed: a trailing
+    /// parenthetical group, a trailing comma-separated descriptor, or a bare
+    /// trailing descriptor. `nil` when the name ends in no recognized qualifier.
+    private static func strippingTrailingQualifier(_ key: String) -> String? {
+        if key.hasSuffix(")"), let open = key.lastIndex(of: "("), open > key.startIndex {
+            let head = FoodArtworkCatalog.normalize(String(key[key.startIndex..<open]))
+            let inner = String(key[key.index(after: open)..<key.index(before: key.endIndex)])
+            guard !head.isEmpty, !head.contains("("), !head.contains(")"),
+                  !inner.contains("("), !inner.contains(")"), isQualifierPhrase(inner) else { return nil }
+            return head
+        }
+        if let comma = key.lastIndex(of: ",") {
+            let tail = FoodArtworkCatalog.normalize(String(key[key.index(after: comma)...]))
+            guard isQualifierPhrase(tail) else { return nil }
+            let head = FoodArtworkCatalog.normalize(String(key[key.startIndex..<comma]))
+            return head.isEmpty ? nil : head
+        }
+        return droppingTrailingDescriptor(key)
+    }
+
+    /// Successive qualifier removals, longest first, bounded: a name can carry
+    /// at most a handful of trailing descriptors.
+    private static func qualifiedTerms(of key: String) -> [String] {
+        var terms: [String] = []
+        var current = key
+        while terms.count < 4, let stripped = strippingTrailingQualifier(current) {
+            guard stripped != current else { break }
+            if !terms.contains(stripped) { terms.append(stripped) }
+            current = stripped
+        }
+        return terms
     }
 
     /// Only an entire Americano name, optionally followed by a closed list of

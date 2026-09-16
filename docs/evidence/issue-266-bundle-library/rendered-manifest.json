@@ -1,0 +1,317 @@
+[
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-americano.png",
+    "sha256": "e97a0aabe22c57206dee158588c5158834cb010b0e31499ed4e78c95d106b73a",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-boba-tea.png",
+    "sha256": "84c30ddfd8d2978feeec01a1d18423f830726e8689e41aecdb137c0a1242e266",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-brown-gravy.png",
+    "sha256": "d4b04871fb28120b2fa24930ae0ea58a1594942c5d6ba1574ab1866d107781ea",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-chinese-kale.png",
+    "sha256": "2ce758bd0dc674af9473e4ab01d2dd51e7d7684fd85db6bcf5f9eab074ce2b15",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-coffee-cake.png",
+    "sha256": "5479dbb2977a81d4cf25cfa55543d908aecd65301778a1938be824721a91c898",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-composite.png",
+    "sha256": "cae115242dc603ed631ce6d8d886a142e3d270cb2d204f6ca81d82528efc0e9c",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-condiments.png",
+    "sha256": "2344db3cdfab8cf7d4850b570501251fce60eeb754fb5c66272e2c799c0cd3b7",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-dairy.png",
+    "sha256": "2d7b0f641fcf3875fed64608c54d3a9209b48cc87948241f82c81065fbaf3bb4",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-generic-noodles.png",
+    "sha256": "9435d987bce7a3101c8cb185f251b26cbcf346dd5dc9866f2eed1942eae84612",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-half-rice.png",
+    "sha256": "ae7573dd3e1e8228310fc35f3e7ad7cf5218f777e49ee069bb2f5bccd341ea28",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-kana.png",
+    "sha256": "24009b8e974f1ae814c085500d30ecf67f152f4ea8fd0c2425d6e2b02e9197c5",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-linguine.png",
+    "sha256": "b55781826cd8cc42886c70390498d4dc59d03552979ba579bc6a0967674bade6",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-milk-tea.png",
+    "sha256": "8e32d132e9847fc2cfdd1df72ab88e8027ed4d6ca07e562995e43e78724df7d0",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-noodles.png",
+    "sha256": "9a96ca2895c030e1db47b97347782502a7b752481e07c2eaf2fb7a4f5669f98b",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-pad-thai.png",
+    "sha256": "b7683ca4e73d32c727d98a2bfe20990fc452aacafccf7bd053c56a8fd664c9cc",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-pork-gravy.png",
+    "sha256": "863da1f9d1f2aec6a699ec375de671cce2dfa20995018933008e569746a8a464",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-prepared.png",
+    "sha256": "5ae6d7a512fd6f0f487913fa733967e881c7911b6a4c1d7b32f6c4e9dc30f8c2",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-qualified-pasta.png",
+    "sha256": "d7d193ef4abb7910dd42f893439a82346f4a3336117dbfc08f16ddaa9b28134d",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-shared-plate.png",
+    "sha256": "033140f72859a4de8abf285ac5ddd4b70defc57b26abe712c996f3416afe15c2",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-sweets.png",
+    "sha256": "b2c4eca7daaa9b58307d39c7cfe35b37d8c86d760de38f5a596649f789b08e50",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-unknown.png",
+    "sha256": "182d8748e762eaaf467ccf828cc9d79ddd8e8281d6fafaceeafc6a63fb2d3b18",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-night-white-rice.png",
+    "sha256": "8d2564b8a280f54869d57a7648f01171c7253912fb085a68567cdd4552ba63fc",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-americano.png",
+    "sha256": "5e52d7ac08192907cfb24c1411f4856f1ff5a072e71dc3dfac7c7729bc08a95f",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-boba-tea.png",
+    "sha256": "dce2c028816656c53c5acb9100799ec4e863678600f30703ab215ff8ce8652b1",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-brown-gravy.png",
+    "sha256": "f6bdddb6c2991c6b6420d0826c184f4c57696e9d78fe46bc0852bfb9b6d61d4c",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-chinese-kale.png",
+    "sha256": "555959628a18c82b44d591130b25380cb2dd190acd3506f81651cda61ef91838",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-coffee-cake.png",
+    "sha256": "6264084c6befb9699240ec3ae771c911e9f30f2372e23ac9b7771023fb9cfbb1",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-composite.png",
+    "sha256": "3394190f04f0515b3ae2fd08ec7352acb6ce1ece8ee779c373737d4d5f4cefd1",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-condiments.png",
+    "sha256": "3b4c144788641ce7bb01fb7057ea929ac1290341c233edbb9ac07498019b7f49",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-dairy.png",
+    "sha256": "62eaf977280918ed59f86f1c19989fcb682e1b74afa80013bb0ede47fe91d883",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-generic-noodles.png",
+    "sha256": "6bf00618f00be0ca4591e002806bcb2e7f0cec7e68bd6b31f3be454e2c8b58a8",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-half-rice.png",
+    "sha256": "f4f67b60e5f304eafc03faf5b638022e4bacbdc122e725b2aecaff03dd9c719c",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-kana.png",
+    "sha256": "938cae60c7ba96010051a11fc138ea5d040cec3be654d5e0026dd475d0a2f7ff",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-linguine.png",
+    "sha256": "96df0cbf657607488cfc733fa30482c89f18a1ad0793f5856965b7275ca217c8",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-milk-tea.png",
+    "sha256": "da2cd9e9b67c9bd411cd5ed164268877d046774de5994906b955c88e8de7fcb0",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-noodles.png",
+    "sha256": "a92c5ad307d5801a537b8578ef4deead7fd2dbe75abef41ae21ffe0e0d57872e",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-pad-thai.png",
+    "sha256": "45ea9a2c7352151f1f1f77abb9172b571375c7809afe9fe04f437bbba84ca139",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-pork-gravy.png",
+    "sha256": "05b2d02eea42dd47ef066a9c35886f73ffd0e0654f2cc78252d658b5288d5b34",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-prepared.png",
+    "sha256": "e4800037399d7477dee5667638621043807c80929c1ecb0ff18d5a12cf71f005",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-qualified-pasta.png",
+    "sha256": "130e8f20b1c0128c5f6e83d58d01b5ebe2d78439a6a875fd7905a3c861a89811",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-shared-plate.png",
+    "sha256": "c30e6bad2475f03dc6610f929467aa9c182a9a67da3c9ca7dc7312c092a49ac2",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-sweets.png",
+    "sha256": "dd56e6339d7cb807bd499dd8c2f80727b6d9901de8b16bc19b24eed932a2d4ba",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-unknown.png",
+    "sha256": "8095d68cd15193b95c13756e11c72172d79f291c83eb85a9ae700a56133d0c79",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-paper-white-rice.png",
+    "sha256": "5e172f3268c7fd27b7b3a703423aa44ccf54e07ff04912ffde99a49fda2b346e",
+    "test": "FoodLibraryIntegrationTests/testRealResolverNamedCasesAndProductionRowsInBothThemes()"
+  },
+  {
+    "device": "Morsel266-iPhone16",
+    "device_id": "EDC3D7F2-340B-47EF-96C9-6BD04ABD8E69",
+    "file": "266-today-130.png",
+    "sha256": "24d07ef9cebd71fbd865ae17a4ea42939fd1c71e942cac6b2828f065333543f5",
+    "test": "FoodLibraryCostTests/testCatalogLoadAndInitialTodayRenderingCost()"
+  }
+]

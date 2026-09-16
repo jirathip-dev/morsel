@@ -78,12 +78,9 @@ final class HealthKitWeightReader: WeightSampleReading {
     /// read signal is getRequestStatusForAuthorization — .unnecessary means
     /// the user answered the read prompt (grant OR deny, which HealthKit
     /// deliberately hides), .shouldRequest means read access is not granted.
-    /// Issue #173: the async bridge resumes when HealthKit answers, so the
-    /// caller (MainActor) never blocks on a semaphore/thread wait. An
-    /// errored answer resolves to `false` — unknown, never treated as
-    /// answered, granted or denied. There is exactly ONE resume site (the
-    /// single HealthKit completion); a cancelled caller cannot double-resume
-    /// and a late completion cannot resume twice.
+    /// Issue #173 keeps the caller off a semaphore/thread wait. Issue #209
+    /// bounds a missing completion to two seconds, returning false (unknown).
+    /// Only .unnecessary means answered; neither answer proves grant or denial.
     func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool {
         let type: HKObjectType
         switch kind {
@@ -92,12 +89,19 @@ final class HealthKitWeightReader: WeightSampleReading {
         case .activeEnergyBurned:
             type = activeEnergyType
         }
-        let promptAnswer = await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { continuation in
+            let answer = HealthStatusAnswer(continuation)
+            // Unstructured: cancellation must not remove the deadline while
+            // HealthKit still owns a completion. Never join a silent callback.
+            let timeout = Task {
+                do { try await Task.sleep(for: .seconds(2)) } catch { return }
+                answer.resolve(false)
+            }
             healthStore.getRequestStatusForAuthorization(toShare: [], read: [type]) { status, _ in
-                continuation.resume(returning: status)
+                answer.resolve(status == .unnecessary)
+                timeout.cancel()
             }
         }
-        return promptAnswer == .unnecessary
     }
     func samples(since: Date?) async throws -> [WeightLog] {
         let predicate = since.map {
@@ -177,6 +181,26 @@ final class HealthKitWeightReader: WeightSampleReading {
         observerQueries = [:]
     }
     private var observerQueries: [HealthKitObserverKind: HKObserverQuery] = [:]
+}
+
+/// The lock atomically consumes the continuation before resuming outside it.
+/// Callback and deadline may race on any executor; only the winner can resume.
+/// A late callback sees nil, so it cannot resume again or reach publication.
+private final class HealthStatusAnswer: @unchecked Sendable {
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<Bool, Never>?
+
+    init(_ continuation: CheckedContinuation<Bool, Never>) {
+        self.continuation = continuation
+    }
+
+    func resolve(_ decided: Bool) {
+        lock.lock()
+        let pending = continuation
+        continuation = nil
+        lock.unlock()
+        pending?.resume(returning: decided)
+    }
 }
 
 final class HealthKitWeightImporter {

@@ -260,9 +260,12 @@ blank names are rejected), never replaced with a catalog name.
   input schemas (`tools/list`) publishes all allowed IDs. No new tool is added.
   The canonical published set is derived from the **shipped**
   [`app/Resources/FoodArt/catalog.json`](../app/Resources/FoodArt/catalog.json).
-  It includes 13 food and 5 fallback assets. The older design catalog at
-  `docs/art/food-library/catalog.json` has only 17 entries (no neutral fallback),
-  so it is not the complete publication list.
+  It includes 120 food and 10 fallback assets (130 identities). The older design
+  catalog at `docs/art/food-library/catalog.json` has only 17 entries (no
+  neutral fallback), so it is not the complete publication list. Migration
+  `0015_artwork_identity_expansion.sql` widens the database allowlist to this
+  set; until it is applied, the newer ids are rejected by the stored
+  constraints.
 - **Validation:** exact, case-sensitive enum membership; unknown IDs, empty
   strings, case/whitespace variants, and explicit JSON `null` are rejected as
   invalid input before writes. Nothing is silently dropped. Omit the field
@@ -383,13 +386,25 @@ longer references it).
 ### `get_day`
 
 **Input** `{ "date": "YYYY-MM-DD", "timezone?": "IANA zone" }`
-**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, image: { path, signed_url, expires_at }?, items: [ { item_id, name, artwork_id?, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, items_read?, image: { path, signed_url, expires_at }?, items: [ { item_id, name, artwork_id?, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
 
 A meal with a stored photo carries `image` on reads: `path` is the storage
 object path (`food-images/{user_id}/{meal_log_id}.jpg`, what the dashboard
 thumbnail pipeline downloads), `signed_url` is a short-lived URL minted for
 that read (15 minutes; never persisted or logged), and `expires_at` is the
 instant it stops working. Meals without a photo omit `image` entirely.
+
+**`items_read` (issue #258):** every meal of a day/dashboard read carries
+`"items_read": "complete" | "incomplete"`. `incomplete` means the meal's
+`meal_items` rows could not be read (the item query failed) or one of its rows
+was unreadable, so `items` — and every total derived from it — is SHORT of what
+was logged. The read degrades instead of failing: the day's other meals, their
+items and the meal itself are still returned, and a failed item read never
+degrades to `"meals": []`. `meals: []` therefore always means "nothing was
+logged for this day", never "the read failed". Tell the user the affected meals
+could not be read and that nothing was deleted, and read the day again; the
+server also reports the degradation as one structured log line (meal ids +
+category, never item values).
 
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal can be used without a profile.
@@ -425,7 +440,7 @@ is the local "today" that anchored the window and `timezone` is the zone used.
 ### `get_dashboard_summary`
 
 **Input** `{ "days": { "type": "integer", "default": 7 }, "timezone?": "IANA zone" }`
-**Output** `{ "date", "timezone", "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "render": { "markdown", "svg" } }`
+**Output** `{ "date", "timezone", "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "items_read?", "render": { "markdown", "svg" } }`
 
 `avg_calories_kcal` is averaged across the requested calendar range;
 `macro_split` is the summed gram total for that range, and `streak_days` counts
@@ -435,6 +450,11 @@ contain at least one meal within the requested `days` window, so it is at most
 `days`. `weight_trend` is a supported v0.1 output: include it when non-empty
 and treat an empty array as no weight entries in the requested range. No
 registered v0.1 tool writes `weight_logs`, so it may be empty.
+
+`items_read: "incomplete"` (issue #258) is present only when at least one meal
+in the window could not have its item rows read: the read still resolves, but
+the aggregates above are short of what was logged and the rendered markdown
+carries the same caveat. It is omitted on a complete read.
 
 Both read outputs include a `render` payload with markdown and SVG strings. The
 MCP server emits it as two content blocks: `{ type: "text", text:
