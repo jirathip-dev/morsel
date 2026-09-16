@@ -331,6 +331,7 @@ struct HistoryErrorNotice: View {
                 .foregroundStyle(Color.morselOver)
             Button("Try again", action: retry)
                 .buttonStyle(MorselGhostButtonStyle())
+                .padding(.vertical, -2)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)

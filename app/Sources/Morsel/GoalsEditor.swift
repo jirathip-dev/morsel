@@ -131,6 +131,7 @@ struct GoalsView: View {
                         Task { await viewModel.save() }
                     }
                     .buttonStyle(MorselPrimaryButtonStyle())
+                    .padding(.vertical, -2)
                     .frame(maxWidth: .infinity)
                     .disabled(!viewModel.isValid || viewModel.isSaving)
                     Text("What changes").morselSectionLabel()
