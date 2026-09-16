@@ -276,7 +276,7 @@ final class DashboardViewModel: ObservableObject {
 }
 
 // MARK: - Health pass helpers (issue #112 truthful per-type status)
-
+// see docs/NATIVE_JOURNAL_PROVENANCE.md
 extension DashboardViewModel {
     private func publishDay(_ loaded: DashboardSnapshot) {
         var day = loaded

@@ -300,6 +300,8 @@ struct GoalPayload: Encodable {
     let carbsG: Double
     let fatG: Double
     let source: String
+    // Upserts must advance recency for existing rows, not just new inserts.
+    let updatedAt = Date().ISO8601Format(.init(includingFractionalSeconds: true))
 
     init(userID: UUID, goal: DashboardGoal) {
         self.userID = userID
@@ -317,6 +319,7 @@ struct GoalPayload: Encodable {
         case carbsG = "carbs_g"
         case fatG = "fat_g"
         case source
+        case updatedAt = "updated_at"
     }
 }
 

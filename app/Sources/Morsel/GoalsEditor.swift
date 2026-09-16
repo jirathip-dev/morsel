@@ -88,6 +88,14 @@ struct GoalsView: View {
                             .font(.morselBody)
                             .foregroundStyle(Color.morselInkTwo)
                             .fixedSize(horizontal: false, vertical: true)
+                        if viewModel.canRestorePreviousManualGoals {
+                            Button("Restore previous manual goals") {
+                                JournalKeyboardDismisser.resign()
+                                Task { await viewModel.restorePreviousManualGoals() }
+                            }
+                            .buttonStyle(MorselGhostButtonStyle())
+                            .disabled(viewModel.isLoading || viewModel.isSaving)
+                        }
                     }
                     GoalJournalField(
                         label: "Calories",
