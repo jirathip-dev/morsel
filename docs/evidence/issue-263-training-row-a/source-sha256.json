@@ -1,0 +1,15 @@
+{
+  "app/Morsel.xcodeproj/project.pbxproj": "28029b23ff9833b526307fb722960056e8ab03bc4aae5a6e84219d58e1b12c76",
+  "app/Sources/Morsel/TrainingFuelContext.swift": "f43be32c5e16b20663f655f31cc3ce9acb39395eb297a8d23a1e3fb9abf7828e",
+  "app/Sources/Morsel/TrainingFuelHealthReader.swift": "d0cb1750d1fb8508ec74c8b85bacd0a54f23f6c2d1ee64d383c49fd13a26dbe2",
+  "app/Sources/Morsel/TrainingFuelHost.swift": "e0e8cf77bb8011c16f24133ac1b28611c9a37a02ebcaf538ccb895322022751b",
+  "app/Sources/Morsel/TrainingFuelModel.swift": "170b64f2e92b0cf0a1a71c29c28f18268a9589deaf738fe39613a191af3b2e1c",
+  "app/Sources/Morsel/TrainingFuelViews.swift": "a6fdd868757b6cf43bf9363ab8d30540659c002223bf779a12e52871e51a7d55",
+  "app/Sources/Morsel/Views.swift": "deb4b6b58df0237b8dc696259d4097da833857ca3170b81a13aa11577f04b604",
+  "app/Tests/MorselTests/TrainingDayEvidenceTests.swift": "a7579f8c4c1d020ee64cb8532ab6ce7f12cdb070dca7b187254cf6c6debedca5",
+  "app/Tests/MorselTests/TrainingDayFixture.swift": "7a341a9928dd75eb979d744dd00c168cd63a52a4f10a6af6e863221b5375a7a2",
+  "app/Tests/MorselTests/TrainingDayTests.swift": "e195199e795c1c1ede11e3a363d639799a25c00d91e5117e940ca09380b9f45f",
+  "app/training-day-row-contract.test.ts": "aab4b59988223792ee9708c92d7a5d13a38ed276eb3003e1365a11553077e7ec",
+  "app/training-fuel-contract.test.ts": "a6fdbe2b4487bfe1600b71b616737d749060821ffccbea5ac3dcc5d6a886b5bf",
+  "app/v1-journal-contract.test.ts": "74b1e27b8cb0a3360d22f3ffbb2d3e2f718979b6cc2452307329fb40771a5812"
+}

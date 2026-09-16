@@ -14,11 +14,12 @@ struct TrainingFuelHealthReader {
         if requestPermission {
             do {
                 try await store.requestAuthorization(toShare: [], read: [energy, HKObjectType.workoutType()])
-            } catch { return TrainingFuelContext() }
+            } catch { return TrainingFuelContext(movementFailed: true, workoutFailed: true) }
         }
-        let movement = try? await movement(energy, now: now)
-        let workout = try? await workout(now: now)
-        return TrainingFuelContext(movement: movement, workout: workout)
+        var context = TrainingFuelContext()
+        do { context.movement = try await movement(energy, now: now) } catch { context.movementFailed = true }
+        do { context.workout = try await workout(now: now) } catch { context.workoutFailed = true }
+        return context
     }
 
     private func latest(_ type: HKSampleType, now: Date) async throws -> HKSample? {
