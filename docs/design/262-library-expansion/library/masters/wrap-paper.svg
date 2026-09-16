@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Wrap — diagonal cut, folded tortilla and exposed filling</title>
+<desc>Original tortilla-wrap study with a broad open cross-section. Greens and filling are generic illustration, not a recipe or meat-type claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="folded-tortilla-body">
+ <path d="M113 94 C134 94 165 110 184 117 L121 190 Q110 208 88 201 C74 197 57 186 54 175 Q52 168 59 158Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M112 98 C122 121 150 136 168 139 L120 191 Q109 205 88 197 C73 192 62 182 58 171Z" fill="#F2E9D9" opacity=".96" filter="url(#wash)"/>
+ <path d="M145 139 Q155 140 166 138 L116 192 Q109 204 94 200 L78 192 Q102 193 109 180Z" fill="#A5750B" opacity=".28" filter="url(#wash)"/>
+ <path d="M87 130 L105 110 Q102 126 89 143 C77 157 78 173 96 180 Q76 181 69 164Z" fill="#FBE1C9" opacity=".59" filter="url(#wash)"/>
+ <path d="M63 160 Q74 174 89 180 L111 185 L105 195 Q76 195 60 179Z" fill="#F2E9D9" opacity=".86"/>
+ <path d="M63 161 Q77 174 89 177 L107 185 M58 171 Q65 189 88 199 M99 202 Q114 205 126 185 M137 174 L170 135 M61 154 l22 -27 M91 118 l15 -16" fill="none" stroke="#8B7355" stroke-width="1.04" stroke-linecap="round"/>
+ <path d="M66 177 l8 7 M74 185 l10 5 M114 192 l7 -9" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".63"/>
+</g>
+<g id="uneven-browned-press-marks">
+ <path d="M86 135 Q95 137 99 144 L96 149 L90 145 L84 144Z M111 145 L118 149 L123 158 L120 162 L112 158 L107 151Z M95 166 L103 167 L109 175 L104 179 L96 174Z" fill="#A5750B" opacity=".48" filter="url(#wash)"/>
+ <path d="M84 137 l4 -2 l6 7 l-4 3Z M112 151 l3 -2 l6 8 l-5 -1Z M99 171 l4 -1 l3 4 l-4 2Z" fill="#655A4B" opacity=".52" filter="url(#dry)"/>
+ <path d="M115 128 l6 1 l2 4 l-5 1Z M77 162 l4 -1 l3 4 l-4 2Z M129 145 l5 -2 l2 3 l-5 3Z" fill="#D6A62C" opacity=".41" filter="url(#wash)"/>
+ <path d="M86 152 l-8 9 M96 124 l-6 9 M116 168 l-6 9" fill="none" stroke="#FFF7E8" stroke-width="2.7" opacity=".76" filter="url(#dry)"/>
+</g>
+<g id="diagonal-cut-tortilla-ring">
+ <path d="M111 94 C111 83 124 70 141 74 C163 77 185 91 191 105 C194 116 185 129 173 133 C154 139 127 118 115 103Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M113 95 Q120 105 134 115 Q158 138 174 129 Q187 123 189 111 Q189 128 174 135 C151 139 124 117 115 106Z" fill="#A5750B" opacity=".32" filter="url(#wash)"/>
+ <path d="M119 93 C118 84 130 78 141 80 C160 81 179 93 183 106 C187 115 177 126 169 126 C151 129 128 109 119 98Z" fill="#655A4B" opacity=".82"/>
+ <path d="M122 91 Q134 80 149 89 C164 97 178 97 182 107 Q181 119 169 124 C151 126 129 108 122 99Z" fill="#5E7E57" opacity=".7" filter="url(#wash)"/>
+ <path d="M112 89 Q118 73 136 74 M150 77 Q176 86 187 100 M191 109 Q193 122 179 131 M167 135 Q151 133 134 121 M119 110 l-7 -10" fill="none" stroke="#8B7355" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M119 91 Q119 82 135 80 M168 90 Q181 98 184 107 M180 119 l-8 7 M144 117 l-13 -10" fill="none" stroke="#8B7355" stroke-width=".55"/>
+</g>
+<g id="ruffled-greens-in-cut-face">
+ <path d="M122 93 L126 85 L134 88 L139 83 L145 90 L143 96 L153 94 L157 102 L152 110 L141 102 L135 105 L128 97Z" fill="#E1E9D7" opacity=".97"/>
+ <path d="M126 91 l7 -2 l6 5 l4 -6 l1 11 l7 2 l-2 7 l-11 -8 l-5 1Z" fill="#2F654B" opacity=".88" filter="url(#wash)"/>
+ <path d="M161 114 L165 108 L172 110 L176 104 L182 108 L177 119 L171 124 L165 121Z" fill="#E1E9D7" opacity=".94"/>
+ <path d="M164 115 l6 -3 l4 3 l6 -4 l-4 9 l-8 3Z" fill="#5E7E57" opacity=".92" filter="url(#wash)"/>
+ <path d="M129 91 l9 7 l9 4 M166 116 l7 2 l5 -4" fill="none" stroke="#8B7355" stroke-width=".62" stroke-linecap="round"/>
+</g>
+<g id="irregular-filling-folds">
+ <path d="M150 87 Q157 86 163 93 L170 99 L167 107 L157 106 L151 101 L145 96Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M151 91 Q156 95 161 93 L166 99 L161 102 L156 100 L151 101 L148 97Z" fill="#655A4B" opacity=".51" filter="url(#wash)"/>
+ <path d="M142 106 l8 -2 l8 8 l3 8 l-5 1 l-10 -7Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M145 108 l5 0 l6 8 l-5 0Z" fill="#A5750B" opacity=".41" filter="url(#wash)"/>
+ <path d="M154 102 Q163 101 171 105 L172 111 L168 113 L157 109Z" fill="#B94738" opacity=".86" filter="url(#wash)"/>
+ <path d="M158 103 l9 3 l2 3 l-10 -3Z" fill="#E66A2C" opacity=".77"/>
+ <path d="M150 89 Q156 86 162 93 M166 99 l-4 3 M148 109 l7 7 M160 111 l8 2" fill="none" stroke="#8B7355" stroke-width=".6" stroke-linecap="round"/>
+ <path d="M149 92 l4 -1 M146 109 l5 5 M174 98 l4 4" fill="none" stroke="#FFF7E8" stroke-width="1.5" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="torn-front-lip">
+ <path d="M115 99 Q125 106 133 116 L140 117 L145 124 L153 126 L159 131 L166 132 L169 135 Q153 136 135 122 Q122 113 115 103Z" fill="#FFF7E8" opacity=".94"/>
+ <path d="M124 111 l10 9 M144 126 l9 5" fill="none" stroke="#8B7355" stroke-width=".66" stroke-linecap="round"/>
+</g>
+</svg>

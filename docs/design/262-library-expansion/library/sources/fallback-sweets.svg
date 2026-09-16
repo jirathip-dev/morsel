@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sweets category fallback — a modest mixed confection assortment</title>
+<desc>A small layered sweet, a pale rounded confection and a dark bite on a shared plate. Accompany with the Sweets category label; no particular dessert, flavour, ingredients or serving is identified.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="low-assortment-plate">
+ <path d="M40 160 C45 140 84 133 123 135 C165 132 203 144 214 161 C221 181 183 198 141 201 C99 204 53 188 43 174Z" fill="{{cream}}" opacity=".9"/>
+ <path d="M43 166 C68 184 100 192 137 191 Q187 189 212 168 C207 189 172 199 140 200 Q78 203 48 179Z" fill="{{sage}}" opacity=".27" filter="url(#wash)"/>
+ <path d="M57 159 Q75 145 113 144 Q168 139 199 160 C182 176 157 184 125 182 Q81 184 57 159Z" fill="{{paper}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M41 157 Q44 146 67 140 M84 137 Q122 131 161 138 M194 148 Q218 155 214 171 M202 184 Q180 199 141 201 M122 200 Q78 198 55 182 M47 176 l-5 -9" fill="none" stroke="{{line}}" stroke-width=".88" stroke-linecap="round"/>
+ <path d="M61 170 Q78 182 101 184 M151 190 Q177 185 190 176" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".65"/>
+</g>
+<g id="small-layered-sweet">
+ <path d="M65 115 Q81 99 99 94 Q116 94 133 110 L132 144 Q118 157 101 161 L66 142Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M67 117 Q81 122 101 137 L130 113 L130 143 Q118 157 101 160 L67 141Z" fill="{{peach}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M68 131 L101 149 Q115 146 131 132 L130 142 Q115 155 101 157 L68 140Z" fill="{{ochre}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M102 133 Q118 125 131 113 L130 141 Q116 153 102 157Z" fill="{{gold}}" opacity=".32" filter="url(#wash)"/>
+ <path d="M66 113 C72 107 80 106 85 101 Q93 94 101 96 Q117 99 132 110 Q119 123 102 134 C87 127 77 122 65 117Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M69 117 Q87 122 102 130 Q118 121 127 111 L131 112 Q120 127 102 135 L66 121Z" fill="{{peach}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M75 130 L89 139 M112 142 L124 135" fill="none" stroke="{{paper}}" stroke-width="2.4" opacity=".67" filter="url(#dry)"/>
+ <path d="M66 110 Q76 103 82 103 M89 98 Q99 90 111 100 M121 104 l10 6 M132 116 L131 144 Q117 156 104 159 M96 158 L68 143 L66 126" fill="none" stroke="{{line}}" stroke-width=".94" stroke-linecap="round"/>
+ <path d="M71 121 L99 135 M105 134 Q121 125 127 118 M71 135 L90 146 M111 151 l9 -4" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".74" stroke-linecap="round"/>
+</g>
+<g id="pale-rounded-confection">
+ <path d="M141 140 C137 129 144 110 157 106 C170 98 188 108 194 120 Q205 130 198 145 C190 158 155 161 144 148Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M149 117 Q158 106 168 107 Q184 107 190 120 C177 115 173 128 161 125 Q153 129 145 132Z" fill="{{paper}}" opacity=".78" filter="url(#wash)"/>
+ <path d="M145 138 Q157 148 172 142 C186 143 191 132 194 123 C207 140 195 152 180 155 Q157 161 145 148Z" fill="{{peach}}" opacity=".69" filter="url(#wash)"/>
+ <path d="M178 147 Q190 147 197 138 Q197 151 178 154 Q160 158 151 151Z" fill="{{ochre}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M149 125 Q152 116 160 114 L164 116 Q157 120 156 127Z" fill="{{paper}}" opacity=".86" filter="url(#dry)"/>
+ <path d="M141 131 Q142 113 154 108 M165 104 Q183 103 191 118 M198 128 Q206 143 192 151 M181 155 Q155 161 145 148" fill="none" stroke="{{line}}" stroke-width=".82" stroke-linecap="round"/>
+ <path d="M158 139 Q164 135 170 138 M182 124 q6 3 6 8" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".59"/>
+</g>
+<g id="dark-small-bite">
+ <path d="M103 159 Q111 149 126 147 L148 156 L145 175 Q135 183 119 185 L102 175Z" fill="{{brown}}" opacity=".94"/>
+ <path d="M106 160 Q114 154 126 152 L144 157 Q134 167 120 168Z" fill="{{red}}" opacity=".33" filter="url(#wash)"/>
+ <path d="M103 164 L120 173 Q137 169 147 160 L145 175 Q132 186 120 184 L103 175Z" fill="{{dark}}" opacity=".49" filter="url(#wash)"/>
+ <path d="M109 159 Q120 150 130 155 L135 158 Q121 156 115 163Z" fill="{{peach}}" opacity=".38" filter="url(#dry)"/>
+ <path d="M104 157 Q113 148 126 148 L139 153 M147 161 L145 175 Q134 183 122 184 M115 182 L103 175 L103 167" fill="none" stroke="{{line}}" stroke-width=".88" stroke-linecap="round"/>
+ <path d="M108 166 l11 6 M125 172 l14 -6" fill="none" stroke="{{line}}" stroke-width=".49" opacity=".67"/>
+</g>
+</svg>

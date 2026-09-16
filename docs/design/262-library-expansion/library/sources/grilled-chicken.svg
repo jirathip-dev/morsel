@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Grilled chicken — bone-in silhouette, generic food illustration, not a meal photograph</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="loose-ceramic-contact">
+ <path d="M35 167 C48 153 77 151 103 155 C149 151 187 151 218 168 C226 179 203 194 171 199 C121 206 65 197 39 181Z" fill="{{paper}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M41 181 C61 195 110 201 145 199 M167 198 Q201 193 216 177 M37 169 Q50 160 65 160" fill="none" stroke="{{line}}" stroke-width=".72" stroke-linecap="round"/>
+ <path d="M63 170 C103 159 164 162 193 177 C163 191 93 194 60 180Z" fill="{{brown}}" opacity=".14" filter="url(#wash)"/>
+</g>
+<g id="bone-and-knuckle-not-a-bread-slice">
+ <path d="M157 145 C173 137 177 119 181 108 L186 91 C182 87 182 81 186 77 C191 73 196 76 198 81 C202 76 209 78 211 83 C213 89 206 95 200 96 C196 111 193 128 186 143 L178 156Z" fill="{{cream}}" opacity=".95"/>
+ <path d="M179 136 Q188 115 189 94 L194 95 Q193 122 184 143Z" fill="{{ochre}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M184 89 Q180 81 187 77 M192 77 Q196 78 197 83 M203 79 Q213 79 211 86 Q209 95 200 96 M198 103 L193 123 M189 133 l-5 10" fill="none" stroke="{{brown}}" stroke-width="1.35" stroke-linecap="round"/>
+ <path d="M185 91 Q190 94 196 93 M186 122 l3 -14" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".6"/>
+</g>
+<g id="large-irregular-thigh-and-tapered-drumstick">
+ <path d="M52 140 C47 123 57 101 75 89 C96 74 124 79 137 91 C147 100 148 113 158 116 C166 118 181 126 184 139 C188 154 175 168 160 175 C139 186 106 185 84 178 C67 172 56 159 52 140Z" fill="{{gold}}" opacity=".6"/>
+ <path d="M52 133 C57 107 75 91 99 87 C120 82 139 96 141 112 C145 127 170 119 177 136 C187 155 159 177 131 180 C94 187 56 164 52 133Z" fill="{{ochre}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M59 124 C69 105 87 93 108 94 C129 91 134 109 127 119 C113 132 88 128 81 143 C65 147 56 136 59 124Z" fill="{{gold}}" opacity=".62" filter="url(#wash)"/>
+ <path d="M57 143 C69 148 82 166 104 169 C127 178 152 165 169 151 L175 145 C172 170 148 182 119 181 C90 182 65 169 57 143Z" fill="{{brown}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M102 89 C117 83 135 95 137 108 C137 114 132 123 140 129 C154 130 160 137 165 143 C151 143 141 133 126 139 C114 135 125 118 120 108 C116 99 105 98 102 89Z" fill="{{orange}}" opacity=".5" filter="url(#wash)"/>
+ <path d="M74 105 Q84 92 99 95 L109 99 Q91 98 82 111Z" fill="{{peach}}" opacity=".53" filter="url(#wash)"/>
+ <path d="M145 126 C155 120 168 128 171 135 L162 140 Q151 131 145 126Z" fill="{{gold}}" opacity=".7" filter="url(#wash)"/>
+</g>
+<g id="ragged-char-islands-not-parallel-grill-stripes" fill="{{dark}}" filter="url(#dry)">
+ <path d="M67 118 l8 -10 5 1 -5 8 -2 7 -7 4Z" opacity=".57"/>
+ <path d="M96 94 l11 -1 7 5 -9 1 -8 -2Z" opacity=".51"/>
+ <path d="M111 125 l4 -9 5 1 -2 12 -7 8 -4 -2Z" opacity=".68"/>
+ <path d="M81 147 l8 -9 4 3 -5 10 3 5 -6 1Z" opacity=".64"/>
+ <path d="M131 159 l10 -6 5 2 -9 8 -9 2Z" opacity=".66"/>
+ <path d="M161 134 l7 1 5 6 -4 4 -6 -5Z" opacity=".57"/>
+ <path d="M63 145 l3 7 5 4 -2 3 -8 -7Z" opacity=".55"/>
+</g>
+<g id="torn-meat-at-joint-small-not-a-slice">
+ <path d="M141 123 C145 119 147 123 149 125 C151 123 154 125 156 127 Q161 128 161 131 C158 134 156 129 153 129 Q151 134 148 129 C146 126 143 133 141 130Z" fill="{{paper}}" opacity=".85"/>
+ <path d="M145 123 l5 5 M150 125 l6 5 M155 128 l4 2" fill="none" stroke="{{ochre}}" stroke-width=".65" opacity=".7"/>
+</g>
+<g id="selective-variable-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M53 129 Q53 110 69 96 M78 88 Q94 79 107 82 M120 84 Q135 89 141 104" stroke-width=".72"/>
+ <path d="M52 141 Q57 162 76 173 M87 178 Q119 190 148 180 M158 176 Q181 165 184 147" stroke-width="1.2"/>
+ <path d="M183 140 Q181 125 169 121 M161 118 l-7 -3" stroke-width=".8"/>
+ <path d="M137 108 Q133 123 140 136 M141 140 Q144 146 143 151" stroke-width=".65" opacity=".7"/>
+ <path d="M63 152 l5 7 M70 161 l6 7 M95 174 l8 2 M111 178 l7 1 M164 160 l4 -5" stroke-width=".48" opacity=".7"/>
+ <path d="M78 112 l3 -3 M93 117 l4 -1 M98 141 l2 -3 M120 153 l3 -1 M155 145 l2 2" stroke-width=".5" opacity=".6"/>
+</g>
+<g id="one-loose-herb-sprig">
+ <path d="M183 182 Q190 176 203 174 M190 179 Q182 166 180 170 Q180 177 190 179 M194 177 Q199 164 203 165 Q207 171 194 177 M202 175 Q211 179 215 174 Q211 169 202 175" fill="none" stroke="{{sage}}" stroke-width="1.7" stroke-linecap="round" opacity=".78"/>
+</g>
+</svg>

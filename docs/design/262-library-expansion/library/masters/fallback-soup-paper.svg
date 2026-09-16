@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Soup category fallback — plain broth bowl and spoon</title>
+<desc>A generic bowl of warm-toned liquid with a resting spoon. Accompany with the Soup category label; no recipe, ingredients or portion are identified.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="deep-bowl-underpainting">
+ <path d="M47 119 C54 125 190 122 204 118 C203 143 190 171 166 185 C144 200 104 196 83 182 C64 168 51 143 47 119Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M53 130 C68 141 88 153 115 154 C145 158 180 143 198 130 C195 152 181 176 159 185 C130 198 96 186 82 177 C65 166 57 146 53 130Z" fill="#E1E9D7" opacity=".6" filter="url(#wash)"/>
+ <path d="M157 150 Q183 143 199 128 C194 155 180 177 158 185 C142 192 126 190 112 189 Q147 183 157 150Z" fill="#5E7E57" opacity=".35" filter="url(#wash)"/>
+ <path d="M70 160 C82 177 95 187 121 188 Q147 194 168 181 C149 198 109 199 86 183Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M74 147 Q82 169 103 177 L114 179 Q91 165 87 150Z" fill="#FFF7E8" opacity=".78" filter="url(#dry)"/>
+</g>
+<g id="uneven-rim-and-broth">
+ <path d="M46 117 C46 99 78 88 118 88 C159 87 192 96 204 110 C218 131 181 145 146 149 C104 154 55 140 47 123Z" fill="#FFF7E8" opacity=".95"/>
+ <path d="M58 116 C62 104 84 97 116 97 C151 94 183 103 194 114 C201 126 174 136 142 139 C108 143 69 133 58 120Z" fill="#FBE1C9" opacity=".93"/>
+ <path d="M62 115 C86 109 107 100 132 104 C153 105 174 108 191 116 Q197 127 170 133 C142 143 113 137 93 134 Q70 129 62 115Z" fill="#D6A62C" opacity=".45" filter="url(#wash)"/>
+ <path d="M65 123 Q82 127 101 125 C121 123 135 135 154 128 Q174 127 189 119 C186 131 162 136 142 137 Q91 142 65 123Z" fill="#A5750B" opacity=".32" filter="url(#wash)"/>
+ <path d="M77 108 C89 101 108 99 122 101 L132 104 Q104 103 88 112Z" fill="#FFF7E8" opacity=".45" filter="url(#dry)"/>
+ <path d="M80 123 Q93 128 108 127 M139 114 Q153 111 165 114" fill="none" stroke="#FBE1C9" stroke-width="1.9" opacity=".72" filter="url(#dry)"/>
+ <path d="M47 112 Q50 99 73 94 M84 92 Q124 82 163 93 M178 97 Q198 102 205 116 M205 123 Q198 138 170 143 M153 147 Q116 154 82 141 M68 136 Q51 130 47 122" fill="none" stroke="#8B7355" stroke-width=".83" stroke-linecap="round"/>
+ <path d="M60 114 Q66 103 91 100 M104 97 Q141 93 166 102 M182 108 Q196 112 194 120 M183 130 Q160 140 133 139" fill="none" stroke="#8B7355" stroke-width=".53" opacity=".76" stroke-linecap="round"/>
+</g>
+<g id="resting-spoon">
+ <path d="M145 119 C148 111 158 103 168 102 Q174 101 177 97 L210 62 Q216 57 219 61 Q221 63 216 68 L180 104 Q176 108 172 114 C168 122 155 128 148 125 Q143 124 145 119Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M148 119 Q157 109 168 108 L174 105 Q177 115 165 121 Q154 128 148 123Z" fill="#655A4B" opacity=".47" filter="url(#wash)"/>
+ <path d="M173 107 L213 64 Q217 61 218 63 L178 106 L174 112Z" fill="#8B7355" opacity=".5" filter="url(#wash)"/>
+ <path d="M152 117 Q159 109 167 110 M186 91 L209 67" fill="none" stroke="#FFF7E8" stroke-width="1.5" opacity=".86" filter="url(#dry)"/>
+ <path d="M145 119 Q147 110 160 104 M170 102 Q175 101 180 94 L210 62 Q216 56 219 62 M214 70 L182 102 Q176 108 173 114 M169 120 Q157 130 148 125" fill="none" stroke="#8B7355" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M150 121 Q157 123 164 118" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".62"/>
+</g>
+<g id="selective-bowl-edge-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M50 136 Q59 165 80 179 M91 186 Q118 200 147 191" stroke-width="1.18"/>
+ <path d="M160 187 Q187 173 197 147 L201 135" stroke-width=".96"/>
+ <path d="M65 161 l4 7 M72 173 l6 6 M89 183 l8 4 M177 172 l5 -6" stroke-width=".48" opacity=".68"/>
+</g>
+<g id="quiet-rising-warmth">
+ <path d="M97 81 C90 72 104 67 98 57 Q94 53 98 48 C92 58 110 61 102 72 Q97 77 99 81Z M128 83 Q141 73 133 64 Q129 59 134 54 C124 60 138 68 130 76Z" fill="#8B7355" opacity=".16" filter="url(#wash)"/>
+ <path d="M97 77 Q96 73 100 69 M134 70 Q137 73 131 78" fill="none" stroke="#8B7355" stroke-width=".48" opacity=".36"/>
+</g>
+</svg>

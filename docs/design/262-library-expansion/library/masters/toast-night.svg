@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Toast — browned loaf crust, porous crumb and softened butter</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="bread-thickness">
+ <path d="M57 110 C37 92 47 73 76 66 Q123 48 167 67 C192 77 197 93 183 109 L190 188 Q184 202 169 204 L70 207 Q57 205 57 193Z" fill="#655A4B" opacity=".77"/>
+ <path d="M64 172 L178 179 L184 191 Q175 203 166 203 L73 205 Q62 203 61 193Z" fill="#A5750B" opacity=".75" filter="url(#wash)"/>
+ <path d="M178 110 Q189 100 189 88 L194 97 Q195 105 187 115 L193 185 Q191 198 176 202 L180 187Z" fill="#655A4B" opacity=".58" filter="url(#wash)"/>
+</g>
+<g id="crust-and-crumb">
+ <path d="M58 104 C38 85 53 67 80 62 C105 52 144 54 166 63 C190 69 194 88 178 104 L184 182 Q181 194 170 195 L72 199 Q60 197 61 185Z" fill="#A5750B" opacity=".91"/>
+ <path d="M64 99 C50 85 62 75 81 71 Q121 57 158 71 C176 75 182 86 169 99 L174 180 Q173 185 165 186 L78 190 Q72 190 72 181 L70 105Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M65 88 Q79 71 106 74 C124 67 142 80 158 77 Q175 81 165 95 L168 126 C150 124 155 108 138 108 Q111 120 89 105 L75 121 L74 102Z" fill="#D6A62C" opacity=".63" filter="url(#wash)"/>
+ <path d="M76 125 C88 116 98 127 99 144 C112 149 126 129 139 140 Q155 130 170 144 L173 180 L80 188 C92 170 72 153 76 125Z" fill="#A5750B" opacity=".42" filter="url(#wash)"/>
+ <path d="M80 162 Q90 150 106 156 Q119 169 135 158 Q154 158 165 173 L165 181 L86 184Z" fill="#655A4B" opacity=".21" filter="url(#dry)"/>
+ <path d="M55 82 Q61 68 86 64 M110 60 Q145 58 166 69 M61 113 L64 173 M83 193 L129 191 M156 190 L173 188" fill="none" stroke="#655A4B" stroke-width="3.1" opacity=".52" filter="url(#dry)"/>
+</g>
+<g id="porous-crumb" fill="none" stroke-linecap="round">
+ <path d="M81 87 q3 -3 5 1 M100 81 q3 -2 5 1 M132 87 q2 -4 5 -2 M155 90 l3 2 M89 116 q4 -3 6 1 M112 98 l3 2 M146 112 q3 -2 5 1 M81 140 l3 2 M97 151 q3 -4 5 -1 M119 157 q2 -3 5 -1 M151 147 q4 -2 5 2 M160 165 l-3 2 M88 173 q2 -3 5 -1 M136 175 l3 -1 M106 178 l2 1" stroke="#655A4B" stroke-width="1.4" opacity=".63"/>
+ <path d="M89 96 l5 -2 M107 116 l4 1 M77 153 l4 1 M112 167 l5 -2 M146 158 l5 1 M155 120 l4 1" stroke="#FFF7E8" stroke-width="2.4" opacity=".78" filter="url(#dry)"/>
+</g>
+<g id="small-soft-butter-pat">
+ <path d="M107 128 L132 121 L146 132 L123 141 L108 138Z" fill="#D6A62C" opacity=".35" filter="url(#wash)"/>
+ <path d="M108 120 L131 115 L143 125 L122 133 L109 129Z" fill="#D6A62C" opacity=".86"/>
+ <path d="M109 120 L130 117 L140 123 L121 129Z" fill="#FFF7E8" opacity=".62"/>
+ <path d="M109 123 l1 6 l12 4 l19 -7 M130 115 l9 7" fill="none" stroke="#9D917F" stroke-width=".55" opacity=".7"/>
+</g>
+<g fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M58 104 C40 90 47 74 67 66 M82 61 Q127 47 166 63 M177 68 Q198 84 178 104 L182 161 M184 174 Q188 192 171 195 M157 196 L82 199 Q60 203 61 183 L59 124" stroke-width=".95"/>
+ <path d="M65 99 Q51 87 64 78 M79 72 Q95 64 108 65 M149 69 Q177 71 174 89 M71 112 L73 155 M77 188 L111 188 M146 188 l20 -2 M61 187 l4 8 M65 192 l5 5 M176 183 l-4 7" stroke-width=".46" opacity=".7"/>
+</g>
+</svg>

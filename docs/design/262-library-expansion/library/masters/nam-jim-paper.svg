@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Dipping sauce — shallow ceramic saucer and red-brown chili wash</title>
+<desc>Original nam-jim category sign with a sauce trail across the lip. Color does not identify a particular dipping sauce or its ingredients.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="small-shallow-ceramic-saucer">
+ <path d="M55 128 C57 109 84 93 119 91 C158 87 189 100 201 121 C214 144 189 172 151 181 C114 190 77 175 63 155Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M59 140 Q79 163 113 167 C148 172 185 158 202 138 Q198 165 161 178 C126 191 91 180 75 167Z" fill="#F2E9D9" opacity=".89" filter="url(#wash)"/>
+ <path d="M70 153 Q100 177 139 174 C164 172 182 159 196 153 Q179 177 147 182 Q100 190 75 164Z" fill="#5E7E57" opacity=".23" filter="url(#wash)"/>
+ <path d="M63 126 C71 107 95 98 122 99 C158 94 183 109 194 126 C200 144 172 163 139 167 C108 172 74 154 64 137Z" fill="#FFF7E8" opacity=".95"/>
+ <path d="M55 127 Q57 109 83 99 M96 94 Q128 85 159 94 M173 99 Q195 108 201 123 M203 137 Q200 159 176 173 M164 178 Q128 191 95 178 M81 172 Q61 160 56 141" fill="none" stroke="#8B7355" stroke-width="1.02" stroke-linecap="round"/>
+ <path d="M69 120 Q79 106 96 104 M179 111 Q190 119 193 129 M179 156 Q160 168 143 168 M81 155 l11 5 M75 166 l7 6 M88 175 l7 3" fill="none" stroke="#8B7355" stroke-width=".53" opacity=".69" stroke-linecap="round"/>
+</g>
+<g id="pooled-red-brown-sauce">
+ <path d="M72 128 C76 114 98 106 122 107 C152 102 174 114 186 128 C187 144 165 156 139 160 C110 165 79 149 72 137Z" fill="#B94738" opacity=".91"/>
+ <path d="M76 129 Q93 112 117 120 C136 125 146 112 164 119 Q179 123 185 132 C176 149 158 155 135 158 Q101 160 78 142Z" fill="#655A4B" opacity=".69" filter="url(#wash)"/>
+ <path d="M80 135 Q94 127 106 135 C125 146 133 128 149 132 Q164 132 177 140 Q163 154 137 157 C112 163 90 147 80 143Z" fill="#B94738" opacity=".61" filter="url(#wash)"/>
+ <path d="M83 121 Q101 111 118 115 L124 118 Q106 121 98 129 L85 132Z M148 149 Q162 143 177 143 Q167 153 151 156 L140 155Z" fill="#E66A2C" opacity=".37" filter="url(#wash)"/>
+ <path d="M91 140 Q107 140 117 147 Q133 151 144 146 L155 149 Q137 159 115 154Z" fill="#2A261F" opacity=".23" filter="url(#wash)"/>
+ <path d="M75 126 Q78 117 91 113 M113 108 Q139 102 158 110 M181 123 l5 7 M178 142 Q164 156 147 158 M121 160 Q91 156 78 141" fill="none" stroke="#8B7355" stroke-width=".71" stroke-linecap="round"/>
+</g>
+<g id="dip-trail-crossing-the-rim">
+ <path d="M168 123 Q165 117 171 113 L182 104 Q188 102 191 107 Q184 114 178 117 L177 128Z" fill="#B94738" opacity=".64" filter="url(#wash)"/>
+ <path d="M170 121 Q173 115 180 112 L187 105 L189 106 Q184 115 174 121Z" fill="#655A4B" opacity=".62" filter="url(#wash)"/>
+ <path d="M179 111 l6 -5 M169 126 l4 -4" fill="none" stroke="#A5750B" stroke-width="1.4" opacity=".72" filter="url(#dry)"/>
+</g>
+<g id="irregular-chili-flakes-and-toasted-grains">
+ <path d="M89 128 l5 -5 l7 3 l-4 6 l-7 -1Z M124 133 l5 -5 l8 4 l-3 7 l-7 -1Z M157 129 l5 -3 l5 5 l-7 4Z M108 148 l4 -5 l7 3 l-2 6Z" fill="#B94738" opacity=".94" filter="url(#wash)"/>
+ <path d="M91 126 l6 -1 l-2 4Z M128 132 l6 2 l-2 3Z M160 129 l3 2 l-3 2Z" fill="#E66A2C" opacity=".75"/>
+ <path d="M109 122 Q113 118 115 122 Q112 126 109 122Z M143 126 Q147 122 149 125 L146 128Z M119 139 l4 -1 l1 3 l-4 1Z M153 147 l3 -3 l3 1 l-3 4Z M96 140 l4 -2 l1 3 l-3 1Z" fill="#F2E9D9" opacity=".84"/>
+ <path d="M133 117 l4 -3 l5 3 l-4 3Z M146 141 l5 -4 l3 2 l-4 5Z" fill="#2F654B" opacity=".71" filter="url(#wash)"/>
+ <path d="M96 132 l5 -2 M128 138 l5 0 M144 119 l5 1 M150 143 l4 -3" fill="none" stroke="#8B7355" stroke-width=".52" opacity=".87"/>
+</g>
+<g id="quiet-surface-and-ceramic-dry-brush" fill="none" stroke-linecap="round">
+ <path d="M83 135 l5 3 M118 115 q7 -2 12 0 M164 150 l7 -4" stroke="#FBE1C9" stroke-width="1.65" opacity=".52" filter="url(#dry)"/>
+ <path d="M77 161 Q89 169 101 170 M135 177 l16 -3" stroke="#FFF7E8" stroke-width="2.1" opacity=".86" filter="url(#dry)"/>
+</g>
+</svg>

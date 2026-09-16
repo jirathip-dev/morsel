@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Hot pot — handled simmering vessel with ladle, greens and folded slices</title>
+<desc>Original mixed hot-pot category study; visible ingredients are illustrative, not a recipe or allergy claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="two-loop-pot-handles">
+ <path d="M53 121 C33 114 29 125 32 137 C35 150 45 154 57 150 L55 142 Q43 144 40 134 Q36 125 53 130Z M199 118 C217 108 226 118 226 128 Q228 143 209 150 L205 142 Q220 137 219 126 Q218 117 202 127Z" fill="#655A4B" opacity=".77" filter="url(#wash)"/>
+ <path d="M49 122 Q30 114 32 132 Q33 146 49 150 M41 128 Q37 139 50 142 M208 115 Q226 111 227 125 M226 133 Q222 145 210 148 M218 121 Q225 133 209 140" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
+</g>
+<g id="broad-cooking-pot">
+ <path d="M50 119 Q48 141 60 171 C69 190 101 202 136 200 C171 200 193 186 201 168 L208 122Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M53 130 C59 145 80 153 112 157 C151 161 189 148 206 134 L201 166 Q190 193 153 198 C111 205 73 191 62 172Z" fill="#655A4B" opacity=".54" filter="url(#wash)"/>
+ <path d="M58 150 Q77 175 112 178 C145 186 179 174 199 158 L196 174 Q177 197 140 198 C101 201 74 187 64 172Z" fill="#2A261F" opacity=".32" filter="url(#wash)"/>
+ <path d="M71 157 Q83 167 107 170 L112 183 Q86 179 76 171Z M161 174 l25 -11 l-4 11 l-18 10Z" fill="#FFF7E8" opacity=".27" filter="url(#dry)"/>
+ <path d="M50 134 Q54 162 63 176 M74 187 Q102 203 133 201 M145 200 Q184 196 197 176 Q204 161 206 143" fill="none" stroke="#8B7355" stroke-width="1.25" stroke-linecap="round"/>
+ <path d="M65 163 l5 13 M68 173 l8 10 M182 179 l7 -11" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".7"/>
+</g>
+<g id="broth-and-irregular-metal-rim">
+ <path d="M49 119 C51 99 84 85 126 86 C166 84 201 96 209 116 C216 135 181 155 138 157 C95 160 52 144 49 119Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M59 119 C61 104 90 96 123 95 C162 92 191 103 199 117 Q197 138 145 146 C108 151 68 140 59 119Z" fill="#D6A62C" opacity=".68" filter="url(#wash)"/>
+ <path d="M62 119 Q84 106 111 117 C132 125 149 108 172 110 Q190 112 199 121 C190 137 166 140 144 145 Q91 151 62 128Z" fill="#A5750B" opacity=".47" filter="url(#wash)"/>
+ <path d="M82 133 Q107 125 125 134 C145 141 166 123 184 128 L191 132 Q165 147 133 146 Q104 146 82 138Z" fill="#655A4B" opacity=".25" filter="url(#wash)"/>
+ <path d="M52 110 Q65 90 106 87 M120 86 Q162 82 189 97 M201 104 Q215 116 209 128 M201 138 Q180 151 149 155 M131 157 Q81 156 57 138 M60 122 Q64 136 93 142 M165 143 Q185 139 195 129" fill="none" stroke="#8B7355" stroke-width=".8" stroke-linecap="round"/>
+</g>
+<g id="cabbage-leaves-and-stalks">
+ <path d="M74 125 Q70 111 61 101 L66 91 L73 93 L73 82 Q84 82 88 90 L96 84 Q104 96 100 108 L106 119 Q91 131 74 125Z" fill="#E1E9D7" opacity=".98"/>
+ <path d="M62 101 L67 93 L75 98 L77 85 Q86 91 89 100 L98 92 Q103 104 95 119 L83 124 Q83 107 72 109Z" fill="#5E7E57" opacity=".78" filter="url(#wash)"/>
+ <path d="M73 106 Q81 100 86 111 L91 121 L82 126Z M93 100 l6 -5 l1 12 l-8 13Z" fill="#2F654B" opacity=".58" filter="url(#wash)"/>
+ <path d="M79 97 Q90 108 90 125 L95 127 Q95 114 88 104Z" fill="#F2E9D9" opacity=".93"/>
+ <path d="M68 99 l8 5 M81 91 Q89 102 90 111 M95 99 l-2 10 M83 118 l5 6" fill="none" stroke="#8B7355" stroke-width=".66"/>
+</g>
+<g id="mushroom-cap-and-cut-stem">
+ <path d="M111 105 L113 126 Q120 133 125 125 L121 102Z" fill="#FFF7E8" opacity=".95"/>
+ <path d="M103 100 C104 83 123 78 132 90 Q137 96 134 106 Q120 112 103 105Z" fill="#655A4B" opacity=".83" filter="url(#wash)"/>
+ <path d="M106 100 Q115 91 131 96 L134 105 Q120 111 103 105Z" fill="#A5750B" opacity=".34" filter="url(#wash)"/>
+ <path d="M114 87 l4 7 l9 -5 M118 94 l-7 7 M120 94 l7 7" fill="none" stroke="#F2E9D9" stroke-width="2.1" opacity=".83" filter="url(#dry)"/>
+ <path d="M104 97 Q108 82 120 84 M131 92 Q137 100 133 106 Q118 112 106 105 M113 113 l1 11 M122 119 l2 7" fill="none" stroke="#8B7355" stroke-width=".8" stroke-linecap="round"/>
+</g>
+<g id="thin-folded-meat-slices">
+ <path d="M129 117 C141 105 148 112 155 105 Q162 104 167 113 L177 124 Q167 135 153 132 C144 130 136 137 127 128Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M131 121 Q141 111 147 117 Q155 123 160 113 L170 124 L162 129 Q151 123 143 130 L132 129Z" fill="#B94738" opacity=".48" filter="url(#wash)"/>
+ <path d="M146 115 Q150 126 160 125 L165 127 L160 132 Q146 132 141 123Z" fill="#F2E9D9" opacity=".75" filter="url(#wash)"/>
+ <path d="M129 123 Q136 111 144 115 M151 110 Q160 102 166 113 M168 125 Q159 136 148 130 M141 131 l-10 0" fill="none" stroke="#8B7355" stroke-width=".65"/>
+</g>
+<g id="ladle-over-broth">
+ <path d="M169 102 L197 51 Q200 47 204 50 L206 54 L176 111Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M171 103 L201 52 L204 54 L175 110Z" fill="#655A4B" opacity=".45" filter="url(#wash)"/>
+ <path d="M156 113 C155 103 164 97 174 99 Q187 100 188 111 C188 122 164 127 156 117Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M159 112 Q164 102 177 105 L184 110 Q178 120 164 119Z" fill="#655A4B" opacity=".57" filter="url(#wash)"/>
+ <path d="M177 99 L202 53 M169 98 L195 51 M157 111 Q154 104 165 100 M184 105 Q195 117 174 123 M168 123 l-9 -4" fill="none" stroke="#8B7355" stroke-width=".9" stroke-linecap="round"/>
+</g>
+<g id="surface-simmer-and-escaping-steam" fill="none" stroke-linecap="round">
+ <path d="M103 135 q5 -5 10 0 M179 133 q4 -6 9 -2 M67 121 l6 2" stroke="#FFF7E8" stroke-width="1.5" opacity=".61" filter="url(#dry)"/>
+ <path d="M99 76 C90 65 106 59 100 47 M144 80 C153 70 138 65 145 54" stroke="#8B7355" stroke-width="1.4" opacity=".22" filter="url(#wash)"/>
+ <path d="M99 71 q-3 -5 1 -9 M144 77 q5 -4 1 -10" stroke="#8B7355" stroke-width=".52" opacity=".43"/>
+</g>
+</svg>

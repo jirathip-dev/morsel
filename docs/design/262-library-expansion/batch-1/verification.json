@@ -1,0 +1,652 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "batch": 1,
+  "asset_count": 47,
+  "food_count": 37,
+  "new_foods": 24,
+  "fallback_count": 10,
+  "theme_masters": 94,
+  "png_exports": 282,
+  "protected_product_files": 534,
+  "optical_measurements_not_visual_approval": [
+    {
+      "id": "sweet-potato",
+      "theme": "paper",
+      "bbox": [
+        9,
+        15,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 970
+    },
+    {
+      "id": "sweet-potato",
+      "theme": "night",
+      "bbox": [
+        9,
+        15,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 970
+    },
+    {
+      "id": "yogurt",
+      "theme": "paper",
+      "bbox": [
+        11,
+        21,
+        54,
+        53
+      ],
+      "alpha_gt64_pixels": 899
+    },
+    {
+      "id": "yogurt",
+      "theme": "night",
+      "bbox": [
+        11,
+        21,
+        54,
+        53
+      ],
+      "alpha_gt64_pixels": 899
+    },
+    {
+      "id": "berries",
+      "theme": "paper",
+      "bbox": [
+        9,
+        16,
+        55,
+        53
+      ],
+      "alpha_gt64_pixels": 837
+    },
+    {
+      "id": "berries",
+      "theme": "night",
+      "bbox": [
+        9,
+        16,
+        55,
+        53
+      ],
+      "alpha_gt64_pixels": 837
+    },
+    {
+      "id": "boiled-egg",
+      "theme": "paper",
+      "bbox": [
+        11,
+        15,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1068
+    },
+    {
+      "id": "boiled-egg",
+      "theme": "night",
+      "bbox": [
+        11,
+        15,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1068
+    },
+    {
+      "id": "egg",
+      "theme": "paper",
+      "bbox": [
+        12,
+        14,
+        52,
+        52
+      ],
+      "alpha_gt64_pixels": 972
+    },
+    {
+      "id": "egg",
+      "theme": "night",
+      "bbox": [
+        12,
+        14,
+        52,
+        52
+      ],
+      "alpha_gt64_pixels": 972
+    },
+    {
+      "id": "sticky-rice",
+      "theme": "paper",
+      "bbox": [
+        10,
+        19,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1048
+    },
+    {
+      "id": "sticky-rice",
+      "theme": "night",
+      "bbox": [
+        10,
+        19,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1048
+    },
+    {
+      "id": "braised-pork",
+      "theme": "paper",
+      "bbox": [
+        8,
+        23,
+        56,
+        54
+      ],
+      "alpha_gt64_pixels": 1017
+    },
+    {
+      "id": "braised-pork",
+      "theme": "night",
+      "bbox": [
+        8,
+        23,
+        56,
+        54
+      ],
+      "alpha_gt64_pixels": 1017
+    },
+    {
+      "id": "stir-fried-greens",
+      "theme": "paper",
+      "bbox": [
+        8,
+        18,
+        56,
+        54
+      ],
+      "alpha_gt64_pixels": 1139
+    },
+    {
+      "id": "stir-fried-greens",
+      "theme": "night",
+      "bbox": [
+        8,
+        18,
+        56,
+        54
+      ],
+      "alpha_gt64_pixels": 1139
+    },
+    {
+      "id": "pasta",
+      "theme": "paper",
+      "bbox": [
+        9,
+        9,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 976
+    },
+    {
+      "id": "pasta",
+      "theme": "night",
+      "bbox": [
+        9,
+        9,
+        55,
+        52
+      ],
+      "alpha_gt64_pixels": 976
+    },
+    {
+      "id": "sourdough-bread",
+      "theme": "paper",
+      "bbox": [
+        10,
+        14,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1307
+    },
+    {
+      "id": "sourdough-bread",
+      "theme": "night",
+      "bbox": [
+        10,
+        14,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1307
+    },
+    {
+      "id": "cereal-flakes",
+      "theme": "paper",
+      "bbox": [
+        10,
+        20,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1048
+    },
+    {
+      "id": "cereal-flakes",
+      "theme": "night",
+      "bbox": [
+        10,
+        20,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 1048
+    },
+    {
+      "id": "smoothie",
+      "theme": "paper",
+      "bbox": [
+        16,
+        10,
+        47,
+        57
+      ],
+      "alpha_gt64_pixels": 1046
+    },
+    {
+      "id": "smoothie",
+      "theme": "night",
+      "bbox": [
+        16,
+        10,
+        47,
+        57
+      ],
+      "alpha_gt64_pixels": 1046
+    },
+    {
+      "id": "cheese",
+      "theme": "paper",
+      "bbox": [
+        11,
+        17,
+        55,
+        55
+      ],
+      "alpha_gt64_pixels": 1019
+    },
+    {
+      "id": "cheese",
+      "theme": "night",
+      "bbox": [
+        11,
+        17,
+        55,
+        55
+      ],
+      "alpha_gt64_pixels": 1019
+    },
+    {
+      "id": "ice-cream",
+      "theme": "paper",
+      "bbox": [
+        14,
+        12,
+        49,
+        57
+      ],
+      "alpha_gt64_pixels": 1054
+    },
+    {
+      "id": "ice-cream",
+      "theme": "night",
+      "bbox": [
+        14,
+        12,
+        49,
+        57
+      ],
+      "alpha_gt64_pixels": 1054
+    },
+    {
+      "id": "grilled-pork",
+      "theme": "paper",
+      "bbox": [
+        8,
+        21,
+        56,
+        56
+      ],
+      "alpha_gt64_pixels": 1175
+    },
+    {
+      "id": "grilled-pork",
+      "theme": "night",
+      "bbox": [
+        8,
+        21,
+        56,
+        56
+      ],
+      "alpha_gt64_pixels": 1175
+    },
+    {
+      "id": "grilled-beef",
+      "theme": "paper",
+      "bbox": [
+        8,
+        17,
+        56,
+        56
+      ],
+      "alpha_gt64_pixels": 1352
+    },
+    {
+      "id": "grilled-beef",
+      "theme": "night",
+      "bbox": [
+        8,
+        17,
+        56,
+        56
+      ],
+      "alpha_gt64_pixels": 1352
+    },
+    {
+      "id": "steamed-fish",
+      "theme": "paper",
+      "bbox": [
+        8,
+        20,
+        56,
+        49
+      ],
+      "alpha_gt64_pixels": 1008
+    },
+    {
+      "id": "steamed-fish",
+      "theme": "night",
+      "bbox": [
+        8,
+        20,
+        56,
+        49
+      ],
+      "alpha_gt64_pixels": 1008
+    },
+    {
+      "id": "hot-pot",
+      "theme": "paper",
+      "bbox": [
+        7,
+        11,
+        58,
+        51
+      ],
+      "alpha_gt64_pixels": 1112
+    },
+    {
+      "id": "hot-pot",
+      "theme": "night",
+      "bbox": [
+        7,
+        11,
+        58,
+        51
+      ],
+      "alpha_gt64_pixels": 1112
+    },
+    {
+      "id": "tom-yum",
+      "theme": "paper",
+      "bbox": [
+        11,
+        12,
+        53,
+        54
+      ],
+      "alpha_gt64_pixels": 1013
+    },
+    {
+      "id": "tom-yum",
+      "theme": "night",
+      "bbox": [
+        11,
+        12,
+        53,
+        54
+      ],
+      "alpha_gt64_pixels": 1013
+    },
+    {
+      "id": "noodle-soup",
+      "theme": "paper",
+      "bbox": [
+        12,
+        10,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 999
+    },
+    {
+      "id": "noodle-soup",
+      "theme": "night",
+      "bbox": [
+        12,
+        10,
+        54,
+        54
+      ],
+      "alpha_gt64_pixels": 999
+    },
+    {
+      "id": "nam-jim",
+      "theme": "paper",
+      "bbox": [
+        13,
+        22,
+        52,
+        47
+      ],
+      "alpha_gt64_pixels": 715
+    },
+    {
+      "id": "nam-jim",
+      "theme": "night",
+      "bbox": [
+        13,
+        22,
+        52,
+        47
+      ],
+      "alpha_gt64_pixels": 715
+    },
+    {
+      "id": "wrap",
+      "theme": "paper",
+      "bbox": [
+        13,
+        18,
+        48,
+        51
+      ],
+      "alpha_gt64_pixels": 652
+    },
+    {
+      "id": "wrap",
+      "theme": "night",
+      "bbox": [
+        13,
+        18,
+        48,
+        51
+      ],
+      "alpha_gt64_pixels": 652
+    },
+    {
+      "id": "chicken-rice",
+      "theme": "paper",
+      "bbox": [
+        8,
+        12,
+        56,
+        55
+      ],
+      "alpha_gt64_pixels": 1565
+    },
+    {
+      "id": "chicken-rice",
+      "theme": "night",
+      "bbox": [
+        8,
+        12,
+        56,
+        55
+      ],
+      "alpha_gt64_pixels": 1565
+    },
+    {
+      "id": "milk",
+      "theme": "paper",
+      "bbox": [
+        19,
+        11,
+        45,
+        54
+      ],
+      "alpha_gt64_pixels": 874
+    },
+    {
+      "id": "milk",
+      "theme": "night",
+      "bbox": [
+        19,
+        11,
+        45,
+        54
+      ],
+      "alpha_gt64_pixels": 874
+    },
+    {
+      "id": "fallback-soup",
+      "theme": "paper",
+      "bbox": [
+        11,
+        12,
+        56,
+        49
+      ],
+      "alpha_gt64_pixels": 896
+    },
+    {
+      "id": "fallback-soup",
+      "theme": "night",
+      "bbox": [
+        11,
+        12,
+        56,
+        49
+      ],
+      "alpha_gt64_pixels": 896
+    },
+    {
+      "id": "fallback-dairy",
+      "theme": "paper",
+      "bbox": [
+        13,
+        17,
+        55,
+        50
+      ],
+      "alpha_gt64_pixels": 822
+    },
+    {
+      "id": "fallback-dairy",
+      "theme": "night",
+      "bbox": [
+        13,
+        17,
+        55,
+        50
+      ],
+      "alpha_gt64_pixels": 822
+    },
+    {
+      "id": "fallback-sweets",
+      "theme": "paper",
+      "bbox": [
+        10,
+        23,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 864
+    },
+    {
+      "id": "fallback-sweets",
+      "theme": "night",
+      "bbox": [
+        10,
+        23,
+        54,
+        51
+      ],
+      "alpha_gt64_pixels": 864
+    },
+    {
+      "id": "fallback-prepared",
+      "theme": "paper",
+      "bbox": [
+        9,
+        18,
+        55,
+        51
+      ],
+      "alpha_gt64_pixels": 1165
+    },
+    {
+      "id": "fallback-prepared",
+      "theme": "night",
+      "bbox": [
+        9,
+        18,
+        55,
+        51
+      ],
+      "alpha_gt64_pixels": 1165
+    },
+    {
+      "id": "fallback-condiments",
+      "theme": "paper",
+      "bbox": [
+        11,
+        12,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 857
+    },
+    {
+      "id": "fallback-condiments",
+      "theme": "night",
+      "bbox": [
+        11,
+        12,
+        53,
+        52
+      ],
+      "alpha_gt64_pixels": 857
+    }
+  ]
+}

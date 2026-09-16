@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sticky rice — pressed mound on a woven bamboo lid, original ink and wash</title>
+<desc>A cohesive pale sticky-rice mound with plump fused grains spills over a shallow woven lid. Basket weave and the dense broken-edged mound are category cues, not a measured serving.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="woven-lid-base">
+ <path d="M42 172 C45 153 82 140 122 139 C165 138 200 150 212 165 L213 177 C206 197 167 212 127 214 C83 215 48 197 42 182Z" fill="{{ochre}}" opacity=".76"/>
+ <path d="M43 168 C53 149 87 137 126 139 C163 138 200 149 211 165 C220 181 181 198 140 201 C99 207 57 191 43 179Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M48 169 C62 153 96 144 128 145 C162 144 190 154 203 166 C204 180 168 193 135 195 C99 198 64 187 50 177Z" fill="{{gold}}" opacity=".5" filter="url(#wash)"/>
+ <path d="M45 177 Q84 207 133 201 C168 198 198 186 212 173 L211 183 C192 204 158 211 129 213 Q74 214 46 187Z" fill="{{brown}}" opacity=".35" filter="url(#wash)"/>
+ <path d="M60 177 Q88 190 120 192 C151 197 177 184 192 180 L198 181 Q163 202 128 198 Q80 199 60 184Z" fill="{{ochre}}" opacity=".36" filter="url(#wash)"/>
+</g>
+<g id="handwoven-bamboo-strips">
+ <path d="M59 157 L68 153 Q121 177 188 183 L181 188 Q115 183 59 157Z M48 170 L50 164 Q105 194 160 195 L148 200 Q93 193 48 170Z M83 146 L91 143 Q142 163 203 167 L204 174 Q139 170 83 146Z" fill="{{ochre}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M70 188 Q103 164 127 141 L135 142 Q105 169 79 192Z M102 198 Q135 174 163 147 L170 149 Q140 179 114 200Z M142 198 Q171 177 190 157 L195 162 L154 195Z M52 175 L89 146 L99 143 L60 181Z" fill="{{cream}}" opacity=".62"/>
+ <path d="M76 187 Q99 169 120 150 M109 197 Q134 178 152 160 M150 195 l32 -26 M53 169 Q83 186 107 189 M127 194 l23 3 M64 158 Q81 166 98 171 M170 183 l18 1 M179 164 l21 5" fill="none" stroke="{{line}}" stroke-width=".64" stroke-linecap="round" opacity=".8"/>
+ <path d="M52 184 l1 7 M64 192 l0 6 M79 199 l1 7 M97 204 l0 6 M115 207 l0 6 M136 206 l1 6 M156 203 l2 7 M177 197 l1 6 M194 189 l2 6 M207 180 l0 6" fill="none" stroke="{{line}}" stroke-width="1.15" opacity=".73"/>
+ <path d="M53 181 Q87 205 127 204 M143 203 Q181 199 206 181" fill="none" stroke="{{cream}}" stroke-width="2.4" opacity=".77" filter="url(#dry)"/>
+</g>
+<g id="pressed-rice-body">
+ <path d="M60 144 L63 125 L71 117 L74 104 L85 94 L91 86 L104 85 L111 79 L123 82 L134 79 L146 86 L157 88 L164 96 L175 104 L178 115 L186 126 L185 138 L191 149 L190 161 L181 171 L168 174 L159 181 L144 179 L135 184 L121 181 L108 182 L97 175 L87 175 L77 168 L67 166 L65 155Z" fill="{{paper}}" opacity=".99"/>
+ <path d="M74 132 Q88 118 100 128 C110 137 124 129 137 130 C153 128 158 143 172 137 L184 132 L185 143 L191 152 L188 161 L177 172 L166 176 L153 181 L138 182 L122 182 L110 181 L97 175 L85 173 L73 166 L65 151Z" fill="{{cream}}" opacity=".95" filter="url(#wash)"/>
+ <path d="M162 110 L174 113 L182 130 L182 143 L191 153 L184 165 L168 175 L154 180 L142 179 L140 170 C156 163 153 151 161 143 Q169 127 162 110Z" fill="{{sage}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M67 134 L77 131 L82 143 L96 148 L101 163 L118 168 L122 180 L106 179 L93 173 L84 172 L72 162Z" fill="{{ochre}}" opacity=".1" filter="url(#wash)"/>
+ <path d="M86 109 Q96 92 110 98 L120 94 L133 101 L128 115 L113 116 L104 122 L96 117Z M119 144 Q133 135 147 143 L153 154 L138 158 L128 153 L116 157Z" fill="{{paper}}" opacity=".91" filter="url(#wash)"/>
+</g>
+<g id="fused-rice-grain-clusters" fill="{{paper}}" opacity=".91">
+ <path d="M80 115 Q79 106 86 104 Q91 107 86 116 Q81 121 80 115Z M88 102 Q90 92 96 91 Q101 95 94 103Z M106 90 Q111 84 115 87 Q116 94 108 98 Q105 95 106 90Z M124 87 Q132 84 136 88 Q135 96 127 96Z"/>
+ <path d="M143 92 Q151 88 154 94 Q151 102 145 101Z M157 104 Q162 100 165 106 L165 115 Q160 119 157 113Z M100 119 Q106 112 110 117 Q111 124 103 129Z M124 108 Q130 103 133 109 Q132 116 125 120Z"/>
+ <path d="M75 138 Q74 129 80 128 Q87 133 82 141Z M88 144 Q95 138 99 143 Q102 151 94 154Z M104 156 Q112 151 116 156 Q116 164 108 165Z M123 166 Q130 158 134 162 Q137 170 128 174Z"/>
+ <path d="M147 151 Q148 142 154 143 Q159 149 155 156Z M162 161 Q170 156 173 160 Q173 168 164 169Z M178 140 Q179 132 183 135 L186 142 Q184 149 180 147Z M152 170 Q159 168 160 173 Q157 181 151 178Z"/>
+</g>
+<g id="rice-seams-not-confetti" fill="none" stroke="{{line}}" stroke-linecap="round" opacity=".55">
+ <path d="M79 115 q-2 5 2 7 M92 101 l-2 6 M106 94 q-2 4 1 6 M128 97 l5 -3 M145 101 q2 4 6 1 M165 110 l0 6 M108 125 l-4 5 M125 118 l-3 5" stroke-width=".53"/>
+ <path d="M83 140 l-4 4 M92 154 q5 3 8 -1 M111 163 l5 -2 M129 174 l5 -4 M157 153 l-1 5 M167 169 l6 -3 M181 148 l3 -3" stroke-width=".65"/>
+ <path d="M97 133 l6 3 M138 127 l5 -4 M136 147 l4 4 M150 164 l-5 3" stroke-width=".5" opacity=".63"/>
+</g>
+<g id="rice-spilling-over-lid">
+ <path d="M180 160 L190 157 L196 163 L200 166 L201 173 L210 179 L213 187 L207 193 L196 192 L188 186 L180 181 L173 177Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M181 169 L190 168 L193 178 L204 182 L210 190 L200 192 L188 186 L178 180Z" fill="{{cream}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M184 164 Q190 159 193 165 L192 173 L188 174Z M197 180 Q204 176 208 182 Q210 188 205 188 L199 186Z" fill="{{paper}}"/>
+ <path d="M182 177 q5 5 10 3 M197 187 l5 3 M204 191 l6 -2" fill="none" stroke="{{line}}" stroke-width=".62" opacity=".63" stroke-linecap="round"/>
+</g>
+<g id="broken-silhouette-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M62 138 l2 -12 l7 -8 M76 102 l10 -9 M94 86 l11 0 M116 81 l9 3 M143 85 l12 4 M164 96 l10 9 M182 123 l4 7 M67 156 l3 9 l8 1 M87 175 l10 0 M109 181 l12 0 M143 181 l10 0" stroke-width=".76"/>
+ <path d="M44 169 Q47 154 65 149 M41 181 Q48 196 77 205 M91 209 Q127 220 165 209 M177 205 Q195 200 205 190 M211 176 l1 -8" stroke-width="1.05"/>
+</g>
+</svg>

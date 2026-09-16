@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cereal flakes — folded golden flakes and milk, original ink and wash</title>
+<desc>Large curled flakes form a dry irregular heap above a milk edge in a ceramic bowl. This is a cereal category study, not proof of grain, dairy or recipe.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="deep-breakfast-bowl">
+ <path d="M43 129 C44 153 57 182 81 197 C109 216 143 217 173 200 C196 188 210 158 212 131Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M49 144 C61 164 81 181 107 184 C133 189 154 181 172 176 C160 191 130 205 99 198 C75 192 58 175 49 144Z" fill="#E1E9D7" opacity=".62" filter="url(#wash)"/>
+ <path d="M184 155 Q201 146 208 135 C205 165 192 191 168 202 C153 211 124 218 104 208 C145 207 163 188 184 155Z" fill="#5E7E57" opacity=".41" filter="url(#wash)"/>
+ <path d="M75 176 C86 189 101 196 120 198 L130 198 C105 199 89 191 80 185Z" fill="#FFF7E8" opacity=".91" filter="url(#dry)"/>
+ <path d="M42 128 C42 110 81 95 119 96 C161 94 202 108 212 126 C222 144 182 163 140 166 C99 169 50 150 42 136Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M52 128 C54 115 84 104 119 104 C155 102 192 114 202 128 C201 141 176 153 138 156 C97 158 65 144 52 128Z" fill="#F2E9D9"/>
+ <path d="M55 132 C78 140 96 146 122 142 C148 139 157 152 184 142 C162 155 112 164 82 147Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M44 143 Q51 179 78 196 M89 203 Q123 220 153 208 M165 205 Q200 189 210 147 M44 120 Q53 108 75 102 M83 100 Q102 95 119 96 M185 110 Q215 119 213 133 M206 142 Q186 158 153 163 M129 166 Q76 163 49 144" fill="none" stroke="#9D917F" stroke-width=".96" stroke-linecap="round"/>
+ <path d="M66 181 L72 189 M74 191 L81 195 M172 191 L179 185" fill="none" stroke="#9D917F" stroke-width=".51" opacity=".65"/>
+</g>
+<g id="dry-heap-underwash">
+ <path d="M63 130 L65 112 Q74 105 81 108 L89 96 L105 100 L118 87 Q128 84 138 96 L152 90 L164 103 L180 101 L185 115 L195 122 L189 139 L173 147 L157 142 L144 153 L124 146 L109 151 L93 141 L80 145Z" fill="#D6A62C" opacity=".55" filter="url(#wash)"/>
+ <path d="M76 123 L97 119 L113 130 L131 120 L155 125 L176 116 L191 132 Q176 147 158 140 L143 149 L119 141 L104 146 L86 138Z" fill="#A5750B" opacity=".4" filter="url(#wash)"/>
+</g>
+<g id="back-standing-flakes">
+ <path d="M79 109 C75 101 82 86 94 89 L111 99 Q106 113 96 115Z" fill="#D6A62C" opacity=".95"/>
+ <path d="M81 105 Q87 91 95 94 L104 100 L96 106 L94 115Z" fill="#A5750B" opacity=".43" filter="url(#wash)"/>
+ <path d="M110 102 L113 88 Q121 79 132 87 L141 99 L133 111 L119 110Z" fill="#D6A62C" opacity=".95"/>
+ <path d="M114 98 Q124 90 132 90 L138 99 Q130 94 123 105 L119 110Z" fill="#E66A2C" opacity=".26" filter="url(#wash)"/>
+ <path d="M144 108 L147 93 Q154 87 163 94 L175 110 Q170 120 158 119Z" fill="#D6A62C"/>
+ <path d="M148 96 C158 98 154 111 170 114 L160 119 L150 112Z" fill="#A5750B" opacity=".58" filter="url(#wash)"/>
+ <path d="M174 123 Q169 112 180 104 L189 109 L195 123 L188 132Z" fill="#D6A62C" opacity=".96"/>
+ <path d="M180 110 L187 123 L192 121 L188 129 L178 124Z" fill="#A5750B" opacity=".51" filter="url(#wash)"/>
+</g>
+<g id="broad-front-flakes-and-curled-lips">
+ <path d="M61 124 C59 115 70 108 78 113 L90 122 L84 136 L72 137Z" fill="#D6A62C"/>
+ <path d="M64 123 L73 129 L83 124 L84 134 Q72 141 65 130Z" fill="#A5750B" opacity=".51" filter="url(#wash)"/>
+ <path d="M84 127 Q83 117 94 115 L111 121 L115 133 Q108 143 96 142 L90 137Z" fill="#D6A62C"/>
+ <path d="M90 121 Q101 127 110 124 L111 132 Q99 126 96 140 L90 135Z" fill="#E66A2C" opacity=".35" filter="url(#wash)"/>
+ <path d="M113 124 C112 114 128 109 138 116 L151 128 L146 138 L131 137 L121 143 L115 135Z" fill="#D6A62C"/>
+ <path d="M116 124 C126 127 130 117 139 122 L147 128 L141 134 Q128 123 124 139 L119 138Z" fill="#A5750B" opacity=".5" filter="url(#wash)"/>
+ <path d="M153 131 Q153 120 165 121 L180 132 Q179 141 170 145 L157 141Z" fill="#D6A62C"/>
+ <path d="M157 132 Q166 126 176 134 L173 141 L161 140Z" fill="#A5750B" opacity=".39" filter="url(#wash)"/>
+ <path d="M99 145 L106 135 L117 137 L126 147 Q119 154 109 154Z" fill="#D6A62C"/>
+ <path d="M104 143 L111 149 L123 146 L117 153 L110 154Z" fill="#A5750B" opacity=".57" filter="url(#wash)"/>
+ <path d="M142 143 Q145 135 154 141 L163 149 L157 155 L144 151Z" fill="#D6A62C"/>
+ <path d="M145 144 L154 150 L162 149 L156 155 L146 151Z" fill="#A5750B" opacity=".46" filter="url(#wash)"/>
+</g>
+<g id="flake-ridges-dry-brush" fill="none" stroke="#F2E9D9" opacity=".87" filter="url(#dry)">
+ <path d="M83 98 Q87 91 95 93 M116 91 Q123 84 130 90 M149 96 L159 96 L165 104 M67 117 Q70 115 77 120 M92 121 Q99 117 106 122 M119 119 Q130 112 138 120 M158 127 Q166 123 173 133 M106 141 L114 144 M147 144 L152 146" stroke-width="2.8"/>
+ <path d="M76 126 L82 127 M98 130 L103 133 M130 125 L136 129 M165 134 L169 136" stroke-width="1.5"/>
+</g>
+<g id="selective-flake-edge-ink" fill="none" stroke="#9D917F" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M79 105 Q76 92 88 89 M95 92 L108 100 L104 106 M112 98 L114 88 Q119 82 126 85 M136 92 L141 99 L136 108 M147 102 L148 93 Q155 88 161 94 M163 119 Q172 119 175 112 M179 107 Q186 103 190 113" stroke-width=".65"/>
+ <path d="M62 122 Q59 114 69 112 M65 130 Q72 141 82 135 L87 129 M88 121 Q94 112 104 119 M95 141 Q108 145 114 134 M116 127 Q126 130 134 122 M132 137 L144 138 L149 131 M156 134 Q165 126 173 132 M159 143 L170 145 Q179 141 179 136 M102 146 L109 154 L118 153 M145 150 L156 155 L161 151" stroke-width=".78"/>
+</g>
+</svg>

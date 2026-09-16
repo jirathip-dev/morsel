@@ -1,0 +1,636 @@
+{
+  "assets": [
+    {
+      "id": "avocado",
+      "name": "Avocado",
+      "aliases": [
+        "avocado half",
+        "อะโวคาโด"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "An irregular whole avocado beside a cut half, pale green flesh and a broad brown pit."
+    },
+    {
+      "id": "banana",
+      "name": "Banana",
+      "aliases": [
+        "กล้วย"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A curved golden banana with uneven skin washes, darker stem and broken longitudinal ink."
+    },
+    {
+      "id": "broccoli",
+      "name": "Broccoli",
+      "aliases": [
+        "steamed broccoli",
+        "บรอกโคลี"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "A branching pale stem beneath an irregular clustered green broccoli crown."
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "aliases": [
+        "black coffee",
+        "กาแฟ"
+      ],
+      "category": "drinks",
+      "kind": "food",
+      "description": "Approved R1 ceramic coffee study with dark liquid, selective ink and uneven glaze washes."
+    },
+    {
+      "id": "fallback-drinks",
+      "name": "Drink · fallback",
+      "aliases": [
+        "beverage category"
+      ],
+      "category": "drinks",
+      "kind": "fallback",
+      "description": "Generic drinking vessel; category fallback, not a specific drink or serving."
+    },
+    {
+      "id": "fallback-grains",
+      "name": "Grains · fallback",
+      "aliases": [
+        "grain category"
+      ],
+      "category": "grains",
+      "kind": "fallback",
+      "description": "Loose generic grain forms in a modest vessel; category fallback, not a specific recipe."
+    },
+    {
+      "id": "fallback-neutral",
+      "name": "Food · fallback",
+      "aliases": [
+        "neutral food fallback",
+        "unknown food",
+        "mixed meal"
+      ],
+      "kind": "fallback",
+      "category": "neutral",
+      "description": "An empty irregular ceramic plate and a plain spoon in layered cream wash and broken ink. A neutral eating sign for unknown foods and mixed meals, never an identified dish, ingredient, category or portion."
+    },
+    {
+      "id": "fallback-produce",
+      "name": "Produce · fallback",
+      "aliases": [
+        "produce category"
+      ],
+      "category": "produce",
+      "kind": "fallback",
+      "description": "A loose produce-and-leaf study; category fallback, not identified ingredients."
+    },
+    {
+      "id": "fallback-protein",
+      "name": "Protein · fallback",
+      "aliases": [
+        "protein category"
+      ],
+      "category": "protein",
+      "kind": "fallback",
+      "description": "Generic protein-category study; fallback only, not a dish or ingredient identification."
+    },
+    {
+      "id": "fried-egg",
+      "name": "Fried egg",
+      "aliases": [
+        "sunny-side-up egg",
+        "ไข่ดาว"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "Irregular cooked egg white with ragged browned edges and a warm rounded yolk."
+    },
+    {
+      "id": "grilled-chicken",
+      "name": "Grilled chicken",
+      "aliases": [
+        "chicken breast",
+        "ไก่ย่าง"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "A bone-in grilled chicken portion with an exposed knuckle, uneven browned skin and irregular char marks; generic chicken representation, not a cut or portion match."
+    },
+    {
+      "id": "jasmine-rice",
+      "name": "Jasmine rice",
+      "aliases": [
+        "steamed rice",
+        "white rice",
+        "ข้าวสวย"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "A loose rice mound in an uneven ceramic bowl, with selective grain marks and translucent wash."
+    },
+    {
+      "id": "mango",
+      "name": "Mango",
+      "aliases": [
+        "ripe mango",
+        "มะม่วง"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "Approved R1 whole mango and cut cheek with irregular gold washes and selective ink."
+    },
+    {
+      "id": "orange",
+      "name": "Orange",
+      "aliases": [
+        "citrus",
+        "ส้ม"
+      ],
+      "category": "produce",
+      "kind": "food",
+      "description": "Whole and cut citrus forms with organic rind, pith and warm orange flesh."
+    },
+    {
+      "id": "salmon",
+      "name": "Salmon fillet",
+      "aliases": [
+        "grilled salmon",
+        "ปลาแซลมอน"
+      ],
+      "category": "protein",
+      "kind": "food",
+      "description": "An irregular salmon fillet with uneven coral washes and selective pale flesh markings."
+    },
+    {
+      "id": "stir-fried-noodles",
+      "name": "Stir-fried noodles",
+      "aliases": [
+        "noodles",
+        "ผัดหมี่"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "Approved R1 tangled noodle ribbons in a ceramic bowl with broken ink and uneven washes."
+    },
+    {
+      "id": "toast",
+      "name": "Toast",
+      "aliases": [
+        "bread",
+        "wholegrain toast",
+        "ขนมปังปิ้ง"
+      ],
+      "category": "grains",
+      "kind": "food",
+      "description": "Browned toast with a distinct crust and porous cream crumb; generic bread study."
+    },
+    {
+      "id": "vegetable-soup",
+      "name": "Clear vegetable soup",
+      "aliases": [
+        "clear soup",
+        "vegetable broth",
+        "แกงจืด"
+      ],
+      "category": "soup",
+      "kind": "food",
+      "description": "A ceramic bowl of translucent broth and loose vegetable forms; generic soup illustration."
+    },
+    {
+      "id": "sweet-potato",
+      "name": "Sweet potato",
+      "aliases": [
+        "soft dried sweet potato",
+        "japanese sweet potato",
+        "baked sweet potato",
+        "มันหวาน",
+        "มันหวานญี่ปุ่น",
+        "มันเทศ"
+      ],
+      "category": "produce",
+      "description": "A split roasted sweet potato with dark skin and golden-orange flesh beside a soft dried slab.",
+      "kind": "food"
+    },
+    {
+      "id": "yogurt",
+      "name": "Yogurt",
+      "aliases": [
+        "greek yogurt",
+        "plain yogurt",
+        "yogurt bowl",
+        "โยเกิร์ต",
+        "กรีกโยเกิร์ต"
+      ],
+      "category": "dairy",
+      "description": "A shallow bowl of thick cream yogurt with an uneven spoon-pulled surface and a few dark berry marks.",
+      "kind": "food"
+    },
+    {
+      "id": "berries",
+      "name": "Berries",
+      "aliases": [
+        "blueberries",
+        "blackberries",
+        "mixed berries",
+        "frozen blueberries",
+        "บลูเบอร์รี่",
+        "เบอร์รี่"
+      ],
+      "category": "produce",
+      "description": "A loose scatter of small dark warm-pigment berries with pale bloom highlights and broken ink outlines.",
+      "kind": "food"
+    },
+    {
+      "id": "boiled-egg",
+      "name": "Boiled egg",
+      "aliases": [
+        "soft-boiled egg",
+        "hard-boiled egg",
+        "poached egg",
+        "onsen egg",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "ไข่ออนเซ็น"
+      ],
+      "category": "protein",
+      "description": "A halved boiled egg with a soft warm yolk and a whole peeled egg beside it, cream wash and selective edge ink.",
+      "kind": "food"
+    },
+    {
+      "id": "egg",
+      "name": "Egg",
+      "aliases": [
+        "eggs",
+        "chicken egg",
+        "duck egg",
+        "whole egg",
+        "ไข่",
+        "ไข่ไก่",
+        "ไข่เป็ด"
+      ],
+      "category": "protein",
+      "description": "Two whole eggs in the shell, one pale and one warm-brown, with uneven speckle wash and quiet shadow.",
+      "kind": "food"
+    },
+    {
+      "id": "sticky-rice",
+      "name": "Sticky rice",
+      "aliases": [
+        "khao niao",
+        "glutinous rice",
+        "ข้าวเหนียว"
+      ],
+      "category": "grains",
+      "description": "A dense pressed mound of translucent-white sticky rice spilling from a woven bamboo basket lid.",
+      "kind": "food"
+    },
+    {
+      "id": "braised-pork",
+      "name": "Braised pork",
+      "aliases": [
+        "pork with brown gravy",
+        "moo ob",
+        "stewed pork",
+        "pork stew",
+        "assorted pork",
+        "pork belly braised",
+        "หมูอบ",
+        "หมูตุ๋น",
+        "หมูพะโล้"
+      ],
+      "category": "protein",
+      "description": "Thick-cut pork pieces glossed with dark brown gravy pooling on a plate, ochre-brown washes and broken ink.",
+      "kind": "food"
+    },
+    {
+      "id": "stir-fried-greens",
+      "name": "Stir-fried greens",
+      "aliases": [
+        "chinese kale",
+        "kana",
+        "kai lan",
+        "morning glory",
+        "pak boong",
+        "sauteed greens",
+        "cooked greens",
+        "ผัดคะน้า",
+        "ผัดผักบุ้ง",
+        "คะน้า",
+        "ผักบุ้ง"
+      ],
+      "category": "produce",
+      "description": "Glossy dark-green stalks and leaves heaped on a plate with oil sheen highlights and sage/forest overlapping washes.",
+      "kind": "food"
+    },
+    {
+      "id": "pasta",
+      "name": "Pasta",
+      "aliases": [
+        "linguine",
+        "spaghetti",
+        "tagliatelle",
+        "fettuccine",
+        "cooked pasta",
+        "พาสต้า",
+        "สปาเก็ตตี้"
+      ],
+      "category": "grains",
+      "description": "A nest of long cream pasta strands twisted with a fork, strand ink broken and overlapping, no sauce claim.",
+      "kind": "food"
+    },
+    {
+      "id": "sourdough-bread",
+      "name": "Sourdough bread",
+      "aliases": [
+        "sourdough",
+        "sourdough toast",
+        "seeded sourdough",
+        "whole wheat sourdough",
+        "crusty bread",
+        "ขนมปังซาวร์โดว์"
+      ],
+      "category": "grains",
+      "description": "A thick open-crumb sourdough slice with a scored blistered crust, ochre crust wash over cream crumb.",
+      "kind": "food"
+    },
+    {
+      "id": "cereal-flakes",
+      "name": "Cereal flakes",
+      "aliases": [
+        "cornflakes",
+        "corn flakes",
+        "granola",
+        "breakfast cereal",
+        "cereal",
+        "คอร์นเฟลก",
+        "ซีเรียล"
+      ],
+      "category": "grains",
+      "description": "A bowl of golden irregular flakes with milk pooling at the edge, dry-brush flake edges.",
+      "kind": "food"
+    },
+    {
+      "id": "smoothie",
+      "name": "Smoothie",
+      "aliases": [
+        "fruit smoothie",
+        "yogurt smoothie",
+        "blended fruit",
+        "สมูทตี้"
+      ],
+      "category": "drinks",
+      "description": "A tall glass of thick blended fruit with a straw, layered orange-to-red wash and a frothy rim.",
+      "kind": "food"
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese",
+      "aliases": [
+        "cheese slices",
+        "edam",
+        "halloumi",
+        "burrata",
+        "stracciatella",
+        "parmesan",
+        "ชีส"
+      ],
+      "category": "dairy",
+      "description": "A cut wedge of pale cheese and two fanned slices, cream/gold wash and quiet rind line.",
+      "kind": "food"
+    },
+    {
+      "id": "ice-cream",
+      "name": "Ice cream",
+      "aliases": [
+        "coconut ice cream",
+        "gelato",
+        "soft serve",
+        "blizzard",
+        "ไอศกรีม",
+        "ไอติม"
+      ],
+      "category": "sweets",
+      "description": "Two uneven scoops in a small cup with a short spoon, cream and peach washes and melt drips.",
+      "kind": "food"
+    },
+    {
+      "id": "grilled-pork",
+      "name": "Grilled pork",
+      "aliases": [
+        "moo yang",
+        "grilled pork slices",
+        "pork belly grilled",
+        "pork neck",
+        "kor moo yang",
+        "sun-dried pork",
+        "หมูย่าง",
+        "คอหมูย่าง",
+        "หมูแดดเดียว"
+      ],
+      "category": "protein",
+      "description": "Sliced grilled pork with charred edges and a fat ribbon, fanned on a plate with irregular grill marks.",
+      "kind": "food"
+    },
+    {
+      "id": "grilled-beef",
+      "name": "Grilled beef",
+      "aliases": [
+        "beef steak",
+        "steak",
+        "seared beef",
+        "isaan grilled beef",
+        "marbled beef",
+        "เนื้อย่าง",
+        "สเต็ก"
+      ],
+      "category": "protein",
+      "description": "A thick seared beef slab cut to show a rosy interior, dark crust wash and a few red-brown juice marks.",
+      "kind": "food"
+    },
+    {
+      "id": "steamed-fish",
+      "name": "Steamed fish",
+      "aliases": [
+        "white fish",
+        "cod",
+        "seabass",
+        "fish fillet",
+        "steamed seabass",
+        "ปลานึ่ง",
+        "ปลากะพง"
+      ],
+      "category": "protein",
+      "description": "A pale flaking white fish fillet on a plate with a scatter of scallion and ginger threads.",
+      "kind": "food"
+    },
+    {
+      "id": "hot-pot",
+      "name": "Hot pot",
+      "aliases": [
+        "shabu",
+        "suki",
+        "sukiyaki",
+        "malatang",
+        "hotpot",
+        "สุกี้",
+        "ชาบู",
+        "หม้อไฟ",
+        "หมาล่าทัง"
+      ],
+      "category": "soup",
+      "description": "A wide pot with simmering broth, ladle, and mixed greens, mushroom and thin meat slices breaking the surface.",
+      "kind": "food"
+    },
+    {
+      "id": "tom-yum",
+      "name": "Tom yum",
+      "aliases": [
+        "tom yum soup",
+        "spicy soup",
+        "tom yum broth",
+        "ต้มยำ",
+        "ต้มยำกุ้ง"
+      ],
+      "category": "soup",
+      "description": "A bowl of red-orange broth with lemongrass, chili and lime leaf floating, warm red wash and steam marks.",
+      "kind": "food"
+    },
+    {
+      "id": "noodle-soup",
+      "name": "Noodle soup",
+      "aliases": [
+        "kuay tiao",
+        "boat noodle",
+        "rice noodle soup",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "pho",
+        "ก๋วยเตี๋ยว",
+        "ก๋วยเตี๋ยวเรือ",
+        "เย็นตาโฟ",
+        "เส้นเล็ก",
+        "เส้นใหญ่"
+      ],
+      "category": "grains",
+      "description": "A bowl of rice noodles in dark broth with chopsticks lifting strands, bean sprout and meat slice marks.",
+      "kind": "food"
+    },
+    {
+      "id": "nam-jim",
+      "name": "Dipping sauce",
+      "aliases": [
+        "nam jim",
+        "nam jim jaew",
+        "jaew",
+        "seafood sauce",
+        "chili-garlic sauce",
+        "ginger soy sauce",
+        "dipping sauce",
+        "น้ำจิ้ม",
+        "น้ำจิ้มแจ่ว",
+        "แจ่ว",
+        "น้ำจิ้มซีฟู้ด"
+      ],
+      "category": "condiments",
+      "description": "A small ceramic saucer of red-brown sauce with chili flake specks and a dip streak on the rim.",
+      "kind": "food"
+    },
+    {
+      "id": "wrap",
+      "name": "Wrap",
+      "aliases": [
+        "chicken wrap",
+        "shawarma wrap",
+        "lamb wrap",
+        "tortilla wrap",
+        "burrito",
+        "แร็พ"
+      ],
+      "category": "prepared",
+      "description": "A tortilla wrap cut on the diagonal showing greens and filling, cream tortilla with browned press marks.",
+      "kind": "food"
+    },
+    {
+      "id": "chicken-rice",
+      "name": "Chicken rice",
+      "aliases": [
+        "khao man gai",
+        "hainanese chicken rice",
+        "poached chicken rice",
+        "ข้าวมันไก่"
+      ],
+      "category": "prepared",
+      "description": "Sliced poached chicken over a mound of oily rice with cucumber and a small saucer, plate viewed from above.",
+      "kind": "food"
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "aliases": [
+        "hot milk",
+        "fresh milk",
+        "oat milk",
+        "almond milk",
+        "lactose-free milk",
+        "นม",
+        "นมสด",
+        "นมข้าวโอ๊ต"
+      ],
+      "category": "dairy",
+      "description": "A tall glass of white milk with an uneven cream wash and a small glass-edge highlight.",
+      "kind": "food"
+    },
+    {
+      "id": "fallback-soup",
+      "name": "Soup · fallback",
+      "aliases": [
+        "soup"
+      ],
+      "category": "soup",
+      "kind": "fallback",
+      "description": "A softly irregular broth bowl and spoon; a category sign, not an identified soup."
+    },
+    {
+      "id": "fallback-dairy",
+      "name": "Dairy · fallback",
+      "aliases": [
+        "dairy"
+      ],
+      "category": "dairy",
+      "kind": "fallback",
+      "description": "A small milk vessel and soft-curd form; a category sign, not specific dairy ingredients."
+    },
+    {
+      "id": "fallback-sweets",
+      "name": "Sweets · fallback",
+      "aliases": [
+        "sweets"
+      ],
+      "category": "sweets",
+      "kind": "fallback",
+      "description": "A modest assortment of sweet forms; a category sign, not an identified dessert."
+    },
+    {
+      "id": "fallback-prepared",
+      "name": "Prepared · fallback",
+      "aliases": [
+        "prepared"
+      ],
+      "category": "prepared",
+      "kind": "fallback",
+      "description": "A divided plate of deliberately non-specific food masses; a category sign, not an identified meal."
+    },
+    {
+      "id": "fallback-condiments",
+      "name": "Condiments · fallback",
+      "aliases": [
+        "condiments"
+      ],
+      "category": "condiments",
+      "kind": "fallback",
+      "description": "Small sauce vessels and an oil cruet; a category sign, not identified condiments."
+    }
+  ]
+}

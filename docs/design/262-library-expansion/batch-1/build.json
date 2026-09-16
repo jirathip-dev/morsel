@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "renderer": "rsvg-convert version 2.62.3\n\nlibraries used:\n  cairo 1.18.4\n  pango 1.58.0\n  harfbuzz 14.3.0\n  fontconfig 2.18.2",
+  "batch": 1,
+  "rebuilt": [
+    "braised-pork",
+    "pasta"
+  ],
+  "skipped": [
+    "sweet-potato",
+    "yogurt",
+    "berries",
+    "boiled-egg",
+    "egg",
+    "sticky-rice",
+    "stir-fried-greens",
+    "sourdough-bread",
+    "cereal-flakes",
+    "smoothie",
+    "cheese",
+    "ice-cream",
+    "grilled-pork",
+    "grilled-beef",
+    "steamed-fish",
+    "hot-pot",
+    "tom-yum",
+    "noodle-soup",
+    "nam-jim",
+    "wrap",
+    "chicken-rice",
+    "milk",
+    "fallback-soup",
+    "fallback-dairy",
+    "fallback-sweets",
+    "fallback-prepared",
+    "fallback-condiments"
+  ],
+  "new_foods": 24,
+  "new_fallbacks": 5
+}

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Noodle soup — lifted rice-noodle strands over dark broth</title>
+<desc>Original generic noodle-soup study with an open strand curtain, bean sprouts and meat-slice marks; not a specific regional recipe.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="sloping-noodle-bowl">
+ <path d="M49 140 C56 162 65 189 88 202 C110 216 149 218 174 202 C195 188 209 165 213 141Z" fill="{{paper}}" opacity=".95"/>
+ <path d="M54 151 C79 170 95 175 126 177 C157 178 189 161 207 151 Q197 184 175 201 C151 218 114 215 89 202 Q65 188 54 151Z" fill="{{leaf}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M71 178 Q94 196 121 198 C147 201 177 187 192 177 Q177 203 150 210 C116 219 86 204 77 193Z" fill="{{sage}}" opacity=".44" filter="url(#wash)"/>
+ <path d="M159 188 Q184 178 201 161 L194 179 Q181 199 161 205 L143 209Z" fill="{{forest}}" opacity=".21" filter="url(#wash)"/>
+ <path d="M87 182 Q104 191 121 190 M103 202 l20 3" fill="none" stroke="{{paper}}" stroke-width="3.2" opacity=".57" filter="url(#dry)"/>
+ <path d="M51 148 Q57 175 76 194 M88 203 Q111 217 143 214 M155 211 Q188 200 202 173 M208 159 l3 -9" fill="none" stroke="{{line}}" stroke-width="1.12" stroke-linecap="round"/>
+ <path d="M73 184 l7 10 M78 192 l8 7 M178 195 l7 -10" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".67"/>
+</g>
+<g id="dark-broth-and-lipped-mouth">
+ <path d="M49 137 C55 116 90 106 132 110 C172 108 202 122 213 137 C225 157 179 176 140 179 C96 181 55 166 49 143Z" fill="{{paper}}" opacity=".96"/>
+ <path d="M60 137 C66 122 93 117 126 117 C158 114 188 127 202 139 C201 153 169 168 139 169 C103 173 69 158 60 143Z" fill="{{brown}}" opacity=".92"/>
+ <path d="M65 140 C85 126 111 140 131 128 C157 119 185 134 200 142 Q183 163 145 166 C111 174 83 159 65 151Z" fill="{{dark}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M67 132 Q88 122 109 127 L117 132 Q86 130 70 142Z M151 154 Q169 148 190 148 L183 157 L159 165 L142 162Z" fill="{{ochre}}" opacity=".49" filter="url(#wash)"/>
+ <path d="M51 131 Q62 115 91 112 M168 115 Q199 124 211 138 M214 147 Q206 165 167 174 M153 178 Q103 184 70 167 M62 162 Q50 153 49 142 M179 159 l12 -8" fill="none" stroke="{{line}}" stroke-width=".82" stroke-linecap="round"/>
+</g>
+<g id="soft-meat-slice-on-broth">
+ <path d="M70 142 C72 131 87 125 99 130 L110 141 Q104 155 89 156 L75 151Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M74 142 Q83 131 96 135 L104 141 L99 149 Q87 148 79 152Z" fill="{{peach}}" opacity=".83" filter="url(#wash)"/>
+ <path d="M77 141 Q88 137 99 144 L95 148 L81 145Z" fill="{{brown}}" opacity=".33" filter="url(#wash)"/>
+ <path d="M71 140 Q76 130 89 129 M99 131 l10 10 M103 149 Q90 160 78 152 M83 137 l12 7 M80 142 l9 5" fill="none" stroke="{{line}}" stroke-width=".6" stroke-linecap="round"/>
+</g>
+<g id="loose-submerged-noodle-loops" fill="none" stroke-linecap="round">
+ <path d="M103 147 C96 155 109 163 121 158 C135 153 137 146 149 148 C161 150 154 160 168 157 M113 136 C101 142 119 149 129 142 C139 134 161 134 159 142 M143 160 C135 169 123 163 116 167 M172 135 Q192 139 178 148" stroke="{{cream}}" stroke-width="3.05" opacity=".96"/>
+ <path d="M105 149 Q101 155 110 158 M130 152 Q144 143 152 149 M173 139 q10 0 5 6 M145 161 l-9 5" stroke="{{paper}}" stroke-width="1.2" opacity=".83" filter="url(#dry)"/>
+ <path d="M110 162 Q125 164 133 153 M143 147 q11 -3 13 6" stroke="{{line}}" stroke-width=".5" opacity=".8"/>
+</g>
+<g id="chopsticks-gripping-noodles">
+ <path d="M109 69 L205 42 Q209 42 209 46 L110 72Z M115 77 L214 55 L215 59 L116 80Z" fill="{{ochre}}" opacity=".75"/>
+ <path d="M110 69 L205 43 M119 78 L213 56" fill="none" stroke="{{line}}" stroke-width=".75" stroke-linecap="round"/>
+ <path d="M134 65 L181 52 M146 72 l40 -9" fill="none" stroke="{{cream}}" stroke-width="1" opacity=".55" filter="url(#dry)"/>
+</g>
+<g id="suspended-rice-noodle-curtain" fill="none" stroke-linecap="round">
+ <path d="M119 145 C108 130 119 118 115 103 C112 90 110 72 116 67 C123 59 130 72 126 90 C122 111 137 127 130 143 C127 152 118 153 119 145" stroke="{{cream}}" stroke-width="3.9"/>
+ <path d="M132 146 C146 135 132 118 134 98 C135  80 127 63 122 67 C119 71 126 82 124 97 C121 113 126 125 124 139" stroke="{{paper}}" stroke-width="3.3"/>
+ <path d="M139 145 C153 133 136 115 139 101 C142 86 133 70 129 70 C125 71 133  80 132 90" stroke="{{cream}}" stroke-width="3.5"/>
+ <path d="M116 92 C116 108 121 116 117 132 M127 102 Q128 118 133 130 M136 113 Q136 125 143 134" stroke="{{gold}}" stroke-width="1.5" opacity=".24" filter="url(#wash)"/>
+ <path d="M114 78 Q112 88 116 101 M119 115 q-2 12 -3 17 M125 76 q4 8 1 19 M135 100 q-1 15 3 23 M143 134 q1 5 -4 10 M129 137 q1 10 -4 12" stroke="{{line}}" stroke-width=".55" opacity=".85"/>
+ <path d="M117 105 l2 12 M135 86 l1 9 M121 135 l0 7" stroke="{{paper}}" stroke-width="1.35" opacity=".9" filter="url(#dry)"/>
+</g>
+<g id="bean-sprouts-and-greens">
+ <path d="M162 151 C163 136 171 128 184 124 L185 126 Q169 134 165 153Z M173 156 Q172 142 193 139 L194 142 Q180 142 177 157Z" fill="{{paper}}" opacity=".95"/>
+ <path d="M181 124 Q184 119 188 123 L186 128Z M191 138 l6 -1 l1 5 l-5 1Z" fill="{{gold}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M148 128 Q145 117 155 113 L162 117 L159 125 L166 127 L157 132Z M169 162 Q161 154 169 150 L181 153 Q179 161 169 162Z" fill="{{sage}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M152 126 l3 -7 M170 157 l7 -2 M165 143 q4 -9 11 -12 M177 149 l9 -7" fill="none" stroke="{{line}}" stroke-width=".52"/>
+</g>
+</svg>

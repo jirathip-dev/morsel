@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Milk — pale liquid in a tall tapering glass</title>
+<desc>Original milk-glass study with an opaque pale underpainting and broken glass edges. It does not distinguish dairy from plant milk.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="clear-tumbler-silhouette">
+ <path d="M79 62 C82 51 106 47 129 48 C151 47 173 54 176 65 L164 192 Q164 210 133 214 C108 216 87 206 87 194Z" fill="{{paper}}" opacity=".16"/>
+ <path d="M80 66 Q 80 56 95 53 L92 94 L96 184 Q97 202 110 209 C93 208 87 200 87 191Z" fill="{{cream}}" opacity=".32" filter="url(#wash)"/>
+ <path d="M162 70 L175 63 L164 193 Q165 206 146 211 L138 211 Q157 202 157 186Z" fill="{{leaf}}" opacity=".26" filter="url(#wash)"/>
+</g>
+<g id="substantial-white-milk-underpainting">
+ <path d="M85 89 C91 78 114 75 132 77 Q158 76 171 88 L161 192 Q159 203 136 206 C113 209 96 202 93 193Z" fill="{{paper}}" opacity=".98"/>
+ <path d="M86 94 Q101 102 124 102 C145 103 159 100 170 93 L163 165 L160 190 Q158 203 133 205 C111 207 96 200 94 192Z" fill="{{cream}}" opacity=".92" filter="url(#wash)"/>
+ <path d="M93 117 C102 109 112 118 112 135 C112 154 105 163 114 180 Q122 198 145 196 L155 199 Q140 209 116 202 C104 200 96 195 95 184Z" fill="{{paper}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M154 101 L169 96 L163 158 L160 191 Q157 201 140 203 L128 202 Q153 195 150 175 C145 156 160 132 154 101Z" fill="{{sage}}" opacity=".12" filter="url(#wash)"/>
+ <path d="M93 160 Q101 182 110 189 Q127 201 149 198 L157 195 Q152 205 132 206 C113 207 98 201 94 192Z" fill="{{ochre}}" opacity=".15" filter="url(#wash)"/>
+ <path d="M109 113 Q122 120 131 113 C139 108 148 114 146 125 L139 136 C126 134 119 142 111 134Z" fill="{{paper}}" opacity=".5" filter="url(#wash)"/>
+</g>
+<g id="milk-surface-and-meniscus">
+ <path d="M85 87 C93 77 114 75 135 77 C154 77 169 82 171 89 Q166 103 140 106 C117 109 95 103 87 95Z" fill="{{paper}}" opacity=".99"/>
+ <path d="M89 90 Q108 96 127 93 C145 91 156 92 169 87 Q168 101 141 104 C118 107 98 101 89 95Z" fill="{{cream}}" opacity=".66" filter="url(#wash)"/>
+ <path d="M88 87 Q97 79 115 79 M128 77 Q155 77 168 85 M170 91 Q166 101 146 105 M134 106 Q105 107 91 98" fill="none" stroke="{{line}}" stroke-width=".62" opacity=".72" stroke-linecap="round"/>
+ <path d="M100 84 Q115  80 128 82 M150 96 l10 -3" fill="none" stroke="{{paper}}" stroke-width="2.5" opacity=".86" filter="url(#dry)"/>
+</g>
+<g id="open-glass-mouth">
+ <path d="M80 61 C84 51 107 47 130 48 C151 47 171 54 176 63 C179 73 157  80 134 82 C111 85 89 78 81 69Z" fill="{{paper}}" opacity=".2"/>
+ <path d="M 80 61 Q84 52 108 49 M121 48 Q153 46 169 56 M175 61 Q181 71 158 78 M145 81 Q110 87 87 74" fill="none" stroke="{{line}}" stroke-width=".86" stroke-linecap="round"/>
+ <path d="M88 62 Q92 57 105 55 M141 54 Q159 56 168 63 M89 70 Q108 80 130 78" fill="none" stroke="{{cream}}" stroke-width="1.25" opacity=".82"/>
+ <path d="M99 52 l10 -2 M159 57 l7 3" fill="none" stroke="{{paper}}" stroke-width="1.9" opacity=".96" filter="url(#dry)"/>
+</g>
+<g id="selective-glass-edges-and-thick-foot" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M79 66 L82 107 M83 123 L86 174 M87 189 Q86 202 100 208 M110 213 Q138 220 158 206 M164 193 L168 151 M170 135 L175 77" stroke-width="1.04"/>
+ <path d="M92 190 Q92 201 110 205 M122 208 Q148 211 159 198 M90 181 l1 6 M164 171 l-1 13" stroke-width=".55" opacity=".7"/>
+ <path d="M94 201 l5 5 M101 207 l6 3 M153 205 l4 -4" stroke-width=".46" opacity=".65"/>
+</g>
+<g id="small-broken-glass-highlight" fill="none" stroke-linecap="round">
+ <path d="M93 111 L94 137 M95 145 L96 157 M101 198 l10 4" stroke="{{paper}}" stroke-width="2.5" opacity=".92" filter="url(#dry)"/>
+ <path d="M166 108 l-2 24 M157 189 l-1 6" stroke="{{paper}}" stroke-width="1.15" opacity=".87"/>
+</g>
+</svg>

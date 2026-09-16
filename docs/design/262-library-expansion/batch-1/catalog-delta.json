@@ -1,0 +1,1543 @@
+{
+  "schema_version": 2,
+  "batch": 1,
+  "assets": [
+    {
+      "id": "sweet-potato",
+      "name": "Sweet potato",
+      "aliases": [
+        "soft dried sweet potato",
+        "japanese sweet potato",
+        "baked sweet potato",
+        "มันหวาน",
+        "มันหวานญี่ปุ่น",
+        "มันเทศ"
+      ],
+      "category": "produce",
+      "description": "A split roasted sweet potato with dark skin and golden-orange flesh beside a soft dried slab.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/sweet-potato.svg",
+      "masters": [
+        "masters/sweet-potato-paper.svg",
+        "masters/sweet-potato-night.svg"
+      ],
+      "exports": [
+        "exports/sweet-potato-paper-64.png",
+        "exports/sweet-potato-paper-192.png",
+        "exports/sweet-potato-paper-512.png",
+        "exports/sweet-potato-night-64.png",
+        "exports/sweet-potato-night-192.png",
+        "exports/sweet-potato-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "yogurt",
+      "name": "Yogurt",
+      "aliases": [
+        "greek yogurt",
+        "plain yogurt",
+        "yogurt bowl",
+        "โยเกิร์ต",
+        "กรีกโยเกิร์ต"
+      ],
+      "category": "dairy",
+      "description": "A shallow bowl of thick cream yogurt with an uneven spoon-pulled surface and a few dark berry marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/yogurt.svg",
+      "masters": [
+        "masters/yogurt-paper.svg",
+        "masters/yogurt-night.svg"
+      ],
+      "exports": [
+        "exports/yogurt-paper-64.png",
+        "exports/yogurt-paper-192.png",
+        "exports/yogurt-paper-512.png",
+        "exports/yogurt-night-64.png",
+        "exports/yogurt-night-192.png",
+        "exports/yogurt-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "berries",
+      "name": "Berries",
+      "aliases": [
+        "blueberries",
+        "blackberries",
+        "mixed berries",
+        "frozen blueberries",
+        "บลูเบอร์รี่",
+        "เบอร์รี่"
+      ],
+      "category": "produce",
+      "description": "A loose scatter of small dark warm-pigment berries with pale bloom highlights and broken ink outlines.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/berries.svg",
+      "masters": [
+        "masters/berries-paper.svg",
+        "masters/berries-night.svg"
+      ],
+      "exports": [
+        "exports/berries-paper-64.png",
+        "exports/berries-paper-192.png",
+        "exports/berries-paper-512.png",
+        "exports/berries-night-64.png",
+        "exports/berries-night-192.png",
+        "exports/berries-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "boiled-egg",
+      "name": "Boiled egg",
+      "aliases": [
+        "soft-boiled egg",
+        "hard-boiled egg",
+        "poached egg",
+        "onsen egg",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "ไข่ออนเซ็น"
+      ],
+      "category": "protein",
+      "description": "A halved boiled egg with a soft warm yolk and a whole peeled egg beside it, cream wash and selective edge ink.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/boiled-egg.svg",
+      "masters": [
+        "masters/boiled-egg-paper.svg",
+        "masters/boiled-egg-night.svg"
+      ],
+      "exports": [
+        "exports/boiled-egg-paper-64.png",
+        "exports/boiled-egg-paper-192.png",
+        "exports/boiled-egg-paper-512.png",
+        "exports/boiled-egg-night-64.png",
+        "exports/boiled-egg-night-192.png",
+        "exports/boiled-egg-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "egg",
+      "name": "Egg",
+      "aliases": [
+        "eggs",
+        "chicken egg",
+        "duck egg",
+        "whole egg",
+        "ไข่",
+        "ไข่ไก่",
+        "ไข่เป็ด"
+      ],
+      "category": "protein",
+      "description": "Two whole eggs in the shell, one pale and one warm-brown, with uneven speckle wash and quiet shadow.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/egg.svg",
+      "masters": [
+        "masters/egg-paper.svg",
+        "masters/egg-night.svg"
+      ],
+      "exports": [
+        "exports/egg-paper-64.png",
+        "exports/egg-paper-192.png",
+        "exports/egg-paper-512.png",
+        "exports/egg-night-64.png",
+        "exports/egg-night-192.png",
+        "exports/egg-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "sticky-rice",
+      "name": "Sticky rice",
+      "aliases": [
+        "khao niao",
+        "glutinous rice",
+        "ข้าวเหนียว"
+      ],
+      "category": "grains",
+      "description": "A dense pressed mound of translucent-white sticky rice spilling from a woven bamboo basket lid.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/sticky-rice.svg",
+      "masters": [
+        "masters/sticky-rice-paper.svg",
+        "masters/sticky-rice-night.svg"
+      ],
+      "exports": [
+        "exports/sticky-rice-paper-64.png",
+        "exports/sticky-rice-paper-192.png",
+        "exports/sticky-rice-paper-512.png",
+        "exports/sticky-rice-night-64.png",
+        "exports/sticky-rice-night-192.png",
+        "exports/sticky-rice-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "braised-pork",
+      "name": "Braised pork",
+      "aliases": [
+        "pork with brown gravy",
+        "moo ob",
+        "stewed pork",
+        "pork stew",
+        "assorted pork",
+        "pork belly braised",
+        "หมูอบ",
+        "หมูตุ๋น",
+        "หมูพะโล้"
+      ],
+      "category": "protein",
+      "description": "Thick-cut pork pieces glossed with dark brown gravy pooling on a plate, ochre-brown washes and broken ink.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/braised-pork.svg",
+      "masters": [
+        "masters/braised-pork-paper.svg",
+        "masters/braised-pork-night.svg"
+      ],
+      "exports": [
+        "exports/braised-pork-paper-64.png",
+        "exports/braised-pork-paper-192.png",
+        "exports/braised-pork-paper-512.png",
+        "exports/braised-pork-night-64.png",
+        "exports/braised-pork-night-192.png",
+        "exports/braised-pork-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "stir-fried-greens",
+      "name": "Stir-fried greens",
+      "aliases": [
+        "chinese kale",
+        "kana",
+        "kai lan",
+        "morning glory",
+        "pak boong",
+        "sauteed greens",
+        "cooked greens",
+        "ผัดคะน้า",
+        "ผัดผักบุ้ง",
+        "คะน้า",
+        "ผักบุ้ง"
+      ],
+      "category": "produce",
+      "description": "Glossy dark-green stalks and leaves heaped on a plate with oil sheen highlights and sage/forest overlapping washes.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/stir-fried-greens.svg",
+      "masters": [
+        "masters/stir-fried-greens-paper.svg",
+        "masters/stir-fried-greens-night.svg"
+      ],
+      "exports": [
+        "exports/stir-fried-greens-paper-64.png",
+        "exports/stir-fried-greens-paper-192.png",
+        "exports/stir-fried-greens-paper-512.png",
+        "exports/stir-fried-greens-night-64.png",
+        "exports/stir-fried-greens-night-192.png",
+        "exports/stir-fried-greens-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "pasta",
+      "name": "Pasta",
+      "aliases": [
+        "linguine",
+        "spaghetti",
+        "tagliatelle",
+        "fettuccine",
+        "cooked pasta",
+        "พาสต้า",
+        "สปาเก็ตตี้"
+      ],
+      "category": "grains",
+      "description": "A nest of long cream pasta strands twisted with a fork, strand ink broken and overlapping, no sauce claim.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/pasta.svg",
+      "masters": [
+        "masters/pasta-paper.svg",
+        "masters/pasta-night.svg"
+      ],
+      "exports": [
+        "exports/pasta-paper-64.png",
+        "exports/pasta-paper-192.png",
+        "exports/pasta-paper-512.png",
+        "exports/pasta-night-64.png",
+        "exports/pasta-night-192.png",
+        "exports/pasta-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "sourdough-bread",
+      "name": "Sourdough bread",
+      "aliases": [
+        "sourdough",
+        "sourdough toast",
+        "seeded sourdough",
+        "whole wheat sourdough",
+        "crusty bread",
+        "ขนมปังซาวร์โดว์"
+      ],
+      "category": "grains",
+      "description": "A thick open-crumb sourdough slice with a scored blistered crust, ochre crust wash over cream crumb.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/sourdough-bread.svg",
+      "masters": [
+        "masters/sourdough-bread-paper.svg",
+        "masters/sourdough-bread-night.svg"
+      ],
+      "exports": [
+        "exports/sourdough-bread-paper-64.png",
+        "exports/sourdough-bread-paper-192.png",
+        "exports/sourdough-bread-paper-512.png",
+        "exports/sourdough-bread-night-64.png",
+        "exports/sourdough-bread-night-192.png",
+        "exports/sourdough-bread-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "cereal-flakes",
+      "name": "Cereal flakes",
+      "aliases": [
+        "cornflakes",
+        "corn flakes",
+        "granola",
+        "breakfast cereal",
+        "cereal",
+        "คอร์นเฟลก",
+        "ซีเรียล"
+      ],
+      "category": "grains",
+      "description": "A bowl of golden irregular flakes with milk pooling at the edge, dry-brush flake edges.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/cereal-flakes.svg",
+      "masters": [
+        "masters/cereal-flakes-paper.svg",
+        "masters/cereal-flakes-night.svg"
+      ],
+      "exports": [
+        "exports/cereal-flakes-paper-64.png",
+        "exports/cereal-flakes-paper-192.png",
+        "exports/cereal-flakes-paper-512.png",
+        "exports/cereal-flakes-night-64.png",
+        "exports/cereal-flakes-night-192.png",
+        "exports/cereal-flakes-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "smoothie",
+      "name": "Smoothie",
+      "aliases": [
+        "fruit smoothie",
+        "yogurt smoothie",
+        "blended fruit",
+        "สมูทตี้"
+      ],
+      "category": "drinks",
+      "description": "A tall glass of thick blended fruit with a straw, layered orange-to-red wash and a frothy rim.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/smoothie.svg",
+      "masters": [
+        "masters/smoothie-paper.svg",
+        "masters/smoothie-night.svg"
+      ],
+      "exports": [
+        "exports/smoothie-paper-64.png",
+        "exports/smoothie-paper-192.png",
+        "exports/smoothie-paper-512.png",
+        "exports/smoothie-night-64.png",
+        "exports/smoothie-night-192.png",
+        "exports/smoothie-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "cheese",
+      "name": "Cheese",
+      "aliases": [
+        "cheese slices",
+        "edam",
+        "halloumi",
+        "burrata",
+        "stracciatella",
+        "parmesan",
+        "ชีส"
+      ],
+      "category": "dairy",
+      "description": "A cut wedge of pale cheese and two fanned slices, cream/gold wash and quiet rind line.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/cheese.svg",
+      "masters": [
+        "masters/cheese-paper.svg",
+        "masters/cheese-night.svg"
+      ],
+      "exports": [
+        "exports/cheese-paper-64.png",
+        "exports/cheese-paper-192.png",
+        "exports/cheese-paper-512.png",
+        "exports/cheese-night-64.png",
+        "exports/cheese-night-192.png",
+        "exports/cheese-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "ice-cream",
+      "name": "Ice cream",
+      "aliases": [
+        "coconut ice cream",
+        "gelato",
+        "soft serve",
+        "blizzard",
+        "ไอศกรีม",
+        "ไอติม"
+      ],
+      "category": "sweets",
+      "description": "Two uneven scoops in a small cup with a short spoon, cream and peach washes and melt drips.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/ice-cream.svg",
+      "masters": [
+        "masters/ice-cream-paper.svg",
+        "masters/ice-cream-night.svg"
+      ],
+      "exports": [
+        "exports/ice-cream-paper-64.png",
+        "exports/ice-cream-paper-192.png",
+        "exports/ice-cream-paper-512.png",
+        "exports/ice-cream-night-64.png",
+        "exports/ice-cream-night-192.png",
+        "exports/ice-cream-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "grilled-pork",
+      "name": "Grilled pork",
+      "aliases": [
+        "moo yang",
+        "grilled pork slices",
+        "pork belly grilled",
+        "pork neck",
+        "kor moo yang",
+        "sun-dried pork",
+        "หมูย่าง",
+        "คอหมูย่าง",
+        "หมูแดดเดียว"
+      ],
+      "category": "protein",
+      "description": "Sliced grilled pork with charred edges and a fat ribbon, fanned on a plate with irregular grill marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/grilled-pork.svg",
+      "masters": [
+        "masters/grilled-pork-paper.svg",
+        "masters/grilled-pork-night.svg"
+      ],
+      "exports": [
+        "exports/grilled-pork-paper-64.png",
+        "exports/grilled-pork-paper-192.png",
+        "exports/grilled-pork-paper-512.png",
+        "exports/grilled-pork-night-64.png",
+        "exports/grilled-pork-night-192.png",
+        "exports/grilled-pork-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "grilled-beef",
+      "name": "Grilled beef",
+      "aliases": [
+        "beef steak",
+        "steak",
+        "seared beef",
+        "isaan grilled beef",
+        "marbled beef",
+        "เนื้อย่าง",
+        "สเต็ก"
+      ],
+      "category": "protein",
+      "description": "A thick seared beef slab cut to show a rosy interior, dark crust wash and a few red-brown juice marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/grilled-beef.svg",
+      "masters": [
+        "masters/grilled-beef-paper.svg",
+        "masters/grilled-beef-night.svg"
+      ],
+      "exports": [
+        "exports/grilled-beef-paper-64.png",
+        "exports/grilled-beef-paper-192.png",
+        "exports/grilled-beef-paper-512.png",
+        "exports/grilled-beef-night-64.png",
+        "exports/grilled-beef-night-192.png",
+        "exports/grilled-beef-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "steamed-fish",
+      "name": "Steamed fish",
+      "aliases": [
+        "white fish",
+        "cod",
+        "seabass",
+        "fish fillet",
+        "steamed seabass",
+        "ปลานึ่ง",
+        "ปลากะพง"
+      ],
+      "category": "protein",
+      "description": "A pale flaking white fish fillet on a plate with a scatter of scallion and ginger threads.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/steamed-fish.svg",
+      "masters": [
+        "masters/steamed-fish-paper.svg",
+        "masters/steamed-fish-night.svg"
+      ],
+      "exports": [
+        "exports/steamed-fish-paper-64.png",
+        "exports/steamed-fish-paper-192.png",
+        "exports/steamed-fish-paper-512.png",
+        "exports/steamed-fish-night-64.png",
+        "exports/steamed-fish-night-192.png",
+        "exports/steamed-fish-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "hot-pot",
+      "name": "Hot pot",
+      "aliases": [
+        "shabu",
+        "suki",
+        "sukiyaki",
+        "malatang",
+        "hotpot",
+        "สุกี้",
+        "ชาบู",
+        "หม้อไฟ",
+        "หมาล่าทัง"
+      ],
+      "category": "soup",
+      "description": "A wide pot with simmering broth, ladle, and mixed greens, mushroom and thin meat slices breaking the surface.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/hot-pot.svg",
+      "masters": [
+        "masters/hot-pot-paper.svg",
+        "masters/hot-pot-night.svg"
+      ],
+      "exports": [
+        "exports/hot-pot-paper-64.png",
+        "exports/hot-pot-paper-192.png",
+        "exports/hot-pot-paper-512.png",
+        "exports/hot-pot-night-64.png",
+        "exports/hot-pot-night-192.png",
+        "exports/hot-pot-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "tom-yum",
+      "name": "Tom yum",
+      "aliases": [
+        "tom yum soup",
+        "spicy soup",
+        "tom yum broth",
+        "ต้มยำ",
+        "ต้มยำกุ้ง"
+      ],
+      "category": "soup",
+      "description": "A bowl of red-orange broth with lemongrass, chili and lime leaf floating, warm red wash and steam marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/tom-yum.svg",
+      "masters": [
+        "masters/tom-yum-paper.svg",
+        "masters/tom-yum-night.svg"
+      ],
+      "exports": [
+        "exports/tom-yum-paper-64.png",
+        "exports/tom-yum-paper-192.png",
+        "exports/tom-yum-paper-512.png",
+        "exports/tom-yum-night-64.png",
+        "exports/tom-yum-night-192.png",
+        "exports/tom-yum-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "noodle-soup",
+      "name": "Noodle soup",
+      "aliases": [
+        "kuay tiao",
+        "boat noodle",
+        "rice noodle soup",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "pho",
+        "ก๋วยเตี๋ยว",
+        "ก๋วยเตี๋ยวเรือ",
+        "เย็นตาโฟ",
+        "เส้นเล็ก",
+        "เส้นใหญ่"
+      ],
+      "category": "grains",
+      "description": "A bowl of rice noodles in dark broth with chopsticks lifting strands, bean sprout and meat slice marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/noodle-soup.svg",
+      "masters": [
+        "masters/noodle-soup-paper.svg",
+        "masters/noodle-soup-night.svg"
+      ],
+      "exports": [
+        "exports/noodle-soup-paper-64.png",
+        "exports/noodle-soup-paper-192.png",
+        "exports/noodle-soup-paper-512.png",
+        "exports/noodle-soup-night-64.png",
+        "exports/noodle-soup-night-192.png",
+        "exports/noodle-soup-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "nam-jim",
+      "name": "Dipping sauce",
+      "aliases": [
+        "nam jim",
+        "nam jim jaew",
+        "jaew",
+        "seafood sauce",
+        "chili-garlic sauce",
+        "ginger soy sauce",
+        "dipping sauce",
+        "น้ำจิ้ม",
+        "น้ำจิ้มแจ่ว",
+        "แจ่ว",
+        "น้ำจิ้มซีฟู้ด"
+      ],
+      "category": "condiments",
+      "description": "A small ceramic saucer of red-brown sauce with chili flake specks and a dip streak on the rim.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/nam-jim.svg",
+      "masters": [
+        "masters/nam-jim-paper.svg",
+        "masters/nam-jim-night.svg"
+      ],
+      "exports": [
+        "exports/nam-jim-paper-64.png",
+        "exports/nam-jim-paper-192.png",
+        "exports/nam-jim-paper-512.png",
+        "exports/nam-jim-night-64.png",
+        "exports/nam-jim-night-192.png",
+        "exports/nam-jim-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "wrap",
+      "name": "Wrap",
+      "aliases": [
+        "chicken wrap",
+        "shawarma wrap",
+        "lamb wrap",
+        "tortilla wrap",
+        "burrito",
+        "แร็พ"
+      ],
+      "category": "prepared",
+      "description": "A tortilla wrap cut on the diagonal showing greens and filling, cream tortilla with browned press marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/wrap.svg",
+      "masters": [
+        "masters/wrap-paper.svg",
+        "masters/wrap-night.svg"
+      ],
+      "exports": [
+        "exports/wrap-paper-64.png",
+        "exports/wrap-paper-192.png",
+        "exports/wrap-paper-512.png",
+        "exports/wrap-night-64.png",
+        "exports/wrap-night-192.png",
+        "exports/wrap-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "chicken-rice",
+      "name": "Chicken rice",
+      "aliases": [
+        "khao man gai",
+        "hainanese chicken rice",
+        "poached chicken rice",
+        "ข้าวมันไก่"
+      ],
+      "category": "prepared",
+      "description": "Sliced poached chicken over a mound of oily rice with cucumber and a small saucer, plate viewed from above.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/chicken-rice.svg",
+      "masters": [
+        "masters/chicken-rice-paper.svg",
+        "masters/chicken-rice-night.svg"
+      ],
+      "exports": [
+        "exports/chicken-rice-paper-64.png",
+        "exports/chicken-rice-paper-192.png",
+        "exports/chicken-rice-paper-512.png",
+        "exports/chicken-rice-night-64.png",
+        "exports/chicken-rice-night-192.png",
+        "exports/chicken-rice-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "milk",
+      "name": "Milk",
+      "aliases": [
+        "hot milk",
+        "fresh milk",
+        "oat milk",
+        "almond milk",
+        "lactose-free milk",
+        "นม",
+        "นมสด",
+        "นมข้าวโอ๊ต"
+      ],
+      "category": "dairy",
+      "description": "A tall glass of white milk with an uneven cream wash and a small glass-edge highlight.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/milk.svg",
+      "masters": [
+        "masters/milk-paper.svg",
+        "masters/milk-night.svg"
+      ],
+      "exports": [
+        "exports/milk-paper-64.png",
+        "exports/milk-paper-192.png",
+        "exports/milk-paper-512.png",
+        "exports/milk-night-64.png",
+        "exports/milk-night-192.png",
+        "exports/milk-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "fallback-soup",
+      "name": "Soup · fallback",
+      "aliases": [
+        "soup"
+      ],
+      "category": "soup",
+      "kind": "fallback",
+      "description": "A softly irregular broth bowl and spoon; a category sign, not an identified soup.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-soup.svg",
+      "masters": [
+        "masters/fallback-soup-paper.svg",
+        "masters/fallback-soup-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-soup-paper-64.png",
+        "exports/fallback-soup-paper-192.png",
+        "exports/fallback-soup-paper-512.png",
+        "exports/fallback-soup-night-64.png",
+        "exports/fallback-soup-night-192.png",
+        "exports/fallback-soup-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "fallback-dairy",
+      "name": "Dairy · fallback",
+      "aliases": [
+        "dairy"
+      ],
+      "category": "dairy",
+      "kind": "fallback",
+      "description": "A small milk vessel and soft-curd form; a category sign, not specific dairy ingredients.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-dairy.svg",
+      "masters": [
+        "masters/fallback-dairy-paper.svg",
+        "masters/fallback-dairy-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-dairy-paper-64.png",
+        "exports/fallback-dairy-paper-192.png",
+        "exports/fallback-dairy-paper-512.png",
+        "exports/fallback-dairy-night-64.png",
+        "exports/fallback-dairy-night-192.png",
+        "exports/fallback-dairy-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "fallback-sweets",
+      "name": "Sweets · fallback",
+      "aliases": [
+        "sweets"
+      ],
+      "category": "sweets",
+      "kind": "fallback",
+      "description": "A modest assortment of sweet forms; a category sign, not an identified dessert.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-sweets.svg",
+      "masters": [
+        "masters/fallback-sweets-paper.svg",
+        "masters/fallback-sweets-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-sweets-paper-64.png",
+        "exports/fallback-sweets-paper-192.png",
+        "exports/fallback-sweets-paper-512.png",
+        "exports/fallback-sweets-night-64.png",
+        "exports/fallback-sweets-night-192.png",
+        "exports/fallback-sweets-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "fallback-prepared",
+      "name": "Prepared · fallback",
+      "aliases": [
+        "prepared"
+      ],
+      "category": "prepared",
+      "kind": "fallback",
+      "description": "A divided plate of deliberately non-specific food masses; a category sign, not an identified meal.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-prepared.svg",
+      "masters": [
+        "masters/fallback-prepared-paper.svg",
+        "masters/fallback-prepared-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-prepared-paper-64.png",
+        "exports/fallback-prepared-paper-192.png",
+        "exports/fallback-prepared-paper-512.png",
+        "exports/fallback-prepared-night-64.png",
+        "exports/fallback-prepared-night-192.png",
+        "exports/fallback-prepared-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    },
+    {
+      "id": "fallback-condiments",
+      "name": "Condiments · fallback",
+      "aliases": [
+        "condiments"
+      ],
+      "category": "condiments",
+      "kind": "fallback",
+      "description": "Small sauce vessels and an oil cruet; a category sign, not identified condiments.",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/fallback-condiments.svg",
+      "masters": [
+        "masters/fallback-condiments-paper.svg",
+        "masters/fallback-condiments-night.svg"
+      ],
+      "exports": [
+        "exports/fallback-condiments-paper-64.png",
+        "exports/fallback-condiments-paper-192.png",
+        "exports/fallback-condiments-paper-512.png",
+        "exports/fallback-condiments-night-64.png",
+        "exports/fallback-condiments-night-192.png",
+        "exports/fallback-condiments-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "approved-list; per-identity estimator rows in coverage.json",
+        "batch": 1
+      }
+    }
+  ]
+}

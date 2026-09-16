@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Tom yum — red-orange broth with lemongrass, chili and lime leaf</title>
+<desc>Original aromatic soup study. The broad warm broth and folded double leaf are recognition cues, not a claim about an actual recipe.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="deep-ceramic-soup-bowl">
+ <path d="M48 127 C50 156 63 189 91 203 C112 215 148 216 170 202 C195 187 207 158 209 132Z" fill="{{paper}}" opacity=".96"/>
+ <path d="M53 143 C65 157 83 170 108 175 C138 182 180 169 203 148 Q197 182 175 199 C149 219 112 214 90 203 Q63 189 55 163Z" fill="{{cream}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M171 177 Q190 168 201 154 C193 190 174 207 148 211 L123 211 C151 206 162 193 171 177Z" fill="{{sage}}" opacity=".23" filter="url(#wash)"/>
+ <path d="M66 175 Q80 194 100 199 L111 207 Q86 201 76 192Z" fill="{{ochre}}" opacity=".22" filter="url(#wash)"/>
+ <path d="M91 176 Q112 186 134 184 L149 181 Q137 190 112 190Z" fill="{{paper}}" opacity=".75" filter="url(#dry)"/>
+ <path d="M49 139 Q54 176 72 191 M84 201 Q106 215 135 214 M148 212 Q181 205 196 176 M202 163 l4 -17" fill="none" stroke="{{line}}" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M69 179 l5 10 M75 189 l7 6 M181 190 l6 -10" fill="none" stroke="{{line}}" stroke-width=".49" opacity=".69"/>
+</g>
+<g id="open-rim-and-red-orange-broth">
+ <path d="M47 126 C50 104 84 91 123 93 C166 90 200 105 210 126 C218 149 178 170 133 173 C86 174 45 154 47 126Z" fill="{{paper}}" opacity=".95"/>
+ <path d="M58 126 C59 110 91 100 122 101 C158 98 190 111 199 127 C202 142 176 156 143 162 C103 169 66 152 58 134Z" fill="{{orange}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M64 130 C81 113 105 126 123 116 C141 108 160 120 173 116 L191 125 Q201 134 187 145 C162 158 138 164 111 159 C88 157 72 147 64 139Z" fill="{{red}}" opacity=".63" filter="url(#wash)"/>
+ <path d="M72 119 C95 107 112 104 132 109 L143 115 Q116 112 101 127 Q87 135 69 130Z M159 142 Q179 134 194 136 Q184 150 158 155 L143 155Z" fill="{{gold}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M88 145 Q113 145 128 152 C151 154 160 142 174 145 Q159 161 136 162 Q106 165 88 152Z" fill="{{brown}}" opacity=".22" filter="url(#wash)"/>
+ <path d="M48 122 Q52 104 80 97 M94 94 Q126 89 157 97 M173 102 Q198 110 207 125 M210 137 Q201 156 168 166" fill="none" stroke="{{line}}" stroke-width=".78" stroke-linecap="round"/>
+ <path d="M152 171 Q117 179 83 166 M72 161 Q49 148 47 135 M63 133 Q75 151 101 158 M173 154 Q190 147 198 136" fill="none" stroke="{{line}}" stroke-width=".85" stroke-linecap="round"/>
+</g>
+<g id="lemongrass-cut-stalks">
+ <path d="M83 137 L126 101 Q131 97 135 102 L137 106 L93 144Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M88 138 L130 103 L135 105 L94 142Z" fill="{{gold}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M103 116 L99 105 L107 100 L136 132 Q137 138 131 139Z" fill="{{leaf}}" opacity=".96"/>
+ <path d="M106 105 L130 131 L130 135 L101 110Z" fill="{{ochre}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M87 137 L111 116 M118 110 l13 -10 M106 104 l19 23 M131 133 l3 3 M89 142 l4 -3" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M89 135 l10 -8 M117 117 l6 7" fill="none" stroke="{{paper}}" stroke-width="1.65" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="two-lobed-lime-leaf">
+ <path d="M143 115 C136 104 140 92 152 89 C165 88 171 96 168 107 L164 112 C178 115 181 127 174 139 C162 143 150 135 150 122Z" fill="{{leaf}}" opacity=".94"/>
+ <path d="M143 113 Q138 99 151 91 Q164 92 166 102 L159 115 C173 116 176 126 172 136 Q157 137 152 124Z" fill="{{forest}}" opacity=".86" filter="url(#wash)"/>
+ <path d="M144 103 Q153 104 159 114 L156 119 Q163 123 169 133 Q155 131 153 121Z" fill="{{sage}}" opacity=".86" filter="url(#wash)"/>
+ <path d="M151 94 Q157 104 158 115 Q158 127 169 136 M151 102 l5 3 M164 122 l-5 2 M166 103 l-7 6" fill="none" stroke="{{line}}" stroke-width=".71" stroke-linecap="round"/>
+ <path d="M147 98 l3 -3 M161 128 l5 5" fill="none" stroke="{{leaf}}" stroke-width="1.5" opacity=".73" filter="url(#dry)"/>
+</g>
+<g id="curved-chili-and-aromatic-fragments">
+ <path d="M110 148 C121 129 145 134 154 144 C146 139 139 142 131 148 Q119 156 110 148Z" fill="{{red}}" opacity=".98"/>
+ <path d="M114 148 Q131 135 145 140 L138 145 L123 151Z" fill="{{orange}}" opacity=".71" filter="url(#wash)"/>
+ <path d="M150 141 l5 -5 l5 2 l-7 4Z" fill="{{forest}}" opacity=".86"/>
+ <path d="M112 148 Q119 136 130 136 M139 136 Q150 136 154 144 M123 152 l7 -3" fill="none" stroke="{{line}}" stroke-width=".67"/>
+ <path d="M70 121 L80 113 Q85 111 89 116 L86 125Z" fill="{{peach}}" opacity=".83"/>
+ <path d="M70 121 L80 113" fill="none" stroke="{{line}}" stroke-width=".58"/>
+ <path d="M178 119 l8 -2 l4 4 l-9 6Z M98 148 l5 -4 l6 2 l-4 4Z" fill="{{peach}}" opacity=".8" filter="url(#wash)"/>
+</g>
+<g id="broth-glints-and-steam" fill="none" stroke-linecap="round">
+ <path d="M72 135 l7 4 M144 154 q9 -1 14 -4 M178 136 l6 -2" stroke="{{paper}}" stroke-width="1.7" opacity=".53" filter="url(#dry)"/>
+ <path d="M96 88 C89 78 101 75 98 67 Q91 60 98 49 M134 83 C143 73 129 70 136 60 M165 88 Q173 80 170 73" stroke="{{line}}" stroke-width="1.8" opacity=".17" filter="url(#wash)"/>
+ <path d="M95 83 q-1 -4 2 -8 M96 60 q-2 -5 1 -9 M136 80 q4 -5 -1 -9" stroke="{{line}}" stroke-width=".48" opacity=".4"/>
+</g>
+</svg>

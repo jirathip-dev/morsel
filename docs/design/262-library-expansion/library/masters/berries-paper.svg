@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Berries — loose bloom-dusted fruit, original ink and wash</title>
+<desc>Round calyx-bearing berries and one aggregate blackberry. Dark fruit is translated into the locked brown, forest and red pigments; species and ripeness cannot be read literally from these colors.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="separate-contact-washes" fill="#655A4B" opacity=".11" filter="url(#wash)">
+ <path d="M40 139 Q60 127 84 137 L91 147 Q70 155 48 146Z M91 111 Q115 103 137 113 L138 122 Q111 127 93 119Z M158 122 Q179 116 198 126 L198 133 Q178 138 160 129Z"/>
+ <path d="M109 193 Q134 184 159 190 L167 200 Q139 210 115 202Z M59 201 Q73 190 91 199 L96 205 Q78 215 61 205Z M181 179 Q196 175 213 183 L214 189 Q195 196 181 188Z"/>
+</g>
+<g id="upper-round-berry">
+ <path d="M96 74 C103 64 119 64 131 72 C143 82 142 96 136 107 C129 119 112 122 100 114 C87 106 86 87 96 74Z" fill="#655A4B" opacity=".95"/>
+ <path d="M94 84 C103 72 121 72 132 82 C141 93 134 110 122 114 C106 119 94 106 94 96Z" fill="#2F654B" opacity=".48" filter="url(#wash)"/>
+ <path d="M107 98 Q122 109 136 94 C138 106 126 118 112 117 C102 115 93 107 93 99Z" fill="#2A261F" opacity=".49" filter="url(#wash)"/>
+ <path d="M98 77 Q110 65 124 73 L130 82 Q118 77 111 80 L102 94 L95 96Z" fill="#F2E9D9" opacity=".29" filter="url(#wash)"/>
+ <path d="M123 80 Q133 81 135 92 L130 97 L123 91Z" fill="#B94738" opacity=".27" filter="url(#wash)"/>
+ <path d="M107 78 L112 82 L118 78 L117 84 L122 88 L115 88 L111 94 L109 87 L103 84Z" fill="#2A261F" opacity=".75"/>
+ <path d="M105 78 l4 3 M118 79 l-2 5 M116 89 l-4 4" fill="none" stroke="#F2E9D9" stroke-width="1.1" opacity=".46" filter="url(#dry)"/>
+</g>
+<g id="left-round-berry">
+ <path d="M46 104 C54 94 68 92 80 100 C93 108 94 125 87 137 C80 150 65 152 51 143 C39 134 38 116 46 104Z" fill="#655A4B" opacity=".96"/>
+ <path d="M42 119 Q51 101 68 99 C81 100 90 111 90 123 L83 139 Q63 151 51 138Z" fill="#B94738" opacity=".31" filter="url(#wash)"/>
+ <path d="M55 127 Q76 133 87 116 C92 133 82 145 70 147 Q51 146 46 132Z" fill="#2F654B" opacity=".54" filter="url(#wash)"/>
+ <path d="M46 112 Q51 101 65 100 L76 104 Q62 103 56 115 L53 127 L45 126Z" fill="#E1E9D7" opacity=".28" filter="url(#wash)"/>
+ <path d="M71 126 Q80 120 88 122 L84 137 Q77 145 66 144Z" fill="#2A261F" opacity=".4" filter="url(#wash)"/>
+ <path d="M61 106 L65 110 L72 107 L69 114 L72 119 L66 117 L60 121 L60 115 L55 112Z" fill="#2A261F" opacity=".76"/>
+ <path d="M57 108 l5 -2 M69 112 l2 -3 M59 119 l-1 -4 M49 116 l-1 6" fill="none" stroke="#F2E9D9" stroke-width="1.4" opacity=".39" filter="url(#dry)"/>
+</g>
+<g id="right-rear-berry">
+ <path d="M155 88 C164 79 178 78 188 84 C200 92 203 108 197 119 C191 131 175 135 163 128 C150 121 148 102 155 88Z" fill="#655A4B" opacity=".94"/>
+ <path d="M153 102 C162 89 178 87 192 92 C204 107 193 126 178 130 C164 132 155 120 153 111Z" fill="#2F654B" opacity=".39" filter="url(#wash)"/>
+ <path d="M180 109 Q195 102 198 107 C196 125 182 133 169 130 L158 120 Q170 125 180 109Z" fill="#2A261F" opacity=".53" filter="url(#wash)"/>
+ <path d="M158 92 Q166 80 182 85 L190 92 Q176 90 169 94 L161 106 L155 104Z" fill="#F2E9D9" opacity=".28" filter="url(#wash)"/>
+ <path d="M173 89 l2 5 l6 -2 l-2 5 l3 4 l-7 0 l-3 5 l-2 -6 l-6 -3 l6 -2Z" fill="#2A261F" opacity=".81"/>
+ <path d="M169 91 l4 -2 M179 97 l3 3 M172 105 l-2 -4" fill="none" stroke="#F2E9D9" stroke-width="1.1" opacity=".44" filter="url(#dry)"/>
+</g>
+<g id="aggregate-blackberry-silhouette">
+ <path d="M111 143 C108 137 113 129 120 128 C122 120 132 118 138 123 C146 119 154 126 155 133 C164 133 168 142 164 149 C172 156 168 167 163 170 C166 181 158 187 151 187 C147 199 138 202 130 196 C121 200 112 194 113 185 C104 182 104 172 109 167 C101 159 104 148 111 143Z" fill="#655A4B" opacity=".98"/>
+ <path d="M116 137 C127 124 148 131 155 141 L164 151 L159 175 L146 194 L128 192 L114 179 L110 157Z" fill="#2A261F" opacity=".74" filter="url(#wash)"/>
+ <path d="M119 132 Q124 124 131 130 Q137 139 128 144 Q117 144 119 132Z M137 128 Q148 124 152 134 Q154 142 144 145 Q135 140 137 128Z M109 151 Q114 142 122 146 Q132 151 124 160 Q111 165 109 151Z M134 148 Q142 140 150 148 Q156 157 145 163 Q135 163 134 148Z M117 168 Q127 160 134 168 Q139 178 129 181 Q117 180 117 168Z M145 172 Q155 161 163 169 Q165 177 155 183 Q145 186 145 172Z M127 186 Q136 178 144 184 Q151 194 138 198Z" fill="#B94738" opacity=".45" filter="url(#wash)"/>
+ <path d="M116 145 Q125 148 123 156 L116 160 L111 156Z M145 135 Q152 134 154 141 L148 147 L140 144Z M134 162 L145 158 L151 166 L144 176 L136 173Z M148 185 L155 181 Q151 195 142 197Z" fill="#2F654B" opacity=".37" filter="url(#wash)"/>
+ <path d="M122 131 Q127 128 130 133 M140 129 l5 1 M111 150 l4 -4 M135 151 q3 -5 7 -4 M121 166 l5 -2 M129 186 l5 -3" fill="none" stroke="#F2E9D9" stroke-width="2.7" opacity=".29" filter="url(#dry)"/>
+ <path d="M121 142 Q129 145 133 138 M113 160 Q122 164 129 156 M145 146 Q154 147 157 140 M132 168 Q140 174 147 164 M123 181 Q130 185 136 180 M146 185 l7 -3" fill="none" stroke="#8B7355" stroke-width=".67" opacity=".72"/>
+</g>
+<g id="two-loose-foreground-berries">
+ <path d="M184 152 C191 141 205 143 213 153 C220 164 215 179 205 184 C194 190 181 181 179 170 Q178 159 184 152Z" fill="#655A4B" opacity=".96"/>
+ <path d="M181 167 Q198 176 216 163 C214 180 202 188 191 182Z" fill="#2A261F" opacity=".63" filter="url(#wash)"/>
+ <path d="M185 154 Q194 145 204 150 L209 159 L202 157 Q191 155 185 166Z" fill="#F2E9D9" opacity=".29" filter="url(#wash)"/>
+ <path d="M198 153 l3 4 l5 -1 l-3 4 l1 5 l-5 -3 l-5 2 l1 -6Z" fill="#2A261F" opacity=".76"/>
+ <path d="M61 180 C68 171 80 170 89 178 C98 187 96 198 88 204 C80 212 68 207 61 201 C56 194 56 188 61 180Z" fill="#655A4B" opacity=".94"/>
+ <path d="M60 188 Q75 180 87 184 L94 191 Q91 208 77 207 C68 206 62 199 60 188Z" fill="#B94738" opacity=".34" filter="url(#wash)"/>
+ <path d="M68 176 Q78 173 85 179 L80 185 L68 187 L62 194 L60 186Z" fill="#E1E9D7" opacity=".32" filter="url(#wash)"/>
+ <path d="M69 177 l3 5 l5 -1 l-3 5 l2 3 l-6 -1 l-3 3 l-1 -6 l-4 -3Z" fill="#2A261F" opacity=".73"/>
+ <path d="M77 196 Q89 194 93 189 L91 200 Q86 207 78 207Z" fill="#2F654B" opacity=".41" filter="url(#wash)"/>
+</g>
+<g id="broken-fruit-edges" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M92 81 Q94 70 107 67 M126 70 Q140 77 141 89 M138 102 Q130 121 112 119 M104 117 l-8 -6 M43 109 Q46 98 57 97 M76 97 Q91 103 92 117 M88 133 Q80 150 64 148 M53 143 l-8 -8" stroke-width=".85"/>
+ <path d="M152 99 Q154 83 169 81 M186 83 Q202 90 201 105 M198 118 Q191 133 177 132 M111 142 Q108 133 119 129 M137 123 Q150 122 153 132 M165 150 Q171 160 164 167 M160 183 Q154 189 149 188 M141 198 Q128 203 122 195" stroke-width="1.05"/>
+ <path d="M184 152 Q189 144 198 145 M214 155 Q222 172 208 182 M191 184 l-8 -7 M62 179 Q70 171 80 174 M95 189 Q98 200 85 206 M68 205 l-8 -7" stroke-width=".77"/>
+</g>
+</svg>

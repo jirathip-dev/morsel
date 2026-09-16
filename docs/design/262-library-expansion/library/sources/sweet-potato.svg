@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sweet potato — split roast and soft dried slab, original ink and wash</title>
+<desc>A tapered roasted tuber opens along its length into fibrous golden flesh. A separate flattened dried piece rests in front. Generic food illustration, not a recipe or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="quiet-contact-wash">
+ <path d="M43 170 C61 161 100 157 123 164 C148 172 193 179 208 194 C177 205 135 196 111 190 C77 187 53 185 43 170Z" fill="{{brown}}" opacity=".11" filter="url(#wash)"/>
+</g>
+<g id="roasted-tapered-skin">
+ <path d="M39 163 C46 150 47 132 59 118 C81 92 110 73 141 65 C161 59 181 68 199 67 C202 72 187 84 186 97 C182 117 164 137 145 150 C119 170 97 182 75 184 C60 184 48 174 39 163Z" fill="{{brown}}" opacity=".93"/>
+ <path d="M42 162 C57 143 54 125 78 109 C100 90 121 86 143 71 C162 65 179 76 191 72 C184 89 187 103 169 122 C148 139 127 157 108 170 C79 190 62 180 42 162Z" fill="{{red}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M45 163 C70 176 89 173 112 158 C134 146 151 133 169 114 L182 93 C182 117 162 139 145 152 C117 174 95 184 76 183 C65 183 53 173 45 163Z" fill="{{dark}}" opacity=".53" filter="url(#wash)"/>
+ <path d="M60 133 Q80 105 101 96 L119 91 Q103 105 88 113 C74 122 73 134 64 143Z M143 70 Q161 67 177 72 L169 78 Q152 74 143 79Z" fill="{{ochre}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M43 161 L49 151 L51 160 L61 171 L53 170Z M184 78 L197 69 L189 83Z" fill="{{dark}}" opacity=".68"/>
+</g>
+<g id="torn-golden-interior">
+ <path d="M55 154 L65 137 L66 131 L83 116 L90 112 L103 98 L123 90 L127 85 L146 79 L156 79 L172 76 L183 80 C179 93 167 110 153 121 L136 131 L131 138 L112 147 L103 156 L87 160 L80 165 L67 162Z" fill="{{peach}}" opacity=".97"/>
+ <path d="M57 151 Q71 135 85 119 L104 104 L123 96 L131 90 L151 85 L163 87 L181 81 C170 103 147 118 126 133 C105 149 81 163 62 158Z" fill="{{gold}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M65 155 Q91 148 106 133 C111 123 125 123 138 110 C152 95 161 98 175 87 C170 106 144 125 129 138 L110 148 L104 156 L84 160 L75 164Z" fill="{{orange}}" opacity=".57" filter="url(#wash)"/>
+ <path d="M78 138 C91 125 97 113 116 109 L128 99 Q119 113 102 122 L91 139Z M130 121 Q146 104 162 99 L150 113 L136 123Z" fill="{{peach}}" opacity=".6" filter="url(#wash)"/>
+ <path d="M66 151 Q83 143 91 131 M97 124 Q107 115 121 111 M127 103 Q145 90 157 91 M101 146 Q119 137 127 127 M137 118 l11 -9" fill="none" stroke="{{paper}}" stroke-width="2.8" opacity=".71" filter="url(#dry)"/>
+ <path d="M83 153 Q103 140 112 127 L119 122 M136 112 l14 -12 M76 141 l9 -10" fill="none" stroke="{{ochre}}" stroke-width="1.1" opacity=".55" filter="url(#wash)"/>
+</g>
+<g id="roast-broken-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M40 161 Q48 147 51 133 M57 121 Q75 99 97 88 M107 82 Q127 69 143 66" stroke-width=".75"/>
+ <path d="M162 66 Q181 71 197 68 M188 93 Q181 120 164 135 M157 141 Q127 164 108 174 M97 178 Q75 192 52 175" stroke-width="1.2"/>
+ <path d="M58 152 L65 136 L78 123 M89 115 L104 99 L121 92 M132 86 L147 81 M172 77 l10 3 M166 108 L151 122 L139 128 M128 139 l-18 9 M100 157 l-14 4" stroke-width=".67"/>
+ <path d="M56 150 l-1 8 M61 167 l7 5 M70 173 l9 2 M137 151 l7 -8 M157 130 l6 -7 M112 89 l7 -4" stroke-width=".5" opacity=".74"/>
+</g>
+<g id="soft-dried-slab">
+ <path d="M108 181 C122 167 140 156 156 152 L169 155 C186 160 198 169 214 175 L216 183 C207 190 196 193 185 199 C178 204 162 205 151 201 C134 197 118 191 108 181Z" fill="{{ochre}}" opacity=".87"/>
+ <path d="M109 178 C124 164 141 153 157 150 C177 154 193 169 212 174 L204 181 L184 188 L172 196 Q153 198 137 190Z" fill="{{gold}}" opacity=".88"/>
+ <path d="M114 177 Q139 159 156 155 C173 159 174 165 188 169 L206 176 C193 183 187 182 174 192 Q158 190 149 187 L132 181Z" fill="{{orange}}" opacity=".35" filter="url(#wash)"/>
+ <path d="M125 174 Q145 160 157 162 L166 167 L153 170 L142 180Z M172 178 Q185 174 194 179 L177 188 L168 187Z" fill="{{peach}}" opacity=".5" filter="url(#wash)"/>
+ <path d="M127 177 l19 -11 M140 185 Q152 177 164 175 M158 188 l13 -8 M178 185 l11 -5" fill="none" stroke="{{paper}}" stroke-width="2.1" opacity=".63" filter="url(#dry)"/>
+ <path d="M112 180 Q125 189 145 195 M152 201 Q167 207 184 199 L200 191 M213 182 l2 -6 M205 171 Q184 163 170 155 M157 151 Q136 154 121 168" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M134 181 l15 -9 M164 190 l14 -9 M186 193 l9 -5" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".68"/>
+</g>
+</svg>

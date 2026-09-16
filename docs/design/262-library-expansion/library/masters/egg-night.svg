@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Egg — pale and brown unbroken shells, original ink and wash</title>
+<desc>Two closed asymmetric shell eggs with different axes, soft shell mottling and a quiet contact shadow. No cooking method, species, portion or ingredient content is inferred.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="quiet-nestless-contact">
+ <path d="M53 184 C73 175 99 177 118 182 C147 176 182 182 205 192 L207 198 C180 210 155 202 137 204 C101 207 67 201 53 192Z" fill="#655A4B" opacity=".12" filter="url(#wash)"/>
+ <path d="M87 187 Q117 181 143 193 L134 199 L101 196Z" fill="#655A4B" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="pale-shell-foundation">
+ <path d="M90 57 C111 54 123 83 128 105 C133 130 134 154 123 173 C114 190 95 198 77 190 C58 183 52 163 54 143 C56 123 60 96 69 79 C75 67 82 60 90 57Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M96 59 C114 62 124 88 128 111 Q139 152 119 179 C106 197 85 198 68 185 C83 190 99 180 107 163 C118 139 115 118 111 100 C108 80 102 68 96 59Z" fill="#F2E9D9" opacity=".9" filter="url(#wash)"/>
+ <path d="M56 139 C61 127 70 138 71 154 C73 174 85 181 96 182 Q82 191 67 178 C58 168 56 154 56 139Z" fill="#FBE1C9" opacity=".35" filter="url(#wash)"/>
+ <path d="M116 128 C127 144 126 164 117 177 Q103 197 84 192 L76 187 Q94 187 103 168Z" fill="#5E7E57" opacity=".18" filter="url(#wash)"/>
+ <path d="M72 87 Q82 66 93 70 L96 80 C84 87 78 102 74 120 L68 126 Q66 106 72 87Z" fill="#FFF7E8" opacity=".82" filter="url(#dry)"/>
+ <path d="M66 120 Q72 113 74 122 L71 133 L66 131Z M95 81 Q100 77 102 85 L101 90 L96 88Z M91 161 L97 158 L102 167 L95 174 L89 169Z" fill="#A5750B" opacity=".08" filter="url(#wash)"/>
+</g>
+<g id="pale-shell-selective-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M60 113 Q64 88 76 70 M84 62 Q99 48 113 72 M122 90 l5 18" stroke-width=".68"/>
+ <path d="M129 124 Q135 155 122 175 M115 184 Q96 202 76 191 M67 184 Q54 173 54 152" stroke-width="1.12"/>
+ <path d="M62 165 l3 9 M66 176 l6 8 M110 175 l-5 6" stroke-width=".48" opacity=".47"/>
+</g>
+<g id="brown-shell-foundation">
+ <path d="M181 105 C197 109 204 128 205 146 C206 166 199 185 182 195 C164 206 143 204 127 190 C112 177 105 156 113 137 C123 115 158 100 181 105Z" fill="#FBE1C9" opacity=".99"/>
+ <path d="M126 124 C141 111 167 104 183 111 C199 117 202 137 201 151 C203 175 188 194 167 199 C145 203 125 185 117 171 C107 151 114 137 126 124Z" fill="#A5750B" opacity=".52" filter="url(#wash)"/>
+ <path d="M137 114 Q155 105 174 108 C190 108 198 120 198 134 L188 138 C179 125 167 126 155 130 L135 139 L119 138Z" fill="#D6A62C" opacity=".33" filter="url(#wash)"/>
+ <path d="M115 152 C133 144 134 163 145 171 C156 181 173 182 188 166 L201 150 C204 169 195 187 181 195 C163 206 141 201 128 190 Q113 177 115 152Z" fill="#655A4B" opacity=".38" filter="url(#wash)"/>
+ <path d="M150 142 Q159 132 170 141 L177 158 Q172 165 162 162 L155 152Z M184 120 Q194 122 197 134 L195 143 L186 138Z M128 168 Q137 172 140 183 L132 185 L123 174Z" fill="#B94738" opacity=".17" filter="url(#wash)"/>
+ <path d="M122 140 C134 128 145 122 158 121 L174 120 L179 126 C159 125 149 138 137 141 Q129 150 122 150Z" fill="#FBE1C9" opacity=".68" filter="url(#wash)"/>
+ <path d="M134 134 Q143 126 154 127 M122 151 l5 -8 M156 123 l10 -1" fill="none" stroke="#FFF7E8" stroke-width="3.3" opacity=".66" filter="url(#dry)"/>
+ <path d="M152 195 Q171 200 187 182 L195 176 Q186 197 167 201 L155 199Z" fill="#655A4B" opacity=".27" filter="url(#wash)"/>
+</g>
+<g id="localized-shell-mottling" fill="#655A4B" opacity=".25" filter="url(#dry)">
+ <path d="M179 113 l3 1 l-1 3 l-3 -1Z M187 119 l4 2 l-2 3 l-3 -1Z M193 129 l2 3 l-2 2 l-2 -3Z M178 133 l2 -1 l1 3 l-2 1Z M166 113 l3 0 l-1 2 l-2 1Z"/>
+ <path d="M122 160 l3 2 l-1 3 l-3 -2Z M129 175 l3 0 l1 3 l-3 1Z M138 180 l3 2 l-2 3 l-2 -1Z M140 190 l3 0 l1 2 l-3 1Z M149 185 l2 -1 l2 3 l-3 1Z"/>
+</g>
+<g id="brown-shell-broken-contour" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M116 135 Q128 116 151 109 M163 105 Q184 99 196 115 M201 126 l3 13" stroke-width=".76"/>
+ <path d="M205 152 Q204 179 187 192 M179 198 Q153 211 132 194 M123 185 Q109 170 109 153" stroke-width="1.24"/>
+ <path d="M126 178 l4 7 M132 186 l7 6 M188 177 l-4 8" stroke-width=".5" opacity=".65"/>
+</g>
+</svg>

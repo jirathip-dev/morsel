@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Dairy category fallback — small milk vessel and soft curd</title>
+<desc>A pale milk jug beside an irregular soft-curd form. Accompany with the Dairy category label; no milk source, cheese variety, ingredients or portion are identified.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="jug-handle-behind-body">
+ <path d="M121 97 C139 88 152 95 151 110 C150 128 138 139 124 137 L123 129 Q140 129 141 111 Q143 100 127 107Z M130 105 Q140 100 142 106 Q146 119 128 128Z" fill="#F2E9D9" fill-rule="evenodd" opacity=".96"/>
+ <path d="M139 96 Q154 99 147 117 Q144 132 127 136 L125 130 Q141 126 143 113 Q146 103 139 96Z" fill="#5E7E57" opacity=".26" filter="url(#wash)"/>
+ <path d="M129 96 Q148 88 151 104 M150 113 Q144 136 128 137 M129 128 Q142 124 143 110 Q144 102 136 102" fill="none" stroke="#9D917F" stroke-width=".87" stroke-linecap="round"/>
+</g>
+<g id="small-milk-jug-underpainting">
+ <path d="M60 78 Q76 67 97 71 Q116 70 126 80 L122 107 C122 122 135 144 132 157 Q130 177 101 178 C79 181 60 172 59 156 C57 140 69 118 69 104 Q68 91 60 78Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M65 128 Q61 147 66 159 C75 171 103 172 121 160 Q127 151 124 139 C138 159 130 175 108 177 Q82 183 65 169 Q52 153 65 128Z" fill="#E1E9D7" opacity=".59" filter="url(#wash)"/>
+ <path d="M107 89 L122 85 Q117 103 123 122 C129 138 135 154 128 164 Q121 174 106 175 C118 160 109 141 110 127 Q114 104 107 89Z" fill="#5E7E57" opacity=".24" filter="url(#wash)"/>
+ <path d="M71 116 Q65 143 73 153 L79 157 Q75 138 82 115Z" fill="#FFF7E8" opacity=".86" filter="url(#dry)"/>
+ <path d="M79 162 Q94 167 109 163 L116 166 Q101 174 84 169Z" fill="#FFF7E8" opacity=".65" filter="url(#dry)"/>
+ <path d="M59 78 Q75 65 98 71 Q119 68 127 81 Q117 91 95 91 Q77 88 59 78Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M68 78 Q85 74 101 76 Q114 75 119 81 Q105 88 88 85Z" fill="#F2E9D9"/>
+ <path d="M67 78 Q89 70 113 77 L119 81 Q107 78 94 80 Q80 80 75 82Z" fill="#655A4B" opacity=".18" filter="url(#wash)"/>
+ <path d="M60 78 Q68 90 69 103 M68 118 Q57 144 59 156 Q60 169 76 175 M87 178 Q114 182 126 169 M132 156 Q135 147 126 126 M122 111 L124 91" fill="none" stroke="#9D917F" stroke-width="1.03" stroke-linecap="round"/>
+ <path d="M61 76 Q72 69 88 70 M100 71 Q118 69 126 80 M122 84 Q104 95 78 87 M72 78 Q89 72 110 77" fill="none" stroke="#9D917F" stroke-width=".66" stroke-linecap="round"/>
+ <path d="M64 157 l2 7 M67 166 l7 6 M118 166 l5 -6" fill="none" stroke="#9D917F" stroke-width=".46" opacity=".65"/>
+</g>
+<g id="small-curd-saucer">
+ <path d="M108 171 C113 157 145 151 172 155 C196 154 214 165 216 177 Q214 194 182 196 C151 199 118 190 108 177Z" fill="#FFF7E8" opacity=".84"/>
+ <path d="M112 178 C133 188 157 190 182 187 Q204 186 214 178 C209 194 178 197 156 193 Q124 191 112 178Z" fill="#5E7E57" opacity=".26" filter="url(#wash)"/>
+ <path d="M112 169 Q119 159 139 157 M190 159 Q218 165 216 179 M207 188 Q183 201 147 192 M133 189 Q116 184 110 176" fill="none" stroke="#9D917F" stroke-width=".77" stroke-linecap="round"/>
+ <path d="M124 175 Q139 186 159 185 M182 186 l17 -5" fill="none" stroke="#9D917F" stroke-width=".46" opacity=".58"/>
+</g>
+<g id="soft-curd-form">
+ <path d="M127 159 C125 151 132 143 140 140 Q141 126 154 126 Q164 118 174 128 C187 127 189 140 196 145 Q206 158 198 169 C192 181 176 183 164 179 C150 184 130 176 127 165Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M131 153 Q139 146 145 143 Q145 131 156 131 Q161 126 169 130 C158 137 168 141 159 147 Q146 150 142 160Z" fill="#FFF7E8" opacity=".88" filter="url(#wash)"/>
+ <path d="M173 132 Q185 133 190 145 C201 151 203 163 194 171 Q181 185 162 177 Q143 182 132 169 Q151 173 160 165 C179 165 174 148 173 132Z" fill="#FBE1C9" opacity=".53" filter="url(#wash)"/>
+ <path d="M146 163 Q156 167 162 159 Q172 150 182 154 C177 160 182 165 172 171 Q158 179 145 173Z" fill="#655A4B" opacity=".19" filter="url(#wash)"/>
+ <path d="M132 161 Q140 158 145 162 L151 164 Q141 169 134 167Z M177 144 Q181 144 185 150 L184 157 Q181 151 177 150Z" fill="#FFF7E8" opacity=".81" filter="url(#dry)"/>
+ <path d="M128 154 Q131 144 140 140 Q141 128 150 127 M162 124 Q169 123 175 129 M184 133 Q188 139 188 142 M197 148 Q208 161 197 171 M185 179 Q174 183 165 179 M155 180 Q133 178 129 168" fill="none" stroke="#9D917F" stroke-width=".86" stroke-linecap="round"/>
+ <path d="M142 148 Q146 141 153 142 M163 157 Q170 150 177 153 M145 169 Q155 172 161 166 M187 159 q4 3 3 7" fill="none" stroke="#9D917F" stroke-width=".53" opacity=".69" stroke-linecap="round"/>
+</g>
+</svg>

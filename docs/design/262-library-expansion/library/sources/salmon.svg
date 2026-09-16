@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Salmon — tapered fillet, branching fat seams and silver skin, digital ink and wash study</title>
+<defs><!-- WASH_DEFS --></defs>
+<g id="thin-skin-under-cut">
+ <path d="M41 158 C64 141 99 123 123 101 Q151 79 177 83 C196 87 211 104 216 122 L212 144 C190 159 159 171 128 179 C95 189 67 197 46 187Z" fill="{{sage}}" opacity=".88"/>
+ <path d="M44 169 Q75 185 108 174 L158 159 L212 135 L212 145 C190 163 153 172 123 182 Q73 203 46 187Z" fill="{{forest}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M53 181 Q77 188 101 179 M113 178 l15 -5 M168 161 l20 -8" fill="none" stroke="{{paper}}" stroke-width="2.1" opacity=".63" filter="url(#dry)"/>
+</g>
+<g id="salmon-cut-and-thickness">
+
+ <path d="M40 157 C61 144 90 124 114 105 C135 87 157 72 178 78 C197 82 211 98 214 116 L212 132 C183 151 155 164 126 172 C97 183 67 194 45 179Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M43 160 Q69 174 96 165 C128 156 153 143 177 134 Q201 124 214 115 L212 133 C183 152 155 163 125 173 Q71 195 45 179Z" fill="{{red}}" opacity=".61" filter="url(#wash)"/>
+ <path d="M44 156 C65 144 92 123 116 105 C140 83 158 76 176 82 C194 86 207 98 209 113 C186 131 160 141 131 152 C98 165 69 180 44 165Z" fill="{{orange}}" opacity=".66" filter="url(#wash)"/>
+
+ <path d="M111 117 Q138 92 158 86 C175 80 191 93 197 102 Q174 99 152 115 L121 137 L91 153 Q96 133 111 117Z" fill="{{peach}}" opacity=".79" filter="url(#wash)"/>
+ <path d="M136 132 Q163 108 180 107 L200 111 Q176 124 158 129 L117 150 L83 161 C105 148 121 147 136 132Z" fill="{{red}}" opacity=".22" filter="url(#wash)"/>
+</g>
+<g id="branching-irregular-fat-seams" fill="{{cream}}" opacity=".9">
+ <path d="M66 142 C72 147 72 158 84 168 L89 168 Q78 157 78 150 L74 137Z"/>
+ <path d="M89 125 C96 132 94 141 103 148 L113 158 L118 156 Q109 146 105 143 C101 139 100 129 96 121Z"/>
+ <path d="M113 107 Q123 112 123 121 C122 131 135 136 138 148 L143 145 Q139 133 132 128 C127 123 132 115 119 102Z"/>
+ <path d="M138 88 Q150 98 148 107 C144 117 157 122 162 137 L168 134 Q163 122 157 117 C150 110 158 104 150 94 L143 85Z"/>
+ <path d="M166 80 C182 92 170 100 180 109 L189 124 L194 121 Q192 112 185 107 C178 102 186 95 179 87Z"/>
+ <path d="M104 143 Q111 133 122 130 L125 133 Q114 136 109 147Z M151 116 Q140 119 136 128 L133 125 Q137 116 147 112Z M180 102 Q190 99 198 101 L201 104 Q189 102 183 106Z" opacity=".62"/>
+</g>
+<g id="cut-fibers-and-silver-scales" fill="none" stroke-linecap="round">
+ <path d="M55 171 l1 7 M65 176 l2 7 M78 178 l2 5 M101 171 l3 7 M121 165 l3 6 M143 157 l3 6 M164 149 l3 5 M188 138 l2 5 M199 131 l3 5" stroke="{{cream}}" stroke-width="1.3" opacity=".64" filter="url(#dry)"/>
+ <path d="M60 188 q3 -4 6 -1 M73 190 q3 -4 6 -1 M90 187 q3 -5 6 -2 M108 183 q2 -4 5 -1 M131 175 q3 -5 6 -2 M151 169 q3 -5 6 -2 M180 158 q2 -4 5 -2 M199 150 l4 -3" stroke="{{line}}" stroke-width=".55" opacity=".71"/>
+ <path d="M42 156 Q67 140 84 128 M94 121 Q119 101 134 90 M149 82 Q170 71 184 81 M195 87 Q212 98 214 115" stroke="{{line}}" stroke-width=".73"/>
+
+ <path d="M41 165 l4 14 Q62 190 88 184 M101 181 Q140 170 164 159 M177 153 Q199 143 212 132 M47 188 Q66 197 92 189 M121 183 l16 -5" stroke="{{line}}" stroke-width="1.12"/>
+ <path d="M72 143 Q74 158 84 166 M99 129 Q98 139 105 144 M126 113 Q125 123 130 128 M151 99 Q154 105 150 110 M181 93 l-1 7" stroke="{{line}}" stroke-width=".42" opacity=".51"/>
+</g>
+</svg>

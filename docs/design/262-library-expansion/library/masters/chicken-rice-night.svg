@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Chicken rice — overhead plate with poached slices, rice and cucumber</title>
+<desc>Original composed-dish illustration. Rice, chicken-like sliced flesh, cucumber and a small sauce dish are generic cues, not a claim about the logged meal.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="overhead-round-plate">
+ <path d="M36 125 C39 85  70 56 115 53 C157 48 197 68 214 104 C231 141 214 181 180 200 C143 221 92 211  60 187 C40 170 31 146 36 125Z" fill="#FFF7E8" opacity=".91"/>
+ <path d="M40 148 Q56 182 93 196 C131 213 175 202 199 180 Q185 206 150 212 C107 219 72 202 52 180Z" fill="#F2E9D9" opacity=".83" filter="url(#wash)"/>
+ <path d="M52 126 C59 94 82  70 120 69 C151 65 185 81 199 107 C215 136 198 168 174 183 C142 201 105 193 79 175 C59 161 48 143 52 126Z" fill="#E1E9D7" opacity=".29" filter="url(#wash)"/>
+ <path d="M37 116 Q43 82 76 64 M90 58 Q123 47 153 57 M168 62 Q202 78 214 109 M218 122 Q226 156 204 180 M192 191 Q166 214 128 215 M111 214 Q77 209 54 183 M45 171 Q31 149 35 132" fill="none" stroke="#9D917F" stroke-width=".82" stroke-linecap="round"/>
+ <path d="M56 112 Q62 88 85 77 M113 69 Q139 65 160 74 M200 133 Q201 155 186 172 M100 190 Q125 200 151 193" fill="none" stroke="#9D917F" stroke-width=".48" opacity=".58"/>
+</g>
+<g id="uneven-oily-rice-mound">
+ <path d="M72 130 L76 120 L75 114 L83 110 L86 99 L95 96 L100 87 L114  80 L125 82 L139 78 L147 83 L158 83 L164 91 L174 97 L174 107 L181 118 L178 125 L182 138 L175 145 L173 155 L161 160 L151 168 L138 166 L128 173 L118 170 L106 174 L97 168 L87 164 L85 153 L77 148Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M77 127 Q91 109 115 104 C143 91 168 107 177 126 L178 137 L169 153 L151 165 L133 168 L117 171 L97 166 L 80 146Z" fill="#F2E9D9" opacity=".96" filter="url(#wash)"/>
+ <path d="M 80 137 Q95 144 110 143 Q133 148 148 137 L169 135 L176 141 L167 156 L150 164 L135 163 L125 170 L113 167 L102 170 L88 159Z" fill="#D6A62C" opacity=".31" filter="url(#wash)"/>
+ <path d="M106 149 Q121 158 138 152 L157 151 L165 154 L151 163 L133 167 L116 164 L108 168 L94 158Z" fill="#A5750B" opacity=".2" filter="url(#wash)"/>
+ <path d="M83 126 l-2 7 M89 116 l4 -6 M101 96 l6 -4 M117 87 l6 -1 M144 86 l7 2 M165 106 l4 7 M173 124 l1 8 M164 143 l-4 5 M151 155 l-8 3 M137 162 l-7 -1 M113 161 l-6 -3 M94 150 l-5 -4 M93 137 l-3 -5" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".91" filter="url(#dry)"/>
+ <path d="M77 131 l0 6 M87 154 l5 5 M104 169 l7 1 M124 172 l7 -3 M155 164 l7 -5 M176 138 l3 -6 M96 158 l5 2 M135 159 l6 -2 M156 146 l4 -4" fill="none" stroke="#9D917F" stroke-width=".58" opacity=".74" stroke-linecap="round"/>
+</g>
+<g id="poached-chicken-skin-and-slice-mass">
+ <path d="M88 108 Q98 85 123 87 C149 85 173 101 183 118 L180 132 L167 145 L150 150 L129 144 L109 133 L94 125Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M91 109 Q102 86 126 89 C149 91 170 100 181 116 L177 123 Q159 106 139 103 C117 96 108 107 100 120Z" fill="#D6A62C" opacity=".38" filter="url(#wash)"/>
+ <path d="M99 124 Q123 128 141 137 L162 144 L174 136 L169 147 L153 152 L135 146 L116 139Z" fill="#655A4B" opacity=".22" filter="url(#wash)"/>
+</g>
+<g id="four-cut-poached-chicken-sections">
+ <path d="M96 107 Q103 94 113 93 L126 99 L110 128 L100 122 L92 115Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M127 99 Q139 99 146 105 L132 140 L119 134 L111 128Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M147 106 Q159 108 166 115 L154 147 L143 144 L134 140Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M167 116 Q177 118 181 128 L171 142 L164 146 L157 147Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M97 108 Q106 101 113 102 L118 105 L108 123 L99 119Z M128 108 L137 108 L137 115 L127 133 L119 128Z M147 117 L158 119 L150 138 L142 135Z" fill="#FBE1C9" opacity=".53" filter="url(#wash)"/>
+ <path d="M103 101 l8 -4 l8 4 l-3 5 l-10 -2Z M130 102 l10 2 l3 4 l-13 -1Z M151 109 l9 4 l3 5 l-12 -5Z" fill="#D6A62C" opacity=".36" filter="url(#wash)"/>
+ <path d="M97 102 Q103 94 113 93 M122 102 l-12 25 M144 107 l-11 29 M165 116 l-10 28 M175 123 l5 5 M168 144 l-8 3 M145 145 l-10 -4 M117 132 l-13 -7 M95 120 l-4 -6" fill="none" stroke="#9D917F" stroke-width=".88" stroke-linecap="round"/>
+ <path d="M105 108 l-6 6 M111 109 l-7 8 M128 116 l-7 9 M134 116 l-6 11 M151 123 l-7 8 M156 124 l-7 11 M171 129 l-5 7" fill="none" stroke="#9D917F" stroke-width=".48" opacity=".57" stroke-linecap="round"/>
+ <path d="M102 108 l5 -4 M124 117 l6 -6 M147 126 l5 -5" fill="none" stroke="#FFF7E8" stroke-width="2" opacity=".85" filter="url(#dry)"/>
+</g>
+<g id="overlapping-cucumber-slices">
+ <path d="M56 142 C53 132 63 127 74 130 C86 132 94 143 89 152 C82 165 61 158 56 142Z" fill="#2F654B" opacity=".9" filter="url(#wash)"/>
+ <path d="M59 139 C60 132 69 132 76 135 Q90 143 84 150 Q70 157 61 145Z" fill="#E1E9D7" opacity=".97"/>
+ <path d="M 60 158 C58 148 70 143 81 149 Q100 157 92 171 C84 180 66 172 60 158Z" fill="#5E7E57" opacity=".97"/>
+ <path d="M65 155 Q 70 146 83 155 Q94 162 88 168 C80 174 67 164 65 155Z" fill="#E1E9D7" opacity=".96"/>
+ <path d="M78 178 C70 168 77 157 89 159 C103 161 111 172 104 181 Q95 192 78 178Z" fill="#2F654B" opacity=".91" filter="url(#wash)"/>
+ <path d="M80 173 Q76 163 88 163 Q105 166 101 177 C97 184 86 181 80 173Z" fill="#E1E9D7" opacity=".99"/>
+ <path d="M66 137 l5 7 l6 1 M70 154 l6 7 l7 1 M85 166 l4 7 l8 2" fill="none" stroke="#F2E9D9" stroke-width="2.4" opacity=".99"/>
+ <path d="M57 138 Q55 129 67 130 M62 156 Q61 149 71 147 M80 180 Q90 189 100 182 M85 165 l6 7" fill="none" stroke="#9D917F" stroke-width=".61" stroke-linecap="round"/>
+</g>
+<g id="small-sauce-dish-at-plate-edge">
+ <path d="M160 177 C163 164 182 161 199 168 Q218 176 212 193 C208 207 186 213 171 205 Q155 196 160 177Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M164 190 Q188 207 211 190 Q207 210 185 209 Q168 206 162 196Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M167 181 C170 170 186 170 198 176 Q211 185 201 195 C187 205 168 198 167 186Z" fill="#655A4B" opacity=".9" filter="url(#wash)"/>
+ <path d="M172 182 Q185 176 196 181 L203 187 Q199 198 184 198 Q173 196 171 189Z" fill="#B94738" opacity=".43" filter="url(#wash)"/>
+ <path d="M160 178 Q164 164 182 164 M197 167 Q216 175 213 190 M208 201 Q196 214 177 208 M165 202 l-5 -8 M172 181 l7 -4 M196 195 l5 -5" fill="none" stroke="#9D917F" stroke-width=".65" stroke-linecap="round"/>
+ <path d="M179 183 l4 -2 l2 3 l-4 2Z M193 189 l4 -2 l1 3 l-3 2Z" fill="#F2E9D9" opacity=".8"/>
+</g>
+</svg>

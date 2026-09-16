@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Yogurt — spoon-pulled cream in a shallow bowl, original ink and wash</title>
+<desc>Thick pale folds and a broad spoon trough, with three dark berry marks. The bowl is a generic yogurt sign and does not assert toppings or a recipe.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="bowl-foot-contact">
+ <path d="M78 194 Q117 183 162 192 L177 199 C159 210 104 210 78 200Z" fill="#655A4B" opacity=".1" filter="url(#wash)"/>
+ <path d="M94 188 Q128 194 159 186 L156 199 Q126 207 99 199Z" fill="#F2E9D9" opacity=".86"/>
+ <path d="M102 200 Q128 207 151 200" fill="none" stroke="#9D917F" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="shallow-earthenware-body">
+ <path d="M46 124 C50 149 62 174 83 185 C105 200 142 204 170 190 C191 178 207 158 212 131 C176 108 79 105 46 124Z" fill="#FFF7E8" opacity=".94"/>
+ <path d="M49 135 C70 153 85 159 118 162 C151 168 188 151 208 139 C201 160 185 184 161 193 C134 205 96 194 82 183 C64 170 54 152 49 135Z" fill="#F2E9D9" opacity=".91" filter="url(#wash)"/>
+ <path d="M166 162 Q195 152 206 142 C198 168 180 188 158 193 C144 198 126 197 113 194 C142 193 153 181 166 162Z" fill="#5E7E57" opacity=".25" filter="url(#wash)"/>
+ <path d="M57 151 C66 167 76 180 93 185 L109 190 Q78 181 75 162Z" fill="#A5750B" opacity=".13" filter="url(#wash)"/>
+ <path d="M83 161 C95 170 113 176 128 174 L137 179 Q110 184 90 173Z" fill="#FFF7E8" opacity=".78" filter="url(#dry)"/>
+ <path d="M47 133 Q52 161 73 178 M84 186 Q108 202 134 199 M148 197 Q177 191 193 168 M202 156 l7 -17" fill="none" stroke="#9D917F" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M62 160 l6 10 M67 169 l8 9 M175 181 l7 -8" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".55"/>
+</g>
+<g id="oval-rim-and-thick-underpainting">
+ <path d="M44 124 C47 104 85 92 117 94 C158 92 196 105 209 120 C222 136 204 150 173 155 C137 165 80 153 57 140 Q46 136 44 124Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M55 123 Q66 106 99 102 C129 97 159 102 179 111 C195 113 207 127 197 136 C176 152 144 151 117 149 C85 147 63 138 55 123Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M56 128 Q80 143 108 141 C143 139 175 149 199 133 C191 150 160 155 132 153 C99 152 72 143 56 128Z" fill="#5E7E57" opacity=".16" filter="url(#wash)"/>
+</g>
+<g id="spoon-pulled-yogurt-folds">
+ <path d="M58 122 C67 108 79 107 89 103 C107 96 116 91 121 87 C124 100 142 98 155 103 C165 108 181 102 190 116 Q202 127 193 136 C177 145 152 147 133 145 C111 150 83 140 69 134Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M67 124 C90 127 102 105 121 99 C130 103 143 102 154 109 C136 108 127 111 119 118 C104 132 94 134 86 131Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M86 132 C98 131 108 126 118 118 C134 105 156 111 165 120 C171 130 154 139 137 139 C122 140 116 136 110 133 C127 134 146 130 150 124 Q153 119 143 117 C122 116 112 139 92 136Z" fill="#FBE1C9" opacity=".4" filter="url(#wash)"/>
+ <path d="M114 128 C129 133 152 122 144 116 C156 117 160 123 153 128 C141 139 126 136 114 132Z" fill="#655A4B" opacity=".12" filter="url(#wash)"/>
+ <path d="M76 118 Q86 106 101 108 C112 108 116 97 121 93 L118 103 Q104 110 99 113Z M108 139 C123 137 139 146 157 139 L170 136 C158 146 143 147 129 144Z" fill="#FFF7E8" opacity=".84" filter="url(#dry)"/>
+ <path d="M74 122 Q85 124 96 117 M106 109 Q113 100 119 97 M114 130 Q131 135 145 127 M155 120 Q158 124 152 129 M167 140 Q180 139 187 133" fill="none" stroke="#9D917F" stroke-width=".58" stroke-linecap="round" opacity=".67"/>
+</g>
+<g id="three-berry-marks">
+ <path d="M156 111 C154 107 158 102 163 103 C168 102 171 105 170 109 C170 114 162 116 158 114Z" fill="#655A4B" opacity=".85"/>
+ <path d="M158 110 Q162 104 167 106 L170 109 Q169 115 161 114Z" fill="#2F654B" opacity=".55" filter="url(#wash)"/>
+ <path d="M175 121 C174 116 179 113 183 115 C188 116 189 121 185 124 Q179 129 175 121Z" fill="#655A4B" opacity=".91"/>
+ <path d="M174 121 Q181 117 187 120 L184 125 L179 125Z" fill="#B94738" opacity=".48" filter="url(#wash)"/>
+ <path d="M160 130 C162 126 168 127 169 131 C170 136 161 137 159 133Z" fill="#2A261F" opacity=".71" filter="url(#wash)"/>
+ <path d="M160 106 l4 -1 M178 118 l4 0" fill="none" stroke="#F2E9D9" stroke-width="1.6" opacity=".67" filter="url(#dry)"/>
+ <path d="M171 126 Q175 124 179 127 L185 129 Q176 131 171 128Z" fill="#B94738" opacity=".16" filter="url(#wash)"/>
+</g>
+<g id="selective-rim-ink" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M45 120 Q49 106 77 100 M86 97 Q103 93 115 95 M135 97 Q177 99 199 114 M207 121 Q220 135 198 146" stroke-width=".78"/>
+ <path d="M183 153 Q153 162 126 157 M111 156 Q81 151 62 141 M52 135 l-5 -7" stroke-width="1.15"/>
+ <path d="M61 129 Q66 135 76 136 M88 145 l13 3 M179 145 l12 -5" stroke-width=".5" opacity=".63"/>
+</g>
+</svg>

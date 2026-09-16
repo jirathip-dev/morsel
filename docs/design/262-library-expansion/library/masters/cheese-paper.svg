@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cheese — pale cut wedge and fanned slices, original ink and wash</title>
+<desc>A softly irregular wedge with a quiet rind and two thin slices. A cheese category sign, not a claim of specific variety, dairy content or ingredients.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="cheese-contact-wash">
+ <path d="M47 175 C65 167 87 174 109 176 C139 173 184 177 211 188 Q223 195 207 202 C173 216 110 213 81 200 C62 195 53 187 47 181Z" fill="#655A4B" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="wedge-rind-and-cut-planes">
+ <path d="M48 148 L107 69 C133 68 169 80 184 101 L186 156 Q173 173 142 182 L49 166Z" fill="#F2E9D9"/>
+ <path d="M107 69 C133 68 169 80 184 101 L185 155 C176 171 157 178 142 182 L141 123Z" fill="#D6A62C" opacity=".7"/>
+ <path d="M155 86 Q172 91 184 101 L185 155 Q172 173 144 180 L144 168 C169 161 173 146 175 125 C176 108 165 98 155 86Z" fill="#A5750B" opacity=".39" filter="url(#wash)"/>
+ <path d="M48 148 L107 69 C133 68 169 80 184 101 C173 111 156 120 141 123Z" fill="#F2E9D9"/>
+ <path d="M55 143 L107 77 Q132 74 153 84 C129 89 128 106 112 112 C92 122 80 129 55 143Z" fill="#FFF7E8" opacity=".94" filter="url(#wash)"/>
+ <path d="M102 110 Q121 113 142 105 C157 99 163 100 181 100 Q164 117 141 122 L62 145Z" fill="#D6A62C" opacity=".22" filter="url(#wash)"/>
+ <path d="M48 148 L141 123 L142 182 L49 166Z" fill="#F2E9D9"/>
+ <path d="M53 153 L88 144 C109 146 118 131 137 129 L138 173 C117 162 111 170 95 163 C83 157 71 164 53 160Z" fill="#FBE1C9" opacity=".67" filter="url(#wash)"/>
+ <path d="M51 163 L73 164 L94 168 L116 169 L141 178 L142 182 L49 166Z" fill="#D6A62C" opacity=".46" filter="url(#wash)"/>
+ <path d="M143 127 Q160 123 181 105 L181 116 Q163 133 144 138Z" fill="#FFF7E8" opacity=".48" filter="url(#dry)"/>
+ <path d="M71 147 L97 140 L100 143 L87 147 L77 151Z M111 137 L126 132 L131 133 L119 138Z" fill="#FFF7E8" opacity=".74" filter="url(#dry)"/>
+</g>
+<g id="rear-fanned-slice">
+ <path d="M90 168 L159 139 Q162 138 164 140 L209 178 L207 184 L143 208 L93 177Z" fill="#D6A62C" opacity=".71"/>
+ <path d="M90 168 L159 139 Q162 138 164 140 L209 178 L142 202 L93 173Z" fill="#F2E9D9"/>
+ <path d="M96 168 L143 148 Q154 143 160 143 L198 174 C180 170 176 179 158 180 C136 181 120 174 105 176Z" fill="#FBE1C9" opacity=".76" filter="url(#wash)"/>
+ <path d="M142 202 L164 192 Q180 189 207 179 L207 184 L143 208 L93 177 L93 173Z" fill="#A5750B" opacity=".33" filter="url(#wash)"/>
+ <path d="M102 168 L156 145 L161 146 L136 157 L119 163Z" fill="#FFF7E8" opacity=".83" filter="url(#dry)"/>
+</g>
+<g id="front-fanned-slice">
+ <path d="M65 182 L127 158 Q131 155 136 158 L195 191 L193 197 L122 219 L67 189Z" fill="#D6A62C" opacity=".77"/>
+ <path d="M65 182 L127 158 Q131 155 136 158 L195 191 L122 213 L68 186Z" fill="#F2E9D9"/>
+ <path d="M76 181 Q100 179 118 166 L134 161 L183 190 C166 186 158 198 140 197 L122 207Z" fill="#D6A62C" opacity=".24" filter="url(#wash)"/>
+ <path d="M69 187 L122 213 L193 193 L193 197 L122 219 L67 189Z" fill="#A5750B" opacity=".36" filter="url(#wash)"/>
+ <path d="M84 184 L124 169 L133 164 L150 174 L126 169 L94 184Z" fill="#FFF7E8" opacity=".8" filter="url(#dry)"/>
+ <path d="M149 190 Q158 187 163 190 L158 193 Q150 195 149 190Z M115 183 Q116 179 121 180 L124 183 L119 184Z" fill="#A5750B" opacity=".19" filter="url(#wash)"/>
+</g>
+<g id="few-cut-face-impressions">
+ <path d="M79 155 Q82 150 88 153 Q91 156 86 157Z M116 148 Q118 142 123 145 L125 148 Q120 151 116 148Z M126 112 L131 108 L135 109 L132 113Z" fill="#A5750B" opacity=".27" filter="url(#wash)"/>
+ <path d="M80 154 Q83 151 87 153 M118 146 L121 144" fill="none" stroke="#8B7355" stroke-width=".52" opacity=".6"/>
+</g>
+<g id="broken-rind-and-cut-edge-ink" fill="none" stroke="#8B7355" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M49 145 L71 115 M80 103 L106 69 Q126 69 138 74 M148 77 Q172 85 183 101 M184 113 L185 144 M180 160 Q174 168 166 171 M49 151 L49 166 L72 170 M88 174 L96 175" stroke-width=".94"/>
+ <path d="M57 146 L90 136 M103 133 L140 123 Q161 118 175 108 M141 127 L142 157 M98 165 L124 155 M141 147 L159 139 M168 144 L194 166 M207 177 L207 183 L196 188 M67 182 L92 172 M105 167 L126 158 Q131 155 136 158 L159 171 M176 180 L194 191 L173 198 M156 204 L123 214 L101 204 M89 198 L67 187 L68 190 M126 218 L147 212" stroke-width=".7"/>
+ <path d="M177 122 L175 133 M172 144 L168 152 M72 190 L80 195 M155 205 L164 202" stroke-width=".5" opacity=".64"/>
+</g>
+</svg>

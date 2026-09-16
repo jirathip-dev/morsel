@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<title>Produce category fallback — loose leaves and rounded produce in a small basket</title>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="basket-back">
+ <path d="M48 145 Q53 127 122 126 Q184 120 207 141 L194 160 L60 164Z" fill="#F2E9D9" opacity=".8"/>
+ <path d="M54 142 Q101 128 151 135 L201 143 Q176 158 122 159 Q79 158 54 142Z" fill="#655A4B" opacity=".26" filter="url(#wash)"/>
+</g>
+<g id="loose-leaves">
+ <path d="M124 140 C98 129 89 103 91 78 Q111 80 123 102 Q127 119 124 140Z M130 133 C128 110 139 79 164 72 Q167 92 153 110 Q138 122 130 133Z M140 132 Q153 103 180 107 Q180 126 158 136Z" fill="#5E7E57" opacity=".84" filter="url(#wash)"/>
+ <path d="M120 126 Q100 112 95 84 Q112 96 117 109Z M134 128 Q145 107 160 80 Q155 111 142 122Z" fill="#E1E9D7" opacity=".61" filter="url(#wash)"/>
+ <path d="M124 139 Q113 105 96 85 M109 109 l-10 -5 M115 117 l2 -15 M131 134 Q146 101 160 79 M145 106 l11 -4 M147 101 l-2 -9 M143 133 l29 -21" fill="none" stroke="#8B7355" stroke-width=".68" stroke-linecap="round"/>
+ <path d="M92 96 Q88 84 92 78 M99 82 Q117 89 122 107 M139 91 Q149 76 160 74 M166 79 Q166 95 156 106 M175 107 l5 1" fill="none" stroke="#8B7355" stroke-width=".48" opacity=".7"/>
+</g>
+<g id="unidentified-rounded-produce">
+ <path d="M60 139 C55 123 65 105 81 105 C97 99 113 109 115 126 Q119 149 101 160 C79 168 64 155 60 139Z" fill="#D6A62C" opacity=".7"/>
+ <path d="M62 132 Q70 141 84 144 Q104 146 111 129 Q118 151 100 159 Q76 170 64 148Z" fill="#A5750B" opacity=".53" filter="url(#wash)"/>
+ <path d="M70 121 Q74 111 86 112 L91 115 Q77 117 75 128Z" fill="#FFF7E8" opacity=".48" filter="url(#dry)"/>
+ <path d="M137 147 C131 129 146 117 161 119 C180 115 194 128 194 143 Q192 162 169 165 C151 168 140 159 137 147Z" fill="#FBE1C9" opacity=".87"/>
+ <path d="M139 147 Q155 157 170 148 Q186 146 190 137 Q199 155 178 162 C162 171 144 159 139 147Z" fill="#B94738" opacity=".32" filter="url(#wash)"/>
+ <path d="M146 132 Q151 122 165 124 L171 127 Q156 126 153 136Z" fill="#FFF7E8" opacity=".41" filter="url(#dry)"/>
+ <path d="M59 133 Q56 116 71 108 M84 104 Q105 101 113 118 M62 145 Q71 163 90 163 M137 142 Q133 128 149 121 M166 118 Q188 118 193 137 M187 155 Q178 169 157 164" fill="none" stroke="#8B7355" stroke-width=".86" stroke-linecap="round"/>
+</g>
+<g id="loose-woven-front">
+ <path d="M49 146 Q121 174 206 144 L186 184 C176 199 88 203 72 185Z" fill="#F2E9D9" opacity=".91"/>
+ <path d="M52 150 Q107 172 163 161 L201 151 L186 185 Q149 201 106 193 Q79 194 70 177Z" fill="#A5750B" opacity=".45" filter="url(#wash)"/>
+ <path d="M146 170 Q179 167 198 156 L186 183 Q171 193 139 195Z" fill="#655A4B" opacity=".22" filter="url(#wash)"/>
+ <path d="M51 149 Q83 164 122 166 M138 166 Q177 165 204 148 M57 160 L72 184 Q79 195 112 196 M126 197 Q171 199 186 185 L199 161" fill="none" stroke="#8B7355" stroke-width="1" stroke-linecap="round"/>
+ <path d="M72 168 Q123 187 183 170 M84 184 Q123 195 166 185 M78 164 l11 25 M99 169 l7 23 M124 172 l2 21 M149 169 l-4 23 M175 164 l-8 24" fill="none" stroke="#655A4B" stroke-width=".72" opacity=".66" filter="url(#dry)"/>
+</g>
+</svg>

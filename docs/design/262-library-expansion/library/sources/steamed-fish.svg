@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Steamed fish — pale flaking fillet, scallion and ginger ink-wash study</title>
+<desc>Original generic food illustration. Broken lamellae describe a white fillet, not a particular fish, recipe or portion.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="oval-serving-plate">
+ <path d="M35 133 C40 108 78 88 122 85 C165 82 209 97 219 120 C231 148 197 178 148 188 C101 196 54 181 39 159 Q33 148 35 133Z" fill="{{paper}}" opacity=".82"/>
+ <path d="M38 144 C55 174 99 182 136 180 C171 179 201 166 216 146 C209 169 178 187 144 189 C100 192 61 180 45 162Z" fill="{{cream}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M57 140 C60 118 95 102 131 101 C161 99 194 109 203 128 C207 144 180 162 151 168 C112 175 79 162 63 152Z" fill="{{leaf}}" opacity=".47" filter="url(#wash)"/>
+ <path d="M72 155 C99 157 121 165 146 161 Q178 158 197 144 C179 166 154 172 124 168Z" fill="{{ochre}}" opacity=".16" filter="url(#wash)"/>
+ <path d="M35 137 Q37 118 57 106 M69 100 Q110 77 159 87 M175 91 Q208 100 217 117 M220 130 Q219 160 191 173 M181 179 Q148 194 111 190 M97 188 Q51 180 39 158" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+ <path d="M58 129 Q70 109 104 103 M171 105 Q193 111 200 124 M193 151 Q173 165 157 168 M68 158 Q84 168 103 170" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".62"/>
+</g>
+<g id="fillet-underpainting-and-low-edge">
+ <path d="M58 130 L70 114 Q91 99 115 97 C139 92 165 94 185 104 L200 118 L190 129 L181 136 L169 137 L162 144 L148 146 L139 153 L121 154 L110 159 L91 154 L78 154 L68 146Z" fill="{{paper}}" opacity=".97"/>
+ <path d="M59 132 L74 140 L88 143 L103 149 L123 146 L139 141 L156 138 L175 130 L197 117 L190 132 L174 142 L159 145 L147 153 L127 157 L111 161 L91 157 L77 154 L66 146Z" fill="{{cream}}" opacity=".98" filter="url(#wash)"/>
+ <path d="M71 142 Q91 153 107 150 L124 149 L112 158 L96 158 L79 152Z M143 145 L166 137 L181 133 L172 142 L158 149 L145 152Z" fill="{{brown}}" opacity=".19" filter="url(#wash)"/>
+ <path d="M64 126 Q79 106 110 100 C140 93 167 98 185 106 L176 114 Q151 104 129 113 C102 109 89 125 64 126Z" fill="{{peach}}" opacity=".41" filter="url(#wash)"/>
+</g>
+<g id="large-flaking-lamellae">
+ <path d="M72 124 Q88 104 109 104 L101 116 L105 121 L92 136 L80 139 L68 133Z" fill="{{paper}}" opacity=".94"/>
+ <path d="M109 104 Q123 97 135 100 L126 116 L131 121 L116 143 L103 146 L97 139 L110 120 L105 116Z" fill="{{paper}}" opacity=".92"/>
+ <path d="M139 101 Q154 98 166 104 L155 117 L158 122 L139 143 L125 149 L124 141 L141 122 L134 119Z" fill="{{paper}}" opacity=".9"/>
+ <path d="M169 105 Q183 106 193 116 L182 125 L169 127 L160 136 L147 140 L158 122 L161 118Z" fill="{{paper}}" opacity=".94"/>
+ <path d="M81 134 L94 120 L98 115 L91 130 L90 136 L81 141Z M108 140 L119 123 L124 122 L120 134 L114 144Z M143 134 L151 124 L156 124 L150 136 L140 141Z" fill="{{cream}}" opacity=".95" filter="url(#wash)"/>
+ <path d="M78 127 Q87 117 96 111 M114 115 l9 -10 M139 114 l10 -9 M163 115 l9 -6 M105 137 l7 -8 M130 138 l8 -7" fill="none" stroke="{{paper}}" stroke-width="2.7" opacity=".88" filter="url(#dry)"/>
+</g>
+<g id="selective-flake-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M61 125 Q74 109 91 104 M103 100 l11 -3 M143 96 Q166 95 182 103 M193 111 l6 7 M180 136 l-12 3 M153 148 l-11 5 M129 158 l-16 2 M96 157 l-16 -3 M71 149 l-10 -10" stroke-width="1.05"/>
+ <path d="M106 106 l-8 11 l5 5 M99 128 l-8 11 M132 104 l-8 13 l6 5 M124 130 l-10 13 M160 109 l-8 10 l5 4 M149 135 l-9 7 M181 121 l-12 6" stroke-width=".66" opacity=".84"/>
+ <path d="M77 146 l6 3 M82 148 l7 3 M123 151 l7 -3 M169 134 l5 -3" stroke-width=".48" opacity=".56"/>
+</g>
+<g id="scallion-curls-and-ginger-threads">
+ <path d="M93 111 C103 93 126 98 137 92 L140 95 C126 104 108 99 95 114Z M126 127 Q137 108 163 104 L162 108 Q141 114 130 130Z" fill="{{forest}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M112 120 C99 112 110 101 121 104 C132 105 133 114 127 118 L124 116 C133 104 109 103 110 112 L116 118Z" fill="{{sage}}" opacity=".89"/>
+ <path d="M147 109 Q164 94 177 100 Q165 98 151 114Z" fill="{{leaf}}" opacity=".96"/>
+ <path d="M100 125 Q121 117 147 118 M118 100 Q136 110 159 112 M115 132 Q129 120 141 111 M149 124 l20 -5" fill="none" stroke="{{gold}}" stroke-width="1.5" opacity=".68" filter="url(#wash)"/>
+ <path d="M104 123 Q123 117 137 118 M120 102 l11 5 M142 114 l-13 14 M149 107 Q163 98 170 100 M132 122 Q143 110 156 108" fill="none" stroke="{{line}}" stroke-width=".54" stroke-linecap="round"/>
+</g>
+</svg>

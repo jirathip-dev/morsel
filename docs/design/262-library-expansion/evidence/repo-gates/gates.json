@@ -1,0 +1,59 @@
+[
+  {
+    "name": "npm-ci",
+    "argv": [
+      "npm",
+      "ci",
+      "--no-audit",
+      "--no-fund"
+    ],
+    "raw_exit": 0,
+    "status": "PASS"
+  },
+  {
+    "name": "typecheck",
+    "argv": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "raw_exit": 0,
+    "status": "PASS"
+  },
+  {
+    "name": "lint",
+    "argv": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "raw_exit": 0,
+    "status": "PASS"
+  },
+  {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "raw_exit": 1,
+    "status": "FAIL",
+    "authority": "coord-reply.md authorizes immediate TS suite independent of native/render window",
+    "name": "npm-test",
+    "tests_passed": 583,
+    "tests_failed": 2,
+    "test_files_passed": 50,
+    "test_files_failed": 2,
+    "unhandled_errors": 2,
+    "classification": "The brief identifies 5000ms timeouts in unchanged server files as host-side; raw aggregate remains FAIL; no retries or raised budgets."
+  },
+  {
+    "name": "diff-check",
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "raw_exit": 0,
+    "status": "PASS"
+  }
+]

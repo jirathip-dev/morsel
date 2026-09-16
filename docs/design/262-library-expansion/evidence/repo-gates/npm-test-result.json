@@ -1,0 +1,9 @@
+{
+  "command": [
+    "npm",
+    "test"
+  ],
+  "raw_exit": 1,
+  "status": "FAIL",
+  "authority": "coord-reply.md authorizes immediate TS suite independent of native/render window"
+}
