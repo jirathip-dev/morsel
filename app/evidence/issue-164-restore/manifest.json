@@ -1,0 +1,57 @@
+{
+  "images": {
+    "164-night-after.png": {
+      "sha256": "9c6db6ab4294d3324ffd4f54075bdeec7f9b8eb74274edca2770b2dbdeb78ad7",
+      "width": 1170,
+      "height": 3300,
+      "deviceId": "FA53598A-E3C4-4564-8F29-77EC545CD2D7",
+      "srgb_ground": [
+        42,
+        38,
+        30
+      ]
+    },
+    "164-night-before.png": {
+      "sha256": "558213028f991de87f3390c96ee1d064e7a71c9d7a7048e8e145125660c31bca",
+      "width": 1170,
+      "height": 3300,
+      "deviceId": "FA53598A-E3C4-4564-8F29-77EC545CD2D7",
+      "srgb_ground": [
+        42,
+        38,
+        30
+      ]
+    },
+    "164-paper-after.png": {
+      "sha256": "97f32480741ceb1e2bd9c787b427a9ada64f267b19654f89628a90be81e6a14d",
+      "width": 1170,
+      "height": 3300,
+      "deviceId": "FA53598A-E3C4-4564-8F29-77EC545CD2D7",
+      "srgb_ground": [
+        255,
+        248,
+        232
+      ]
+    },
+    "164-paper-before.png": {
+      "sha256": "37953509a1249e666a344ef31147185552a9f7be8f6e7b1343261670fd09a6aa",
+      "width": 1170,
+      "height": 3300,
+      "deviceId": "FA53598A-E3C4-4564-8F29-77EC545CD2D7",
+      "srgb_ground": [
+        255,
+        248,
+        232
+      ]
+    }
+  },
+  "sources": {
+    "app/Sources/Morsel/GoalsEditor.swift": "10efb46b557fa13ce0cc18b7250103ecee8138fd92d4745599427b97ba1660c1",
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b",
+    "app/Sources/Morsel/GoalsPageCopy.swift": "f078166ba627dc694292b854fb0e5d3145bfe296376782a3ca22a974391e6c8f",
+    "app/Sources/Morsel/SupabaseMealMutations.swift": "057e7feda830bb1f1b0e259c9d03dbf73265880e8a3f9fb6d64bb12f340e0c39",
+    "app/Tests/MorselTests/GoalsRestoreTests.swift": "4028b9b8757e74397f5942d8cf98f9449a8782d7e532d125f0c74dc5676315b7",
+    "app/Tests/MorselTests/GoalsRestoreTransport.swift": "9b8d92bbb18e248e1e683c5c3ced79613d8e73d48858d346fd8420a777a55e99",
+    "app/Tests/MorselTests/GoalsRestoreRenderingTests.swift": "1b9ab85aa6d4449fae12e4973e638b3d82484b4d7afcaed4a52e14df03ff502b"
+  }
+}

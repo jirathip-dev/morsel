@@ -1,0 +1,25 @@
+{
+  "lane_before": {
+    "app/Sources/Morsel/GoalsEditor.swift": "10efb46b557fa13ce0cc18b7250103ecee8138fd92d4745599427b97ba1660c1",
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b",
+    "app/Sources/Morsel/SupabaseMealMutations.swift": "057e7feda830bb1f1b0e259c9d03dbf73265880e8a3f9fb6d64bb12f340e0c39"
+  },
+  "base": "afd6d45e642aa144af1f18000c91126889e2ab2f",
+  "scratch_before": {
+    "app/Sources/Morsel/GoalsEditor.swift": "19c33bd9b19ca975ce3e639916cbec026708a096d58b54582b031fb34ad58115",
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ce5c1fdae1c6c79642353a273cecf5a50ec0d043e998b8ed6d09901322755b1c",
+    "app/Sources/Morsel/SupabaseMealMutations.swift": "ecfc1d2c3309f52bd6a685f016ac6053b12af1d2e8dfcb2064ed4f8972a21769"
+  },
+  "red_exit": 1,
+  "green_exit": 0,
+  "scratch_restored": {
+    "app/Sources/Morsel/GoalsEditor.swift": "19c33bd9b19ca975ce3e639916cbec026708a096d58b54582b031fb34ad58115",
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ce5c1fdae1c6c79642353a273cecf5a50ec0d043e998b8ed6d09901322755b1c",
+    "app/Sources/Morsel/SupabaseMealMutations.swift": "ecfc1d2c3309f52bd6a685f016ac6053b12af1d2e8dfcb2064ed4f8972a21769"
+  },
+  "lane_after": {
+    "app/Sources/Morsel/GoalsEditor.swift": "10efb46b557fa13ce0cc18b7250103ecee8138fd92d4745599427b97ba1660c1",
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b",
+    "app/Sources/Morsel/SupabaseMealMutations.swift": "057e7feda830bb1f1b0e259c9d03dbf73265880e8a3f9fb6d64bb12f340e0c39"
+  }
+}
