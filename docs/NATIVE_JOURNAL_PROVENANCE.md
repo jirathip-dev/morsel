@@ -5,7 +5,8 @@
 Keep the short in-source comments introduced by #168 / PR #246, but retain
 all removed comment lines here rather than letting the 400-line file budget
 silently erase their rationale. No further provenance is removed from
-`MorselApp.swift` or `ViewModel.swift` for this fix; neither file is changed.
+`MorselApp.swift` or `ViewModel.swift` for this fix; only pointers to this note
+are added there, without changing behavior or exceeding the line budget.
 This note is the repository entry point for #110, #112, #121, #153, #173,
 #175 and #176. The excerpts below are historical rationale, not a claim that
 every original UI placement remains current (for example, row artwork now
@@ -15,9 +16,9 @@ The source is commit `6f87585d2a8c1bac49237a7a4ac6654297619dbb` (PR #246).
 To recover each block in its original method context:
 
 ```sh
-git show 6f87585^:app/Sources/Morsel/MorselApp.swift
-git show 6f87585^:app/Sources/Morsel/ViewModel.swift
-git show 6f87585 -- app/Sources/Morsel/MorselApp.swift app/Sources/Morsel/ViewModel.swift
+git show 6f87585d2a8c1bac49237a7a4ac6654297619dbb^:app/Sources/Morsel/MorselApp.swift
+git show 6f87585d2a8c1bac49237a7a4ac6654297619dbb^:app/Sources/Morsel/ViewModel.swift
+git show 6f87585d2a8c1bac49237a7a4ac6654297619dbb -- app/Sources/Morsel/MorselApp.swift app/Sources/Morsel/ViewModel.swift
 ```
 
 ## Where to look for the why

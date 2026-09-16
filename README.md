@@ -39,6 +39,7 @@ morsel/
 ## Docs
 - [ARCHITECTURE](docs/ARCHITECTURE.md) — components, data flow, auth, backend decision
 - [DATA_MODEL](docs/DATA_MODEL.md) — tables, enums, RLS
+- [NATIVE_JOURNAL_PROVENANCE](docs/NATIVE_JOURNAL_PROVENANCE.md) — archived native rationale, issue why-index, month-span read contract
 - [MCP_TOOLS](docs/MCP_TOOLS.md) — the tool contract (input/output schemas) — *what the agent writes*
 - [CUSTOM_DOMAIN](docs/CUSTOM_DOMAIN.md) — earlier planned Supabase custom-domain setup (superseded for the MCP endpoint by [FLY_DEPLOY](docs/FLY_DEPLOY.md))
 - [FLY_DEPLOY](docs/FLY_DEPLOY.md) — Fly.io single-process MCP hosting (issue #72): entry point, route/metadata contract, deploy runbook (deployed — canonical MCP endpoint)

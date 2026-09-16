@@ -86,6 +86,7 @@ final class JournalCalendarModel: ObservableObject {
             guard let interval = calendar.dateInterval(of: .month, for: requestedMonth),
                   let last = calendar.date(byAdding: .day, value: -1, to: interval.end) else { return }
             let end = min(last, today)
+            // Within this month, end's day-of-month is the inclusive local-day count from day 1.
             let overview = try await repository.loadHistory(
                 userID: userID, end: end, days: calendar.component(.day, from: end))
             guard request == generation else { return }
