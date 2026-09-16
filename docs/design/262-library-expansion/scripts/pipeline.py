@@ -349,6 +349,12 @@ def package(batch, names):
         require(sha(LIB/rel)==pair['committed']==pair['clean'], 'stale clean rebuild: '+rel)
     review=ROOT/f'batch-{batch}/VISUAL-REVIEW.md'
     require(review.is_file() and 'ready for owner review' in review.read_text().lower(), 'visual review not recorded')
+    if (ROOT/'index.html').is_file():
+        index=read(ROOT/'evidence/index/verification.json')
+        require(index['status']=='PASS','index browser verification incomplete')
+        require(all(sha(ROOT/p)==h for p,h in index['inputs_sha256'].items()),'stale index inputs')
+        require(all(sha(ROOT/c['capture'])==c['sha256'] for c in index['captures']),'stale index capture')
+        require(all(c['dom']['ids']==[f'batch-{b}' for b in range(1,batch+1)] for c in index['captures']),'index batch list differs')
     gate = privacy(names)
     save(ROOT / f'batch-{batch}/privacy.json', gate)
     for p in ROOT.rglob('*'):

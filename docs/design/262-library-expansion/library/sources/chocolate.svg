@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Chocolate — two snapped, scored pieces with warm cocoa washes</title>
+<desc>Original generic chocolate study. Broad recessed scores, raised tablets and irregular broken thickness carry the shape; no cacao percentage, ingredients or portion is asserted.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="rear-piece-thick-snapped-edge">
+ <path d="M50 93 L108 59 Q111 58 115 61 L160 88 L165 94 L164 105 L158 107 L155 112 L150 111 L145 119 L105 143 L49 105Z" fill="{{brown}}" opacity=".98"/>
+ <path d="M50 94 L105 133 L105 143 L50 105Z" fill="{{dark}}" opacity=".59" filter="url(#wash)"/>
+ <path d="M105 133 L163 95 L164 105 L158 107 L155 112 L150 111 L145 119 L105 143Z" fill="{{red}}" opacity=".3" filter="url(#wash)"/>
+ <path d="M121 128 L149 111 L145 119 L109 141Z" fill="{{dark}}" opacity=".47" filter="url(#wash)"/>
+ <path d="M50 94 L109 60 L163 94 L156 97 L156 102 L149 103 L147 109 L105 134Z" fill="{{dark}}" opacity=".8"/>
+</g>
+<g id="rear-four-moulded-faces">
+ <path d="M56 93 L80 79 Q82 78 84 80 L103 93 L77 109Z" fill="{{brown}}"/>
+ <path d="M86 76 L109 63 L134 78 L109 92Z" fill="{{brown}}"/>
+ <path d="M82 113 L108 98 L132 113 L105 130Z" fill="{{brown}}"/>
+ <path d="M114 96 L138 82 L160 94 L153 98 L154 101 L148 103 L147 107 L136 110Z" fill="{{brown}}"/>
+ <path d="M57 93 Q71 91 79 84 L98 93 L77 105Z M87 76 L109 64 L128 77 L111 84Z" fill="{{ochre}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M84 113 L108 100 Q115 105 119 104 L130 113 L105 127Z M116 96 L138 84 L152 93 Q140 92 134 101Z" fill="{{red}}" opacity=".33" filter="url(#wash)"/>
+ <path d="M59 94 L77 105 L97 94 L103 94 L77 110Z M86 116 L105 126 L126 114 L132 113 L105 131Z M121 99 L135 106 L143 104 L136 110Z" fill="{{dark}}" opacity=".38" filter="url(#wash)"/>
+ <path d="M59 92 l19 -11 M90 75 l17 -10 M87 112 l18 -11 M119 95 l17 -11" fill="none" stroke="{{cream}}" stroke-width="1.65" opacity=".42" filter="url(#dry)"/>
+</g>
+<g id="rear-broken-variable-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M52 91 L79 76 M87 72 L108 60 M118 65 L144 81 M154 87 L164 94 L162 105 L157 107 M149 113 L143 120 M133 127 L107 142 L91 132 M78 123 L50 104 L50 97" stroke-width=".96"/>
+ <path d="M80 110 L108 94 L125 83 M112 98 L133 111 M61 99 l12 9 M94 123 l10 6 M119 134 l5 -4 M127 129 l6 -5 M153 105 l3 -5" stroke-width=".53" opacity=".78"/>
+</g>
+<g id="front-square-snapped-thickness">
+ <path d="M87 155 L148 113 Q152 112 155 115 L211 143 L204 148 L202 157 L191 158 L189 167 L180 166 L174 179 L150 199 L89 169Z" fill="{{brown}}" opacity=".99"/>
+ <path d="M88 155 L150 187 L150 199 L89 169Z" fill="{{dark}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M90 159 C106 168 121 171 132 181 L150 188 L148 194 L90 168Z" fill="{{red}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M151 187 L172 169 L178 156 L188 155 L190 146 L201 145 L206 140 L211 143 L204 148 L202 157 L191 158 L189 167 L180 166 L174 179 L150 199Z" fill="{{ochre}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M88 155 L150 113 L206 140 L200 145 L190 146 L188 155 L178 156 L172 169 L150 188Z" fill="{{dark}}" opacity=".86"/>
+</g>
+<g id="front-recessed-cross-and-raised-faces">
+ <path d="M94 154 L119 137 L144 150 L119 169Z" fill="{{brown}}"/>
+ <path d="M124 134 L150 117 L175 130 L150 147Z" fill="{{brown}}"/>
+ <path d="M124 172 L149 154 L173 166 L169 170 L149 184Z" fill="{{brown}}"/>
+ <path d="M155 150 L180 133 L201 142 L188 144 L186 153 L176 154 L174 161Z" fill="{{brown}}"/>
+ <path d="M95 154 Q111 151 118 140 L139 150 L119 163Z M127 134 L150 119 L170 129 Q157 129 151 139Z" fill="{{ochre}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M125 172 Q138 166 141 162 Q156 160 168 168 L149 181Z M157 150 L180 136 L194 141 Q178 143 175 158Z" fill="{{red}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M95 156 L119 165 L140 151 L144 150 L119 170Z M126 174 L149 180 L168 168 L173 166 L149 185Z M158 152 L173 157 L174 162Z" fill="{{dark}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M100 152 l17 -12 M131 132 l18 -12 M131 170 l17 -12 M161 148 l17 -12" fill="none" stroke="{{peach}}" stroke-width="1.9" opacity=".4" filter="url(#dry)"/>
+ <path d="M107 154 l8 -5 M143 130 l9 -5 M137 174 l10 -6" fill="none" stroke="{{ochre}}" stroke-width="3.1" opacity=".28" filter="url(#dry)"/>
+</g>
+<g id="rough-fracture-face">
+ <path d="M201 147 L199 153 L189 155 L187 164 L179 162 L170 180 L155 191 L155 185 L173 168 L178 157 L188 157 L190 148Z" fill="{{cream}}" opacity=".2" filter="url(#dry)"/>
+ <path d="M195 151 l-3 4 M185 160 l-3 3 M176 170 l-4 7 M166 182 l-6 5" fill="none" stroke="{{line}}" stroke-width=".8" opacity=".86"/>
+ <path d="M199 151 l-1 4 M188 160 l-2 5 M176 172 l-2 6" fill="none" stroke="{{dark}}" stroke-width="1.15" opacity=".62"/>
+</g>
+<g id="front-selective-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M91 152 L119 132 M131 125 L149 114 L169 123 M183 130 L210 143 L203 149 M201 155 L191 158 L189 166 L180 166 M174 178 L151 198 L128 188 M114 181 L89 169 L88 160" stroke-width="1.18"/>
+ <path d="M120 171 L149 151 L169 138 M150 153 L172 164 M99 157 L119 168 M128 176 L149 186 M97 171 l8 4 M111 178 l6 2 M134 189 l8 4" stroke-width=".56" opacity=".8"/>
+</g>
+<g id="two-fallen-chocolate-shards">
+ <path d="M185 186 L195 179 L200 187 L191 192Z M202 177 L210 172 L213 179 L206 182Z" fill="{{brown}}" opacity=".95"/>
+ <path d="M185 186 L191 188 L198 185 L200 187 L191 192Z M203 178 l7 -2 l3 3 l-7 3Z" fill="{{dark}}" opacity=".54"/>
+ <path d="M186 185 l8 -4 M204 176 l5 -2 M188 191 l4 1" fill="none" stroke="{{line}}" stroke-width=".64" opacity=".8"/>
+</g>
+</svg>

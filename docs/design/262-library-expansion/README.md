@@ -70,7 +70,11 @@ The one repository `npm test` invocation remains raw FAIL (583 passed / 2 unchan
 
 - Original product-art/app/DB/schema snapshot: `references/shipped-baseline.json`.
 - Exact 18-identity before/after hashes per batch: `shipped-18-before-after.json`.
-- Raw file set must equal manifest file set (except the manifest itself); all hashes are checked. The aggregate review entry is [index.html](index.html); [ROLLUP.md](ROLLUP.md) and [ROLLUP.json](ROLLUP.json) aggregate completed batches with per-identity hashes and observed-versus-general-coverage records. Regenerate these after the latest batch's visual review:
+- Raw file set must equal manifest file set (except the manifest itself); all hashes are checked.
+
+## Aggregate review index
+
+The aggregate review entry is [index.html](index.html); [ROLLUP.md](ROLLUP.md) and [ROLLUP.json](ROLLUP.json) aggregate completed batches with per-identity hashes and observed-versus-general-coverage records. Regenerate these after the latest batch's visual review:
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/summarize.py --through "$N"
@@ -80,11 +84,23 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/capture_index.py
 
 The index uses the same locked font/palette tokens, real 44px-or-larger links, natural mobile scrolling, and explicit pending-pixel-approval language. Its captures and DOM evidence are separate in `evidence/index/`.
 
-No transient browser/runtime caches, bytecode, editor backups or scratch in the deliverable. Named JSON build caches are deliberate, hash-verified pipeline inputs.
+## Manifest hygiene
+
+- No transient browser/runtime caches, bytecode, editor backups or scratch in the deliverable. Named JSON build caches are deliberate, hash-verified pipeline inputs.
 - `batch-N/SHA256SUMS.json` freezes that batch's source/art and proof/report files; later batches do not rewrite its art.
 - Root `SHA256SUMS.json` covers all final package files, including retained build/verifier scripts and previous batch manifests, excluding itself.
 - Browser evidence is real Chromium output and DOM validation of fictional fixtures, not production/native screenshots.
 - Visual-review notes and the 10-tell composition audit are separate from mechanical gates. Neither grants pixel approval.
 - The orchestrator posts each report to issue #262; this lane makes no issue/PR writes.
+
+## Post-publication audit
+
+On the authoring host, after the authorized publication:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/final_verify.py --through "$N" --remote
+```
+
+This checks source/export parity, frozen batch hashes, screenshot input/output pins, raw/tracked/mirror path sets, protected product bytes, and the exact remote evidence subtrees—not merely a push exit code. It requires the declared product worktree and authenticated access to the private design archive.
 
 DESIGN ARTIFACTS ONLY; no app/DB edits; not merged; not opened as PR; no deploy.

@@ -1,0 +1,78 @@
+{
+  "batch": 4,
+  "cohorts": {
+    "01": [
+      "tea",
+      "latte",
+      "orange-juice",
+      "coconut-water",
+      "beer"
+    ],
+    "02": [
+      "watermelon",
+      "pineapple",
+      "papaya",
+      "dragon-fruit",
+      "guava"
+    ],
+    "03": [
+      "grapes",
+      "strawberry",
+      "tomato",
+      "corn",
+      "french-fries"
+    ],
+    "04": [
+      "burger",
+      "spring-roll",
+      "satay",
+      "mango-sticky-rice",
+      "chocolate"
+    ],
+    "05": [
+      "cookie",
+      "oatmeal",
+      "miso-soup"
+    ]
+  },
+  "ids": [
+    "tea",
+    "latte",
+    "orange-juice",
+    "coconut-water",
+    "beer",
+    "watermelon",
+    "pineapple",
+    "papaya",
+    "dragon-fruit",
+    "guava",
+    "grapes",
+    "strawberry",
+    "tomato",
+    "corn",
+    "french-fries",
+    "burger",
+    "spring-roll",
+    "satay",
+    "mango-sticky-rice",
+    "chocolate",
+    "cookie",
+    "oatmeal",
+    "miso-soup"
+  ],
+  "contact_size": [
+    1200,
+    1760
+  ],
+  "phone_viewport": [
+    390,
+    844
+  ],
+  "native_art_size": 64,
+  "diagnostic_size": 40,
+  "fonts": [
+    "EB Garamond",
+    "Caveat",
+    "IBM Plex Mono"
+  ]
+}

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Beer — golden pint with an uneven foam head</title>
+<desc>Original generic ink-and-wash study of a tapered glass. Broad cream foam and amber liquid are the primary cues; no brand, serving quantity or nutrition is asserted.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="pint-glass-pale-foundation">
+ <path d="M69 70 C95 60 153 62 184 71 C181 106 174 143 169 177 L164 206 C162 215 146 220 125 219 C106 220 89 215 87 207 C82 177 80 143 75 115Z" fill="#F2E9D9" opacity=".89"/>
+ <path d="M71 80 C76 101 77 132 80 151 L88 203 C91 213 107 216 126 216 C141 216 156 213 161 207 L169 158 C166 181 156 201 145 206 C128 214 107 208 101 199 C91 167 92 122 85 82Z" fill="#FFF7E8" opacity=".63" filter="url(#wash)"/>
+ <path d="M174 88 L178 87 C174 124 170 157 164 194 L158 207 L160 174Z" fill="#5E7E57" opacity=".25" filter="url(#wash)"/>
+</g>
+<g id="golden-beer-underpainting">
+ <path d="M78 88 C104 94 148 95 175 88 C170 123 168 154 162 187 L158 202 C144 212 111 212 96 202 C91 181 88 146 83 113Z" fill="#D6A62C" opacity=".90"/>
+ <path d="M83 99 C93 106 108 100 113 109 C119 119 109 134 114 148 C121 167 111 185 124 205 C113 207 102 204 96 199 C90 171 90 142 86 126Z" fill="#E66A2C" opacity=".40" filter="url(#wash)"/>
+ <path d="M149 99 C160 95 164 92 173 93 C169 131 167 165 160 196 C158 205 143 208 130 207 C144 192 145 174 143 160 C140 137 154 117 149 99Z" fill="#A5750B" opacity=".64" filter="url(#wash)"/>
+ <path d="M114 99 C124 104 135 99 144 105 C150 120 142 138 145 150 C136 164 145 187 134 199 C123 197 121 182 124 169 C125 149 114 137 119 120Z" fill="#D6A62C" opacity=".71" filter="url(#wash)"/>
+ <path d="M94 186 C113 193 138 196 160 185 L158 202 C141 213 110 209 97 202Z" fill="#A5750B" opacity=".38" filter="url(#wash)"/>
+ <path d="M82 91 Q110 102 139 98 Q160 100 173 91 L171 104 C151 110 133 107 117 108 Q97 107 84 104Z" fill="#FBE1C9" opacity=".48" filter="url(#wash)"/>
+</g>
+<g id="uneven-foam-head">
+ <path d="M69 79 C65 74 65 66 71 62 C72 53 82 50 89 53 C95 43 109 44 115 49 C123 42 139 45 144 51 C153 47 165 50 169 57 C179 55 187 64 185 72 C192 78 185 90 177 93 C164 98 153 94 144 98 C127 100 114 97 105 99 C91 98 75 92 69 87Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M70 76 C84 82 91 73 103 80 C114 84 120 76 135 81 C151 86 162 77 182 76 C186 85 178 91 169 92 C156 92 151 99 137 96 C123 95 111 99 100 95 C87 96 72 89 70 84Z" fill="#F2E9D9" opacity=".93" filter="url(#wash)"/>
+ <path d="M76 83 C87 91 97 91 105 92 C117 90 130 96 140 92 C151 95 171 87 180 85 L177 92 C166 98 153 94 145 98 Q117 104 91 96 Q77 92 73 88Z" fill="#A5750B" opacity=".20" filter="url(#wash)"/>
+ <path d="M88 60 C96 49 109 51 113 56 C115 64 103 61 99 65 C91 67 86 64 88 60Z M134 59 C141 53 154 54 160 62 Q148 59 142 66Z" fill="#F2E9D9" opacity=".57" filter="url(#wash)"/>
+ <path d="M91 95 C94 95 100 95 101 98 L102 110 C102 116 96 117 94 112 L93 103Z" fill="#F2E9D9" opacity=".91"/>
+ <path d="M110 60 Q121 57 128 61 M76 71 Q84 68 90 71 M151 74 L166 71" fill="none" stroke="#FFF7E8" stroke-width="2.4" opacity=".72" filter="url(#dry)"/>
+</g>
+<g id="glass-wall-and-foot-highlights">
+ <path d="M83 113 C87 112 89 112 91 115 L98 174 C100 185 100 191 103 196 L98 194 C93 181 92 160 89 147Z" fill="#FFF7E8" opacity=".61" filter="url(#dry)"/>
+ <path d="M163 117 L166 114 C165 141 160 159 158 180 L154 190 C155 168 160 143 163 117Z" fill="#F2E9D9" opacity=".54" filter="url(#dry)"/>
+ <path d="M89 204 C106 213 142 220 163 206 L162 211 C150 220 109 223 92 214Z" fill="#FFF7E8" opacity=".91"/>
+ <path d="M99 210 Q121 217 140 214 M146 212 L156 209" fill="none" stroke="#8B7355" stroke-width=".61" opacity=".68"/>
+</g>
+<g id="sparse-condensation-and-rising-bubbles">
+ <path d="M110 135 C106 142 107 146 111 146 C115 146 115 141 110 135Z M144 159 C141 164 142 169 145 168 C148 167 147 163 144 159Z" fill="#F2E9D9" opacity=".61"/>
+ <path d="M111 138 Q107 144 111 145 M145 162 Q148 166 145 168" fill="none" stroke="#FFF7E8" stroke-width=".78" opacity=".74"/>
+ <path d="M131 118 C128 117 127 120 129 122 C132 124 134 120 131 118Z M124 153 C121 152 120 156 122 157 C125 159 126 155 124 153Z M137 186 Q133 184 133 188 Q135 191 138 188Z" fill="#FFF7E8" opacity=".46"/>
+</g>
+<g id="selective-glass-and-froth-ink" fill="none" stroke="#8B7355" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M68 69 Q65 60 74 59 M79 53 Q84 50 89 54 M96 48 Q107 43 115 49 M126 45 Q137 44 143 51 M152 50 Q163 49 169 57 M179 58 Q187 62 185 70" stroke-width=".64"/>
+ <path d="M70 87 Q80 96 97 97 M112 99 Q128 101 137 98 M152 97 Q174 97 181 89" stroke-width=".78"/>
+ <path d="M70 89 Q75 123 78 150 M81 168 L87 204 Q88 214 109 218 M122 220 Q151 222 163 213 M166 199 Q175 142 180 105" stroke-width="1.16"/>
+ <path d="M84 152 L87 176 M93 207 Q103 212 115 213 M151 208 L157 203 M172 109 L174 97" stroke-width=".51" opacity=".68"/>
+ <path d="M76 76 Q82 72 87 75 M119 74 Q126 70 132 74 M156 64 Q162 62 166 67" stroke-width=".52" opacity=".47"/>
+</g>
+</svg>

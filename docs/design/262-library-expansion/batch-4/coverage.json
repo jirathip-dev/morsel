@@ -1,0 +1,115 @@
+{
+  "batch": 4,
+  "method": "Frozen round-1 qualifier-tolerant estimator applied to delivered studies; NOT the shipped #260 matcher or live application coverage.",
+  "evidence_window": "public.meal_items, read-only SELECT via Management API, 2026-09-05..2026-09-15, 284 rows / 250 distinct names (raw names stay local, untracked)",
+  "reference_recomputed_against_private_input": true,
+  "distinct_names": 250,
+  "total_rows": 284,
+  "specific": {
+    "distinct": 230,
+    "rows": 264,
+    "distinct_pct": 92.0,
+    "rows_pct": 93.0
+  },
+  "category_fallback": {
+    "distinct": 20,
+    "rows": 20,
+    "distinct_pct": 8.0,
+    "rows_pct": 7.0
+  },
+  "neutral": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "pending_later_studies": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "specific_delta_distinct": 5,
+  "specific_delta_rows": 5,
+  "new_foods": 23,
+  "cumulative_foods": 108,
+  "observed_rows_by_added_identity": {
+    "tea": 0,
+    "latte": 0,
+    "orange-juice": 0,
+    "coconut-water": 0,
+    "beer": 0,
+    "watermelon": 0,
+    "pineapple": 0,
+    "papaya": 0,
+    "dragon-fruit": 0,
+    "guava": 0,
+    "grapes": 0,
+    "strawberry": 0,
+    "tomato": 1,
+    "corn": 1,
+    "french-fries": 0,
+    "burger": 0,
+    "spring-roll": 0,
+    "satay": 0,
+    "mango-sticky-rice": 0,
+    "chocolate": 2,
+    "cookie": 0,
+    "oatmeal": 1,
+    "miso-soup": 0
+  },
+  "coverage_driven_zero_observed_ids": [
+    "tea",
+    "latte",
+    "orange-juice",
+    "coconut-water",
+    "beer",
+    "watermelon",
+    "pineapple",
+    "papaya",
+    "dragon-fruit",
+    "guava",
+    "grapes",
+    "strawberry",
+    "french-fries",
+    "burger",
+    "spring-roll",
+    "satay",
+    "mango-sticky-rice",
+    "cookie",
+    "miso-soup"
+  ],
+  "demand_note": "Observed and zero-observed general-coverage additions are distinguished above.",
+  "public_issue_examples_estimated_targets": [
+    {
+      "name": "Americano (black, no sugar, homemade)",
+      "target": "coffee",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Pork with brown gravy (moo ob style)",
+      "target": "braised-pork",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "White rice, cooked (half portion)",
+      "target": "jasmine-rice",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Chinese kale, cooked (kana)",
+      "target": "stir-fried-greens",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "Pasta (linguine), cooked",
+      "target": "pasta",
+      "tier": "specific",
+      "batch": 1
+    }
+  ]
+}

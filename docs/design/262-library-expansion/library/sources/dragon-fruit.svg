@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Dragon fruit — pale seeded half and warm leafy rind, original ink and wash</title>
+<desc>A broad pale cross-section inside peach-red scaly skin with sage tips. Locked warm pigments suggest the rind without a pink token; a generic fruit sign, not an exact variety claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="attached-rear-leafy-scales">
+ <path d="M91 79 C74 70 80 51 70 40 C90 45 101 58 106 74Z" fill="{{red}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M73 42 Q91 47 93 61 L84 63 Q81 51 73 42Z" fill="{{sage}}" opacity=".91"/>
+ <path d="M136 75 C127 60 144 49 145 36 C155 52 154 70 148 84Z" fill="{{red}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M145 38 Q153 51 149 63 L140 61 Q145 49 145 38Z" fill="{{sage}}" opacity=".94"/>
+ <path d="M182 111 C185 97 205 90 215 80 C215 100 201 119 190 126Z" fill="{{red}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M213 82 Q214 94 204 105 L198 100 Q206 89 213 82Z" fill="{{sage}}" opacity=".94"/>
+ <path d="M61 136 C46 127 51 113 40 104 C59 105 68 116 74 126Z" fill="{{red}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M43 105 Q57 106 61 119 L54 119 Q50 111 43 105Z" fill="{{sage}}" opacity=".91"/>
+ <path d="M187 162 C201 153 211 161 222 151 C216 174 207 181 189 186Z" fill="{{red}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M219 154 Q216 167 206 172 L201 166 Q212 162 219 154Z" fill="{{sage}}" opacity=".9"/>
+ <path d="M79 180 C67 177 59 182 51 194 C65 191 73 208 90 199Z" fill="{{red}}" opacity=".86" filter="url(#wash)"/>
+ <path d="M54 193 Q61 181 72 184 L73 191 Q63 189 54 193Z" fill="{{sage}}" opacity=".93"/>
+</g>
+<g id="rounded-skin-underpainting">
+ <path d="M96 62 C121 54 147 69 169 90 C194 113 207 144 200 169 C196 190 176 208 154 212 C129 216 103 203 83 184 C64 166 53 142 56 120 C57 95 74 71 96 62Z" fill="{{peach}}" opacity=".99"/>
+ <path d="M100 64 C125 61 151 77 172 99 C195 123 206 149 197 175 C185 202 163 215 142 208 C113 205 92 188 76 169 C57 146 54 126 63 104 Q75 74 100 64Z" fill="{{red}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M80 168 C104 187 130 195 154 192 C176 188 191 173 199 158 C201 184 184 203 162 209 C132 216 102 199 80 179Z" fill="{{red}}" opacity=".74" filter="url(#wash)"/>
+ <path d="M151 197 Q182 189 196 171 C190 193 173 209 153 211 Q137 212 127 207Z" fill="{{brown}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M59 125 C56 105 78 72 98 65 Q116 60 127 67 C101 65 88 77 80 90 Q63 107 59 125Z" fill="{{peach}}" opacity=".6" filter="url(#dry)"/>
+</g>
+<g id="wide-pale-cut-surface">
+ <path d="M99 68 C122 62 149 79 167 101 C186 122 195 145 184 166 C177 183 160 194 142 194 C120 193 98 180 82 162 C68 146 62 127 68 108 C72 88 84 74 99 68Z" fill="{{paper}}" opacity=".99"/>
+ <path d="M100 73 C120 67 145 84 162 103 C181 124 189 145 179 164 C170 183 153 190 138 187 C117 183 99 172 87 156 C73 139 68 125 73 110 C77 92 87 78 100 73Z" fill="{{cream}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M100 77 C113 70 135 82 150 97 C167 113 178 133 175 148 C171 163 158 169 143 172 C122 170 105 156 94 141 C82 124 81 112 87 98 Q91 84 100 77Z" fill="{{paper}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M85 151 C101 167 118 178 137 181 C156 184 171 177 181 164 C171 188 151 192 135 188 C112 183 96 171 85 151Z" fill="{{peach}}" opacity=".59" filter="url(#wash)"/>
+ <path d="M78 105 Q84 87 97 82 M148 183 Q164 181 172 170" fill="none" stroke="{{paper}}" stroke-width="3.1" opacity=".9" filter="url(#dry)"/>
+</g>
+<g id="scattered-embedded-seed-marks" fill="{{dark}}" opacity=".89">
+ <path d="M101 86 C103 84 106 87 105 89 C104 91 101 90 101 86Z"/>
+ <path d="M124 87 C127 85 129 90 127 92 C125 93 123 90 124 87Z"/>
+ <path d="M88 108 C89 104 92 104 92 108 C92 111 89 112 88 108Z"/>
+ <path d="M111 110 C109 108 111 104 113 105 C116 107 114 111 111 110Z"/>
+ <path d="M141 107 C143 104 146 106 146 109 C145 112 142 111 141 107Z"/>
+ <path d="M159 119 C161 117 164 120 163 123 C161 124 159 122 159 119Z"/>
+ <path d="M100 132 C96 131 97 128 100 128 C103 129 103 133 100 132Z"/>
+ <path d="M125 127 C125 124 128 123 129 126 C130 129 127 131 125 127Z"/>
+ <path d="M145 138 C142 136 144 133 147 134 C150 136 148 139 145 138Z"/>
+ <path d="M171 145 C168 143 169 140 172 141 C175 143 173 146 171 145Z"/>
+ <path d="M112 149 C108 149 107 146 110 145 C113 144 115 147 112 149Z"/>
+ <path d="M134 155 C134 151 137 151 138 154 C139 157 136 158 134 155Z"/>
+ <path d="M156 163 C154 160 156 158 158 159 C160 162 159 165 156 163Z"/>
+ <path d="M124 174 C121 173 122 170 125 170 C128 171 127 174 124 174Z"/>
+ <path d="M146 178 C143 176 145 173 147 174 C150 176 149 179 146 178Z"/>
+</g>
+<g id="folded-front-rind-bracts">
+ <path d="M89 172 C95 181 105 187 115 189 C112 203 123 214 131 220 C112 218 97 207 94 191Z" fill="{{red}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M96 181 Q102 191 107 194 C106 205 121 216 127 218 C112 212 103 208 100 198Z" fill="{{peach}}" opacity=".54" filter="url(#dry)"/>
+ <path d="M110 205 Q117 215 128 219 C116 218 110 213 105 208Z" fill="{{sage}}" opacity=".98"/>
+ <path d="M181 176 C178 193 178 201 190 210 C173 210 161 202 159 193Z" fill="{{red}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M170 194 Q173 205 187 209 C175 210 168 206 164 201Z" fill="{{sage}}" opacity=".96"/>
+ <path d="M60 135 C69 146 71 157 67 170 C61 162 51 162 44 155 C56 157 59 148 60 135Z" fill="{{red}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M46 155 Q58 161 65 166 L66 171 Q53 162 46 155Z" fill="{{sage}}" opacity=".93"/>
+</g>
+<g id="broken-cut-rim-and-leaf-fold-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M72 97 Q80 75 99 68 M111 67 Q135 71 154 88 M166 100 Q184 121 189 138" stroke-width=".7"/>
+ <path d="M188 151 Q185 176 163 188 M153 192 Q133 199 111 184 M98 177 Q75 159 69 141 M65 130 Q65 119 68 111" stroke-width=".95"/>
+ <path d="M121 205 Q140 215 156 211 M191 197 Q205 182 202 163 M196 132 Q193 118 187 111" stroke-width="1.17"/>
+ <path d="M87 65 Q82 51 74 44 M144 43 Q148 55 142 67 M209 91 L199 108 M53 114 L59 123 M208 168 L200 172 M103 189 Q102 203 115 213 M167 196 Q171 205 182 208" stroke-width=".58" opacity=".78"/>
+</g>
+</svg>

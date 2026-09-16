@@ -1315,6 +1315,289 @@
       "category": "sweets",
       "description": "A single triangular cake slice with two sponge layers and cream filling on a small plate.",
       "kind": "food"
+    },
+    {
+      "id": "tea",
+      "name": "Tea",
+      "aliases": [
+        "hot tea",
+        "green tea",
+        "black tea",
+        "herbal tea",
+        "ชา",
+        "ชาเขียว",
+        "ชาร้อน"
+      ],
+      "category": "drinks",
+      "description": "A ceramic cup of amber tea with a tag string over the rim, gold wash and steam marks.",
+      "kind": "food"
+    },
+    {
+      "id": "latte",
+      "name": "Latte",
+      "aliases": [
+        "cafe latte",
+        "cappuccino",
+        "flat white",
+        "milk coffee",
+        "ลาเต้",
+        "กาแฟนม"
+      ],
+      "category": "drinks",
+      "description": "A wide cup of milk coffee with a leaf pour mark, cream/brown wash — distinct from the black-coffee study.",
+      "kind": "food"
+    },
+    {
+      "id": "orange-juice",
+      "name": "Orange juice",
+      "aliases": [
+        "juice",
+        "fruit juice",
+        "น้ำส้ม",
+        "น้ำผลไม้"
+      ],
+      "category": "drinks",
+      "description": "A short glass of orange juice with a pulp line and an orange half beside it.",
+      "kind": "food"
+    },
+    {
+      "id": "coconut-water",
+      "name": "Coconut water",
+      "aliases": [
+        "young coconut",
+        "coconut juice",
+        "น้ำมะพร้าว"
+      ],
+      "category": "drinks",
+      "description": "A trimmed young coconut with a straw and a splash of pale water, cream/sage wash.",
+      "kind": "food"
+    },
+    {
+      "id": "beer",
+      "name": "Beer",
+      "aliases": [
+        "lager",
+        "draft beer",
+        "เบียร์"
+      ],
+      "category": "drinks",
+      "description": "A tall pint glass of golden beer with an uneven foam head, gold wash and condensation marks.",
+      "kind": "food"
+    },
+    {
+      "id": "watermelon",
+      "name": "Watermelon",
+      "aliases": [
+        "แตงโม"
+      ],
+      "category": "produce",
+      "description": "A red watermelon wedge with black seed marks and a green rind band.",
+      "kind": "food"
+    },
+    {
+      "id": "pineapple",
+      "name": "Pineapple",
+      "aliases": [
+        "สับปะรด"
+      ],
+      "category": "produce",
+      "description": "Cut pineapple spears beside a wedge with rind, gold wash and eye marks.",
+      "kind": "food"
+    },
+    {
+      "id": "papaya",
+      "name": "Papaya",
+      "aliases": [
+        "ripe papaya",
+        "มะละกอ"
+      ],
+      "category": "produce",
+      "description": "A halved ripe papaya with orange flesh and a cluster of dark seeds.",
+      "kind": "food"
+    },
+    {
+      "id": "dragon-fruit",
+      "name": "Dragon fruit",
+      "aliases": [
+        "pitaya",
+        "แก้วมังกร"
+      ],
+      "category": "produce",
+      "description": "A halved dragon fruit with white speckled flesh and pink leafy skin.",
+      "kind": "food"
+    },
+    {
+      "id": "guava",
+      "name": "Guava",
+      "aliases": [
+        "ฝรั่ง"
+      ],
+      "category": "produce",
+      "description": "A whole green guava and a wedge showing pale flesh and seed band.",
+      "kind": "food"
+    },
+    {
+      "id": "grapes",
+      "name": "Grapes",
+      "aliases": [
+        "องุ่น"
+      ],
+      "category": "produce",
+      "description": "A small bunch of dark grapes with bloom highlights and a stem line.",
+      "kind": "food"
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberries",
+      "aliases": [
+        "strawberries",
+        "สตรอว์เบอร์รี่"
+      ],
+      "category": "produce",
+      "description": "Three strawberries, one halved, red wash with seed specks and leaf caps.",
+      "kind": "food"
+    },
+    {
+      "id": "tomato",
+      "name": "Tomato",
+      "aliases": [
+        "cherry tomatoes",
+        "tomatoes",
+        "มะเขือเทศ"
+      ],
+      "category": "produce",
+      "description": "A whole tomato and a cut half showing seed chambers, red wash and calyx ink.",
+      "kind": "food"
+    },
+    {
+      "id": "corn",
+      "name": "Corn",
+      "aliases": [
+        "sweet corn",
+        "corn kernels",
+        "corn on the cob",
+        "ข้าวโพด"
+      ],
+      "category": "produce",
+      "description": "A corn cob with husk pulled back and a spill of loose kernels, gold wash.",
+      "kind": "food"
+    },
+    {
+      "id": "french-fries",
+      "name": "French fries",
+      "aliases": [
+        "fries",
+        "chips",
+        "เฟรนช์ฟรายส์"
+      ],
+      "category": "prepared",
+      "description": "A paper sleeve of golden fries at uneven heights, dry-brush crisp edges.",
+      "kind": "food"
+    },
+    {
+      "id": "burger",
+      "name": "Burger",
+      "aliases": [
+        "hamburger",
+        "cheeseburger",
+        "เบอร์เกอร์"
+      ],
+      "category": "prepared",
+      "description": "A stacked burger with a sesame bun, patty, cheese drip and lettuce edge.",
+      "kind": "food"
+    },
+    {
+      "id": "spring-roll",
+      "name": "Spring rolls",
+      "aliases": [
+        "fried spring roll",
+        "fresh spring roll",
+        "ปอเปี๊ยะ",
+        "ปอเปี๊ยะทอด"
+      ],
+      "category": "prepared",
+      "description": "Three golden fried spring rolls, one cut to show filling, with a small dip cup.",
+      "kind": "food"
+    },
+    {
+      "id": "satay",
+      "name": "Satay",
+      "aliases": [
+        "moo ping",
+        "pork skewer",
+        "chicken satay",
+        "grilled skewer",
+        "หมูปิ้ง",
+        "สะเต๊ะ"
+      ],
+      "category": "protein",
+      "description": "Three charred meat skewers fanned on a plate with a small peanut sauce cup.",
+      "kind": "food"
+    },
+    {
+      "id": "mango-sticky-rice",
+      "name": "Mango sticky rice",
+      "aliases": [
+        "khao niao mamuang",
+        "ข้าวเหนียวมะม่วง"
+      ],
+      "category": "sweets",
+      "description": "Sliced golden mango beside a coconut-glossed sticky rice mound with a mung bean sprinkle.",
+      "kind": "food"
+    },
+    {
+      "id": "chocolate",
+      "name": "Chocolate",
+      "aliases": [
+        "chocolate bar",
+        "dark chocolate",
+        "chocolate topping",
+        "ช็อกโกแลต"
+      ],
+      "category": "sweets",
+      "description": "Two broken squares of a dark chocolate bar with a scored top, deep brown wash.",
+      "kind": "food"
+    },
+    {
+      "id": "cookie",
+      "name": "Cookie",
+      "aliases": [
+        "biscuit",
+        "cracker",
+        "cereal cracker",
+        "คุกกี้",
+        "บิสกิต"
+      ],
+      "category": "sweets",
+      "description": "Two round cookies, one bitten, with chip marks and a cracked surface, ochre wash.",
+      "kind": "food"
+    },
+    {
+      "id": "oatmeal",
+      "name": "Oatmeal",
+      "aliases": [
+        "oats",
+        "overnight oats",
+        "porridge oats",
+        "chia pudding",
+        "overnight chia",
+        "ข้าวโอ๊ต"
+      ],
+      "category": "grains",
+      "description": "A jar of layered oats with a berry top and a spoon, cream wash and grain marks.",
+      "kind": "food"
+    },
+    {
+      "id": "miso-soup",
+      "name": "Miso soup",
+      "aliases": [
+        "miso",
+        "japanese soup",
+        "ซุปมิโซะ"
+      ],
+      "category": "soup",
+      "description": "A dark lacquer bowl of cloudy miso with tofu cubes and wakame threads.",
+      "kind": "food"
     }
   ]
 }

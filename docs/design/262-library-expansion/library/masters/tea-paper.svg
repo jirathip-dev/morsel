@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Tea — luminous amber infusion, celadon cup and hanging tag</title>
+<desc>Original ink-and-wash category study. Light travels through the amber wash into a pale cup interior; the over-rim string and paper tag distinguish tea. Not a recipe, ingredient or portion claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="shallow-saucer-wash">
+ <path d="M38 184 C46 172 81 167 111 169 C145 166 186 173 204 188 C214 200 179 211 139 213 C98 216 58 208 39 195 C34 192 34 188 38 184Z" fill="#F2E9D9" opacity=".75"/>
+ <path d="M41 190 C64 200 89 203 120 203 C155 204 184 198 204 191 C199 204 170 210 141 211 C94 215 55 204 41 190Z" fill="#E1E9D7" opacity=".61" filter="url(#wash)"/>
+ <path d="M63 183 C93 173 134 177 165 188 C151 197 104 198 79 191Z" fill="#5E7E57" opacity=".14" filter="url(#wash)"/>
+ <path d="M38 185 Q46 175 67 172 M153 172 Q183 176 201 186 M204 195 Q189 207 158 211 M135 214 Q83 216 48 201" fill="none" stroke="#8B7355" stroke-width=".72" stroke-linecap="round"/>
+ <path d="M50 194 Q67 204 85 205 M168 199 l13 -4" fill="none" stroke="#8B7355" stroke-width=".48" opacity=".6"/>
+</g>
+<g id="open-loop-handle">
+ <path d="M177 113 C197 108 214 116 219 129 C224 145 208 164 185 167 L178 156 C195 154 207 145 208 134 C208 123 195 120 182 125Z" fill="#F2E9D9" opacity=".89"/>
+ <path d="M196 115 C214 119 221 133 213 146 C207 157 195 163 184 164 L182 158 C196 155 211 144 211 134 C212 126 202 122 196 115Z" fill="#5E7E57" opacity=".31" filter="url(#wash)"/>
+ <path d="M187 115 Q208 111 217 128 C226 144 208 164 188 167 M186 154 C199 152 210 140 207 131 Q205 123 193 122" fill="none" stroke="#8B7355" stroke-width="1.02" stroke-linecap="round"/>
+ <path d="M211 145 l-5 7 M201 158 l-7 3" fill="none" stroke="#8B7355" stroke-width=".46" opacity=".68"/>
+</g>
+<g id="celadon-cup-underpainting">
+ <path d="M51 102 C56 131 64 157 81 173 C94 186 131 193 151 180 C171 168 182 137 188 107 C154 94 90 91 51 102Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M54 114 C77 124 107 131 136 129 C161 128 178 120 184 114 C178 139 173 166 150 180 C129 190 97 185 84 174 C66 158 57 136 54 114Z" fill="#E1E9D7" opacity=".8" filter="url(#wash)"/>
+ <path d="M57 122 C65 139 77 150 83 155 C89 161 88 169 98 175 C116 185 138 182 150 177 C138 191 106 188 87 176 C69 164 61 141 57 122Z" fill="#5E7E57" opacity=".31" filter="url(#wash)"/>
+ <path d="M163 129 C171 128 179 120 182 119 C177 145 169 167 152 178 C143 184 133 186 125 184 C149 173 153 151 163 129Z" fill="#2F654B" opacity=".19" filter="url(#wash)"/>
+ <path d="M90 136 C98 140 101 142 105 143 C102 154 105 162 111 169 C99 167 92 151 90 136Z" fill="#FFF7E8" opacity=".75" filter="url(#dry)"/>
+ <path d="M100 182 Q123 190 143 181 L139 188 Q122 194 105 188Z" fill="#F2E9D9" opacity=".88"/>
+</g>
+<g id="pale-rim-and-translucent-amber">
+ <path d="M49 102 C49 90 80 80 112 82 C145 81 178 90 187 102 C196 115 164 131 131 133 C96 135 60 123 51 111Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M60 103 C64 94 87 88 114 90 C142 88 166 97 177 105 C178 114 152 124 129 125 C98 128 71 117 60 108Z" fill="#FBE1C9" opacity=".76"/>
+ <path d="M61 104 C65 96 88 91 113 91 C139 91 163 97 175 105 C176 113 155 122 133 124 C106 127 77 119 62 109Z" fill="#D6A62C" opacity=".48" filter="url(#wash)"/>
+ <path d="M65 108 C83 118 101 121 123 121 C147 119 163 113 175 106 C174 116 151 124 130 126 C100 128 75 118 65 108Z" fill="#A5750B" opacity=".29" filter="url(#wash)"/>
+ <path d="M93 95 C109 91 141 94 156 101 C153 106 140 108 122 108 C108 105 100 109 88 105Z" fill="#FFF7E8" opacity=".47" filter="url(#wash)"/>
+ <path d="M135 111 C149 111 162 105 168 103 C173 110 154 119 139 120 C127 121 114 120 108 118 C120 117 127 117 135 111Z" fill="#E66A2C" opacity=".16" filter="url(#wash)"/>
+ <path d="M72 99 Q85 94 96 95 M108 94 Q122 93 132 95" fill="none" stroke="#FFF7E8" stroke-width="1.8" opacity=".73" filter="url(#dry)"/>
+ <path d="M61 105 C64 98 75 94 84 93 M153 98 Q170 102 176 107 M162 116 Q148 124 126 125" fill="none" stroke="#A5750B" stroke-width=".7" opacity=".59" stroke-linecap="round"/>
+</g>
+<g id="cup-selective-structural-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M51 98 Q55 88 81 84 M98 82 Q132 80 157 87 M176 94 Q190 100 189 108" stroke-width=".63"/>
+ <path d="M53 111 Q73 129 105 132 M122 133 Q158 134 179 119" stroke-width=".84"/>
+ <path d="M56 123 Q64 157 81 172 M89 179 Q109 191 130 187 M145 183 Q167 173 177 148" stroke-width="1.23"/>
+ <path d="M69 152 l5 9 M76 164 l6 7 M143 182 l6 -4 M158 169 l5 -8" stroke-width=".49" opacity=".59"/>
+</g>
+<g id="over-rim-thread-and-tea-tag">
+ <path d="M145 111 C149 108 155 108 158 112 C163 118 160 132 162 144 L168 153" fill="none" stroke="#FFF7E8" stroke-width="1.35" opacity=".92"/>
+ <path d="M145 111 C149 108 155 108 158 112 C163 118 160 132 162 144 L168 153" fill="none" stroke="#8B7355" stroke-width=".6" stroke-linecap="round"/>
+ <path d="M161 151 L173 147 L184 154 L188 175 L167 180 L161 159Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M165 158 L183 155 L187 174 L169 178 C169 169 163 166 165 158Z" fill="#D6A62C" opacity=".15" filter="url(#wash)"/>
+ <path d="M162 158 L161 151 L173 147 L184 154 M185 161 L188 175 L167 180 L164 169" fill="none" stroke="#8B7355" stroke-width=".86" stroke-linejoin="round"/>
+ <path d="M170 170 C167 165 174 160 179 160 C181 166 176 171 170 170Z" fill="#5E7E57" opacity=".81" filter="url(#wash)"/>
+ <path d="M169 173 Q175 165 179 161" fill="none" stroke="#2F654B" stroke-width=".54" opacity=".7"/>
+ <path d="M168 153 l2 2" fill="none" stroke="#655A4B" stroke-width="1.1" stroke-linecap="round"/>
+</g>
+<g id="uncoiling-steam">
+ <path d="M92 79 C88 72 97 65 94 58 C92 53 87 50 90 45 C87 54 101 55 99 63 C98 70 90 72 95 79Z" fill="#8B7355" opacity=".16" filter="url(#wash)"/>
+ <path d="M137 79 C145 69 131 65 136 56 C139 52 144 48 143 42 C150 53 136 58 139 63 C145 70 148 73 140 80Z" fill="#8B7355" opacity=".13" filter="url(#wash)"/>
+ <path d="M94 77 Q91 73 94 68 M137 59 Q136 63 141 67" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".32" stroke-linecap="round"/>
+</g>
+</svg>

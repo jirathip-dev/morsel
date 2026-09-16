@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Burger — layered sesame bun, folded cheese and seared patty in ink and wash</title>
+<desc>An original generic burger study. Broad bun and filling strata are the recognition cues; the drawing makes no recipe, ingredient or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="lower-bun-crumb-and-crust">
+ <path d="M48 163 C72 151 184 150 209 162 C214 173 205 190 192 196 C159 208 94 204 65 193 C54 188 47 175 48 163Z" fill="{{cream}}" opacity=".97"/>
+ <path d="M49 169 C82 184 167 187 208 164 C210 179 204 187 192 194 C157 207 89 199 66 190 C56 187 49 178 49 169Z" fill="{{gold}}" opacity=".74" filter="url(#wash)"/>
+ <path d="M56 181 C78 191 105 190 127 192 C154 196 175 186 199 185 L193 195 C160 207 101 202 72 194Z" fill="{{ochre}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M64 170 C82 177 99 178 113 177 L134 183 C108 187 79 182 65 177Z" fill="{{peach}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M65 182 Q84 189 103 189 M119 194 Q142 197 163 191" fill="none" stroke="{{paper}}" stroke-width="2.5" opacity=".64" filter="url(#dry)"/>
+</g>
+<g id="patty-irregular-seared-edge">
+ <path d="M49 141 Q61 132 80 137 C98 131 116 137 133 133 C155 130 171 137 188 135 Q205 137 211 146 L208 161 L201 163 L198 170 Q179 178 161 174 C141 180 119 174 104 177 L82 173 Q62 175 51 166 L45 157Z" fill="{{brown}}" opacity=".98"/>
+ <path d="M51 154 Q65 147 77 151 L99 147 Q117 153 133 146 C148 145 160 155 172 148 Q197 143 208 151 L205 162 L195 165 L189 172 Q164 171 153 174 L130 171 Q108 176 91 171 L75 171 Q55 168 51 154Z" fill="{{dark}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M57 141 L75 139 Q91 143 105 139 L127 138 L123 145 L101 148 L83 145 Q69 152 59 148Z M147 137 Q171 135 193 141 L200 148 L182 145 L161 148Z" fill="{{red}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M58 158 l12 3 l8 -2 M87 167 l10 -2 M109 158 l17 2 M150 166 l11 -3 M181 154 l15 2" fill="none" stroke="{{ochre}}" stroke-width="2.8" opacity=".62" filter="url(#dry)"/>
+ <path d="M47 150 L45 157 L50 163 M58 168 Q71 174 83 172 M97 175 l17 1 M146 175 l13 -2 M185 175 l13 -6 L201 163 M209 158 l2 -10" fill="none" stroke="{{line}}" stroke-width="1.1" stroke-linecap="round"/>
+</g>
+<g id="soft-cheese-sheet-and-drop">
+ <path d="M48 134 Q81 126 120 130 L180 126 L211 136 L192 148 L166 144 C159 145 154 163 147 167 C141 169 137 149 133 147 L111 149 L90 145 L69 147Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M48 134 Q81 126 120 130 L180 126 L211 136 L192 148 L166 144 C159 145 154 163 147 167 C141 169 137 149 133 147 L111 149 L90 145 L69 147Z" fill="{{gold}}" opacity=".91"/>
+ <path d="M54 135 Q97 137 117 135 L146 139 L161 135 L182 134 L203 138 L190 145 L165 141 Q154 146 147 162 L141 146 L113 146 L90 142 L70 144Z" fill="{{ochre}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M57 135 L71 143 M131 146 Q140 145 142 158 M151 161 Q158 144 165 144 L181 146" fill="none" stroke="{{line}}" stroke-width=".64" stroke-linecap="round"/>
+ <path d="M77 133 Q95 130 117 133 M145 136 l14 -2" fill="none" stroke="{{paper}}" stroke-width="2" opacity=".55" filter="url(#dry)"/>
+</g>
+<g id="tomato-ribbon">
+ <path d="M52 125 C72 115 91 122 112 120 C139 120 177 114 204 126 L207 133 C192 140 166 135 152 137 L121 134 C99 138 74 135 54 135Z" fill="{{red}}" opacity=".87"/>
+ <path d="M59 126 Q85 125 100 128 L119 124 L152 129 Q171 124 193 127" fill="none" stroke="{{orange}}" stroke-width="4.3" opacity=".7" filter="url(#wash)"/>
+ <path d="M68 130 l17 1 M99 129 l9 -1 M151 131 l16 -1" fill="none" stroke="{{peach}}" stroke-width="1.6" opacity=".66" filter="url(#dry)"/>
+</g>
+<g id="ruffled-lettuce-edge">
+ <path d="M42 114 L56 110 L72 115 L84 110 L104 113 L123 109 L145 113 L164 109 L183 115 L201 112 L214 120 L210 127 L198 125 L194 133 L177 127 L165 132 L147 126 L134 131 L121 125 L104 130 L94 125 L79 132 L68 125 L55 128 L49 121 L40 122Z" fill="{{leaf}}" opacity=".96"/>
+ <path d="M43 117 L61 119 L69 116 L81 122 L93 116 L112 123 L127 117 L147 122 L165 117 L181 123 L201 117 L210 122 L201 124 L194 130 L177 124 L164 129 L147 124 L135 128 L120 122 L104 127 L95 122 L80 128 L68 121 L54 125Z" fill="{{sage}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M46 119 L54 123 L65 120 M74 124 l7 4 l12 -6 M100 122 l6 4 l10 -2 M131 124 l5 4 l9 -5 M165 126 l11 -4 l9 3 M194 127 l6 -6" fill="none" stroke="{{forest}}" stroke-width="1.2" opacity=".8" stroke-linecap="round"/>
+</g>
+<g id="upper-bun-pale-underpainting">
+ <path d="M46 110 C48 91 60 75 80 67 C102 56 127 58 143 60 C167 59 190 73 199 87 C207 96 209 106 208 115 C183 127 88 129 55 118 Q47 116 46 110Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M47 107 C55 82 78 66 104 64 C126 57 153 66 166 68 C191 77 204 92 208 109 L205 115 C175 125 83 127 54 116Z" fill="{{gold}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M99 65 C121 58 151 65 165 68 Q190 77 199 92 C181 86 174 86 160 86 C144 88 135 76 118 79 L101 76Z" fill="{{ochre}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M49 105 C69 118 96 113 117 118 C137 121 156 116 175 114 Q195 112 206 102 L208 115 C179 128 77 127 54 117Z" fill="{{orange}}" opacity=".38" filter="url(#wash)"/>
+ <path d="M57 94 C69 76 95 70 114 69 L132 73 Q104 74 95 85 C77 85 73 98 57 94Z" fill="{{peach}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M57 104 Q76 99 87 104 L115 104 L110 111 Q86 110 65 111Z M146 101 Q164 91 182 95 L191 101 L170 101 L160 107Z" fill="{{cream}}" opacity=".39" filter="url(#dry)"/>
+</g>
+<g id="sesame-seeds-sparse-hand-shaped" fill="{{cream}}" opacity=".92">
+ <path d="M77 88 Q75 83 79 79 Q82 82 79 87Z M101 87 Q105 82 110 85 Q107 88 102 89Z M124 73 Q126 70 130 72 L135 76 Q130 78 124 73Z M147 89 Q145 86 149 82 Q152 82 151 86Z M171 80 Q176 79 178 84 Q172 86 171 80Z M183 100 Q185 96 190 97 Q188 101 183 102Z M119 102 Q115 100 116 95 Q120 95 121 100Z M67 103 Q69 98 73 99 Q73 103 67 104Z"/>
+</g>
+<g id="bun-selective-contour" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M47 102 Q50 86 64 77 M73 71 Q93 60 112 60 M127 59 Q155 59 173 69" stroke-width=".68"/>
+ <path d="M182 75 Q203 88 207 107 M206 115 Q183 124 158 123 M145 125 Q95 127 66 120 M58 119 Q49 118 46 112" stroke-width="1.13"/>
+ <path d="M49 176 Q53 188 67 194 M82 198 Q118 207 153 203 M166 201 Q196 198 206 181" stroke-width="1.02"/>
+ <path d="M58 181 l4 6 M68 189 l8 4 M181 195 l9 -3 M201 111 l-6 3 M179 119 l-9 1" stroke-width=".48" opacity=".68"/>
+</g>
+</svg>

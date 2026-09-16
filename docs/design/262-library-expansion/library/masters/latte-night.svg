@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Latte — broad milk-coffee cup with a soft leaf pour</title>
+<desc>Original ink-and-wash study with an expansive pale foam leaf over warm coffee and a low left-handled ceramic cup. Generic milk-coffee sign, not an exact drink, recipe or serving claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="low-saucer-and-contact-wash">
+ <path d="M48 181 C61 166 104 162 140 163 C178 163 207 173 214 188 C216 204 174 217 132 216 C94 218 56 207 46 194 C42 189 44 185 48 181Z" fill="#FFF7E8" opacity=".86"/>
+ <path d="M49 190 C78 205 113 207 143 204 C174 202 198 195 211 188 C211 204 170 215 132 214 C97 216 62 206 49 190Z" fill="#F2E9D9" opacity=".92" filter="url(#wash)"/>
+ <path d="M88 181 C106 173 157 174 187 185 C187 193 168 200 144 200 C117 201 94 193 88 181Z" fill="#655A4B" opacity=".14" filter="url(#wash)"/>
+ <path d="M46 184 Q53 173 75 168 M167 166 Q205 172 213 186 M208 199 Q186 213 152 215 M127 217 Q77 217 53 202" fill="none" stroke="#9D917F" stroke-width=".77" stroke-linecap="round"/>
+ <path d="M62 194 Q82 207 106 207 M173 204 l14 -5" fill="none" stroke="#9D917F" stroke-width=".49" opacity=".53"/>
+</g>
+<g id="left-ear-handle">
+ <path d="M88 109 C67 99 45 107 40 123 C33 143 55 164 81 161 L92 149 C72 153 54 144 52 131 C51 119 70 117 85 124Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M48 118 C42 137 58 153 81 153 L82 160 C65 164 40 151 39 133 C38 126 43 120 48 118Z" fill="#FBE1C9" opacity=".82" filter="url(#wash)"/>
+ <path d="M49 135 C54 148 67 153 81 151 L86 156 C69 163 55 152 50 145Z" fill="#655A4B" opacity=".24" filter="url(#wash)"/>
+ <path d="M83 110 C64 99 43 111 40 124 M40 137 C46 154 62 163 79 161 M78 121 C63 116 49 123 53 134 Q58 147 75 149" fill="none" stroke="#9D917F" stroke-width="1.13" stroke-linecap="round"/>
+ <path d="M45 141 l4 6 M53 151 l7 4" fill="none" stroke="#9D917F" stroke-width=".48" opacity=".63"/>
+</g>
+<g id="broad-low-cup-glaze">
+ <path d="M76 105 C80 139 89 170 114 185 C132 196 165 193 185 179 C204 166 214 134 217 105 C182 81 114 80 76 105Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M80 120 C100 140 139 149 175 139 C191 136 207 126 213 117 C210 142 198 170 181 181 C158 196 130 191 115 183 C92 169 85 142 80 120Z" fill="#FBE1C9" opacity=".53" filter="url(#wash)"/>
+ <path d="M83 129 C95 147 99 151 109 157 C117 170 132 180 150 183 C165 184 178 179 185 176 C170 193 139 195 120 185 C100 175 90 151 83 129Z" fill="#655A4B" opacity=".19" filter="url(#wash)"/>
+ <path d="M192 137 C201 132 208 126 212 121 C207 150 198 172 177 184 C166 190 153 192 147 188 C174 181 181 164 192 137Z" fill="#A5750B" opacity=".18" filter="url(#wash)"/>
+ <path d="M111 150 C118 155 126 155 134 156 C132 165 140 174 151 178 C130 179 117 165 111 150Z" fill="#FFF7E8" opacity=".75" filter="url(#dry)"/>
+ <path d="M134 191 Q152 195 172 187 L169 194 Q152 200 138 196Z" fill="#F2E9D9" opacity=".95"/>
+</g>
+<g id="rim-and-milk-coffee-pool">
+ <path d="M76 106 C72 94 93 82 122 78 C156 73 194 81 211 94 C225 105 216 117 194 129 C166 144 132 143 106 132 C86 125 79 115 76 106Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M86 103 C85 94 106 86 127 84 C157 79 188 88 202 98 C215 106 204 116 187 123 C163 135 134 137 111 127 C96 122 88 111 86 103Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M87 103 C90 92 112 86 135 84 C161 82 188 88 202 98 C214 107 198 119 181 125 C157 136 131 133 111 126 C98 121 90 111 87 103Z" fill="#A5750B" opacity=".62" filter="url(#wash)"/>
+ <path d="M89 105 C98 117 118 125 144 126 C173 128 192 116 205 105 C206 116 185 129 165 132 C134 139 102 125 94 116Z" fill="#655A4B" opacity=".31" filter="url(#wash)"/>
+ <path d="M98 98 C113 88 133 87 150 88 C135 93 118 98 112 107 C106 111 102 103 98 98Z" fill="#FBE1C9" opacity=".35" filter="url(#wash)"/>
+ <path d="M88 102 Q92 93 109 89 M178 89 Q195 93 203 102 M196 118 Q182 130 161 132" fill="none" stroke="#655A4B" stroke-width=".76" opacity=".63" stroke-linecap="round"/>
+ <path d="M93 100 Q102 90 116 90 M174 87 l11 3" fill="none" stroke="#F2E9D9" stroke-width="2.1" opacity=".73" filter="url(#dry)"/>
+</g>
+<g id="milk-foam-leaf-pour">
+ <path d="M110 117 C102 110 107 103 119 106 C126 107 134 111 140 114 C129 103 119 103 120 97 C121 89 135 96 146 105 C137 93 141 87 147 89 C157 90 158 99 157 104 C161 97 170 88 177 89 C180 96 173 103 165 107 C180 99 190 100 191 106 C192 113 175 115 166 113 C181 116 183 121 176 124 C168 127 155 120 150 118 C159 127 152 132 141 129 C128 127 117 123 110 117Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M112 116 C115 110 127 115 138 120 C148 123 152 127 145 129 C130 127 119 122 112 116Z" fill="#F2E9D9" opacity=".7" filter="url(#wash)"/>
+ <path d="M126 98 C131 100 140 106 147 111 C150 116 146 117 142 114 C137 110 130 105 126 98Z" fill="#FBE1C9" opacity=".31" filter="url(#wash)"/>
+ <path d="M162 113 C172 109 180 106 188 106 C186 112 174 113 162 113Z" fill="#F2E9D9" opacity=".52" filter="url(#wash)"/>
+ <path d="M114 128 C129 121 139 117 151 110 C163 103 170 97 174 92 C171 102 157 111 146 118 C131 128 123 131 119 134Z" fill="#FFF7E8" opacity=".94"/>
+ <path d="M111 114 C122 118 129 121 136 121 M151 96 l3 7 M164 117 Q172 122 176 120" fill="none" stroke="#F2E9D9" stroke-width="1.1" opacity=".6" filter="url(#dry)"/>
+ <path d="M93 108 C93 105 96 104 99 106 C101 109 98 111 96 110Z M195 109 C197 106 201 107 201 110 C200 113 196 113 195 109Z M178 128 Q181 124 185 125 Q184 129 178 128Z" fill="#F2E9D9" opacity=".8" filter="url(#wash)"/>
+</g>
+<g id="broken-cup-ink" fill="none" stroke="#9D917F" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M76 101 Q75 89 99 82 M118 78 Q154 72 180 79 M197 86 Q217 95 218 105" stroke-width=".66"/>
+ <path d="M78 112 Q87 127 111 135 M125 139 Q163 149 196 128 M209 120 l6 -7" stroke-width=".89"/>
+ <path d="M82 134 Q91 168 115 184 M130 190 Q157 199 182 182 M193 173 Q208 155 213 130" stroke-width="1.27"/>
+ <path d="M95 158 l5 10 M102 170 l7 8 M175 186 l9 -6 M191 166 l4 -8 M151 195 l10 -1" stroke-width=".5" opacity=".57"/>
+</g>
+</svg>

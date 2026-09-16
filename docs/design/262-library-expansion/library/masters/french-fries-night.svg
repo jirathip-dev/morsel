@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>French fries — uneven golden batons in a folded paper sleeve</title>
+<desc>Original ink and wash study with a fanned cut-potato silhouette, irregular toasted edges and an unbranded cream paper sleeve. No recipe or portion claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="rear-paper-pocket">
+ <path d="M66 120 Q84 114 100 117 L178 111 L193 119 L192 178 L77 179Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M72 125 Q112 137 149 125 L186 119 L181 162 L83 168Z" fill="#655A4B" opacity=".22" filter="url(#wash)"/>
+ <path d="M73 121 L100 118 M171 112 L187 117" fill="none" stroke="#9D917F" stroke-width=".65" stroke-linecap="round"/>
+</g>
+<g id="rear-fries-substantial-pale-underpainting">
+ <path d="M54 83 L65 78 Q69 79 70 85 L96 148 L82 155 Q69 125 61 104Z M84 50 L98 47 L104 79 Q108 111 117 151 L101 156 L90 91Z M111 64 L125 61 Q128 76 128 97 L134 152 L118 156 L114 104Z M142 42 L157 45 Q157 57 153 74 L139 155 L123 152 L136 75Z M177 68 L191 74 Q187 86 182 101 L167 160 L151 156 L166 102Z M192 97 L205 103 L178 164 L163 157 L176 131Z" fill="#F2E9D9" opacity=".99"/>
+</g>
+<g id="rear-fries-golden-face-washes">
+ <path d="M56 84 L64 81 L75 108 L91 149 L84 151 Q77 130 69 114Z" fill="#D6A62C" opacity=".93" filter="url(#wash)"/>
+ <path d="M86 52 L96 50 L101 80 Q106 121 113 149 L103 152 Q97 121 94 100Z" fill="#D6A62C" opacity=".88" filter="url(#wash)"/>
+ <path d="M113 67 L123 64 L127 105 L131 150 L120 153 L117 109Z" fill="#D6A62C" opacity=".77" filter="url(#wash)"/>
+ <path d="M144 44 L155 47 L150 76 L136 152 L126 149 L134 103Z" fill="#D6A62C" opacity=".95" filter="url(#wash)"/>
+ <path d="M179 71 L188 75 L177 112 L164 157 L154 154 Q162 125 168 108Z" fill="#D6A62C" opacity=".86" filter="url(#wash)"/>
+ <path d="M193 100 L203 105 L188 139 L177 160 L167 156Z" fill="#D6A62C" opacity=".84" filter="url(#wash)"/>
+</g>
+<g id="rear-fries-sideplanes-and-toasted-tips">
+ <path d="M63 81 L69 85 L96 148 L90 151 Q83 131 75 113Z M94 49 L98 48 L104 79 Q108 118 117 151 L111 151 L101 104Z M123 64 L125 65 L134 151 L129 153 L125 109Z M152 47 L157 47 Q155 70 148 103 L139 155 L134 151 L143 103Z M186 76 L191 76 L168 158 L161 156 L174 115Z M199 109 L203 105 L178 164 L173 160Z" fill="#A5750B" opacity=".66" filter="url(#wash)"/>
+ <path d="M55 83 L64 79 L70 88 L65 93 L61 87Z M84 51 L97 48 L99 58 L94 62 L87 57Z M143 43 L157 46 L155 55 L150 53 L146 58 L140 56Z M177 69 L189 74 L187 82 L183 86 L175 78Z" fill="#E66A2C" opacity=".39" filter="url(#wash)"/>
+ <path d="M90 76 Q94 70 96 79 L101 105 Q96 99 94 87Z M131 131 Q137 114 139 118 L135 143 L129 148Z M164 135 Q169 126 169 137 L164 153 L158 153Z" fill="#E66A2C" opacity=".29" filter="url(#wash)"/>
+</g>
+<g id="front-fries-pale-ground-and-faces">
+ <path d="M85 91 L98 87 Q103 100 106 118 L119 171 L103 175 L96 143Z M135 80 L149 83 L148 117 L145 173 L129 171 L131 125Z M160 92 L175 97 Q173 111 168 129 L156 176 L140 172 L151 130Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M87 93 L97 90 L104 120 L115 171 L105 172 L98 141Z" fill="#D6A62C" opacity=".86" filter="url(#wash)"/>
+ <path d="M137 83 L147 85 L145 121 L142 170 L132 169 L134 125Z" fill="#D6A62C" opacity=".92" filter="url(#wash)"/>
+ <path d="M162 95 L172 99 L165 130 L154 173 L143 170 L153 131Z" fill="#D6A62C" opacity=".87" filter="url(#wash)"/>
+ <path d="M96 89 L99 92 L107 119 L119 171 L113 172 L103 132Z M144 85 L149 84 L145 173 L140 171 L142 126Z M170 98 L175 99 Q170 123 166 136 L156 176 L151 173 L161 136Z" fill="#A5750B" opacity=".67" filter="url(#wash)"/>
+ <path d="M86 92 L97 89 L100 99 L96 106 L91 103Z M137 82 L148 85 L146 97 L140 94 L134 99Z M160 94 L173 99 L170 108 L165 106 L159 109Z" fill="#E66A2C" opacity=".36" filter="url(#wash)"/>
+ <path d="M104 148 Q109 152 111 164 L115 172 L106 171Z M134 124 Q140 118 141 123 L138 146 L131 155Z" fill="#FBE1C9" opacity=".35" filter="url(#wash)"/>
+</g>
+<g id="baton-dry-brush-and-broken-edges" fill="none" stroke-linecap="round">
+ <path d="M61 90 l7 18 M89 59 l4 19 M97 104 l5 24 M116 72 l3 18 M144 57 l-4 18 M136 96 l-3 19 M180 83 l-5 17 M92 104 l5 19 M137 98 l-1 18 M160 114 l-4 14 M189 119 l-5 11" stroke="#FFF7E8" stroke-width="2.6" opacity=".61" filter="url(#dry)"/>
+ <path d="M54 83 L64 79 M60 102 L73 132 M84 51 L91 89 M100 67 L105 95 M110 124 l5 20 M111 64 L122 62 M116 103 l2 26 M143 42 L156 46 L153 63 M147 98 L141 128 M179 69 L190 74 M181 108 l-8 27 M192 98 l12 5 M191 137 l-10 20" stroke="#9D917F" stroke-width=".71"/>
+ <path d="M85 93 L91 112 M99 94 l6 23 M111 142 l5 20 M135 81 L147 83 M147 111 l-2 35 M160 94 L173 98 M166 135 l-7 25" stroke="#9D917F" stroke-width="1.05"/>
+ <path d="M95 53 l2 6 M148 48 l-1 5 M181 74 l5 2 M89 96 l3 6 M137 86 l5 1 M164 99 l5 1" stroke="#655A4B" stroke-width=".52" opacity=".65"/>
+</g>
+<g id="paper-sleeve-unprinted-front">
+ <path d="M70 126 C85 132 99 150 124 153 C149 156 175 141 192 126 L182 200 C160 214 132 219 106 212 L85 204 Q76 168 70 126Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M75 134 C90 142 102 157 124 158 C151 162 171 146 188 135 L179 198 Q149 216 115 209 L89 201Z" fill="#F2E9D9" opacity=".88" filter="url(#wash)"/>
+ <path d="M74 140 L89 159 L102 204 L111 211 L86 204Z" fill="#A5750B" opacity=".24" filter="url(#wash)"/>
+ <path d="M175 150 L189 132 L182 200 Q167 211 146 214 C164 197 166 176 175 150Z" fill="#655A4B" opacity=".15" filter="url(#wash)"/>
+ <path d="M100 166 C116 173 124 164 133 168 C142 176 148 178 162 174 L159 193 C148 196 143 202 131 198 C117 195 111 204 104 194Z" fill="#FBE1C9" opacity=".32" filter="url(#wash)"/>
+ <path d="M71 126 C85 132 100 151 124 153 C149 157 177 139 192 126 L188 135 C172 148 150 163 123 158 C102 156 85 141 73 137Z" fill="#F2E9D9" opacity=".91"/>
+</g>
+<g id="sleeve-folds-and-selective-ink" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M71 130 Q76 166 83 193 M87 205 Q111 217 133 215 M146 214 Q165 211 182 200 L187 163" stroke="#9D917F" stroke-width="1.2"/>
+ <path d="M73 127 Q91 138 102 146 M112 151 Q140 165 169 143 M178 137 L191 127 M88 153 Q92 175 101 200 M175 159 L170 181" stroke="#9D917F" stroke-width=".68"/>
+ <path d="M87 199 l12 5 M98 205 l9 2 M176 194 l-7 5" stroke="#9D917F" stroke-width=".48" opacity=".57"/>
+ <path d="M95 162 L101 180 M112 204 Q124 208 136 207 M179 153 l-2 11" stroke="#FFF7E8" stroke-width="3.2" opacity=".76" filter="url(#dry)"/>
+</g>
+</svg>

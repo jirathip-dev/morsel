@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Miso soup — cloudy broth, pale tofu and scallion ink-wash study</title>
+<desc>An open expanse of warm cloudy broth surrounds three irregular pale tofu blocks and a few scallion loops in a deep dark bowl. Folded green marks are generic soup cues. This labeled study does not identify an actual recipe, ingredients, portion, allergy or nutrition.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="quiet-foot-and-contact-wash">
+ <path d="M94 190 Q119 185 148 190 L153 201 Q145 210 122 209 Q99 209 95 202Z" fill="#655A4B" opacity=".92"/>
+ <path d="M98 199 Q123 205 149 197 L150 204 Q125 214 98 204Z" fill="#B94738" opacity=".54" filter="url(#wash)"/>
+ <path d="M96 201 Q109 213 139 207 M147 205 l5 -3" fill="none" stroke="#9D917F" stroke-width=".85" stroke-linecap="round"/>
+</g>
+<g id="deep-handturned-lacquer-bowl">
+ <path d="M42 115 C44 140 54 160 69 176 C85 192 105 201 129 202 C153 203 177 194 193 176 C207 158 213 139 215 117 C165 102 89 99 42 115Z" fill="#655A4B" opacity=".98"/>
+ <path d="M47 128 C63 137 77 139 96 142 C90 164 109 188 136 196 Q101 205 77 182 C60 169 52 151 47 128Z" fill="#B94738" opacity=".63" filter="url(#wash)"/>
+ <path d="M150 140 Q193 137 212 125 C209 153 192 185 165 194 Q149 202 128 198 C153 190 172 179 175 160 Q161 153 150 140Z" fill="#2A261F" opacity=".57" filter="url(#wash)"/>
+ <path d="M70 155 Q78 171 94 179 L109 185 Q87 185 73 169Z" fill="#E66A2C" opacity=".21" filter="url(#wash)"/>
+ <path d="M49 136 Q55 160 72 177 M80 185 Q102 204 132 202 M146 202 Q178 198 195 174 M203 162 Q211 146 213 132" fill="none" stroke="#9D917F" stroke-width="1.15" stroke-linecap="round"/>
+ <path d="M62 154 l5 11 M68 167 l7 9 M168 191 l10 -6 M181 183 l7 -8" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".71"/>
+ <path d="M59 146 Q67 165 78 172 M91 187 l12 5" fill="none" stroke="#FBE1C9" stroke-width="2.2" opacity=".3" filter="url(#dry)"/>
+</g>
+<g id="uneven-open-bowl-rim">
+ <path d="M42 112 C45 92 87 80 126 80 C167 80 208 92 214 111 C226 130 188 149 141 153 C92 157 47 140 42 119Z" fill="#B94738" opacity=".9"/>
+ <path d="M45 110 C52 95 92 84 125 84 C168 83 203 96 210 111 C214 128 176 142 140 147 C95 152 54 137 45 119Z" fill="#655A4B" opacity=".96"/>
+ <path d="M51 115 C54 97 90 89 129 89 C165 89 197 98 204 112 C213 126 174 140 138 143 C97 147 60 132 51 115Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M47 106 Q59 91 90 86 M103 82 Q153 77 184 90 M199 97 Q221 109 214 123 M209 130 Q188 149 149 152 M131 153 Q78 154 49 131 M47 125 l-4 -6" fill="none" stroke="#9D917F" stroke-width=".85" stroke-linecap="round"/>
+ <path d="M60 97 Q79 89 98 87 M160 85 Q184 89 196 98" fill="none" stroke="#FBE1C9" stroke-width="1.3" opacity=".57" filter="url(#dry)"/>
+</g>
+<g id="cloudy-broth-open-spaces">
+ <path d="M54 114 C58 100 94 92 126 92 C160 90 191 100 202 113 Q205 126 172 135 C130 152 66 135 54 114Z" fill="#A5750B" opacity=".42" filter="url(#wash)"/>
+ <path d="M60 112 Q79 105 92 112 C105 119 121 104 135 110 C149 119 162 107 179 113 Q190 118 199 116 C190 133 162 131 149 138 Q96 143 66 125Z" fill="#655A4B" opacity=".23" filter="url(#wash)"/>
+ <path d="M71 108 Q97 96 116 103 C125 110 113 116 103 114 Q84 108 71 108Z M142 123 C155 115 175 118 184 123 Q173 132 152 132Z" fill="#FBE1C9" opacity=".64" filter="url(#wash)"/>
+ <path d="M88 133 Q108 136 122 136 M167 99 Q183 103 191 109 M57 113 Q60 122 72 125" fill="none" stroke="#F2E9D9" stroke-width="2.4" opacity=".55" filter="url(#dry)"/>
+ <path d="M182 131 l8 -3 M57 118 Q59 121 64 123" fill="none" stroke="#A5750B" stroke-width=".65" opacity=".66" stroke-linecap="round"/>
+</g>
+<g id="folded-green-broth-marks">
+ <path d="M78 113 Q87 105 95 110 L101 105 L112 110 Q106 112 111 118 L102 121 L94 115 L87 120Z" fill="#2F654B" opacity=".88" filter="url(#wash)"/>
+ <path d="M81 114 L92 111 L100 118 L105 115" fill="none" stroke="#2A261F" stroke-width=".85" opacity=".7" stroke-linecap="round"/>
+ <path d="M170 112 L178 105 L182 112 L191 115 L185 121 L178 117 L175 123Z" fill="#2F654B" opacity=".77" filter="url(#wash)"/>
+ <path d="M174 113 L179 115 L181 119 M187 116 l-3 2" fill="none" stroke="#9D917F" stroke-width=".6"/>
+</g>
+<g id="three-soft-tofu-blocks">
+ <path d="M81 95 L101 91 L115 99 L112 113 L93 119 L81 110Z" fill="#F2E9D9"/>
+ <path d="M82 96 L102 93 L112 100 L94 106Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M94 106 L113 100 L111 112 L94 118Z" fill="#A5750B" opacity=".28" filter="url(#wash)"/>
+ <path d="M82 97 L94 106 L93 117 L83 110Z" fill="#FBE1C9" opacity=".55" filter="url(#wash)"/>
+ <path d="M125 117 L143 111 L154 120 L151 135 L132 140 L122 131Z" fill="#F2E9D9"/>
+ <path d="M126 117 L143 113 L151 120 L133 127 L124 122Z" fill="#FFF7E8" opacity=".97"/>
+ <path d="M133 127 L153 120 L150 134 L132 139Z" fill="#A5750B" opacity=".27" filter="url(#wash)"/>
+ <path d="M124 123 L133 127 L132 139 L123 131Z" fill="#FBE1C9" opacity=".67" filter="url(#wash)"/>
+ <path d="M155 96 L171 98 L178 109 L164 116 L151 109Z" fill="#F2E9D9"/>
+ <path d="M156 96 L171 99 L175 104 L162 108 L152 104Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M163 108 L176 104 L177 109 L164 115 L151 109 L152 104Z" fill="#A5750B" opacity=".27" filter="url(#wash)"/>
+ <path d="M83 95 L99 92 M82 101 L82 110 L91 117 M96 107 L111 102 M113 108 L111 113 L103 116 M126 117 L141 113 M124 124 L123 131 L130 137 M135 127 L151 121 M151 130 L150 135 L140 138 M156 96 L169 98 M153 108 L163 114 L175 110" fill="none" stroke="#9D917F" stroke-width=".65" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M86 98 l10 -2 M129 119 l9 -3 M158 100 l8 1" fill="none" stroke="#FFF7E8" stroke-width="2.1" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="scallion-cut-loops-and-short-leaf">
+ <path d="M115 97 C114 92 120 88 126 89 C134 89 138 95 134 99 C129 105 117 103 115 97Z M120 96 C121 99 128 99 130 96 Q129 92 124 93 Q120 93 120 96Z" fill="#5E7E57" fill-rule="evenodd" opacity=".98"/>
+ <path d="M114 97 Q120 105 130 101 M124 91 Q132 90 135 95" fill="none" stroke="#2F654B" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M107 124 C103 121 106 116 111 115 C117 113 122 116 122 120 C120 125 113 127 107 124Z M110 121 Q114 123 118 120 Q117 117 113 118 Q110 119 110 121Z" fill="#5E7E57" fill-rule="evenodd" opacity=".95"/>
+ <path d="M107 122 Q112 127 119 122" fill="none" stroke="#2F654B" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M156 132 C154 127 160 125 165 125 Q174 126 173 131 C170 136 162 137 156 132Z M160 131 Q164 133 169 130 Q167 128 163 129Z" fill="#E1E9D7" fill-rule="evenodd"/>
+ <path d="M157 129 Q156 134 164 135 Q170 134 172 131 M161 128 Q165 126 169 129" fill="none" stroke="#2F654B" stroke-width="1.1" stroke-linecap="round"/>
+ <path d="M142 100 Q144 99 147 102 L155 114 L151 117 L145 109Z" fill="#5E7E57" opacity=".82" filter="url(#wash)"/>
+ <path d="M146 103 L151 112" fill="none" stroke="#E1E9D7" stroke-width="1.2" opacity=".8" filter="url(#dry)"/>
+</g>
+</svg>

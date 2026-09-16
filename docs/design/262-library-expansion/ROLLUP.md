@@ -1,11 +1,11 @@
 # Cumulative artwork evidence
 
-Completed through batch 3. Subject list approved; pixels await owner review. No app/Swift/DB/schema/matcher/catalog integration or bundling.
+Completed through batch 4. Subject list approved; pixels await owner review. No app/Swift/DB/schema/matcher/catalog integration or bundling.
 
 ## Counts
 
-72 new food identities; 85 food identities including the shipped 13; 10 category/neutral fallbacks; 95 assets overall.
-190 themed SVG masters and 570 RGBA PNG exports. 616 newly generated files independently rebuilt without cache and SHA-matched. 44 real-browser captures across the completed batches.
+95 new food identities; 108 food identities including the shipped 13; 10 category/neutral fallbacks; 118 assets overall.
+236 themed SVG masters and 708 RGBA PNG exports. 800 newly generated files independently rebuilt without cache and SHA-matched. 58 real-browser captures across the completed batches.
 The original 18 assets (162 art files) and 534 protected product files remain byte-identical; palette, wash definitions and bundled fonts remain locked.
 
 ## Batch coverage estimates
@@ -17,8 +17,9 @@ Frozen qualifier-tolerant design estimator only; NOT the shipped matcher or live
 | [1](batch-1/index.html) | 24 | 37 | 171 | 132 | 16 |
 | [2](batch-2/index.html) | 24 | 61 | 234 | 63 | 14 |
 | [3](batch-3/index.html) | 24 | 85 | 259 | 25 | 14 |
+| [4](batch-4/index.html) | 23 | 108 | 264 | 5 | 14 |
 
-Final estimate: 225/250 distinct names and 259/284 rows have a specific study; 20 rows retain a category fallback; 0 retain neutral. Pending later-study rows: 5.
+Final estimate: 230/250 distinct names and 264/284 rows have a specific study; 20 rows retain a category fallback; 0 retain neutral. Pending later-study rows: 0.
 
 ## Honesty and approval
 

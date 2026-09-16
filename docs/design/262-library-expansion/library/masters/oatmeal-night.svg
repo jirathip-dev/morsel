@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Oatmeal — coarse porridge in an open jar, original ink and wash</title>
+<desc>Uneven cream oat folds and short swollen flakes distinguish the dense porridge from a liquid surface. A small berry cluster and leaning spoon accompany a squat layered jar. Generic labeled food art, not evidence of an actual recipe, ingredients, portion, allergy or nutrition.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="leaning-spoon-behind-jar">
+ <path d="M94 121 C90 109 86 96 81 84 L60 50 C58 47 55 46 53 48 C51 50 53 55 55 58 L76 91 C82 103 84 115 85 122Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M56 50 C62 61 72 76 80 89 L88 115 L85 119 C83 102 72 84 65 75 L53 55Z" fill="#655A4B" opacity=".31" filter="url(#wash)"/>
+ <path d="M86 114 C81 110 77 113 78 120 C79 131 88 139 95 137 C104 133 104 122 98 116 C94 112 90 111 86 114Z" fill="#F2E9D9"/>
+ <path d="M82 120 Q88 117 94 121 Q100 127 95 133 Q86 133 82 120Z" fill="#A5750B" opacity=".26" filter="url(#wash)"/>
+ <path d="M55 48 Q51 49 55 57 L71 82 M78 94 Q84 106 85 113 M59 52 L77 81 M80 88 L87 107" fill="none" stroke="#9D917F" stroke-width=".75" stroke-linecap="round"/>
+ <path d="M57 54 L69 74 M82 97 L86 108" fill="none" stroke="#FFF7E8" stroke-width="1.8" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="squat-jar-transparent-wall">
+ <path d="M82 110 L83 123 C77 133 75 137 76 148 L78 190 Q77 201 89 206 C109 214 157 214 177 207 Q190 203 190 192 L191 145 Q191 131 182 124 L183 111Z" fill="#FFF7E8" opacity=".78"/>
+ <path d="M82 133 Q86 128 90 126 L91 190 Q95 201 115 203 L150 204 Q176 204 180 197 L180 131 Q187 134 185 148 L186 190 Q188 204 173 208 Q122 218 89 204 Q81 201 81 190Z" fill="#F2E9D9" opacity=".85" filter="url(#wash)"/>
+ <path d="M82 128 Q76 136 77 151 L79 190 Q77 201 90 206 M100 209 Q143 218 176 208 Q190 204 189 191 L191 147 M187 132 L182 124" fill="none" stroke="#9D917F" stroke-width="1.05" stroke-linecap="round"/>
+</g>
+<g id="thick-layered-porridge-underpainting">
+ <path d="M84 122 Q107 116 133 119 Q163 115 181 127 L182 189 Q181 199 171 202 C150 208 112 207 93 201 Q84 198 84 188Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M85 146 C98 139 110 151 122 148 C137 142 148 154 160 148 Q173 146 180 141 L181 165 C168 168 162 162 151 166 C139 171 123 161 111 166 Q96 169 85 162Z" fill="#A5750B" opacity=".3" filter="url(#wash)"/>
+ <path d="M84 177 C97 170 106 183 119 179 C134 173 141 186 157 181 Q171 177 181 177 L180 191 Q175 203 151 204 L109 202 Q88 201 85 192Z" fill="#D6A62C" opacity=".25" filter="url(#wash)"/>
+ <path d="M148 124 Q168 124 181 134 L181 189 Q180 197 169 200 Q165 191 170 184 C174 170 167 160 173 150 Q163 137 148 124Z" fill="#655A4B" opacity=".17" filter="url(#wash)"/>
+ <path d="M96 157 Q101 152 111 158 L108 163 Q100 164 96 157Z M127 176 Q134 168 140 173 L137 180 Q130 181 127 176Z M153 155 Q158 151 163 154 L160 160 L153 159Z M101 189 Q111 183 117 189 L112 194 Q105 194 101 189Z" fill="#FFF7E8" opacity=".7" filter="url(#wash)"/>
+ <path d="M95 140 l7 3 M114 174 l7 -2 M149 192 l8 -3 M165 168 l6 2" fill="none" stroke="#655A4B" stroke-width="1.25" opacity=".4" filter="url(#dry)"/>
+</g>
+<g id="open-jar-mouth">
+ <path d="M82 105 C89 92 121 89 145 91 C165 91 183 98 187 108 L185 121 C168 133 114 137 86 124Z" fill="#FFF7E8" opacity=".9"/>
+ <path d="M85 111 Q98 124 132 125 Q167 125 184 114 L183 121 C163 134 108 131 86 121Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M83 102 Q93 94 111 93 M153 93 Q178 96 185 105 M86 121 Q105 132 139 130 M152 129 Q174 127 184 120 M82 110 L84 119" fill="none" stroke="#9D917F" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="coarse-porridge-mounded-surface">
+ <path d="M89 109 Q90 101 101 101 Q105 92 116 96 Q126 88 136 94 Q147 90 155 98 Q170 94 175 105 Q184 107 179 115 C163 128 111 127 91 117Z" fill="#F2E9D9"/>
+ <path d="M90 112 Q100 105 112 111 C123 103 131 116 143 109 C154 103 164 114 176 111 L180 115 Q157 130 119 123 Q102 123 90 116Z" fill="#A5750B" opacity=".37" filter="url(#wash)"/>
+ <path d="M99 105 Q102 97 112 99 L119 103 L114 110 Q103 113 99 105Z M124 100 Q130 92 139 98 L144 104 Q135 111 127 108Z M147 112 Q150 104 161 105 L169 111 Q166 120 155 120Z" fill="#FFF7E8" opacity=".95" filter="url(#wash)"/>
+ <path d="M112 116 Q118 109 128 112 L133 117 L127 122 Q118 123 112 116Z M166 102 Q171 98 174 105 L178 110 L172 112Z" fill="#D6A62C" opacity=".3" filter="url(#wash)"/>
+ <path d="M101 104 Q105 109 114 107 M122 114 Q127 112 131 117 M140 100 l-4 5 M154 116 Q159 112 165 113 M93 115 l6 3" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round" opacity=".8"/>
+ <path d="M104 101 l7 1 M123 118 l5 1 M152 109 l6 -1 M141 119 l5 -1" fill="none" stroke="#FFF7E8" stroke-width="2.3" opacity=".8" filter="url(#dry)"/>
+</g>
+<g id="small-berry-top-warm-pigments">
+ <path d="M137 96 C133 91 135 84 141 83 C148 81 152 88 150 93 Q146 101 137 96Z" fill="#655A4B" opacity=".93"/>
+ <path d="M150 102 C146 99 146 94 151 91 Q159 88 162 96 C163 103 155 107 150 102Z" fill="#B94738" opacity=".84" filter="url(#wash)"/>
+ <path d="M137 92 Q143 97 149 88 Q153 95 145 99Z M150 101 Q157 102 160 95 L160 101 Q155 106 150 103Z" fill="#2F654B" opacity=".49" filter="url(#wash)"/>
+ <path d="M139 86 l4 -1 M150 95 l3 -2" fill="none" stroke="#F2E9D9" stroke-width="1.6" opacity=".6" filter="url(#dry)"/>
+ <path d="M137 85 Q133 89 136 94 M151 92 Q157 88 161 95" fill="none" stroke="#9D917F" stroke-width=".6" stroke-linecap="round"/>
+</g>
+<g id="jar-glass-broken-edge-highlights">
+ <path d="M81 144 L83 179 M87 193 Q91 200 102 201 M183 144 L183 156" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".74" filter="url(#dry)"/>
+ <path d="M82 182 L83 191 M88 203 l7 3 M167 207 l10 -3 M186 176 L186 188" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".65" stroke-linecap="round"/>
+</g>
+</svg>

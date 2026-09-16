@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Tomato — whole fruit and seed-chamber half in ink and wash</title>
+<desc>Original generic tomato study. A low lobed red fruit, an irregular green calyx and a forward cut half; not a meal, variety or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="whole-fruit-pale-ground">
+ <path d="M39 123 C37 102 55 81 76 79 C87 69 105 69 120 77 C140 74 159 89 166 110 C176 137 164 162 143 177 C129 188 111 189 97 184 C77 190 55 176 45 158 C39 148 37 135 39 123Z" fill="{{peach}}" opacity=".88"/>
+ <path d="M40 122 C37 104 56 84 77 82 C91 72 110 74 122 81 C145 80 163 96 167 119 C172 146 155 174 132 181 C118 186 108 181 97 183 C69 185 46 164 41 145Z" fill="{{orange}}" opacity=".88" filter="url(#wash)"/>
+</g>
+<g id="whole-fruit-uneven-red-pigment">
+ <path d="M47 111 C57 88 75 91 90 82 C105 76 115 86 127 84 C146 84 161 101 165 118 C173 143 154 174 132 180 C120 184 108 179 96 181 C79 184 59 170 50 157 C40 143 42 126 47 111Z" fill="{{red}}" opacity=".84" filter="url(#wash)"/>
+ <path d="M108 92 C133 84 155 96 161 117 C163 134 151 136 148 150 C144 165 125 179 107 177 C126 162 126 146 119 133 C115 117 122 105 108 92Z" fill="{{red}}" opacity=".67" filter="url(#wash)"/>
+ <path d="M48 142 C58 157 71 157 82 166 C100 178 117 169 125 175 C139 170 149 162 157 150 C153 168 135 185 114 183 C102 178 93 186 79 178 C66 175 52 159 48 142Z" fill="{{brown}}" opacity=".22" filter="url(#wash)"/>
+ <path d="M52 106 C59 92 76 86 87 88 C76 99 70 104 67 120 C61 124 55 121 50 130 C45 122 48 113 52 106Z" fill="{{peach}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M79 82 C69 96 73 103 67 111 M94 91 C102 107 98 114 100 122" fill="none" stroke="{{orange}}" stroke-width="5" opacity=".29" filter="url(#wash)"/>
+</g>
+<g id="calyx-recess-and-five-pointed-leaves">
+ <path d="M82 85 C84 77 97 75 108 78 C119 80 125 87 120 92 C108 98 87 96 82 85Z" fill="{{brown}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M98 84 C87 76 77 76 69 77 L83 88 L65 99 C82 97 91 95 97 91 C100 104 105 109 112 113 L108 91 C121 99 129 100 138 98 L119 87 C131 80 135 74 137 67 C124 73 115 76 106 82 C102 69 94 65 83 62 C90 72 89 78 98 84Z" fill="{{leaf}}" opacity=".94"/>
+ <path d="M98 83 Q83 75 71 77 L88 88 L68 98 Q87 96 98 89 Q99 105 111 112 L105 89 Q122 99 136 97 L115 86 Q132 78 136 68 L105 83 Q99 68 85 64Z" fill="{{sage}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M99 86 Q103 72 101 60 Q103 54 108 54 C109 64 104 71 105 82 L112 90Z" fill="{{forest}}" opacity=".91"/>
+ <path d="M104 88 Q111 90 124 95 L111 88 L128 76 Q112 81 104 85 L93 77Z" fill="{{forest}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M101 63 Q104 60 105 55 M102 87 L77 80 M100 88 L77 96 M103 91 L108 107 M110 87 L128 77" fill="none" stroke="{{line}}" stroke-width=".65" stroke-linecap="round"/>
+</g>
+<g id="whole-fruit-broken-contour" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M39 124 C37 108 49 91 62 85 M71 81 L78 79 M124 77 Q149 78 160 98" stroke-width=".65"/>
+ <path d="M166 111 Q178 141 154 165 M144 178 Q126 190 110 186" stroke-width="1.2"/>
+ <path d="M95 184 Q78 190 59 174 M49 162 Q40 151 39 137" stroke-width=".92"/>
+ <path d="M53 151 Q57 166 69 171 M135 166 Q146 158 149 150" stroke-width=".48" opacity=".62"/>
+</g>
+<g id="cut-half-red-skin-and-pale-flesh">
+ <path d="M124 151 C133 132 153 122 177 123 C199 125 216 141 220 161 C224 182 209 200 190 207 C168 216 137 204 126 184 C120 174 119 161 124 151Z" fill="{{red}}" opacity=".95"/>
+ <path d="M128 155 C133 137 155 126 175 128 C196 129 212 144 215 161 C218 180 204 196 187 201 C167 206 143 196 131 181 C125 173 124 163 128 155Z" fill="{{peach}}" opacity=".96"/>
+ <path d="M132 157 C138 138 158 132 175 132 C193 134 206 146 211 164 C214 177 200 191 185 197 C167 201 146 192 135 178 C129 171 129 163 132 157Z" fill="{{orange}}" opacity=".71" filter="url(#wash)"/>
+ <path d="M133 157 C142 142 147 140 163 137 C154 148 159 155 163 164 C155 172 143 180 146 189 C132 179 127 167 133 157Z M179 135 C196 137 207 151 208 166 C197 159 186 162 175 160 C178 151 185 149 179 135Z M171 176 C183 171 198 169 209 173 C205 188 188 198 175 197 C162 196 153 191 150 186Z" fill="{{red}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M125 180 C139 200 160 207 179 208 Q201 207 215 191 C206 207 187 216 169 210 Q141 207 129 190Z" fill="{{brown}}" opacity=".28" filter="url(#wash)"/>
+</g>
+<g id="three-seed-locules-and-radial-pith">
+ <path d="M140 155 Q147 144 156 143 C153 151 158 157 157 166 Q148 177 142 177 C137 173 134 162 140 155Z M184 143 C196 147 202 154 203 162 Q189 158 180 164 C174 157 179 151 184 143Z M166 181 C177 177 191 176 198 179 C194 188 181 193 169 192 Q161 189 166 181Z" fill="{{brown}}" opacity=".31" filter="url(#wash)"/>
+ <path d="M164 139 C161 148 164 156 168 160 C174 158 176 149 177 139 L181 141 C180 155 176 162 175 168 C184 170 195 167 206 167 L207 173 C192 173 181 171 175 173 C170 180 164 187 157 190 L152 188 Q162 176 165 171 C158 169 151 165 145 163 L147 159 Q159 163 165 165 L160 143Z" fill="{{peach}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M165 161 Q173 157 177 165 Q180 173 171 178 Q163 175 163 169Z" fill="{{cream}}" opacity=".83"/>
+ <path d="M146 150 Q151 149 151 154 Q146 158 144 155Z M140 164 Q145 163 147 167 Q144 171 140 168Z M184 149 Q188 147 190 152 Q188 156 184 153Z M196 156 Q201 157 199 161 Q194 163 194 159Z M173 184 Q177 180 180 183 Q180 188 176 188Z M188 181 Q193 180 191 185 Q187 188 186 185Z" fill="{{cream}}" opacity=".88"/>
+</g>
+<g id="dry-flesh-and-selective-cut-ink" fill="none" stroke-linecap="round">
+ <path d="M139 144 Q150 136 157 137 M187 135 Q198 139 202 146 M135 176 Q138 181 143 185 M175 201 l9 0" stroke="{{paper}}" stroke-width="2.5" opacity=".66" filter="url(#dry)"/>
+ <path d="M126 148 Q143 122 169 123 M183 124 Q209 131 218 154" stroke="{{line}}" stroke-width=".66"/>
+ <path d="M220 166 Q222 190 201 202 M190 207 Q168 216 146 203 M136 196 Q124 185 122 173" stroke="{{line}}" stroke-width="1.2"/>
+ <path d="M130 162 Q128 175 139 187 M191 196 Q207 188 212 177 M141 153 Q146 146 151 145 M183 144 Q194 148 199 155 M168 193 Q185 197 196 185" stroke="{{line}}" stroke-width=".52" opacity=".76"/>
+</g>
+</svg>

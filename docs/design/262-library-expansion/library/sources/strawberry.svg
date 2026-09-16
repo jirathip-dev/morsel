@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Strawberries — two whole berries and one cut half, original ink and wash</title>
+<desc>Unequal red heart-cone fruits carry pointed leafy caps and sparse embedded seeds. The diagonal cut half exposes a pale tapered heart with red flesh around it; a generic study, not a portion or cultivar claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="small-rear-strawberry">
+ <path d="M129 84 C139 78 149 83 153 84 C164 78 177 83 181 94 C188 112 172 137 156 148 C144 146 128 123 125 110 C120 98 121 91 129 84Z" fill="{{red}}" opacity=".95"/>
+ <path d="M128 88 C136 81 146 88 151 87 C161 82 174 86 177 97 C180 113 168 134 155 144 C141 137 134 124 129 111 C124 101 124 95 128 88Z" fill="{{orange}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M170 86 C188 97 181 119 171 131 C164 141 158 146 154 148 C149 145 144 141 142 135 C162 133 176 108 170 86Z" fill="{{brown}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M129 95 C133 88 140 88 144 92 C139 97 141 111 135 116 C130 112 126 103 129 95Z" fill="{{peach}}" opacity=".41" filter="url(#wash)"/>
+ <path d="M127 91 Q131 82 141 83 M162 81 Q179 81 183 98 M181 111 Q173 135 157 147 M145 139 l-9 -12" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+</g>
+<g id="rear-calyx-and-curved-stem">
+ <path d="M147 83 Q144 70 150 59 L153 60 Q148 72 152 82Z" fill="{{sage}}" opacity=".91"/>
+ <path d="M147 82 C139 80 132 78 126 74 L132 87 L118 91 C129 95 140 94 145 90 L143 103 C153 97 155 94 156 88 L173 94 C171 86 166 82 159 81 L167 70 C157 71 153 76 149 82 L140 71Z" fill="{{leaf}}" opacity=".87"/>
+ <path d="M148 83 L127 75 L133 86 L121 91 Q139 95 148 87 L145 100 Q154 94 155 86 L171 92 Q165 82 156 83 L165 72Z" fill="{{forest}}" opacity=".78" filter="url(#wash)"/>
+ <path d="M125 91 l19 -4 M147 97 l4 -10 l-14 -8 M154 85 l12 5 M151 79 l1 -9" fill="none" stroke="{{line}}" stroke-width=".65" stroke-linecap="round"/>
+</g>
+<g id="large-whole-berry-underpainting">
+ <path d="M58 102 C69 94 82 100 88 105 C98 97 113 102 121 113 C134 130 124 151 115 166 C107 181 100 192 94 195 C84 193 69 176 61 161 C53 148 47 128 49 119 C49 111 53 107 58 102Z" fill="{{red}}" opacity=".97"/>
+ <path d="M58 105 C70 98 83 109 88 108 C99 101 114 107 120 118 C126 133 117 152 108 166 C102 177 98 185 94 189 C79 180 62 155 57 140 C52 125 50 113 58 105Z" fill="{{orange}}" opacity=".35" filter="url(#wash)"/>
+ <path d="M108 105 C123 109 133 125 126 142 C120 165 100 192 94 195 C86 192 80 185 77 178 C90 181 100 165 106 151 C116 133 117 118 108 105Z" fill="{{red}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M119 125 C132 143 105 187 94 194 L86 187 C100 175 109 152 111 139Z" fill="{{brown}}" opacity=".32" filter="url(#wash)"/>
+ <path d="M57 113 C61 107 69 107 73 112 C70 123 77 134 73 144 C69 148 62 141 59 132 C54 122 55 117 57 113Z" fill="{{peach}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M64 114 Q67 121 67 126 M67 133 l4 8 M80 163 l5 7" fill="none" stroke="{{cream}}" stroke-width="2.5" opacity=".41" filter="url(#dry)"/>
+</g>
+<g id="large-berry-pointed-leafy-crown">
+ <path d="M84 105 C81 98 83 90 80 84 L84 82 C88 90 86 95 88 103Z" fill="{{sage}}" opacity=".98"/>
+ <path d="M84 104 L70 87 L74 103 C66 99 56 99 50 101 L64 110 L55 121 C67 120 77 114 82 111 L83 126 C91 120 94 115 94 109 L113 120 L108 108 L119 104 L100 99 L99 89Z" fill="{{leaf}}" opacity=".94"/>
+ <path d="M85 106 L71 89 L75 105 Q61 100 52 102 L66 110 L57 120 C70 117 77 112 84 109 L84 124 Q95 115 92 107 L111 118 L104 105 L116 104 L98 100 L98 91Z" fill="{{sage}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M65 111 L83 107 L84 124 Q94 116 92 108 L110 118 L102 106 L94 104Z" fill="{{forest}}" opacity=".62" filter="url(#wash)"/>
+ <path d="M59 104 l22 3 l-13 9 M84 107 l-10 -15 M86 119 l3 -11 l10 -12 M94 108 l11 6 M84 94 l-1 -7" fill="none" stroke="{{line}}" stroke-width=".73" stroke-linecap="round"/>
+</g>
+<g id="embedded-seed-dimples" fill="none" stroke="{{brown}}" stroke-linecap="round" opacity=".6">
+ <path d="M57 125 q1 5 4 6 M80 130 q-1 5 2 7 M101 121 q0 5 2 7 M64 147 q1 4 4 5 M90 146 q-1 4 2 6 M112 141 q-1 4 1 5 M77 164 q1 4 4 5 M97 168 q-1 3 1 4 M93 182 l2 3 M130 101 l2 5 M150 107 l1 5 M170 100 l-1 5 M139 121 l2 4 M162 123 l-1 4 M154 135 l1 4" stroke-width="1.05"/>
+</g>
+<g id="sparse-tapered-surface-seeds" fill="{{cream}}" opacity=".89">
+ <path d="M58 124 Q61 124 61 129 Q59 131 58 124Z M80 129 Q84 129 83 135 Q80 135 80 129Z M101 120 Q105 122 103 126 Q100 125 101 120Z M65 145 Q68 146 68 150 Q66 151 65 145Z"/>
+ <path d="M90 144 Q94 145 92 150 Q89 149 90 144Z M112 139 Q115 141 113 145 Q111 144 112 139Z M78 162 Q81 162 81 167 Q79 168 78 162Z M98 165 Q101 167 98 171 Q96 168 98 165Z M94 180 Q97 181 96 184 Q94 183 94 180Z"/>
+ <path d="M130 99 Q133 100 133 104 Q131 105 130 99Z M150 104 Q153 105 152 110 Q150 109 150 104Z M169 97 Q172 99 170 103 Q168 102 169 97Z M139 119 Q142 119 142 123 Q140 125 139 119Z M162 121 Q164 122 162 126 Q160 124 162 121Z M154 133 Q157 134 155 137Z"/>
+</g>
+<g id="whole-berry-selective-edge" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M49 121 Q47 141 60 160 M65 170 Q82 193 94 195 M102 188 Q117 168 123 153" stroke-width="1.23"/>
+ <path d="M127 141 Q135 122 118 111 M110 105 Q101 101 96 104 M62 101 l8 -1" stroke-width=".75"/>
+ <path d="M57 149 l3 7 M71 175 l5 7 M109 173 l4 -8" stroke-width=".5" opacity=".66"/>
+</g>
+<g id="cut-half-rim-and-flesh">
+ <path d="M141 136 C151 128 163 132 170 141 C181 135 191 139 198 150 C210 169 211 195 216 208 C204 212 179 201 162 190 C143 178 131 166 131 153 C129 146 135 140 141 136Z" fill="{{red}}" opacity=".97"/>
+ <path d="M135 159 C144 175 174 193 190 198 L215 207 C199 209 179 200 161 190 C143 178 133 169 135 159Z" fill="{{brown}}" opacity=".29" filter="url(#wash)"/>
+ <path d="M141 140 C151 133 163 137 169 146 C179 140 189 144 195 154 C205 172 207 193 212 204 C197 204 178 194 164 185 C147 174 136 163 136 153 C136 147 137 143 141 140Z" fill="{{cream}}" opacity=".99"/>
+ <path d="M143 143 C153 137 163 143 168 150 C181 143 190 150 195 162 C202 180 205 191 209 200 C194 198 177 189 165 181 C147 170 138 159 140 151Z" fill="{{peach}}" opacity=".96"/>
+ <path d="M143 142 C155 136 163 142 168 150 L159 159 C151 156 147 155 143 149 C140 154 146 163 154 169 C169 180 188 190 209 200 C194 198 177 189 164 182 C145 171 133 157 143 142Z" fill="{{red}}" opacity=".72" filter="url(#wash)"/>
+ <path d="M171 150 C180 142 190 150 195 162 C201 175 205 191 209 200 C202 192 196 184 190 174 C184 164 183 155 171 150Z" fill="{{red}}" opacity=".78" filter="url(#wash)"/>
+ <path d="M153 146 C160 146 165 152 170 155 C175 153 180 157 183 164 C190 177 198 190 207 199 C191 189 179 178 169 169 C162 162 156 159 150 155Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M157 149 C164 155 173 159 177 166 L190 183 C179 174 169 165 161 161Z" fill="{{paper}}" opacity=".64" filter="url(#wash)"/>
+</g>
+<g id="cut-half-flesh-fibres" fill="none" stroke-linecap="round">
+ <path d="M151 151 l-8 -5 M160 163 l-13 -3 M170 172 l-15 -3 M182 182 l-13 -4 M184 168 l5 -8 M192 181 l5 -7" stroke="{{peach}}" stroke-width="2.2" opacity=".85" filter="url(#dry)"/>
+ <path d="M148 164 l6 4 M160 176 l5 3 M193 158 l2 4 M200 179 l1 5" stroke="{{cream}}" stroke-width="1.5" opacity=".84"/>
+</g>
+<g id="cut-half-calyx">
+ <path d="M144 139 L132 128 L132 139 L121 141 L134 146 L130 156 Q142 150 146 143 L158 144 L151 136 L155 127Z" fill="{{leaf}}" opacity=".93"/>
+ <path d="M144 140 L133 129 L135 140 L123 141 L138 146 L132 155 L146 142 L156 143 L149 135 L154 128Z" fill="{{forest}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M130 141 l12 1 l-4 7 M144 140 l7 -9" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+</g>
+<g id="cut-half-broken-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M151 132 Q161 132 169 141 M180 138 Q194 138 201 156 M205 167 Q209 188 215 204" stroke-width=".77"/>
+ <path d="M216 208 Q203 213 179 201 M170 196 Q142 180 134 166 M131 159 l0 -6" stroke-width="1.18"/>
+ <path d="M139 159 Q144 171 161 182 M170 188 Q185 198 199 201 M178 153 l5 7" stroke-width=".52" opacity=".7"/>
+</g>
+</svg>

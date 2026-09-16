@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Papaya — orange lengthwise half with a dark seed chamber, original ink and wash</title>
+<desc>An asymmetric ripe papaya half with a tapered neck, broad orange flesh and clustered seeds. Generic labeled fruit, not an ingredient or serving claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="thin-ripe-rind-and-stem">
+ <path d="M176 57 Q178 48 185 45 L190 48 Q182 55 182 62Z" fill="{{brown}}" opacity=".83"/>
+ <path d="M178 56 Q182 48 186 47" fill="none" stroke="{{line}}" stroke-width=".7"/>
+ <path d="M174 56 C191 52 208 68 209 88 C213 117 193 151 170 175 C149 198 122 216 100 213 C78 212 57 193 53 170 C48 146 59 120 80 102 C101 84 121 82 144 68 C157 60 164 57 174 56Z" fill="{{gold}}" opacity=".94"/>
+ <path d="M55 154 C57 181 79 199 100 202 C128 206 160 179 181 152 C196 132 205 109 207 92 C214 121 187 164 164 185 C142 205 119 218 97 211 C73 206 56 189 53 172Z" fill="{{sage}}" opacity=".62" filter="url(#wash)"/>
+ <path d="M100 206 C127 211 159 183 181 156 Q196 138 203 120 C195 154 163 190 138 203 Q116 218 100 211Z" fill="{{ochre}}" opacity=".65" filter="url(#wash)"/>
+ <path d="M61 180 Q72 201 94 208 M135 207 Q161 193 181 169 M200 138 Q212 113 209 91" fill="none" stroke="{{line}}" stroke-width="1.15" stroke-linecap="round"/>
+</g>
+<g id="continuous-pale-flesh-underpainting">
+ <path d="M174 59 C193 56 204 75 202 94 C200 121 179 151 158 173 C139 193 116 207 97 202 C75 197 60 180 60 160 C59 139 70 119 88 104 C108 88 130 82 150 68 C160 62 166 59 174 59Z" fill="{{peach}}" opacity=".99"/>
+ <path d="M175 63 C190 61 199 77 196 96 C193 121 174 147 153 170 C135 189 115 199 98 196 C80 191 66 177 66 159 C66 140 78 120 94 109 C115 95 135 85 153 72 C164 65 168 64 175 63Z" fill="{{orange}}" opacity=".88" filter="url(#wash)"/>
+ <path d="M72 139 C69 155 76 177 91 185 C109 195 129 183 145 172 C130 192 109 202 92 193 C74 186 65 170 66 156Z" fill="{{red}}" opacity=".29" filter="url(#wash)"/>
+ <path d="M165 69 Q186 59 195 82 C198 103 184 122 174 137 C178 115 188 99 184 85 Q180 76 165 78Z" fill="{{gold}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M81 133 C98 110 121 104 146 82 L154 78 C137 97 105 116 91 136 Q78 153 83 166 C74 155 76 145 81 133Z" fill="{{peach}}" opacity=".65" filter="url(#dry)"/>
+ <path d="M92 183 Q111 191 131 177 M157 160 Q177 139 183 123 M169 69 Q179 66 185 74" fill="none" stroke="{{cream}}" stroke-width="2.5" opacity=".48" filter="url(#dry)"/>
+</g>
+<g id="long-seed-chamber-recess">
+ <path d="M164 88 C174 84 182 91 179 104 C175 124 153 152 135 169 C120 183 105 183 95 174 C85 164 92 148 103 136 C119 119 136 113 147 101 C155 94 157 91 164 88Z" fill="{{red}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M163 94 C172 90 176 98 171 109 C164 127 148 146 130 163 C118 174 107 175 102 169 C95 163 100 151 111 140 C126 125 144 114 151 104 Q157 97 163 94Z" fill="{{brown}}" opacity=".95"/>
+ <path d="M105 157 C114 136 137 129 149 111 Q164 92 171 99 C170 114 153 138 137 151 C124 166 113 172 105 167Z" fill="{{dark}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M98 174 Q111 185 129 173 M139 165 Q156 149 165 133 M176 114 Q184 94 174 88" fill="none" stroke="{{ochre}}" stroke-width="1.05" opacity=".8" stroke-linecap="round"/>
+</g>
+<g id="clustered-large-papaya-seeds" fill="{{dark}}">
+ <path d="M159 99 C157 96 160 92 164 92 C169 92 170 97 167 100 C164 103 161 102 159 99Z"/>
+ <path d="M149 108 C146 105 147 102 150 100 C155 98 158 102 157 106 C156 110 152 112 149 108Z"/>
+ <path d="M162 111 C159 108 161 104 165 103 C170 103 172 107 169 111 C167 114 164 114 162 111Z"/>
+ <path d="M151 124 C147 124 145 119 148 115 C151 111 156 112 158 115 C161 121 156 125 151 124Z"/>
+ <path d="M136 125 C132 122 134 118 138 116 C143 114 146 119 144 123 C142 127 139 128 136 125Z"/>
+ <path d="M142 137 C138 135 139 130 142 127 C146 124 151 127 151 131 C150 135 147 139 142 137Z"/>
+ <path d="M157 128 C153 126 153 123 157 119 C161 116 166 118 165 122 C164 127 161 130 157 128Z"/>
+ <path d="M122 137 C119 134 121 129 126 127 C130 126 133 130 131 134 C129 138 125 140 122 137Z"/>
+ <path d="M130 150 C126 148 126 142 130 139 C134 136 138 139 138 143 C138 149 135 152 130 150Z"/>
+ <path d="M143 150 C139 148 140 144 143 140 C147 137 152 140 152 144 C150 149 147 152 143 150Z"/>
+ <path d="M111 150 C106 148 107 143 111 141 C115 138 120 141 119 146 C118 149 115 152 111 150Z"/>
+ <path d="M114 163 C110 160 113 154 116 152 C121 150 125 155 123 159 C122 164 117 165 114 163Z"/>
+ <path d="M103 169 C99 168 98 162 101 159 C105 156 109 159 109 163 C110 167 107 171 103 169Z"/>
+ <path d="M127 164 C123 162 124 157 127 154 C132 151 136 154 135 159 C134 163 131 167 127 164Z"/>
+ <path d="M116 175 C112 174 111 171 114 168 C117 165 122 167 122 170 C122 174 119 176 116 175Z"/>
+</g>
+<g id="sparse-seed-reflections-and-flesh-fibres" fill="none" stroke-linecap="round">
+ <path d="M160 95 L163 95 M135 121 L138 119 M108 145 L112 143 M126 157 L130 155" stroke="{{cream}}" stroke-width="1.5" opacity=".56" filter="url(#dry)"/>
+ <path d="M94 119 Q107 111 116 107 M78 152 Q76 160 80 167 M142 184 L154 172 M187 102 Q186 111 182 117" stroke="{{ochre}}" stroke-width=".55" opacity=".56"/>
+</g>
+<g id="broken-cut-edge-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M64 141 Q70 122 87 106 M101 96 Q128 83 143 72 M155 64 Q176 51 190 63" stroke-width=".7"/>
+ <path d="M199 75 Q208 94 196 120 M189 133 Q173 158 151 181 M138 192 Q115 209 94 202 C76 197 62 181 60 167" stroke-width="1.06"/>
+ <path d="M63 175 L65 182 M70 186 L76 193 M152 187 L158 182" stroke-width=".52" opacity=".71"/>
+</g>
+</svg>

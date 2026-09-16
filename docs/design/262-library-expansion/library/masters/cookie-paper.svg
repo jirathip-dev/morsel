@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cookie — whole and bitten rounds with chips and a cracked crumb</title>
+<desc>Original generic ink-and-wash biscuit study. A broad scalloped bite and sparse angular chocolate marks distinguish pale baked crumb from a solid brown disc; not a recipe or ingredient claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="rear-cookie-irregular-crust">
+ <path d="M47 102 C48 85 60 75 76 70 C88 64 104 64 116 69 C134 70 150 84 153 101 C159 112 153 128 144 138 C140 149 124 158 109 159 C92 164 73 156 63 146 C51 139 43 119 47 102Z" fill="#A5750B" opacity=".94"/>
+ <path d="M47 106 C50 126 67 143 86 147 C112 155 138 140 151 121 C147 147 128 159 109 161 C84 164 63 150 52 134Z" fill="#655A4B" opacity=".27" filter="url(#wash)"/>
+ <path d="M50 99 C55 83 68 74 80 71 C96 65 113 70 124 74 C141 83 150 92 150 107 C151 123 140 137 126 144 C111 153 94 153 77 145 C59 139 46 118 50 99Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M51 104 C48 87 71 76 85 73 C101 72 115 71 127 82 C147 85 151 105 144 118 C131 133 116 143 100 143 C78 145 62 130 51 116Z" fill="#D6A62C" opacity=".58" filter="url(#wash)"/>
+ <path d="M50 106 C55 117 65 117 71 129 C84 136 89 132 96 145 C77 146 62 135 54 122Z M116 80 C130 78 143 92 146 104 C137 102 135 94 126 93Z" fill="#E66A2C" opacity=".32" filter="url(#wash)"/>
+ <path d="M71 88 C82 74 103 77 112 86 C103 94 95 87 89 96 C77 101 67 97 71 88Z M112 117 Q129 106 138 112 Q132 130 116 132Z" fill="#FFF7E8" opacity=".56" filter="url(#dry)"/>
+</g>
+<g id="rear-cookie-chips-and-cracks">
+ <path d="M65 95 L73 90 L80 94 L77 103 L68 104Z M99 84 L109 81 L114 88 L109 94 L101 92Z M124 103 L132 98 L138 105 L136 114 L128 111Z M91 120 L100 117 L106 125 L101 133 L92 132Z M63 120 L70 118 L75 125 L69 131Z" fill="#655A4B" opacity=".96"/>
+ <path d="M68 97 L75 96 L77 103 L68 104Z M102 86 L108 85 L112 89 L109 94 L102 92Z M127 105 L134 104 L136 114 L130 111Z M96 123 L103 124 L101 132 L94 130Z" fill="#2A261F" opacity=".65" filter="url(#wash)"/>
+ <path d="M83 75 L85 87 L90 94 L87 105 M89 96 l9 7 M114 98 L109 111 L114 120 M111 108 l-9 1 M72 109 l8 5 l-1 8 M120 135 l-6 8" fill="none" stroke="#8B7355" stroke-width=".69" opacity=".64" stroke-linecap="round"/>
+ <path d="M65 96 l6 -3 M101 84 l6 0 M94 121 l5 -1" fill="none" stroke="#A5750B" stroke-width="1.55" opacity=".69" filter="url(#dry)"/>
+</g>
+<g id="rear-cookie-selective-outline" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M49 96 Q54 79 72 73 M82 68 Q103 63 116 69 M127 74 Q149 85 152 102 M153 115 Q151 136 136 145 M124 153 Q107 164 88 157 M77 153 Q55 144 48 125 M46 116 l1 -9" stroke-width=".94"/>
+ <path d="M53 125 l5 9 M57 135 l7 6 M66 143 l7 5 M77 149 l7 4 M126 145 l8 -6" stroke-width=".48" opacity=".67"/>
+</g>
+<g id="front-cookie-bite-silhouette">
+ <path d="M98 141 C99 125 111 114 123 110 C134 106 147 108 156 112 C151 119 155 126 163 125 C159 133 166 143 176 139 C178 150 189 155 197 148 C204 159 208 167 204 179 C201 191 189 201 175 206 C157 212 139 207 124 202 C112 198 104 187 99 175 C93 164 94 150 98 141Z" fill="#A5750B" opacity=".96"/>
+ <path d="M99 162 C108 181 123 189 142 196 C168 204 188 191 205 174 C201 193 189 205 168 208 C144 211 125 201 113 191 C104 183 98 173 99 162Z" fill="#655A4B" opacity=".28" filter="url(#wash)"/>
+ <path d="M99 140 C103 124 114 115 127 112 C137 109 147 111 153 113 C150 121 155 129 162 128 C161 136 168 145 176 143 C178 153 189 158 197 153 C204 163 204 176 197 185 C185 198 171 201 155 199 C137 199 121 191 111 181 C100 168 93 153 99 140Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M99 141 C102 125 119 117 132 115 C142 114 147 119 153 126 C157 132 159 140 170 145 C174 154 185 160 195 157 C203 175 192 186 178 192 C159 201 140 192 126 188 C105 180 100 161 99 141Z" fill="#D6A62C" opacity=".56" filter="url(#wash)"/>
+ <path d="M101 155 C111 160 116 170 124 175 C133 180 129 187 143 194 C123 190 108 182 101 166Z M170 178 C185 177 187 166 198 164 Q202 182 179 193 L163 195Z" fill="#E66A2C" opacity=".3" filter="url(#wash)"/>
+ <path d="M111 132 C121 119 136 118 145 126 C133 132 139 140 127 143 Q119 151 108 145Z M143 153 Q157 146 166 156 L170 166 Q156 172 142 164Z" fill="#FFF7E8" opacity=".61" filter="url(#dry)"/>
+</g>
+<g id="pale-bitten-crumb-edge">
+ <path d="M152 113 C150 121 155 129 162 128 C161 136 168 145 176 143 C178 153 189 158 197 153 L198 160 C187 167 175 161 170 151 C160 152 153 142 153 133 C145 129 145 120 148 114Z" fill="#FBE1C9" opacity=".9"/>
+ <path d="M150 118 Q149 126 157 131 M156 135 Q157 145 170 148 M175 152 Q181 162 192 159" fill="none" stroke="#FFF7E8" stroke-width="2.45" opacity=".91" filter="url(#dry)"/>
+ <path d="M153 113 Q148 124 162 127 M162 132 Q163 143 176 141 M177 146 Q183 156 197 150" fill="none" stroke="#8B7355" stroke-width="1.12" stroke-linecap="round"/>
+ <path d="M152 125 l-1 4 M158 138 l-2 3 M167 145 l-1 3 M181 156 l-2 3 M188 157 l-1 4" fill="none" stroke="#A5750B" stroke-width=".65" opacity=".77"/>
+</g>
+<g id="front-angular-chips">
+ <path d="M119 128 L128 125 L134 131 L130 139 L120 137Z M107 150 L114 146 L120 151 L117 158 L109 160Z M132 159 L141 155 L147 162 L143 172 L134 170Z M159 178 L169 172 L176 178 L173 186 L164 188Z M181 164 L189 161 L194 168 L188 175 L182 173Z M123 181 L130 179 L135 185 L130 190 L123 188Z" fill="#655A4B" opacity=".97"/>
+ <path d="M122 131 L130 130 L132 134 L128 138 L121 136Z M110 151 L117 151 L116 156 L110 158Z M137 161 L144 161 L141 169 L136 168Z M164 178 L172 178 L172 185 L165 188Z M186 166 L191 166 L188 172 L184 172Z" fill="#2A261F" opacity=".7" filter="url(#wash)"/>
+ <path d="M122 129 l5 -1 M135 159 l5 -1 M161 179 l6 -3 M124 183 l4 -2" fill="none" stroke="#A5750B" stroke-width="1.7" opacity=".75" filter="url(#dry)"/>
+</g>
+<g id="branching-baked-cracks-and-edges" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M111 121 l3 8 l-5 9 M114 130 l6 8 M133 144 l9 1 l7 9 M141 145 l3 -10 M119 163 l7 8 l-5 6 M147 177 l2 8 l-5 9 M149 183 l8 4 M180 182 l-2 9" stroke-width=".68" opacity=".69"/>
+ <path d="M99 139 Q103 119 121 112 M131 109 Q144 107 153 112 M199 156 Q210 174 199 189 M191 197 Q177 209 159 209 M148 208 Q121 204 108 188 M102 178 Q91 159 97 146" stroke-width="1.07"/>
+ <path d="M107 179 l5 8 M114 190 l7 4 M128 199 l9 3 M155 204 l8 0 M184 196 l7 -4" stroke-width=".49" opacity=".65"/>
+</g>
+<g id="two-bite-crumbs">
+ <path d="M205 136 L211 131 L216 136 L211 142 L205 140Z M215 151 L220 149 L223 154 L218 158Z" fill="#F2E9D9" opacity=".97"/>
+ <path d="M206 137 L212 135 L215 138 L211 142 L205 140Z M216 153 l5 -2 l2 3 l-5 4Z" fill="#A5750B" opacity=".65" filter="url(#wash)"/>
+ <path d="M205 138 l5 4 l4 -3 M219 158 l3 -3" fill="none" stroke="#8B7355" stroke-width=".61"/>
+</g>
+</svg>

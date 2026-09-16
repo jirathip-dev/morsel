@@ -1,16 +1,16 @@
 {
   "status": "PASS",
   "inputs_sha256": {
-    "index.html": "2421ee3409867898fcab4dcea41dc1e41e2db2c3bc1ac9fdbb02293488d417e0",
-    "library/fonts/Caveat[wght].ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
     "library/fonts/EBGaramond[wght].ttf": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
-    "library/fonts/IBMPlexMono-Regular.ttf": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2"
+    "library/fonts/IBMPlexMono-Regular.ttf": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
+    "library/fonts/Caveat[wght].ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+    "index.html": "0e28cdf8e0ffaa89c1aae9bbc07fe0b0418d2d8018430da66a171c5ba4a5ee93"
   },
   "capture_count": 2,
   "captures": [
     {
       "capture": "evidence/index/index-1440.png",
-      "sha256": "94f4ffb1cc8bc2cb9587f714bf879ec660144d02100c16f117c6a7858d160da8",
+      "sha256": "7d961bc4e39d69588fa0193ae17ff58f4f06cbf942bd1f5f5035069b56f1bb84",
       "raw_exit": 0,
       "dom": {
         "viewport": [
@@ -23,7 +23,8 @@
         "ids": [
           "batch-1",
           "batch-2",
-          "batch-3"
+          "batch-3",
+          "batch-4"
         ],
         "imageSizes": [],
         "allRowsVisible": true,
@@ -42,6 +43,10 @@
           "batch-3/contact-paper.png",
           "batch-3/contact-night.png",
           "batch-3/optical-both.png",
+          "batch-4/index.html",
+          "batch-4/contact-paper.png",
+          "batch-4/contact-night.png",
+          "batch-4/optical-both.png",
           "ROLLUP.md",
           "README.md",
           "INTEGRATION-HANDOFF.md"
@@ -50,7 +55,7 @@
     },
     {
       "capture": "evidence/index/index-390.png",
-      "sha256": "e8e09cab84c500fc5ed3f8040ec0c26c49bbfafff4c4e0ed43ab64852005b6cb",
+      "sha256": "0e0af54dacca7bc4160c0dd9059d435cb7f95bd29dd26de7826b8c775dd947bc",
       "raw_exit": 0,
       "dom": {
         "viewport": [
@@ -63,7 +68,8 @@
         "ids": [
           "batch-1",
           "batch-2",
-          "batch-3"
+          "batch-3",
+          "batch-4"
         ],
         "imageSizes": [],
         "allRowsVisible": true,
@@ -82,6 +88,10 @@
           "batch-3/contact-paper.png",
           "batch-3/contact-night.png",
           "batch-3/optical-both.png",
+          "batch-4/index.html",
+          "batch-4/contact-paper.png",
+          "batch-4/contact-night.png",
+          "batch-4/optical-both.png",
           "ROLLUP.md",
           "README.md",
           "INTEGRATION-HANDOFF.md"

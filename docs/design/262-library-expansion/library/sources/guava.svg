@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Guava — whole green fruit and pale seeded wedge, original ink and wash</title>
+<desc>An uneven green guava sits behind a thick cream-fleshed wedge. A broad seed band, small blossom scar and ribbed leaf are generic fruit cues, not a variety or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="whole-guava-underpainting">
+ <path d="M48 110 C51 91 66 81 83 82 C92 76 105 77 116 85 C132 86 140 104 143 122 C150 145 136 169 114 178 C98 185 80 179 71 179 C52 172 44 154 45 138 C40 128 42 118 48 110Z" fill="{{leaf}}" opacity=".96"/>
+ <path d="M49 109 C62 87 72 86 88 86 C102 80 119 89 130 99 C144 121 144 142 132 158 C119 177 90 182 72 173 C48 164 44 146 48 130 C43 120 46 117 49 109Z" fill="{{sage}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M49 122 C54 103 66 92 79 94 C90 93 95 89 104 92 C93 103 91 121 81 135 C68 139 65 132 53 141 C48 135 50 129 49 122Z" fill="{{leaf}}" opacity=".79" filter="url(#wash)"/>
+ <path d="M99 88 C122 88 135 104 139 123 C144 147 131 167 113 175 C105 179 92 179 87 174 C108 168 120 154 120 136 C118 118 129 108 99 88Z" fill="{{forest}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M58 151 C72 156 79 143 91 149 C110 153 115 167 102 174 C79 181 67 168 58 151Z" fill="{{gold}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M60 110 Q68 98 80 99 C78 107 68 112 65 124 L58 128 C56 122 59 116 60 110Z" fill="{{cream}}" opacity=".58" filter="url(#dry)"/>
+ <path d="M99 105 Q109 112 106 126 M56 137 Q58 145 65 148 M113 150 l-4 7" fill="none" stroke="{{leaf}}" stroke-width="2.6" opacity=".52" filter="url(#dry)"/>
+</g>
+<g id="stem-and-ribbed-guava-leaf">
+ <path d="M94 85 C96 75 101 70 101 64 L105 63 C106 72 100 80 100 86Z" fill="{{brown}}" opacity=".89"/>
+ <path d="M103 69 C110 52 129 49 149 53 C144 62 140 73 126 77 C116 79 108 74 103 69Z" fill="{{leaf}}" opacity=".88"/>
+ <path d="M103 69 C113 55 127 51 148 53 C139 63 138 75 122 76 C114 75 108 72 103 69Z" fill="{{sage}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M111 68 C124 68 135 59 148 53 C139 69 134 77 121 75Z" fill="{{forest}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M105 70 Q122 61 141 56 M114 65 l2 -7 M122 62 l4 -7 M118 64 l8 7 M129 60 l7 5" fill="none" stroke="{{line}}" stroke-width=".68" stroke-linecap="round"/>
+ <path d="M96 82 l5 -11 M107 65 Q113 56 124 53" fill="none" stroke="{{line}}" stroke-width=".88" stroke-linecap="round"/>
+</g>
+<g id="whole-fruit-broken-edge-and-blossom-scar" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M45 137 Q39 123 48 109 M54 98 Q68 80 81 82 M90 79 Q105 76 116 85" stroke-width=".74"/>
+ <path d="M125 90 Q141 105 143 123 M144 136 Q143 151 135 160" stroke-width="1.06"/>
+ <path d="M121 174 Q104 182 91 180 M81 180 Q61 178 51 160 M48 153 l-3 -10" stroke-width="1.28"/>
+ <path d="M66 160 l3 6 M61 152 l2 6 M119 117 l2 8 M122 137 l-1 8" stroke-width=".52" opacity=".64"/>
+ <path d="M75 171 l4 -2 l4 3 l-1 -5 l4 -2 M79 169 l-3 -4" stroke="{{brown}}" stroke-width="1.15" opacity=".81"/>
+</g>
+<g id="wedge-green-rind-and-thick-pale-flesh">
+ <path d="M112 151 L167 113 C179 120 208 145 217 161 C226 178 211 193 194 198 C165 205 133 182 112 151Z" fill="{{sage}}" opacity=".95"/>
+ <path d="M113 151 C135 170 168 191 193 187 C204 185 216 177 218 168 C223 181 211 194 194 198 C165 205 134 183 113 151Z" fill="{{forest}}" opacity=".64" filter="url(#wash)"/>
+ <path d="M116 148 L167 116 C181 124 207 148 214 162 C223 180 202 191 188 190 C163 192 132 170 116 148Z" fill="{{cream}}" opacity=".99"/>
+ <path d="M121 148 L166 120 C181 130 205 149 210 163 C215 174 198 184 185 184 C161 181 139 164 121 148Z" fill="{{paper}}" opacity=".93"/>
+ <path d="M124 150 C143 155 151 164 164 165 C182 168 193 176 208 169 C201 184 190 188 175 182 C155 179 137 164 124 150Z" fill="{{peach}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M171 129 C179 135 184 145 194 150 C202 153 207 164 206 169 C193 162 186 159 180 151 C177 144 170 140 165 136Z" fill="{{leaf}}" opacity=".38" filter="url(#wash)"/>
+ <path d="M143 142 C150 134 163 132 172 139 C181 144 182 156 193 161 C197 164 194 171 185 173 C175 174 169 166 161 161 C150 156 143 151 143 142Z" fill="{{peach}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M150 143 C159 138 166 140 171 147 C175 155 182 157 188 163 C181 162 176 165 168 158 C161 151 152 153 150 143Z" fill="{{gold}}" opacity=".24" filter="url(#wash)"/>
+</g>
+<g id="clustered-seed-band" fill="{{ochre}}" opacity=".66">
+ <path d="M151 140 C153 137 156 139 155 142 C154 145 150 143 151 140Z M159 141 C162 139 164 142 162 145 C160 146 158 144 159 141Z M147 146 Q150 143 152 146 Q153 149 150 150Z"/>
+ <path d="M158 150 C159 147 163 148 163 151 C161 154 157 153 158 150Z M167 146 Q171 145 172 149 Q170 152 168 150Z M169 155 C172 153 174 154 174 158 C171 161 168 158 169 155Z"/>
+ <path d="M177 158 Q180 155 181 159 Q183 162 179 163Z M181 166 C183 163 186 164 186 167 C183 169 180 169 181 166Z M188 162 Q191 159 193 163 Q192 166 189 165Z"/>
+</g>
+<g id="cut-face-dry-fibres" fill="none" stroke="{{paper}}" stroke-linecap="round" filter="url(#dry)">
+ <path d="M135 148 l8 6 M162 125 l7 5 M187 145 l10 10 M163 171 l9 5 M196 178 l7 -3" stroke-width="2.4" opacity=".8"/>
+</g>
+<g id="wedge-selective-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M116 148 L148 127 M155 122 l12 -8 Q183 125 196 139" stroke-width=".74"/>
+ <path d="M204 148 Q216 160 217 168 M216 179 Q210 193 192 198 C170 201 151 189 140 181" stroke-width="1.24"/>
+ <path d="M131 175 Q117 162 112 151 M120 150 Q132 165 148 174 M163 183 Q184 195 202 186" stroke-width=".86"/>
+ <path d="M160 143 Q166 142 169 147 M177 155 l5 4 M146 139 l-3 4 M169 192 l8 2 M180 195 l5 1" stroke-width=".5" opacity=".6"/>
+</g>
+</svg>

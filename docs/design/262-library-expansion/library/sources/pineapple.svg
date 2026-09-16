@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Pineapple — cut spears and an eye-marked rind wedge, original ink and wash</title>
+<desc>Golden fibrous spears beside a broad rind-on wedge. A generic labeled fruit study, not a meal photograph or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="rear-spear-flesh-and-cut-side">
+ <path d="M44 140 L94 73 Q98 67 103 72 L125 87 L76 163 L57 157Z" fill="{{peach}}" opacity=".94"/>
+ <path d="M44 140 L96 74 Q99 71 103 75 L117 85 L66 152Z" fill="{{gold}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M66 152 L117 85 L125 87 L76 163 L58 157 L44 140Z" fill="{{ochre}}" opacity=".61" filter="url(#wash)"/>
+ <path d="M49 139 L98 79 L106 82 C93 99 83 109 75 124 L62 145Z" fill="{{cream}}" opacity=".46" filter="url(#dry)"/>
+ <path d="M73 139 Q87 110 110 90 L116 89 Q103 111 84 139Z" fill="{{orange}}" opacity=".23" filter="url(#wash)"/>
+ <path d="M45 139 L68 108 M75 97 L95 72 Q99 68 103 73 M117 84 L125 88 L109 113 M94 137 L76 163 L58 157" fill="none" stroke="{{line}}" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M66 153 L85 125" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".67"/>
+</g>
+<g id="front-spear-underpainting">
+ <path d="M51 171 L105 105 Q108 102 112 104 L132 117 L80 192 L61 186Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M52 170 L108 106 L124 116 L71 182Z" fill="{{gold}}" opacity=".9" filter="url(#wash)"/>
+ <path d="M71 181 L124 116 L132 117 L81 192 L61 186 L51 172Z" fill="{{orange}}" opacity=".57" filter="url(#wash)"/>
+ <path d="M57 168 C73 148 83 141 95 123 L109 110 L115 113 C101 132 91 139 79 158 L67 174Z" fill="{{paper}}" opacity=".44" filter="url(#dry)"/>
+ <path d="M80 170 Q103 141 118 121 M65 165 L82 146" fill="none" stroke="{{cream}}" stroke-width="2.5" opacity=".5" filter="url(#dry)"/>
+ <path d="M52 169 L72 145 M84 131 L106 104 M116 107 L132 117 L116 140 M105 155 L81 192 L62 186 L53 175" fill="none" stroke="{{line}}" stroke-width=".95" stroke-linecap="round" stroke-linejoin="round"/>
+ <path d="M72 181 L91 157 M61 176 L66 180" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".75"/>
+</g>
+<g id="wedge-thick-rough-rind">
+ <path d="M105 153 C139 177 177 177 212 129 L216 146 C218 165 196 191 171 201 C144 205 118 185 105 153Z" fill="{{gold}}" opacity=".92"/>
+ <path d="M108 159 C138 188 169 191 195 164 L216 143 C215 161 201 182 183 194 C165 205 148 197 135 191 C122 182 115 172 108 159Z" fill="{{ochre}}" opacity=".83" filter="url(#wash)"/>
+ <path d="M115 169 C139 181 159 194 181 181 C199 169 207 158 214 149 C212 168 195 190 175 198 C154 200 135 185 123 182Z" fill="{{sage}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M132 181 Q148 186 158 194 L155 200 Q139 195 130 187Z M190 172 Q206 160 211 150 L210 162 L196 182Z" fill="{{brown}}" opacity=".27" filter="url(#wash)"/>
+</g>
+<g id="broad-golden-wedge-face">
+ <path d="M105 153 C117 133 132 106 145 86 C164 95 191 114 212 129 C211 148 195 165 179 174 C156 186 126 174 105 153Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M109 152 C120 133 132 111 147 91 C166 102 188 115 207 131 C203 149 190 161 176 168 C154 178 128 169 109 152Z" fill="{{gold}}" opacity=".91" filter="url(#wash)"/>
+ <path d="M112 153 C140 163 155 167 173 160 C185 155 196 145 207 132 C205 148 193 164 175 172 C154 181 127 169 112 153Z" fill="{{orange}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M143 89 Q148 91 157 98 L150 116 Q142 112 134 109Z" fill="{{cream}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M148 111 C139 122 132 139 122 150 L130 156 C141 144 148 133 154 116Z" fill="{{paper}}" opacity=".27" filter="url(#dry)"/>
+ <path d="M158 115 Q162 142 173 159 M163 111 Q180 130 189 140 M141 122 L132 143" fill="none" stroke="{{cream}}" stroke-width="2.6" opacity=".56" filter="url(#dry)"/>
+ <path d="M146 99 L143 110 M153 123 Q151 139 148 154 M178 123 L190 133" fill="none" stroke="{{ochre}}" stroke-width=".6" opacity=".51"/>
+</g>
+<g id="large-irregular-rind-eyes">
+ <path d="M121 174 L128 173 L133 180 L129 185 L123 181Z M137 187 L144 181 L151 187 L148 195 L142 193Z M158 190 L163 184 L171 190 L170 197 L162 198Z M179 183 L185 176 L191 180 L187 190 L180 193Z M198 163 L205 158 L207 165 L201 174 L197 172Z" fill="{{brown}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M123 177 L128 176 L131 180 M140 187 L144 185 L148 188 M161 190 L166 188 M181 183 L185 180 L188 182 M200 166 L204 162" fill="none" stroke="{{cream}}" stroke-width="1.8" opacity=".59" filter="url(#dry)"/>
+ <path d="M126 182 L129 178 M145 191 L144 187 M165 194 L166 190 M184 187 L186 183 M201 170 L202 165" fill="none" stroke="{{dark}}" stroke-width=".85" opacity=".69" stroke-linecap="round"/>
+</g>
+<g id="wedge-broken-structural-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M107 149 L125 119 M134 103 L145 86 Q154 91 162 97 M174 105 Q198 119 212 129" stroke-width=".73"/>
+ <path d="M213 133 Q209 151 194 162 M183 170 Q164 183 142 176 M131 172 Q115 163 105 153" stroke-width="1.08"/>
+ <path d="M110 167 Q119 183 134 190 M143 196 Q162 206 177 199 M189 192 Q211 175 216 154 L216 144" stroke-width="1.2"/>
+ <path d="M134 181 L136 188 M153 185 L154 191 M175 187 L177 194 M193 171 L195 177" stroke-width=".56" opacity=".72"/>
+</g>
+</svg>

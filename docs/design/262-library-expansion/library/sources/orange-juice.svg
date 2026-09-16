@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Orange juice — pulpy tumbler and freshly cut citrus half</title>
+<desc>Original ink-and-wash study. A short transparent glass carries layered orange juice and an uneven pulp meniscus; the adjacent orange half has a pale pith ring and broad radial segments. Generic juice sign, not an ingredient or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="loose-grounding-wash">
+ <path d="M59 196 C76 186 114 191 139 196 C154 195 181 198 199 204 C193 215 158 218 135 213 C104 214 68 210 59 202Z" fill="{{brown}}" opacity=".11" filter="url(#wash)"/>
+ <path d="M75 200 C92 196 120 198 133 204 C116 209 92 207 75 200Z" fill="{{ochre}}" opacity=".14" filter="url(#wash)"/>
+</g>
+<g id="transparent-short-glass">
+ <path d="M53 76 C54 64 83 59 109 61 C134 60 157 67 160 76 L151 185 C151 197 130 203 108 202 C85 203 65 196 63 186Z" fill="{{paper}}" opacity=".25"/>
+ <path d="M55 81 C56 74 58 74 61 77 L71 181 C72 189 89 195 106 196 C124 198 145 190 147 184 L156 78 L160 77 L152 188 C149 199 126 203 106 201 C84 201 65 195 63 187Z" fill="{{cream}}" opacity=".59"/>
+ <path d="M68 184 C92 197 125 196 148 184 L147 191 C125 201 89 198 70 190Z" fill="{{paper}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M56 77 C61 68 79 65 103 65 C128 64 149 69 157 76" fill="none" stroke="{{cream}}" stroke-width="2.1" opacity=".75"/>
+</g>
+<g id="orange-juice-body-underpainting">
+ <path d="M60 98 C66 90 88 87 111 88 C131 88 148 93 153 99 L145 178 C144 188 122 192 106 191 C85 191 72 185 70 179Z" fill="{{peach}}" opacity=".94"/>
+ <path d="M60 99 C82 111 132 114 153 99 L145 178 C143 187 124 190 106 189 C85 189 74 184 70 178Z" fill="{{orange}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M66 112 C78 115 90 115 99 111 C106 126 100 138 104 150 C109 168 100 178 84 183 C75 180 73 174 73 165Z" fill="{{gold}}" opacity=".73" filter="url(#wash)"/>
+ <path d="M130 111 C138 112 146 106 151 103 L145 178 C144 186 125 190 110 189 C123 182 128 166 126 152 C123 135 134 126 130 111Z" fill="{{orange}}" opacity=".54" filter="url(#wash)"/>
+ <path d="M75 167 C90 177 110 179 128 173 C135 171 139 166 146 162 L144 179 C140 187 118 191 104 189 C85 187 77 180 75 174Z" fill="{{ochre}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M93 121 C101 128 103 137 98 145 C90 152 94 162 90 169 C84 156 88 146 88 139 C86 130 89 125 93 121Z" fill="{{peach}}" opacity=".29" filter="url(#wash)"/>
+</g>
+<g id="pulp-meniscus-and-settled-pigment">
+ <path d="M61 98 C66 91 86 87 110 88 C132 88 149 93 153 99 C153 107 129 113 107 112 C87 112 66 108 61 101Z" fill="{{gold}}" opacity=".93"/>
+ <path d="M63 98 C74 91 89 92 98 90 C106 93 113 89 123 93 C134 92 145 96 150 100 C137 108 125 105 117 108 C106 107 98 108 89 106 C77 108 69 102 63 98Z" fill="{{peach}}" opacity=".63" filter="url(#wash)"/>
+ <path d="M64 103 C78 108 92 111 107 110 C127 112 143 106 151 101 L150 107 C136 114 121 114 106 114 C89 114 72 109 64 105Z" fill="{{orange}}" opacity=".65" filter="url(#wash)"/>
+ <path d="M77 98 l7 -1 l3 2 l-8 1Z M99 95 l9 -1 l4 2 l-7 2Z M123 100 l7 -1 l5 2 l-8 2Z M89 104 l5 -1 l4 2 l-8 1Z" fill="{{cream}}" opacity=".52" filter="url(#dry)"/>
+ <path d="M82 176 Q94 181 101 179 M113 182 l7 -1 M126 178 l8 -3" fill="none" stroke="{{gold}}" stroke-width="1.6" opacity=".61" filter="url(#dry)"/>
+ <path d="M62 100 Q69 92 84 91 M139 94 Q151 98 152 101 M132 110 l10 -3" fill="none" stroke="{{ochre}}" stroke-width=".63" opacity=".64" stroke-linecap="round"/>
+</g>
+<g id="broken-glass-edges-and-reserved-light">
+ <path d="M63 83 L68 116 C70 126 72 143 73 154 L77 159 C75 144 76 131 73 117 L68 83Z" fill="{{paper}}" opacity=".63" filter="url(#dry)"/>
+ <path d="M145 122 L149 114 L145 150 L142 154Z M77 167 L79 180 L86 185 L82 175Z" fill="{{cream}}" opacity=".6" filter="url(#dry)"/>
+ <path d="M53 75 Q57 64 83 62 M99 61 Q143 57 158 72 M159 79 Q149 89 123 90 M109 91 Q73 92 57 82" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M55 91 L61 154 M63 168 L64 184 Q66 195 86 200 M100 202 Q131 204 147 193 M155 110 L158 88" fill="none" stroke="{{line}}" stroke-width="1.08" stroke-linecap="round"/>
+ <path d="M69 189 l5 4 M79 196 l8 2 M112 198 Q129 198 137 194" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".59"/>
+</g>
+<g id="orange-half-rounded-peel">
+ <path d="M135 163 C137 145 157 133 177 135 C194 132 213 145 216 165 C223 186 208 206 188 213 C168 220 143 210 134 195 C128 185 129 173 135 163Z" fill="{{orange}}" opacity=".98"/>
+ <path d="M134 169 C135 186 147 196 165 198 C186 201 204 190 216 175 C217 194 202 208 184 214 C165 219 142 208 135 195 C130 185 129 176 134 169Z" fill="{{ochre}}" opacity=".29" filter="url(#wash)"/>
+ <path d="M140 189 C156 206 174 207 189 203 C201 199 207 193 212 187 C207 204 190 215 175 215 C157 214 145 205 140 197Z" fill="{{red}}" opacity=".22" filter="url(#wash)"/>
+ <path d="M134 178 C131 189 140 202 151 208 M164 214 Q183 220 204 205 M213 194 Q220 181 216 169" fill="none" stroke="{{line}}" stroke-width="1.19" stroke-linecap="round"/>
+ <path d="M144 198 l3 3 M152 206 l4 1 M172 210 l5 1 M197 203 l3 -2" fill="none" stroke="{{ochre}}" stroke-width="1.25" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="cut-face-pith-and-juicy-flesh">
+ <path d="M140 151 C150 135 170 126 188 129 C208 130 221 145 221 163 C220 181 203 195 185 200 C166 205 146 198 139 183 C133 173 134 161 140 151Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M145 153 C155 138 173 132 188 135 C205 135 217 148 216 163 C215 178 201 190 183 195 C167 199 151 193 143 181 C138 172 140 161 145 153Z" fill="{{gold}}" opacity=".96"/>
+ <path d="M144 163 C151 154 165 144 178 141 C193 139 207 146 213 155 C219 176 198 189 183 194 C165 199 149 189 143 180Z" fill="{{orange}}" opacity=".62" filter="url(#wash)"/>
+ <path d="M178 161 C173 150 175 142 182 138 C194 137 201 142 203 148 C198 151 188 156 181 163Z" fill="{{orange}}" opacity=".8" filter="url(#wash)"/>
+ <path d="M184 166 C195 160 205 153 213 156 C217 168 206 181 200 182 C194 176 189 174 184 166Z" fill="{{orange}}" opacity=".84" filter="url(#wash)"/>
+ <path d="M180 172 C189 177 193 184 194 191 C183 197 172 197 167 193 C172 186 176 178 180 172Z" fill="{{orange}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M174 168 C162 165 152 171 143 175 C145 186 153 191 161 192 C165 183 169 176 174 168Z" fill="{{orange}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M172 163 C163 157 158 150 158 145 C148 151 143 160 143 168 C152 167 163 163 172 163Z" fill="{{orange}}" opacity=".69" filter="url(#wash)"/>
+</g>
+<g id="broad-irregular-citrus-membranes">
+ <path d="M177 163 C175 155 169 145 170 137 L173 136 C173 147 178 155 180 161 C188 155 198 145 205 144 L207 147 C197 151 190 159 184 165 C195 165 209 162 216 163 L216 166 C203 165 195 169 184 168 C192 175 198 182 200 188 L197 191 C193 179 187 177 180 171 C175 180 175 188 171 195 L168 195 C172 183 172 178 176 170 C166 171 153 175 142 177 L141 174 C153 172 165 168 174 166 C163 160 157 155 151 149 L153 147 C159 154 168 159 177 163Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M175 164 Q177 160 181 162 L185 166 L181 172 Q176 173 173 170Z" fill="{{paper}}" opacity=".93"/>
+ <path d="M151 161 l7 -4 M158 165 l7 -2 M181 146 l1 8 M188 150 l-3 8 M198 163 l8 -3 M200 171 l7 1 M182 181 l3 7 M158 181 l-6 4" fill="none" stroke="{{peach}}" stroke-width="1.35" opacity=".76" filter="url(#dry)"/>
+ <path d="M145 149 Q156 134 177 129 M190 130 Q213 132 220 153 M218 173 Q212 189 190 198 M173 201 Q152 199 142 185" fill="none" stroke="{{line}}" stroke-width=".72" stroke-linecap="round"/>
+ <path d="M150 151 Q156 143 164 141 M205 142 Q213 148 215 157 M203 186 l-7 5" fill="none" stroke="{{ochre}}" stroke-width=".54" opacity=".74" stroke-linecap="round"/>
+</g>
+</svg>

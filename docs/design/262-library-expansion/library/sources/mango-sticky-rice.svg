@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Mango sticky rice — sliced fruit beside a coconut-white rice mound</title>
+<desc>Original generic ink-and-wash dessert study. Golden tapered slices and a pale clustered mound are the main small-size cues; not an ingredient or portion claim.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="shallow-asymmetric-platter">
+ <path d="M34 145 C34 126 66 112 104 109 C148 102 193 114 215 135 C228 146 227 167 204 182 C184 197 142 207 103 200 C66 196 37 178 34 159Z" fill="{{paper}}" opacity=".87"/>
+ <path d="M36 157 C50 176 83 187 111 188 C157 194 192 181 218 161 C211 183 180 198 145 201 C101 208 57 188 43 173Z" fill="{{cream}}" opacity=".83" filter="url(#wash)"/>
+ <path d="M50 152 C75 170 105 174 133 172 C162 172 188 163 205 152 C194 174 155 184 122 179 C94 182 65 168 50 152Z" fill="{{sage}}" opacity=".16" filter="url(#wash)"/>
+ <path d="M36 140 Q44 121 72 116 M87 111 Q128 103 157 111 M202 126 Q226 139 221 157 M217 168 Q200 190 163 197 M151 200 Q111 207 80 194 M66 189 Q37 174 34 158" fill="none" stroke="{{line}}" stroke-width=".82" stroke-linecap="round"/>
+ <path d="M53 158 Q69 175 95 180 M109 184 Q162 190 195 172" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".55"/>
+</g>
+<g id="dense-rice-mound-underpainting">
+ <path d="M46 133 C45 124 50 117 56 114 C54 106 62 99 70 99 C74 90 84 90 91 91 C101 86 114 94 119 101 C128 104 133 113 131 121 C139 129 139 139 132 145 C132 154 117 165 105 166 C83 171 59 160 51 148 C44 144 44 139 46 133Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M50 137 C58 144 65 140 71 145 C78 150 86 145 95 151 C110 155 119 145 133 138 C135 156 116 166 98 166 C78 166 57 155 50 145Z" fill="{{ochre}}" opacity=".2" filter="url(#wash)"/>
+ <path d="M58 114 C62 99 79 94 88 97 C99 91 116 102 122 112 C115 119 110 111 102 117 C91 120 88 111 77 117 C69 119 66 111 58 114Z" fill="{{paper}}" opacity=".93" filter="url(#wash)"/>
+ <path d="M56 127 C62 121 74 130 80 124 C89 118 100 126 108 120 C119 117 122 125 129 126 C126 132 121 133 122 140 C120 147 115 147 111 142 C111 137 106 134 102 137 C96 143 91 137 84 139 C76 143 73 136 67 137 C61 141 55 136 56 127Z" fill="{{paper}}" opacity=".96"/>
+ <path d="M71 109 Q86 102 98 108 M107 130 Q111 128 116 130 M67 127 l10 3" fill="none" stroke="{{paper}}" stroke-width="3.1" opacity=".73" filter="url(#dry)"/>
+</g>
+<g id="rice-clusters-and-broken-contour" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M47 131 Q44 120 56 115 M61 103 Q66 97 73 99 M82 91 Q93 88 101 94 M114 97 Q128 103 131 114 M133 128 Q142 140 132 147 M126 155 Q117 165 105 166 M92 166 Q69 163 57 152" stroke-width=".83"/>
+ <path d="M55 138 q3 -2 6 2 M59 146 q3 -3 8 3 M73 153 q4 -2 7 3 M86 156 q4 -3 7 2 M102 157 q4 -5 8 -3 M118 150 l5 -4 M63 118 q1 -4 5 -4 M77 101 l5 -2 M94 100 q3 1 5 4 M114 109 l4 5 M50 130 l4 -3 M124 134 l4 -2" stroke-width=".58" opacity=".58"/>
+ <path d="M61 151 l4 4 M73 161 l5 2 M114 162 l5 -3" stroke-width="1.02" opacity=".63"/>
+</g>
+<g id="mango-slice-fan-pale-foundation">
+ <path d="M124 139 C118 116 133 83 158 74 C177 67 199 78 208 95 C217 112 223 142 208 159 C193 173 151 177 134 160Z" fill="{{peach}}" opacity=".93"/>
+</g>
+<g id="four-tapered-golden-slices">
+ <path d="M126 136 C122 115 136 85 157 77 C165 75 171 77 175 81 C149 94 140 118 135 144 Q128 144 126 136Z" fill="{{gold}}" opacity=".96"/>
+ <path d="M126 134 Q137 104 144 99 C136 116 135 131 135 143 Q129 143 126 134Z" fill="{{orange}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M139 148 C142 123 158 92 178 85 C185 84 191 89 193 95 C170 110 159 133 154 157 Q145 158 139 148Z" fill="{{gold}}" opacity=".96"/>
+ <path d="M140 147 C147 138 150 121 161 113 Q153 137 154 156 Q148 158 140 147Z" fill="{{orange}}" opacity=".5" filter="url(#wash)"/>
+ <path d="M159 160 C163 137 179 108 196 100 Q204 103 207 115 C190 129 182 148 181 168 Q167 172 159 160Z" fill="{{gold}}" opacity=".98"/>
+ <path d="M161 159 Q167 146 174 140 C174 151 174 159 181 167 Q168 171 161 159Z" fill="{{orange}}" opacity=".59" filter="url(#wash)"/>
+ <path d="M186 168 C187 149 197 130 211 121 C217 133 217 147 209 157 Q200 165 186 168Z" fill="{{gold}}" opacity=".92"/>
+ <path d="M188 167 Q203 151 215 140 Q216 159 188 167Z" fill="{{ochre}}" opacity=".52" filter="url(#wash)"/>
+ <path d="M133 112 Q145 89 160 85 M151 126 Q165 101 179 96 M173 137 Q180 121 194 113 M197 143 l8 -10" fill="none" stroke="{{paper}}" stroke-width="2.6" opacity=".56" filter="url(#dry)"/>
+</g>
+<g id="mango-selective-slice-edges" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M126 125 Q127 96 151 80 M165 76 Q172 77 175 81 M130 141 l5 3 M142 145 Q148 113 166 96 M145 154 Q149 158 154 157 M162 160 Q171 143 173 133 M180 119 Q188 106 196 100 M168 168 Q175 171 181 168 M192 165 Q210 161 215 146" stroke-width=".82"/>
+ <path d="M158 159 Q160 150 163 144 M186 162 Q187 149 192 141" stroke-width="1.14" opacity=".76"/>
+</g>
+<g id="sparse-toasted-mung-bean-halves">
+ <path d="M75 118 Q75 112 80 113 Q85 117 80 120Z M92 123 Q94 118 99 120 Q102 124 96 127Z M106 113 Q108 109 112 112 Q115 116 109 117Z M85 137 Q85 132 90 133 Q94 137 89 140Z" fill="{{gold}}" opacity=".91"/>
+ <path d="M76 118 l3 2 M95 125 l3 -1 M109 116 l3 -1 M86 138 l3 1" fill="none" stroke="{{ochre}}" stroke-width=".78" opacity=".78"/>
+</g>
+</svg>
