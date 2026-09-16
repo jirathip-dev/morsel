@@ -25,6 +25,7 @@
 
 import {
   ABSENT_COLUMNS,
+  acceptedConstraintDefs,
   CANONICAL_COLUMNS,
   CANONICAL_CONSTRAINTS,
   CANONICAL_FILES,
@@ -438,12 +439,24 @@ const absentColumnViolation = (qualifiedName) => {
 
 const constraintColumnsSql = `(select array_agg(a.attname order by u.ord) from unnest(c.conkey) with ordinality u(attnum, ord) join pg_attribute a on a.attrelid = c.conrelid and a.attnum = u.attnum)::text[]`;
 
-const constraintViolation = (constraint, table) => {
+const constraintViolation = (constraint, table, file) => {
   const base = `c.conrelid = 'public.${table}'::regclass and c.conname = ${q(constraint.name)} and c.contype = ${q(constraint.kind)}`;
   const extras = [];
   if (constraint.kind === "c") {
-    extras.push(`pg_temp.recovery_norm(pg_get_constraintdef(c.oid)) = pg_temp.recovery_norm(${literal(constraint.def ?? "")})`);
+    // The owning migration's def, plus any pinned successor rendering (0015's
+    // widening of the artwork allowlist). Mirrors the JS classifier exactly:
+    // an unlisted body — including a partial widening — still violates.
+    // The disjunction MUST be parenthesized before it joins the " and "-joined
+    // extras: rendered bare, SQL would parse `… and def = canonical or def =
+    // widened`, the widened disjunct would escape this constraint's
+    // conrelid/conname/contype filter, and a sibling table's widened CHECK would
+    // satisfy it — hiding drift on THIS table (round-3 finding 1).
+    const accepted = [constraint.def ?? "", ...acceptedConstraintDefs(file, table, constraint.name)]
+      .map((def) => `pg_temp.recovery_norm(pg_get_constraintdef(c.oid)) = pg_temp.recovery_norm(${literal(def)})`);
+    extras.push(`(${accepted.join(" or ")})`);
   } else {
+    // One comparison, or an " and "-joined pair whose conjuncts never contain a
+    // bare disjunction — both safe to AND-join unparenthesized.
     extras.push(`${constraintColumnsSql} = ARRAY[${constraint.columns.map((c) => literal(c)).join(", ")}]::text[]`);
   }
   if (constraint.kind === "f") {
@@ -544,7 +557,7 @@ function guardConditionsFor(file) {
 
   // Constraints owned by this migration.
   for (const [table, constraints] of Object.entries(CANONICAL_CONSTRAINTS[file] ?? {})) {
-    for (const constraint of constraints) violations.push(constraintViolation(constraint, table));
+    for (const constraint of constraints) violations.push(constraintViolation(constraint, table, file));
   }
 
   // RLS owned by this migration.

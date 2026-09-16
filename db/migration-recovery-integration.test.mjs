@@ -11,7 +11,7 @@ import { join, resolve } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { run, CONFIRMATION_PHRASE } from '../scripts/migration-recovery.mjs'
 import { run as applyMigrationsRun } from '../scripts/apply-migrations.mjs'
-import { CANONICAL_CONSTRAINTS, CANONICAL_POLICIES, normalizeExpr } from '../scripts/migration-recovery-contracts.mjs'
+import { ACCEPTED_CONSTRAINT_DEFS, CANONICAL_CONSTRAINTS, CANONICAL_POLICIES, normalizeExpr } from '../scripts/migration-recovery-contracts.mjs'
 import { RECOVERY_NORM_BODY } from '../scripts/migration-recovery-guards.mjs'
 
 const ROOT = resolve(process.cwd())
@@ -396,6 +396,80 @@ postgresDescribe('schema recovery runner against a disposable PostgreSQL', () =>
     expect(second.applied).toEqual([])
     expect(secondExecuted.filter((sql) => !/^select /.test(sql.trim()))).toHaveLength(0)
   }, 90_000)
+
+  it('accepts the 0015-widened artwork allowlist as 0013\'s contract: post-0015 plan is unblocked, repair still converges, a partial widening still drifts', async () => {
+    const name = cluster.createDatabase('rec_post0015')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    // The post-merge shape: every canonical file plus the forward-only widening.
+    applyFiles(db, [...CANONICAL_FILES, '0015_artwork_identity_expansion.sql'])
+    const constraintDef = (database, table) => db.execIn(
+      database,
+      `select pg_get_constraintdef(oid) from pg_constraint where conname = '${table}_artwork_id_published';`,
+    ).trim()
+    const plan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(plan.planBlocked).toBe(false)
+    expect(plan.statuses['0013_artwork_identity.sql'].state).toBe('VERIFIED_PRESENT')
+    // 0013 owns the meal routines: removing one makes 0013 REPAIR_REQUIRED, so
+    // --apply runs 0013's converge AND its in-transaction FULL guard against a
+    // database carrying the WIDENED constraint. Before the accepted-rendering
+    // fix the guard's CHECK-body equality aborted this transaction.
+    db.execIn(name, 'drop function public.upsert_menu(uuid, uuid, text, jsonb);')
+    const repair = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(repair.planBlocked).toBe(false)
+    expect(repair.statuses['0013_artwork_identity.sql'].state).toBe('REPAIR_REQUIRED')
+    const applied = await run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet })
+    expect(applied.applied).toContain('0013_artwork_identity.sql')
+    // The widening survives the 0013 converge (converge only adds what is absent)
+    // and the post-apply re-verification holds.
+    const widened = normalizeExpr(constraintDef(name, 'meal_items'))
+    expect(widened).toBe(normalizeExpr(ACCEPTED_CONSTRAINT_DEFS['0013_artwork_identity.sql'].meal_items.meal_items_artwork_id_published[0]))
+    const after = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(after.planBlocked).toBe(false)
+    expect(after.statuses['0013_artwork_identity.sql'].state).toBe('VERIFIED_PRESENT')
+
+    // A genuinely drifted allowlist — neither 0013's pinned 18 nor 0015's 130 —
+    // is still drift: unblocked only by hand, never converged or papered over.
+    // Reuses this database (no second cluster) to keep the suite's runtime flat.
+    db.execIn(name, `alter table public.meal_items drop constraint meal_items_artwork_id_published;
+      alter table public.meal_items add constraint meal_items_artwork_id_published check (artwork_id in ('coffee', 'toast'));`)
+    const driftPlan = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(driftPlan.planBlocked).toBe(true)
+    expect(driftPlan.statuses['0013_artwork_identity.sql'].state).toBe('BLOCKED_AMBIGUOUS')
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: db.queryImpl, log: quiet }))
+      .rejects.toThrow(/plan is blocked/)
+  }, 120_000)
+
+  it("ledger-only race: on a post-0015 database, artwork-CHECK drift injected before 0013's converge aborts with NO ledger row", async () => {
+    const name = cluster.createDatabase('rec_race_post0015')
+    const db = { name, execIn: cluster.execIn, queryImpl: cluster.queryImplFor(name) }
+    applyFiles(db, [...CANONICAL_FILES, '0015_artwork_identity_expansion.sql'])
+    // 0013 is REPAIR_REQUIRED for an unrelated reason: its owned routine is gone.
+    db.execIn(name, 'drop function public.upsert_menu(uuid, uuid, text, jsonb);')
+    const clean = await run({ ref, token, root: ROOT, apply: false, queryImpl: db.queryImpl, log: quiet })
+    expect(clean.planBlocked).toBe(false)
+    expect(clean.statuses['0013_artwork_identity.sql'].state).toBe('REPAIR_REQUIRED')
+    // Drift the artwork allowlist inside the converge window: the preflight
+    // already passed, so only 0013's in-transaction FULL guard can catch it —
+    // and its CHECK-body clause must still bind the constraint by
+    // conrelid/conname/contype. (Round-3 finding: an unparenthesized accepted
+    // disjunction let the sibling table's widened body satisfy this table's
+    // clause, so the drifted table's row was recorded as verified.)
+    let drifted = false
+    const racing = async (sql) => {
+      const text = String(sql)
+      if (!drifted && /^begin;/.test(text.trim()) && text.includes("migration_ledger (name) values ('artwork_identity')")) {
+        drifted = true
+        db.execIn(name, `alter table public.meal_items drop constraint meal_items_artwork_id_published;
+          alter table public.meal_items add constraint meal_items_artwork_id_published check (artwork_id in ('coffee', 'toast'));`)
+      }
+      return db.queryImpl(sql)
+    }
+    await expect(run({ ref, token, root: ROOT, apply: true, confirm: CONFIRMATION_PHRASE, queryImpl: racing, log: quiet })).rejects.toThrow()
+    expect(drifted).toBe(true)
+    // The whole transaction must abort: a permanently-attested ledger row must
+    // never be written against a database whose artwork allowlist is a 2-id set.
+    expect(db.execIn(name, `select count(*) from public.migration_ledger where name = 'artwork_identity'`).trim()).toBe('0')
+  }, 120_000)
 
   it('fails closed (zero writes) when both logged_at and measured_at exist', async () => {
     const name = cluster.createDatabase('rec_ambiguous')

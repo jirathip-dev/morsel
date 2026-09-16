@@ -25,8 +25,7 @@ private func catalogAsset(_ id: String) throws -> FoodArtworkAsset {
     )
 }
 
-/// The four owner food names this lane must reproduce: none is in the
-/// catalog, so all four exercise the fallback path.
+/// The four original Variant A names; A still wins over expanded library names.
 private let ownerFoodNames = [
     "Focaccia bread", "Mortadella", "Stracciatella cheese", "Grilled vegetable topping"
 ]
@@ -93,25 +92,24 @@ final class FoodArtworkFallbackTests: XCTestCase {
     func testUnknownFoodResolvesToTheNeutralSignNeverBlank() throws {
         let neutral = try catalogAsset("fallback-neutral")
         XCTAssertNil(FoodArtworkResolver.match(name: "pad thai from the corner stall", in: assets))
-        XCTAssertEqual(FoodArtworkResolver.resolve(items: [artworkItem("pad thai")], in: assets), .neutral(neutral))
+        XCTAssertEqual(FoodArtworkResolver.resolve(items: [artworkItem("unlisted supper")], in: assets),
+                       .neutral(neutral))
         XCTAssertEqual(
-            MealArtworkPresentation.resolve(photoPath: nil, items: [artworkItem("pad thai")], assets: assets),
+            MealArtworkPresentation.resolve(photoPath: nil, items: [artworkItem("unlisted supper")], assets: assets),
             .illustration(.neutral(neutral)),
             "an unknown meal resolves to the approved neutral sign — never blank"
         )
     }
 
-    /// Issue #229 retarget (extension, not a weakening): the four owner foods
-    /// are the approved Variant A subjects, so the ROW artwork carries their A
-    /// studies while the #199 library resolver itself is unchanged — a food
-    /// neither set knows still resolves to the neutral sign.
-    func testOwnerFoodNamesCarryApprovedAStudiesWhileTheLibraryIsUnchanged() throws {
+    /// The expanded catalog does not displace the existing Variant A row precedence.
+    func testOwnerFoodNamesKeepApprovedAStudiesWithExpandedLibrary() throws {
         let neutral = try catalogAsset("fallback-neutral")
+        let additions = ["Focaccia bread": "focaccia", "Mortadella": "cold-cuts"]
         for (name, study) in zip(ownerFoodNames, approvedAStudies) {
-            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), "\(name) stays off the #199 catalog")
+            let expected = try additions[name].map { FoodArtworkResolution.food(try catalogAsset($0)) }
+                ?? .neutral(neutral)
             XCTAssertEqual(
-                FoodArtworkResolver.resolve(items: [artworkItem(name)], in: assets), .neutral(neutral),
-                "the library-only path still answers with the neutral sign for \(name)"
+                FoodArtworkResolver.resolve(items: [artworkItem(name)], in: assets), expected
             )
             XCTAssertEqual(
                 JournalRowArtwork.resolve(items: [artworkItem(name)], assets: assets), .study(study),
@@ -168,7 +166,7 @@ final class FoodArtworkFallbackTests: XCTestCase {
         // The meal summary of {known, unknown} is the neutral sign…
         XCTAssertEqual(
             FoodArtworkResolver.resolve(
-                items: [artworkItem("jasmine rice"), artworkItem("pad thai")], in: assets
+                items: [artworkItem("jasmine rice"), artworkItem("unlisted supper")], in: assets
             ),
             .neutral(neutral)
         )
@@ -179,7 +177,7 @@ final class FoodArtworkFallbackTests: XCTestCase {
             .food(try catalogAsset("jasmine-rice"))
         )
         XCTAssertEqual(
-            FoodArtworkResolver.resolve(items: [artworkItem("pad thai")], in: assets),
+            FoodArtworkResolver.resolve(items: [artworkItem("unlisted supper")], in: assets),
             .neutral(neutral)
         )
     }
@@ -212,7 +210,7 @@ final class FoodArtworkFallbackTests: XCTestCase {
             .food(try catalogAsset("jasmine-rice"))
         )
         XCTAssertEqual(
-            MealArtworkPresentation.row(items: [artworkItem("pad thai", mealImage: MealImage(path: path))]),
+            MealArtworkPresentation.row(items: [artworkItem("unlisted supper", mealImage: MealImage(path: path))]),
             .neutral(try catalogAsset("fallback-neutral"))
         )
         XCTAssertEqual(MealArtworkPresentation.row(items: []), .none)
@@ -281,8 +279,7 @@ final class FoodArtworkQualifierTests: JournalRenderingTestCase {
         ("Americano (black, no sugar, homemade)", "coffee")
     ]
 
-    /// Compound foods whose trailing word is a FOOD noun: it is never a
-    /// qualifier, so the name keeps its whole meaning and stays unresolved.
+    /// Compound foods never collapse to their ingredient; some now have their own art.
     private let compoundFalseFriends = [
         "coffee cake", "Coffee cake, large", "Rice cake", "orange juice",
         "banana bread", "coffee ice cream", "Coffee with rice and chicken"
@@ -302,16 +299,20 @@ final class FoodArtworkQualifierTests: JournalRenderingTestCase {
 
     func testCompoundFalseFriendsNeverBecomeTheirHeadFood() throws {
         let neutral = try XCTUnwrap(assets.first { $0.isNeutralFallback })
+        let additions = ["coffee cake": "cake", "Coffee cake, large": "cake", "orange juice": "orange-juice"]
         for name in compoundFalseFriends {
-            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), name)
+            XCTAssertEqual(FoodArtworkResolver.match(name: name, in: assets)?.id, additions[name], name)
             let resolution = FoodArtworkResolver.resolve(name: name, in: assets)
-            XCTAssertEqual(resolution, .neutral(neutral), "\(name) stays unresolved")
+            let expected = try additions[name].map { FoodArtworkResolution.food(try catalogAsset($0)) }
+                ?? .neutral(neutral)
+            XCTAssertEqual(resolution, expected, name)
             XCTAssertFalse(
                 ["coffee", "jasmine-rice", "toast", "orange"].contains(resolution.asset?.id ?? ""),
                 "\(name) must not reach the specific asset its trailing noun names"
             )
             let item = try ArtworkIdentityFixture.item(name: name)
-            XCTAssertEqual(JournalRowArtwork.resolve(items: [item]), .study(.unknown), name)
+            XCTAssertEqual(JournalRowArtwork.resolve(items: [item]),
+                           additions[name] == nil ? .study(.unknown) : .library(expected), name)
         }
     }
 
@@ -320,7 +321,7 @@ final class FoodArtworkQualifierTests: JournalRenderingTestCase {
     /// term all fail closed (the #241 Americano grammar included).
     func testUnknownDescriptorsAndUnknownHeadsFailClosed() {
         let rejected = [
-            "rice, cooked", "coffeeish", "cake with coffee", "Coffee cake (homemade)",
+            "rice, cooked", "coffeeish", "cake with coffee", "Coffee custard (homemade)",
             "Americano (cake)", "Americano (black (no sugar))", "Americano (black) with toast",
             "White rice (half portion), cake", "coffee, 1/2 cup"
         ]

@@ -62,7 +62,11 @@ struct FoodArtworkAsset: Decodable, Equatable, Sendable {
         "drinks": "Drinks",
         "grains": "Grains",
         "protein": "Protein",
-        "soup": "Soup"
+        "soup": "Soup",
+        "dairy": "Dairy",
+        "sweets": "Sweets",
+        "prepared": "Prepared",
+        "condiments": "Condiments"
     ]
 }
 

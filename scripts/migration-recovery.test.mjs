@@ -21,6 +21,8 @@ import {
   validateRawEnvValue,
 } from "./migration-recovery.mjs";
 import {
+  ACCEPTED_CONSTRAINT_DEFS,
+  acceptedConstraintDefs,
   CANONICAL_CONSTRAINTS,
   CANONICAL_FILES,
   CANONICAL_NAMES,
@@ -29,6 +31,8 @@ import {
   FUNCTION_DEFINITIONS,
   normalizeExpr,
 } from "./migration-recovery-contracts.mjs";
+
+const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 
 const dirs = [];
 
@@ -228,6 +232,57 @@ describe("recovery runner CLI and preconditions", () => {
     expect(JSON.stringify(outcome)).not.toContain("0014_dated_targets.sql");
     writeFileSync(join(root, "db/migrations/0015_unknown.sql"), "-- unknown");
     await expect(run({ ref, token, root, apply: false, queryImpl: db.queryImpl, log: quiet })).rejects.toThrow(/manifest mismatch/);
+  });
+
+  it("admits the pending 0015 widening without attesting it, and names both optional forward files in the refusal", async () => {
+    const { root } = await fixture();
+    writeFileSync(
+      join(root, "db/migrations/0015_artwork_identity_expansion.sql"),
+      readFileSync(join(repoRoot, "db", "migrations", "0015_artwork_identity_expansion.sql"), "utf8"),
+    );
+    const db = emptyDb();
+    const outcome = await run({ ref, token, root, apply: false, queryImpl: db.queryImpl, log: quiet });
+    // Forward-only: present is allowed, attested/classified is not. Dropping
+    // 0015 from allowedFiles makes this run throw `manifest mismatch`.
+    expect(outcome.mode).toBe("plan");
+    expect(JSON.stringify(outcome)).not.toContain("0015_artwork_identity_expansion.sql");
+    writeFileSync(join(root, "db/migrations/0016_unknown.sql"), "-- unknown");
+    await expect(run({ ref, token, root, apply: false, queryImpl: db.queryImpl, log: quiet })).rejects.toThrow(
+      /manifest mismatch: expected db\/migrations\/0001\.\.0013 and optional 0014_dated_targets\.sql \/ 0015_artwork_identity_expansion\.sql/,
+    );
+  });
+
+  it("pins the accepted 0015 successor rendering to the migration file and the bundled catalog", () => {
+    const migration = readFileSync(join(repoRoot, "db", "migrations", "0015_artwork_identity_expansion.sql"), "utf8");
+    const catalog = JSON.parse(readFileSync(join(repoRoot, "app", "Resources", "FoodArt", "catalog.json"), "utf8"));
+    const catalogIds = catalog.assets.map((asset) => asset.id).sort();
+    const declared = new Map(
+      [...migration.matchAll(/alter table public\.(\w+) add constraint (\w+)\n {2}check \((.*)\);/g)].map((match) => [
+        match[1],
+        { name: match[2], def: match[3] },
+      ]),
+    );
+    expect([...declared.keys()].sort()).toEqual(["meal_items", "menu_items"]);
+    for (const [table, { name, def }] of declared) {
+      const accepted = ACCEPTED_CONSTRAINT_DEFS["0013_artwork_identity.sql"][table]?.[name];
+      expect(accepted, `${table}.${name}`).toHaveLength(1);
+      // Parity: the accepted literal IS the migration's installed rendering …
+      expect(normalizeExpr(accepted[0])).toBe(normalizeExpr(def));
+      // … and its id set IS the shipped catalog (130), never a subset.
+      const acceptedIds = [...accepted[0].matchAll(/'([a-z0-9-]+)'/g)].map((match) => match[1]).sort();
+      expect(acceptedIds).toEqual(catalogIds);
+      expect(acceptedIds).toHaveLength(130);
+      // It is a widening of 0013's pin, not a replacement of it.
+      const canonical = CANONICAL_CONSTRAINTS["0013_artwork_identity.sql"][table].find((entry) => entry.name === name);
+      const canonicalIds = [...canonical.def.matchAll(/'([a-z0-9-]+)'/g)].map((match) => match[1]).sort();
+      expect(canonicalIds).toHaveLength(18);
+      expect(canonicalIds.every((id) => acceptedIds.includes(id))).toBe(true);
+      expect(normalizeExpr(accepted[0])).not.toBe(normalizeExpr(canonical.def));
+    }
+    // No blanket acceptance: unlisted constraints/files accept nothing extra.
+    expect(acceptedConstraintDefs("0013_artwork_identity.sql", "meal_items", "menu_items_pkey")).toEqual([]);
+    expect(acceptedConstraintDefs("0013_artwork_identity.sql", "meal_items", "meal_items_artwork_id_published")).toHaveLength(1);
+    expect(acceptedConstraintDefs("0012_named_menus.sql", "meal_menus", "meal_menus_pkey")).toEqual([]);
   });
 
   it("plan mode requires no confirmation and issues only allowlisted reads", async () => {

@@ -1,0 +1,955 @@
+{
+  "all_sizes_1179x2556": true,
+  "frames": 45,
+  "frames_without_content": [],
+  "per_frame": [
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-americano.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 35171,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-boba-tea.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30492,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-brown-gravy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34291,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-chinese-kale.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32740,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-coffee-cake.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32901,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-composite.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 58964,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-condiments.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30940,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-dairy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 29106,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-generic-noodles.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 33549,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-half-rice.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32946,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-kana.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30819,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-linguine.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30992,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-milk-tea.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 29779,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-noodles.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32882,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-pad-thai.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 31826,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-pork-gravy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30191,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-prepared.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32314,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-qualified-pasta.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 33586,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-shared-plate.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34269,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-sweets.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 29503,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-unknown.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 33585,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        42,
+        38,
+        30
+      ],
+      "file": "266-night-white-rice.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 31029,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-americano.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 36006,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-boba-tea.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34332,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-brown-gravy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 37991,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-chinese-kale.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 36138,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-coffee-cake.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 33642,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-composite.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 51003,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-condiments.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 33852,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-dairy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 30406,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-generic-noodles.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 35509,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-half-rice.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34906,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-kana.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34217,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-linguine.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32769,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-milk-tea.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34034,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-noodles.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 36302,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-pad-thai.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 34301,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-pork-gravy.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32151,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-prepared.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32295,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-qualified-pasta.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 35546,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-shared-plate.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 36228,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-sweets.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 31395,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-unknown.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 35545,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1125,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-paper-white-rice.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32439,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": true
+    },
+    {
+      "content_bbox": [
+        21,
+        201,
+        1128,
+        2454
+      ],
+      "corner_rgb": [
+        255,
+        248,
+        232
+      ],
+      "file": "266-today-130.png",
+      "icc_profile_bytes": 536,
+      "off_ground_pixels": 32148,
+      "size": [
+        1179,
+        2556
+      ],
+      "theme_ground_ok": null
+    }
+  ],
+  "theme_grounds_ok": [],
+  "theme_pairs_bytes_identical": [],
+  "theme_pairs_corner_differs": []
+}

@@ -80,6 +80,7 @@ export const migrationFiles = [
   'db/migrations/0012_named_menus.sql',
   'db/migrations/0013_artwork_identity.sql',
   'db/migrations/0014_dated_targets.sql',
+  'db/migrations/0015_artwork_identity_expansion.sql',
 ]
 
 function runCommand(command: string, args: string[], input?: string): CommandResult {
