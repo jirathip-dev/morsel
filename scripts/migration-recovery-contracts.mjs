@@ -655,6 +655,8 @@ export const CANONICAL_CONSTRAINTS = {
 // widened rendering is an ACCEPTED ALTERNATIVE for that constraint — never a
 // wider licence: any other id set (a partial widening included) stays drift
 // and remains un-convergeable, and unlisted constraints accept nothing extra.
+// Acceptance is normalizeExpr equality, so the deparse `= ANY (ARRAY[...])`
+// spelling of the pinned id set is accepted too — the id set itself cannot move.
 // The literals are the migration bodies' `check (...)` expressions, and
 // scripts/migration-recovery.test.mjs pins them to
 // db/migrations/0015_artwork_identity_expansion.sql AND to the bundled

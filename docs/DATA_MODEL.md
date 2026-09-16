@@ -99,7 +99,10 @@ require a new migration, never an edit to an applied one: `0013` pins the
 original 18 identities, and publication of the current set ships as the
 forward-only `0015_artwork_identity_expansion.sql` (drop-if-exists + re-add of
 both allowlist CHECKs), so a database must have `0015` applied before the
-112 newer ids can be written.
+112 newer ids can be written. Recovery follow-up: if that CHECK is ever
+*deleted*, the recovery runner's converge restores `0013`'s canonical
+rendering — the original 18 ids, never a wider set — so re-apply `0015`
+afterwards to re-widen the allowlist.
 
 Both `log_meal_with_items` and `log_meal_with_items_client` keep their existing
 signatures and accept the optional `artwork_id` key in `p_items`. Their returned

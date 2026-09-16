@@ -446,10 +446,17 @@ const constraintViolation = (constraint, table, file) => {
     // The owning migration's def, plus any pinned successor rendering (0015's
     // widening of the artwork allowlist). Mirrors the JS classifier exactly:
     // an unlisted body — including a partial widening — still violates.
+    // The disjunction MUST be parenthesized before it joins the " and "-joined
+    // extras: rendered bare, SQL would parse `… and def = canonical or def =
+    // widened`, the widened disjunct would escape this constraint's
+    // conrelid/conname/contype filter, and a sibling table's widened CHECK would
+    // satisfy it — hiding drift on THIS table (round-3 finding 1).
     const accepted = [constraint.def ?? "", ...acceptedConstraintDefs(file, table, constraint.name)]
       .map((def) => `pg_temp.recovery_norm(pg_get_constraintdef(c.oid)) = pg_temp.recovery_norm(${literal(def)})`);
-    extras.push(accepted.join(" or "));
+    extras.push(`(${accepted.join(" or ")})`);
   } else {
+    // One comparison, or an " and "-joined pair whose conjuncts never contain a
+    // bare disjunction — both safe to AND-join unparenthesized.
     extras.push(`${constraintColumnsSql} = ARRAY[${constraint.columns.map((c) => literal(c)).join(", ")}]::text[]`);
   }
   if (constraint.kind === "f") {
