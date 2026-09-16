@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 from PIL import Image
-from pipeline import ROOT, read, save, require, admission, sha
+from pipeline import ROOT, read, save, require, admission, sha, PAD_THAI_DESCRIPTION
 
 
 def run(batch):
@@ -59,6 +59,8 @@ def run(batch):
             require(all(v==[64,64] for v in facts['imageSizes']),'not native 64px')
         else:
             require(facts['ids']==layout['ids'],'gallery closed set differs')
+            if batch == 5:
+                require(facts.get('padThaiAlt') == PAD_THAI_DESCRIPTION, 'Pad thai browser alt misdescribes art')
         results.append({'page':page,'capture':str(target.relative_to(ROOT)),'raw_exit':p.returncode,'sha256':sha(target),'dom':facts})
         save(dest/'browser.json',{'status':'INCOMPLETE','captures':results})
     scratch.rmdir()

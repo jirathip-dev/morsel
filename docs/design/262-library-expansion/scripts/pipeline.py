@@ -23,6 +23,8 @@ from ink_expansion_plan import coverage as estimate, PUBLISHED_NAMES
 AUTHORITY = 'https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690697676'
 AMENDMENT = 'https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910'
 COUNTS = {1: 24, 2: 24, 3: 24, 4: 23, 5: 12}
+PAD_THAI_DESCRIPTION = ('Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; '
+                        'no particular protein or nut garnish is specified.')
 DEFAULT_PRODUCT = Path('/Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion')
 FALLBACKS = {
     'soup': 'A softly irregular broth bowl and spoon; a category sign, not an identified soup.',
@@ -150,6 +152,9 @@ def entries(batch):
         item['kind'] = 'food'
         # Hue words in the historical proposal are subordinate to ART-SPEC.
         item['description'] = item['description'].replace('dark-blue and black', 'dark warm-pigment').replace('purple-brown', 'brown-red').replace('silver-grey', 'muted warm-grey')
+        # Owner-routed fix 1 supersedes only this historical proposal description.
+        if item['id'] == 'pad-thai':
+            item['description'] = PAD_THAI_DESCRIPTION
         result.append(item)
     if batch == 1:
         for f in proposal()['fallbacks_proposed']:

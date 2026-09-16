@@ -33,6 +33,13 @@ class EvidenceContract(unittest.TestCase):
         def altered(path):
             data=copy.deepcopy(read(path))
             rel=str(Path(path).relative_to(FIXTURE))
+            # The retained pre-audit verifier predates fix-1 wording. Restore
+            # its historical subjects description in memory for valid controls;
+            # never rewrite the current artifact or relax its corrected gate.
+            if BASELINE and rel == 'library/subjects.json':
+                old = next(e for e in p.entries(5) if e['id'] == 'pad-thai')['description']
+                for asset in data['assets']:
+                    if asset['id'] == 'pad-thai': asset['description'] = old
             # Legacy B1 fixture: explicit test-only dependency pins, not a capture claim.
             if rel=='batch-1/browser.json' and not data.get('inputs_sha256'):
                 from evidence_contract import browser_cases

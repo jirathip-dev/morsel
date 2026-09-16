@@ -12,7 +12,10 @@ AUDIT = '''<script>addEventListener('load',async()=>{await document.fonts.ready;
 
 
 def page(path, body, theme='paper', phone=False):
-    path.write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Morsel • Issue 262 • Candidate studies</title><link rel="stylesheet" href="proof.css"></head><body class="{theme}{" phone" if phone else ""}"><main>{body}</main>{AUDIT}</body></html>\n')
+    audit = AUDIT
+    if path.parent.name == 'batch-5' and path.name.startswith('gallery-'):
+        audit = audit.replace('viewport:', 'padThaiAlt:document.querySelector(\'[data-id="pad-thai"] .large\')?.getAttribute("alt"),viewport:', 1)
+    path.write_text(f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Morsel • Issue 262 • Candidate studies</title><link rel="stylesheet" href="proof.css"></head><body class="{theme}{" phone" if phone else ""}"><main>{body}</main>{audit}</body></html>\n')
 
 
 def art(im, iid, theme, size, x, y):

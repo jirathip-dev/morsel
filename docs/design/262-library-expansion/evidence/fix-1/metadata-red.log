@@ -1,0 +1,98 @@
+test_all_existing_proof_pixels_unchanged (__main__.PadThaiMetadata.test_all_existing_proof_pixels_unchanged) ... ok
+test_gallery_alt_matches_art_and_other_subjects (__main__.PadThaiMetadata.test_gallery_alt_matches_art_and_other_subjects) ... FAIL
+test_generator_matches_source_description (__main__.PadThaiMetadata.test_generator_matches_source_description) ... FAIL
+test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) ...
+  test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='library/catalog.json') ... FAIL
+  test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='library/subjects.json') ... FAIL
+  test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='batch-5/catalog-delta.json') ... FAIL
+  test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='batch-5/subjects.json') ... FAIL
+test_real_browser_reports_correct_alt_at_both_widths (__main__.PadThaiMetadata.test_real_browser_reports_correct_alt_at_both_widths) ... FAIL
+test_svg_and_all_library_art_byte_identical (__main__.PadThaiMetadata.test_svg_and_all_library_art_byte_identical) ... ok
+
+======================================================================
+FAIL: test_gallery_alt_matches_art_and_other_subjects (__main__.PadThaiMetadata.test_gallery_alt_matches_art_and_other_subjects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 82, in test_gallery_alt_matches_art_and_other_subjects
+    self.assertEqual(parser.alts, expected, 'Pad thai gallery alt wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'pan[883 chars]i': 'Orange-tinted flat noodles with shrimp, b[140 chars]sh.'} != {'pan[883 chars]i': 'Broad folded flat noodles on a shallow pl[174 chars]sh.'}
+Diff is 1481 characters long. Set self.maxDiff to None to see it. : Pad thai gallery alt wording
+
+======================================================================
+FAIL: test_generator_matches_source_description (__main__.PadThaiMetadata.test_generator_matches_source_description)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 44, in test_generator_matches_source_description
+    self.assertEqual(item['description'], EXPECTED, 'Pad thai generator wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Orange-tinted flat noodles with shrimp, b[47 chars]rks.' != 'Broad folded flat noodles on a shallow pl[81 chars]ied.'
+- Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.
++ Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.
+ : Pad thai generator wording
+
+======================================================================
+FAIL: test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='library/catalog.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 59, in test_metadata_changes_only_pad_thai_description
+    self.assertEqual(pad[0]['description'], EXPECTED, 'Pad thai metadata wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Orange-tinted flat noodles with shrimp, b[47 chars]rks.' != 'Broad folded flat noodles on a shallow pl[81 chars]ied.'
+- Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.
++ Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.
+ : Pad thai metadata wording
+
+======================================================================
+FAIL: test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='library/subjects.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 59, in test_metadata_changes_only_pad_thai_description
+    self.assertEqual(pad[0]['description'], EXPECTED, 'Pad thai metadata wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Orange-tinted flat noodles with shrimp, b[47 chars]rks.' != 'Broad folded flat noodles on a shallow pl[81 chars]ied.'
+- Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.
++ Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.
+ : Pad thai metadata wording
+
+======================================================================
+FAIL: test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='batch-5/catalog-delta.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 59, in test_metadata_changes_only_pad_thai_description
+    self.assertEqual(pad[0]['description'], EXPECTED, 'Pad thai metadata wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Orange-tinted flat noodles with shrimp, b[47 chars]rks.' != 'Broad folded flat noodles on a shallow pl[81 chars]ied.'
+- Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.
++ Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.
+ : Pad thai metadata wording
+
+======================================================================
+FAIL: test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) (path='batch-5/subjects.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 59, in test_metadata_changes_only_pad_thai_description
+    self.assertEqual(pad[0]['description'], EXPECTED, 'Pad thai metadata wording')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Orange-tinted flat noodles with shrimp, b[47 chars]rks.' != 'Broad folded flat noodles on a shallow pl[81 chars]ied.'
+- Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.
++ Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.
+ : Pad thai metadata wording
+
+======================================================================
+FAIL: test_real_browser_reports_correct_alt_at_both_widths (__main__.PadThaiMetadata.test_real_browser_reports_correct_alt_at_both_widths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/test_pad_thai_metadata.py", line 93, in test_real_browser_reports_correct_alt_at_both_widths
+    self.assertEqual(case['dom'].get('padThaiAlt'), EXPECTED,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     'Pad thai browser DOM alt wording')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 'Broad folded flat noodles on a shallow p[82 chars]ied.' : Pad thai browser DOM alt wording
+
+----------------------------------------------------------------------
+Ran 6 tests in 4.513s
+
+FAILED (failures=7)
+
+RAW_EXIT=1

@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "description": "Broad folded flat noodles on a shallow plate with sprouts and a lime wedge; no particular protein or nut garnish is specified.",
+  "pad_thai_svg": {
+    "before_sha256": "25fb62084e54b63f7132300c781d948474ccd4ef92f7ff2166829ee896de0c14",
+    "after_sha256": "25fb62084e54b63f7132300c781d948474ccd4ef92f7ff2166829ee896de0c14",
+    "equal": true
+  },
+  "unchanged_library_art_files": 1170,
+  "unchanged_existing_proof_pngs": 117,
+  "counts": {
+    "new_foods": 107,
+    "total_foods": 120,
+    "assets": 130
+  },
+  "shipped_preservation": {
+    "status": "PASS",
+    "shipped_identities": 18,
+    "shipped_art_files": 162,
+    "protected_product_files": 534
+  },
+  "batch5_browser_captures": 10,
+  "root_index_byte_identical": true,
+  "existing_files_changed_before_packaging": [
+    "README.md",
+    "SHA256SUMS.json",
+    "batch-5/SHA256SUMS.json",
+    "batch-5/admission.json",
+    "batch-5/admission.jsonl",
+    "batch-5/browser-logs/gallery-night-1440.log",
+    "batch-5/browser-logs/gallery-night-390.log",
+    "batch-5/browser-logs/gallery-paper-1440.log",
+    "batch-5/browser-logs/gallery-paper-390.log",
+    "batch-5/browser-logs/phone-01-night.log",
+    "batch-5/browser-logs/phone-01-paper.log",
+    "batch-5/browser-logs/phone-02-night.log",
+    "batch-5/browser-logs/phone-02-paper.log",
+    "batch-5/browser-logs/phone-03-night.log",
+    "batch-5/browser-logs/phone-03-paper.log",
+    "batch-5/browser.json",
+    "batch-5/catalog-delta.json",
+    "batch-5/gallery-night.html",
+    "batch-5/gallery-paper.html",
+    "batch-5/privacy.json",
+    "batch-5/subjects.json",
+    "library/catalog.json",
+    "library/subjects.json",
+    "scripts/capture.py",
+    "scripts/evidence_contract.py",
+    "scripts/pipeline.py",
+    "scripts/proofs.py",
+    "scripts/test_evidence_contract.py"
+  ],
+  "scope": "Text/evidence only; final pixel approval outstanding; no bundling."
+}

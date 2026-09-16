@@ -103,6 +103,27 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/run_contract_gates.py
 
 This command refreshes test evidence, so regenerate manifests afterwards. Batch 1 was freshly input-pinned without changing any of its 16 screenshot bytes. Batch-5 alias/study and general-coverage limits are in [HONESTY-DECISION.md](batch-5/HONESTY-DECISION.md).
 
+## Fix 1 — Pad thai description and accessibility text
+
+The owner-routed `.brief-fix-1.md` supersedes only Pad thai's historical proposal description. Current metadata and gallery alt text now describe broad folded flat noodles, sprouts and lime, with no particular protein or nut garnish specified. The frozen proposal under `references/` remains historical input, not current descriptive authority for this one field.
+
+| Brief item | Applied correction | Evidence |
+|---|---|---|
+| F1 | Corrected four metadata descriptions and both generated gallery alt attributes; all other subjects unchanged | `scripts/test_pad_thai_metadata.py`, `evidence/fix-1/metadata-green.log` |
+| F2 | No SVG, master or raster edits; exact before/after SHA-256 | `evidence/fix-1/before.json`, `evidence/fix-1/verification.json` |
+| F3 | Regenerated batch-5 proofs and aggregate index; all existing proof PNGs and root index remain byte-identical; renewed browser input pins and manifests | `batch-5/browser.json`, `batch-5/SHA256SUMS.json`, `SHA256SUMS.json` |
+| F4 | Fresh closed-set gate and 10 browser captures; actual Pad thai DOM alt checked at 390/1440 widths in both themes; counts and shipped preservation unchanged | `evidence/fix-1/commands.json`, `evidence/fix-1/closed-set.log`, `evidence/fix-1/browser.log` |
+
+See [FIX-1.md](FIX-1.md) for hashes, raw results and scope. Reproduce this text-only round without exporting artwork:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/fix_pad_thai_metadata.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/pipeline.py pack --batch 5 --private-names "$PRIVATE"
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/pipeline.py check-package
+```
+
+The fix runner retains its frozen before receipt, checks every other subject's metadata, rejects the superseded Pad thai wording, regenerates browser proofs, and records each raw exit in a named log. Its `--check-only` mode performs no writes. The six fix-specific tests are additional to the existing 23 art/evidence contract tests. The historical pre-audit verifier's test-only subjects fixture restores the pre-fix description in memory so its two valid controls still isolate the original eight verifier defects; current artifacts and current gates never use that legacy wording. Final pixel approval remains outstanding. The repository npm-test failure is unchanged and was not rerun.
+
 ## Post-publication audit
 
 On the authoring host, after the authorized publication:

@@ -1,0 +1,13 @@
+test_all_existing_proof_pixels_unchanged (__main__.PadThaiMetadata.test_all_existing_proof_pixels_unchanged) ... ok
+test_gallery_alt_matches_art_and_other_subjects (__main__.PadThaiMetadata.test_gallery_alt_matches_art_and_other_subjects) ... ok
+test_generator_matches_source_description (__main__.PadThaiMetadata.test_generator_matches_source_description) ... ok
+test_metadata_changes_only_pad_thai_description (__main__.PadThaiMetadata.test_metadata_changes_only_pad_thai_description) ... ok
+test_real_browser_reports_correct_alt_at_both_widths (__main__.PadThaiMetadata.test_real_browser_reports_correct_alt_at_both_widths) ... ok
+test_svg_and_all_library_art_byte_identical (__main__.PadThaiMetadata.test_svg_and_all_library_art_byte_identical) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.090s
+
+OK
+
+RAW_EXIT=0

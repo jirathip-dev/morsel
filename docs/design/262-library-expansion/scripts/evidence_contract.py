@@ -38,6 +38,8 @@ def check_batch(p, batch):
         p.require(dom['minHitWidth']>=44 and dom['minHitHeight']>=44,'capture hit targets fail')
         if page.startswith('phone-'):
             p.require(dom['allRowsVisible'] and dom['imageSizes']==[[64,64]]*len(want),'native phone rows fail')
+        elif batch == 5:
+            p.require(dom.get('padThaiAlt') == p.PAD_THAI_DESCRIPTION, 'Pad thai browser alt misdescribes art')
         image=p.ROOT/c['capture']
         p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
     r=p.read(d/'reproducibility.json')
