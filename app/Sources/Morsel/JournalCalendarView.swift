@@ -115,7 +115,11 @@ struct JournalCalendarView: View {
         .accessibilityLabel(date.formatted(date: .complete, time: .omitted))
         .accessibilityValue(logged ? "Meals logged" : "No meals")
         .accessibilityAddTraits(date == selectedDate ? .isSelected : [])
-        .accessibilityIdentifier("diary-date-" + date.formatted(.iso8601.year().month().day().dateSeparator(.dash)))
+        .accessibilityIdentifier(dateIdentifier(for: date))
+    }
+
+    func dateIdentifier(for date: Date) -> String {
+        "diary-date-" + DatedTarget.label(date, calendar: model.calendar)
     }
 
     private func dotColor(_ date: Date) -> Color {
