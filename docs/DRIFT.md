@@ -67,6 +67,30 @@ Read-only `fly machine list`; exits 0 only when exactly one machine exists
 and is started. Exit 1 = drift (fix: `fly scale count 1 -a <app>` — human
 action, `docs/FLY_DEPLOY.md`). Exit 2 = CLI/auth/parse problem.
 
+### Fly deployed revision (morsel-mcp)
+
+```bash
+node scripts/fly-revision-watchdog.mjs    # READ-ONLY; GET requests only
+```
+
+Compares `main`'s HEAD with the revision the RUNNING Fly image reports on its
+own `/version` route (the revision baked at image build time — the source of
+truth and its failure modes are documented in `docs/FLY_DEPLOY.md`
+§"Deployed revision"). It prints a machine-readable verdict and exits:
+
+- `VERDICT=IN_SYNC`, exit 0 — the deployed revision IS `main`'s HEAD (silent);
+- `VERDICT=BEHIND`, exit 0 — a different revision is running, with the commits
+  `main` is ahead by listed;
+- `VERDICT=UNKNOWN`, exit 1 — the deployed revision could not be OBSERVED
+  (unreachable origin, non-200/non-JSON, or an image built without the
+  revision bake). Fail closed: an unobservable deployment is never reported as
+  in sync.
+
+Scheduled daily as the `Fly Revision Watchdog` workflow, which opens or
+refreshes exactly one issue on `BEHIND`. Fix: the human-dispatched
+`Deploy Fly (morsel-mcp)` workflow; a deploy also re-asserts the bake on both
+origins (see `docs/FLY_DEPLOY.md`).
+
 ### Vercel consent surface
 
 No Vercel token is stored or referenced (none exists on the project), so
@@ -90,4 +114,5 @@ regression also runs offline against committed code via
 | Supabase config | `node infra/supabase/config.mjs apply --yes` |
 | Schema reconcile | `scripts/migration-recovery.mjs --apply` (confirmation phrase) |
 | Fly machine count | `fly scale count 1 -a morsel-mcp` |
+| Fly deployed revision | `Deploy Fly (morsel-mcp)` workflow (human dispatch) |
 | Vercel page | merge the `authorize-ui/` fix on `main` |

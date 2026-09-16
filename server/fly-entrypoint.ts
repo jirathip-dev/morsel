@@ -1,4 +1,4 @@
-import { createMorselApp, type MorselAppOptions } from './app.ts'
+import { buildIdentity, createMorselApp, type MorselAppOptions } from './app.ts'
 import { createSupabaseAuthenticator, type Authenticate, type AuthenticatedUser } from './auth.ts'
 import type { Hono } from 'hono'
 import type { MorselOAuthOptions } from './oauth.ts'
@@ -172,6 +172,10 @@ export function createFlyEntrypointApp(options: FlyEntrypointOptions = {}): { ap
     basePath: FLY_BASE_PATH,
     originHealth: true,
     legacyTransportAlias: false,
+    // Issue #261: the revision baked into this image at build time plus the
+    // identifiers Fly injects into the machine — published on `/version` so the
+    // read-only revision watchdog can compare what IS RUNNING with main.
+    identity: buildIdentity(env),
     oauth: {
       anonKey,
       supabaseUrl,
