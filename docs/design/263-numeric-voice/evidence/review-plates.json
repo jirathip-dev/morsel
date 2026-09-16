@@ -1,0 +1,128 @@
+[
+  {
+    "file": "evidence/review-01.png",
+    "pages": [
+      "today-headline",
+      "history-headline"
+    ]
+  },
+  {
+    "file": "evidence/review-02.png",
+    "pages": [
+      "food-rows",
+      "today-log"
+    ]
+  },
+  {
+    "file": "evidence/review-03.png",
+    "pages": [
+      "macro-columns",
+      "history-ledger"
+    ]
+  },
+  {
+    "file": "evidence/review-04.png",
+    "pages": [
+      "day-drill",
+      "journal-folios"
+    ]
+  },
+  {
+    "file": "evidence/review-05.png",
+    "pages": [
+      "peripheral-labels",
+      "weight-chart"
+    ]
+  },
+  {
+    "file": "evidence/review-06.png",
+    "pages": [
+      "weight-receipt",
+      "weight-missing"
+    ]
+  },
+  {
+    "file": "evidence/review-07.png",
+    "pages": [
+      "calendar-month",
+      "goals-filled"
+    ]
+  },
+  {
+    "file": "evidence/review-08.png",
+    "pages": [
+      "goals-validation",
+      "shared-field-states"
+    ]
+  },
+  {
+    "file": "evidence/review-09.png",
+    "pages": [
+      "training-receipt",
+      "training-amount"
+    ]
+  },
+  {
+    "file": "evidence/review-10.png",
+    "pages": [
+      "meal-capture",
+      "meal-edit"
+    ]
+  },
+  {
+    "file": "evidence/review-11.png",
+    "pages": [
+      "meal-confidence",
+      "menu-list"
+    ]
+  },
+  {
+    "file": "evidence/review-12.png",
+    "pages": [
+      "menu-editor",
+      "add-photo"
+    ]
+  },
+  {
+    "file": "evidence/review-13.png",
+    "pages": [
+      "edit-photo",
+      "technical-endpoints"
+    ]
+  },
+  {
+    "file": "evidence/review-14.png",
+    "pages": [
+      "technical-claudePrompt",
+      "technical-chatPrompt"
+    ]
+  },
+  {
+    "file": "evidence/review-15.png",
+    "pages": [
+      "technical-copy-brand",
+      "historical-macros"
+    ]
+  },
+  {
+    "file": "evidence/review-16.png",
+    "pages": [
+      "food-missing",
+      "weight-caption-branches"
+    ]
+  },
+  {
+    "file": "evidence/review-17.png",
+    "pages": [
+      "training-unconfirmed",
+      "illustration-provenance"
+    ]
+  },
+  {
+    "file": "evidence/review-18.png",
+    "pages": [
+      "menu-new",
+      "journal-hosts"
+    ]
+  }
+]

@@ -1,0 +1,5124 @@
+{
+  "schema_version": 1,
+  "task": "Morsel #263 independent exhaustive numeric-voice source audit",
+  "source_root": "/Users/jirathip/.herdr/worktrees/morsel/design-263-numeric-voice",
+  "scope": "All .swift files recursively under app/Sources/Morsel; source inspection only, no issue-inventory adoption",
+  "expected_base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "observed_head": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "checkout_clean_before_and_after": true,
+  "output_policy": "Only the requested independent-audit.json artifact is authored; no repository writes, rendering, builds, git mutation or GitHub writes.",
+  "group_normalization": {
+    "affected_group_count": 6,
+    "decision": "Treat the supplied five affected bullets as six by separating Weight / chart labels from Rows / columns. Kept-mono technical is a seventh, separate unchanged category, not one of the six affected groups.",
+    "group_overlap_rule": "One source helper may serve multiple groups (SectionHeading, JournalPaperField.valueFont). Shared-site memberships overlap intentionally; never sum them as unique sites. Field-construction entries are indirection usages of PaperFields.swift:91, not extra font-token expressions."
+  },
+  "method": {
+    "scan": "Recursive Swift scan of all files, broad identifier sweep and separate system-monospaced/font-feature sweep; read every matching file plus caller/formatter/model sources. Classify actual Text/TextField/Button/Image consumers and propagate shared helpers to callers.",
+    "fully_read_source_file_count": 30,
+    "font_weight_note": "Sizes are declared base points, before Dynamic Type. Regular/Medium are resolved through DesignSystem named bundled fonts, nominal 400/500; actual runtime font resolution is not verified.",
+    "match_accounting": "Every broad matched source line is assigned exactly one disposition in discovery_matches; each font consumption has a structured font_sites entry; every JournalPaperField construction is listed, including false/default cases.",
+    "runtime_limits": "No assumption about data cardinality: per-day/per-item/menu counts are dynamic. Reuse counts describe static source wiring, not an observed frame."
+  },
+  "counts": {
+    "swift_files_scanned": 87,
+    "files_with_broad_matches": 22,
+    "broad_matched_source_lines": 109,
+    "font_use_source_lines": 59,
+    "font_token_consumption_expressions": 60,
+    "font_definitions_or_alias_source_lines": 6,
+    "font_use_status_counts": {
+      "affected": 52,
+      "unused_no_visible_instance": 1,
+      "keep_mono": 4,
+      "unresolved_symbol_font_effect": 2
+    },
+    "journal_paper_field_construction_sites": 20,
+    "monospaced_value_true_construction_sites": 13,
+    "static_numeric_field_definitions_after_goal_wrapper_expansion": 16,
+    "default_serif_paper_field_construction_sites": 7,
+    "monospaced_digit_modifier_sites": 4,
+    "system_monospaced_font_sites": 0,
+    "declared_base_sizes_pt": [
+      9,
+      10,
+      11,
+      12,
+      14,
+      17,
+      22,
+      30,
+      32
+    ]
+  },
+  "affected_groups": [
+    {
+      "id": "headline",
+      "label": "Headline numbers",
+      "font_site_ids": [
+        "HistoryLedgerViews.swift:212",
+        "Views.swift:146"
+      ],
+      "numeric_field_call_ids": [],
+      "font_source_line_count": 2,
+      "numeric_field_call_count": 0
+    },
+    {
+      "id": "rows_columns_dates_time_provenance_meta",
+      "label": "Rows / columns, including dates, time, provenance and metadata",
+      "font_site_ids": [
+        "DayDrillDown.swift:59",
+        "DayDrillDown.swift:63",
+        "DayDrillDown.swift:67",
+        "HistoryLedgerViews.swift:34",
+        "HistoryLedgerViews.swift:134",
+        "HistoryLedgerViews.swift:190",
+        "HistoryLedgerViews.swift:256",
+        "HistoryLedgerViews.swift:260",
+        "JournalFoodRow.swift:62",
+        "JournalFoodRow.swift:70",
+        "JournalFoodRow.swift:100",
+        "JournalFoodRow.swift:105",
+        "JournalUI.swift:48",
+        "JournalUI.swift:233",
+        "JournalUI.swift:364",
+        "Onboarding.swift:192",
+        "Onboarding.swift:256",
+        "Onboarding.swift:271",
+        "Onboarding.swift:282",
+        "Onboarding.swift:369",
+        "Onboarding.swift:377",
+        "SettingsView.swift:159",
+        "SettingsView.swift:208",
+        "TodayLogViews.swift:87",
+        "TodayLogViews.swift:95",
+        "TodayLogViews.swift:115",
+        "TrainingFuelViews.swift:87"
+      ],
+      "numeric_field_call_ids": [],
+      "font_source_line_count": 27,
+      "numeric_field_call_count": 0
+    },
+    {
+      "id": "weight_chart_labels",
+      "label": "Weight / chart labels",
+      "font_site_ids": [
+        "JournalUI.swift:364",
+        "WeightDeltaBand.swift:22",
+        "WeightDeltaBand.swift:58",
+        "WeightDeltaBand.swift:76",
+        "WeightDeltaBand.swift:147"
+      ],
+      "numeric_field_call_ids": [],
+      "font_source_line_count": 5,
+      "numeric_field_call_count": 0
+    },
+    {
+      "id": "calendar",
+      "label": "Calendar",
+      "font_site_ids": [
+        "JournalCalendarView.swift:43",
+        "JournalCalendarView.swift:104"
+      ],
+      "numeric_field_call_ids": [],
+      "font_source_line_count": 2,
+      "numeric_field_call_count": 0
+    },
+    {
+      "id": "goals_forms_errors",
+      "label": "Goals / forms / errors",
+      "font_site_ids": [
+        "AuthView.swift:29",
+        "AuthView.swift:52",
+        "AuthView.swift:94",
+        "Onboarding.swift:205",
+        "PaperFields.swift:66",
+        "PaperFields.swift:91",
+        "SettingsView.swift:125",
+        "TrainingFuelViews.swift:105"
+      ],
+      "numeric_field_call_ids": [
+        "GoalsEditor.swift:233"
+      ],
+      "font_source_line_count": 8,
+      "numeric_field_call_count": 1
+    },
+    {
+      "id": "meal_capture_photo_edit_menu",
+      "label": "Meal capture / photo / edit / menu",
+      "font_site_ids": [
+        "AddMealPhotoSection.swift:129",
+        "AddMealPhotoSection.swift:156",
+        "AddMealPhotoSection.swift:165",
+        "MealCaptureView.swift:354",
+        "MealItemEditSheet.swift:147",
+        "MealItemEditSheet.swift:349",
+        "MealItemEditSheet.swift:356",
+        "MealPhotoEditorSection.swift:101",
+        "MealPhotoEditorSection.swift:153",
+        "MealPhotoEditorSection.swift:312",
+        "MenusScreen.swift:111",
+        "PaperFields.swift:91"
+      ],
+      "numeric_field_call_ids": [
+        "MealCaptureView.swift:114",
+        "MealCaptureView.swift:207",
+        "MealCaptureView.swift:212",
+        "MealCaptureView.swift:219",
+        "MealCaptureView.swift:224",
+        "MealItemEditSheet.swift:79",
+        "MealItemEditSheet.swift:98",
+        "MealItemEditSheet.swift:109",
+        "MealItemEditSheet.swift:123",
+        "MealItemEditSheet.swift:134",
+        "MenuEditorSheet.swift:150",
+        "MenuEditorSheet.swift:167"
+      ],
+      "font_source_line_count": 12,
+      "numeric_field_call_count": 12
+    }
+  ],
+  "kept_mono_technical": {
+    "font_site_ids": [
+      "EndpointCopyPill.swift:20",
+      "Onboarding.swift:303",
+      "Onboarding.swift:329",
+      "SettingsView.swift:136"
+    ],
+    "rule": "Only actual configured MCP URLs, setup-prompt blocks and endpoint Copy/Copied pills. Nonnumeric app prose is not classified as technical simply because it sits near setup."
+  },
+  "font_definitions": [
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 238,
+      "location": "app/Sources/Morsel/DesignSystem.swift:238",
+      "source": "    static func morselMono(size: CGFloat) -> Font { Font.custom(\"IBM Plex Mono\", size: size) }"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 240,
+      "location": "app/Sources/Morsel/DesignSystem.swift:240",
+      "source": "    static func morselMonoMedium(size: CGFloat) -> Font { Font.custom(\"IBM Plex Mono Medium\", size: size) }"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 261,
+      "location": "app/Sources/Morsel/DesignSystem.swift:261",
+      "source": "    static let morselData = Font.morselMono(size: 11)"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 262,
+      "location": "app/Sources/Morsel/DesignSystem.swift:262",
+      "source": "    static let morselDataMedium = Font.morselMonoMedium(size: 11)"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 263,
+      "location": "app/Sources/Morsel/DesignSystem.swift:263",
+      "source": "    static let morselGauge = Font.morselMonoMedium(size: 30)"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 264,
+      "location": "app/Sources/Morsel/DesignSystem.swift:264",
+      "source": "    static let morselHero = Font.morselMonoMedium(size: 32)"
+    }
+  ],
+  "font_sites": [
+    {
+      "id": "AddMealPhotoSection.swift:129",
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 129,
+      "location": "app/Sources/Morsel/AddMealPhotoSection.swift:129",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "AddMealPhotoSection",
+      "content_class": "nonnumeric_prose",
+      "visible_purpose": "Camera unavailable simulator notice",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 75,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:75",
+          "purpose": "Add Meal photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "AddMealPhotoSection.swift:156",
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 156,
+      "location": "app/Sources/Morsel/AddMealPhotoSection.swift:156",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "AddMealPhotoSection",
+      "content_class": "mixed_numeric_file_metadata",
+      "visible_purpose": "JPEG · <integer kilobytes> KB upload metadata",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 75,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:75",
+          "purpose": "Add Meal photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "JPEG/KB is user-facing photo metadata, not an endpoint/code string. Keep in affected meal group; classification boundary noted."
+      ],
+      "classification_ambiguity": "JPEG/KB is file-format metadata; provisional affected numeric/photo classification, not part of explicit URL/setup-prompt/copy-pill technical allowlist."
+    },
+    {
+      "id": "AddMealPhotoSection.swift:165",
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 165,
+      "location": "app/Sources/Morsel/AddMealPhotoSection.swift:165",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "AddMealPhotoSection",
+      "content_class": "nonnumeric_action",
+      "visible_purpose": "Remove selected photo",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 75,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:75",
+          "purpose": "Add Meal photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "AuthView.swift:29",
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 29,
+      "location": "app/Sources/Morsel/AuthView.swift:29",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "SignInView",
+      "content_class": "nonnumeric_brand",
+      "visible_purpose": "morsel wordmark",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 78,
+          "location": "app/Sources/Morsel/MorselApp.swift:78",
+          "purpose": "Root sign-in view",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 261,
+          "location": "app/Sources/Morsel/Onboarding.swift:261",
+          "purpose": "Onboarding sign-in content",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "AuthView.swift:52",
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 52,
+      "location": "app/Sources/Morsel/AuthView.swift:52",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "SignInView",
+      "content_class": "nonnumeric_label",
+      "visible_purpose": "or email separator",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 78,
+          "location": "app/Sources/Morsel/MorselApp.swift:78",
+          "purpose": "Root sign-in view",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 261,
+          "location": "app/Sources/Morsel/Onboarding.swift:261",
+          "purpose": "Onboarding sign-in content",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "AuthView.swift:94",
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 94,
+      "location": "app/Sources/Morsel/AuthView.swift:94",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "SignInView",
+      "content_class": "nonnumeric_action",
+      "visible_purpose": "Use a different email button in code step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 78,
+          "location": "app/Sources/Morsel/MorselApp.swift:78",
+          "purpose": "Root sign-in view",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 261,
+          "location": "app/Sources/Morsel/Onboarding.swift:261",
+          "purpose": "Onboarding sign-in content",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "DayDrillDown.swift:59",
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 59,
+      "location": "app/Sources/Morsel/DayDrillDown.swift:59",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "DayDrillDown.dayContent",
+      "content_class": "numeric_with_unit",
+      "visible_purpose": "Expanded-day eaten kcal",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 230,
+          "location": "app/Sources/Morsel/HistoryView.swift:230",
+          "purpose": "Expanded History chart day",
+          "repeat": "conditionally for expanded day"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "DayDrillDown.swift:63",
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 63,
+      "location": "app/Sources/Morsel/DayDrillDown.swift:63",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "DayDrillDown.dayContent",
+      "content_class": "numeric_comparison",
+      "visible_purpose": "vs goal calories",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 230,
+          "location": "app/Sources/Morsel/HistoryView.swift:230",
+          "purpose": "Expanded History chart day",
+          "repeat": "conditionally for expanded day"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "DayDrillDown.swift:67",
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 67,
+      "location": "app/Sources/Morsel/DayDrillDown.swift:67",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "DayDrillDown.dayContent",
+      "content_class": "numeric_or_nonnumeric_status",
+      "visible_purpose": "Positive kcal delta + over, or on target text",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 230,
+          "location": "app/Sources/Morsel/HistoryView.swift:230",
+          "purpose": "Expanded History chart day",
+          "repeat": "conditionally for expanded day"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "DesignSystem.swift:296",
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 296,
+      "location": "app/Sources/Morsel/DesignSystem.swift:296",
+      "source": "font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "unused_no_visible_instance",
+      "font_modifier_scope": "generic_View_extension",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "unused_helper"
+      ],
+      "component": "View.morselTag",
+      "content_class": "unresolved_generic_content",
+      "visible_purpose": "Font-injecting generic tag helper; no application call sites found",
+      "reuse_instances": [],
+      "notes": [
+        "No .morselTag(...) consumption found anywhere in app/Sources/Morsel. Not an emitted UI surface at this base."
+      ]
+    },
+    {
+      "id": "EndpointCopyPill.swift:20",
+      "file": "app/Sources/Morsel/EndpointCopyPill.swift",
+      "line": 20,
+      "location": "app/Sources/Morsel/EndpointCopyPill.swift:20",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "keep_mono",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "kept_mono_technical"
+      ],
+      "component": "EndpointCopyPill",
+      "content_class": "technical_action_exception",
+      "visible_purpose": "Copy / Copied ✓ endpoint copy action",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 332,
+          "location": "app/Sources/Morsel/Onboarding.swift:332",
+          "purpose": "MCP endpoint copy pill",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 141,
+          "location": "app/Sources/Morsel/SettingsView.swift:141",
+          "purpose": "MCP endpoint copy pill",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "HistoryLedgerViews.swift:34",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 34,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:34",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "HistoryBarRow",
+      "content_class": "date",
+      "visible_purpose": "Compact date/month labels in 30-day calorie-bar ledger",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 228,
+          "location": "app/Sources/Morsel/HistoryView.swift:228",
+          "purpose": "Calorie history bars",
+          "repeat": "per chart day; compact dates only for first/last or day-of-month % 5 == 1, never today; value column only outside thirty-day range"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "HistoryLedgerViews.swift:134",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 134,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:134",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "HistoryBarRow",
+      "content_class": "numeric",
+      "visible_purpose": "Eaten-kcal right column (not shown in 30-day range)",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 228,
+          "location": "app/Sources/Morsel/HistoryView.swift:228",
+          "purpose": "Calorie history bars",
+          "repeat": "per chart day; compact dates only for first/last or day-of-month % 5 == 1, never today; value column only outside thirty-day range"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "HistoryLedgerViews.swift:190",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 190,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:190",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "HistorySummaryStrip",
+      "content_class": "numeric_with_prose",
+      "visible_purpose": "<streak>-day logging streak",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 243,
+          "location": "app/Sources/Morsel/HistoryView.swift:243",
+          "purpose": "History summary strip",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "HistoryLedgerViews.swift:212",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 212,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:212",
+      "source": ".font(.morselGauge)",
+      "fonts": [
+        {
+          "token": "morselGauge",
+          "base_size_pt": 30,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": true,
+      "groups": [
+        "headline"
+      ],
+      "component": "SummaryMetric",
+      "content_class": "numeric",
+      "visible_purpose": "Large history summary values: average kcal / days over / logged",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+          "line": 182,
+          "location": "app/Sources/Morsel/HistoryLedgerViews.swift:182",
+          "purpose": "Average kcal",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+          "line": 183,
+          "location": "app/Sources/Morsel/HistoryLedgerViews.swift:183",
+          "purpose": "Days over target",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+          "line": 184,
+          "location": "app/Sources/Morsel/HistoryLedgerViews.swift:184",
+          "purpose": "Days logged",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "HistorySummaryStrip is used by HistoryView:243. Empty average is an em dash."
+      ]
+    },
+    {
+      "id": "HistoryLedgerViews.swift:256",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 256,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:256",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "HistoryListRow",
+      "content_class": "numeric_comparison",
+      "visible_purpose": "Days-vs-goal eaten vs target numeric row",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 251,
+          "location": "app/Sources/Morsel/HistoryView.swift:251",
+          "purpose": "Days-vs-goal list",
+          "repeat": "per visible day; see-all reveals hidden days; numbers shown only when logged"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "HistoryLedgerViews.swift:260",
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 260,
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:260",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "HistoryListRow",
+      "content_class": "numeric_comparison",
+      "visible_purpose": "Signed days-vs-goal calorie delta",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 251,
+          "location": "app/Sources/Morsel/HistoryView.swift:251",
+          "purpose": "Days-vs-goal list",
+          "repeat": "per visible day; see-all reveals hidden days; numbers shown only when logged"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalCalendarView.swift:43",
+      "file": "app/Sources/Morsel/JournalCalendarView.swift",
+      "line": 43,
+      "location": "app/Sources/Morsel/JournalCalendarView.swift:43",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "calendar"
+      ],
+      "component": "JournalCalendarView",
+      "content_class": "date_range",
+      "visible_purpose": "Earliest logged date – today range caption",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 196,
+          "location": "app/Sources/Morsel/HistoryView.swift:196",
+          "purpose": "History calendar toggle",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/JournalCalendarView.swift",
+          "line": 155,
+          "location": "app/Sources/Morsel/JournalCalendarView.swift:155",
+          "purpose": "Today calendar sheet",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Today sheet is instantiated at MorselApp.swift:273; History constructs the view directly at HistoryView.swift:196."
+      ]
+    },
+    {
+      "id": "JournalCalendarView.swift:104",
+      "file": "app/Sources/Morsel/JournalCalendarView.swift",
+      "line": 104,
+      "location": "app/Sources/Morsel/JournalCalendarView.swift:104",
+      "source": "Text(date.formatted(.dateTime.day())).font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "calendar"
+      ],
+      "component": "JournalCalendarView.cell",
+      "content_class": "numeric_day",
+      "visible_purpose": "Day-of-month cell labels",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 196,
+          "location": "app/Sources/Morsel/HistoryView.swift:196",
+          "purpose": "History calendar toggle",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/JournalCalendarView.swift",
+          "line": 155,
+          "location": "app/Sources/Morsel/JournalCalendarView.swift:155",
+          "purpose": "Today calendar sheet",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Per nonblank model.cells date; selected/logged/unlogged/disabled states use same font.",
+        "Today sheet is instantiated at MorselApp.swift:273; History constructs the view directly at HistoryView.swift:196."
+      ]
+    },
+    {
+      "id": "JournalFoodRow.swift:62",
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 62,
+      "location": "app/Sources/Morsel/JournalFoodRow.swift:62",
+      "source": ".font(.morselMono(size: 11))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "JournalFoodRow",
+      "content_class": "numeric_with_unit",
+      "visible_purpose": "Portion quantity and unit",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 192,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:192",
+          "purpose": "Shared food row inside MealItemRow",
+          "repeat": "every item, loose or member of a menu set; TodayLogViews:141 instantiates MealItemRow"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 109,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:109",
+          "purpose": "Shared food row in expanded History day",
+          "repeat": "every loose item or menu-set member; DayDrillDown:92 and :96 route both"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalFoodRow.swift:70",
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 70,
+      "location": "app/Sources/Morsel/JournalFoodRow.swift:70",
+      "source": ".font(.morselMono(size: 12))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 12,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "JournalFoodRow",
+      "content_class": "numeric_with_labels_or_nonnumeric_status",
+      "visible_purpose": "Protein/carbs/fat macro line; No macro data if all macros missing",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 192,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:192",
+          "purpose": "Shared food row inside MealItemRow",
+          "repeat": "every item, loose or member of a menu set; TodayLogViews:141 instantiates MealItemRow"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 109,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:109",
+          "purpose": "Shared food row in expanded History day",
+          "repeat": "every loose item or menu-set member; DayDrillDown:92 and :96 route both"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalFoodRow.swift:100",
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 100,
+      "location": "app/Sources/Morsel/JournalFoodRow.swift:100",
+      "source": ".font(.morselMono(size: 14))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 14,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": true,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "JournalFoodRow",
+      "content_class": "numeric",
+      "visible_purpose": "Trailing calorie value",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 192,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:192",
+          "purpose": "Shared food row inside MealItemRow",
+          "repeat": "every item, loose or member of a menu set; TodayLogViews:141 instantiates MealItemRow"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 109,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:109",
+          "purpose": "Shared food row in expanded History day",
+          "repeat": "every loose item or menu-set member; DayDrillDown:92 and :96 route both"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalFoodRow.swift:105",
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 105,
+      "location": "app/Sources/Morsel/JournalFoodRow.swift:105",
+      "source": ".font(.morselMono(size: 10))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 10,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "JournalFoodRow",
+      "content_class": "nonnumeric_unit",
+      "visible_purpose": "kcal unit below numeric column",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 192,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:192",
+          "purpose": "Shared food row inside MealItemRow",
+          "repeat": "every item, loose or member of a menu set; TodayLogViews:141 instantiates MealItemRow"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 109,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:109",
+          "purpose": "Shared food row in expanded History day",
+          "repeat": "every loose item or menu-set member; DayDrillDown:92 and :96 route both"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalUI.swift:48",
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 48,
+      "location": "app/Sources/Morsel/JournalUI.swift:48",
+      "source": ".font(Font.morselMono(size: 9))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 9,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "JournalPageFurniture",
+      "content_class": "date",
+      "visible_purpose": "Rotated gutter folio dd.MMM.yyyy uppercased",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 33,
+          "location": "app/Sources/Morsel/Views.swift:33",
+          "purpose": "Today journal page / selected diary date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 57,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:57",
+          "purpose": "Goals page / current date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 188,
+          "location": "app/Sources/Morsel/HistoryView.swift:188",
+          "purpose": "History page / today",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/JournalCalendarView.swift",
+          "line": 147,
+          "location": "app/Sources/Morsel/JournalCalendarView.swift:147",
+          "purpose": "Calendar sheet / selected date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 54,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:54",
+          "purpose": "Add Meal / eaten-at date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 56,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:56",
+          "purpose": "Edit item / current date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 19,
+          "location": "app/Sources/Morsel/MenusScreen.swift:19",
+          "purpose": "Menus / current date",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 66,
+          "location": "app/Sources/Morsel/SettingsView.swift:66",
+          "purpose": "Settings direct page furniture / current date",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Seven JournalPage construction sites inherit this via JournalUI:340; Settings constructs JournalPageFurniture directly."
+      ]
+    },
+    {
+      "id": "JournalUI.swift:233",
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 233,
+      "location": "app/Sources/Morsel/JournalUI.swift:233",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "MacroWashStrip",
+      "content_class": "numeric_with_unit",
+      "visible_purpose": "Macro eaten / target figures, or eaten g if no target",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 172,
+          "location": "app/Sources/Morsel/Views.swift:172",
+          "purpose": "Today Protein eaten / target g",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 178,
+          "location": "app/Sources/Morsel/Views.swift:178",
+          "purpose": "Today Carbs eaten / target g",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 184,
+          "location": "app/Sources/Morsel/Views.swift:184",
+          "purpose": "Today Fat eaten / target g",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 72,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:72",
+          "purpose": "Expanded History Protein eaten / target g",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 76,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:76",
+          "purpose": "Expanded History Carbs eaten / target g",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/DayDrillDown.swift",
+          "line": 80,
+          "location": "app/Sources/Morsel/DayDrillDown.swift:80",
+          "purpose": "Expanded History Fat eaten / target g",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "JournalUI.swift:364",
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 364,
+      "location": "app/Sources/Morsel/JournalUI.swift:364",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta",
+        "weight_chart_labels"
+      ],
+      "component": "SectionHeading.detail",
+      "content_class": "mixed_reusable",
+      "visible_purpose": "Trailing detail label in section headings",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 34,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:34",
+          "purpose": "<meal count> meals · <calories> kcal",
+          "repeat": "one per presentation",
+          "group": "rows_columns_dates_time_provenance_meta",
+          "content_class": "numeric_with_labels"
+        },
+        {
+          "file": "app/Sources/Morsel/HistoryView.swift",
+          "line": 248,
+          "location": "app/Sources/Morsel/HistoryView.swift:248",
+          "purpose": "kcal delta · tap to open",
+          "repeat": "one per presentation",
+          "group": "rows_columns_dates_time_provenance_meta",
+          "content_class": "nonnumeric_instruction"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightTrendView.swift",
+          "line": 35,
+          "location": "app/Sources/Morsel/WeightTrendView.swift:35",
+          "purpose": "kg · latest weight [today] [· delta over 30 days]",
+          "repeat": "one per presentation",
+          "group": "weight_chart_labels",
+          "content_class": "numeric_or_unit",
+          "notes": [
+            "No sample => kg only; caption uses integer MorselFormat.number, despite older decimal example comment."
+          ]
+        }
+      ],
+      "notes": [
+        "Calls with no detail produce no mono text; enumerated separately."
+      ]
+    },
+    {
+      "id": "MealCaptureView.swift:354",
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 354,
+      "location": "app/Sources/Morsel/MealCaptureView.swift:354",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "AddMealView.menuLogRow",
+      "content_class": "numeric_with_labels",
+      "visible_purpose": "Named-menu summary: item count · total kcal",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 354,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:354",
+          "purpose": "Menu summary in Log from menu picker",
+          "repeat": "per NamedMenu"
+        }
+      ],
+      "notes": [
+        "NamedMenus.swift:61–63 defines summaryLine."
+      ]
+    },
+    {
+      "id": "MealItemEditSheet.swift:147",
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 147,
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:147",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealItemEditSheet",
+      "content_class": "nonnumeric_prose",
+      "visible_purpose": "Corrections are saved as a manual edit; macros you change stay as you typed them.",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "MealItemEditSheet.swift:349",
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 349,
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:349",
+      "source": ".font(.morselMono(size: 12))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 12,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": true,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealItemDetails",
+      "content_class": "numeric_confidence",
+      "visible_purpose": "Read-only confidence percentage or em dash",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 151,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:151",
+          "purpose": "Details evidence block in edit sheet",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "MealItemEditSheet.swift:356",
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 356,
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:356",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealItemDetails",
+      "content_class": "nonnumeric_status",
+      "visible_purpose": "confidence missing / low confidence warning cue",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 151,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:151",
+          "purpose": "Details evidence block in edit sheet",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Only item.needsReview; missing vs low badge branch at MealItemEditSheet:380–384."
+      ]
+    },
+    {
+      "id": "MealPhotoEditorSection.swift:101",
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 101,
+      "location": "app/Sources/Morsel/MealPhotoEditorSection.swift:101",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealPhotoEditorSection",
+      "content_class": "nonnumeric_prose",
+      "visible_purpose": "Camera unavailable simulator notice",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 159,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:159",
+          "purpose": "Edit-item photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "MealPhotoEditorSection.swift:153",
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 153,
+      "location": "app/Sources/Morsel/MealPhotoEditorSection.swift:153",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealPhotoEditorSection",
+      "content_class": "nonnumeric_action",
+      "visible_purpose": "Remove pending replacement photo",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 159,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:159",
+          "purpose": "Edit-item photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "MealPhotoEditorSection.swift:312",
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 312,
+      "location": "app/Sources/Morsel/MealPhotoEditorSection.swift:312",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MealPhotoEditorSection",
+      "content_class": "nonnumeric_provenance",
+      "visible_purpose": "Illustration · not a meal photo / Category fallback · not identified food / Neutral sign · not identified food",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 159,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:159",
+          "purpose": "Edit-item photo section",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "MenusScreen.swift:111",
+      "file": "app/Sources/Morsel/MenusScreen.swift",
+      "line": 111,
+      "location": "app/Sources/Morsel/MenusScreen.swift:111",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "MenusScreen.menuRow",
+      "content_class": "numeric_with_labels",
+      "visible_purpose": "Named-menu summary: item count · total kcal",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 111,
+          "location": "app/Sources/Morsel/MenusScreen.swift:111",
+          "purpose": "Menu summary in Manage menus list",
+          "repeat": "per NamedMenu"
+        }
+      ],
+      "notes": [
+        "NamedMenus.swift:61–63 defines summaryLine."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:192",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 192,
+      "location": "app/Sources/Morsel/Onboarding.swift:192",
+      "source": "Text(\"morsel\").font(.morselData).foregroundStyle(Color.morselForest)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView",
+      "content_class": "nonnumeric_brand",
+      "visible_purpose": "morsel wordmark repeated across onboarding steps",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 192,
+          "location": "app/Sources/Morsel/Onboarding.swift:192",
+          "purpose": "morsel wordmark repeated across onboarding steps",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Brand prose is not a technical string. Global morselData change affects it."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:205",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 205,
+      "location": "app/Sources/Morsel/Onboarding.swift:205",
+      "source": ".font(.morselData).foregroundStyle(Color.morselInkTwo)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "OnboardingView.toolbar",
+      "content_class": "nonnumeric_action",
+      "visible_purpose": "Set up later toolbar action",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 205,
+          "location": "app/Sources/Morsel/Onboarding.swift:205",
+          "purpose": "Set up later toolbar action",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "Onboarding.swift:256",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 256,
+      "location": "app/Sources/Morsel/Onboarding.swift:256",
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView.signIn",
+      "content_class": "nonnumeric_role_label",
+      "visible_purpose": "agent speaker label in signIn step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 256,
+          "location": "app/Sources/Morsel/Onboarding.swift:256",
+          "purpose": "agent speaker label in signIn step",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Role label, not executable code or technical identifier; not a kept-mono exception."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:271",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 271,
+      "location": "app/Sources/Morsel/Onboarding.swift:271",
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView.signedIn",
+      "content_class": "nonnumeric_role_label",
+      "visible_purpose": "agent speaker label in signedIn step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 271,
+          "location": "app/Sources/Morsel/Onboarding.swift:271",
+          "purpose": "agent speaker label in signedIn step",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Role label, not executable code or technical identifier; not a kept-mono exception."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:282",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 282,
+      "location": "app/Sources/Morsel/Onboarding.swift:282",
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView.connect",
+      "content_class": "nonnumeric_role_label",
+      "visible_purpose": "agent speaker label in connect step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 282,
+          "location": "app/Sources/Morsel/Onboarding.swift:282",
+          "purpose": "agent speaker label in connect step",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Role label, not executable code or technical identifier; not a kept-mono exception."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:303",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 303,
+      "location": "app/Sources/Morsel/Onboarding.swift:303",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "keep_mono",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "kept_mono_technical"
+      ],
+      "component": "OnboardingView.connectContent",
+      "content_class": "technical_setup_prompt",
+      "visible_purpose": "Client setup prompt with MCP URL, tool names and optional CLI command",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 303,
+          "location": "app/Sources/Morsel/Onboarding.swift:303",
+          "purpose": "Claude setup prompt",
+          "repeat": "one per presentation",
+          "template": "Onboarding.swift:80–87"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 303,
+          "location": "app/Sources/Morsel/Onboarding.swift:303",
+          "purpose": "ChatGPT setup prompt",
+          "repeat": "one per presentation",
+          "template": "Onboarding.swift:64–73"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 303,
+          "location": "app/Sources/Morsel/Onboarding.swift:303",
+          "purpose": "Others setup prompt",
+          "repeat": "one per presentation",
+          "template": "Onboarding.swift:64–73"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "Onboarding.swift:329",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 329,
+      "location": "app/Sources/Morsel/Onboarding.swift:329",
+      "source": "Text(value).font(.morselData).foregroundStyle(Color.morselInk)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "keep_mono",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "kept_mono_technical"
+      ],
+      "component": "OnboardingView.endpointField",
+      "content_class": "technical_url",
+      "visible_purpose": "Configured MCP endpoint URL",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 287,
+          "location": "app/Sources/Morsel/Onboarding.swift:287",
+          "purpose": "Onboarding connect endpoint field",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "Onboarding.swift:369",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 369,
+      "location": "app/Sources/Morsel/Onboarding.swift:369",
+      "source": "Text(\"you\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView.confirm",
+      "content_class": "nonnumeric_role_label",
+      "visible_purpose": "you speaker label in confirm step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 369,
+          "location": "app/Sources/Morsel/Onboarding.swift:369",
+          "purpose": "you speaker label in confirm step",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Role label, not executable code or technical identifier; not a kept-mono exception."
+      ]
+    },
+    {
+      "id": "Onboarding.swift:377",
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 377,
+      "location": "app/Sources/Morsel/Onboarding.swift:377",
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "OnboardingView.done",
+      "content_class": "nonnumeric_role_label",
+      "visible_purpose": "agent speaker label in done step",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 377,
+          "location": "app/Sources/Morsel/Onboarding.swift:377",
+          "purpose": "agent speaker label in done step",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Role label, not executable code or technical identifier; not a kept-mono exception."
+      ]
+    },
+    {
+      "id": "PaperFields.swift:66",
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 66,
+      "location": "app/Sources/Morsel/PaperFields.swift:66",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "JournalPaperField.error",
+      "content_class": "validation_prose_with_numeric_examples",
+      "visible_purpose": "Inline field validation beneath the rule",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 233,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:233",
+          "purpose": "Goals wrapper forwards error to paper field",
+          "repeat": "four instantiated goals fields",
+          "caller_locations": [
+            "app/Sources/Morsel/GoalsEditor.swift:92",
+            "app/Sources/Morsel/GoalsEditor.swift:103",
+            "app/Sources/Morsel/GoalsEditor.swift:104",
+            "app/Sources/Morsel/GoalsEditor.swift:105"
+          ]
+        }
+      ],
+      "notes": [
+        "Only Goals currently passes error:; capture/edit/menu/auth paper fields do not pass error. Thus do not invent currently-visible inline errors on those fields.",
+        "Actual fieldError messages are exactly: Enter a number of 0 or more. / One decimal is plenty — 2000.5 not 2000.55 (GoalsEditorModel.swift:243,246)."
+      ],
+      "reachable_error_messages": [
+        "Enter a number of 0 or more.",
+        "One decimal is plenty — 2000.5 not 2000.55"
+      ]
+    },
+    {
+      "id": "PaperFields.swift:91",
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 91,
+      "location": "app/Sources/Morsel/PaperFields.swift:91",
+      "source": "return prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17)",
+      "fonts": [
+        {
+          "token": "morselMonoMedium",
+          "base_size_pt": 22,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": "prominent"
+        },
+        {
+          "token": "morselMonoMedium",
+          "base_size_pt": 17,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": "not prominent"
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "font_factory",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors",
+        "meal_capture_photo_edit_menu"
+      ],
+      "component": "JournalPaperField.valueFont",
+      "content_class": "numeric_input_font_factory",
+      "visible_purpose": "Conditional medium value font: prominent 22 pt, otherwise 17 pt",
+      "reuse_instances": [
+        {
+          "field_id": "GoalsEditor.swift:233",
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 233,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:233",
+          "purpose": "Four goal values via generic GoalJournalField wrapper",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17,
+              22
+            ]
+          }
+        },
+        {
+          "field_id": "MealCaptureView.swift:114",
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 114,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:114",
+          "purpose": "Add Meal Quantity input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              22
+            ]
+          }
+        },
+        {
+          "field_id": "MealCaptureView.swift:207",
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 207,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:207",
+          "purpose": "Add Meal Calories input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealCaptureView.swift:212",
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 212,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:212",
+          "purpose": "Add Meal Protein input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealCaptureView.swift:219",
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 219,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:219",
+          "purpose": "Add Meal Carbs input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealCaptureView.swift:224",
+          "file": "app/Sources/Morsel/MealCaptureView.swift",
+          "line": 224,
+          "location": "app/Sources/Morsel/MealCaptureView.swift:224",
+          "purpose": "Add Meal Fat input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealItemEditSheet.swift:79",
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 79,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:79",
+          "purpose": "Edit item Quantity input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              22
+            ]
+          }
+        },
+        {
+          "field_id": "MealItemEditSheet.swift:98",
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 98,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:98",
+          "purpose": "Edit item Calories input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealItemEditSheet.swift:109",
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 109,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:109",
+          "purpose": "Edit item Protein input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealItemEditSheet.swift:123",
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 123,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:123",
+          "purpose": "Edit item Carbs input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MealItemEditSheet.swift:134",
+          "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+          "line": 134,
+          "location": "app/Sources/Morsel/MealItemEditSheet.swift:134",
+          "purpose": "Edit item Fat input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MenuEditorSheet.swift:150",
+          "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+          "line": 150,
+          "location": "app/Sources/Morsel/MenuEditorSheet.swift:150",
+          "purpose": "Menu editor Quantity input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        },
+        {
+          "field_id": "MenuEditorSheet.swift:167",
+          "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+          "line": 167,
+          "location": "app/Sources/Morsel/MenuEditorSheet.swift:167",
+          "purpose": "Menu editor Calories input",
+          "resolved_font": {
+            "family": "IBM Plex Mono Medium",
+            "weight": "Medium",
+            "base_sizes_pt": [
+              17
+            ]
+          }
+        }
+      ],
+      "notes": [
+        "Both direct morselMonoMedium function calls are inventoried as separate variants on this single source line. monospacedValue=false returns morselBody 15 pt and never enters these branches.",
+        "Thirteen opt-in construction sites expand to sixteen static numeric field definitions because Goals forwards through four GoalJournalField calls; menu rows repeat dynamically and are reused by New/Edit menu sheets."
+      ]
+    },
+    {
+      "id": "SettingsView.swift:125",
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 125,
+      "location": "app/Sources/Morsel/SettingsView.swift:125",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "SettingsJournalView.mcpSection",
+      "content_class": "nonnumeric_status",
+      "visible_purpose": "MCP endpoint is not configured.",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 125,
+          "location": "app/Sources/Morsel/SettingsView.swift:125",
+          "purpose": "MCP endpoint is not configured.",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Missing-configuration prose is not the technical URL itself; affected rather than silently kept."
+      ]
+    },
+    {
+      "id": "SettingsView.swift:136",
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 136,
+      "location": "app/Sources/Morsel/SettingsView.swift:136",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "keep_mono",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "kept_mono_technical"
+      ],
+      "component": "SettingsJournalView.mcpSection",
+      "content_class": "technical_url",
+      "visible_purpose": "Configured MCP endpoint URL",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 136,
+          "location": "app/Sources/Morsel/SettingsView.swift:136",
+          "purpose": "Configured MCP endpoint URL",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "SettingsView.swift:159",
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 159,
+      "location": "app/Sources/Morsel/SettingsView.swift:159",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "unresolved_symbol_font_effect",
+      "font_modifier_scope": "Image_SF_Symbol",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "SettingsJournalView",
+      "content_class": "symbol_only",
+      "visible_purpose": "Replay onboarding trailing chevron",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 159,
+          "location": "app/Sources/Morsel/SettingsView.swift:159",
+          "purpose": "Replay onboarding trailing chevron",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Font token is attached to Image(systemName: \"chevron.right\"), not Text. Source alone cannot establish family-change effect on SF Symbol rendering."
+      ]
+    },
+    {
+      "id": "SettingsView.swift:208",
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 208,
+      "location": "app/Sources/Morsel/SettingsView.swift:208",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "unresolved_symbol_font_effect",
+      "font_modifier_scope": "Image_SF_Symbol",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "SettingsJournalView",
+      "content_class": "symbol_only",
+      "visible_purpose": "Sign out trailing chevron",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/SettingsView.swift",
+          "line": 208,
+          "location": "app/Sources/Morsel/SettingsView.swift:208",
+          "purpose": "Sign out trailing chevron",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Font token is attached to Image(systemName: \"chevron.right\"), not Text. Source alone cannot establish family-change effect on SF Symbol rendering."
+      ]
+    },
+    {
+      "id": "TodayLogViews.swift:87",
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 87,
+      "location": "app/Sources/Morsel/TodayLogViews.swift:87",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "MealGroupView",
+      "content_class": "time",
+      "visible_purpose": "First meal time beside group title",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 53,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:53",
+          "purpose": "Today log meal-type group",
+          "repeat": "per meal-type group; one header per group"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "TodayLogViews.swift:95",
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 95,
+      "location": "app/Sources/Morsel/TodayLogViews.swift:95",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "MealGroupView",
+      "content_class": "numeric_with_unit",
+      "visible_purpose": "Total kcal for meal-type group",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 53,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:53",
+          "purpose": "Today log meal-type group",
+          "repeat": "per meal-type group; one header per group"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "TodayLogViews.swift:115",
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 115,
+      "location": "app/Sources/Morsel/TodayLogViews.swift:115",
+      "source": ".font(.morselData)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "MealGroupView",
+      "content_class": "time",
+      "visible_purpose": "Per-meal eaten-at time when group contains multiple meals",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TodayLogViews.swift",
+          "line": 53,
+          "location": "app/Sources/Morsel/TodayLogViews.swift:53",
+          "purpose": "Today log meal-type group",
+          "repeat": "per meal-type group; each meal in multi-meal group"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "TrainingFuelViews.swift:87",
+      "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "line": 87,
+      "location": "app/Sources/Morsel/TrainingFuelViews.swift:87",
+      "source": ".font(.morselData).fixedSize(horizontal: true, vertical: false)",
+      "fonts": [
+        {
+          "token": "morselData",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "rows_columns_dates_time_provenance_meta"
+      ],
+      "component": "TrainingFuelReceipt.row",
+      "content_class": "numeric_or_nonnumeric_status",
+      "visible_purpose": "Target / addition / total kcal values and missing-state words",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 74,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:74",
+          "purpose": "Usual source target kcal",
+          "repeat": "one per presentation",
+          "surface": "Today TrainingFuelSection",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:9"
+        },
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 75,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:75",
+          "purpose": "Confirmed day-only addition +kcal / Not confirmed",
+          "repeat": "one per presentation",
+          "surface": "Today TrainingFuelSection",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:9"
+        },
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 76,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:76",
+          "purpose": "Today's food target kcal / Unavailable",
+          "repeat": "one per presentation",
+          "surface": "Today TrainingFuelSection",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:9"
+        },
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 74,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:74",
+          "purpose": "Usual source target kcal",
+          "repeat": "one per presentation",
+          "surface": "TrainingFuelEditor sheet",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:99"
+        },
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 75,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:75",
+          "purpose": "Confirmed day-only addition +kcal / Not confirmed",
+          "repeat": "one per presentation",
+          "surface": "TrainingFuelEditor sheet",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:99"
+        },
+        {
+          "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+          "line": 76,
+          "location": "app/Sources/Morsel/TrainingFuelViews.swift:76",
+          "purpose": "Today's food target kcal / Unavailable",
+          "repeat": "one per presentation",
+          "surface": "TrainingFuelEditor sheet",
+          "host_location": "app/Sources/Morsel/TrainingFuelViews.swift:99"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "TrainingFuelViews.swift:105",
+      "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "line": 105,
+      "location": "app/Sources/Morsel/TrainingFuelViews.swift:105",
+      "source": ".font(.morselDataMedium)",
+      "fonts": [
+        {
+          "token": "morselDataMedium",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "goals_forms_errors"
+      ],
+      "component": "TrainingFuelEditor",
+      "content_class": "numeric_input",
+      "visible_purpose": "Your amount: day-only food-target addition kcal",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/TrainingFuelHost.swift",
+          "line": 27,
+          "location": "app/Sources/Morsel/TrainingFuelHost.swift:27",
+          "purpose": "Session-owned fuelling editor sheet",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Direct TextField, not JournalPaperField; 11 pt Medium."
+      ]
+    },
+    {
+      "id": "Views.swift:146",
+      "file": "app/Sources/Morsel/Views.swift",
+      "line": 146,
+      "location": "app/Sources/Morsel/Views.swift:146",
+      "source": ".font(.morselHero)",
+      "fonts": [
+        {
+          "token": "morselHero",
+          "base_size_pt": 32,
+          "family": "IBM Plex Mono Medium",
+          "weight": "Medium",
+          "nominal_weight": 500,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": true,
+      "groups": [
+        "headline"
+      ],
+      "component": "JournalHeroView",
+      "content_class": "numeric",
+      "visible_purpose": "Today / selected-day eaten calorie hero",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 55,
+          "location": "app/Sources/Morsel/Views.swift:55",
+          "purpose": "Today journal hero",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "32 pt Medium; goal denominator and remaining/over label already serif and are not mono call sites."
+      ]
+    },
+    {
+      "id": "WeightDeltaBand.swift:22",
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 22,
+      "location": "app/Sources/Morsel/WeightDeltaBand.swift:22",
+      "source": ".font(Font.morselMono(size: 10))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 10,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "inherited_by_both_Text_children",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "weight_chart_labels"
+      ],
+      "component": "WeightDeltaBand",
+      "content_class": "mixed_label_and_numeric_scale",
+      "visible_purpose": "HStack font applies to Eaten − food target · kcal label AND ±deltaLimit value",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/WeightTrendView.swift",
+          "line": 80,
+          "location": "app/Sources/Morsel/WeightTrendView.swift:80",
+          "purpose": "Weight food-target comparison band",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Nonnumeric heading shares the parent mono font; inventory both descendants."
+      ],
+      "visible_descendants": [
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 18,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:18",
+          "purpose": "Eaten − food target · kcal — nonnumeric label",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 20,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:20",
+          "purpose": "±deltaLimit — numeric scale extent",
+          "repeat": "one per presentation"
+        }
+      ]
+    },
+    {
+      "id": "WeightDeltaBand.swift:58",
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 58,
+      "location": "app/Sources/Morsel/WeightDeltaBand.swift:58",
+      "source": ".font(Font.morselMono(size: 12))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 12,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "weight_chart_labels"
+      ],
+      "component": "WeightDeltaBand.chart",
+      "content_class": "symbol_status",
+      "visible_purpose": "Chart no-data/zero markers × / · / ? / ○",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/WeightTrendView.swift",
+          "line": 80,
+          "location": "app/Sources/Morsel/WeightTrendView.swift:80",
+          "purpose": "Weight food-target comparison band",
+          "repeat": "per day with delta nil or zero"
+        }
+      ],
+      "notes": [
+        "Plus/minus day.symbol branches exist but are not reached by this renderer: nonzero deltas use BarMark. Serif glyph coverage/rendering is not verified."
+      ],
+      "reachable_symbols": [
+        "×",
+        "·",
+        "?",
+        "○"
+      ]
+    },
+    {
+      "id": "WeightDeltaBand.swift:76",
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 76,
+      "location": "app/Sources/Morsel/WeightDeltaBand.swift:76",
+      "source": ".font(Font.morselMono(size: 9))",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 9,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "weight_chart_labels"
+      ],
+      "component": "WeightDeltaBand.chartXAxis",
+      "content_class": "date",
+      "visible_purpose": "Date/month axis labels in delta band",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/WeightTrendView.swift",
+          "line": 80,
+          "location": "app/Sources/Morsel/WeightTrendView.swift:80",
+          "purpose": "Weight food-target comparison band",
+          "repeat": "per timeline.axisDates tick"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "WeightDeltaBand.swift:147",
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 147,
+      "location": "app/Sources/Morsel/WeightDeltaBand.swift:147",
+      "source": "Text(value).font(Font.morselMono(size: 11)).multilineTextAlignment(.trailing)",
+      "fonts": [
+        {
+          "token": "morselMono",
+          "base_size_pt": 11,
+          "family": "IBM Plex Mono",
+          "weight": "Regular",
+          "nominal_weight": 400,
+          "weight_basis": "Named bundled Medium/Regular face, not verified runtime font resolution",
+          "branch": null
+        }
+      ],
+      "classification_status": "affected",
+      "font_modifier_scope": "Text_or_TextField_or_button_label",
+      "has_monospaced_digit_modifier": false,
+      "groups": [
+        "weight_chart_labels"
+      ],
+      "component": "WeightDeltaBand.valueRow",
+      "content_class": "numeric_or_nonnumeric_status",
+      "visible_purpose": "Selected-day weight/food target receipt trailing values",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 126,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:126",
+          "purpose": "Weight: one-decimal kg / no weight recorded",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 127,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:127",
+          "purpose": "Food recorded: kcal / day status",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 129,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:129",
+          "purpose": "Dated baseline: kcal / unavailable",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 130,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:130",
+          "purpose": "Confirmed addition: +kcal / unavailable",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 134,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:134",
+          "purpose": "Food target: kcal / unavailable",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+          "line": 135,
+          "location": "app/Sources/Morsel/WeightDeltaBand.swift:135",
+          "purpose": "Eaten − target: signed kcal / no food log / food log unavailable / food target unavailable",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "Baseline/addition rows appear when either baseline or addition exists. Weight sample chooses latest sample in selected day."
+      ]
+    }
+  ],
+  "journal_paper_field_sites": [
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 62,
+      "end_line": 70,
+      "source": "                        JournalPaperField(\n                            label: \"\",\n                            text: $email,\n                            focus: $focusedField,\n                            key: .email,\n                            prompt: \"you@example.com\",\n                            keyboardType: .emailAddress,\n                            accessibilityLabelOverride: \"Email address\"\n                        )",
+      "label": "",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "AuthView.swift:62",
+      "location": "app/Sources/Morsel/AuthView.swift:62",
+      "group": "goals_forms_errors",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "visible_purpose": "Email address input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 78,
+          "location": "app/Sources/Morsel/MorselApp.swift:78",
+          "purpose": "Root sign-in",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 261,
+          "location": "app/Sources/Morsel/Onboarding.swift:261",
+          "purpose": "Onboarding sign-in",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "No monospacedValue argument; even numberPad sign-in code is currently morselBody 15 pt serif."
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 78,
+      "end_line": 86,
+      "source": "                            JournalPaperField(\n                                label: \"\",\n                                text: $code,\n                                focus: $focusedField,\n                                key: .code,\n                                prompt: \"Six-digit code\",\n                                keyboardType: .numberPad,\n                                accessibilityLabelOverride: \"Sign-in code\"\n                            )",
+      "label": "",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "AuthView.swift:78",
+      "location": "app/Sources/Morsel/AuthView.swift:78",
+      "group": "goals_forms_errors",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "visible_purpose": "Six-digit sign-in code input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 78,
+          "location": "app/Sources/Morsel/MorselApp.swift:78",
+          "purpose": "Root sign-in",
+          "repeat": "one per presentation"
+        },
+        {
+          "file": "app/Sources/Morsel/Onboarding.swift",
+          "line": 261,
+          "location": "app/Sources/Morsel/Onboarding.swift:261",
+          "purpose": "Onboarding sign-in",
+          "repeat": "one per presentation"
+        }
+      ],
+      "notes": [
+        "No monospacedValue argument; even numberPad sign-in code is currently morselBody 15 pt serif."
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsEditor.swift",
+      "line": 233,
+      "end_line": 245,
+      "source": "            JournalPaperField(  // Issue #105: shared ruled paper field\n                label: label,\n                text: $value,\n                focus: focus,\n                key: key,\n                unit: unit,\n                keyboardType: .numbersAndPunctuation,\n                monospacedValue: true,\n                prominent: prominent,\n                trailingValue: true,\n                error: error,\n                onEdit: onEdit\n            )",
+      "label": "label (GoalJournalField argument)",
+      "monospaced_value": true,
+      "prominent": "forwarded",
+      "error_supplied": true,
+      "id": "GoalsEditor.swift:233",
+      "location": "app/Sources/Morsel/GoalsEditor.swift:233",
+      "group": "goals_forms_errors",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17,
+          22
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 240,
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 92,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:92",
+          "purpose": "Calorie goal",
+          "repeat": "one per presentation",
+          "base_size_pt": 22,
+          "field_name": "Calories"
+        },
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 103,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:103",
+          "purpose": "Protein goal",
+          "repeat": "one per presentation",
+          "base_size_pt": 17,
+          "field_name": "Protein"
+        },
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 104,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:104",
+          "purpose": "Carbohydrate goal",
+          "repeat": "one per presentation",
+          "base_size_pt": 17,
+          "field_name": "Carbs"
+        },
+        {
+          "file": "app/Sources/Morsel/GoalsEditor.swift",
+          "line": 105,
+          "location": "app/Sources/Morsel/GoalsEditor.swift:105",
+          "purpose": "Fat goal",
+          "repeat": "one per presentation",
+          "base_size_pt": 17,
+          "field_name": "Fat"
+        }
+      ],
+      "visible_purpose": "Four goal values via generic GoalJournalField wrapper",
+      "error_font_reachable": "Goals wrapper supplies per-field error"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 90,
+      "end_line": 95,
+      "source": "                JournalPaperField(\n                                  label: \"Notes\", text: $notes, focus: $focusedField,\n                                  key: .notes, prompt: \"Notes (optional)\", axis: .vertical,\n                                  keyboardType: .default,\n                                  hint: \"Optional notes about the meal\"\n                )",
+      "label": "Notes",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:90",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:90",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "visible_purpose": "Add Meal Notes input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 107,
+      "end_line": 110,
+      "source": "                JournalPaperField(\n                                  label: \"Food name\", text: $itemName, focus: $focusedField, key: .name,\n                                  prompt: \"Food name\", keyboardType: .default, hint: \"Required\"\n                )",
+      "label": "Food name",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:107",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:107",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "visible_purpose": "Add Meal Food name input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 114,
+      "end_line": 118,
+      "source": "                    JournalPaperField(\n                                  label: \"Quantity\", text: $quantity, focus: $focusedField, key: .quantity,\n                                  keyboardType: .decimalPad, monospacedValue: true,\n                                  prominent: true, hint: \"Positive number\"\n                    )",
+      "label": "Quantity",
+      "monospaced_value": true,
+      "prominent": true,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:114",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:114",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          22
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 116,
+      "visible_purpose": "Add Meal Quantity input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 207,
+      "end_line": 211,
+      "source": "                JournalPaperField(\n                                  label: \"Calories\", text: calories, focus: $focusedField, key: .calories,\n                                  unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )",
+      "label": "Calories",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:207",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:207",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 209,
+      "visible_purpose": "Add Meal Calories input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 212,
+      "end_line": 216,
+      "source": "                JournalPaperField(\n                                  label: \"Protein\", text: protein, focus: $focusedField, key: .protein,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )",
+      "label": "Protein",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:212",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:212",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 214,
+      "visible_purpose": "Add Meal Protein input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 219,
+      "end_line": 223,
+      "source": "                JournalPaperField(\n                                  label: \"Carbs\", text: carbs, focus: $focusedField, key: .carbs,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )",
+      "label": "Carbs",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:219",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:219",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 221,
+      "visible_purpose": "Add Meal Carbs input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 224,
+      "end_line": 228,
+      "source": "                JournalPaperField(\n                                  label: \"Fat\", text: fat, focus: $focusedField, key: .fat,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )",
+      "label": "Fat",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealCaptureView.swift:224",
+      "location": "app/Sources/Morsel/MealCaptureView.swift:224",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 226,
+      "visible_purpose": "Add Meal Fat input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MorselApp.swift",
+          "line": 253,
+          "location": "app/Sources/Morsel/MorselApp.swift:253",
+          "purpose": "Add Meal page",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 69,
+      "end_line": 76,
+      "source": "                JournalPaperField(\n                    label: \"Food name\",\n                    text: $name,\n                    focus: $focusedField,\n                    key: .name,\n                    keyboardType: .default,\n                    hint: \"Required\"\n                )",
+      "label": "Food name",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:69",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:69",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "visible_purpose": "Edit item Food name input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 79,
+      "end_line": 89,
+      "source": "                    JournalPaperField(\n                        label: \"Quantity\",\n                        text: $quantity,\n                        focus: $focusedField,\n                        key: .quantity,\n                        unit: item.unit.rawValue,\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        prominent: true,\n                        hint: \"Positive number\"\n                    )",
+      "label": "Quantity",
+      "monospaced_value": true,
+      "prominent": true,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:79",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:79",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          22
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 86,
+      "visible_purpose": "Edit item Quantity input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 98,
+      "end_line": 108,
+      "source": "                    JournalPaperField(\n                        label: \"Calories\",\n                        text: $calories,\n                        focus: $focusedField,\n                        key: .calories,\n                        unit: \"kcal\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )",
+      "label": "Calories",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:98",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:98",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 106,
+      "visible_purpose": "Edit item Calories input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 109,
+      "end_line": 119,
+      "source": "                    JournalPaperField(\n                        label: \"Protein\",\n                        text: $protein,\n                        focus: $focusedField,\n                        key: .protein,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )",
+      "label": "Protein",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:109",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:109",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 117,
+      "visible_purpose": "Edit item Protein input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 123,
+      "end_line": 133,
+      "source": "                    JournalPaperField(\n                        label: \"Carbs\",\n                        text: $carbs,\n                        focus: $focusedField,\n                        key: .carbs,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )",
+      "label": "Carbs",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:123",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:123",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 131,
+      "visible_purpose": "Edit item Carbs input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 134,
+      "end_line": 144,
+      "source": "                    JournalPaperField(\n                        label: \"Fat\",\n                        text: $fat,\n                        focus: $focusedField,\n                        key: .fat,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )",
+      "label": "Fat",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MealItemEditSheet.swift:134",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:134",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 142,
+      "visible_purpose": "Edit item Fat input",
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/Views.swift",
+          "line": 365,
+          "location": "app/Sources/Morsel/Views.swift:365",
+          "purpose": "Shell-owned edit-item sheet, requested from Today food row",
+          "repeat": "one per presentation"
+        }
+      ],
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 67,
+      "end_line": 71,
+      "source": "                        JournalPaperField(\n                            label: \"Menu name\", text: $name, focus: $focusedKey, key: .name,\n                            prompt: \"e.g. Breakfast set\", keyboardType: .default,\n                            hint: \"Required — menus are meal-type free\"\n                        )",
+      "label": "Menu name",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MenuEditorSheet.swift:67",
+      "location": "app/Sources/Morsel/MenuEditorSheet.swift:67",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 70,
+          "location": "app/Sources/Morsel/MenusScreen.swift:70",
+          "purpose": "New menu: Menu name",
+          "repeat": "one menu name",
+          "base_size_pt": 15
+        },
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 77,
+          "location": "app/Sources/Morsel/MenusScreen.swift:77",
+          "purpose": "Edit menu: Menu name",
+          "repeat": "one menu name",
+          "base_size_pt": 15
+        }
+      ],
+      "visible_purpose": "Menu editor Menu name input",
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 133,
+      "end_line": 137,
+      "source": "                JournalPaperField(\n                    label: \"Food\", text: row.name, focus: $focusedKey, key: .food(row.wrappedValue.id),\n                    prompt: \"Food name\", keyboardType: .default,\n                    hint: \"Required\"\n                )",
+      "label": "Food",
+      "monospaced_value": false,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MenuEditorSheet.swift:133",
+      "location": "app/Sources/Morsel/MenuEditorSheet.swift:133",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "EB Garamond",
+        "weight": "Regular",
+        "base_sizes_pt": [
+          15
+        ]
+      },
+      "classification_status": "already_serif_no_mono_value",
+      "monospaced_argument_line": null,
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 70,
+          "location": "app/Sources/Morsel/MenusScreen.swift:70",
+          "purpose": "New menu: Food",
+          "repeat": "per editable item row",
+          "base_size_pt": 15
+        },
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 77,
+          "location": "app/Sources/Morsel/MenusScreen.swift:77",
+          "purpose": "Edit menu: Food",
+          "repeat": "per editable item row",
+          "base_size_pt": 15
+        }
+      ],
+      "visible_purpose": "Menu editor Food input",
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 150,
+      "end_line": 154,
+      "source": "                JournalPaperField(\n                    label: \"Quantity\", text: row.quantity, focus: $focusedKey, key: .quantity(row.wrappedValue.id),\n                    keyboardType: .decimalPad, monospacedValue: true,\n                    hint: \"Positive number\"\n                )",
+      "label": "Quantity",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MenuEditorSheet.swift:150",
+      "location": "app/Sources/Morsel/MenuEditorSheet.swift:150",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 152,
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 70,
+          "location": "app/Sources/Morsel/MenusScreen.swift:70",
+          "purpose": "New menu: Quantity",
+          "repeat": "per editable item row",
+          "base_size_pt": 17
+        },
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 77,
+          "location": "app/Sources/Morsel/MenusScreen.swift:77",
+          "purpose": "Edit menu: Quantity",
+          "repeat": "per editable item row",
+          "base_size_pt": 17
+        }
+      ],
+      "visible_purpose": "Menu editor Quantity input",
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 167,
+      "end_line": 170,
+      "source": "            JournalPaperField(\n                label: \"Calories\", text: row.calories, focus: $focusedKey, key: .calories(row.wrappedValue.id),\n                unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true\n            )",
+      "label": "Calories",
+      "monospaced_value": true,
+      "prominent": false,
+      "error_supplied": false,
+      "id": "MenuEditorSheet.swift:167",
+      "location": "app/Sources/Morsel/MenuEditorSheet.swift:167",
+      "group": "meal_capture_photo_edit_menu",
+      "font_helper_location": "app/Sources/Morsel/PaperFields.swift:91",
+      "font": {
+        "family": "IBM Plex Mono Medium",
+        "weight": "Medium",
+        "base_sizes_pt": [
+          17
+        ]
+      },
+      "classification_status": "affected_numeric_value",
+      "monospaced_argument_line": 169,
+      "reuse_instances": [
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 70,
+          "location": "app/Sources/Morsel/MenusScreen.swift:70",
+          "purpose": "New menu: Calories",
+          "repeat": "per editable item row",
+          "base_size_pt": 17
+        },
+        {
+          "file": "app/Sources/Morsel/MenusScreen.swift",
+          "line": 77,
+          "location": "app/Sources/Morsel/MenusScreen.swift:77",
+          "purpose": "Edit menu: Calories",
+          "repeat": "per editable item row",
+          "base_size_pt": 17
+        }
+      ],
+      "visible_purpose": "Menu editor Calories input",
+      "error_font_reachable": "No error argument supplied; nil default means no inline error Text is emitted"
+    }
+  ],
+  "monospaced_digit_modifiers": [
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 213,
+      "text": ".monospacedDigit()",
+      "location": "app/Sources/Morsel/HistoryLedgerViews.swift:213",
+      "font_site_id": "HistoryLedgerViews.swift:212",
+      "meaning": "digit-spacing modifier on an already-IBM-Plex-Mono custom font; not a system monospaced font call and not proof that EB Garamond tabular figures render in SwiftUI"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 101,
+      "text": ".monospacedDigit()",
+      "location": "app/Sources/Morsel/JournalFoodRow.swift:101",
+      "font_site_id": "JournalFoodRow.swift:100",
+      "meaning": "digit-spacing modifier on an already-IBM-Plex-Mono custom font; not a system monospaced font call and not proof that EB Garamond tabular figures render in SwiftUI"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 350,
+      "text": ".monospacedDigit()",
+      "location": "app/Sources/Morsel/MealItemEditSheet.swift:350",
+      "font_site_id": "MealItemEditSheet.swift:349",
+      "meaning": "digit-spacing modifier on an already-IBM-Plex-Mono custom font; not a system monospaced font call and not proof that EB Garamond tabular figures render in SwiftUI"
+    },
+    {
+      "file": "app/Sources/Morsel/Views.swift",
+      "line": 148,
+      "text": ".monospacedDigit()",
+      "location": "app/Sources/Morsel/Views.swift:148",
+      "font_site_id": "Views.swift:146",
+      "meaning": "digit-spacing modifier on an already-IBM-Plex-Mono custom font; not a system monospaced font call and not proof that EB Garamond tabular figures render in SwiftUI"
+    }
+  ],
+  "system_monospaced_sweep": {
+    "count": 0,
+    "searched_forms": [
+      ".system(... design: .monospaced)",
+      ".monospaced()",
+      ".fontDesign(.monospaced)",
+      "UIFont.monospacedSystemFont",
+      "UIFont.monospacedDigitSystemFont",
+      "case-insensitive monosp*",
+      "SFMono / Menlo / Courier",
+      "font featureSettings / kNumberSpacingType / kMonospacedNumbersSelector"
+    ],
+    "non_monospaced_system_font": [
+      {
+        "location": "app/Sources/Morsel/MealPhotoEditorSection.swift:186",
+        "source": ".font(.system(size: 20, weight: .medium))"
+      }
+    ],
+    "separate_digit_modifiers": "See monospaced_digit_modifiers, not counted as system-monospaced fonts."
+  },
+  "shared_section_heading_no_detail_calls": [
+    {
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 102,
+      "source": "SectionHeading(title: \"Photo\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 84,
+      "source": "SectionHeading(title: \"Meal\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 99,
+      "source": "SectionHeading(title: \"Log from menu\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 105,
+      "source": "SectionHeading(title: \"Food\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 67,
+      "source": "SectionHeading(title: \"Food\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 95,
+      "source": "SectionHeading(title: \"Nutrition\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 157,
+      "source": "SectionHeading(title: \"Photo\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 73,
+      "source": "SectionHeading(title: \"Items\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    },
+    {
+      "file": "app/Sources/Morsel/MenusScreen.swift",
+      "line": 36,
+      "source": "SectionHeading(title: \"Your menus\")",
+      "effect": "No detail argument: shared morselData Text is not emitted"
+    }
+  ],
+  "already_serif_or_non_font_exclusions": [
+    {
+      "locations": [
+        "app/Sources/Morsel/AuthView.swift:62",
+        "app/Sources/Morsel/AuthView.swift:78"
+      ],
+      "reason": "Email and six-digit OTP paper fields omit monospacedValue; default EB Garamond 15 pt."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/JournalUI.swift:378"
+      ],
+      "reason": "ProvenanceLabel uses morselFootnote, EB Garamond Italic 12 pt; source labels in Today/Goals/History are not mono merely because content says source."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/WeightTrendView.swift:71",
+        "app/Sources/Morsel/WeightTrendView.swift:72"
+      ],
+      "reason": "Weight plot x/y axes hidden; old mono-axes comment is not current rendering code."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/SettingsView.swift:221"
+      ],
+      "reason": "Morsel version/build folio uses morselFootnote, not morselData."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/JournalCalendarView.swift:38",
+        "app/Sources/Morsel/JournalCalendarView.swift:91"
+      ],
+      "reason": "Year caption and weekday headers are morselFootnote; only range and day cells are direct mono sites."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/Views.swift:151",
+        "app/Sources/Morsel/Views.swift:157"
+      ],
+      "reason": "Hero goal denominator uses morselBody; remaining/over uses morselTitle; only eaten value is morselHero."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/MealPhotoEditorSection.swift:145"
+      ],
+      "reason": "Edit-photo ready/JPEG/KB caption is already morselSerif(size:13), unlike Add Meal JPEG/KB line."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/MealPhotoEditorSection.swift:186"
+      ],
+      "reason": "System font size20 weight medium on photo placeholder symbol has no monospaced design."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/MealCaptureView.swift:163"
+      ],
+      "reason": "Native Eaten-at DatePicker has no requested mono token or system monospaced modifier."
+    },
+    {
+      "locations": [
+        "app/Sources/Morsel/MealItemEditSheet.swift:346",
+        "app/Sources/Morsel/MealItemEditSheet.swift:363"
+      ],
+      "reason": "Source/provenance and agent-estimation notes use serif16; confidence value/warning are the matching mono sites."
+    }
+  ],
+  "gallery_omission_risks": [
+    {
+      "topic": "Hidden reuse in font wrappers",
+      "details": "A token grep misses per-use variants: MacroWashStrip has six calls; SummaryMetric three; SectionHeading has three nonnil details; gutter furniture reaches eight page surfaces; TrainingFuelReceipt has three rows in two hosts; WeightDeltaBand.valueRow has six distinct receipt rows. All are expanded in reuse_instances."
+    },
+    {
+      "topic": "Forms are not only Goals",
+      "details": "Thirteen JournalPaperField monospacedValue=true sites cover sixteen static numeric field definitions: four goals, five Add Meal, five Edit Item and two menu-item fields; menu fields appear in both New/Edit menu sheets and repeat per item. TrainingFuelEditor adds a separate 11 pt Medium TextField."
+    },
+    {
+      "topic": "Nonnumeric mono is not technical mono",
+      "details": "Wordmarks, agent/you role labels, auth actions, orphan configuration prose, photo actions/notices, correction disclaimer, confidence warnings, illustration provenance and kcal unit use mono. Shared helpers also render No macro data, Not confirmed, Unavailable, kg-only detail, tap-to-open instructions and receipt missing-state prose. Do not quietly omit or classify these as technical."
+    },
+    {
+      "topic": "Keep-mono cannot be implemented by changing aliases globally",
+      "details": "morselData/morselDataMedium also render configured URLs, setup prompts and shared endpoint copy pills. Four font-use source lines are explicit kept technical exceptions; copy pills occur in two hosts and prompt templates vary by platform."
+    },
+    {
+      "topic": "Source differs from mono-axes comments",
+      "details": "WeightTrendView.swift:71–72 hides both primary weight-chart axes. Its trailing caption is mono indirectly through SectionHeading. Visible dates are in WeightDeltaBand.swift:76. No system monospaced font call exists in this source tree."
+    },
+    {
+      "topic": "Numbers already serif are not evidence of a missed mono call",
+      "details": "Auth six-digit code is JournalPaperField default serif, despite numberPad. Goal/source provenance, Settings version, calendar year/weekdays, hero goal/remaining, edit photo JPEG-size caption and native DatePicker date/time are not matching mono font uses. Retain surrounding context but do not label their current fonts as mono."
+    },
+    {
+      "topic": "Current inline error reachability",
+      "details": "JournalPaperField error text is mono, but only Goals forwards an error argument at this base; do not mint Add/Edit/Menu per-field inline error examples as current source behavior."
+    },
+    {
+      "topic": "Non-text / unused token consumers",
+      "details": "Two Settings chevron SF Symbols carry morselData. Generic morselTag has no application caller. Count source uses but do not invent a visible numeric text sample for either."
+    }
+  ],
+  "unresolved_or_provisional_classifications": [
+    {
+      "id": "symbol_font_effect",
+      "locations": [
+        "app/Sources/Morsel/SettingsView.swift:159",
+        "app/Sources/Morsel/SettingsView.swift:208"
+      ],
+      "status": "unresolved",
+      "question": "Does changing the custom font family affect the SF Symbol chevron, or only font metrics/size?",
+      "source_conclusion": "Symbol-only, not numeric prose and not a technical-string keep exception. Inventory retained in rows/meta; native render effect not established."
+    },
+    {
+      "id": "jpeg_file_metadata_boundary",
+      "locations": [
+        "app/Sources/Morsel/AddMealPhotoSection.swift:156"
+      ],
+      "status": "provisional_affected_classification",
+      "question": "Should file-format acronym JPEG stay mono separately from the numeric KB count?",
+      "source_conclusion": "Current whole mixed line is 11 pt Regular mono. Treat as affected photo metadata for exhaustive coverage; only endpoint/setup/copy are explicit kept exceptions. Source cannot settle a design exemption."
+    },
+    {
+      "id": "unused_generic_tag",
+      "locations": [
+        "app/Sources/Morsel/DesignSystem.swift:296"
+      ],
+      "status": "no_visible_instance",
+      "question": "Generic View.morselTag accepts arbitrary content, but no application call exists.",
+      "source_conclusion": "Cannot assign an actual numeric/prose/technical sample. Listed separately rather than falsely showing a live tag."
+    },
+    {
+      "id": "chart_symbol_glyph_fidelity",
+      "locations": [
+        "app/Sources/Morsel/WeightDeltaBand.swift:58"
+      ],
+      "status": "unverified_native_glyphs",
+      "question": "Whether replacement serif preserves ×, ·, ?, ○ marker glyphs, baseline and visual distinctions.",
+      "source_conclusion": "Not technical strings; part of weight/chart group. tnum does not settle symbol fidelity."
+    },
+    {
+      "id": "native_tnum",
+      "locations": [
+        "app/Sources/Morsel/HistoryLedgerViews.swift:213",
+        "app/Sources/Morsel/JournalFoodRow.swift:101",
+        "app/Sources/Morsel/MealItemEditSheet.swift:350",
+        "app/Sources/Morsel/Views.swift:148"
+      ],
+      "status": "not_tested_by_this_audit",
+      "question": "Whether SwiftUI renders EB Garamond tabular figures at every proposed size/weight.",
+      "source_conclusion": "Current four monospacedDigit modifiers sit on IBM Plex Mono. Static source inventory is not a SwiftUI font-feature or render proof. No rendering/build performed."
+    }
+  ],
+  "discovery_matches": [
+    {
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 129,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AddMealPhotoSection.swift:129"
+    },
+    {
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 156,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AddMealPhotoSection.swift:156"
+    },
+    {
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "line": 165,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AddMealPhotoSection.swift:165"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 29,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AuthView.swift:29"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 52,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AuthView.swift:52"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 62,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "AuthView.swift:62"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 78,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "AuthView.swift:78"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "line": 94,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "AuthView.swift:94"
+    },
+    {
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 59,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "DayDrillDown.swift:59"
+    },
+    {
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 63,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "DayDrillDown.swift:63"
+    },
+    {
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "line": 67,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "DayDrillDown.swift:67"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 156,
+      "source": "static let morselGaugeStart = Color(paletteHex: \"#6B8B60\")",
+      "disposition": "non_font_palette_gradient_name_collision",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 157,
+      "source": "static let morselGaugeEnd = Color.morselForest",
+      "disposition": "non_font_palette_gradient_name_collision",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 178,
+      "source": "static let morselGauge = LinearGradient(",
+      "disposition": "non_font_palette_gradient_name_collision",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 179,
+      "source": "colors: [.morselGaugeStart, .morselGaugeEnd],",
+      "disposition": "non_font_palette_gradient_name_collision",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 238,
+      "source": "static func morselMono(size: CGFloat) -> Font { Font.custom(\"IBM Plex Mono\", size: size) }",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:238"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 240,
+      "source": "static func morselMonoMedium(size: CGFloat) -> Font { Font.custom(\"IBM Plex Mono Medium\", size: size) }",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:240"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 261,
+      "source": "static let morselData = Font.morselMono(size: 11)",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:261"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 262,
+      "source": "static let morselDataMedium = Font.morselMonoMedium(size: 11)",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:262"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 263,
+      "source": "static let morselGauge = Font.morselMonoMedium(size: 30)",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:263"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 264,
+      "source": "static let morselHero = Font.morselMonoMedium(size: 32)",
+      "disposition": "font_definition_or_alias",
+      "inventory_id": "app/Sources/Morsel/DesignSystem.swift:264"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "line": 296,
+      "source": "font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "DesignSystem.swift:296"
+    },
+    {
+      "file": "app/Sources/Morsel/EndpointCopyPill.swift",
+      "line": 20,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "EndpointCopyPill.swift:20"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsEditor.swift",
+      "line": 233,
+      "source": "JournalPaperField(  // Issue #105: shared ruled paper field",
+      "disposition": "paper_field_construction",
+      "inventory_id": "GoalsEditor.swift:233"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsEditor.swift",
+      "line": 240,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "GoalsEditor.swift:233"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 34,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:34"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 134,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:134"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 190,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:190"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 212,
+      "source": ".font(.morselGauge)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:212"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 213,
+      "source": ".monospacedDigit()",
+      "disposition": "digit_spacing_modifier",
+      "inventory_id": "HistoryLedgerViews.swift:212"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 256,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:256"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 260,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "HistoryLedgerViews.swift:260"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalCalendarView.swift",
+      "line": 43,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalCalendarView.swift:43"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalCalendarView.swift",
+      "line": 104,
+      "source": "Text(date.formatted(.dateTime.day())).font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalCalendarView.swift:104"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 62,
+      "source": ".font(.morselMono(size: 11))",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalFoodRow.swift:62"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 70,
+      "source": ".font(.morselMono(size: 12))",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalFoodRow.swift:70"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 100,
+      "source": ".font(.morselMono(size: 14))",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalFoodRow.swift:100"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 101,
+      "source": ".monospacedDigit()",
+      "disposition": "digit_spacing_modifier",
+      "inventory_id": "JournalFoodRow.swift:100"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 105,
+      "source": ".font(.morselMono(size: 10))",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalFoodRow.swift:105"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 48,
+      "source": ".font(Font.morselMono(size: 9))",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalUI.swift:48"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 233,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalUI.swift:233"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "line": 364,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "JournalUI.swift:364"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 90,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:90"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 107,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:107"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 114,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:114"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 116,
+      "source": "keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealCaptureView.swift:114"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 207,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:207"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 209,
+      "source": "unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealCaptureView.swift:207"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 212,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:212"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 214,
+      "source": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealCaptureView.swift:212"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 219,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:219"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 221,
+      "source": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealCaptureView.swift:219"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 224,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealCaptureView.swift:224"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 226,
+      "source": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealCaptureView.swift:224"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "line": 354,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealCaptureView.swift:354"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 69,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:69"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 79,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:79"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 86,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealItemEditSheet.swift:79"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 98,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:98"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 106,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealItemEditSheet.swift:98"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 109,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:109"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 117,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealItemEditSheet.swift:109"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 123,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:123"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 131,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealItemEditSheet.swift:123"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 134,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MealItemEditSheet.swift:134"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 142,
+      "source": "monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MealItemEditSheet.swift:134"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 147,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealItemEditSheet.swift:147"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 349,
+      "source": ".font(.morselMono(size: 12))",
+      "disposition": "font_consumption",
+      "inventory_id": "MealItemEditSheet.swift:349"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 350,
+      "source": ".monospacedDigit()",
+      "disposition": "digit_spacing_modifier",
+      "inventory_id": "MealItemEditSheet.swift:349"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 356,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealItemEditSheet.swift:356"
+    },
+    {
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 101,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealPhotoEditorSection.swift:101"
+    },
+    {
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 153,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealPhotoEditorSection.swift:153"
+    },
+    {
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "line": 312,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MealPhotoEditorSection.swift:312"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 67,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MenuEditorSheet.swift:67"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 133,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MenuEditorSheet.swift:133"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 150,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MenuEditorSheet.swift:150"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 152,
+      "source": "keyboardType: .decimalPad, monospacedValue: true,",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MenuEditorSheet.swift:150"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 167,
+      "source": "JournalPaperField(",
+      "disposition": "paper_field_construction",
+      "inventory_id": "MenuEditorSheet.swift:167"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "line": 169,
+      "source": "unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true",
+      "disposition": "paper_field_mono_opt_in",
+      "inventory_id": "MenuEditorSheet.swift:167"
+    },
+    {
+      "file": "app/Sources/Morsel/MenusScreen.swift",
+      "line": 111,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "MenusScreen.swift:111"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 192,
+      "source": "Text(\"morsel\").font(.morselData).foregroundStyle(Color.morselForest)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:192"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 205,
+      "source": ".font(.morselData).foregroundStyle(Color.morselInkTwo)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:205"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 256,
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:256"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 271,
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:271"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 282,
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:282"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 303,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:303"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 329,
+      "source": "Text(value).font(.morselData).foregroundStyle(Color.morselInk)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:329"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 369,
+      "source": "Text(\"you\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:369"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "line": 377,
+      "source": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+      "disposition": "font_consumption",
+      "inventory_id": "Onboarding.swift:377"
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 16,
+      "source": "struct JournalPaperField<Key: Hashable>: View {",
+      "disposition": "paper_field_declaration_or_branch_guard",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 25,
+      "source": "var monospacedValue = false",
+      "disposition": "paper_field_declaration_or_branch_guard",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 66,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "PaperFields.swift:66"
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 90,
+      "source": "guard monospacedValue else { return .morselBody }",
+      "disposition": "paper_field_declaration_or_branch_guard",
+      "inventory_id": null
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "line": 91,
+      "source": "return prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17)",
+      "disposition": "font_consumption",
+      "inventory_id": "PaperFields.swift:91"
+    },
+    {
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 125,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "SettingsView.swift:125"
+    },
+    {
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 136,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "SettingsView.swift:136"
+    },
+    {
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 159,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "SettingsView.swift:159"
+    },
+    {
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "line": 208,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "SettingsView.swift:208"
+    },
+    {
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 87,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "TodayLogViews.swift:87"
+    },
+    {
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 95,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "TodayLogViews.swift:95"
+    },
+    {
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "line": 115,
+      "source": ".font(.morselData)",
+      "disposition": "font_consumption",
+      "inventory_id": "TodayLogViews.swift:115"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "line": 87,
+      "source": ".font(.morselData).fixedSize(horizontal: true, vertical: false)",
+      "disposition": "font_consumption",
+      "inventory_id": "TrainingFuelViews.swift:87"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "line": 105,
+      "source": ".font(.morselDataMedium)",
+      "disposition": "font_consumption",
+      "inventory_id": "TrainingFuelViews.swift:105"
+    },
+    {
+      "file": "app/Sources/Morsel/Views.swift",
+      "line": 146,
+      "source": ".font(.morselHero)",
+      "disposition": "font_consumption",
+      "inventory_id": "Views.swift:146"
+    },
+    {
+      "file": "app/Sources/Morsel/Views.swift",
+      "line": 148,
+      "source": ".monospacedDigit()",
+      "disposition": "digit_spacing_modifier",
+      "inventory_id": "Views.swift:146"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 22,
+      "source": ".font(Font.morselMono(size: 10))",
+      "disposition": "font_consumption",
+      "inventory_id": "WeightDeltaBand.swift:22"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 58,
+      "source": ".font(Font.morselMono(size: 12))",
+      "disposition": "font_consumption",
+      "inventory_id": "WeightDeltaBand.swift:58"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 76,
+      "source": ".font(Font.morselMono(size: 9))",
+      "disposition": "font_consumption",
+      "inventory_id": "WeightDeltaBand.swift:76"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "line": 147,
+      "source": "Text(value).font(Font.morselMono(size: 11)).multilineTextAlignment(.trailing)",
+      "disposition": "font_consumption",
+      "inventory_id": "WeightDeltaBand.swift:147"
+    }
+  ],
+  "source_manifest": [
+    {
+      "file": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "sha256": "e85064efedc1e777fb24e182e55c3c22baaf2e83266d57e5ce72d00392262c97"
+    },
+    {
+      "file": "app/Sources/Morsel/Auth.swift",
+      "sha256": "aa3b106eff75ba0f26761ec4b5c19a4f4600b0a62b15f9807109abfb12ed8d88"
+    },
+    {
+      "file": "app/Sources/Morsel/AuthView.swift",
+      "sha256": "0cf9f3af7bf9860bff4d4c8d03f0c2d61742d6b043f4fa63f3efb5b067a3b85f"
+    },
+    {
+      "file": "app/Sources/Morsel/DatedTargets.swift",
+      "sha256": "0b3a14ee6762cc7e7130d5446f855390bf77cf186cfdd48c601cd10fa78eb0e3"
+    },
+    {
+      "file": "app/Sources/Morsel/DayDrillDown.swift",
+      "sha256": "2e24cc119953798690dba162a60d6fee9657c1e3d9f57534576afbb4f79f8c90"
+    },
+    {
+      "file": "app/Sources/Morsel/DesignSystem.swift",
+      "sha256": "066959e7891e914d125655c0dc1f158fa7270cb39b618657606964b25fd2a628"
+    },
+    {
+      "file": "app/Sources/Morsel/DeviceTimezoneSync.swift",
+      "sha256": "296662f694b12b1fd8afe421747c5d95e237cf9f88a76a9b9f4d58a37b5ba57b"
+    },
+    {
+      "file": "app/Sources/Morsel/EndpointCopyPill.swift",
+      "sha256": "b620bfa15541832ad9415f284a1c0261b98646d6f94e0462bd9a0041747241fe"
+    },
+    {
+      "file": "app/Sources/Morsel/FoodArtwork.swift",
+      "sha256": "44b3a4c9deb7b0cb21784ffee88fce637be358992f74d18be970e0841c56e088"
+    },
+    {
+      "file": "app/Sources/Morsel/FoodArtworkView.swift",
+      "sha256": "d17a16f038cd453a0517cac81604530a578e84e38d17f673892e69f206b2769a"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalPageContext.swift",
+      "sha256": "197150080d498bc473febb92c468e0d1f6cee16264f29f0df8420378fba6cd9c"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsEditor.swift",
+      "sha256": "19c33bd9b19ca975ce3e639916cbec026708a096d58b54582b031fb34ad58115"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsEditorModel.swift",
+      "sha256": "ce5c1fdae1c6c79642353a273cecf5a50ec0d043e998b8ed6d09901322755b1c"
+    },
+    {
+      "file": "app/Sources/Morsel/GoalsMath.swift",
+      "sha256": "81415cada054b00716711267efc3f03a3befebf935715326305099d0a0befe70"
+    },
+    {
+      "file": "app/Sources/Morsel/HealthCalmStatus.swift",
+      "sha256": "f4578bde4f729cce0e22879061068394c1c5fa4afca4e9ad398f21705fc9e02a"
+    },
+    {
+      "file": "app/Sources/Morsel/HealthKitWeightImporter.swift",
+      "sha256": "e53097f3639d40fb17294714c161cb586c3841c8ab578b1bd77a10963d8b2a7e"
+    },
+    {
+      "file": "app/Sources/Morsel/HealthLogStores.swift",
+      "sha256": "1463de64266d03ba347f680d6c6d3cff0460803351a13d5711bdb8b9bfe716a2"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "sha256": "87b807f3cdd93e26d7cabcc320107ecec8a30d4f909df28aa0b268d926d789a5"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryModels.swift",
+      "sha256": "8bb80349df8945d4c174da157828ec36ee93740cac268748fea1421609368277"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryRepository.swift",
+      "sha256": "22247137728e4057c066df12cdc3d5e9dd825e66166ea0e85da68558e8b37452"
+    },
+    {
+      "file": "app/Sources/Morsel/HistoryView.swift",
+      "sha256": "f0ec08b368b96a412a285832bd2e1c1ace3ab19d53e0c3e8228de16096442ebd"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalArtwork.swift",
+      "sha256": "53288e5333acd37914138204e689de18dc96b86809a065e80cdac1b156304e3c"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalCalendarModel.swift",
+      "sha256": "d76a018654e6668d2f1bef79fecd5072e770cc8dbb81428056da93f6916c2609"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalCalendarRepository.swift",
+      "sha256": "7b83e278fb14f9f3a1a731a364145f0704bf18f9f2f766a7d9d4790c2b2981dc"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalCalendarView.swift",
+      "sha256": "13734ee2b8aedea268e80e367f78578576c87b2a8afef1819a1ad7dd5d19c34a"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalDiaryPage.swift",
+      "sha256": "4ab14fd63ca8ce1b15e9b4bacfe89d6ec1519f6434fd4fa3a717b555a0de3a5a"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFocus.swift",
+      "sha256": "954f4e61f8e0a991144ce4714fcab958e0558425cdc291000c39415a5ebe21e9"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalFoodRow.swift",
+      "sha256": "f14486f1814af5d0580318b8ff053af80501f0fccf1a6fad472e01e74341d591"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalHistoryRangePicker.swift",
+      "sha256": "ab2398b0bb432a088da3a2290277437f6fe8588e5cde7ab8b2ddc94c619fd4d1"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalNavigation.swift",
+      "sha256": "4bbb19273902b9c8b330d0861952513124360d074149fdf31ba53ecc2044feb5"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalPageTurner.swift",
+      "sha256": "c924b9e176c72b7d51cdeb1cf5df311f294192c3455c5ec10d900a50b01f8bb4"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalPaperTexture.swift",
+      "sha256": "09fa5ad3d106a1c40fb15b496a21b8fa6e53b2055ee8de1d93e66d71ee6088e2"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalPresentationModel.swift",
+      "sha256": "d275f8603613f0d6611b9644bea62a509d3afae4075e6959cce37a6fd980909f"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalShellChrome.swift",
+      "sha256": "dbd5fbf818fabf0376918d088fea04c46f91753b9b5cf47f214a43d96b64b49c"
+    },
+    {
+      "file": "app/Sources/Morsel/JournalUI.swift",
+      "sha256": "7fefcf3673ef83373f0b1b2503c9420d83018ad920c3970e991295468c4cda36"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalDataStore+SQLite.swift",
+      "sha256": "6c73fe048460f2d32601a4c5a875c6e0048f2ec889e5d5f85961f80ad0f30962"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalDataStore.swift",
+      "sha256": "785d02b47f26cf4a9c5e1f0a195a8bac31d95b33891bab5ef629b9946f31df85"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalDayMigration.swift",
+      "sha256": "8e8ce633dc79f2351995a0abe1f408a3ac3ec1f45ff63a0d267d716140232b54"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalFirstMenus.swift",
+      "sha256": "a89bfa3dd2c7bb9d75517b5cc58459636567c2ea7247176a70050ce645f63134"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalFirstRepository+ThumbnailRevision.swift",
+      "sha256": "f737fd531ccbd2f68809675f4adfac841cba3cb0da5e902b512712522ef58886"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalFirstRepository.swift",
+      "sha256": "feef65a7b6425aad876fc8a30650d6de5afb3d350f86e80c2592b29419113d10"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalHealthStore+SQLite.swift",
+      "sha256": "60ab0f37037be1c9eafaf93df614a4916d45e1891f5c05ef5926cc1206944f0e"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalHealthStore.swift",
+      "sha256": "2fa8b90dc7efdf3e01ca2ba80945766d3a67c9daf0511ecc953f5ee48d06a931"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalSnapshotCache.swift",
+      "sha256": "1c2bfb42e54163154e8940833392b88458ca22bbb80fb4c6f743c91fe6159ff5"
+    },
+    {
+      "file": "app/Sources/Morsel/LocalSyncEngine.swift",
+      "sha256": "45839f78691a154e48e15be2c0ad7d3320c900e160b0f571127952eb847b68b2"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCapture.swift",
+      "sha256": "e7c7df37c1d3c351805579c84bdbdced2dee192e6a835d3c88e323fd0b07ac6e"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCaptureView.swift",
+      "sha256": "dd8ba1775c8c30274d646d1b9169c7dca27f890f35719ae671b4dfef8ab666ae"
+    },
+    {
+      "file": "app/Sources/Morsel/MealCorrections.swift",
+      "sha256": "6b3fec025e695f9d8e04f1b45d82b1bd566e8d129410ce49e26fcd8794278ba7"
+    },
+    {
+      "file": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "sha256": "9580dc52360e24887382850c441d9bf8cae7ceead1918d27ae32145354dc6ded"
+    },
+    {
+      "file": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "sha256": "28654abfcb03781aa3b64711b82a82e9ee39205ea2564e226d6392b09537d1b8"
+    },
+    {
+      "file": "app/Sources/Morsel/MealPhotoRevisions.swift",
+      "sha256": "5a172d7427d93b72a69b7f17b4c3922c376d1d7f274c4a7e927be79ebbcbeee9"
+    },
+    {
+      "file": "app/Sources/Morsel/MealRepository.swift",
+      "sha256": "743cd840a11875f3934aa93e972dfff832d2cbd66499628fb57ab9cf999ff28a"
+    },
+    {
+      "file": "app/Sources/Morsel/MealThumbnailCache.swift",
+      "sha256": "e2d1a265a75b21dfc0e4a2dc5da755d34dfbb54dc9fcf189e71643b5f5feec2d"
+    },
+    {
+      "file": "app/Sources/Morsel/MealThumbnailKey.swift",
+      "sha256": "3d29484ac9abddac08af64e647ff04a45ff61d7c8f36913d9433425e3bc0b176"
+    },
+    {
+      "file": "app/Sources/Morsel/MealThumbnailPreparer.swift",
+      "sha256": "777ad9c3a169bf54d8118be0259614ff60a7e71980e3b3e4f9fff988b3ebb33e"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "sha256": "d5cb02aab7d53e76799a453df00c7a00f3bbc76586cf827462e98964753dbb3a"
+    },
+    {
+      "file": "app/Sources/Morsel/MenuLibrary.swift",
+      "sha256": "753565b6ce0788614d711a35409e5dd8ab0b38463f63e107e1ab90c25140a1e4"
+    },
+    {
+      "file": "app/Sources/Morsel/MenusScreen.swift",
+      "sha256": "63342d1a21bdce36ec14fcc9edc642fa216246d3bd73c3ac015128dce330aba6"
+    },
+    {
+      "file": "app/Sources/Morsel/MockRepository.swift",
+      "sha256": "72df65f3b2fca295594ca2d5cba52646a67e23b27cfdfdcd178b6ecd3e18d469"
+    },
+    {
+      "file": "app/Sources/Morsel/Models.swift",
+      "sha256": "db083c26fee47f160d935a737d28d70fad1b1be550b02cc341bdffe752d81aea"
+    },
+    {
+      "file": "app/Sources/Morsel/MorselApp.swift",
+      "sha256": "6d5db5f7790a7d373f40f83eca82045e8020279e0aa8688a7dd5cc7bbf089105"
+    },
+    {
+      "file": "app/Sources/Morsel/MorselAppearance.swift",
+      "sha256": "4e366d024239127a8f0f7fa729ebc1e3d73494c537c10e4578c7a53f0da19d29"
+    },
+    {
+      "file": "app/Sources/Morsel/MorselDate.swift",
+      "sha256": "1793375daea30325ce16335ee6ed670fea100f238d2d855435b9057c55fc7567"
+    },
+    {
+      "file": "app/Sources/Morsel/MorselStamp.swift",
+      "sha256": "71f5d0eb24bbc0ef21849cc6e48dfdf785a97793f04faf605dcd96dba34577c7"
+    },
+    {
+      "file": "app/Sources/Morsel/NamedMenus.swift",
+      "sha256": "eeeef635a0ed6d37a545641cc32a8f0e9604dbb7bd382e2e763d3eaf0e8cecff"
+    },
+    {
+      "file": "app/Sources/Morsel/Onboarding.swift",
+      "sha256": "f7888f9e055048efeed32f565dfc2f4f2c5f84afac7d63417caf168bb26c48a6"
+    },
+    {
+      "file": "app/Sources/Morsel/OutboxModels.swift",
+      "sha256": "b1a8523fa4e13566d66ea1d2bb29cf323773322bede4f25186cc54b00197fc99"
+    },
+    {
+      "file": "app/Sources/Morsel/PaperFields.swift",
+      "sha256": "55913402b9aa80289619614211552adcee31e4449d10cf228f48c8c11d590c72"
+    },
+    {
+      "file": "app/Sources/Morsel/PreviewData.swift",
+      "sha256": "d69274ffc6a147ae544cc660c03def86e8c112d07ed99b10a8dbc7e03706d668"
+    },
+    {
+      "file": "app/Sources/Morsel/ReliabilityServices.swift",
+      "sha256": "02a5fd4f09e25a1e7363342ccbc68a4dd32b8219b2d1cd7d3aca2a18e03e85b2"
+    },
+    {
+      "file": "app/Sources/Morsel/Repository.swift",
+      "sha256": "b68af59753ea4670453e75900e2d14d715125dae2aec7b339e752c15e0db4dc0"
+    },
+    {
+      "file": "app/Sources/Morsel/SessionStore.swift",
+      "sha256": "ea2902a732e7e87c895ba4cdf0a47c03b9323d171f03dfe7cdb24bea0f66b03a"
+    },
+    {
+      "file": "app/Sources/Morsel/SettingsView.swift",
+      "sha256": "d1e2fe0b96d083fd43ca8d424c7297023d35cb402b5d5e69994dab19eb31ae92"
+    },
+    {
+      "file": "app/Sources/Morsel/SupabaseMealMutations.swift",
+      "sha256": "ecfc1d2c3309f52bd6a685f016ac6053b12af1d2e8dfcb2064ed4f8972a21769"
+    },
+    {
+      "file": "app/Sources/Morsel/SupabaseMealReadModel.swift",
+      "sha256": "5ea36f0726ef71aed4d6afe0d37a9b0adf20d8efa60924bf08aecd74289b61f8"
+    },
+    {
+      "file": "app/Sources/Morsel/SupabaseMenus.swift",
+      "sha256": "2c25344b58ff82320b048dd8765be6f7c17a0b55fc5a35102b810f801acd4a78"
+    },
+    {
+      "file": "app/Sources/Morsel/TodayLogViews.swift",
+      "sha256": "98e4bd6e5ee8e7cf859b5ee0ad32067b2c5dba871b49e732c64d84d06da232b4"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelContext.swift",
+      "sha256": "49777c8bb3ba90a1258aef1e8b8c510c71e472be8c13faa91ba0d1853dac1895"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelHealthReader.swift",
+      "sha256": "c3f4e9be074520ebee7c24ef2cd33ed2efe93a46784f8c711ab15633a2af687e"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelHost.swift",
+      "sha256": "3dbb10a78bc20bdf94dfd66624ee92dcfd36105d46ed52fd14395b6bf51a79da"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelModel.swift",
+      "sha256": "8e45ce6f0df6faf5bc505a0aeb3113c7f75be9fd8abd06def85185be5e1f9cad"
+    },
+    {
+      "file": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "sha256": "fbb1e1da2fa361dc07039d1df45daeb257cd8116d76e7c81cfd80de78409e6df"
+    },
+    {
+      "file": "app/Sources/Morsel/ViewModel.swift",
+      "sha256": "276516d1134655587806d4995a9e215c54424f12ed7fc7dbed7fd7460177ba89"
+    },
+    {
+      "file": "app/Sources/Morsel/Views.swift",
+      "sha256": "54d187a1202067f9d8bd32cdaec8237e89c4c5c8a4c4b7fb2deddb7489624acb"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "sha256": "c3e87c312106164f155ca140e095b09f30f3c11473e6bf069b3c1bc6bb377eaa"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightDeltaModels.swift",
+      "sha256": "7382e80739ef69aadb263d367d5823da6e92b24e3d061a945758124f79c8a9ab"
+    },
+    {
+      "file": "app/Sources/Morsel/WeightTrendView.swift",
+      "sha256": "40f2001e2c1587ba2b3a18e5650fccae17884a9cbd732878fee4098f670c5f11"
+    }
+  ],
+  "verification": {
+    "all_broad_matches_accounted_for": true,
+    "all_59_font_consumption_lines_classified": true,
+    "all_20_paper_field_sites_accounted_for": true,
+    "source_hashes_unchanged_for_all_scanned_files": true,
+    "git_status_before": "clean",
+    "git_status_after": "clean",
+    "native_render_or_font_feature_proof": false,
+    "artifact_type": "read-only source audit; not a visual or native acceptance claim"
+  }
+}

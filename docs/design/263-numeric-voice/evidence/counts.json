@@ -1,0 +1,41 @@
+{
+  "groups": {
+    "headline": {
+      "pages": 2,
+      "captures": 8
+    },
+    "rows": {
+      "pages": 12,
+      "captures": 48
+    },
+    "charts": {
+      "pages": 4,
+      "captures": 16
+    },
+    "calendar": {
+      "pages": 1,
+      "captures": 4
+    },
+    "forms": {
+      "pages": 4,
+      "captures": 16
+    },
+    "capture": {
+      "pages": 9,
+      "captures": 36
+    },
+    "technical": {
+      "pages": 4,
+      "captures": 16
+    }
+  },
+  "pages": 36,
+  "phone_captures": 144,
+  "alignment_captures": 8,
+  "gallery_captures": 2,
+  "contact_sheets": 14,
+  "review_plates": 18,
+  "source_sites": 72,
+  "rendered_sites": 69,
+  "exclusions": 3
+}

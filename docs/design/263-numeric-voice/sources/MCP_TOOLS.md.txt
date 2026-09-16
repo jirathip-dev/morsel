@@ -1,0 +1,723 @@
+# MCP tool contract
+
+This is the **single source of truth** for the tools an agent can call against
+Morsel. The server implements these; the agent skill (`skills/food-logging/SKILL.md`)
+dog-ears them. When you change a tool here, change the schema, the server, and the
+skill together.
+
+Canonical types: [`packages/schema/food-types.ts`](../packages/schema/food-types.ts).
+
+## Dated target reads and confirmed additions (issue #253)
+
+The [shared dated-target contract](DATED_TARGETS.md) specifies persistence,
+RPC signatures, provenance, date/DST behavior and rollout. `get_day` adds
+optional `dated_target`; `get_dashboard_summary` adds optional `dated_targets`.
+Both carry the dated baseline, confirmed addition, revisions and total. An
+unattributable historical date has no `goal` or `remaining_kcal`; never use
+`get_goals` as its history. Multi-day rendering does not borrow today's goal.
+
+`set_dated_target_addition` accepts `date`, optional `timezone`, nonnegative
+`addition_kcal`, `mutation_id` (UUID), optional `expected_revision` (UUID/null),
+`historical_confirmation` and `manual_goal_acknowledged` (both default false).
+It returns `{ dated_target: ... }`. Read `get_day` first for the prior addition
+revision; pass it as `expected_revision`, or null when none. Confirm the exact
+amount/date with the user; past corrections require explicit historical
+confirmation and positive additions to manual goals require acknowledgement. Zero removes the
+addition with a recorded revision. Retries use the same mutation UUID and
+identical parameters; new intent uses a new UUID. No caller may supply or
+backfill a baseline. Baseline changes apply today, preserving any confirmed
+addition. Chart value is eaten − (dated baseline + confirmed addition).
+
+## Tool list
+
+Every registered tool carries a client-visible `title`, the existing
+description, explicit input and output schemas, and an explicit SDK
+`annotations` object. "Annotations" below lists only the true claims; see
+[Safety annotations](#safety-annotations) for the full wire contract.
+
+| Tool | Title | Direction | Purpose | Annotations |
+|---|---|---|---|---|
+| `log_meal` | Log a meal | write | **The main one.** Record a meal (and its items). Real photo bytes attach through this. Optional `menu_name` logs a reusable named menu (issue #152). | — |
+| `attach_meal_image` | Attach a photo to a logged meal | write | Add the photo bytes to an existing meal log (logged without one, or its photo failed to store). | — |
+| `search_food` | Search the food catalog | read | Find a food in the catalog by name/barcode (so the agent can use real macros instead of guessing). | `openWorldHint` (see [search_food cache write](#search_food-cache-write)) |
+| `list_menus` | List named menus | read | List the caller's reusable named menus (issue #152) so a bundle can be re-logged under any meal section. | `readOnlyHint` |
+| `update_meal_item` | Update one meal item | write | Correct one item (wrong macro, wrong portion). | — |
+| `delete_meal_log` | Delete a meal log | write | Remove a whole meal. | `destructiveHint` |
+| `get_day` | Get a day of meals | read | One day's meals + totals + remaining vs goal. | `readOnlyHint` |
+| `get_dashboard_summary` | Get the dashboard summary | read | Range totals, streak, macro split, weight trend. | `readOnlyHint` |
+| `get_profile` | Get the body profile | read | Body metrics (sex, age, height, weight, activity, diet goal). | `readOnlyHint` |
+| `set_profile` | Set the body profile | write | Upsert body metrics. | — |
+| `compute_targets` | Compute nutrition targets | read | BMR/TDEE + kcal + macro split derived from profile. | `readOnlyHint` |
+| `get_goals` | Get the effective goal | read | **Effective** targets — "latest update wins" (computed default; manual override only while at least as new as the profile, else `superseded_manual`) + `source`. | `readOnlyHint` |
+| `set_goals` | Set manual goals | write | Manual override (marks `source='manual'`). | — |
+| `set_dated_target_addition` | Confirm a dated target addition | write | Persist a confirmed addition for one diary date, with consent and revision provenance. | — |
+| `reset_goals` | Reset manual goals | write | Discard the stored manual override; effective target returns to computed. | — |
+| `get_weight_trend` | Get the weight trend | read | Apple Health body-mass series and latest measurement. | `readOnlyHint` |
+| `get_energy_burned` | Get energy burned | read | Apple Health daily active-energy burn series. | `readOnlyHint` |
+
+## Safety annotations
+
+The MCP SDK exposes tool metadata through the real registration/inspection
+path (`tools/list`). Morsel registers the annotations below as client-visible
+hints. They describe what a call may do to **state** so clients can classify a
+tool as read-only or as requiring write/delete confirmation.
+
+Every registered tool emits the **full** SDK annotation set as explicit
+booleans — `{ readOnlyHint, destructiveHint, idempotentHint, openWorldHint }` —
+so no client or reviewer ever has to infer meaning from an absent field. In
+the table above, `readOnlyHint` / `destructiveHint` / `openWorldHint` mean
+that field is `true` (and all other fields are `false`); "—" means all four
+fields are explicit `false`: the tool claims no safety class. The claim rules:
+
+- `readOnlyHint: true` — claimed **only** for tools whose full implementation
+  path provably never writes; every reachable call is a read (`SELECT` /
+  immutable `compute_targets` RPC):
+  - `get_profile` — reads `profiles`.
+  - `get_day`, `get_dashboard_summary` — read `meal_logs`, `meal_items`,
+    `profiles`, `goals`, `weight_logs`, and the immutable `compute_targets` RPC.
+  - `compute_targets`, `get_goals` — read `profiles`, `goals`, `weight_logs`,
+    and the immutable `compute_targets` RPC.
+  - `get_weight_trend` — reads `weight_logs`.
+  - `get_energy_burned` — reads `energy_burned_logs`.
+  All other tools assert `readOnlyHint: false` because their implementation
+  can write.
+- `destructiveHint: true` — claimed only for `delete_meal_log`. Deleting a
+  meal log is a hard, owner-scoped `DELETE` of the `meal_logs` row; `meal_items`
+  rows cascade-delete with it (foreign key `on delete cascade`, migration
+  0001). There is no archive, soft-delete, or restore path, so the effect is
+  irreversible. The other write tools (`log_meal`, `set_profile`, `set_goals`,
+  `reset_goals`, `update_meal_item`) assert `destructiveHint: false`: they
+  create or overwrite owned rows and remove nothing — `reset_goals` rewrites
+  the `goals` row to `source='computed'` with its values cleared (no `DELETE`),
+  and the manual numbers it replaces are returned in the earlier `get_goals`
+  / `set_profile` `superseded_manual` payloads when clients need them.
+- `idempotentHint: false` — asserted on **every** tool: the server makes no
+  retry-safety promise. `log_meal` inserts a new meal log on every call, so a
+  blind retry duplicates data; `delete_meal_log` errors with `not_found` once
+  the log is gone; the remaining writes are upserts that converge, but they
+  are deliberately not advertised as retry-safe.
+- `openWorldHint: true` — claimed **only** for `search_food`. The SDK defines
+  the hint as whether the tool may interact with an "open world" of external
+  entities — its canonical example is a web search tool, whose world is open —
+  and defaults it to `true`. `search_food`'s configured catalog-miss path
+  calls the live USDA FoodData Central web-search API
+  (`nutrition-provider.ts`), so its domain of interaction is open. Every other
+  tool asserts `openWorldHint: false`: their domain of interaction is closed —
+  the authenticated account's stored rows plus deterministic server-side
+  computation only.
+
+<a id="search_food-cache-write"></a>
+
+`search_food` is **not** annotated `readOnlyHint` even though it never touches
+user data, and it is the **only** open-world tool (`openWorldHint: true`). On
+a catalog miss the server queries the live USDA FoodData Central web-search
+API and, when a cache client is configured, persists the matched
+provider-derived rows into the **shared** `food_catalog` table through the
+service-role-only `upsert_food_catalog` RPC (deterministic UUIDs derived from
+`fdc_id`, `source='usda'`, conflict-no-op). That is a write of shared server
+state on a real path, so a strict "does not modify any state" claim would be
+inaccurate; and because the miss path reaches an external web service, the
+tool's domain of interaction is open. Callers keep read semantics for their
+own data; nothing about the user's rows, RLS scoping, or confirmation behavior
+changes.
+
+Annotations are **advisory to clients only**: they are server-authored
+metadata emitted over `tools/list` and are never consulted by the server at
+call time. They cannot grant or deny access, cannot be used to bypass
+authorization, and change nothing about Supabase Auth/RLS enforcement
+(`auth.uid()`-scoped policies and the repository's ownership checks still gate
+every call). A client that ignores or misreads a hint can neither write with a
+read-annotated tool nor read or mutate another user's data.
+
+## Tool schemas
+
+### `log_meal`
+
+**Purpose:** record a meal. When the user uploads a food photo, the agent does
+vision → fills `items[]` → calls this with the photo bytes in
+`image_base64` (the preferred input) so the photo is stored, not dropped.
+`source` is set internally by the server: `photo_vision` when a photo input
+(`image_base64` or `image_url`) is present, `barcode` when an item has a barcode
+but no photo, and `manual` otherwise.
+
+The server writes the meal log and every item through one database transaction;
+an RPC failure leaves no partial meal rows. When a photo was supplied, the
+server then stores the validated bytes in the caller's private `food-images`
+bucket at `{user_id}/{meal_log_id}.jpg` and records the object path on the meal
+row. **A photo that cannot be stored is rejected and reported, never silently
+accepted:** the response carries `image_error` and the meal itself is still
+logged. Send the photo bytes when the client exposes the image; otherwise omit
+the photo inputs entirely.
+
+**Named menus (issue #152):** passing `menu_name` logs the meal as one grouped
+set under that name — every item row snapshots the menu name plus one shared
+set/grouping id, so menus are meal-type-free templates (a breakfast set can be
+logged as dinner) and later menu edits never change past meals. When the user
+has no menu with that name, the server CREATES the reusable menu from this
+log's items in the same transaction. When the menu already exists and `items`
+is omitted, the log copies the menu's current items; `items` may still be
+passed to log a custom snapshot under the menu's grouping. `items` stays
+required for plain logs and for creating a brand-new menu.
+
+**Input**
+```json
+{
+  "type": "object",
+  "properties": {
+    "eaten_at":    { "type": "string", "format": "date-time", "description": "When the meal happened (not upload time). Default: now." },
+    "timezone":    { "type": "string", "description": "IANA zone, e.g. \"Asia/Bangkok\". Only used when eaten_at is omitted: the response's date is the local calendar day of the stamped \"now\". Precedence: this input -> profiles.timezone -> UTC." },
+    "meal_type":   { "type": "string", "enum": ["breakfast", "lunch", "dinner", "snack"] },
+    "menu_name":   { "type": "string", "description": "Named-menu log (issue #152): logs the meal as one grouped set under this menu name. Creates the reusable menu from these items when the user has none with that name; an existing menu is never modified by a log. When the menu exists, items may be omitted and the log copies the menu's current items." },
+    "items": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name":        { "type": "string" },
+          "artwork_id":  { "type": "string", "description": "Optional exact published ID from the tools/list enum; see Artwork identity. Invalid IDs are rejected." },
+          "quantity":    { "type": "number", "default": 1 },
+          "unit":        { "type": "string", "enum": ["g", "ml", "serving", "piece", "cup"] },
+          "calories_kcal": { "type": "number" },
+          "protein_g":   { "type": "number" },
+          "carbs_g":     { "type": "number" },
+          "fat_g":       { "type": "number" },
+          "fiber_g":     { "type": "number" },
+          "sugar_g":     { "type": "number" },
+          "barcode":     { "type": "string" },
+          "food_ref_id": { "type": "string", "format": "uuid", "description": "UUID id returned by search_food for exact macros" },
+          "confidence":  { "type": "number", "minimum": 0, "maximum": 1, "description": "0..1 how sure the agent is. Low = user should review." },
+          "notes":       { "type": "string", "description": "Agent reasoning, e.g. 'approx, shared plate'" }
+        }
+      }
+    },
+    "notes":     { "type": "string" },
+    "image_base64": {
+      "type": "object",
+      "description": "Preferred photo input: the real image bytes, base64-encoded (JPEG, PNG, or WebP; up to ~5 MB after decoding). When both photo inputs are present this wins.",
+      "properties": {
+        "data":      { "type": "string", "description": "Base64-encoded image bytes (JPEG/PNG/WebP; JPEG is canonical)" },
+        "mime_type": { "type": "string", "enum": ["image/jpeg", "image/png", "image/webp"] }
+      },
+      "required": ["data", "mime_type"]
+    },
+    "image_url": { "type": "string", "format": "uri", "description": "Legacy photo input: a public HTTPS image URL. The server fetches it once (5 s timeout, image-only content, 10 MB cap, no redirects to private ranges) and stores the bytes like image_base64." }
+  },
+  "required": ["meal_type"]
+}
+```
+
+**Output**
+```json
+{
+  "type": "object",
+  "properties": {
+    "meal_log_id": { "type": "string", "format": "uuid" },
+    "recorded":    { "type": "boolean", "default": true },
+    "timezone":    { "type": "string", "description": "IANA zone used for the reported date. Present only when eaten_at was omitted." },
+    "date":        { "type": "string", "description": "Local calendar date (YYYY-MM-DD) the meal was logged to. Present only when eaten_at was omitted." },
+    "image_error": { "type": "string", "description": "Present only when a photo was requested but could not be stored; the meal is still logged. Read the photo back with get_day once storage recovers, or attach it later with attach_meal_image." }
+  },
+  "required": ["meal_log_id", "recorded"]
+}
+```
+
+Macro fields are totals for the whole item as eaten. The server stores them as
+provided and never multiplies them by `quantity` or `unit`; scale values from a
+`search_food` result's `serving_size` and `serving_unit` before calling
+`log_meal`. If either serving field is absent, the serving basis is unknown: do
+not treat the returned macros as one serving; seek clarification or use an
+explicitly noted lower-confidence estimate.
+
+**Example call (photo → log):**
+```
+log_meal({
+  "meal_type": "lunch",
+  "eaten_at": "2026-08-25T12:30:00+07:00",
+  "items": [
+    { "name": "Jasmine rice",   "quantity": 1, "unit": "serving", "calories_kcal": 220, "carbs_g": 48, "confidence": 0.9 },
+    { "name": "Grilled chicken","quantity": 120, "unit": "g", "calories_kcal": 200, "protein_g": 38, "fat_g": 5, "confidence": 0.85 },
+    { "name": "Stir-fried veg", "quantity": 1, "unit": "serving", "calories_kcal": 90, "carbs_g": 10, "fiber_g": 4, "confidence": 0.7, "notes": "approx portion" }
+  ],
+  "image_base64": { "data": "<base64 of the photo bytes>", "mime_type": "image/jpeg" }
+})
+```
+→ `{ "meal_log_id": "9fce...", "recorded": true }` — then confirm with
+`get_day`: the meal carries `image: { "path", "signed_url", "expires_at" }`
+when the photo stored. If the response includes `image_error`, tell the user
+the meal logged without the photo and offer `attach_meal_image` with the same
+bytes once storage is available.
+
+### Artwork identity (issue #241; contract half)
+
+`artwork_id` is an **optional per-item illustration identity**, independent of
+`name`, `food_ref_id`, nutrition, menu grouping, and the meal photo. The agent
+may select an existing published ID; Morsel owns the catalog and validation.
+The user's descriptive `name` is preserved verbatim (including whitespace;
+blank names are rejected), never replaced with a catalog name.
+
+- **Discovery:** the `artwork_id` enum in `log_meal` and `update_meal_item`
+  input schemas (`tools/list`) publishes all allowed IDs. No new tool is added.
+  The canonical published set is derived from the **shipped**
+  [`app/Resources/FoodArt/catalog.json`](../app/Resources/FoodArt/catalog.json).
+  It includes 13 food and 5 fallback assets. The older design catalog at
+  `docs/art/food-library/catalog.json` has only 17 entries (no neutral fallback),
+  so it is not the complete publication list.
+- **Validation:** exact, case-sensitive enum membership; unknown IDs, empty
+  strings, case/whitespace variants, and explicit JSON `null` are rejected as
+  invalid input before writes. Nothing is silently dropped. Omit the field
+  when uncertain; never invent an ID or upload illustration files. PostgreSQL
+  also rejects unpublished non-null IDs with CHECK constraints.
+- **Persistence/readback:** both meal-log RPCs accept the optional JSON key,
+  store it in `meal_items.artwork_id`, and return it when non-null. `get_day`
+  items return the same value. `update_meal_item` can replace it with another
+  published ID; omitting it preserves the existing identity (no MCP clear-to-null
+  operation). Changing identity does not rename food or change macros/photos.
+  Named-menu templates also retain it in `menu_items`; `list_menus`, menu save,
+  and item-less `log_meal(menu_name)` reuse preserve it. Template edits never
+  rewrite prior meal snapshots.
+- **Compatibility:** omitted keys remain SQL NULL; pre-migration rows are not
+  backfilled. NULL/absent identity is omitted on MCP reads and RPC responses,
+  so old payloads keep their old result fields and defaults. Apply migration
+  `0013_artwork_identity.sql` before running the new server's projections;
+  this contract is not a claim of compatibility with an unmigrated database.
+  No owner relogging, production migration, or backfill is part of this work.
+- **Native precedence contract (next lane, not implemented here):** first a
+  valid explicit ID supported by the local bundle; otherwise a conservative,
+  unambiguous full name/alias match (including approved descriptive Americano
+  rules), then an unambiguous catalog category fallback, then neutral. Unknown
+  IDs in older bundles must take that fallback path, never blank/crash. No
+  naive substring matching: coffee cake, ambiguous mixed dishes, and unknown
+  foods must not become coffee. An explicit supported ID outranks names;
+  fallback changes no stored name, nutrition, or photo. Bundled offline artwork
+  remains the row illustration regardless of photo; real photos stay in detail.
+  Native decoding, resolver behavior, Paper/Night, and rendered evidence remain
+  acceptance work for part 2, not verified by this contract-only lane.
+
+Example: `{ "name": "Americano (black, no sugar, homemade)", "artwork_id": "coffee" }`.
+The illustration is not portion/nutrition evidence and needs no network generation.
+
+For catalog updates, run `node packages/schema/generate-artwork-ids.mjs` to
+regenerate `packages/schema/artwork-ids.ts`; `--check` verifies byte stability.
+`--sql` prints catalog-derived constraints for a **new forward-only migration**;
+never rewrite an applied migration. Schema tests compare the generated enum to
+the bundled catalog (and ensure every design-catalog ID is published); the real
+Postgres test inserts every ID and checks the installed constraint sets for
+both missing and extra values.
+
+### `attach_meal_image`
+
+**Purpose:** attach the real photo bytes to a meal that was already logged
+without one (the exact case issue #122 hit: a photo dropped at log time), or
+whose photo failed to store. The meal is otherwise untouched.
+
+**Input** `{ "meal_log_id": "uuid", "image_base64": { "data", "mime_type" }? | "image_url": "https://..."? }` —
+**Output** `{ "ok": true, "attached": true | false, "image_error"?: string }`
+
+Provide exactly one photo source (`image_base64` is preferred when both are
+sent). The same validation and storage rules as `log_meal` apply: JPEG/PNG/WebP
+bytes, ~5 MB base64 budget, one HTTPS fetch for `image_url`, storage into
+`food-images/{user_id}/{meal_log_id}.jpg`. `attached: false` with an
+`image_error` means the photo could not be stored and the meal is unchanged —
+report it and retry rather than re-logging the meal. An unknown or
+not-owned `meal_log_id` is a typed `not_found` error.
+
+**Example call (attach after the fact):**
+```
+attach_meal_image({
+  "meal_log_id": "9fce...",
+  "image_base64": { "data": "<base64 of the photo bytes>", "mime_type": "image/jpeg" }
+})
+```
+→ `{ "ok": true, "attached": true }` — read the meal back with `get_day` to
+confirm `image.path` + `image.signed_url`.
+
+### `search_food`
+
+**Input** `{ "query": "string", "limit": { "type": "integer", "default": 8 } }`
+**Output** `{ "results": [ { "id", "name", "brand", "barcode", "serving_size", "serving_unit", "calories_kcal", "protein_g", "carbs_g", "fat_g" } ] }`
+
+The store reads this catalog from `food_catalog`, with a small deterministic
+curated set in `db/seed.sql`. When the catalog has no match, the server queries
+the USDA FoodData Central `/fdc/v1/foods/search` endpoint using `USDA_API_KEY`,
+maps its `foods[].foodNutrients` values into this unchanged contract, and caches
+successful results in `food_catalog`. External IDs are deterministically mapped
+to UUIDs. Unknown food returns empty results; a missing key uses catalog-only
+search, while an unavailable provider returns a typed tool error.
+
+### `list_menus`
+
+**Input** `{}` — **Output** `{ "menus": [ { "menu_id": "uuid", "name": "string", "items": [ { "item_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "barcode", "food_ref_id", "artwork_id?" } ] } ] }`
+
+Lists the caller's reusable named menus (issue #152), ordered by name. A menu
+is a meal-type-free bundle: the same items can be logged under ANY meal
+section. Re-log a bundle with ONE call by passing its `menu_name` to
+`log_meal` (items may be omitted — the log copies the menu's current items as
+a snapshot). Logging with a `menu_name` the user does not have yet CREATES the
+menu from that log's items. Menus are edited in the app (rename, add/remove
+items); a logged meal is always a snapshot copy, so editing a menu never
+changes meals logged earlier. `get_day` meal items carry the snapshot grouping
+on reads: `menu_name` and `menu_group_id` (one shared id per logged set);
+loose items omit both.
+
+### `update_meal_item`
+
+**Input** `{ "item_id": "uuid", "calories_kcal?": "number", "protein_g?": "number", "carbs_g?": "number", "fat_g?": "number", "quantity?": "number", "name?": "string", "artwork_id?": "published ID" }`
+**Output** `{ "ok": true, "updated": true }`
+
+At least one optional field must be supplied with `item_id`. This tool corrects
+item values only — it never changes the meal's photo. A photo belongs to the
+meal, not an item: attach or replace it with `attach_meal_image` (a new photo
+overwrites `meal_logs.image_path`, keeping the byte store consistent).
+
+### `delete_meal_log`
+
+**Input** `{ "meal_log_id": "uuid" }`
+**Output** `{ "ok": true, "deleted": true }`
+
+Removes the meal log row and its items. Any photo object that was attached to
+the meal stops being returned by reads; it remains an owner-scoped object in
+the private `food-images` bucket until storage cleanup removes it (the row no
+longer references it).
+
+### `get_day`
+
+**Input** `{ "date": "YYYY-MM-DD", "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "meals": [ { meal_log_id, meal_type, eaten_at, image: { path, signed_url, expires_at }?, items: [ { item_id, name, artwork_id?, quantity, unit, ... } ] } ], "totals": { "calories_kcal", "protein_g", "carbs_g", "fat_g" }, "goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source" }, "remaining_kcal": number, "render": { "markdown", "svg" } }`
+
+A meal with a stored photo carries `image` on reads: `path` is the storage
+object path (`food-images/{user_id}/{meal_log_id}.jpg`, what the dashboard
+thumbnail pipeline downloads), `signed_url` is a short-lived URL minted for
+that read (15 minutes; never persisted or logged), and `expires_at` is the
+instant it stops working. Meals without a photo omit `image` entirely.
+
+`goal` and `remaining_kcal` are omitted only when there is neither a profile nor
+a complete manual goal. A complete manual goal can be used without a profile.
+The server interprets `date` as a **calendar day in the effective timezone**
+(explicit `timezone` input, then `profiles.timezone`, then UTC — see
+[Local days and timezones](#local-days-and-timezones)); the output echoes the
+requested `date` and the `timezone` that was used.
+
+Use `get_day` to enumerate item IDs before `update_meal_item`;
+there is no standalone item-listing tool.
+
+### `get_weight_trend`
+
+**Input** `{ "days": { "type": "integer", "default": 30 }, "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "series": [ { "date", "kg" } ], "latest": { "date", "kg" }? }`
+
+The series is scoped to the authenticated user and sorted by measurement date.
+Every series `date` is the measurement instant's **local calendar day in the
+effective timezone** (explicit input → `profiles.timezone` → UTC); `date` at
+the top level is the local "today" that anchored the window and `timezone` is
+the zone used. `latest` is the final series point when one exists. Imported
+measurements are deduplicated by their HealthKit measurement timestamp.
+
+### `get_energy_burned`
+
+**Input** `{ "days": { "type": "integer", "default": 30 }, "timezone?": "IANA zone" }` — **Output** `{ "date", "timezone", "series": [ { "date": "YYYY-MM-DD", "active_kcal": number } ] }`.
+
+Reads daily active-energy calories imported from Apple Health. Values are user-scoped and idempotent by `(user_id, burned_at)`. Each `series` `date` is the
+burn instant's **local calendar day in the effective timezone**, so a single
++07 (or any non-UTC) day is never split across two UTC rows; top-level `date`
+is the local "today" that anchored the window and `timezone` is the zone used.
+
+### `get_dashboard_summary`
+
+**Input** `{ "days": { "type": "integer", "default": 7 }, "timezone?": "IANA zone" }`
+**Output** `{ "date", "timezone", "avg_calories_kcal", "streak_days", "macro_split": { "protein_g", "carbs_g", "fat_g" }, "weight_trend": [ { "date", "kg" } ], "render": { "markdown", "svg" } }`
+
+`avg_calories_kcal` is averaged across the requested calendar range;
+`macro_split` is the summed gram total for that range, and `streak_days` counts
+consecutive **local days in the effective timezone** ending on the local
+"today" (returned as `date`, with `timezone` reporting the zone used) that
+contain at least one meal within the requested `days` window, so it is at most
+`days`. `weight_trend` is a supported v0.1 output: include it when non-empty
+and treat an empty array as no weight entries in the requested range. No
+registered v0.1 tool writes `weight_logs`, so it may be empty.
+
+Both read outputs include a `render` payload with markdown and SVG strings. The
+MCP server emits it as two content blocks: `{ type: "text", text:
+render.markdown }` followed by `{ type: "image", data: base64(render.svg),
+mimeType: "image/svg+xml" }`. Existing structured fields remain unchanged; the
+markdown is the safe fallback when a client cannot render SVG.
+
+### `get_profile`
+
+**Input** `{}` — **Output** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?", "timezone?" }`
+
+`timezone` is the stored IANA zone used for day bucketing when a day-scoped
+tool call does not pass an explicit one. It is omitted when the profile has no
+stored zone (meaning UTC).
+
+### `set_profile`
+
+**Input** `{ "sex", "age_years", "height_cm", "weight_kg", "activity_level", "diet_goal", "goal_weight_kg?", "timezone?" }`
+**Output** `{ "ok": true, "saved": true, "effective_goal": { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed", "superseded_manual?" } }`
+
+Saving a profile is the newest user decision, so the output reports the
+effective goal with the just-computed targets (`source: "computed"`, using the
+latest imported weight when one exists). When a complete manual goal existed
+before the save, its old values are returned as
+`superseded_manual: { "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "updated_at" }`
+so the agent can tell the user what the new profile replaced.
+
+### `compute_targets`
+
+**Input** `{}` (uses the profile and latest imported weight when present)
+**Output** `{ "bmr_kcal", "tdee_kcal", "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "weight_used" }`
+
+`weight_used` reports the body weight the targets were actually derived from:
+`{ "kg", "source": "health" | "profile" }`. When a `weight_logs` measurement
+exists, the latest one (by `measured_at`) feeds the computation and `source`
+is `"health"` with that sample's `measured_at`; with no imported measurement
+the profile's typed `weight_kg` is used and `source` is `"profile"` (no
+`measured_at`). Formula (Mifflin-St Jeor → activity factor → diet goal) in
+[`TARGETS.md`](TARGETS.md).
+
+### `get_goals`
+
+**Purpose:** the **effective** target the gauge and "did I hit today's target?" use.
+**Output** `{ "calorie_target_kcal", "protein_g", "carbs_g", "fat_g", "source": "computed" | "manual", "superseded_manual?" }`
+
+The effective goal follows **"latest update wins"**: the stored manual goal is
+effective only while it is at least as new as the profile
+(`goals.updated_at >= profiles.updated_at`). A profile updated after the manual
+goal makes the **computed** target effective (`source: "computed"`) and the
+response carries the replaced values as `superseded_manual` (with the manual
+row's `updated_at`) so clients can show what was set aside. `get_day`'s `goal`
+and the dashboard render follow the same rule (without the `superseded_manual`
+payload). A complete manual goal is still readable when no profile has been
+set (nothing can supersede it there). A profile is required when the stored
+goal is computed, incomplete, or absent.
+
+### `set_goals`
+
+**Input** `{ "calorie_target_kcal?", "protein_g?", "carbs_g?", "fat_g?" }` — **Output** `{ "ok": true, "source": "manual" }`
+
+Omitted values retain the current effective values (following the same
+"latest update wins" rule). If no profile or existing goal can supply them,
+provide all four values. Calling `set_goals` writes the manual override
+(`source='manual'`) as the newest goal write, so it stays effective until the
+profile changes again or `reset_goals` is called.
+
+### `reset_goals`
+
+**Input** `{}` — **Output** `{ "ok": true, "reset": true }`
+
+Discards the stored manual goal override (the goal row is rewritten to
+`source='computed'` with no values). The effective target returns to the
+computed values derived from the profile and latest imported weight — call
+`get_goals` afterwards for the new effective target (a profile is required for
+a computed target). Nothing else changes; `reset_goals` never touches meals,
+weight logs, or the profile.
+
+## Local days and timezones
+
+Morsel's day-scoped tools (`get_day`, `get_dashboard_summary`,
+`get_weight_trend`, `get_energy_burned`, and `log_meal`'s local-date report)
+bucket days as **calendar days in a timezone**, never in a fixed UTC grid.
+
+- **Precedence:** an explicit `timezone` on the call wins, then the stored
+  `profiles.timezone` (writable via `set_profile`), then **UTC**.
+- **Backward compatible:** when no timezone exists anywhere, behavior is
+  exactly v0.1 — zero-zone calls stay on the UTC grid with UTC "today".
+- **What changes per zone:** which calendar day an instant belongs to (a
+  dinner at `2026-08-31T23:30:00Z` is Monday Aug 31 in UTC but Tuesday
+  **Sep 1** in `Asia/Bangkok`), which day "today" is, and how streak/energy
+  day rows are grouped. Stored instants (`eaten_at`, `measured_at`,
+  `burned_at`) never change.
+- **Outputs:** every day-scoped read returns the `timezone` it used and the
+  `date` it used (the requested date for `get_day`, the local "today" anchor
+  for windowed tools). `log_meal` reports `timezone` + `date` only when
+  `eaten_at` was omitted and the server stamped "now".
+- Agents should pass the user's IANA timezone (e.g. `Asia/Bangkok`) derived
+  from the conversation, and echo the returned local date when telling the
+  user which day something was logged to.
+
+## Principles for the agent
+
+- **Don't invent precise macros you can't get.** Use `search_food` to pull exact
+  values when you have a name, scale them to the full eaten portion, and set a
+  lower `confidence` for honest estimates.
+- **One uploaded photo = one `log_meal`** with one or more `items[]`. Send the
+  photo bytes (`image_base64`) when the client exposes the image; otherwise
+  omit the photo inputs. Never fabricate a photo URL.
+- **Never log twice.** If a same-sitting item was omitted, v0.1 has no
+  add-item operation: with confirmation, call `delete_meal_log` once, then call
+  `get_day` for the original meal's local date (pass the user's timezone when
+  it is not stored) and re-log the full item list only after
+  its original `meal_log_id` is absent. If the meal remains or state is
+  unknown, stop without retrying or creating a replacement. Log a genuinely
+  separate meal separately. When only the photo is missing (or it failed to
+  store at log time), `attach_meal_image` adds it without touching the meal.
+- **Honesty beats polish.** If a portion is a guess, keep `confidence` low and
+  add a `notes` string. The human corrects it later in the dashboard.
+
+## Photos (real bytes through MCP, issue #122)
+
+`log_meal` and `attach_meal_image` take the photo **bytes** — `image_base64`
+(`{ data, mime_type }`) is the preferred input and `image_url` is a legacy
+convenience the server **fetches once**. Both paths validate and then store the
+real bytes; a dead URL or reference is never accepted silently.
+
+- **Formats:** JPEG (canonical), PNG, and WebP — the exact allowlist of the
+  private `food-images` bucket (migration `0004`) and the native app's photo
+  picker. The Morsel app converts camera HEIC to JPEG on-device before it ever
+  uploads; the MCP server has no transcoder, so it stores what it receives
+  byte-exact with the true content type (magic-verified, never a mislabeled
+  container) under the canonical object path `{user_id}/{meal_log_id}.jpg`.
+- **Limits:** `image_base64` decodes to at most ~5 MB; an `image_url` fetch is
+  capped at 10 MB with a 5 s timeout, requires an image content type, and its
+  manual redirect loop refuses non-HTTPS or private-range hops.
+- **Storage + RLS:** objects are uploaded with the caller's bearer token, so
+  the owner-scoped Storage policies from `0004` apply — a user can only ever
+  touch objects under their own user ID. The object path is written to
+  `meal_logs.image_path`.
+- **Reject and report:** when a photo cannot be stored the response carries
+  `image_error` and the meal is still logged (or, for `attach_meal_image`, the
+  meal stays unchanged with `attached: false`). Never claim a photo attached
+  when the response does not confirm it.
+- **Read-back:** `get_day` meals carry `image: { path, signed_url, expires_at }`
+  when a photo is stored; confirm attachment with that field. Signed URLs are
+  short-lived per-read values. Image bytes and signed URLs are never logged.
+
+## Remote authentication
+
+The MCP endpoint accepts either a raw Supabase bearer token or an OAuth 2.0
+access token issued by the provider. The canonical client-facing transport
+URL is `https://mcp.morselfood.app/mcp` (issue #130 — the morselfood.app
+custom domain over the same Fly deployment first published in issues
+#72/#73/#75).
+
+> **Transition (issue #130; env flip landed 2026-09-07 — issue #170):** the
+> legacy `https://morsel-mcp.fly.dev/mcp` origin still serves the identical
+> transport, OAuth metadata, and 401 challenges until fully retired — no
+> client is forced to migrate. Both origins remain valid
+> `MORSEL_PUBLIC_BASE_URL` values; the deployed Fly secret was flipped to the
+> canonical `https://mcp.morselfood.app/mcp` on 2026-09-07 (release
+> `84ed375b2d27`, second-user Claude connect confirmed), so discovery
+> documents on both origins advertise the canonical issuer.
+
+OAuth clients discover the provider through
+`/.well-known/oauth-protected-resource` (the path-specific
+`/.well-known/oauth-protected-resource/mcp` is also served),
+`/.well-known/oauth-authorization-server`, and
+`/.well-known/openid-configuration` (OpenID Connect discovery), all under the
+canonical base. The OIDC route serves the same authorization-server document —
+same `issuer`, endpoints, CORS, and cache behavior — and adds no OIDC claims
+the provider cannot back. Because the issuer is a path (`/mcp` on the Fly
+origin), spec-compliant MCP clients append the OIDC path to the issuer, and
+the canonical discovery URL that succeeds is the issuer-relative
+`https://mcp.morselfood.app/mcp/.well-known/openid-configuration`.
+The advertised OAuth `resource` is the canonical transport URL itself.
+
+> **Legacy Edge compatibility (issues #57/#72/#75):** before the Fly
+> deployment, the Supabase Edge Function served the client-facing transport
+> at the function root, `https://<public-host>/functions/v1/mcp` (issue #57);
+> the nested `…/functions/v1/mcp/mcp` path remained only as a compatibility
+> alias for clients provisioned before the route change and was never
+> published to users. Because that issuer is a path, spec-compliant clients
+> tried three discovery URLs: the two host-root prefixes
+> (`/.well-known/oauth-authorization-server/functions/v1/mcp` and
+> `/.well-known/openid-configuration/functions/v1/mcp`) were intercepted by
+> the Supabase gateway before reaching the function, so the URL that
+> succeeded was the issuer-relative
+> `https://<public-host>/functions/v1/mcp/.well-known/openid-configuration`.
+> The Edge Function transport is retained as legacy/local-gateway
+> compatibility and is no longer the canonical client-facing base. The OAuth
+> discovery, registration, and consent behavior described below is identical
+> on the Fly origin.
+
+The provider supports dynamic RFC 7591 registration, the authorization-code
+grant, and refresh tokens. The `/authorize` route on the Fly origin is the
+OAuth backend and consent runs as a two-step email one-time-code sign-in:
+**sign in with the email on the Morsel account; a code is emailed to you.**
+Step 1 requests a Supabase Auth email OTP for an existing account only (no
+account creation) and answers uniformly for known and unknown emails; step 2
+verifies the 6-digit code before the authorization code is issued. The
+BROWSER consent surface is the static Vercel page under `authorize-ui/`
+(issue #69; the page exists because Supabase's free shared domain rewrites
+Edge Function `text/html` to `text/plain`, so the function origin could not
+render consent HTML — and it remains the consent surface after the move to
+Fly, issue #72). `MORSEL_OAUTH_AUTHORIZATION_ENDPOINT` is set on the deployed
+Fly app: authorization-server metadata advertises the Vercel page as
+`authorization_endpoint` and every `/authorize` form response is a bodyless
+302 back to it; the page's same-origin `params.js` copies the allowlisted
+OAuth query fields into hidden inputs and each stage form POSTs directly
+(cross-origin — no CORS, no proxy) to the Fly origin's `/mcp/authorize`
+(issue #74). Changing that production secret is human-gated (the deploy
+workflow only verifies it); unset, the route renders the two no-JS email/code
+forms server-side as self-POSTs as the pinned fallback (issue #66 hardening).
+`/token` requires PKCE with
+`code_challenge_method=S256` and rejects `plain`. Access tokens are the real
+Supabase Auth session access tokens, validated with `auth.getUser()` before
+issuance, so existing RLS policies continue to scope every tool call to the
+signed-in user. Client registration remains stateless, but `/authorize` stores
+a short-lived user-owned grant in the RLS-protected `oauth_authorization_grants`
+table. The client-facing code is an encrypted/signed envelope containing no
+Supabase token. `/token` atomically claims the grant through
+`claim_oauth_authorization_grant` before minting a Supabase access token, so
+replay fails even when claims race across concurrent isolates or processes.
+Refresh-token wrappers remain encrypted/signed; no long-lived server-side
+OAuth sessions are used.
+
+#### Token lifetimes, rotation, and refresh (issue #120)
+
+Access tokens are the real Supabase session access tokens and last about
+**1 hour** (`expires_in`). The client-facing refresh token is a sealed wrapper
+valid for **30 days**; every successful refresh rotates the Supabase session
+and re-seals a new wrapper around the rotated refresh token, so each wrapper
+is single-use upstream. One logical connection therefore keeps exactly **one
+session per client**: reuse the newest refresh token from the latest token
+response and never share it across clients.
+
+The server tolerates the client-side races this rotation creates:
+
+- **Duplicate refresh inside the reuse window (10 s by default):** retries and
+  concurrent duplicates of the same refresh token are answered with the
+  current session (single-flight per token hash on the one Fly VM), never a
+  400 on the already-rotated token.
+- **After the window:** a wrapper whose Supabase token was truly rotated away
+  or revoked returns `invalid_grant` with a precise `error_description`
+  carrying the upstream Supabase Auth message. The Supabase Auth project
+  "refresh token reuse interval" should be set ≥ 10 s so a stale duplicate
+  that outlives the in-memory window still maps to the current session
+  (dashboard setting).
+- **Client re-registration:** `/register` again with identical
+  `redirect_uris`/`client_name` re-binds older refresh wrappers to the new
+  client id (accepted and logged with client fingerprints); a registration
+  whose metadata changed does not, and the client must sign in again.
+- **`resource`:** may be omitted on refresh (RFC 8707) even when the
+  authorization carried it; the refreshed token stays bound to the original
+  resource. Two explicit, different resource URLs remain a mismatch.
+
+Every token-endpoint failure logs one structured JSON line (grant type, OAuth
+error and description, client fingerprint, resource presence); successes log
+the same fingerprint at debug level. Log payloads never contain raw client ids
+or token values.
+
+### ChatGPT per-tool OAuth metadata and re-auth challenge (issue #96)
+
+Every protected tool additionally declares the OpenAI/ChatGPT per-tool OAuth
+metadata ChatGPT requires for tool discovery: each tool's `_meta` carries
+`securitySchemes: [{ "type": "oauth2", "scopes": ["mcp"] }]` — the same single
+OAuth contract described above (`scopes_supported: ["mcp"]` in both the
+authorization-server and protected-resource documents); there is no second
+issuer or credential system. The field rides in tool `_meta` because the
+installed MCP SDK emits tool-level `_meta` in `tools/list` while dropping
+unknown top-level config keys.
+
+When transport authentication fails on an ESTABLISHED session, a `tools/call`
+is answered with a structured JSON-RPC result (`isError: true`) whose
+`_meta["mcp/www_authenticate"]` carries the same bearer/resource challenge the
+HTTP 401 advertises, so ChatGPT surfaces its account-linking UI:
+
+```
+Bearer resource_metadata="https://mcp.morselfood.app/mcp/.well-known/oauth-protected-resource/mcp", error="invalid_token", error_description="Authentication required: reconnect the Morsel account to continue."
+```
+
+Discovery/first-contact requests (no session id) keep the plain HTTP 401 +
+WWW-Authenticate challenge. The challenge text is fixed and backend-free: no
+Supabase, Postgres, stack, token, email, or other raw backend detail is ever
+echoed to the model or user.

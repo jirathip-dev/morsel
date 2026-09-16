@@ -1,0 +1,5813 @@
+{
+  "status": "PASS",
+  "mode": "smoke",
+  "inputDigest": "ebc254992f631603375b814dcec207d1eebfef5dc36c84f0af6d9765fdf820e3",
+  "renderer": {
+    "protocolVersion": "1.3",
+    "product": "HeadlessChrome/151.0.7922.34",
+    "revision": "@782af9cb30a53f54487e5d2e44738645a8ec457c",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "jsVersion": "15.1.206.8"
+  },
+  "checks": [
+    {
+      "name": "today-headline observed route",
+      "pass": true
+    },
+    {
+      "name": "today-headline geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "today-headline every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "1,684",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 126,
+            "y": 196.78125,
+            "w": 96,
+            "h": 42,
+            "bottom": 238.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "0",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 350.796875,
+            "y": 378.96875,
+            "w": 19.203125,
+            "h": 44.796875,
+            "bottom": 423.765625
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "11,888",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 254.796875,
+            "y": 444.765625,
+            "w": 115.203125,
+            "h": 44.796875,
+            "bottom": 489.5625
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "today-headline source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "today-headline intended family",
+      "pass": true
+    },
+    {
+      "name": "today-headline tnum applied",
+      "pass": true
+    },
+    {
+      "name": "today-headline real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono Medium",
+          "postScriptName": "IBMPlexMono-Medium",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ]
+    },
+    {
+      "name": "today-headline no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "today-headline observed route",
+      "pass": true
+    },
+    {
+      "name": "today-headline geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "today-headline every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "1,684",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 126,
+            "y": 196.78125,
+            "w": 71.234375,
+            "h": 42,
+            "bottom": 238.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "0",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 354.078125,
+            "y": 378.96875,
+            "w": 15.921875,
+            "h": 44.796875,
+            "bottom": 423.765625
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "11,888",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 282.859375,
+            "y": 444.765625,
+            "w": 87.140625,
+            "h": 44.796875,
+            "bottom": 489.5625
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "today-headline source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "today-headline intended family",
+      "pass": true
+    },
+    {
+      "name": "today-headline tnum applied",
+      "pass": true
+    },
+    {
+      "name": "today-headline real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Medium",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ]
+    },
+    {
+      "name": "today-headline paired content identical",
+      "pass": true
+    },
+    {
+      "name": "today-headline sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "today-headline no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "today-headline observed route",
+      "pass": true
+    },
+    {
+      "name": "today-headline geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "today-headline every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "1,684",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 126,
+            "y": 196.78125,
+            "w": 96,
+            "h": 42,
+            "bottom": 238.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "0",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 350.796875,
+            "y": 378.96875,
+            "w": 19.203125,
+            "h": 44.796875,
+            "bottom": 423.765625
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "11,888",
+          "font": "Plex, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 254.796875,
+            "y": 444.765625,
+            "w": 115.203125,
+            "h": 44.796875,
+            "bottom": 489.5625
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "today-headline source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "today-headline intended family",
+      "pass": true
+    },
+    {
+      "name": "today-headline tnum applied",
+      "pass": true
+    },
+    {
+      "name": "today-headline real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono Medium",
+          "postScriptName": "IBMPlexMono-Medium",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ]
+    },
+    {
+      "name": "today-headline no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "today-headline observed route",
+      "pass": true
+    },
+    {
+      "name": "today-headline geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "today-headline every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "1,684",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 126,
+            "y": 196.78125,
+            "w": 71.234375,
+            "h": 42,
+            "bottom": 238.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "0",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 354.078125,
+            "y": 378.96875,
+            "w": 15.921875,
+            "h": 44.796875,
+            "bottom": 423.765625
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "Views-146"
+          ],
+          "keep": false,
+          "text": "11,888",
+          "font": "Garamond, monospace",
+          "size": "32px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 282.859375,
+            "y": 444.765625,
+            "w": 87.140625,
+            "h": 44.796875,
+            "bottom": 489.5625
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "today-headline source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "today-headline intended family",
+      "pass": true
+    },
+    {
+      "name": "today-headline tnum applied",
+      "pass": true
+    },
+    {
+      "name": "today-headline real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Medium",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ]
+    },
+    {
+      "name": "today-headline paired content identical",
+      "pass": true
+    },
+    {
+      "name": "today-headline sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "today-headline no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "food-rows observed route",
+      "pass": true
+    },
+    {
+      "name": "food-rows geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "food-rows every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 209.671875,
+            "w": 59.40625,
+            "h": 14,
+            "bottom": 223.671875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "420",
+          "font": "Plex, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 326.796875,
+            "y": 184.484375,
+            "w": 25.203125,
+            "h": 18,
+            "bottom": 202.484375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 328,
+            "y": 210.078125,
+            "w": 24,
+            "h": 13,
+            "bottom": 223.078125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 12g · C 58g · F 16g",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 243.78125,
+            "w": 151.203125,
+            "h": 15,
+            "bottom": 258.78125
+          },
+          "color": "rgb(101, 90, 75)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 323.671875,
+            "w": 59.40625,
+            "h": 14,
+            "bottom": 337.671875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "186",
+          "font": "Plex, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 326.796875,
+            "y": 298.484375,
+            "w": 25.203125,
+            "h": 18,
+            "bottom": 316.484375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 328,
+            "y": 324.078125,
+            "w": 24,
+            "h": 13,
+            "bottom": 337.078125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 9g · C 1g · F 16g",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 357.78125,
+            "w": 136.8125,
+            "h": 15,
+            "bottom": 372.78125
+          },
+          "color": "rgb(101, 90, 75)"
+        }
+      ]
+    },
+    {
+      "name": "food-rows source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "food-rows intended family",
+      "pass": true
+    },
+    {
+      "name": "food-rows tnum applied",
+      "pass": true
+    },
+    {
+      "name": "food-rows real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 9
+        }
+      ]
+    },
+    {
+      "name": "food-rows no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "food-rows observed route",
+      "pass": true
+    },
+    {
+      "name": "food-rows geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "food-rows every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 209.671875,
+            "w": 39.71875,
+            "h": 14,
+            "bottom": 223.671875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "420",
+          "font": "Garamond, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 331.828125,
+            "y": 184.484375,
+            "w": 20.171875,
+            "h": 18,
+            "bottom": 202.484375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337,
+            "y": 210.078125,
+            "w": 15,
+            "h": 13,
+            "bottom": 223.078125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 12g · C 58g · F 16g",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 243.78125,
+            "w": 93.109375,
+            "h": 16,
+            "bottom": 259.78125
+          },
+          "color": "rgb(101, 90, 75)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 323.671875,
+            "w": 39.71875,
+            "h": 14,
+            "bottom": 337.671875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "186",
+          "font": "Garamond, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 331.828125,
+            "y": 298.484375,
+            "w": 20.171875,
+            "h": 18,
+            "bottom": 316.484375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337,
+            "y": 324.078125,
+            "w": 15,
+            "h": 13,
+            "bottom": 337.078125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 9g · C 1g · F 16g",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 357.78125,
+            "w": 81.59375,
+            "h": 16,
+            "bottom": 373.78125
+          },
+          "color": "rgb(101, 90, 75)"
+        }
+      ]
+    },
+    {
+      "name": "food-rows source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "food-rows intended family",
+      "pass": true
+    },
+    {
+      "name": "food-rows tnum applied",
+      "pass": true
+    },
+    {
+      "name": "food-rows real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Regular",
+          "isCustomFont": true,
+          "glyphCount": 9
+        }
+      ]
+    },
+    {
+      "name": "food-rows paired content identical",
+      "pass": true
+    },
+    {
+      "name": "food-rows sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "food-rows no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "food-rows observed route",
+      "pass": true
+    },
+    {
+      "name": "food-rows geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "food-rows every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 209.671875,
+            "w": 59.40625,
+            "h": 14,
+            "bottom": 223.671875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "420",
+          "font": "Plex, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 326.796875,
+            "y": 184.484375,
+            "w": 25.203125,
+            "h": 18,
+            "bottom": 202.484375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 328,
+            "y": 210.078125,
+            "w": 24,
+            "h": 13,
+            "bottom": 223.078125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 12g · C 58g · F 16g",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 243.78125,
+            "w": 151.203125,
+            "h": 15,
+            "bottom": 258.78125
+          },
+          "color": "rgb(242, 233, 217)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 323.671875,
+            "w": 59.40625,
+            "h": 14,
+            "bottom": 337.671875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "186",
+          "font": "Plex, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 326.796875,
+            "y": 298.484375,
+            "w": 25.203125,
+            "h": 18,
+            "bottom": 316.484375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 328,
+            "y": 324.078125,
+            "w": 24,
+            "h": 13,
+            "bottom": 337.078125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 9g · C 1g · F 16g",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 357.78125,
+            "w": 136.8125,
+            "h": 15,
+            "bottom": 372.78125
+          },
+          "color": "rgb(242, 233, 217)"
+        }
+      ]
+    },
+    {
+      "name": "food-rows source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "food-rows intended family",
+      "pass": true
+    },
+    {
+      "name": "food-rows tnum applied",
+      "pass": true
+    },
+    {
+      "name": "food-rows real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 9
+        }
+      ]
+    },
+    {
+      "name": "food-rows no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "food-rows observed route",
+      "pass": true
+    },
+    {
+      "name": "food-rows geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "food-rows every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 209.671875,
+            "w": 39.71875,
+            "h": 14,
+            "bottom": 223.671875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "420",
+          "font": "Garamond, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 331.828125,
+            "y": 184.484375,
+            "w": 20.171875,
+            "h": 18,
+            "bottom": 202.484375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337,
+            "y": 210.078125,
+            "w": 15,
+            "h": 13,
+            "bottom": 223.078125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 12g · C 58g · F 16g",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 243.78125,
+            "w": 93.109375,
+            "h": 16,
+            "bottom": 259.78125
+          },
+          "color": "rgb(242, 233, 217)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-62"
+          ],
+          "keep": false,
+          "text": "1 portion",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 106,
+            "y": 323.671875,
+            "w": 39.71875,
+            "h": 14,
+            "bottom": 337.671875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-100"
+          ],
+          "keep": false,
+          "text": "186",
+          "font": "Garamond, monospace",
+          "size": "14px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 331.828125,
+            "y": 298.484375,
+            "w": 20.171875,
+            "h": 18,
+            "bottom": 316.484375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-105"
+          ],
+          "keep": false,
+          "text": "kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337,
+            "y": 324.078125,
+            "w": 15,
+            "h": 13,
+            "bottom": 337.078125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "JournalFoodRow-70"
+          ],
+          "keep": false,
+          "text": "P 9g · C 1g · F 16g",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 357.78125,
+            "w": 81.59375,
+            "h": 16,
+            "bottom": 373.78125
+          },
+          "color": "rgb(242, 233, 217)"
+        }
+      ]
+    },
+    {
+      "name": "food-rows source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "food-rows intended family",
+      "pass": true
+    },
+    {
+      "name": "food-rows tnum applied",
+      "pass": true
+    },
+    {
+      "name": "food-rows real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Regular",
+          "isCustomFont": true,
+          "glyphCount": 9
+        }
+      ]
+    },
+    {
+      "name": "food-rows paired content identical",
+      "pass": true
+    },
+    {
+      "name": "food-rows sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "food-rows no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "weight-chart observed route",
+      "pass": true
+    },
+    {
+      "name": "weight-chart geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "weight-chart every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalUI-364"
+          ],
+          "keep": false,
+          "text": "kg · 72 today · −1 over 30 days",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 166.78125,
+            "w": 204.609375,
+            "h": 14,
+            "bottom": 180.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "Eaten − food target · kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 351.78125,
+            "w": 156,
+            "h": 13,
+            "bottom": 364.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "±500",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 346,
+            "y": 351.78125,
+            "w": 24,
+            "h": 14,
+            "bottom": 365.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "?",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 172.796875,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "×",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 227.53125,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "·",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 282.265625,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "○",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 336.984375,
+            "y": 427.375,
+            "w": 11.234375,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "10 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "12 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 139.203125,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "14 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 238.390625,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "16 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337.59375,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "weight-chart source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "weight-chart intended family",
+      "pass": true
+    },
+    {
+      "name": "weight-chart tnum applied",
+      "pass": true
+    },
+    {
+      "name": "weight-chart real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 31
+        }
+      ]
+    },
+    {
+      "name": "weight-chart no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "weight-chart observed route",
+      "pass": true
+    },
+    {
+      "name": "weight-chart geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "weight-chart every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalUI-364"
+          ],
+          "keep": false,
+          "text": "kg · 72 today · −1 over 30 days",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 166.78125,
+            "w": 124.515625,
+            "h": 14,
+            "bottom": 180.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "Eaten − food target · kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 351.78125,
+            "w": 94.453125,
+            "h": 13,
+            "bottom": 364.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "±500",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 349.6875,
+            "y": 351.78125,
+            "w": 20.3125,
+            "h": 14,
+            "bottom": 365.78125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "?",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 175.921875,
+            "y": 427.375,
+            "w": 8.515625,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "×",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 229.21875,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "·",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 285.1875,
+            "y": 427.375,
+            "w": 6.40625,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "○",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 336.375,
+            "y": 427.375,
+            "w": 11.234375,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "10 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "12 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 142.390625,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "14 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 244.796875,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "16 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 347.1875,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "weight-chart source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "weight-chart intended family",
+      "pass": true
+    },
+    {
+      "name": "weight-chart tnum applied",
+      "pass": true
+    },
+    {
+      "name": "weight-chart real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Regular",
+          "isCustomFont": true,
+          "glyphCount": 31
+        }
+      ]
+    },
+    {
+      "name": "weight-chart paired content identical",
+      "pass": true
+    },
+    {
+      "name": "weight-chart sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "weight-chart no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "weight-chart observed route",
+      "pass": true
+    },
+    {
+      "name": "weight-chart geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "weight-chart every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalUI-364"
+          ],
+          "keep": false,
+          "text": "kg · 72 today · −1 over 30 days",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 166.78125,
+            "w": 204.609375,
+            "h": 14,
+            "bottom": 180.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "Eaten − food target · kcal",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 351.78125,
+            "w": 156,
+            "h": 13,
+            "bottom": 364.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "±500",
+          "font": "Plex, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 346,
+            "y": 351.78125,
+            "w": 24,
+            "h": 14,
+            "bottom": 365.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "?",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 172.796875,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "×",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 227.53125,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "·",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 282.265625,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "○",
+          "font": "Plex, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 336.984375,
+            "y": 427.375,
+            "w": 11.234375,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "10 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "12 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 139.203125,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "14 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 238.390625,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "16 Sep",
+          "font": "Plex, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 337.59375,
+            "y": 497.78125,
+            "w": 32.40625,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "weight-chart source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "weight-chart intended family",
+      "pass": true
+    },
+    {
+      "name": "weight-chart tnum applied",
+      "pass": true
+    },
+    {
+      "name": "weight-chart real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 31
+        }
+      ]
+    },
+    {
+      "name": "weight-chart no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "weight-chart observed route",
+      "pass": true
+    },
+    {
+      "name": "weight-chart geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "weight-chart every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "JournalUI-364"
+          ],
+          "keep": false,
+          "text": "kg · 72 today · −1 over 30 days",
+          "font": "Garamond, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 166.78125,
+            "w": 124.515625,
+            "h": 14,
+            "bottom": 180.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "Eaten − food target · kcal",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 351.78125,
+            "w": 94.453125,
+            "h": 13,
+            "bottom": 364.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-22"
+          ],
+          "keep": false,
+          "text": "±500",
+          "font": "Garamond, monospace",
+          "size": "10px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 349.6875,
+            "y": 351.78125,
+            "w": 20.3125,
+            "h": 14,
+            "bottom": 365.78125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "?",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 175.921875,
+            "y": 427.375,
+            "w": 8.515625,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "×",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 229.21875,
+            "y": 427.375,
+            "w": 11.203125,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "·",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 285.1875,
+            "y": 427.375,
+            "w": 6.40625,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-58"
+          ],
+          "keep": false,
+          "text": "○",
+          "font": "Garamond, monospace",
+          "size": "12px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 336.375,
+            "y": 427.375,
+            "w": 11.234375,
+            "h": 20.796875,
+            "bottom": 448.171875
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "10 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "12 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 142.390625,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "14 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 244.796875,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "WeightDeltaBand-76"
+          ],
+          "keep": false,
+          "text": "16 Sep",
+          "font": "Garamond, monospace",
+          "size": "9px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 347.1875,
+            "y": 497.78125,
+            "w": 22.8125,
+            "h": 12.59375,
+            "bottom": 510.375
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "weight-chart source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "weight-chart intended family",
+      "pass": true
+    },
+    {
+      "name": "weight-chart tnum applied",
+      "pass": true
+    },
+    {
+      "name": "weight-chart real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Regular",
+          "isCustomFont": true,
+          "glyphCount": 31
+        }
+      ]
+    },
+    {
+      "name": "weight-chart paired content identical",
+      "pass": true
+    },
+    {
+      "name": "weight-chart sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "weight-chart no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "goals-filled observed route",
+      "pass": true
+    },
+    {
+      "name": "goals-filled geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "goals-filled every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "2126",
+          "font": "Plex, monospace",
+          "size": "22px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 283.78125,
+            "w": 52.8125,
+            "h": 46.796875,
+            "bottom": 330.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "130",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 380.578125,
+            "w": 30.609375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "266",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 154.65625,
+            "y": 380.578125,
+            "w": 30.609375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "71",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 269.328125,
+            "y": 380.578125,
+            "w": 20.40625,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "goals-filled source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "goals-filled intended family",
+      "pass": true
+    },
+    {
+      "name": "goals-filled tnum applied",
+      "pass": true
+    },
+    {
+      "name": "goals-filled real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono Medium",
+          "postScriptName": "IBMPlexMono-Medium",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "name": "goals-filled no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "goals-filled observed route",
+      "pass": true
+    },
+    {
+      "name": "goals-filled geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "goals-filled every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "2126",
+          "font": "Garamond, monospace",
+          "size": "22px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 283.78125,
+            "w": 43.78125,
+            "h": 46.796875,
+            "bottom": 330.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "130",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 380.578125,
+            "w": 25.375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "266",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 154.65625,
+            "y": 380.578125,
+            "w": 25.375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "71",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 269.328125,
+            "y": 380.578125,
+            "w": 16.921875,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "goals-filled source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "goals-filled intended family",
+      "pass": true
+    },
+    {
+      "name": "goals-filled tnum applied",
+      "pass": true
+    },
+    {
+      "name": "goals-filled real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Medium",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "name": "goals-filled paired content identical",
+      "pass": true
+    },
+    {
+      "name": "goals-filled sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "goals-filled no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "goals-filled observed route",
+      "pass": true
+    },
+    {
+      "name": "goals-filled geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "goals-filled every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "2126",
+          "font": "Plex, monospace",
+          "size": "22px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 283.78125,
+            "w": 52.8125,
+            "h": 46.796875,
+            "bottom": 330.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "130",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 380.578125,
+            "w": 30.609375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "266",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 154.65625,
+            "y": 380.578125,
+            "w": 30.609375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "71",
+          "font": "Plex, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 269.328125,
+            "y": 380.578125,
+            "w": 20.40625,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "goals-filled source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "goals-filled intended family",
+      "pass": true
+    },
+    {
+      "name": "goals-filled tnum applied",
+      "pass": true
+    },
+    {
+      "name": "goals-filled real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono Medium",
+          "postScriptName": "IBMPlexMono-Medium",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "name": "goals-filled no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "goals-filled observed route",
+      "pass": true
+    },
+    {
+      "name": "goals-filled geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "goals-filled every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "2126",
+          "font": "Garamond, monospace",
+          "size": "22px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 283.78125,
+            "w": 43.78125,
+            "h": 46.796875,
+            "bottom": 330.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "130",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 40,
+            "y": 380.578125,
+            "w": 25.375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "266",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 154.65625,
+            "y": 380.578125,
+            "w": 25.375,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        },
+        {
+          "sites": [
+            "GoalsEditor-240",
+            "PaperFields-91"
+          ],
+          "keep": false,
+          "text": "71",
+          "font": "Garamond, monospace",
+          "size": "17px",
+          "weight": "500",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 269.328125,
+            "y": 380.578125,
+            "w": 16.921875,
+            "h": 40,
+            "bottom": 420.578125
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "goals-filled source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "goals-filled intended family",
+      "pass": true
+    },
+    {
+      "name": "goals-filled tnum applied",
+      "pass": true
+    },
+    {
+      "name": "goals-filled real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "EB Garamond",
+          "postScriptName": "EBGaramond-Medium",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "name": "goals-filled paired content identical",
+      "pass": true
+    },
+    {
+      "name": "goals-filled sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "goals-filled no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "technical-chatPrompt observed route",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "technical-chatPrompt every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Onboarding-303"
+          ],
+          "keep": true,
+          "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 56,
+            "y": 235.5625,
+            "w": 297,
+            "h": 351.5,
+            "bottom": 587.0625
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt intended family",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt tnum applied",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 616
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "technical-chatPrompt observed route",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "technical-chatPrompt every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Onboarding-303"
+          ],
+          "keep": true,
+          "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 56,
+            "y": 235.5625,
+            "w": 297,
+            "h": 351.5,
+            "bottom": 587.0625
+          },
+          "color": "rgb(42, 38, 31)"
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt intended family",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt tnum applied",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 616
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt paired content identical",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "technical-chatPrompt observed route",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "technical-chatPrompt every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Onboarding-303"
+          ],
+          "keep": true,
+          "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 56,
+            "y": 235.5625,
+            "w": 297,
+            "h": 351.5,
+            "bottom": 587.0625
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt intended family",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt tnum applied",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 616
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "technical-chatPrompt observed route",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt geometry",
+      "pass": true,
+      "data": {
+        "overflow": false,
+        "controls": [
+          {
+            "text": "Gallery",
+            "width": 52.015625,
+            "height": 44
+          }
+        ]
+      }
+    },
+    {
+      "name": "technical-chatPrompt every source glyph visible",
+      "pass": true,
+      "data": [
+        {
+          "sites": [
+            "Onboarding-303"
+          ],
+          "keep": true,
+          "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+          "font": "Plex, monospace",
+          "size": "11px",
+          "weight": "400",
+          "features": "\"lnum\", \"tnum\"",
+          "rect": {
+            "x": 56,
+            "y": 235.5625,
+            "w": 297,
+            "h": 351.5,
+            "bottom": 587.0625
+          },
+          "color": "rgb(255, 247, 232)"
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt source-site coverage",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt intended family",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt tnum applied",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt real custom face",
+      "pass": true,
+      "data": [
+        {
+          "familyName": "IBM Plex Mono",
+          "postScriptName": "IBMPlexMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 616
+        }
+      ]
+    },
+    {
+      "name": "technical-chatPrompt paired content identical",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt sizes and weights unchanged",
+      "pass": true
+    },
+    {
+      "name": "technical-chatPrompt no console errors",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "Runtime clean",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "No HTTP requests from artifact",
+      "pass": true,
+      "data": []
+    }
+  ],
+  "captures": [
+    {
+      "file": "evidence/today-headline-paper-before.png",
+      "sha256": "1a5001e1911395af3c3bee9ecd6894e0141c6eaff48235f8776ffc0853530d96",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "today-headline",
+        "theme": "paper",
+        "version": "before",
+        "sites": [
+          "Views-146"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono Medium",
+            "postScriptName": "IBMPlexMono-Medium",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "1,684",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 126,
+              "y": 196.78125,
+              "w": 96,
+              "h": 42,
+              "bottom": 238.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "0",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 350.796875,
+              "y": 378.96875,
+              "w": 19.203125,
+              "h": 44.796875,
+              "bottom": 423.765625
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "11,888",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 254.796875,
+              "y": 444.765625,
+              "w": 115.203125,
+              "h": 44.796875,
+              "bottom": 489.5625
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/today-headline-paper-after.png",
+      "sha256": "d0114f796576f70e2c561f40cf974cb5c6740b77dfc9d2fc75e829a34b1c622c",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "today-headline",
+        "theme": "paper",
+        "version": "after",
+        "sites": [
+          "Views-146"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Medium",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "1,684",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 126,
+              "y": 196.78125,
+              "w": 71.234375,
+              "h": 42,
+              "bottom": 238.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "0",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 354.078125,
+              "y": 378.96875,
+              "w": 15.921875,
+              "h": 44.796875,
+              "bottom": 423.765625
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "11,888",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 282.859375,
+              "y": 444.765625,
+              "w": 87.140625,
+              "h": 44.796875,
+              "bottom": 489.5625
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/today-headline-night-before.png",
+      "sha256": "25d0bc8bb1661bd4edf5c7232dd226952938d18fb34779b07c49850d56a48419",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "today-headline",
+        "theme": "night",
+        "version": "before",
+        "sites": [
+          "Views-146"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono Medium",
+            "postScriptName": "IBMPlexMono-Medium",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "1,684",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 126,
+              "y": 196.78125,
+              "w": 96,
+              "h": 42,
+              "bottom": 238.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "0",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 350.796875,
+              "y": 378.96875,
+              "w": 19.203125,
+              "h": 44.796875,
+              "bottom": 423.765625
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "11,888",
+            "font": "Plex, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 254.796875,
+              "y": 444.765625,
+              "w": 115.203125,
+              "h": 44.796875,
+              "bottom": 489.5625
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/today-headline-night-after.png",
+      "sha256": "37cb5b8e29b17b48944c9ef4cb2703a12059c18ae364a04fecd4fe2f1b8a4e82",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "today-headline",
+        "theme": "night",
+        "version": "after",
+        "sites": [
+          "Views-146"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Medium",
+            "isCustomFont": true,
+            "glyphCount": 5
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "1,684",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 126,
+              "y": 196.78125,
+              "w": 71.234375,
+              "h": 42,
+              "bottom": 238.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "0",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 354.078125,
+              "y": 378.96875,
+              "w": 15.921875,
+              "h": 44.796875,
+              "bottom": 423.765625
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "Views-146"
+            ],
+            "keep": false,
+            "text": "11,888",
+            "font": "Garamond, monospace",
+            "size": "32px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 282.859375,
+              "y": 444.765625,
+              "w": 87.140625,
+              "h": 44.796875,
+              "bottom": 489.5625
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/food-rows-paper-before.png",
+      "sha256": "f2fa0b468eeb3d18816d35b3fb178e0dc7ad56ce823610737f6f7fc66d756196",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "food-rows",
+        "theme": "paper",
+        "version": "before",
+        "sites": [
+          "JournalFoodRow-100",
+          "JournalFoodRow-105",
+          "JournalFoodRow-62",
+          "JournalFoodRow-70"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 209.671875,
+              "w": 59.40625,
+              "h": 14,
+              "bottom": 223.671875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "420",
+            "font": "Plex, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 326.796875,
+              "y": 184.484375,
+              "w": 25.203125,
+              "h": 18,
+              "bottom": 202.484375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 328,
+              "y": 210.078125,
+              "w": 24,
+              "h": 13,
+              "bottom": 223.078125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 12g · C 58g · F 16g",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 243.78125,
+              "w": 151.203125,
+              "h": 15,
+              "bottom": 258.78125
+            },
+            "color": "rgb(101, 90, 75)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 323.671875,
+              "w": 59.40625,
+              "h": 14,
+              "bottom": 337.671875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "186",
+            "font": "Plex, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 326.796875,
+              "y": 298.484375,
+              "w": 25.203125,
+              "h": 18,
+              "bottom": 316.484375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 328,
+              "y": 324.078125,
+              "w": 24,
+              "h": 13,
+              "bottom": 337.078125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 9g · C 1g · F 16g",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 357.78125,
+              "w": 136.8125,
+              "h": 15,
+              "bottom": 372.78125
+            },
+            "color": "rgb(101, 90, 75)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/food-rows-paper-after.png",
+      "sha256": "b47ca2d8334187050f213c27e2bc2dfe336785ac053e35580a36006a79d1ab58",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "food-rows",
+        "theme": "paper",
+        "version": "after",
+        "sites": [
+          "JournalFoodRow-100",
+          "JournalFoodRow-105",
+          "JournalFoodRow-62",
+          "JournalFoodRow-70"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Regular",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 209.671875,
+              "w": 39.71875,
+              "h": 14,
+              "bottom": 223.671875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "420",
+            "font": "Garamond, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 331.828125,
+              "y": 184.484375,
+              "w": 20.171875,
+              "h": 18,
+              "bottom": 202.484375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337,
+              "y": 210.078125,
+              "w": 15,
+              "h": 13,
+              "bottom": 223.078125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 12g · C 58g · F 16g",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 243.78125,
+              "w": 93.109375,
+              "h": 16,
+              "bottom": 259.78125
+            },
+            "color": "rgb(101, 90, 75)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 323.671875,
+              "w": 39.71875,
+              "h": 14,
+              "bottom": 337.671875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "186",
+            "font": "Garamond, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 331.828125,
+              "y": 298.484375,
+              "w": 20.171875,
+              "h": 18,
+              "bottom": 316.484375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337,
+              "y": 324.078125,
+              "w": 15,
+              "h": 13,
+              "bottom": 337.078125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 9g · C 1g · F 16g",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 357.78125,
+              "w": 81.59375,
+              "h": 16,
+              "bottom": 373.78125
+            },
+            "color": "rgb(101, 90, 75)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/food-rows-night-before.png",
+      "sha256": "5be8168ee0b686623fa31ecec85b5ada4c7fd46720c1de8e7eef85e7ed87f486",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "food-rows",
+        "theme": "night",
+        "version": "before",
+        "sites": [
+          "JournalFoodRow-100",
+          "JournalFoodRow-105",
+          "JournalFoodRow-62",
+          "JournalFoodRow-70"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 209.671875,
+              "w": 59.40625,
+              "h": 14,
+              "bottom": 223.671875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "420",
+            "font": "Plex, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 326.796875,
+              "y": 184.484375,
+              "w": 25.203125,
+              "h": 18,
+              "bottom": 202.484375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 328,
+              "y": 210.078125,
+              "w": 24,
+              "h": 13,
+              "bottom": 223.078125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 12g · C 58g · F 16g",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 243.78125,
+              "w": 151.203125,
+              "h": 15,
+              "bottom": 258.78125
+            },
+            "color": "rgb(242, 233, 217)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 323.671875,
+              "w": 59.40625,
+              "h": 14,
+              "bottom": 337.671875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "186",
+            "font": "Plex, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 326.796875,
+              "y": 298.484375,
+              "w": 25.203125,
+              "h": 18,
+              "bottom": 316.484375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 328,
+              "y": 324.078125,
+              "w": 24,
+              "h": 13,
+              "bottom": 337.078125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 9g · C 1g · F 16g",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 357.78125,
+              "w": 136.8125,
+              "h": 15,
+              "bottom": 372.78125
+            },
+            "color": "rgb(242, 233, 217)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/food-rows-night-after.png",
+      "sha256": "2c61085609bc8b4ac29e0f9708ea89315b1885095ee78b5fa03de6f1241170e2",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "food-rows",
+        "theme": "night",
+        "version": "after",
+        "sites": [
+          "JournalFoodRow-100",
+          "JournalFoodRow-105",
+          "JournalFoodRow-62",
+          "JournalFoodRow-70"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Regular",
+            "isCustomFont": true,
+            "glyphCount": 9
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 209.671875,
+              "w": 39.71875,
+              "h": 14,
+              "bottom": 223.671875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "420",
+            "font": "Garamond, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 331.828125,
+              "y": 184.484375,
+              "w": 20.171875,
+              "h": 18,
+              "bottom": 202.484375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337,
+              "y": 210.078125,
+              "w": 15,
+              "h": 13,
+              "bottom": 223.078125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 12g · C 58g · F 16g",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 243.78125,
+              "w": 93.109375,
+              "h": 16,
+              "bottom": 259.78125
+            },
+            "color": "rgb(242, 233, 217)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-62"
+            ],
+            "keep": false,
+            "text": "1 portion",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 106,
+              "y": 323.671875,
+              "w": 39.71875,
+              "h": 14,
+              "bottom": 337.671875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-100"
+            ],
+            "keep": false,
+            "text": "186",
+            "font": "Garamond, monospace",
+            "size": "14px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 331.828125,
+              "y": 298.484375,
+              "w": 20.171875,
+              "h": 18,
+              "bottom": 316.484375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-105"
+            ],
+            "keep": false,
+            "text": "kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337,
+              "y": 324.078125,
+              "w": 15,
+              "h": 13,
+              "bottom": 337.078125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "JournalFoodRow-70"
+            ],
+            "keep": false,
+            "text": "P 9g · C 1g · F 16g",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 357.78125,
+              "w": 81.59375,
+              "h": 16,
+              "bottom": 373.78125
+            },
+            "color": "rgb(242, 233, 217)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/weight-chart-paper-before.png",
+      "sha256": "759322815b08a128660bce89a89c6038be755410ed3b01681d60369d156b2286",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "weight-chart",
+        "theme": "paper",
+        "version": "before",
+        "sites": [
+          "JournalUI-364",
+          "WeightDeltaBand-22",
+          "WeightDeltaBand-58",
+          "WeightDeltaBand-76"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 31
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalUI-364"
+            ],
+            "keep": false,
+            "text": "kg · 72 today · −1 over 30 days",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 166.78125,
+              "w": 204.609375,
+              "h": 14,
+              "bottom": 180.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "Eaten − food target · kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 351.78125,
+              "w": 156,
+              "h": 13,
+              "bottom": 364.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "±500",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 346,
+              "y": 351.78125,
+              "w": 24,
+              "h": 14,
+              "bottom": 365.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "?",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 172.796875,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "×",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 227.53125,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "·",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 282.265625,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "○",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 336.984375,
+              "y": 427.375,
+              "w": 11.234375,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "10 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "12 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 139.203125,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "14 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 238.390625,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "16 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337.59375,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/weight-chart-paper-after.png",
+      "sha256": "839a9b952ef0f1e383c6800523c1f38f9f08bc05b7ad0b72f8f0ec301bef038d",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "weight-chart",
+        "theme": "paper",
+        "version": "after",
+        "sites": [
+          "JournalUI-364",
+          "WeightDeltaBand-22",
+          "WeightDeltaBand-58",
+          "WeightDeltaBand-76"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Regular",
+            "isCustomFont": true,
+            "glyphCount": 31
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalUI-364"
+            ],
+            "keep": false,
+            "text": "kg · 72 today · −1 over 30 days",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 166.78125,
+              "w": 124.515625,
+              "h": 14,
+              "bottom": 180.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "Eaten − food target · kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 351.78125,
+              "w": 94.453125,
+              "h": 13,
+              "bottom": 364.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "±500",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 349.6875,
+              "y": 351.78125,
+              "w": 20.3125,
+              "h": 14,
+              "bottom": 365.78125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "?",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 175.921875,
+              "y": 427.375,
+              "w": 8.515625,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "×",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 229.21875,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "·",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 285.1875,
+              "y": 427.375,
+              "w": 6.40625,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "○",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 336.375,
+              "y": 427.375,
+              "w": 11.234375,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "10 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "12 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 142.390625,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "14 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 244.796875,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "16 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 347.1875,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/weight-chart-night-before.png",
+      "sha256": "404ac454981c7f04fc006588ab87f38b18b3dd526f5603ea1887b5990e2db1ab",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "weight-chart",
+        "theme": "night",
+        "version": "before",
+        "sites": [
+          "JournalUI-364",
+          "WeightDeltaBand-22",
+          "WeightDeltaBand-58",
+          "WeightDeltaBand-76"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 31
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalUI-364"
+            ],
+            "keep": false,
+            "text": "kg · 72 today · −1 over 30 days",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 166.78125,
+              "w": 204.609375,
+              "h": 14,
+              "bottom": 180.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "Eaten − food target · kcal",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 351.78125,
+              "w": 156,
+              "h": 13,
+              "bottom": 364.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "±500",
+            "font": "Plex, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 346,
+              "y": 351.78125,
+              "w": 24,
+              "h": 14,
+              "bottom": 365.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "?",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 172.796875,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "×",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 227.53125,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "·",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 282.265625,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "○",
+            "font": "Plex, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 336.984375,
+              "y": 427.375,
+              "w": 11.234375,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "10 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "12 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 139.203125,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "14 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 238.390625,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "16 Sep",
+            "font": "Plex, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 337.59375,
+              "y": 497.78125,
+              "w": 32.40625,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/weight-chart-night-after.png",
+      "sha256": "e4cd892288a0c8483f95e8f39e8227d9e9fca0902461e83730ad6e92a9fc74d2",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "weight-chart",
+        "theme": "night",
+        "version": "after",
+        "sites": [
+          "JournalUI-364",
+          "WeightDeltaBand-22",
+          "WeightDeltaBand-58",
+          "WeightDeltaBand-76"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Regular",
+            "isCustomFont": true,
+            "glyphCount": 31
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "JournalUI-364"
+            ],
+            "keep": false,
+            "text": "kg · 72 today · −1 over 30 days",
+            "font": "Garamond, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 166.78125,
+              "w": 124.515625,
+              "h": 14,
+              "bottom": 180.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "Eaten − food target · kcal",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 351.78125,
+              "w": 94.453125,
+              "h": 13,
+              "bottom": 364.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-22"
+            ],
+            "keep": false,
+            "text": "±500",
+            "font": "Garamond, monospace",
+            "size": "10px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 349.6875,
+              "y": 351.78125,
+              "w": 20.3125,
+              "h": 14,
+              "bottom": 365.78125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "?",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 175.921875,
+              "y": 427.375,
+              "w": 8.515625,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "×",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 229.21875,
+              "y": 427.375,
+              "w": 11.203125,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "·",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 285.1875,
+              "y": 427.375,
+              "w": 6.40625,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-58"
+            ],
+            "keep": false,
+            "text": "○",
+            "font": "Garamond, monospace",
+            "size": "12px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 336.375,
+              "y": 427.375,
+              "w": 11.234375,
+              "h": 20.796875,
+              "bottom": 448.171875
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "10 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "12 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 142.390625,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "14 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 244.796875,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "WeightDeltaBand-76"
+            ],
+            "keep": false,
+            "text": "16 Sep",
+            "font": "Garamond, monospace",
+            "size": "9px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 347.1875,
+              "y": 497.78125,
+              "w": 22.8125,
+              "h": 12.59375,
+              "bottom": 510.375
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/goals-filled-paper-before.png",
+      "sha256": "f7259a54d816ad6389ecf627451358db6c402da37201e3d9e1c97aadafb02e8a",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "goals-filled",
+        "theme": "paper",
+        "version": "before",
+        "sites": [
+          "GoalsEditor-240",
+          "PaperFields-91"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono Medium",
+            "postScriptName": "IBMPlexMono-Medium",
+            "isCustomFont": true,
+            "glyphCount": 4
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "2126",
+            "font": "Plex, monospace",
+            "size": "22px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 283.78125,
+              "w": 52.8125,
+              "h": 46.796875,
+              "bottom": 330.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "130",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 380.578125,
+              "w": 30.609375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "266",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 154.65625,
+              "y": 380.578125,
+              "w": 30.609375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "71",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 269.328125,
+              "y": 380.578125,
+              "w": 20.40625,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/goals-filled-paper-after.png",
+      "sha256": "0c5c2648b6e35bedc5e43c8326e835e32d7b0e477fb51f7723d84c6a2166880b",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "goals-filled",
+        "theme": "paper",
+        "version": "after",
+        "sites": [
+          "GoalsEditor-240",
+          "PaperFields-91"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Medium",
+            "isCustomFont": true,
+            "glyphCount": 4
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "2126",
+            "font": "Garamond, monospace",
+            "size": "22px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 283.78125,
+              "w": 43.78125,
+              "h": 46.796875,
+              "bottom": 330.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "130",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 380.578125,
+              "w": 25.375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "266",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 154.65625,
+              "y": 380.578125,
+              "w": 25.375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "71",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 269.328125,
+              "y": 380.578125,
+              "w": 16.921875,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/goals-filled-night-before.png",
+      "sha256": "323071143951d294b0b319fd81428a458eab22b48b736e0fc1e9439b37fe2446",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "goals-filled",
+        "theme": "night",
+        "version": "before",
+        "sites": [
+          "GoalsEditor-240",
+          "PaperFields-91"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono Medium",
+            "postScriptName": "IBMPlexMono-Medium",
+            "isCustomFont": true,
+            "glyphCount": 4
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "2126",
+            "font": "Plex, monospace",
+            "size": "22px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 283.78125,
+              "w": 52.8125,
+              "h": 46.796875,
+              "bottom": 330.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "130",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 380.578125,
+              "w": 30.609375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "266",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 154.65625,
+              "y": 380.578125,
+              "w": 30.609375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "71",
+            "font": "Plex, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 269.328125,
+              "y": 380.578125,
+              "w": 20.40625,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/goals-filled-night-after.png",
+      "sha256": "8b3cded4cdac21ae0bc0096d302e1bd88268497e8b22bacc4c53dd50927de58b",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "goals-filled",
+        "theme": "night",
+        "version": "after",
+        "sites": [
+          "GoalsEditor-240",
+          "PaperFields-91"
+        ],
+        "fonts": [
+          {
+            "familyName": "EB Garamond",
+            "postScriptName": "EBGaramond-Medium",
+            "isCustomFont": true,
+            "glyphCount": 4
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "2126",
+            "font": "Garamond, monospace",
+            "size": "22px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 283.78125,
+              "w": 43.78125,
+              "h": 46.796875,
+              "bottom": 330.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "130",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 40,
+              "y": 380.578125,
+              "w": 25.375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "266",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 154.65625,
+              "y": 380.578125,
+              "w": 25.375,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          },
+          {
+            "sites": [
+              "GoalsEditor-240",
+              "PaperFields-91"
+            ],
+            "keep": false,
+            "text": "71",
+            "font": "Garamond, monospace",
+            "size": "17px",
+            "weight": "500",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 269.328125,
+              "y": 380.578125,
+              "w": 16.921875,
+              "h": 40,
+              "bottom": 420.578125
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/technical-chatPrompt-paper-before.png",
+      "sha256": "3c788c88cebe5cb5ff20f1dc3fbeb29f8a80405623893810f74e861933bb8bcb",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "technical-chatPrompt",
+        "theme": "paper",
+        "version": "before",
+        "sites": [
+          "Onboarding-303"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 616
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Onboarding-303"
+            ],
+            "keep": true,
+            "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 56,
+              "y": 235.5625,
+              "w": 297,
+              "h": 351.5,
+              "bottom": 587.0625
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/technical-chatPrompt-paper-after.png",
+      "sha256": "c508674de1a6ba9acf4e5bcc1b77b6c4da398ac437ee3400f6afb7725aa08847",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "technical-chatPrompt",
+        "theme": "paper",
+        "version": "after",
+        "sites": [
+          "Onboarding-303"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 616
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Onboarding-303"
+            ],
+            "keep": true,
+            "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 56,
+              "y": 235.5625,
+              "w": 297,
+              "h": 351.5,
+              "bottom": 587.0625
+            },
+            "color": "rgb(42, 38, 31)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/technical-chatPrompt-night-before.png",
+      "sha256": "c6b4bbe17eb9bda2597085221c59acc27522c432801740d1042402c6e4059603",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "technical-chatPrompt",
+        "theme": "night",
+        "version": "before",
+        "sites": [
+          "Onboarding-303"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 616
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Onboarding-303"
+            ],
+            "keep": true,
+            "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 56,
+              "y": 235.5625,
+              "w": 297,
+              "h": 351.5,
+              "bottom": 587.0625
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "evidence/technical-chatPrompt-night-after.png",
+      "sha256": "4666256dbc5482e669742fb8c68ef17fb35fc8ec520a3be8c8a62bc992271f9b",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "page": "technical-chatPrompt",
+        "theme": "night",
+        "version": "after",
+        "sites": [
+          "Onboarding-303"
+        ],
+        "fonts": [
+          {
+            "familyName": "IBM Plex Mono",
+            "postScriptName": "IBMPlexMono-Regular",
+            "isCustomFont": true,
+            "glyphCount": 616
+          }
+        ],
+        "voices": [
+          {
+            "sites": [
+              "Onboarding-303"
+            ],
+            "keep": true,
+            "text": "I use Morsel to track my food. Set yourself up as my food logger.\n1. In your MCP/connector settings, add a custom connector with this URL: https://morsel-mcp.synergyservices.dev/mcp\n2. When I approve the sign-in, call get_profile to verify the connection.\n3. If my profile is empty, ask for my stats (height, weight, age, sex, activity, goal),\n   then set_profile + compute_targets.\n4. Ask me to send a photo of my next meal; log it with log_meal — one photo = one\n   entry, never invent precise macros, tag estimates with confidence.\n5. Hereafter log food photos without being asked; answer \"how am I doing?\" with get_day.",
+            "font": "Plex, monospace",
+            "size": "11px",
+            "weight": "400",
+            "features": "\"lnum\", \"tnum\"",
+            "rect": {
+              "x": 56,
+              "y": 235.5625,
+              "w": 297,
+              "h": 351.5,
+              "bottom": 587.0625
+            },
+            "color": "rgb(255, 247, 232)"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "network": [],
+  "native_alignment": "UNVERIFIED: no-Swift fence; clarification timed out"
+}

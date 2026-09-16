@@ -1,0 +1,210 @@
+[
+  {
+    "theme": "paper",
+    "foreground_role": "ink",
+    "foreground": "#2A261F",
+    "background_role": "bg",
+    "background": "#FFF7E8",
+    "ratio": 14.132453287842166
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "secondary",
+    "foreground": "#655A4B",
+    "background_role": "bg",
+    "background": "#FFF7E8",
+    "ratio": 6.326267610449247
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "positive",
+    "foreground": "#2F654B",
+    "background_role": "bg",
+    "background": "#FFF7E8",
+    "ratio": 6.394919144935291
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "error",
+    "foreground": "#9C3A2F",
+    "background_role": "bg",
+    "background": "#FFF7E8",
+    "ratio": 6.445257738277224
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "tertiary",
+    "foreground": "#756955",
+    "background_role": "bg",
+    "background": "#FFF7E8",
+    "ratio": 5.046213068389019
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "ink",
+    "foreground": "#2A261F",
+    "background_role": "surface",
+    "background": "#FFFCF5",
+    "ratio": 14.686478816924204
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "secondary",
+    "foreground": "#655A4B",
+    "background_role": "surface",
+    "background": "#FFFCF5",
+    "ratio": 6.57427223417646
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "positive",
+    "foreground": "#2F654B",
+    "background_role": "surface",
+    "background": "#FFFCF5",
+    "ratio": 6.64561507086894
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "error",
+    "foreground": "#9C3A2F",
+    "background_role": "surface",
+    "background": "#FFFCF5",
+    "ratio": 6.697927055896059
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "ink",
+    "foreground": "#2A261F",
+    "background_role": "field",
+    "background": "#F2E9D9",
+    "ratio": 12.492457887684319
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "secondary",
+    "foreground": "#655A4B",
+    "background_role": "field",
+    "background": "#F2E9D9",
+    "ratio": 5.592138187199728
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "positive",
+    "foreground": "#2F654B",
+    "background_role": "field",
+    "background": "#F2E9D9",
+    "ratio": 5.65282307934295
+  },
+  {
+    "theme": "paper",
+    "foreground_role": "error",
+    "foreground": "#9C3A2F",
+    "background_role": "field",
+    "background": "#F2E9D9",
+    "ratio": 5.697320148934565
+  },
+  {
+    "theme": "night",
+    "foreground_role": "ink",
+    "foreground": "#FFF7E8",
+    "background_role": "bg",
+    "background": "#2A261F",
+    "ratio": 14.132453287842166
+  },
+  {
+    "theme": "night",
+    "foreground_role": "secondary",
+    "foreground": "#F2E9D9",
+    "background_role": "bg",
+    "background": "#2A261F",
+    "ratio": 12.492457887684319
+  },
+  {
+    "theme": "night",
+    "foreground_role": "positive",
+    "foreground": "#E1E9D7",
+    "background_role": "bg",
+    "background": "#2A261F",
+    "ratio": 12.066345994702816
+  },
+  {
+    "theme": "night",
+    "foreground_role": "error",
+    "foreground": "#FFF7E8",
+    "background_role": "bg",
+    "background": "#2A261F",
+    "ratio": 14.132453287842166
+  },
+  {
+    "theme": "night",
+    "foreground_role": "tertiary",
+    "foreground": "#E3D2BA",
+    "background_role": "bg",
+    "background": "#2A261F",
+    "ratio": 10.171308919362989
+  },
+  {
+    "theme": "night",
+    "foreground_role": "ink",
+    "foreground": "#FFF7E8",
+    "background_role": "surface",
+    "background": "#373129",
+    "ratio": 12.071046288016543
+  },
+  {
+    "theme": "night",
+    "foreground_role": "secondary",
+    "foreground": "#F2E9D9",
+    "background_role": "surface",
+    "background": "#373129",
+    "ratio": 10.670266113178107
+  },
+  {
+    "theme": "night",
+    "foreground_role": "positive",
+    "foreground": "#E1E9D7",
+    "background_role": "surface",
+    "background": "#373129",
+    "ratio": 10.306308328970958
+  },
+  {
+    "theme": "night",
+    "foreground_role": "error",
+    "foreground": "#FFF7E8",
+    "background_role": "surface",
+    "background": "#373129",
+    "ratio": 12.071046288016543
+  },
+  {
+    "theme": "night",
+    "foreground_role": "ink",
+    "foreground": "#FFF7E8",
+    "background_role": "field",
+    "background": "#423B31",
+    "ratio": 10.371102140436559
+  },
+  {
+    "theme": "night",
+    "foreground_role": "secondary",
+    "foreground": "#F2E9D9",
+    "background_role": "field",
+    "background": "#423B31",
+    "ratio": 9.167591365735095
+  },
+  {
+    "theme": "night",
+    "foreground_role": "positive",
+    "foreground": "#E1E9D7",
+    "background_role": "field",
+    "background": "#423B31",
+    "ratio": 8.854889114020052
+  },
+  {
+    "theme": "night",
+    "foreground_role": "error",
+    "foreground": "#FFF7E8",
+    "background_role": "field",
+    "background": "#423B31",
+    "ratio": 10.371102140436559
+  }
+]

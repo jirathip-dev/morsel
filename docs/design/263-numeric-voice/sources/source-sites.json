@@ -1,0 +1,506 @@
+[
+  {
+    "id": "AddMealPhotoSection-129",
+    "file": "AddMealPhotoSection.swift",
+    "line": 129,
+    "code": ".font(.morselData)",
+    "context": "                    || isSubmitting ? 0.55 : 1\n            )\n\n            if !UIImagePickerController.isSourceTypeAvailable(.camera) {\n                Text(\"Camera is unavailable in this simulator.\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n            }\n"
+  },
+  {
+    "id": "AddMealPhotoSection-156",
+    "file": "AddMealPhotoSection.swift",
+    "line": 156,
+    "code": ".font(.morselData)",
+    "context": "                    }\n                    VStack(alignment: .leading, spacing: 3) {\n                        Text(\"Photo ready\")\n                            .font(.morselBodyStrong)\n                        Text(\"JPEG · \\(photo.data.count / 1_024) KB\")\n                            .font(.morselData)\n                            .foregroundStyle(Color.morselInkTwo)\n                    }\n                    Spacer()"
+  },
+  {
+    "id": "AddMealPhotoSection-165",
+    "file": "AddMealPhotoSection.swift",
+    "line": 165,
+    "code": ".font(.morselData)",
+    "context": "                    Button(\"Remove\") {\n                        self.photo = nil\n                        pickerItem = nil\n                        cancelPreparation()\n                    }\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselForest)\n                }\n                .padding(.top, 6)"
+  },
+  {
+    "id": "AuthView-29",
+    "file": "AuthView.swift",
+    "line": 29,
+    "code": ".font(.morselData)",
+    "context": "        NavigationStack {\n            ScrollView {\n                VStack(alignment: .leading, spacing: 24) {\n                    VStack(alignment: .leading, spacing: 8) {\n                        Text(\"morsel\")\n                            .font(.morselData)\n                            .foregroundStyle(Color.morselForest)\n                        Text(\"Your food record,\\nread honestly.\")\n                            .font(.morselDisplay)"
+  },
+  {
+    "id": "AuthView-52",
+    "file": "AuthView.swift",
+    "line": 52,
+    "code": ".font(.morselData)",
+    "context": "                    HStack(spacing: 12) {\n                        Rectangle()\n                            .fill(Color.morselLine)\n                            .frame(height: 1)\n                        Text(\"or email\")\n                            .font(.morselData)\n                            .foregroundStyle(Color.morselInkThree)\n                        Rectangle()\n                            .fill(Color.morselLine)"
+  },
+  {
+    "id": "AuthView-94",
+    "file": "AuthView.swift",
+    "line": 94,
+    "code": ".font(.morselData)",
+    "context": "                            Button(\"Use a different email\") {\n                                step = .email\n                                code = \"\"\n                                message = nil\n                            }\n                            .font(.morselData)\n                            .foregroundStyle(Color.morselForest)\n                            .morselResignsKeyboardOnTap()\n                        }"
+  },
+  {
+    "id": "DayDrillDown-59",
+    "file": "DayDrillDown.swift",
+    "line": 59,
+    "code": ".font(.morselDataMedium)",
+    "context": "        let goal = snapshot.goal?.calorieTargetKcal\n        return VStack(alignment: .leading, spacing: 12) {\n            dayCardHeader(snapshot)\n            HStack(spacing: 6) {\n                Text(\"\\(MorselFormat.number(totals.caloriesKcal)) kcal\")\n                    .font(.morselDataMedium)\n                    .foregroundStyle(Color.morselInk)\n                if let goal {\n                    Text(\"vs \\(MorselFormat.number(goal))\")"
+  },
+  {
+    "id": "DayDrillDown-63",
+    "file": "DayDrillDown.swift",
+    "line": 63,
+    "code": ".font(.morselData)",
+    "context": "                Text(\"\\(MorselFormat.number(totals.caloriesKcal)) kcal\")\n                    .font(.morselDataMedium)\n                    .foregroundStyle(Color.morselInk)\n                if let goal {\n                    Text(\"vs \\(MorselFormat.number(goal))\")\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInkThree)\n                    let delta = DashboardMath.eatenMinusGoal(eaten: totals.caloriesKcal, goal: goal) ?? 0\n                    Text(delta > 0 ? \"· +\\(MorselFormat.number(delta)) over\" : \"· on target\")"
+  },
+  {
+    "id": "DayDrillDown-67",
+    "file": "DayDrillDown.swift",
+    "line": 67,
+    "code": ".font(.morselData)",
+    "context": "                    Text(\"vs \\(MorselFormat.number(goal))\")\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInkThree)\n                    let delta = DashboardMath.eatenMinusGoal(eaten: totals.caloriesKcal, goal: goal) ?? 0\n                    Text(delta > 0 ? \"· +\\(MorselFormat.number(delta)) over\" : \"· on target\")\n                        .font(.morselData)\n                        .foregroundStyle(delta > 0 ? Color.morselOver : Color.morselForest)\n                }\n            }"
+  },
+  {
+    "id": "DesignSystem-296",
+    "file": "DesignSystem.swift",
+    "line": 296,
+    "code": "font(.morselData)",
+    "context": "    }\n}\n\nextension View {\n    func morselTag(foreground: Color, background: Color) -> some View {\n        font(.morselData)\n            .foregroundStyle(foreground)\n            .padding(.horizontal, 6)\n            .padding(.vertical, 4)"
+  },
+  {
+    "id": "EndpointCopyPill-20",
+    "file": "EndpointCopyPill.swift",
+    "line": 20,
+    "code": ".font(.morselDataMedium)",
+    "context": "        Button {\n            OnboardingContent.copyToPasteboard(value)\n            didCopy = true\n        } label: {\n            Text(didCopy ? \"Copied ✓\" : \"Copy\")\n                .font(.morselDataMedium)\n                .foregroundStyle(Color.morselForest)\n                .padding(.horizontal, 10)\n                .padding(.vertical, 6)"
+  },
+  {
+    "id": "GoalsEditor-240",
+    "file": "GoalsEditor.swift",
+    "line": 240,
+    "code": "monospacedValue: true,",
+    "context": "                text: $value,\n                focus: focus,\n                key: key,\n                unit: unit,\n                keyboardType: .numbersAndPunctuation,\n                monospacedValue: true,\n                prominent: prominent,\n                trailingValue: true,\n                error: error,"
+  },
+  {
+    "id": "HistoryLedgerViews-34",
+    "file": "HistoryLedgerViews.swift",
+    "line": 34,
+    "code": ".font(.morselData)",
+    "context": "                        .font(.morselSerif(size: 13).weight(.semibold))\n                        .foregroundStyle(Color.morselInkTwo)\n                        .frame(width: labelWidth, alignment: .leading)\n                } else if showsCompactLabel(for: day) {\n                    Text(day.date.formatted(.dateTime.day().month(.abbreviated)))\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInkThree)\n                        .frame(width: labelWidth, alignment: .leading)\n                } else {"
+  },
+  {
+    "id": "HistoryLedgerViews-134",
+    "file": "HistoryLedgerViews.swift",
+    "line": 134,
+    "code": ".font(.morselDataMedium)",
+    "context": "        if viewModel.range == .thirty {\n            Color.clear.frame(width: 84, height: 8)\n        } else if day.logged {\n            VStack(alignment: .trailing, spacing: 0) {\n                Text(MorselFormat.number(day.eatenKcal))\n                    .font(.morselDataMedium)\n                    .foregroundStyle(isToday ? Color.morselLeaf : Color.morselInk)\n                if isToday {\n                    Text(\"· partial\")"
+  },
+  {
+    "id": "HistoryLedgerViews-190",
+    "file": "HistoryLedgerViews.swift",
+    "line": 190,
+    "code": ".font(.morselData)",
+    "context": "            Spacer()\n        }\n        .padding(.bottom, 10)\n        HStack {\n            Text(\"\\(viewModel.streak)-day logging streak\")\n                .font(.morselData)\n                .foregroundStyle(Color.morselInkTwo)\n            Spacer()\n            if viewModel.isTodayLogged {"
+  },
+  {
+    "id": "HistoryLedgerViews-212",
+    "file": "HistoryLedgerViews.swift",
+    "line": 212,
+    "code": ".font(.morselGauge)",
+    "context": "    let label: String\n\n    var body: some View {\n        VStack(alignment: .leading, spacing: 0) {\n            Text(value)\n                .font(.morselGauge)\n                .monospacedDigit()\n                .foregroundStyle(Color.morselInk)\n            Text(label)"
+  },
+  {
+    "id": "HistoryLedgerViews-256",
+    "file": "HistoryLedgerViews.swift",
+    "line": 256,
+    "code": ".font(.morselData)",
+    "context": "                    Spacer(minLength: 4)\n                    Text(\n                        \"\\(MorselFormat.number(day.eatenKcal)) vs \"\n                            + \"\\(MorselFormat.number(viewModel.goal?.calorieTargetKcal))\"\n                    )\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInkThree)\n                    Spacer(minLength: 4)\n                    Text(deltaText)"
+  },
+  {
+    "id": "HistoryLedgerViews-260",
+    "file": "HistoryLedgerViews.swift",
+    "line": 260,
+    "code": ".font(.morselDataMedium)",
+    "context": "                    )\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInkThree)\n                    Spacer(minLength: 4)\n                    Text(deltaText)\n                        .font(.morselDataMedium)\n                        .foregroundStyle(Color.morselInk)\n                    Text(comparison.word)\n                        .font(.morselFootnote)"
+  },
+  {
+    "id": "JournalCalendarView-43",
+    "file": "JournalCalendarView.swift",
+    "line": 43,
+    "code": ".font(.morselData)",
+    "context": "            .font(.morselFootnote)\n            .foregroundStyle(Color.morselInkTwo)\n            if let first = model.firstLoggedDay {\n                Text(\"\\(first.formatted(date: .abbreviated, time: .omitted)) – \" +\n                     model.today.formatted(date: .abbreviated, time: .omitted))\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n            }\n            JournalRule()"
+  },
+  {
+    "id": "JournalCalendarView-104",
+    "file": "JournalCalendarView.swift",
+    "line": 104,
+    "code": "Text(date.formatted(.dateTime.day())).font(.morselData)",
+    "context": "\n    private func cell(_ date: Date) -> some View {\n        let logged = model.loggedDates.contains(date)\n        return Button { openDay(date) } label: {\n            VStack(spacing: 3) {\n                Text(date.formatted(.dateTime.day())).font(.morselData)\n                Circle().fill(dotColor(date)).frame(width: 6, height: 6).opacity(logged ? 1 : 0)\n            }\n            .frame(maxWidth: .infinity, minHeight: 44)"
+  },
+  {
+    "id": "JournalFoodRow-62",
+    "file": "JournalFoodRow.swift",
+    "line": 62,
+    "code": ".font(.morselMono(size: 11))",
+    "context": "                        .font(.morselSerif(size: 18, weight: 500))\n                        .foregroundStyle(Color.morselInk)\n                        .lineLimit(2)\n                        .frame(height: nameLine, alignment: .leading)\n                    Text(MorselFormat.portion(quantity: item.quantity, unit: item.unit))\n                        .font(.morselMono(size: 11))\n                        .foregroundStyle(Color.morselInkTwo)\n                        .frame(height: portionLine, alignment: .leading)\n                }"
+  },
+  {
+    "id": "JournalFoodRow-70",
+    "file": "JournalFoodRow.swift",
+    "line": 70,
+    "code": ".font(.morselMono(size: 12))",
+    "context": "                }\n                Spacer(minLength: 0)\n                energyColumn\n            }\n            Text(MorselFormat.macroLine(for: item))\n                .font(.morselMono(size: 12))\n                .foregroundStyle(Color.morselInkTwo)\n            if let confirmation {\n                Text(confirmation)"
+  },
+  {
+    "id": "JournalFoodRow-100",
+    "file": "JournalFoodRow.swift",
+    "line": 100,
+    "code": ".font(.morselMono(size: 14))",
+    "context": "    /// The design's 38px column wraps the 16px Garamond chevron onto its own\n    /// line under \"kcal\" — reproduced literally.\n    private var energyColumn: some View {\n        VStack(alignment: .trailing, spacing: 0) {\n            Text(MorselFormat.number(item.caloriesKcal))\n                .font(.morselMono(size: 14))\n                .monospacedDigit()\n                .foregroundStyle(Color.morselInk)\n                .frame(height: energyValueLine, alignment: .trailing)"
+  },
+  {
+    "id": "JournalFoodRow-105",
+    "file": "JournalFoodRow.swift",
+    "line": 105,
+    "code": ".font(.morselMono(size: 10))",
+    "context": "                .font(.morselMono(size: 14))\n                .monospacedDigit()\n                .foregroundStyle(Color.morselInk)\n                .frame(height: energyValueLine, alignment: .trailing)\n            Text(\"kcal\")\n                .font(.morselMono(size: 10))\n                .foregroundStyle(Color.morselInkTwo)\n                .frame(height: energyUnitLine, alignment: .trailing)\n            Text(\"›\")"
+  },
+  {
+    "id": "JournalUI-48",
+    "file": "JournalUI.swift",
+    "line": 48,
+    "code": ".font(Font.morselMono(size: 9))",
+    "context": "    var body: some View {\n        HStack(spacing: 0) {\n            VStack(spacing: 0) {\n                Spacer(minLength: 96)\n                Text(Self.gutterDate(date))\n                    .font(Font.morselMono(size: 9))\n                    .tracking(0.5)\n                    .foregroundStyle(Color.morselInkThree)\n                    .rotationEffect(.degrees(-90))"
+  },
+  {
+    "id": "JournalUI-233",
+    "file": "JournalUI.swift",
+    "line": 233,
+    "code": ".font(.morselDataMedium)",
+    "context": "                .frame(height: 8)\n            }\n            .frame(height: 8)\n            .accessibilityHidden(true)\n            Text(valueText)\n                .font(.morselDataMedium)\n                .foregroundStyle(Color.morselInkTwo)\n                .frame(width: 108, alignment: .trailing)\n        }"
+  },
+  {
+    "id": "JournalUI-364",
+    "file": "JournalUI.swift",
+    "line": 364,
+    "code": ".font(.morselData)",
+    "context": "            Text(title)\n                .morselSectionLabel()\n            Spacer()\n            if let detail {\n                Text(detail)\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n            }\n        }"
+  },
+  {
+    "id": "MealCaptureView-116",
+    "file": "MealCaptureView.swift",
+    "line": 116,
+    "code": "keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "                .padding(.bottom, 14)\n\n                HStack(alignment: .top, spacing: 14) {\n                    JournalPaperField(\n                                  label: \"Quantity\", text: $quantity, focus: $focusedField, key: .quantity,\n                                  keyboardType: .decimalPad, monospacedValue: true,\n                                  prominent: true, hint: \"Positive number\"\n                    )\n                    .frame(maxWidth: 130)"
+  },
+  {
+    "id": "MealCaptureView-209",
+    "file": "MealCaptureView.swift",
+    "line": 209,
+    "code": "unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "    ) -> some View {\n        VStack(alignment: .leading, spacing: 14) {\n            HStack(alignment: .top, spacing: 14) {\n                JournalPaperField(\n                                  label: \"Calories\", text: calories, focus: $focusedField, key: .calories,\n                                  unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n                JournalPaperField("
+  },
+  {
+    "id": "MealCaptureView-214",
+    "file": "MealCaptureView.swift",
+    "line": 214,
+    "code": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "                                  unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n                JournalPaperField(\n                                  label: \"Protein\", text: protein, focus: $focusedField, key: .protein,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n            }"
+  },
+  {
+    "id": "MealCaptureView-221",
+    "file": "MealCaptureView.swift",
+    "line": 221,
+    "code": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "                )\n            }\n            HStack(alignment: .top, spacing: 14) {\n                JournalPaperField(\n                                  label: \"Carbs\", text: carbs, focus: $focusedField, key: .carbs,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n                JournalPaperField("
+  },
+  {
+    "id": "MealCaptureView-226",
+    "file": "MealCaptureView.swift",
+    "line": 226,
+    "code": "unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n                JournalPaperField(\n                                  label: \"Fat\", text: fat, focus: $focusedField, key: .fat,\n                                  unit: \"g\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true,\n                                  hint: \"Zero or greater\"\n                )\n            }"
+  },
+  {
+    "id": "MealCaptureView-354",
+    "file": "MealCaptureView.swift",
+    "line": 354,
+    "code": ".font(.morselData)",
+    "context": "            VStack(alignment: .leading, spacing: 3) {\n                Text(menu.name)\n                    .font(.morselBodyStrong)\n                    .foregroundStyle(Color.morselInk)\n                Text(menu.summaryLine)\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkThree)\n            }\n            Spacer(minLength: 8)"
+  },
+  {
+    "id": "MealItemEditSheet-86",
+    "file": "MealItemEditSheet.swift",
+    "line": 86,
+    "code": "monospacedValue: true,",
+    "context": "                        text: $quantity,\n                        focus: $focusedField,\n                        key: .quantity,\n                        unit: item.unit.rawValue,\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        prominent: true,\n                        hint: \"Positive number\"\n                    )"
+  },
+  {
+    "id": "MealItemEditSheet-106",
+    "file": "MealItemEditSheet.swift",
+    "line": 106,
+    "code": "monospacedValue: true,",
+    "context": "                        focus: $focusedField,\n                        key: .calories,\n                        unit: \"kcal\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )\n                    JournalPaperField("
+  },
+  {
+    "id": "MealItemEditSheet-117",
+    "file": "MealItemEditSheet.swift",
+    "line": 117,
+    "code": "monospacedValue: true,",
+    "context": "                        focus: $focusedField,\n                        key: .protein,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )\n                }"
+  },
+  {
+    "id": "MealItemEditSheet-131",
+    "file": "MealItemEditSheet.swift",
+    "line": 131,
+    "code": "monospacedValue: true,",
+    "context": "                        focus: $focusedField,\n                        key: .carbs,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )\n                    JournalPaperField("
+  },
+  {
+    "id": "MealItemEditSheet-142",
+    "file": "MealItemEditSheet.swift",
+    "line": 142,
+    "code": "monospacedValue: true,",
+    "context": "                        focus: $focusedField,\n                        key: .fat,\n                        unit: \"g\",\n                        prompt: \"Optional\",\n                        keyboardType: .decimalPad,\n                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )\n                }"
+  },
+  {
+    "id": "MealItemEditSheet-147",
+    "file": "MealItemEditSheet.swift",
+    "line": 147,
+    "code": ".font(.morselData)",
+    "context": "                        monospacedValue: true,\n                        hint: \"Zero or greater\"\n                    )\n                }\n                Text(\"Corrections are saved as a manual edit; macros you change stay as you typed them.\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n                    .padding(.top, 10)\n"
+  },
+  {
+    "id": "MealItemEditSheet-349",
+    "file": "MealItemEditSheet.swift",
+    "line": 349,
+    "code": ".font(.morselMono(size: 12))",
+    "context": "            HStack(alignment: .firstTextBaseline, spacing: 4) {\n                Text(\"Source: \\(item.provenance.rawValue) · Confidence:\")\n                    .font(.morselSerif(size: 16))\n                    .foregroundStyle(Color.morselInk)\n                Text(MorselFormat.confidence(item.confidence))\n                    .font(.morselMono(size: 12))\n                    .monospacedDigit()\n                    .foregroundStyle(Color.morselInk)\n                Spacer(minLength: 0)"
+  },
+  {
+    "id": "MealItemEditSheet-356",
+    "file": "MealItemEditSheet.swift",
+    "line": 356,
+    "code": ".font(.morselData)",
+    "context": "                    .foregroundStyle(Color.morselInk)\n                Spacer(minLength: 0)\n            }\n            if let confidenceNote {\n                Text(confidenceNote)\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselReview)\n                    .padding(.horizontal, 6)\n                    .padding(.vertical, 2)"
+  },
+  {
+    "id": "MealPhotoEditorSection-101",
+    "file": "MealPhotoEditorSection.swift",
+    "line": 101,
+    "code": ".font(.morselData)",
+    "context": "                    || isProcessingPhoto ? 0.55 : 1\n            )\n\n            if !UIImagePickerController.isSourceTypeAvailable(.camera) {\n                Text(\"Camera is unavailable in this simulator.\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n            }\n"
+  },
+  {
+    "id": "MealPhotoEditorSection-153",
+    "file": "MealPhotoEditorSection.swift",
+    "line": 153,
+    "code": ".font(.morselData)",
+    "context": "                Button(\"Remove\") {\n                    self.pendingPhoto = nil\n                    pickerItem = nil\n                    cancelPreparation()\n                }\n                .font(.morselData)\n                .foregroundStyle(Color.morselForest)\n                .disabled(isDisabled)\n            }"
+  },
+  {
+    "id": "MealPhotoEditorSection-312",
+    "file": "MealPhotoEditorSection.swift",
+    "line": 312,
+    "code": ".font(.morselData)",
+    "context": "            VStack(alignment: .leading, spacing: 3) {\n                Text(illustrationTitle(artwork))\n                    .font(.morselBodyStrong)\n                    .foregroundStyle(Color.morselInk)\n                Text(illustrationCopy(artwork))\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkTwo)\n            }\n            Spacer(minLength: 0)"
+  },
+  {
+    "id": "MenuEditorSheet-152",
+    "file": "MenuEditorSheet.swift",
+    "line": 152,
+    "code": "keyboardType: .decimalPad, monospacedValue: true,",
+    "context": "                .padding(.top, 6)\n            }\n            HStack(alignment: .top, spacing: 10) {\n                JournalPaperField(\n                    label: \"Quantity\", text: row.quantity, focus: $focusedKey, key: .quantity(row.wrappedValue.id),\n                    keyboardType: .decimalPad, monospacedValue: true,\n                    hint: \"Positive number\"\n                )\n                .frame(maxWidth: 120)"
+  },
+  {
+    "id": "MenuEditorSheet-169",
+    "file": "MenuEditorSheet.swift",
+    "line": 169,
+    "code": "unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true",
+    "context": "                .fixedSize()\n                Spacer(minLength: 0)\n            }\n            JournalPaperField(\n                label: \"Calories\", text: row.calories, focus: $focusedKey, key: .calories(row.wrappedValue.id),\n                unit: \"kcal\", prompt: \"Optional\", keyboardType: .decimalPad, monospacedValue: true\n            )\n        }\n        .padding(.vertical, 6)"
+  },
+  {
+    "id": "MenusScreen-111",
+    "file": "MenusScreen.swift",
+    "line": 111,
+    "code": ".font(.morselData)",
+    "context": "            VStack(alignment: .leading, spacing: 3) {\n                Text(menu.name)\n                    .font(.morselBodyStrong)\n                    .foregroundStyle(Color.morselInk)\n                Text(menu.summaryLine)\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkThree)\n            }\n            Spacer(minLength: 8)"
+  },
+  {
+    "id": "Onboarding-192",
+    "file": "Onboarding.swift",
+    "line": 192,
+    "code": "Text(\"morsel\").font(.morselData).foregroundStyle(Color.morselForest)",
+    "context": "\n    var body: some View {\n        NavigationStack {\n            ScrollView {\n                VStack(alignment: .leading, spacing: 24) {\n                    Text(\"morsel\").font(.morselData).foregroundStyle(Color.morselForest)\n                    Text(title).font(.morselDisplay).foregroundStyle(Color.morselInk)\n                    Text(subtitle).font(.morselBody).foregroundStyle(Color.morselInkTwo)\n"
+  },
+  {
+    "id": "Onboarding-205",
+    "file": "Onboarding.swift",
+    "line": 205,
+    "code": ".font(.morselData).foregroundStyle(Color.morselInkTwo)",
+    "context": "            }\n            .background(Color.morselBackground.ignoresSafeArea())\n            .toolbar {\n                ToolbarItem(placement: .topBarTrailing) {\n                    Button(\"Set up later\", action: onSkip)\n                        .font(.morselData).foregroundStyle(Color.morselInkTwo)\n                }\n            }\n        }"
+  },
+  {
+    "id": "Onboarding-256",
+    "file": "Onboarding.swift",
+    "line": 256,
+    "code": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+    "context": "        }\n    }\n\n    private var signInContent: some View {\n        VStack(alignment: .leading, spacing: 16) {\n            Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)\n            Text(\"Hi — I'll be your food logger. Morsel is where I write what you eat; you never fill in forms.\")\n                .font(.morselBody).foregroundStyle(Color.morselInk)\n            Text(\"First, prove it's you:\").font(.morselBody).foregroundStyle(Color.morselInk)"
+  },
+  {
+    "id": "Onboarding-271",
+    "file": "Onboarding.swift",
+    "line": 271,
+    "code": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+    "context": "        }\n    }\n\n    private var signedInContent: some View {\n        VStack(alignment: .leading, spacing: 16) {\n            Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)\n            Text(\"Signed in ✓ — that's the account I'll write to. Now connect me in your chat app.\")\n                .font(.morselBody).foregroundStyle(Color.morselInk)\n            Text(\"Pick where you talk to me:\").font(.morselBody).foregroundStyle(Color.morselInk)"
+  },
+  {
+    "id": "Onboarding-282",
+    "file": "Onboarding.swift",
+    "line": 282,
+    "code": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+    "context": "        }\n    }\n    @ViewBuilder private var connectContent: some View {\n        let endpointValue = OnboardingEndpoint(configuredValue: endpoint)?.value\n        VStack(alignment: .leading, spacing: 16) {\n            Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)\n            Text(\"Paste this endpoint into any MCP client's custom connector field, then verify with get_profile.\")\n                .font(.morselBody).foregroundStyle(Color.morselInkTwo)\n            Text(\"MCP ENDPOINT\").morselSectionLabel()"
+  },
+  {
+    "id": "Onboarding-303",
+    "file": "Onboarding.swift",
+    "line": 303,
+    "code": ".font(.morselData)",
+    "context": "            Text(OnboardingContent.instructions(for: platform.rawValue))\n                .font(.morselBody).foregroundStyle(Color.morselInkTwo)\n\n            if let endpointValue {\n                Text(prompt(for: platform, endpoint: endpointValue))\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInk)\n                    .padding(16)\n                    .frame(maxWidth: .infinity, alignment: .leading)"
+  },
+  {
+    "id": "Onboarding-329",
+    "file": "Onboarding.swift",
+    "line": 329,
+    "code": "Text(value).font(.morselData).foregroundStyle(Color.morselInk)",
+    "context": "    /// Issue #141/#151 — endpoint field: truncated configured value with the\n    /// shared paper 'Copy' pill (copies ONLY the endpoint, then a 1.5 s\n    /// 'Copied ✓' state; the pill logic lives in EndpointCopyPill).\n    private func endpointField(_ value: String) -> some View {\n        HStack(spacing: 8) {\n            Text(value).font(.morselData).foregroundStyle(Color.morselInk)\n                .lineLimit(1).truncationMode(.middle)\n            Spacer(minLength: 4)\n            EndpointCopyPill(value: value)"
+  },
+  {
+    "id": "Onboarding-369",
+    "file": "Onboarding.swift",
+    "line": 369,
+    "code": "Text(\"you\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+    "context": "\n    private var confirmContent: some View {\n        VStack(alignment: .leading, spacing: 16) {\n            Text(\"When your connector is ready, confirm here to finish setup.\")\n                .font(.morselBody).foregroundStyle(Color.morselInkTwo)\n            Text(\"you\").font(.morselData).foregroundStyle(Color.morselInkThree)\n            Button(\"I'm connected\") { _ = state.confirmConnection() }\n                .buttonStyle(MorselPrimaryButtonStyle()).frame(maxWidth: .infinity)\n        }"
+  },
+  {
+    "id": "Onboarding-377",
+    "file": "Onboarding.swift",
+    "line": 377,
+    "code": "Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)",
+    "context": "        }\n    }\n\n    private var doneContent: some View {\n        VStack(alignment: .leading, spacing: 12) {\n            Text(\"agent\").font(.morselData).foregroundStyle(Color.morselInkThree)\n            Text(\"Agent connected ✓\").font(.morselTitle).foregroundStyle(Color.morselAccent)\n            Text(\"Your next meal is ready to log.\")\n                .font(.morselBody).foregroundStyle(Color.morselInkTwo)"
+  },
+  {
+    "id": "PaperFields-66",
+    "file": "PaperFields.swift",
+    "line": 66,
+    "code": ".font(.morselData)",
+    "context": "            Rectangle()\n                .fill(ruleColor)\n                .frame(height: error == nil ? 1 : 1.4)\n            if let error {\n                Text(error)\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselOver)\n                    .accessibilityLabel(\"\\\\(label) error: \\\\(error)\")\n            }"
+  },
+  {
+    "id": "PaperFields-91",
+    "file": "PaperFields.swift",
+    "line": 91,
+    "code": "return prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17)",
+    "context": "        return Text(prompt)\n    }\n\n    private var valueFont: Font {\n        guard monospacedValue else { return .morselBody }\n        return prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17)\n    }\n\n    private var ruleColor: Color {"
+  },
+  {
+    "id": "SettingsView-125",
+    "file": "SettingsView.swift",
+    "line": 125,
+    "code": ".font(.morselData)",
+    "context": "    private var mcpSection: some View {\n        VStack(alignment: .leading, spacing: 8) {\n            Text(\"MCP endpoint\").morselSectionLabel()\n            if mcpEndpoint.isEmpty {\n                Text(\"MCP endpoint is not configured.\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInk)\n                    .padding(10)\n                    .frame(maxWidth: .infinity, alignment: .leading)"
+  },
+  {
+    "id": "SettingsView-136",
+    "file": "SettingsView.swift",
+    "line": 136,
+    "code": ".font(.morselData)",
+    "context": "                // Issue #151 — the same paper copy pill as onboarding (#141):\n                // EndpointCopyPill owns the pasteboard write and the 1.5 s\n                // 'Copied ✓' state; no pill is offered when unconfigured.\n                HStack(spacing: 8) {\n                    Text(mcpEndpoint)\n                        .font(.morselData)\n                        .foregroundStyle(Color.morselInk)\n                        .lineLimit(1)\n                        .truncationMode(.middle)"
+  },
+  {
+    "id": "SettingsView-159",
+    "file": "SettingsView.swift",
+    "line": 159,
+    "code": ".font(.morselData)",
+    "context": "                Text(\"Replay onboarding\")\n                    .font(.morselBodyStrong)\n                    .foregroundStyle(Color.morselInk)\n                Spacer()\n                Image(systemName: \"chevron.right\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkThree)\n            }\n            .padding(.vertical, 6)"
+  },
+  {
+    "id": "SettingsView-208",
+    "file": "SettingsView.swift",
+    "line": 208,
+    "code": ".font(.morselData)",
+    "context": "                Text(\"Sign out\")\n                    .font(.morselBodyStrong)\n                    .foregroundStyle(Color.morselOver)\n                Spacer()\n                Image(systemName: \"chevron.right\")\n                    .font(.morselData)\n                    .foregroundStyle(Color.morselInkThree)\n            }\n            .padding(.vertical, 6)"
+  },
+  {
+    "id": "TodayLogViews-87",
+    "file": "TodayLogViews.swift",
+    "line": 87,
+    "code": ".font(.morselData)",
+    "context": "                        Text(group.type.title)\n                            .font(.morselTitle)\n                            .foregroundStyle(Color.morselInk)\n                        if let firstMealTime = group.firstMealTime {\n                            Text(firstMealTime.formatted(date: .omitted, time: .shortened))\n                                .font(.morselData)\n                                .foregroundStyle(Color.morselInkThree)\n                        }\n                        if group.meals.count == 1, let meal = group.meals.first {"
+  },
+  {
+    "id": "TodayLogViews-95",
+    "file": "TodayLogViews.swift",
+    "line": 95,
+    "code": ".font(.morselDataMedium)",
+    "context": "                        if group.meals.count == 1, let meal = group.meals.first {\n                            MealSyncMarker(meal: meal)\n                        }\n                    }\n                    Text(\"\\(MorselFormat.number(group.totalCalories)) kcal\")\n                        .font(.morselDataMedium)\n                        .foregroundStyle(Color.morselInkTwo)\n                }\n                Spacer(minLength: 4)"
+  },
+  {
+    "id": "TodayLogViews-115",
+    "file": "TodayLogViews.swift",
+    "line": 115,
+    "code": ".font(.morselData)",
+    "context": "\n            ForEach(group.meals) { meal in\n                if group.meals.count > 1 {\n                    HStack {\n                        Text(meal.eatenAt.formatted(date: .omitted, time: .shortened))\n                            .font(.morselData)\n                            .foregroundStyle(Color.morselInkThree)\n                        MealSyncMarker(meal: meal)\n                        Spacer()"
+  },
+  {
+    "id": "TrainingFuelViews-87",
+    "file": "TrainingFuelViews.swift",
+    "line": 87,
+    "code": ".font(.morselData).fixedSize(horizontal: true, vertical: false)",
+    "context": "                     absent: String = \"Unavailable\") -> some View {\n        HStack(alignment: .firstTextBaseline) {\n            Text(label).font(.morselBody)\n            Spacer(minLength: 8)\n            Text(value.map { \"\\(prefix)\\($0.formatted()) kcal\" } ?? absent)\n                .font(.morselData).fixedSize(horizontal: true, vertical: false)\n        }\n    }\n}"
+  },
+  {
+    "id": "TrainingFuelViews-105",
+    "file": "TrainingFuelViews.swift",
+    "line": 105,
+    "code": ".font(.morselDataMedium)",
+    "context": "                Text(\"No amount suggested. Enter an addition from your own plan. \"\n                     + \"This screen cannot assess adequate fuelling.\").font(.morselBody)\n                Text(\"Add to this day's food target (kcal)\").font(.morselBodyStrong)\n                TextField(\"Your amount\", text: $model.draft)\n                    .keyboardType(.decimalPad)\n                    .font(.morselDataMedium)\n                    .padding(12)\n                    .background(Color.morselSurfaceTwo, in: RoundedRectangle(cornerRadius: 4))\n                    .accessibilityIdentifier(\"training-fuel-amount\")"
+  },
+  {
+    "id": "Views-146",
+    "file": "Views.swift",
+    "line": 146,
+    "code": ".font(.morselHero)",
+    "context": "                VStack(alignment: .leading, spacing: 5) {\n                    Text(\"Eaten · Goal\")\n                        .morselSectionLabel()\n                    HStack(alignment: .firstTextBaseline, spacing: 6) {\n                        Text(MorselFormat.number(viewModel.totals.caloriesKcal))\n                            .font(.morselHero)\n                            .foregroundStyle(Color.morselInk)\n                            .monospacedDigit()\n                        if let target {"
+  },
+  {
+    "id": "WeightDeltaBand-22",
+    "file": "WeightDeltaBand.swift",
+    "line": 22,
+    "code": ".font(Font.morselMono(size: 10))",
+    "context": "            HStack(alignment: .firstTextBaseline) {\n                Text(\"Eaten − food target · kcal\")\n                Spacer(minLength: 4)\n                Text(\"±\\(MorselFormat.number(timeline.deltaLimit))\")\n            }\n            .font(Font.morselMono(size: 10))\n            .foregroundStyle(Color.morselInkTwo)\n            chart\n            VStack(alignment: .leading, spacing: 3) {"
+  },
+  {
+    "id": "WeightDeltaBand-58",
+    "file": "WeightDeltaBand.swift",
+    "line": 58,
+    "code": ".font(Font.morselMono(size: 12))",
+    "context": "                        .accessibilityValue(day.status)\n                } else {\n                    PointMark(x: .value(\"Date\", day.date), y: .value(\"Status\", 0))\n                        .symbol {\n                            Text(day.symbol)\n                                .font(Font.morselMono(size: 12))\n                                .foregroundStyle(Color.morselInk)\n                                .padding(2)\n                                .background(Color.morselBackground)"
+  },
+  {
+    "id": "WeightDeltaBand-76",
+    "file": "WeightDeltaBand.swift",
+    "line": 76,
+    "code": ".font(Font.morselMono(size: 9))",
+    "context": "        .chartXAxis {\n            AxisMarks(values: timeline.axisDates) { value in\n                AxisValueLabel {\n                    if let date = value.as(Date.self) {\n                        Text(date.formatted(.dateTime.day().month(.abbreviated)))\n                            .font(Font.morselMono(size: 9))\n                            .foregroundStyle(Color.morselInkThree)\n                    }\n                }"
+  },
+  {
+    "id": "WeightDeltaBand-147",
+    "file": "WeightDeltaBand.swift",
+    "line": 147,
+    "code": "Text(value).font(Font.morselMono(size: 11)).multilineTextAlignment(.trailing)",
+    "context": "\n    private func valueRow(_ title: String, _ value: String) -> some View {\n        HStack(alignment: .firstTextBaseline) {\n            Text(title).font(.morselBody)\n            Spacer(minLength: 8)\n            Text(value).font(Font.morselMono(size: 11)).multilineTextAlignment(.trailing)\n        }\n    }\n}"
+  }
+]
