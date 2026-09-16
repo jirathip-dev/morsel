@@ -20,6 +20,14 @@ const turner = read('app/Sources/Morsel/JournalPageTurner.swift')
 const morselApp = read('app/Sources/Morsel/MorselApp.swift')
 const diary = read('app/Sources/Morsel/JournalDiaryPage.swift')
 
+function section(source: string, start: string, end: string): string {
+  const from = source.indexOf(start)
+  const to = source.indexOf(end, from + start.length)
+  expect(from, start).toBeGreaterThan(-1)
+  expect(to, end).toBeGreaterThan(from)
+  return source.slice(from, to).replace(/\s+/g, ' ')
+}
+
 describe('issue #111 AC1: the journal pager turns pages on the V1 hinge', () => {
   it('renders the incoming page through a 3D rotation seam, not a plain offset', () => {
     // Mutation target: replacing rotation3DEffect with .offset must fail.
@@ -57,6 +65,45 @@ describe('issue #111 AC1: the journal pager turns pages on the V1 hinge', () => 
     expect(diary).toContain('JournalTabNavigation.adjacent(to: $0, turning: $1)')
     expect(turner).toContain('pager.swipe(active.direction)')
     expect(turner).toContain('abs(deltaX) > abs(deltaY)')
+  })
+})
+
+describe('issue #247: the diary honors Reduce Motion independently of the shell', () => {
+  it('zeros the incoming hinge rotation under Reduce Motion', () => {
+    const pose = section(turner, 'struct HingeTurnPose:', '// MARK: - Turn state machine')
+    expect(pose).toContain(
+      '.degrees(JournalTurnSeam.startAngle(for: direction) * (1 - progress)'
+      + ' * (isIncoming && !reduceMotion ? 1 : 0))'
+    )
+  })
+
+  it('passes the accessibility preference to both the committed and preview date poses', () => {
+    expect(diary).toContain('@Environment(\\.accessibilityReduceMotion) private var reduceMotion')
+    const body = section(diary, 'var body: some View', 'private var dateRail:')
+    expect(body).toContain(
+      'content.modifier(HingeTurnPose(direction: machine.turn?.direction ?? .forward,'
+      + ' progress: machine.turn?.progress ?? 1, isIncoming: machine.phase == .committing,'
+      + ' vertical: true, reduceMotion: reduceMotion))'
+    )
+    expect(body).toContain(
+      '.modifier(HingeTurnPose(direction: turn.direction, progress: turn.progress,'
+      + ' vertical: true, reduceMotion: reduceMotion))'
+    )
+  })
+
+  it('passes Reduce Motion through both the selection and drag animation paths', () => {
+    const body = section(diary, 'var body: some View', 'private var dateRail:')
+    const gesture = section(diary, 'private var dayGesture:', 'private func dayButton(')
+    for (const path of [body, gesture]) {
+      expect(path).toContain('animateJournalTurn(machine, effect: effect, reduceMotion: reduceMotion)')
+    }
+  })
+
+  it('wires a Reduce Motion change to interrupt the diary turn', () => {
+    // Source-level wiring pin, not a simulated accessibility-setting change.
+    // This hook lives in JournalDiaryPage.swift, not JournalPageTurner.swift.
+    const body = section(diary, 'var body: some View', 'private var dateRail:')
+    expect(body).toContain('.onChange(of: reduceMotion) { _, _ in machine.interrupt() }')
   })
 })
 
