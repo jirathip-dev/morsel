@@ -11,6 +11,10 @@
 # - The deploy job FAILS CLOSED when FLY_API_TOKEN is absent (never a green skip).
 # - Post-deploy guard re-pins the machine count to 1 (the #78 HA-machine trap),
 #   then asserts health on BOTH canonical origins before declaring success.
+# - Issue #261: the deploy passes the exact head revision as the build arg
+#   MORSEL_BUILD_REVISION (so the running server can report what is DEPLOYED on
+#   /version) and fails closed when git cannot resolve that revision; a final
+#   postcondition asserts BOTH origins report the revision this deploy shipped.
 name: Deploy Fly (morsel-mcp)
 
 on:
@@ -96,6 +100,18 @@ jobs:
             exit 1
           fi
 
+      - name: Resolve the revision being deployed (fail closed)
+        id: revision
+        run: |
+          set -euo pipefail
+          SHA="$(git rev-parse HEAD)"
+          if ! printf '%s' "$SHA" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "::error::Could not resolve the git revision of the deployed head. Fly deploy FAILED CLOSED."
+            exit 1
+          fi
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "revision: deploying $SHA"
+
       - name: Install flyctl (official install script)
         run: |
           set -euo pipefail
@@ -105,7 +121,7 @@ jobs:
       - name: Deploy morsel-mcp
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: flyctl deploy -a morsel-mcp --remote-only
+        run: flyctl deploy -a morsel-mcp --remote-only --build-arg MORSEL_BUILD_REVISION="${{ steps.revision.outputs.sha }}"
 
       - name: Scale-count guard (exactly one machine)
         env:
@@ -133,3 +149,18 @@ jobs:
           done
           [ "$ok" -eq 2 ] || exit 1
           echo "postconditions: PASS on both origins"
+
+      - name: Revision postcondition (both origins report the deployed revision)
+        run: |
+          set -euo pipefail
+          WANT="${{ steps.revision.outputs.sha }}"
+          ok=0
+          for base in https://mcp.morselfood.app https://morsel-mcp.fly.dev; do
+            REV="$(curl -s --max-time 20 "$base/version" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const v=JSON.parse(s).revision;console.log(typeof v==="string"?v:"")}catch{console.log("")}})')"
+            echo "revision postcondition: $base -> revision=${REV:-(none)}"
+            if [ "$REV" = "$WANT" ]; then ok=$((ok+1)); else
+              echo "::error::$base /version reports '${REV:-none}' but this deploy ships '$WANT'. The revision bake is broken."
+            fi
+          done
+          [ "$ok" -eq 2 ] || exit 1
+          echo "revision postconditions: PASS on both origins (issue #261)"

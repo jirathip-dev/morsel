@@ -76,7 +76,11 @@ userinfo/query/fragment/whitespace/trailing slash), accepts the optional
 repository, and OAuth options exactly like the Edge entry point. Because Fly
 has no `/functions/v1` gateway, the app is mounted with `basePath: '/mcp'`:
 the canonical transport is `/mcp`; `/health` is served at the raw origin root
-(the new `originHealth` app option — no `/mcp/health`); the pre-#57 nested
+(the new `originHealth` app option — no `/mcp/health`), with `/version` beside
+it publishing the build identity baked into the image at build time
+(`MORSEL_BUILD_REVISION`) plus the Fly-injected machine/image identifiers —
+`revision: null` when the image carries no bake, so the read-only revision
+watchdog reports UNKNOWN instead of guessing (issue #261); the pre-#57 nested
 alias is disabled (the new `legacyTransportAlias: false` app option — no
 `/mcp/mcp` on the Fly origin); discovery, `/register`, `/authorize`, and
 `/token` hang off the same `/mcp` base, matching the metadata issuer (the
