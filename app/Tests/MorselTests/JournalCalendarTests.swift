@@ -106,6 +106,27 @@ final class JournalCalendarTests: XCTestCase {
         XCTAssertEqual(JournalDiaryDraft.saveTitle(for: stamp), "Save to " + label)
     }
 
+    func testDateIdentifiersUseTheLocalCalendarDayInEveryZone() throws {
+        let zones = ["Asia/Bangkok", "Pacific/Kiritimati", "UTC", "America/Los_Angeles"]
+        let dates = [(2026, 8, 14, "2026-08-14"), (2026, 1, 1, "2026-01-01"),
+                     (2024, 2, 29, "2024-02-29"), (2026, 3, 8, "2026-03-08")]
+        for zone in zones {
+            var calendar = Calendar(identifier: .gregorian)
+            calendar.timeZone = try XCTUnwrap(TimeZone(identifier: zone))
+            for (year, month, day, expected) in dates {
+                let date = try XCTUnwrap(calendar.date(from: DateComponents(year: year, month: month, day: day)))
+                let repository = MockDashboardRepository(snapshot: DashboardSnapshot(date: date, meals: [], goal: nil))
+                let model = JournalCalendarModel(repository: repository, userID: userID,
+                                                 today: date, calendar: calendar)
+                let view = JournalCalendarView(model: model, selectedDate: date) { _ in }
+                let cell = try XCTUnwrap(model.cells.compactMap { $0 }.first { $0 == date })
+                XCTAssertEqual(view.dateIdentifier(for: cell), "diary-date-" + expected, zone)
+                let late = try XCTUnwrap(calendar.date(bySettingHour: 23, minute: 30, second: 0, of: cell))
+                XCTAssertEqual(view.dateIdentifier(for: late), "diary-date-" + expected, zone)
+            }
+        }
+    }
+
     func testDateStepsUseCalendarDaysAcrossDaylightSavingTime() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try XCTUnwrap(TimeZone(identifier: "America/New_York"))
