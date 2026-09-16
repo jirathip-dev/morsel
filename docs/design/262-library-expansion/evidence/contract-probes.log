@@ -1,0 +1,21 @@
+{"package_check": "PASS", "manifest_files": 1, "raw_files": 2}
+test_actual_sibling_render_blocks_admission (__main__.ContractProbes.test_actual_sibling_render_blocks_admission) ... ok
+test_approved_batch_counts_and_uniqueness (__main__.ContractProbes.test_approved_batch_counts_and_uniqueness) ... ok
+test_approved_control_compiles_both_themes (__main__.ContractProbes.test_approved_control_compiles_both_themes) ... ok
+test_batch_five_observation_honesty (__main__.ContractProbes.test_batch_five_observation_honesty) ... ok
+test_dimensions_rejected (__main__.ContractProbes.test_dimensions_rejected) ... ok
+test_external_image_rejected (__main__.ContractProbes.test_external_image_rejected) ... ok
+test_multiline_wrapper_and_rust_argv_are_not_render_jobs (__main__.ContractProbes.test_multiline_wrapper_and_rust_argv_are_not_render_jobs) ... ok
+test_new_palette_token_rejected (__main__.ContractProbes.test_new_palette_token_rejected) ... ok
+test_raw_manifest_set_and_hash_tamper (__main__.ContractProbes.test_raw_manifest_set_and_hash_tamper) ... ok
+test_real_native_process_blocks_admission (__main__.ContractProbes.test_real_native_process_blocks_admission) ... ok
+test_script_and_event_rejected (__main__.ContractProbes.test_script_and_event_rejected) ... ok
+test_unresolved_token_rejected (__main__.ContractProbes.test_unresolved_token_rejected) ... ok
+test_wash_insertion_cardinality (__main__.ContractProbes.test_wash_insertion_cardinality) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.040s
+
+OK
+
+RAW_EXIT=0

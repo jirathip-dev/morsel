@@ -1,9 +1,9 @@
 {
   "excludes_itself": true,
   "file_count": 575,
-  "total_bytes_excluding_manifest": 17015301,
+  "total_bytes_excluding_manifest": 17015951,
   "sha256": {
-    ".gitattributes": "92a07db2bddbc4ee56412e694689eb077105279d82107cc8e17dbfedd62d91d0",
+    ".gitattributes": "db6db3f64e867c45ff447399950b2ea7d3912f431a346e8e481b5628c60b1c02",
     "AUTHORING.md": "526e5d14bcaafb1a1e105e402de2a408ecba3f95bc5546aeafec004cbb39da4e",
     "HOST-GATES.md": "016693d476d03bbfcf5390bce1a857163626e89cef6fb0f817afa8dba798f826",
     "INTEGRATION-HANDOFF.md": "9316eaf72b783686543a2e381c2a46cbf5975db33e687ccafc8df9f417b02050",
@@ -568,7 +568,7 @@
     "scripts/capture.py": "7d2044c4f4ad7fb800fd6b6ac792eb0bde0468030eff0baae3d8e0a94ac7e82c",
     "scripts/pipeline.py": "596dcef34aa931d2bdf3f7cf224346eebf3a7d9fe69677b94dbb0ec5852c853a",
     "scripts/proofs.py": "7fac334c8ee14d0020397c03f2c5031aec1bea1b3a2ab970b0c8bbe4cd158929",
-    "scripts/publish.py": "15b86a8fd83dbc3ed63bfcf06bab7fb9748db177f532865e22af1b030d298e8f",
+    "scripts/publish.py": "015adfc03a2f1b9d703d3916d1898a42d66b4f5d28124665b63cf5f87a714b93",
     "scripts/render_batch.py": "0b9004af4bdb004744edb6dc9dc3f2ad6e1570a4f4aa597fa03716ce2941d43a",
     "scripts/repo_gates.py": "4bb54d1eb951279a04cc2de5108bef3b25af2fb52a39fd949b086ec6361eb11e",
     "scripts/reports.py": "970f9772b625a78cbf42ca04496f4381fe195bf241961afbfa85818e57b1d7f5",

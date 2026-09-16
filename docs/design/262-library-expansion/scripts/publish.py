@@ -15,7 +15,13 @@ def git(repo,*args):
 def commit_push(repo,path,message,branch):
     require(not git(repo,'diff','--cached','--name-only'),'pre-existing staged files; stop instead of committing them')
     subprocess.run(['git','diff','--check','--',path],cwd=repo,check=True)
-    subprocess.run(['git','add','--',path],cwd=repo,check=True)
+    # These exact manifest-checked artifact paths include raw logs that the
+    # product's generic *.log ignore rule would otherwise omit from delivery.
+    files=sorted(str(p.relative_to(repo)) for p in (repo/path).rglob('*') if p.is_file())
+    for start in range(0,len(files),150):
+        subprocess.run(['git','add','-f','--',*files[start:start+150]],cwd=repo,check=True)
+    tracked=set(git(repo,'ls-files','--',path).splitlines())
+    require(tracked==set(files),'tracked artifact set differs from raw package')
     staged=git(repo,'diff','--cached','--name-only').splitlines()
     require(staged and all(p.startswith(path.rstrip('/')+'/') for p in staged),'staged path fence failed')
     subprocess.run(['git','diff','--cached','--check'],cwd=repo,check=True)

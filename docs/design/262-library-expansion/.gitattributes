@@ -1,4 +1,8 @@
 # Byte-protected historical source snapshot. Its original Markdown hard-break
 # whitespace is intentional; references provenance and SHA manifests own integrity.
-# No exemption for authored reports, scripts, HTML, or other new text.
+# New authored reports, scripts and HTML retain ordinary text checks.
 references/SUBJECT-LIST.md binary
+# Exact raw command-output logs (not authored prose); whitespace is evidence.
+evidence/repo-gates/lint.log binary
+evidence/repo-gates/typecheck.log binary
+evidence/repo-gates/npm-test.log binary

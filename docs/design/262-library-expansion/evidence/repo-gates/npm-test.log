@@ -1,0 +1,385 @@
+
+> morsel@0.0.0 test
+> vitest run
+
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion
+
+ ✓ authorize-ui/authorization.test.js (17 tests) 260ms
+ ✓ server/supabase-repository.test.ts (15 tests) 1614ms
+   ✓ SupabaseRepository > propagates provider outages from the production repository adapter  336ms
+ ✓ server/meal-image.test.ts (20 tests) 2233ms
+   ✓ MorselService meal photos (in-memory repository) > log_meal with image_base64 stores the exact bytes and get_day returns image.path + signed_url  509ms
+   ✓ MorselService meal photos (in-memory repository) > reports image_error for a base64 photo over the 5 MB budget while still logging the meal  486ms
+   ✓ SupabaseRepository meal photo storage (HTTP fetch mock) > log_meal with image_base64 uploads bytes to {user_id}/{meal_log_id}.jpg under the user token; get_day returns the signed image  755ms
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (b): three consecutive refreshes with correctly rotated tokens succeed
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (b): three consecutive refreshes with correctly rotated tokens succeed
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (b): three consecutive refreshes with correctly rotated tokens succeed
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (b): three consecutive refreshes with correctly rotated tokens succeed
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): a duplicate refresh with the same OAuth refresh token inside the reuse window returns the current session instead of 400
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): a duplicate refresh with the same OAuth refresh token inside the reuse window returns the current session instead of 400
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): a duplicate refresh with the same OAuth refresh token inside the reuse window returns the current session instead of 400
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"c7N7Jf8V","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): concurrent duplicate refreshes share one upstream refresh (single-flight)
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"3Nu6rCRj","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): concurrent duplicate refreshes share one upstream refresh (single-flight)
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"3Nu6rCRj","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (a): concurrent duplicate refreshes share one upstream refresh (single-flight)
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"3Nu6rCRj","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (c): a refresh that omits resource after a resource-bearing authorization matches (RFC 8707)
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"3Nu6rCRj","resource":true}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (c): a refresh that omits resource after a resource-bearing authorization matches (RFC 8707)
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"3Nu6rCRj","resource":false}
+
+ ✓ scripts/migration-reconcile.test.mjs (37 tests) 6884ms
+   ✓ reconcile mode fail-closed behavior > fails closed with exit 2 when SUPABASE_PROJECT_REF is missing  685ms
+   ✓ reconcile mode fail-closed behavior > rejects --adopt and any other CLI argument  517ms
+   ✓ reconcile mode fail-closed behavior > CLI rejects malformed ref/token with fixed messages that omit the input  1409ms
+   ✓ reconcile mode fail-closed behavior > CLI rejects raw env values with leading/trailing whitespace (exit 2, no input echo)  3100ms
+   ✓ read-only mutation probes > never prints the project ref or token in the report, stdout, or errors  850ms
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (c): a refresh that omits resource after a resource-bearing authorization matches (RFC 8707)
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"3Nu6rCRj","resource":false}
+
+stdout | server/oauth.test.ts > OAuth discovery and MCP authentication > runs a PKCE authorization-code flow and rejects cross-instance code replay
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"3wAVnzqx","resource":false}
+
+stdout | server/oauth.test.ts > OAuth discovery and MCP authentication > runs a PKCE authorization-code flow and rejects cross-instance code replay
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"3wAVnzqx","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (d): refresh with a client_id from a later identical re-registration is accepted, logged, and re-sealed to the new client
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"3Nu6rCRj","resource":false}
+
+ ✓ app/warm-palette.test.ts (14 tests) 316ms
+ ✓ server/fly-entrypoint.test.ts (21 tests) 518ms
+ ✓ server/oauth.test.ts (64 tests) 2289ms
+   ✓ OAuth discovery and MCP authentication > canonical root transport (#57) > keeps an MCP client session usable across the root transport and the alias  755ms
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (d): refresh with a client_id from a later identical re-registration is accepted, logged, and re-sealed to the new client
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (d): refresh with a client_id from a later identical re-registration is accepted, logged, and re-sealed to the new client
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > keeps the strict client check when a later re-registration changes redirect_uris
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > fix-1: logs one structured failure line per token-endpoint failure with a fingerprint and no token material
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > fix-1: logs successful refreshes at debug level with the same client fingerprint
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > fix-1: logs successful refreshes at debug level with the same client fingerprint
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate after the reuse window fails with a precise invalid_grant when upstream reuse is disabled
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate after the reuse window fails with a precise invalid_grant when upstream reuse is disabled
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate inside the upstream reuse interval still returns the current session
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate inside the upstream reuse interval still returns the current session
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate inside the upstream reuse interval still returns the current session
+oauth token endpoint success {"grant_type":"refresh_token","client_id":"YCtd9-bw","resource":false}
+
+stdout | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a truly revoked session returns invalid_grant with a precise error_description
+oauth token endpoint success {"grant_type":"authorization_code","client_id":"YCtd9-bw","resource":false}
+
+ ✓ server/oauth-refresh.test.ts (11 tests) 3026ms
+   ✓ OAuth refresh grant hardening (issue #120) > scenario (b): three consecutive refreshes with correctly rotated tokens succeed  1111ms
+   ✓ OAuth refresh grant hardening (issue #120) > scenario (d): refresh with a client_id from a later identical re-registration is accepted, logged, and re-sealed to the new client  1153ms
+ ✓ server/service.test.ts (23 tests) 877ms
+   ✓ MorselService > supports search, correction, and deletion through the repository boundary  427ms
+ ✓ scripts/migration-recovery.test.mjs (42 tests) 9707ms
+   ✓ recovery runner CLI and preconditions > rejects --confirm without --apply and --apply without --confirm (exit 2)  454ms
+   ✓ recovery runner CLI and preconditions > rejects malformed env values with fixed messages that never echo input  383ms
+   ✓ recovery runner CLI and preconditions > usage exit 2 wins over the stale-checkout guard when ref is missing  2124ms
+   ✓ recovery runner CLI and preconditions > refuses apply from a stale checkout with exit 1 before any query  3260ms
+   ✓ recovery runner CLI and preconditions > refuses apply from a non-main local branch with exit 1  2357ms
+ ✓ packages/schema/food-types.test.ts (18 tests) 1192ms
+   ✓ Morsel tool schemas > publishes exactly the shipped artwork catalog without snapshot drift  681ms
+ ✓ plugins/morsel-contract.test.ts (9 tests) 52ms
+ ✓ app/v1-journal-contract.test.ts (12 tests) 497ms
+ ✓ db/migrations.test.ts (11 tests) 201ms
+ ✓ server/meal-image-fail-soft.test.ts (3 tests) 481ms
+ ✓ server/render.test.ts (5 tests) 81ms
+ ✓ server/chatgpt-tool-oauth.test.ts (5 tests) 3716ms
+   ✓ ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > emits the OpenAI oauth2 securitySchemes metadata for every protected tool on the tools/list wire  826ms
+   ✓ ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > surfaces the securitySchemes metadata to a real SDK client through listTools  1259ms
+   ✓ ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > answers an auth-failing read-only tool call on an established session with the _meta["mcp/www_authenticate"] challenge result  1610ms
+ ✓ scripts/apply-migrations.test.mjs (11 tests) 5911ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > returns usage exit 2 for missing ref before stale-checkout exit 1  3233ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > rejects --adopt (exit 2) and issues zero write statements  2439ms
+stdout | infra/supabase/config.test.mjs > writeAuthConfig HTTP method pinning (fix r1: PATCH, never PUT) > applies the auth config with PATCH against a /config/auth URL
+apply: PATCH auth config for project method-pin-probe-ref (changed keys: none)
+
+stdout | infra/supabase/config.test.mjs > writeAuthConfig HTTP method pinning (fix r1: PATCH, never PUT) > applies the auth config with PATCH against a /config/auth URL
+apply: postcondition re-check
+OK: no drift — all pinned Supabase auth config values match (SMTP host/user, OTP length 6, template {{ .Token }}, rate limit 30).
+
+ ✓ infra/supabase/config.test.mjs (19 tests) 33ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 13ms
+ ✓ scripts/ci-edge-probe-contract.test.mjs (6 tests) 73ms
+ ✓ skills/food-logging-contract.test.ts (10 tests) 294ms
+ ✓ server/goals-supersede.test.ts (2 tests) 424ms
+   ✓ manual goals supersede computed through the Supabase path (issue #154) > set_profile then set_goals: the fresh manual write is effective and no stale superseded payload rides along  385ms
+stdout | server/tools.test.ts > MCP tool registration metadata (tools/list) > emits the metadata a local inspector receives (evidence dump)
+MCP_LIST_TOOLS_EVIDENCE [{"name":"log_meal","title":"Log a meal","description":"Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["meal_type"],"outputRequired":["meal_log_id","recorded"]},{"name":"attach_meal_image","title":"Attach a photo to a logged meal","description":"Attach a food photo to an existing meal log when the meal was logged without one (or its photo failed to store). Send the photo bytes with image_base64; image_error reports a photo that could not be attached.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["meal_log_id"],"outputRequired":["ok","attached"]},{"name":"get_day","title":"Get a day of meals","description":"Read meals, nutrition totals, and the effective goal for one calendar day.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["date"],"outputRequired":["date","timezone","meals","totals","render"]},{"name":"search_food","title":"Search the food catalog","description":"Find catalog foods by name or barcode before estimating macros.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":true},"inputRequired":["query"],"outputRequired":["results"]},{"name":"list_menus","title":"List named menus","description":"List the caller's reusable named menus (issue #152). A menu is a meal-type-free bundle of items: log it under any meal section by passing its menu_name to log_meal, or seed a new one by logging items with a menu_name the user does not have yet.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["menus"]},{"name":"get_profile","title":"Get the body profile","description":"Read the body metrics used to compute nutrition targets.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["sex","age_years","height_cm","weight_kg","activity_level","diet_goal"]},{"name":"set_profile","title":"Set the body profile","description":"Create or replace the body metrics used to compute nutrition targets.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["sex","age_years","height_cm","weight_kg","activity_level","diet_goal"],"outputRequired":["ok","saved","effective_goal"]},{"name":"compute_targets","title":"Compute nutrition targets","description":"Compute BMR, TDEE, calories, and macros from the saved profile; uses the latest imported weight when available.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["bmr_kcal","tdee_kcal","calorie_target_kcal","protein_g","carbs_g","fat_g","weight_used"]},{"name":"get_goals","title":"Get the effective goal","description":"Read the effective computed or manually overridden nutrition goal.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["calorie_target_kcal","protein_g","carbs_g","fat_g","source"]},{"name":"set_goals","title":"Set manual goals","description":"Set one or more manual nutrition goal values; omitted values retain the effective target.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["ok","source"]},{"name":"reset_goals","title":"Reset manual goals","description":"Discard the stored manual goal override so the effective target returns to the computed values from the profile.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["ok","reset"]},{"name":"update_meal_item","title":"Update one meal item","description":"Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["item_id"],"outputRequired":["ok","updated"]},{"name":"delete_meal_log","title":"Delete a meal log","description":"Delete one meal log and its items owned by the caller.","annotations":{"readOnlyHint":false,"destructiveHint":true,"idempotentHint":false,"openWorldHint":false},"inputRequired":["meal_log_id"],"outputRequired":["ok","deleted"]},{"name":"get_weight_trend","title":"Get the weight trend","description":"Read imported body-mass measurements and the latest weight.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["date","timezone","series"]},{"name":"get_energy_burned","title":"Get energy burned","description":"Read daily active-energy burned measurements imported from Apple Health.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["date","timezone","series"]},{"name":"get_dashboard_summary","title":"Get the dashboard summary","description":"Summarize average calories, streak, macros, and weight trend over the requested number of days.","annotations":{"readOnlyHint":true,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"outputRequired":["date","timezone","avg_calories_kcal","streak_days","macro_split","weight_trend","render"]},{"name":"set_dated_target_addition","title":"Confirm a dated target addition","description":"Persist an explicitly confirmed nonnegative addition for one diary date. Zero removes it. Read get_day first for revision; past corrections require historical confirmation and manual targets require acknowledgement. Never invent a baseline or exercise recommendation.","annotations":{"readOnlyHint":false,"destructiveHint":false,"idempotentHint":false,"openWorldHint":false},"inputRequired":["date","addition_kcal","mutation_id"],"outputRequired":["dated_target"]}]
+
+ ✓ server/tools.test.ts (4 tests) 9097ms
+   ✓ MCP tool registration metadata (tools/list) > registers the existing tools plus the dated addition writer  2658ms
+   ✓ MCP tool registration metadata (tools/list) > emits title, existing description, explicit schemas, and the exact full annotation set for every tool  1092ms
+   ✓ MCP tool registration metadata (tools/list) > publishes artwork IDs and carries them through MCP calls without renaming food  5049ms
+ ✓ fastlane/testflight-config.test.ts (8 tests) 8ms
+ ✓ scripts/migration-cd-classifier.test.mjs (14 tests) 132ms
+ ✓ app/hotfix-89-contract.test.ts (9 tests) 49ms
+ ✓ app/unauth-action-tint.test.ts (7 tests) 12ms
+ ✓ server/named-menus.test.ts (6 tests) 362ms
+ ✓ app/version-metadata.test.ts (4 tests) 28ms
+ ✓ app/photo-edit-contract.test.ts (9 tests) 25ms
+ ✓ app/photo-pipeline-contract.test.ts (8 tests) 49ms
+ ✓ app/onboarding-contract.test.ts (6 tests) 134ms
+ ✓ app/issue-123-goals-polish-contract.test.ts (8 tests) 11ms
+ ✓ server/day-local.test.ts (5 tests) 284ms
+ ✓ scripts/migration-cd-pr-gate.test.mjs (11 tests) 31ms
+ ❯ server/http.test.ts (4 tests | 1 failed) 12885ms
+   × MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase 6843ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ MCP HTTP server > serves health and MCP routes below the configured function prefix 9ms
+   ✓ MCP HTTP server > refreshes the session repository token before a post-rotation tool call  3026ms
+   ✓ MCP HTTP server > keeps overlapping requests in one session on their own bearer contexts  2999ms
+ ✓ scripts/staging-ci-workflow-contract.test.mjs (17 tests) 48ms
+ ✓ app/issue-113-goals-contract.test.ts (8 tests) 48ms
+ ✓ app/training-fuel-contract.test.ts (6 tests) 9ms
+ ✓ app/issue-111-hinged-turn-contract.test.ts (7 tests) 7ms
+ ✓ app/issue-110-settings-theme-contract.test.ts (3 tests) 7ms
+ ✓ scripts/migration-drift-watchdog.test.mjs (7 tests) 41ms
+ ✓ scripts/migration-cd-shape.test.mjs (2 tests) 11ms
+ ✓ app/issue-125-apple-signin-contract.test.ts (2 tests) 7ms
+ ✓ server/nutrition-provider.test.ts (3 tests) 25ms
+ ✓ server/auth.test.ts (3 tests) 44ms
+ ✓ server/dated-targets.test.ts (3 tests) 172ms
+ ✓ server/render-png.test.ts (2 tests) 7846ms
+   ✓ render-png rasterizer > rasterizes the single-day dashboard SVG at 2x to a deterministic PNG with the paper palette and ring  3608ms
+   ✓ render-png rasterizer > rasterizes the week dashboard SVG with the trend at 1440x940 deterministically  4233ms
+ ❯ server/tool-classification.test.ts (6 tests | 1 failed) 17016ms
+   × annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched 7180ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ annotation classification vs real behavior > search_food is not advertised read-only because a provider miss persists shared-cache rows  328ms
+   ✓ annotation classification vs real behavior > write tools have their stated effects through the registration path  3565ms
+   ✓ annotation classification vs real behavior > delete_meal_log irreversibly removes the owned record and its items  2966ms
+   ✓ annotation classification vs real behavior > cross-user operations stay rejected and annotations cannot widen access  2926ms
+   ✓ annotation classification vs real behavior > annotations are advisory: a destructive-annotated delete of own data still executes 11ms
+stdout | db/postgres-integration.test.ts > local PostgreSQL migrations and RLS > round-trips dated baselines and additions through real authenticated persistence and read contracts
+DATED-MCP: authenticated tools/call persisted addition revision through the real SQL repository
+
+stdout | db/postgres-integration.test.ts > local PostgreSQL migrations and RLS > round-trips dated baselines and additions through real authenticated persistence and read contracts
+DATED-ROUNDTRIP: real SQL -> SupabaseRepository -> MorselService; 5 dates; baseline unavailable/2250/2400/2000/computed; zero/unlogged/partial; persisted revisions
+
+stdout | db/postgres-integration.test.ts > local PostgreSQL migrations and RLS > round-trips dated baselines and additions through real authenticated persistence and read contracts
+DATED-RLS: foreign read/write, direct history modification/forgery, anonymous RPC all refused
+
+ ✓ db/postgres-integration.test.ts (2 tests) 61956ms
+   ✓ local PostgreSQL migrations and RLS > round-trips dated baselines and additions through real authenticated persistence and read contracts  51173ms
+   ✓ local PostgreSQL migrations and RLS > applies migrations and enforces Supabase-like auth, RPC, and rollback behavior  10776ms
+ ✓ db/migration-recovery-integration.test.mjs (24 tests) 107880ms
+   ✓ schema recovery runner against a disposable PostgreSQL > classifies a fully file-applied schema under the #241 canonical: every migration VERIFIED_PRESENT (0013 owns the meal routine bodies; 0003/0010 carry no routine contract)  9406ms
+   ✓ schema recovery runner against a disposable PostgreSQL > prod-like partial schema under the #241 canonical: precise plan (0003/0010 VERIFIED_PRESENT, 0012/0013 REPAIR_REQUIRED), row-preserving repair of the missing migrations, converged end state verified  11490ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0013 converge revokes an explicit anon EXECUTE grant on log_meal_with_items (issue #84 drift class; owner re-pointed to 0013 by #241) and records the ledger row  31880ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converges an empty database through 0013 under the #241 canonical: every migration converges or records, the final state is fully verified, and a second apply is a no-op  5776ms
+   ✓ schema recovery runner against a disposable PostgreSQL > fails closed (zero writes) when both logged_at and measured_at exist  790ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 lossy numeric conversion is a read-only data dependency: blocks BEFORE any write and resumes losslessly after a human fix  4203ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0009 higher-precision values (100.05) block with zero writes and are preserved; one-decimal values convert losslessly  3296ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra nullable column added between preflight and the owner record aborts with NO ledger row  1222ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra CHECK and an extra UNIQUE index added between preflight and the owner record abort with NO ledger row  1811ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: a permissive extra policy added between preflight and the owner record aborts with NO ledger row  3065ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: an extra overload of a canonical routine added between preflight and the owner record aborts with NO ledger row  1956ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks apply when weight rows would violate the canonical unique constraint (data dependency)  1568ms
+   ✓ schema recovery runner against a disposable PostgreSQL > blocks when a recorded migration drifts from its contract  2048ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0013 routine log_meal_with_items: a body tampered after preflight aborts ledger recording; recorded drift blocks all writes  1342ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0013 routine log_meal_with_items_client: a body tampered after preflight aborts ledger recording; recorded drift blocks all writes  1423ms
+   ✓ schema recovery runner against a disposable PostgreSQL > 0013 routine upsert_menu: a body tampered after preflight aborts ledger recording; recorded drift blocks all writes  1520ms
+   ✓ schema recovery runner against a disposable PostgreSQL > complete file-applied schema + full ledger under the #241 canonical: every recorded migration VERIFIED_PRESENT, so apply is a no-op success with zero writes  1758ms
+   ✓ schema recovery runner against a disposable PostgreSQL > apply-migrations appends atomically on real Postgres: single request, failure leaves no ledger row, retry succeeds  764ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: schema drift between preflight and the record transaction aborts with NO ledger row  1213ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: security/function drift between preflight and the record transaction aborts with NO ledger row  1545ms
+   ✓ schema recovery runner against a disposable PostgreSQL > ledger-only race: policy qual drift between preflight and the record transaction aborts with NO ledger row  1448ms
+   ✓ schema recovery runner against a disposable PostgreSQL > converge-path race: mid-flight drift makes the guard abort the whole converge transaction (no ledger row)  1736ms
+   ✓ schema recovery runner against a disposable PostgreSQL > plan blocks an extra nullable column / extra CHECK / extra FK on a canonical table (never ledger-recorded)  1450ms
+   ✓ schema recovery runner against a disposable PostgreSQL > JS normalizeExpr and the SQL recovery_norm guard normalizer agree on the canonical corpus and live renderings  2224ms
+
+ Test Files  2 failed | 50 passed (52)
+      Tests  2 failed | 583 passed (585)
+     Errors  2 errors
+   Start at  09:17:55
+   Duration  144.44s (transform 12.05s, setup 0ms, collect 66.64s, tests 258.92s, environment 51ms, prepare 24.37s)
+
+stderr | scripts/migration-recovery.test.mjs > recovery runner CLI and preconditions > rejects --confirm without --apply and --apply without --confirm (exit 2)
+✗ SUPABASE_PROJECT_REF is required.
+
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-fSJMjl/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-fSJMjl/remote.git
+ * [new branch]      main -> main
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-fSJMjl/remote.git
+   83c2d42..3b9b883  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-J1bW1Y/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-J1bW1Y/remote.git
+ * [new branch]      main -> main
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-J1bW1Y/remote.git
+   9270f14..b7cd36c  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-J1bW1Y/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-J1bW1Y/remote.git
+   b7cd36c..817f983  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-HyxcbV/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+stderr | server/oauth.test.ts > OAuth discovery and MCP authentication > runs a PKCE authorization-code flow and rejects cross-instance code replay
+oauth token endpoint failure {"grant_type":"authorization_code","error":"invalid_grant","error_description":"authorization code is invalid or already used","client_id":"3wAVnzqx","resource":false}
+
+stderr | server/oauth.test.ts > OAuth discovery and MCP authentication > requires redirect_uri when the authorization request included one
+oauth token endpoint failure {"grant_type":"authorization_code","error":"invalid_grant","error_description":"redirect_uri does not match authorization request","client_id":"55nhSZmV","resource":false}
+
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (c): a refresh that omits resource after a resource-bearing authorization matches (RFC 8707)
+oauth token endpoint failure {"grant_type":"refresh_token","error":"invalid_grant","error_description":"resource does not match authorization request","client_id":"3Nu6rCRj","resource":true}
+
+stderr | server/oauth.test.ts > OAuth discovery and MCP authentication > rejects plain PKCE and a mismatched verifier
+oauth token endpoint failure {"grant_type":"authorization_code","error":"invalid_grant","error_description":"code_verifier does not match code_challenge","client_id":"55nhSZmV","resource":false}
+
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-HyxcbV/remote.git
+ * [new branch]      main -> main
+stderr | server/fly-entrypoint.test.ts > Fly origin route and metadata contract > serves /register, /authorize, and /token at the advertised Fly routes
+oauth token endpoint failure {"grant_type":"authorization_code","error":"invalid_grant","error_description":"token is invalid","client_id":"BCw7dk7H","resource":false}
+
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-HyxcbV/remote.git
+   dd9637a..cc65779  main -> main
+Switched to a new branch 'feature-x'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-recovery-HyxcbV/remote.git
+ * [new branch]      feature-x -> feature-x
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > scenario (d): refresh with a client_id from a later identical re-registration is accepted, logged, and re-sealed to the new client
+oauth refresh token client rebound {"previous_client_id":"3Nu6rCRj","client_id":"YCtd9-bw"}
+
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > keeps the strict client check when a later re-registration changes redirect_uris
+oauth token endpoint failure {"grant_type":"refresh_token","error":"invalid_grant","error_description":"refresh token is invalid","client_id":"IjOpBc8l","resource":false}
+
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > fix-1: logs one structured failure line per token-endpoint failure with a fingerprint and no token material
+oauth token endpoint failure {"grant_type":"refresh_token","error":"invalid_grant","error_description":"token is invalid","client_id":"YCtd9-bw","resource":false}
+
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a stale duplicate after the reuse window fails with a precise invalid_grant when upstream reuse is disabled
+oauth token endpoint failure {"grant_type":"refresh_token","error":"invalid_grant","error_description":"Supabase Auth rejected the refresh token: Invalid Refresh Token: Refresh Token Not Found (HTTP 400)","client_id":"YCtd9-bw","resource":false}
+
+stderr | server/oauth-refresh.test.ts > OAuth refresh grant hardening (issue #120) > a truly revoked session returns invalid_grant with a precise error_description
+oauth token endpoint failure {"grant_type":"refresh_token","error":"invalid_grant","error_description":"Supabase Auth rejected the refresh token: Invalid Refresh Token: Refresh Token Not Found (HTTP 400)","client_id":"YCtd9-bw","resource":false}
+
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-ga7dPu/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-ga7dPu/remote.git
+ * [new branch]      main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-ga7dPu/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-ga7dPu/remote.git
+   6725573..ae75702  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-mYbbAb/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-mYbbAb/remote.git
+ * [new branch]      main -> main
+stderr | server/meal-image-fail-soft.test.ts > fail-soft signed-URL reads (issue #149) > get_day returns the other meals and the corrupt meal without image when one object cannot be signed
+meal image signed URL unavailable {"count":1,"meal_image_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"storage_request_failed"}]}
+
+stderr | server/meal-image-fail-soft.test.ts > fail-soft signed-URL reads (issue #149) > get_day degrades when the storage request itself fails for one meal
+meal image signed URL unavailable {"count":1,"meal_image_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"storage_request_failed"}]}
+
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-mYbbAb/writer'...
+done.
+stderr | server/meal-image-fail-soft.test.ts > fail-soft signed-URL reads (issue #149) > get_dashboard_summary resolves across the same fail-soft read with both failure kinds
+meal image signed URL unavailable {"count":2,"meal_image_failures":[{"meal_log_id":"00000000-0000-4000-8000-000000000007","category":"storage_request_failed"},{"meal_log_id":"00000000-0000-4000-8000-000000000008","category":"storage_request_failed"}]}
+
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-mYbbAb/remote.git
+   3e8acd3..b5b0d42  main -> main
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ server/http.test.ts:92:3
+     90| 
+     91| describe('MCP HTTP server', () => {
+     92|   it('registers all tools and routes log_meal through the repository w…
+       |   ^
+     93|     const repository = new InMemoryRepository()
+     94|     const authenticate: Authenticate = (receivedToken) => Promise.reso…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ server/tool-classification.test.ts:139:3
+    137| 
+    138| describe('annotation classification vs real behavior', () => {
+    139|   it('read-only annotated tools never write: every read-only call leav…
+       |   ^
+    140|     const repository = new InMemoryRepository({ energyBurnedByUser: {
+    141|       [userA]: [{ date: '2026-08-25', active_kcal: 300 }],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: [vitest-worker]: Timeout calling "onTaskUpdate"
+ ❯ Object.onTimeoutError node_modules/vitest/dist/chunks/rpc.-pEldfrD.js:53:10
+ ❯ Timeout._onTimeout node_modules/vitest/dist/chunks/index.B521nVV-.js:59:62
+ ❯ listOnTimeout node:internal/timers:585:17
+ ❯ processTimers node:internal/timers:521:7
+
+
+⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯
+Error: [vitest-worker]: Timeout calling "onTaskUpdate"
+ ❯ Object.onTimeoutError node_modules/vitest/dist/chunks/rpc.-pEldfrD.js:53:10
+ ❯ Timeout._onTimeout node_modules/vitest/dist/chunks/index.B521nVV-.js:59:62
+ ❯ listOnTimeout node:internal/timers:585:17
+ ❯ processTimers node:internal/timers:521:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+RAW_EXIT=1
