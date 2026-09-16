@@ -281,6 +281,7 @@ private struct ErrorNotice: View {
                 .foregroundStyle(Color.morselOver)
             Button("Try again", action: retry)
                 .buttonStyle(MorselGhostButtonStyle())
+                .padding(.vertical, -2)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -297,7 +298,7 @@ private struct ErrorNotice: View {
 /// Red-flagged destructive action: the over token surface carries the page
 /// cream label in Paper; Night resolves the pair inverted (cream surface,
 /// ink label). Both pairs hold the strict 4.5:1 text contract.
-private struct MorselDestructiveButtonStyle: ButtonStyle {
+struct MorselDestructiveButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.morselBodyStrong)
@@ -306,6 +307,9 @@ private struct MorselDestructiveButtonStyle: ButtonStyle {
             .padding(.horizontal, 14)
             .background(Color.morselOver, in: RoundedRectangle(cornerRadius: 8))
             .opacity(configuration.isPressed ? 0.8 : 1)
+            .padding(.vertical, 2)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
     }
 }
 
@@ -328,12 +332,14 @@ struct DeleteMealPaperDialog: View {
             HStack(spacing: 10) {
                 Button("Cancel") { dismiss() }
                     .buttonStyle(MorselGhostButtonStyle())
+                    .padding(.vertical, -2)
                     .frame(maxWidth: .infinity)
                 Button("Delete \(meal.mealType.title)") {
                     onDelete()
                     dismiss()
                 }
                 .buttonStyle(MorselDestructiveButtonStyle())
+                .padding(.vertical, -2)
                 .frame(maxWidth: .infinity)
             }
             .padding(.top, 2)
