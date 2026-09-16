@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "method": "Fresh admitted real-browser capture; explicit HTML/CSS/font/image input pins; screenshot bytes compared to pre-recapture hashes.",
+  "capture_count": 16,
+  "all_screenshot_bytes_unchanged": true
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "expected_ids": [
+    "pancake",
+    "croissant",
+    "bacon",
+    "sausage",
+    "peanuts",
+    "ramen",
+    "donut",
+    "chicken-wings",
+    "grilled-squid",
+    "khanom-jeen",
+    "pad-thai",
+    "boba-tea"
+  ],
+  "source_sha256": {
+    "pancake": "9c501efea75430992a19f1953ed533140a84e74447563d821fd6253a8ad3f948",
+    "croissant": "75748ece350bbd64f259e1fbe14e53a56a15e9a96dadbe267c526195dc7aac29",
+    "bacon": "2cc82a2f4d781eec22d1da14f0d322d38d7b74870c3ad7c70b3ed7d9cb38e0db",
+    "sausage": "b7b67671a5f201709daae56fe21b4cc288d8880d141a28993ac6e93b504081e3",
+    "peanuts": "0afec7b786ed038da93be5d36e18f397ab105aa7ee6edd94ec5c8c72c6dec160",
+    "ramen": "dd2c89ffc30ec8077994febcf27c403432adc86afc7c6159d13cdd8c2e29d09b",
+    "donut": "d20f4c40dc47cec7e2e789211dec963839c33e8c90d2829ab9a5e4e33e9ce7a1",
+    "chicken-wings": "883287d0a9505241d6ba0b84e85c183e4b098b0092305c02b25a359294cc55b1",
+    "grilled-squid": "f1c4535976846d9f012072a02050688429122530b3ee665996934419fa0673ea",
+    "khanom-jeen": "56c4f9e75828ca915b9fd0a52505557cf70b1a45d2b49d0bae2de2ab3616cda0",
+    "pad-thai": "25fb62084e54b63f7132300c781d948474ccd4ef92f7ff2166829ee896de0c14",
+    "boba-tea": "dd996b243b7519c0e8fc898a60be69c74064c4cb9f9979e86a36d48c83aa5194"
+  },
+  "compiled_themes": [
+    "paper",
+    "night"
+  ]
+}

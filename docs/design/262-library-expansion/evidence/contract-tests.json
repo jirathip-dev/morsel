@@ -1,4 +1,9 @@
 {
+  "status": "PASS",
   "raw_exit": 0,
-  "command": "PYTHONDONTWRITEBYTECODE=1 python3 scripts/test_contract.py"
+  "tests_run": 13,
+  "assertion_failures": [],
+  "harness_errors": [],
+  "log": "evidence/contract-tests.log",
+  "fixture": "current complete canonical bundle"
 }

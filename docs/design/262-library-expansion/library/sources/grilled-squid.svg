@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Grilled squid — scored mantle and curled tentacle ink-wash study</title>
+<desc>Original generic food study with a warm cooked tube, broken char and a lime wedge. General coverage only, zero observed rows; not a meal photograph or a claim about an actual recipe, portion, ingredients or nutrition.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="quiet-contact-wash">
+ <path d="M69 173 C97 157 133 165 163 170 C187 172 210 188 207 196 C190 209 152 207 125 198 C106 187 78 190 69 173Z" fill="{{brown}}" opacity=".1" filter="url(#wash)"/>
+</g>
+<g id="curled-tentacles-pale-underpainting">
+ <path d="M147 137 C169 128 179 134 191 124 C203 115 204 106 211 109 C220 113 219 128 212 137 C205 146 192 150 181 153 L159 160 L154 149 C176 142 198 141 206 131 C211 125 212 117 208 116 C205 129 189 140 174 141Z" fill="{{cream}}"/>
+ <path d="M156 146 C180 141 193 155 203 166 C208 171 215 169 216 164 C221 167 220 176 214 179 C203 185 194 174 187 169 C178 162 168 164 155 158Z" fill="{{peach}}"/>
+ <path d="M163 149 C180 153 194 179 202 189 C208 196 217 192 215 187 C213 182 208 184 207 181 C220 176 225 190 216 199 C203 212 188 194 181 181 C174 169 165 167 156 166Z" fill="{{cream}}"/>
+ <path d="M157 151 C171 170 176 186 171 202 C167 216 153 219 147 210 C143 203 148 193 156 195 C151 199 149 205 153 209 C163 212 165 199 162 189 C159 179 148 172 145 163Z" fill="{{peach}}"/>
+ <path d="M152 151 C149 166 141 177 128 182 C115 187 116 199 125 200 C131 201 134 196 133 192 C140 194 137 204 129 207 C115 212 102 198 109 185 C115 172 132 170 137 158Z" fill="{{cream}}"/>
+ <path d="M150 145 C133 148 118 150 107 161 C101 168 92 173 87 167 C83 162 89 157 92 158 C94 151 83 151 79 160 C75 171 87 181 98 176 C112 171 115 161 130 162 L150 159Z" fill="{{peach}}"/>
+</g>
+<g id="tentacle-roasted-pigment" filter="url(#wash)">
+ <path d="M166 140 C184 143 203 133 208 119 C212 115 213 122 209 130 C200 145 180 151 163 155Z" fill="{{red}}" opacity=".36"/>
+ <path d="M167 150 C183 149 191 164 205 174 Q213 179 217 171 C215 184 204 180 197 174 C184 165 177 161 167 162Z" fill="{{brown}}" opacity=".4"/>
+ <path d="M163 160 C179 164 185 187 200 198 Q210 204 219 192 C217 207 204 208 194 198 C180 183 178 175 167 170Z" fill="{{red}}" opacity=".43"/>
+ <path d="M159 169 C169 179 176 203 164 211 Q153 221 147 208 C157 215 166 205 162 189Z" fill="{{brown}}" opacity=".36"/>
+ <path d="M140 170 C126 180 113 182 113 194 Q113 204 127 204 C109 211 104 196 112 184 Q121 174 140 170Z" fill="{{ochre}}" opacity=".4"/>
+ <path d="M137 152 C119 157 113 168 97 173 Q87 179 80 165 C82 184 99 179 108 171 C119 162 132 162 145 158Z" fill="{{red}}" opacity=".31"/>
+</g>
+<g id="mantle-side-fins">
+ <path d="M83 74 C70 74 55 81 46 94 C58 95 65 106 86 108 L103 103Z" fill="{{peach}}"/>
+ <path d="M95 64 C107 58 122 52 137 57 C130 71 143 84 140 95 L120 94Z" fill="{{cream}}"/>
+ <path d="M48 94 C69 88 74 104 92 102 L82 84 C67 84 57 88 48 94Z M111 66 Q125 55 137 57 C132 70 135 82 137 88 L125 84Z" fill="{{red}}" opacity=".34" filter="url(#wash)"/>
+ <path d="M48 94 Q59 97 69 102 M116 59 Q127 54 136 57 M137 73 l2 12" fill="none" stroke="{{line}}" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="cooked-tube-solid-underpainting">
+ <path d="M75 65 C84 55 100 55 113 65 C131 78 146 99 163 121 C174 133 174 146 164 153 C153 163 138 155 124 145 C105 129 89 108 80 90 C76 81 70 72 75 65Z" fill="{{cream}}"/>
+ <path d="M76 69 C85 57 101 65 113 75 C134 90 144 111 161 128 C168 136 166 149 154 151 C142 150 122 133 108 116 C94 101 82 85 76 69Z" fill="{{peach}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M81 85 C96 112 117 136 137 147 C151 158 165 151 169 140 C174 153 159 162 145 156 C120 146 95 118 84 97Z" fill="{{red}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M103 66 C120 73 143 103 153 116 C137 111 134 97 121 89 C108 84 109 73 103 66Z" fill="{{ochre}}" opacity=".32" filter="url(#wash)"/>
+ <path d="M91 68 Q100 66 111 79 L123 96 C108 91 101 79 94 78Z M112 112 Q124 119 133 134 L142 143 C129 138 118 128 112 112Z" fill="{{paper}}" opacity=".74" filter="url(#dry)"/>
+</g>
+<g id="scored-tube-grooves">
+ <path d="M85 88 C93 79 101 77 111 76 L115 81 C104 81 97 86 88 93Z M98 108 C106 97 118 94 128 95 L132 100 C119 99 108 105 102 112Z M114 128 C123 116 135 113 145 115 L149 120 C138 120 127 125 119 132Z M133 145 C141 134 153 131 164 133 L167 138 C155 137 145 141 138 149Z" fill="{{brown}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M88 88 Q98 80 109 79 M102 108 Q112 97 125 98 M119 128 Q130 116 143 118 M137 145 Q148 134 163 136" fill="none" stroke="{{line}}" stroke-width="1.25" stroke-linecap="round"/>
+ <path d="M90 91 Q99 84 108 83 M104 112 Q113 104 124 103 M121 131 Q130 123 140 123 M140 148 Q150 141 160 141" fill="none" stroke="{{paper}}" stroke-width="2.2" opacity=".88" filter="url(#dry)"/>
+</g>
+<g id="selective-char-and-collar">
+ <path d="M81 81 Q86 84 89 89 L87 94 Q81 88 81 81Z M99 106 l4 -5 l5 -1 l-4 8Z M117 125 l5 -6 l5 -1 l-4 7Z M149 119 l6 5 l1 6 l-4 -3Z M136 146 l6 -7 l5 -1 l-4 7Z" fill="{{brown}}" opacity=".79" filter="url(#dry)"/>
+ <path d="M151 151 C158 145 165 140 170 141 C171 147 168 152 162 155 C158 156 154 155 151 151Z" fill="{{brown}}" opacity=".67" filter="url(#wash)"/>
+ <path d="M155 151 Q162 146 168 145" fill="none" stroke="{{peach}}" stroke-width="2.4" opacity=".83"/>
+</g>
+<g id="broken-structural-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M75 65 Q84 55 95 58 M106 61 Q123 70 136 87" stroke-width=".7"/>
+ <path d="M145 101 Q156 115 165 127 M170 135 Q176 148 162 155 M149 157 Q133 152 122 142 M114 134 Q94 112 85 97 M79 85 l-4 -10" stroke-width="1.1"/>
+ <path d="M179 139 Q198 133 204 120 M211 110 Q224 114 213 135 M187 149 l-10 3 M190 161 Q205 181 215 175 M181 178 Q195 207 211 201 M215 195 Q221 186 213 182 M170 191 Q175 208 160 215 M148 208 Q145 201 153 196 M129 178 Q113 183 110 190 M111 199 Q118 212 132 204 M85 175 Q98 183 112 166" stroke-width=".8"/>
+ <path d="M174 155 l5 2 M183 163 l4 3 M186 183 l3 5 M195 196 l3 3 M168 199 l-1 4 M122 202 l4 0 M99 172 l4 -3" stroke-width=".6" opacity=".68"/>
+</g>
+<g id="few-pale-sucker-rims" fill="none" stroke="{{paper}}" stroke-width="1.4" opacity=".78">
+ <path d="M182 144 q-1 4 3 3 M190 140 q0 4 3 3 M198 135 q1 4 4 2 M180 174 q-3 2 -1 5 M186 185 q-3 2 0 5 M163 184 q-3 1 -2 4 M162 195 q-3 0 -2 4"/>
+</g>
+<g id="cut-lime-wedge">
+ <path d="M43 170 C51 157 68 151 83 155 L96 179 C81 193 56 190 43 170Z" fill="{{leaf}}"/>
+ <path d="M43 170 C56 183 78 187 96 179 L91 186 C71 198 47 184 43 170Z" fill="{{forest}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M49 168 Q65 156 80 158 L89 177 C73 184 58 177 49 168Z" fill="{{sage}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M52 167 L77 176 L67 159 M77 176 l6 -13" fill="none" stroke="{{paper}}" stroke-width="1.4" opacity=".89"/>
+ <path d="M45 166 Q60 151 79 154 M95 179 Q75 196 52 183 M48 179 l-5 -8" fill="none" stroke="{{line}}" stroke-width=".75" stroke-linecap="round"/>
+</g>
+</svg>

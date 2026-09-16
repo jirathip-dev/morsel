@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Peanuts — constricted pods, opened shell and loose kernels in ink and wash</title>
+<desc>Original generic peanut study for labeled general coverage. Shells and exposed kernels are recognition signs, not evidence of a logged food's preparation, portion, ingredients, allergy safety or nutrition.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="closed-pod-pale-shell-ground">
+ <path d="M48 114 C42 99 51 85 65 79 C74 75 83 79 91 75 C97 71 97 62 106 58 C122 49 141 54 147 67 C152 79 144 91 132 96 C123 100 123 106 117 114 C108 128 91 143 73 139 C60 137 51 128 48 114Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M49 110 C43 98 55 83 70 83 C82 84 91 78 97 70 C106 54 127 52 140 62 C156 77 137 93 125 97 C120 105 119 112 108 119 C97 130 87 138 71 133 C60 129 51 120 49 110Z" fill="{{ochre}}" opacity=".51" filter="url(#wash)"/>
+ <path d="M53 108 C62 118 68 127 81 127 C93 128 99 116 108 113 C119 109 113 100 126 94 C137 90 145 81 146 73 C150 88 137 96 128 100 C119 107 121 114 111 122 C96 138 82 144 66 136 C57 131 51 121 53 108Z" fill="{{brown}}" opacity=".33" filter="url(#wash)"/>
+ <path d="M60 94 C62 84 79 83 88 87 C94 88 100 82 105 76 C108 62 124 58 133 64 C123 65 114 69 114 78 C108 88 101 91 91 95 C80 99 77 91 68 100Z" fill="{{paper}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M58 109 C62 101 72 102 77 107 C78 115 86 111 92 109 C101 105 104 98 112 96 C110 108 102 120 92 124 C75 132 63 122 58 109Z" fill="{{gold}}" opacity=".25" filter="url(#wash)"/>
+</g>
+<g id="closed-shell-curved-net-ribs" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M61 86 C58 100 65 119 77 129 M78 83 C73 95 80 117 89 127 M92 84 C87 95 94 108 102 114 M107 65 C108 80 117 90 128 93 M121 59 C119 68 128 81 139 83" stroke-width=".76" opacity=".73"/>
+ <path d="M52 100 C63 95 75 97 83 101 M57 113 C70 108 79 111 89 114 M68 125 C77 120 86 124 94 120 M87 90 C95 90 103 84 109 80 M99 70 C113 75 124 72 134 65 M110 84 C121 85 130 79 141 73" stroke-width=".63" opacity=".8"/>
+ <path d="M49 104 C48 91 54 83 65 80 M78 79 C90 80 95 72 99 65 M110 57 C124 51 138 56 144 66" stroke-width=".67"/>
+ <path d="M148 75 C148 85 141 92 132 96 M124 102 C119 112 109 124 101 129 M91 136 C74 146 55 132 50 120" stroke-width="1.16"/>
+ <path d="M57 121 Q64 131 69 131 M75 136 Q83 140 89 136 M133 88 Q139 84 140 80" stroke-width=".5" opacity=".68"/>
+</g>
+<g id="opened-pod-shell-and-cavity">
+ <path d="M126 127 C122 115 132 101 145 100 C157 96 168 101 175 109 C181 116 184 113 193 116 C208 119 217 131 212 144 C207 159 188 166 176 158 C169 154 168 148 160 149 C144 151 131 143 126 127Z" fill="{{cream}}" opacity=".97"/>
+ <path d="M127 125 C128 111 138 101 151 103 C166 104 167 113 178 117 C186 120 191 116 201 124 C215 135 210 149 195 154 C184 160 177 150 169 147 C153 147 135 143 127 125Z" fill="{{ochre}}" opacity=".67" filter="url(#wash)"/>
+ <path d="M133 123 C132 111 149 105 159 112 C166 115 168 123 176 123 C187 119 203 131 204 140 C203 150 192 154 183 149 C175 145 175 139 163 140 C148 143 136 135 133 123Z" fill="{{brown}}" opacity=".59" filter="url(#wash)"/>
+ <path d="M135 129 C144 144 157 143 168 142 C176 145 177 153 187 155 C175 157 173 149 163 149 C149 151 140 141 135 129Z" fill="{{peach}}" opacity=".87"/>
+ <path d="M132 114 Q141 101 156 105 M166 108 Q170 120 181 120 M191 121 Q207 125 208 136" fill="none" stroke="{{paper}}" stroke-width="2.3" opacity=".7" filter="url(#dry)"/>
+</g>
+<g id="kernels-nested-within-open-shell">
+ <path d="M139 120 C139 112 149 108 156 112 C164 116 169 124 165 130 C161 136 151 136 145 131 C141 128 139 124 139 120Z" fill="{{peach}}"/>
+ <path d="M141 118 C145 110 158 114 161 122 C166 132 153 135 147 127 C144 124 144 122 141 118Z" fill="{{red}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M174 134 C174 126 183 124 190 128 C199 132 202 141 196 146 C190 151 180 145 177 141 C175 139 174 137 174 134Z" fill="{{peach}}"/>
+ <path d="M177 133 C180 127 189 130 193 137 C194 142 192 146 187 146 C181 143 178 138 177 133Z" fill="{{red}}" opacity=".39" filter="url(#wash)"/>
+ <path d="M147 116 C153 119 151 126 159 130 M180 131 C181 138 190 140 191 145" fill="none" stroke="{{line}}" stroke-width=".73" stroke-linecap="round"/>
+</g>
+<g id="open-shell-fibres-and-broken-edge" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M126 120 Q124 105 143 100 M152 99 Q167 100 175 109 M187 115 C201 116 213 126 214 136 M210 145 Q200 163 184 161 M172 155 Q169 148 157 150 M146 147 Q132 142 128 131" stroke-width=".95"/>
+ <path d="M136 136 Q139 142 144 144 M147 141 l3 6 M157 144 l2 4 M177 149 l-1 5 M186 154 l1 6 M196 152 l3 5 M204 146 l4 1" stroke-width=".54" opacity=".76"/>
+</g>
+<g id="loose-kernel-pale-grounds">
+ <path d="M63 154 C66 144 78 144 87 151 C97 157 105 168 100 176 C95 185 79 179 71 171 C66 166 61 160 63 154Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M97 150 C96 139 105 132 114 136 C124 140 134 150 130 159 C128 169 115 168 109 163 C103 160 99 157 97 150Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M128 165 C125 157 132 147 141 149 C155 149 164 160 158 168 C153 175 140 177 132 171Z" fill="{{peach}}" opacity=".98"/>
+ <path d="M94 186 C91 175 102 169 113 173 C126 178 134 187 128 195 C122 203 108 199 100 194Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M151 188 C145 182 151 172 161 168 C175 161 187 165 188 174 C187 185 171 194 161 193 C157 193 154 191 151 188Z" fill="{{peach}}" opacity=".98"/>
+</g>
+<g id="loose-kernel-uneven-skin-washes" filter="url(#wash)">
+ <path d="M64 154 C71 145 81 152 87 156 C96 162 101 170 95 176 C87 180 74 169 70 165 C73 161 68 157 64 154Z" fill="{{red}}" opacity=".44"/>
+ <path d="M99 146 C102 137 110 136 117 143 C123 146 130 154 126 160 C119 166 113 162 109 158 C111 153 101 153 99 146Z" fill="{{ochre}}" opacity=".4"/>
+ <path d="M129 161 C133 150 143 150 152 158 C159 160 158 166 151 170 C141 178 132 170 129 161Z" fill="{{red}}" opacity=".34"/>
+ <path d="M96 183 C96 176 105 172 114 178 C121 180 130 188 124 194 C115 200 104 191 96 183Z" fill="{{gold}}" opacity=".42"/>
+ <path d="M151 184 C158 183 157 175 167 171 C175 165 184 168 184 175 C183 184 168 190 159 190Z" fill="{{red}}" opacity=".47"/>
+ <path d="M69 164 C81 174 91 179 99 171 C99 180 90 182 81 175Z M110 160 Q124 166 129 155 C131 166 120 171 110 160Z M151 185 Q167 192 182 177 C180 190 160 200 151 185Z" fill="{{brown}}" opacity=".28"/>
+</g>
+<g id="kernel-clefts-and-papery-skin" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M72 151 C72 160 86 160 91 173 M104 141 C104 152 117 150 121 162 M136 154 Q144 158 150 168 M102 178 C106 186 117 184 122 194 M157 186 C167 186 167 175 179 173" stroke-width=".78" opacity=".92"/>
+ <path d="M63 156 Q59 164 72 172 M81 179 Q95 186 101 175 M98 143 Q102 132 113 136 M127 146 Q137 161 124 167 M131 153 Q125 156 129 167 M140 174 Q152 177 158 167 M94 185 Q95 194 107 197 M116 201 Q128 202 130 191 M151 179 Q146 186 154 191 M170 191 Q188 184 189 173" stroke-width=".66"/>
+</g>
+<g id="dry-shell-and-kernel-highlights" fill="none" stroke="{{paper}}" stroke-linecap="round" filter="url(#dry)" opacity=".72">
+ <path d="M62 90 Q67 86 72 89 M67 101 Q69 114 74 117 M114 64 Q124 59 132 65 M100 90 l8 -5 M77 152 Q83 154 86 158 M104 144 l3 5 M138 155 l7 2 M100 180 l6 3 M163 175 l8 -4" stroke-width="2.1"/>
+</g>
+</svg>

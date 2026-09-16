@@ -82,7 +82,7 @@ class ContractProbes(unittest.TestCase):
                 root=Path(temp)
                 p.ROOT=root
                 (root/'a.txt').write_text('original\n')
-                p.save(root/'SHA256SUMS.json',{'sha256':{'a.txt':p.sha(root/'a.txt')}})
+                p.save(root/'SHA256SUMS.json',{'excludes_itself':True,'file_count':1,'total_bytes_excluding_manifest':(root/'a.txt').stat().st_size,'sha256':{'a.txt':p.sha(root/'a.txt')}})
                 p.check_package()
                 (root/'extra.tmp').write_text('unexpected\n')
                 with self.assertRaises(ValueError): p.check_package()

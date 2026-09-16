@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Sausage — two browned scored links and a mustard dab</title>
+<desc>Original generic ink-and-wash study of two differently curved link sausages, with pinched casing ends and opened knife scores. General coverage only; not an identified recipe, meat, portion or nutrition claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="rear-link-pinched-casing-ends">
+ <path d="M57 111 Q52 115 50 119 L42 119 L44 125 L41 130 Q49 132 57 124 L63 122Z" fill="#FBE1C9" opacity=".95"/>
+ <path d="M53 116 L48 121 L43 120 L46 125 L43 129 Q49 129 57 123Z" fill="#A5750B" opacity=".57" filter="url(#wash)"/>
+ <path d="M185 70 Q194 73 198 69 L205 64 L205 72 L211 75 Q203 81 193 80 L187 83Z" fill="#FBE1C9" opacity=".93"/>
+ <path d="M195 72 L203 68 L202 74 L209 75 Q202 80 194 78Z" fill="#B94738" opacity=".62" filter="url(#wash)"/>
+ <path d="M54 117 Q50 123 44 124 M47 129 L55 123 M197 72 L201 76 M203 68 L203 73 L209 75" fill="none" stroke="#8B7355" stroke-width=".72" stroke-linecap="round"/>
+</g>
+<g id="rear-curved-link-underpainting">
+ <path d="M55 105 C67 83 104 64 137 58 C157 54 177 51 189 63 C200 74 196 89 184 99 C161 117 126 127 89 133 C72 137 57 130 53 119 Q50 112 55 105Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M55 107 C67 87 105 66 140 59 C160 56 178 55 188 65 C197 74 194 88 181 99 C156 117 124 125 89 131 C72 135 56 128 54 117Z" fill="#A5750B" opacity=".63" filter="url(#wash)"/>
+ <path d="M59 104 C69 93 84 87 96 81 C112 77 125 66 145 64 C164 58 180 61 188 68 C179 65 166 76 152 77 C133 78 124 93 106 95 C93 95 86 111 74 111 Q63 113 59 119Z" fill="#E66A2C" opacity=".53" filter="url(#wash)"/>
+ <path d="M63 115 C84 115 95 109 112 107 C135 104 150 90 169 88 Q187 88 192 74 C197 88 181 102 168 109 C149 119 124 125 89 132 C76 134 62 131 57 121Z" fill="#B94738" opacity=".65" filter="url(#wash)"/>
+ <path d="M61 124 C77 131 95 119 111 122 C132 119 140 114 157 111 C171 106 184 98 192 87 C187 100 174 109 159 115 C140 123 115 128 90 132 C77 136 65 131 61 124Z" fill="#655A4B" opacity=".55" filter="url(#wash)"/>
+ <path d="M69 96 C83 85 97 79 108 76 L104 84 C87 90 83 96 72 103Z M125 68 Q146 59 161 61 L157 67 Q143 66 131 73Z M171 64 Q181 63 187 70 L183 77 Q179 67 171 68Z" fill="#FBE1C9" opacity=".58" filter="url(#dry)"/>
+ <path d="M66 117 Q72 116 77 120 L73 124 L65 123Z M110 112 Q116 106 123 110 L121 115 L113 117Z M161 95 Q169 90 176 92 L172 98 L164 100Z" fill="#655A4B" opacity=".4" filter="url(#dry)"/>
+</g>
+<g id="rear-link-three-open-scores">
+ <path d="M82 88 Q91 96 101 116 Q95 113 91 108 Q85 100 81 92Z" fill="#655A4B" opacity=".86"/>
+ <path d="M83 86 C91 92 95 101 99 111 C92 107 87 99 83 92Z" fill="#FBE1C9" opacity=".95"/>
+ <path d="M84 90 Q90 97 93 103 L95 109 Q88 103 84 94Z" fill="#F2E9D9" opacity=".63" filter="url(#dry)"/>
+ <path d="M118 73 Q128 79 136 103 L131 104 Q122 93 117 79Z" fill="#655A4B" opacity=".85"/>
+ <path d="M119 71 C127 77 132 89 134 98 C127 94 122 85 119 79Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M120 75 Q128 83 130 94 L126 90 Q122 83 120 75Z" fill="#F2E9D9" opacity=".66" filter="url(#dry)"/>
+ <path d="M156 61 Q166 70 172 86 L168 90 Q159 80 154 66Z" fill="#655A4B" opacity=".87"/>
+ <path d="M156 60 Q165 66 169 82 C164 80 159 72 156 66Z" fill="#FBE1C9" opacity=".96"/>
+ <path d="M157 64 Q163 69 165 77" fill="none" stroke="#F2E9D9" stroke-width="2.2" opacity=".63" filter="url(#dry)"/>
+ <path d="M81 89 Q85 104 96 113 M117 76 Q122 93 130 101 M154 64 Q159 78 168 87" fill="none" stroke="#8B7355" stroke-width=".74" stroke-linecap="round"/>
+</g>
+<g id="rear-link-selective-casing-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M55 105 Q60 95 70 88 M78 82 Q93 72 105 69 M119 63 Q145 56 158 55 M176 56 Q189 59 194 71" stroke-width=".67"/>
+ <path d="M195 78 Q194 91 184 99 M176 105 Q153 120 126 125 M113 128 Q85 137 70 132 Q55 128 53 117" stroke-width="1.18"/>
+ <path d="M60 111 Q59 119 65 123 M184 68 Q190 76 187 82 M66 128 l6 3 M78 132 l7 -1 M147 119 l9 -4" stroke-width=".49" opacity=".72"/>
+</g>
+<g id="front-link-twisted-ends">
+ <path d="M66 146 L54 147 L48 142 L47 150 L43 154 Q50 161 60 158 L67 156Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M56 149 L49 146 L50 152 L45 155 Q53 159 61 155Z" fill="#A5750B" opacity=".66" filter="url(#wash)"/>
+ <path d="M201 166 Q211 167 216 161 L219 166 L222 166 L220 173 L223 178 L215 180 Q211 175 203 178Z" fill="#FBE1C9" opacity=".95"/>
+ <path d="M208 169 L216 165 L217 170 L221 176 L216 178 L211 174 L206 176Z" fill="#B94738" opacity=".66" filter="url(#wash)"/>
+ <path d="M49 144 L49 151 L45 154 M50 155 L57 153 M215 165 Q214 171 218 176 M210 172 l5 1" fill="none" stroke="#8B7355" stroke-width=".72" stroke-linecap="round"/>
+</g>
+<g id="front-bowed-link-underpainting">
+ <path d="M67 137 C88 125 114 126 141 131 C166 134 191 140 203 151 C216 163 211 179 196 186 C183 191 168 184 155 180 C128 172 103 178 80 175 C65 174 54 164 56 153 C57 146 61 141 67 137Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M68 138 C90 128 115 128 141 133 C166 135 190 142 201 152 C212 162 209 177 195 184 C183 189 167 182 154 178 C130 172 101 175 80 173 C65 171 55 162 58 152 Q60 143 68 138Z" fill="#B94738" opacity=".76" filter="url(#wash)"/>
+ <path d="M64 145 C83 131 104 135 123 134 C145 137 159 137 180 144 Q198 149 203 161 C189 162 176 152 165 154 C151 155 139 146 123 148 C101 149 90 142 72 152 L61 157Z" fill="#A5750B" opacity=".54" filter="url(#wash)"/>
+ <path d="M67 161 C83 167 97 162 112 164 C130 160 146 167 160 167 C178 175 194 181 208 168 C207 179 196 187 188 187 C175 186 165 181 154 179 C129 173 102 177 79 175 C69 173 62 169 60 162Z" fill="#655A4B" opacity=".56" filter="url(#wash)"/>
+ <path d="M80 139 C91 133 105 135 116 135 L128 139 L124 145 Q105 139 91 145 L78 146Z M140 139 Q164 140 181 148 L178 155 Q161 149 145 148Z M188 151 Q201 155 203 164 L198 169 Q197 159 188 156Z" fill="#E66A2C" opacity=".45" filter="url(#wash)"/>
+ <path d="M68 142 Q76 138 84 138 L81 143 Q72 144 65 149Z M104 135 Q119 135 127 139 L123 142 L109 140Z M146 141 Q159 141 170 147 L165 150 Q156 147 150 148Z" fill="#FBE1C9" opacity=".55" filter="url(#dry)"/>
+ <path d="M69 157 Q76 154 81 158 L78 162 L71 162Z M112 156 Q120 153 126 157 L123 163 L116 163Z M178 168 Q184 164 191 169 L189 174 L181 173Z" fill="#655A4B" opacity=".44" filter="url(#dry)"/>
+</g>
+<g id="front-link-three-splayed-knife-scores">
+ <path d="M96 131 Q102 132 104 136 C98 146 95 156 88 164 L83 163 C86 151 90 140 96 131Z" fill="#655A4B" opacity=".88"/>
+ <path d="M98 132 L101 136 C95 146 91 155 87 159 C88 148 93 138 98 132Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M97 138 Q91 147 89 154" fill="none" stroke="#F2E9D9" stroke-width="2.3" opacity=".74" filter="url(#dry)"/>
+ <path d="M139 135 L143 141 Q134 156 128 169 L123 167 Q127 148 136 136Z" fill="#655A4B" opacity=".88"/>
+ <path d="M139 137 L140 141 Q133 154 127 163 C128 153 132 143 139 137Z" fill="#FBE1C9" opacity=".97"/>
+ <path d="M136 144 Q131 150 130 155 L128 160" fill="none" stroke="#F2E9D9" stroke-width="2.1" opacity=".7" filter="url(#dry)"/>
+ <path d="M179 145 Q184 146 184 151 Q176 160 169 176 L164 174 Q167 156 179 145Z" fill="#655A4B" opacity=".85"/>
+ <path d="M180 146 L181 151 C174 158 173 164 168 170 C169 158 174 151 180 146Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M177 152 Q172 159 170 164" fill="none" stroke="#F2E9D9" stroke-width="2.4" opacity=".72" filter="url(#dry)"/>
+ <path d="M96 133 Q86 148 84 160 M136 139 Q127 151 124 164 M178 148 Q168 159 165 172" fill="none" stroke="#8B7355" stroke-width=".79" stroke-linecap="round"/>
+</g>
+<g id="front-link-broken-skin-edge" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M59 147 Q64 135 80 132 M90 129 Q116 126 132 130 M146 132 Q172 136 187 142 M195 145 Q207 152 210 162" stroke-width=".7"/>
+ <path d="M210 169 Q207 183 195 187 Q185 189 178 187 M168 183 Q157 180 146 177 M136 176 Q112 176 102 176 M90 176 Q69 177 61 168 Q56 162 56 155" stroke-width="1.25"/>
+ <path d="M64 146 Q59 153 64 161 M201 157 Q206 164 202 171 M69 169 l7 3 M81 173 l6 1 M157 176 l7 2 M193 182 l5 -3" stroke-width=".48" opacity=".7"/>
+</g>
+<g id="small-mustard-dab">
+ <path d="M81 201 C80 193 89 191 91 187 Q93 184 92 181 C99 182 97 191 105 193 C115 195 119 204 109 209 C100 213 85 210 81 205Z" fill="#D6A62C" opacity=".88"/>
+ <path d="M84 201 C88 197 94 201 98 195 C106 194 110 198 114 202 C110 209 101 211 91 208 Q86 208 84 205Z" fill="#A5750B" opacity=".49" filter="url(#wash)"/>
+ <path d="M86 198 Q97 199 100 194 L104 197 Q98 204 88 202Z" fill="#F2E9D9" opacity=".62" filter="url(#dry)"/>
+ <path d="M81 200 Q80 194 86 192 M93 184 Q95 192 102 194 M114 200 Q119 206 107 210 M100 211 Q88 212 82 205" fill="none" stroke="#8B7355" stroke-width=".67" stroke-linecap="round"/>
+</g>
+</svg>

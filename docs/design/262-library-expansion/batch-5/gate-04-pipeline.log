@@ -1,0 +1,1 @@
+{"status": "PASS", "raw_exit": 0, "batch": 5, "method": "Fresh scratch; no build-cache; recompile every new master and rerender every new 64/192/512 RGBA export in both themes; compare SHA-256; remove owned scratch.", "files_compared": 96}

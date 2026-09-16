@@ -1,0 +1,145 @@
+{
+  "assets": [
+    {
+      "id": "pancake",
+      "name": "Pancakes",
+      "aliases": [
+        "pancakes",
+        "hotcakes",
+        "แพนเค้ก"
+      ],
+      "category": "grains",
+      "description": "A short stack of three pancakes with a butter square and a syrup drip.",
+      "kind": "food"
+    },
+    {
+      "id": "croissant",
+      "name": "Croissant",
+      "aliases": [
+        "pastry",
+        "ครัวซองต์"
+      ],
+      "category": "grains",
+      "description": "A single flaky croissant with layered crescent ink and a golden dry-brush top.",
+      "kind": "food"
+    },
+    {
+      "id": "bacon",
+      "name": "Bacon",
+      "aliases": [
+        "streaky bacon",
+        "เบคอน"
+      ],
+      "category": "protein",
+      "description": "Three wavy bacon rashers with red-brown meat bands and pale fat ribbons.",
+      "kind": "food"
+    },
+    {
+      "id": "sausage",
+      "name": "Sausage",
+      "aliases": [
+        "sausages",
+        "hot dog",
+        "ไส้กรอก"
+      ],
+      "category": "protein",
+      "description": "Two browned link sausages with a knife score and a small mustard dab.",
+      "kind": "food"
+    },
+    {
+      "id": "peanuts",
+      "name": "Peanuts",
+      "aliases": [
+        "roasted peanuts",
+        "peanut butter",
+        "ถั่วลิสง"
+      ],
+      "category": "protein",
+      "description": "A small heap of shelled peanuts with two in shell, ochre/brown wash.",
+      "kind": "food"
+    },
+    {
+      "id": "ramen",
+      "name": "Ramen",
+      "aliases": [
+        "ramen bowl",
+        "tonkotsu",
+        "ราเมง"
+      ],
+      "category": "grains",
+      "description": "A deep bowl of wavy noodles in pale broth with a halved egg, chashu slice and nori.",
+      "kind": "food"
+    },
+    {
+      "id": "donut",
+      "name": "Donut",
+      "aliases": [
+        "doughnut",
+        "โดนัท"
+      ],
+      "category": "sweets",
+      "description": "A ring donut with a glossy glaze wash and a bite taken out.",
+      "kind": "food"
+    },
+    {
+      "id": "chicken-wings",
+      "name": "Chicken wings",
+      "aliases": [
+        "wings",
+        "buffalo wings",
+        "ปีกไก่"
+      ],
+      "category": "protein",
+      "description": "Three glazed chicken wings with char marks and a celery stick.",
+      "kind": "food"
+    },
+    {
+      "id": "grilled-squid",
+      "name": "Grilled squid",
+      "aliases": [
+        "squid",
+        "calamari",
+        "ปลาหมึกย่าง",
+        "ปลาหมึก"
+      ],
+      "category": "protein",
+      "description": "A scored grilled squid tube with tentacles, char marks and a lime wedge.",
+      "kind": "food"
+    },
+    {
+      "id": "khanom-jeen",
+      "name": "Khanom jeen",
+      "aliases": [
+        "thai rice vermicelli",
+        "rice vermicelli",
+        "ขนมจีน"
+      ],
+      "category": "grains",
+      "description": "Coiled nests of thin white rice noodles on a plate with a curry pour and herb marks.",
+      "kind": "food"
+    },
+    {
+      "id": "pad-thai",
+      "name": "Pad thai",
+      "aliases": [
+        "phat thai",
+        "ผัดไทย"
+      ],
+      "category": "prepared",
+      "description": "Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.",
+      "kind": "food"
+    },
+    {
+      "id": "boba-tea",
+      "name": "Boba tea",
+      "aliases": [
+        "boba",
+        "pearl milk tea",
+        "ชาไข่มุก"
+      ],
+      "category": "drinks",
+      "description": "A domed-lid cup with dark tapioca pearls and a wide straw, cream/brown wash.",
+      "kind": "food"
+    }
+  ]
+}

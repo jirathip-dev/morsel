@@ -32,7 +32,9 @@ def main(through,remote):
     p.require(ids==expected and len(set(ids))==len(ids),'rollup identity set differs')
     p.require(all(x['source_sha256']==p.sha(p.LIB/f"sources/{x['id']}.svg") for x in rollup['identities']),'stale per-identity source hashes')
     browser_total=0
+    p.check_index_evidence(through)
     for b in range(1,through+1):
+        p.check_batch_evidence(b)
         d=root/f'batch-{b}'
         data=p.read(d/'browser.json')
         p.require(data['status']=='PASS','incomplete batch browser evidence')

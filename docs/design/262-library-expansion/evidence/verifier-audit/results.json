@@ -1,0 +1,35 @@
+{
+  "red": {
+    "raw_exit": 1,
+    "tests_run": 10,
+    "assertion_failures": [
+      "test_empty_browser_rejected",
+      "test_empty_index_rejected",
+      "test_empty_rebuild_rejected",
+      "test_false_manifest_bytes_rejected",
+      "test_false_manifest_count_rejected",
+      "test_missing_browser_pins_rejected",
+      "test_missing_catalog_additions_rejected",
+      "test_wrong_catalog_path_rejected"
+    ],
+    "harness_errors": [],
+    "log": "evidence/verifier-audit/red.log",
+    "fixture": "current complete canonical bundle"
+  },
+  "green": {
+    "raw_exit": 0,
+    "tests_run": 10,
+    "assertion_failures": [],
+    "harness_errors": [],
+    "log": "evidence/verifier-audit/green.log",
+    "fixture": "current complete canonical bundle"
+  },
+  "library": {
+    "raw_exit": 0,
+    "tests_run": 13,
+    "assertion_failures": [],
+    "harness_errors": [],
+    "log": "evidence/contract-tests.log",
+    "fixture": "current complete canonical bundle"
+  }
+}

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Pancakes — three soft layers, butter and an amber syrup fall</title>
+<desc>Original ink-and-wash category study. Unequal griddled discs have pale crumb bands beneath a pooled syrup spill; not a meal, recipe or portion assertion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="quiet-earthenware-plate">
+ <path d="M36 172 C41 158 81 154 118 155 C163 152 204 159 219 174 C231 188 195 202 149 204 C98 208 50 196 37 185 Q32 180 36 172Z" fill="#F2E9D9" opacity=".9"/>
+ <path d="M38 180 C62 194 104 199 146 198 C176 198 203 190 219 179 C214 195 176 206 140 204 C93 205 51 194 38 180Z" fill="#655A4B" opacity=".15" filter="url(#wash)"/>
+ <path d="M54 177 C77 169 100 166 128 167 C165 165 192 174 202 181 C167 195 98 194 54 177Z" fill="#A5750B" opacity=".13" filter="url(#wash)"/>
+ <path d="M36 173 Q42 163 65 160 M184 160 Q212 165 220 177 M217 186 Q198 200 161 203 M143 205 Q78 207 45 189" fill="none" stroke="#8B7355" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="bottom-pancake-soft-crumb">
+ <path d="M51 143 C60 131 99 128 134 128 C170 127 198 135 205 144 L205 157 C202 171 167 180 132 180 C95 180 60 172 53 162 Q50 153 51 143Z" fill="#F2E9D9"/>
+ <path d="M54 153 C76 166 108 167 138 168 C166 168 190 162 204 152 L202 164 C187 178 151 181 124 178 C91 179 62 172 54 161Z" fill="#D6A62C" opacity=".49" filter="url(#wash)"/>
+ <path d="M60 164 C85 171 102 168 119 173 C140 179 160 167 178 173 L192 169 C176 179 145 180 123 178 C90 177 70 174 60 164Z" fill="#A5750B" opacity=".42" filter="url(#wash)"/>
+ <path d="M53 142 C67 128 102 126 135 129 C166 126 197 135 205 144 C201 157 167 165 134 166 C94 165 61 157 53 149Z" fill="#A5750B" opacity=".67" filter="url(#wash)"/>
+ <path d="M64 159 Q87 168 105 167 M115 169 Q140 173 156 168 M170 167 l13 -4" fill="none" stroke="#FBE1C9" stroke-width="3.1" opacity=".72" filter="url(#dry)"/>
+</g>
+<g id="middle-pancake-uneven-rise">
+ <path d="M46 121 C55 107 93 103 129 106 C166 104 197 111 207 124 L205 138 C198 150 168 156 131 156 C91 155 58 147 49 137Z" fill="#F2E9D9"/>
+ <path d="M50 131 C68 140 93 144 118 145 C151 149 182 142 204 132 L202 142 C180 155 154 157 123 154 C90 154 61 146 50 137Z" fill="#D6A62C" opacity=".42" filter="url(#wash)"/>
+ <path d="M67 144 C86 147 104 144 121 149 C144 154 177 143 193 145 C178 153 152 157 126 154 Q88 153 67 144Z" fill="#A5750B" opacity=".51" filter="url(#wash)"/>
+ <path d="M47 121 C59 108 91 102 128 105 C163 103 195 112 207 124 C205 135 168 143 132 144 C92 143 58 136 47 127Z" fill="#D6A62C" opacity=".78" filter="url(#wash)"/>
+ <path d="M52 126 C74 137 100 138 126 139 C158 143 188 133 203 128 Q191 141 165 143 C113 150 64 139 52 131Z" fill="#A5750B" opacity=".5" filter="url(#wash)"/>
+ <path d="M57 136 Q79 144 99 144 M111 147 l23 1 M180 144 l14 -5" fill="none" stroke="#FBE1C9" stroke-width="2.6" opacity=".76" filter="url(#dry)"/>
+</g>
+<g id="top-pancake-pale-edge">
+ <path d="M51 101 C53 86 90 77 125 79 C161 76 193 84 202 99 L203 114 C197 128 158 133 128 132 C93 133 62 126 54 115Z" fill="#F2E9D9"/>
+ <path d="M55 109 C83 121 113 119 138 123 C164 122 188 118 201 107 L201 116 C182 131 151 133 126 131 C94 131 66 123 55 116Z" fill="#D6A62C" opacity=".52" filter="url(#wash)"/>
+ <path d="M146 125 C166 121 190 119 199 111 L201 116 C188 127 166 131 151 131Z" fill="#A5750B" opacity=".45" filter="url(#wash)"/>
+</g>
+<g id="patchy-griddle-top">
+ <path d="M51 100 C56 86 88 77 119 78 C155 75 187 83 201 96 C212 109 178 120 143 122 C103 125 62 117 52 107Z" fill="#FBE1C9"/>
+ <path d="M56 100 C65 87 92 81 122 82 C149 78 182 88 195 96 C205 107 174 118 142 118 C109 123 69 113 56 106Z" fill="#D6A62C" opacity=".68" filter="url(#wash)"/>
+ <path d="M61 101 C71 89 90 89 103 86 C96 94 81 94 84 104 C92 111 110 112 113 117 C87 116 64 111 61 101Z" fill="#A5750B" opacity=".35" filter="url(#wash)"/>
+ <path d="M139 84 C164 85 186 90 191 99 C185 106 170 106 163 113 C150 115 137 119 127 113 C141 106 161 110 158 99 C154 91 146 93 139 84Z" fill="#E66A2C" opacity=".22" filter="url(#wash)"/>
+ <path d="M65 100 Q74 89 89 90 M172 91 l11 4 M73 108 l13 3" fill="none" stroke="#F2E9D9" stroke-width="3.2" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="pooled-syrup-and-broad-fall">
+ <path d="M97 96 C96 88 110 87 122 90 C137 84 150 90 156 94 C170 95 181 98 179 104 C177 109 163 110 158 114 C151 119 159 136 155 147 C152 156 147 160 141 157 C134 154 140 141 137 132 C133 125 122 125 119 119 C115 115 102 116 99 111 C96 107 109 105 107 103 Q96 103 97 96Z" fill="#A5750B" opacity=".86" filter="url(#wash)"/>
+ <path d="M106 95 Q120 91 135 95 C151 90 153 100 173 102 Q168 108 153 110 C144 117 152 134 149 145 Q148 151 144 151 C147 135 136 122 126 119 C120 113 108 114 108 109 L122 104Z" fill="#655A4B" opacity=".36" filter="url(#wash)"/>
+ <path d="M174 106 C181 109 186 111 185 119 L184 132 Q184 138 179 138 C175 135 178 126 175 119 L168 113Z" fill="#A5750B" opacity=".69" filter="url(#wash)"/>
+ <path d="M149 122 Q154 138 151 147 M180 120 l-1 9" fill="none" stroke="#8B7355" stroke-width=".7" opacity=".65"/>
+</g>
+<g id="soft-butter-square">
+ <path d="M108 85 L130 81 Q134 81 137 83 L146 95 L144 102 L118 106 L108 95Z" fill="#F2E9D9"/>
+ <path d="M108 87 L131 83 L142 96 L119 100Z" fill="#D6A62C" opacity=".42" filter="url(#wash)"/>
+ <path d="M119 100 L142 96 L144 102 L119 106 L110 96 L109 91Z" fill="#D6A62C" opacity=".64" filter="url(#wash)"/>
+ <path d="M112 87 l16 -3 l8 8 l-17 4Z" fill="#FFF7E8" opacity=".57" filter="url(#dry)"/>
+ <path d="M109 87 l10 13 l16 -2 M144 97 l-1 5 l-21 4" fill="none" stroke="#8B7355" stroke-width=".66" stroke-linejoin="round"/>
+</g>
+<g id="selective-layer-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M52 99 Q54 87 79 82 M94 79 l17 -1 M169 82 Q192 88 200 97" stroke-width=".65"/>
+ <path d="M54 110 Q65 125 99 129 M106 131 l19 1 M161 129 Q192 125 201 117" stroke-width="1.15"/>
+ <path d="M48 127 l2 10 Q58 146 82 150 M94 153 Q113 156 129 156 M164 154 Q191 149 203 140" stroke-width="1.05"/>
+ <path d="M52 151 l2 11 Q65 173 91 176 M109 179 Q164 185 191 171 M202 164 l3 -8" stroke-width="1.25"/>
+ <path d="M67 120 l5 3 M83 124 l4 1 M62 141 l4 2 M78 146 l5 1 M67 166 l6 2 M91 171 l4 1 M168 173 l6 -2" stroke-width=".5" opacity=".56"/>
+</g>
+</svg>

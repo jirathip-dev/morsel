@@ -1,0 +1,228 @@
+CORRECTED_GREEN_PROBE
+test_empty_browser_rejected (__main__.EvidenceContract.test_empty_browser_rejected) ... /Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-01-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-02-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-03-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-04-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-05-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-06-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-01-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-02-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-03-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-04-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-05-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/phone-06-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/gallery-paper-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/gallery-paper-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/gallery-night-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-1/proofs/gallery-night-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-01-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-02-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-03-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-04-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-05-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-01-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-02-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-03-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-04-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/phone-05-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/gallery-paper-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/gallery-paper-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/gallery-night-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-2/proofs/gallery-night-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-01-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-02-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-03-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-04-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-05-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-01-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-02-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-03-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-04-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/phone-05-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/gallery-paper-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/gallery-paper-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/gallery-night-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-3/proofs/gallery-night-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-01-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-02-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-03-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-04-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-05-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-01-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-02-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-03-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-04-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/phone-05-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/gallery-paper-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/gallery-paper-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/gallery-night-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-4/proofs/gallery-night-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_empty_index_rejected (__main__.EvidenceContract.test_empty_index_rejected) ... /Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-01-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-02-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-03-paper.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-01-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-02-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/phone-03-night.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/gallery-paper-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/gallery-paper-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/gallery-night-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:42: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/batch-5/proofs/gallery-night-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'capture bytes/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_empty_rebuild_rejected (__main__.EvidenceContract.test_empty_rebuild_rejected) ... ok
+test_false_manifest_bytes_rejected (__main__.EvidenceContract.test_false_manifest_bytes_rejected) ... ok
+test_false_manifest_count_rejected (__main__.EvidenceContract.test_false_manifest_count_rejected) ... ok
+test_missing_browser_pins_rejected (__main__.EvidenceContract.test_missing_browser_pins_rejected) ... ok
+test_missing_catalog_additions_rejected (__main__.EvidenceContract.test_missing_catalog_additions_rejected) ... ok
+test_valid_catalog (__main__.EvidenceContract.test_valid_catalog) ... ok
+test_valid_evidence (__main__.EvidenceContract.test_valid_evidence) ... /Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:66: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/evidence/index/index-1440.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'index capture hash/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/jirathip/Projects/design-output/morsel/262-library-expansion/scripts/evidence_contract.py:66: ResourceWarning: unclosed file <_io.BufferedReader name='/Users/jirathip/Projects/design-output/morsel/262-library-expansion/evidence/index/index-390.png'>
+  p.require(p.sha(image)==c['sha256'] and p.Image.open(image).size==(w,h),'index capture hash/dimensions differ')
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_wrong_catalog_path_rejected (__main__.EvidenceContract.test_wrong_catalog_path_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.855s
+
+OK
+
+RAW_EXIT=0

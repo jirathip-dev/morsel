@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Ramen — rippling noodles, pale broth and halved egg in a deep bowl</title>
+<desc>Original generic ramen sign for labeled general coverage. The egg, rolled slice and seaweed are illustrative recognition cues, not proof of a particular recipe, broth, ingredients, portion, allergens or nutrition.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="deep-bowl-porcelain-ground">
+ <path d="M38 121 C40 146 52 178 75 196 C91 209 110 215 132 214 C162 214 184 199 198 178 C211 160 216 139 218 121 C172 101 83 103 38 121Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M41 130 C49 143 66 152 81 157 C82 178 95 197 112 205 C129 211 148 210 161 204 C149 215 126 218 106 211 C72 202 49 171 41 130Z" fill="#5E7E57" opacity=".23" filter="url(#wash)"/>
+ <path d="M176 155 C193 150 205 141 214 132 C210 157 200 181 182 196 C166 209 149 214 132 211 C153 207 171 187 176 155Z" fill="#2F654B" opacity=".2" filter="url(#wash)"/>
+ <path d="M60 159 C63 177 80 195 93 199 C90 192 79 180 79 167Z" fill="#655A4B" opacity=".16" filter="url(#wash)"/>
+ <path d="M102 163 C102 179 112 193 122 198 C129 200 136 200 142 198 C122 190 126 173 127 168Z" fill="#FFF7E8" opacity=".77" filter="url(#dry)"/>
+ <path d="M39 131 C44 153 55 177 70 192 M80 200 C101 215 126 220 151 211 M166 206 C194 193 208 164 214 144" fill="none" stroke="#9D917F" stroke-width="1.15" stroke-linecap="round"/>
+ <path d="M62 180 l5 7 M67 188 l6 6 M171 200 l7 -7 M179 193 l4 -6" fill="none" stroke="#9D917F" stroke-width=".48" opacity=".58"/>
+</g>
+<g id="broad-rim-and-pale-broth">
+ <path d="M37 120 C38 101 78 88 114 87 C156 83 198 94 214 111 C222 120 221 130 209 139 C188 156 149 163 112 159 C75 157 37 143 37 120Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M48 120 C50 105 84 96 114 95 C153 91 188 100 203 112 C212 120 209 130 197 137 C177 149 146 154 114 152 C83 150 47 138 48 120Z" fill="#FBE1C9" opacity=".98"/>
+ <path d="M52 120 C59 108 86 100 119 100 C149 93 181 102 196 112 C210 121 196 135 178 143 C163 148 144 148 126 149 C95 151 63 138 52 120Z" fill="#A5750B" opacity=".29" filter="url(#wash)"/>
+ <path d="M60 128 C75 129 81 141 103 140 C122 141 130 133 147 139 C163 145 186 136 194 129 C190 146 150 153 121 151 C90 148 74 142 60 128Z" fill="#F2E9D9" opacity=".78" filter="url(#wash)"/>
+ <path d="M55 115 C63 106 85 101 94 101 C84 107 65 111 62 119 C58 124 60 127 67 130 C59 130 53 124 55 115Z" fill="#655A4B" opacity=".23" filter="url(#wash)"/>
+ <path d="M39 112 Q46 98 76 92 M91 89 Q137 81 173 91 M187 95 Q215 102 220 118 M220 126 C214 145 172 159 143 160 M127 160 C91 160 60 150 46 138" fill="none" stroke="#9D917F" stroke-width=".78" stroke-linecap="round"/>
+ <path d="M53 127 Q61 140 92 147 M150 151 Q181 149 201 136" fill="none" stroke="#9D917F" stroke-width=".54" opacity=".65"/>
+</g>
+<g id="crumpled-seaweed-above-back-rim">
+ <path d="M65 103 C66 90 67 78 63 67 C69 66 68 59 73 60 C82 63 88 56 94 55 C100 64 98 76 106 82 C108 91 113 99 112 108 C94 112 76 111 65 103Z" fill="#5E7E57" opacity=".95"/>
+ <path d="M68 101 C69 90 72 83 68 70 C79 72 86 60 92 62 C91 75 103 78 100 88 C106 94 108 101 107 107 C92 105 80 111 68 101Z" fill="#2F654B" opacity=".92" filter="url(#wash)"/>
+ <path d="M74 69 C73 82 84 82 80 96 C86 105 94 100 99 107 C84 112 75 107 69 104 C72 89 67 82 69 73Z" fill="#2A261F" opacity=".47" filter="url(#wash)"/>
+ <path d="M76 73 Q81 83 78 91 M86 64 Q83 73 91 83 M95 91 l6 12" fill="none" stroke="#E1E9D7" stroke-width="1.3" opacity=".38" filter="url(#dry)"/>
+ <path d="M64 69 Q69 68 71 60 M81 60 Q90 60 94 55 M97 64 Q97 78 103 81 M109 95 l3 11" fill="none" stroke="#9D917F" stroke-width=".68" stroke-linecap="round"/>
+</g>
+<g id="rolled-slice-warm-wash">
+ <path d="M105 108 C101 97 111 86 123 84 C138 79 153 86 158 97 C164 109 154 119 141 122 C126 126 111 118 105 108Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M107 108 C108 117 128 124 141 118 C155 117 164 105 153 93 C147 85 137 85 131 85 C143 89 146 94 147 102 C147 113 135 116 125 111 C116 108 122 97 130 96 C137 94 142 100 136 105 C130 111 125 100 129 99 C117 103 121 115 133 115 C117 120 112 109 107 108Z" fill="#B94738" opacity=".29" filter="url(#wash)"/>
+ <path d="M109 100 C111 90 123 85 134 87 C141 87 150 90 153 97 C142 94 142 91 133 91 C121 89 114 97 114 102 C115 111 123 116 131 117 C117 119 109 111 109 100Z" fill="#A5750B" opacity=".31" filter="url(#wash)"/>
+ <path d="M108 97 Q114 84 130 84 M145 87 Q158 91 159 104 M154 114 Q148 121 137 122 M117 101 C119 92 139 91 142 102 C145 111 130 114 126 108" fill="none" stroke="#9D917F" stroke-width=".65" stroke-linecap="round"/>
+</g>
+<g id="wavy-noodle-nest-pigment">
+ <path d="M63 122 C64 112 76 108 85 111 C90 103 100 107 105 110 C113 104 123 110 126 116 C138 114 146 122 147 129 C153 140 143 146 129 147 C114 152 102 146 93 146 C78 145 64 137 63 122Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M65 124 C75 116 82 124 89 118 C103 110 107 122 119 117 C131 116 131 129 142 130 C149 139 134 148 122 145 C107 140 105 147 92 143 C78 141 67 136 65 124Z" fill="#D6A62C" opacity=".45" filter="url(#wash)"/>
+ <path d="M74 132 C82 136 86 129 94 132 C101 138 108 134 114 132 C125 127 132 141 142 137 C134 149 123 144 112 146 C98 147 82 142 74 132Z" fill="#A5750B" opacity=".34" filter="url(#wash)"/>
+</g>
+<g id="curling-noodle-strands" fill="none" stroke-linecap="round" stroke-linejoin="round">
+ <g stroke="#F2E9D9" stroke-width="3.6">
+  <path d="M66 119 C72 109 80 119 85 114 C91 106 98 114 102 117 C109 122 112 109 118 115 C122 118 121 125 129 122 C136 118 139 124 142 128"/>
+  <path d="M65 127 C70 117 78 127 83 123 C91 115 96 131 103 125 C110 117 116 131 123 128 C134 121 132 138 143 134"/>
+  <path d="M72 133 C77 127 84 138 90 133 C97 126 102 140 109 134 C119 127 117 142 126 137 C131 134 137 142 141 138"/>
+  <path d="M83 140 C92 147 98 136 104 141 C114 148 120 138 126 144 C132 147 138 145 144 141"/>
+  <path d="M75 118 C69 128 82 130 79 136 M101 111 C96 118 105 121 110 119 M129 117 C126 127 137 128 135 135"/>
+ </g>
+ <path d="M66 122 Q71 112 78 118 M86 116 C91 110 97 118 99 120 M105 124 C112 118 116 128 121 128 M126 131 C131 127 133 135 138 136 M75 136 Q80 129 86 135 M94 137 Q100 132 105 137 M112 139 C118 132 121 141 125 141 M88 144 Q95 141 99 143" stroke="#9D917F" stroke-width=".6" opacity=".88"/>
+ <path d="M69 117 l5 -2 M84 125 l4 -3 M101 126 l5 -2 M118 116 l2 4 M131 141 l6 2 M87 139 l5 1" stroke="#FFF7E8" stroke-width="1.55" opacity=".78" filter="url(#dry)"/>
+</g>
+<g id="halved-egg-pale-underpainting">
+ <path d="M158 87 C166 79 179 82 188 91 C197 101 202 117 197 128 C193 139 179 141 167 135 C157 130 149 120 149 109 C148 100 153 92 158 87Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M160 89 C169 81 181 88 188 96 C196 107 198 119 192 128 C186 137 175 135 166 129 C156 122 151 115 153 105 C153 99 156 93 160 89Z" fill="#FFF7E8" opacity=".96"/>
+ <path d="M155 111 C157 123 168 134 180 135 C188 135 194 130 197 125 C196 136 187 142 175 138 C162 134 151 125 150 114Z" fill="#A5750B" opacity=".24" filter="url(#wash)"/>
+ <path d="M165 104 C169 99 178 100 184 106 C190 113 191 121 187 125 C181 131 172 127 167 122 C162 117 161 109 165 104Z" fill="#D6A62C" opacity=".98"/>
+ <path d="M164 111 C167 106 174 106 178 111 C184 112 188 118 184 124 C178 127 172 123 168 120 C165 118 164 114 164 111Z" fill="#E66A2C" opacity=".7" filter="url(#wash)"/>
+ <path d="M168 104 Q175 101 181 108 M158 97 Q154 103 156 108" fill="none" stroke="#F2E9D9" stroke-width="2.1" opacity=".72" filter="url(#dry)"/>
+ <path d="M155 92 C161 80 175 80 184 87 M191 98 C199 108 202 122 197 129 M191 135 C179 145 160 134 153 122 M163 109 Q162 118 170 124" fill="none" stroke="#9D917F" stroke-width=".76" stroke-linecap="round"/>
+</g>
+<g id="quiet-broth-pools-and-few-cut-greens">
+ <path d="M148 141 C152 137 159 139 162 142 C159 146 151 147 148 144Z M181 143 C186 139 192 140 195 137 C194 143 187 146 181 143Z M60 119 C63 116 64 115 66 115 C67 119 64 122 60 119Z" fill="#A5750B" opacity=".36" filter="url(#wash)"/>
+ <path d="M116 135 C121 130 128 128 132 129 C130 133 125 137 120 139Z M142 121 C144 116 149 113 152 116 C152 120 148 123 145 124Z M95 105 C100 100 106 100 109 102 C106 106 101 108 97 108Z" fill="#5E7E57" opacity=".9" filter="url(#wash)"/>
+ <path d="M120 135 l8 -4 M145 120 l4 -3 M99 104 l6 -1" fill="none" stroke="#2F654B" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M166 147 Q175 148 181 145 M61 133 Q67 137 73 138" fill="none" stroke="#FFF7E8" stroke-width="1.6" opacity=".79" filter="url(#dry)"/>
+</g>
+</svg>

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Boba tea — generic domed cup and dark pearl ink-wash study</title>
+<desc>An original generic pearl-tea illustration: an uneven cream-brown drink wash, conspicuous dark pearls at the foot, a domed lid and a wide straw. General coverage only, with zero observed rows; not evidence of a logged drink, milk type, tea variety, actual ingredients, portion, allergens or nutrition.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="cup-pale-underpainting">
+ <path d="M75 88 C94 81 157 81 183 88 L168 208 C165 222 111 225 94 211 C90 205 81 135 75 88Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M84 105 C111 112 146 113 176 101 L164 206 C157 215 119 220 101 208 C97 190 91 141 84 105Z" fill="{{peach}}" opacity=".96"/>
+ <path d="M78 101 C89 126 91 171 98 207 Q101 215 114 218 L103 217 Q94 215 93 206Z" fill="{{brown}}" opacity=".21" filter="url(#wash)"/>
+</g>
+<g id="cream-brown-tea-washes">
+ <path d="M85 105 C104 110 137 116 176 101 L164 205 C152 216 120 215 102 207 L93 151Z" fill="{{ochre}}" opacity=".29" filter="url(#wash)"/>
+ <path d="M92 121 C106 133 128 121 142 133 C159 145 169 125 172 124 L164 205 C151 214 125 216 106 208 C115 185 102 169 101 153Z" fill="{{brown}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M92 119 C111 123 124 132 145 124 C158 120 166 119 173 121 L169 140 C149 135 143 145 128 142 C106 139 101 130 94 138Z" fill="{{cream}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M101 149 C111 143 121 157 135 153 C147 149 156 151 168 148 L166 169 C146 161 144 178 125 165 C115 158 114 161 104 165Z" fill="{{peach}}" opacity=".6" filter="url(#wash)"/>
+ <path d="M152 112 C159 110 166 108 175 105 L164 205 Q155 214 142 213 C156 191 151 180 157 161 C163 143 155 128 152 112Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M100 187 Q119 171 139 180 C151 187 159 176 167 178 L164 204 C151 215 120 215 105 207Z" fill="{{ochre}}" opacity=".3" filter="url(#wash)"/>
+</g>
+<g id="submerged-wide-straw">
+ <path d="M137 91 L148 92 L133 180 Q128 184 123 178Z" fill="{{cream}}" opacity=".61"/>
+ <path d="M145 96 L148 94 L133 179 L129 181Z" fill="{{sage}}" opacity=".26" filter="url(#wash)"/>
+ <path d="M137 118 L132 147 M129 162 L126 174" fill="none" stroke="{{line}}" stroke-width=".6" opacity=".39"/>
+</g>
+<g id="tea-meniscus-beneath-lid">
+ <path d="M80 91 C84 80 117 76 140 78 C164 79 181 84 181 93 C178 108 145 114 121 111 C98 111 83 103 80 91Z" fill="{{cream}}" opacity=".92"/>
+ <path d="M87 94 C96 83 151 81 173 91 C173 101 145 108 123 106 Q99 106 87 94Z" fill="{{brown}}" opacity=".3" filter="url(#wash)"/>
+ <path d="M88 94 C102 97 117 92 131 97 C145 102 161 92 171 94 Q156 107 123 106 Q101 106 88 94Z" fill="{{ochre}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M97 97 Q111 102 122 101 M143 101 L156 98" fill="none" stroke="{{paper}}" stroke-width="2.3" opacity=".63" filter="url(#dry)"/>
+</g>
+<g id="asymmetric-clear-dome">
+ <path d="M77 88 C79 68 96 53 118 51 C143 46 171 61 180 86 C162 98 102 103 77 88Z" fill="{{paper}}" opacity=".78"/>
+ <path d="M80 84 C86 69 96 60 112 56 C108 67 94 75 95 87 Q91 94 80 89Z" fill="{{cream}}" opacity=".69" filter="url(#wash)"/>
+ <path d="M149 58 C167 65 176 77 180 86 Q168 95 143 97 C158 89 163 85 159 77Z" fill="{{sage}}" opacity=".19" filter="url(#wash)"/>
+ <path d="M100 62 C108 56 121 54 130 55 L125 59 C113 59 108 62 103 67Z" fill="{{paper}}" opacity=".86" filter="url(#dry)"/>
+ <path d="M76 87 C85 94 105 98 130 97 C152 98 172 91 182 86 L185 92 C179 101 154 107 129 105 C105 107 82 100 73 94Z" fill="{{cream}}" opacity=".92"/>
+ <path d="M79 94 Q118 113 169 97 L182 91 L182 96 C167 109 104 112 78 99Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M79 79 C83 66 96 56 111 53 M118 51 Q136 49 149 56 M160 62 Q174 72 179 84 M76 88 Q88 95 107 97 M121 99 Q156 99 177 88 M75 94 Q80 101 106 105 M116 107 Q158 110 182 96" fill="none" stroke="{{line}}" stroke-width=".7" stroke-linecap="round"/>
+ <path d="M87 72 Q92 64 99 62 M169 80 L172 85" fill="none" stroke="{{paper}}" stroke-width="2.1" opacity=".68" filter="url(#dry)"/>
+</g>
+<g id="wide-paper-straw-above-dome">
+ <path d="M131 90 L143 32 Q148 28 157 32 L145 94 Q138 96 131 90Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M148 34 L155 33 L144 93 Q139 94 138 92Z" fill="{{sage}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M143 32 C145 28 154 29 157 32 C155 36 146 36 143 32Z" fill="{{brown}}" opacity=".9"/>
+ <path d="M145 32 Q150 29 154 32 Q151 35 146 33Z" fill="{{dark}}" opacity=".81"/>
+ <path d="M143 37 L135 76 M155 38 L146 86 M132 89 Q139 96 145 91" fill="none" stroke="{{line}}" stroke-width=".78" stroke-linecap="round"/>
+ <path d="M142 44 L138 65" fill="none" stroke="{{paper}}" stroke-width="2.3" opacity=".66" filter="url(#dry)"/>
+</g>
+<g id="separate-hand-shaped-dark-pearls">
+ <path d="M99 180 C98 174 104 169 109 171 C115 172 117 177 114 183 C111 188 101 188 99 180Z" fill="{{brown}}"/>
+ <path d="M121 175 C120 169 125 165 131 167 C137 170 138 176 133 181 C127 185 121 181 121 175Z" fill="{{dark}}" opacity=".94"/>
+ <path d="M143 177 C141 172 146 166 151 166 C158 166 161 172 158 178 C155 184 145 185 143 177Z" fill="{{brown}}"/>
+ <path d="M102 199 C97 194 100 187 106 186 C112 184 117 189 117 195 C116 203 108 205 102 199Z" fill="{{dark}}" opacity=".96"/>
+ <path d="M120 190 C122 184 129 183 134 187 C139 191 137 199 132 202 C125 205 117 198 120 190Z" fill="{{brown}}"/>
+ <path d="M143 194 C140 189 144 183 149 182 C156 181 162 188 158 194 C155 201 146 201 143 194Z" fill="{{dark}}" opacity=".95"/>
+ <path d="M159 200 C155 196 158 189 163 188 L166 188 L164 204 Q161 205 159 200Z" fill="{{brown}}"/>
+ <path d="M115 208 C111 204 114 198 119 198 C125 197 129 202 127 207 C125 213 119 213 115 208Z" fill="{{dark}}" opacity=".94"/>
+ <path d="M136 210 C132 205 135 199 141 199 C147 198 151 204 148 209 C146 214 139 215 136 210Z" fill="{{brown}}"/>
+ <path d="M103 174 C105 179 110 180 114 177 C117 186 102 190 100 180Z M146 170 C148 175 153 174 158 172 C161 181 146 188 144 178Z M122 188 C123 194 130 196 136 190 C139 200 125 207 120 195Z M137 202 C140 207 145 207 149 204 C151 213 139 216 135 208Z M161 192 L165 192 L164 202 Q157 205 159 197Z" fill="{{dark}}" opacity=".67" filter="url(#wash)"/>
+ <path d="M123 170 Q127 167 131 170 M103 190 Q107 187 111 190 M146 187 Q151 184 154 188 M118 201 L121 200" fill="none" stroke="{{ochre}}" stroke-width="1.4" opacity=".37" filter="url(#dry)" stroke-linecap="round"/>
+</g>
+<g id="cup-dry-brush-and-broken-ink">
+ <path d="M88 117 C90 134 93 150 94 158 L99 162 C97 145 97 129 94 119Z M101 167 L103 176 L107 178 L107 170Z" fill="{{paper}}" opacity=".67" filter="url(#dry)"/>
+ <path d="M171 119 L167 142 M162 158 L160 166 M106 215 Q126 222 149 215" fill="none" stroke="{{paper}}" stroke-width="2.2" opacity=".62" filter="url(#dry)"/>
+ <path d="M77 102 L83 140 M86 154 Q90 192 94 207 M99 215 Q110 221 126 220 M138 220 Q160 219 167 209 M170 197 L182 104" fill="none" stroke="{{line}}" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M99 207 Q106 214 117 214 M151 213 L161 209 M88 171 L91 185 M173 158 L170 178" fill="none" stroke="{{line}}" stroke-width=".52" opacity=".64" stroke-linecap="round"/>
+</g>
+</svg>

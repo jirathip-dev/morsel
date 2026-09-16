@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Donut — bitten ring, original ink-and-wash study</title>
+<desc>A golden ring donut with a transparent central opening, a scalloped bitten edge and a thin uneven pale glaze. Generic food sign for labeled placement, not an actual recipe, portion or ingredient claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="ring-dough-underpainting">
+ <path d="M43 130 C39 110 54 87 78 76 C108 61 144 61 173 71 C184 75 192 81 197 88 C185 85 178 95 183 104 C170 103 164 115 170 124 C172 128 177 131 181 131 C178 141 191 147 204 141 L210 140 C218 159 207 179 189 190 C164 208 125 211 92 200 C65 192 47 174 43 153 C41 145 42 138 43 130Z M101 127 C98 118 108 111 120 110 C134 108 149 115 152 124 C155 133 146 143 133 146 C118 150 104 141 101 132Z" fill="#FBE1C9" fill-rule="evenodd" opacity=".96"/>
+ <path d="M43 130 C39 110 54 87 78 76 C108 61 144 61 173 71 C184 75 192 81 197 88 C185 85 178 95 183 104 C170 103 164 115 170 124 C172 128 177 131 181 131 C178 141 191 147 204 141 L210 140 C218 159 207 179 189 190 C164 208 125 211 92 200 C65 192 47 174 43 153 C41 145 42 138 43 130Z M101 127 C98 118 108 111 120 110 C134 108 149 115 152 124 C155 133 146 143 133 146 C118 150 104 141 101 132Z" fill="#D6A62C" fill-rule="evenodd" opacity=".81" filter="url(#wash)"/>
+</g>
+<g id="rounded-crust-and-lower-fold">
+ <path d="M45 143 C49 164 65 180 93 187 C125 197 166 193 186 179 C197 174 206 160 211 149 C215 166 201 183 187 191 C159 208 123 209 94 201 C67 195 48 176 44 158Z" fill="#A5750B" opacity=".68" filter="url(#wash)"/>
+ <path d="M53 161 C66 177 80 184 101 189 C126 196 148 194 166 190 C160 198 148 202 129 202 C95 201 68 187 59 176Z" fill="#E66A2C" opacity=".29" filter="url(#wash)"/>
+ <path d="M71 186 C89 196 117 204 143 201 C168 199 184 192 197 180 C185 196 163 205 140 207 C111 209 87 200 71 191Z" fill="#655A4B" opacity=".29" filter="url(#wash)"/>
+ <path d="M48 130 C46 116 55 100 66 94 C61 107 63 119 59 134 C56 145 60 151 63 159 C52 152 49 140 48 130Z" fill="#E66A2C" opacity=".31" filter="url(#wash)"/>
+ <path d="M158 78 C171 78 181 81 185 86 C175 87 165 93 161 99 C151 92 140 90 137 84Z" fill="#A5750B" opacity=".29" filter="url(#wash)"/>
+</g>
+<g id="thin-irregular-glaze">
+ <path d="M56 118 C61 98 82 84 104 80 C126 74 147 77 164 82 C174 84 180 87 182 90 C176 93 176 100 179 105 C168 106 164 116 169 124 C172 130 176 132 180 133 C179 140 188 145 196 145 C193 157 182 163 171 168 C164 171 164 181 158 181 C152 181 155 175 150 176 C136 181 124 177 115 179 C112 180 111 188 107 186 C102 184 106 177 101 176 C86 173 77 168 69 163 C65 160 64 167 61 163 C57 158 62 153 58 147 C52 139 53 128 56 118Z M97 124 C95 135 107 148 122 150 C138 155 156 143 158 130 C161 117 146 105 131 104 C116 101 99 111 97 124Z" fill="#F2E9D9" fill-rule="evenodd" opacity=".71" filter="url(#wash)"/>
+ <path d="M66 111 C73 97 91 87 111 85 C126 82 139 84 143 87 C125 89 117 94 103 96 C85 98 82 110 72 113Z" fill="#FFF7E8" opacity=".6" filter="url(#wash)"/>
+ <path d="M70 131 C73 143 84 153 95 157 C105 161 115 158 123 161 C132 164 145 162 154 160 C153 168 141 172 127 172 C99 175 76 160 70 147Z" fill="#FBE1C9" opacity=".75" filter="url(#wash)"/>
+ <path d="M91 113 C96 102 112 96 127 98 C143 99 158 108 160 120 C153 110 145 106 131 104 C118 101 100 108 97 121Z" fill="#A5750B" opacity=".34" filter="url(#wash)"/>
+</g>
+<g id="open-ring-inner-wall">
+ <path d="M101 127 C98 118 108 111 120 110 C134 108 149 115 152 124 C151 116 143 107 131 104 C115 101 101 108 97 117 C94 124 96 133 100 138 L106 141 C103 137 101 131 101 127Z" fill="#655A4B" opacity=".71" filter="url(#wash)"/>
+ <path d="M105 141 C114 149 126 152 137 148 C146 145 152 140 155 133 C157 145 145 153 132 156 C120 158 109 151 105 147Z" fill="#A5750B" opacity=".58" filter="url(#wash)"/>
+ <path d="M103 125 C101 119 111 112 119 112 M131 111 C140 112 148 117 150 123 M104 138 C110 145 121 149 131 147 M139 145 Q149 141 152 133" fill="none" stroke="#8B7355" stroke-width="1.05" stroke-linecap="round"/>
+</g>
+<g id="bitten-edge-exposed-crumb">
+ <path d="M197 88 C185 85 178 95 183 104 C170 103 164 115 170 124 C172 128 177 131 181 131 C178 141 191 147 204 141 L207 146 C197 155 182 150 175 141 C170 139 173 135 167 132 C157 125 160 111 169 106 C169 98 174 87 182 85 C188 82 193 85 197 88Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M174 111 C166 116 166 123 173 128 L178 133 L175 137 C164 133 160 125 165 117Z M185 141 C191 147 196 146 201 144 L199 149 C191 151 184 147 181 143Z" fill="#FBE1C9" opacity=".9" filter="url(#wash)"/>
+ <path d="M182 92 l-3 5 M173 111 l-4 5 M169 124 l4 3 M180 139 l4 4 M194 148 l4 -1" fill="none" stroke="#A5750B" stroke-width="1.7" opacity=".52" filter="url(#dry)"/>
+ <path d="M197 88 C187 85 181 92 182 98 M182 104 C174 103 167 111 168 118 M170 125 Q174 130 181 131 M181 136 C182 145 195 146 204 141" fill="none" stroke="#8B7355" stroke-width=".88" stroke-linecap="round"/>
+</g>
+<g id="dry-glaze-and-broken-crust-ink" fill="none" stroke-linecap="round">
+ <path d="M72 109 Q82 96 99 93 M113 86 Q126 83 139 87 M68 125 Q66 135 72 143 M92 164 Q103 170 115 170 M159 155 l10 -5" stroke="#FFF7E8" stroke-width="3.2" opacity=".62" filter="url(#dry)"/>
+ <path d="M44 132 C40 115 49 98 61 89 M73 80 C90 70 112 65 130 67 M148 68 Q173 70 186 81" stroke="#8B7355" stroke-width=".75"/>
+ <path d="M44 146 C43 165 58 184 80 194 M90 199 Q118 210 148 205 M160 203 C182 199 201 185 208 168 M211 157 Q214 148 210 140" stroke="#8B7355" stroke-width="1.25"/>
+ <path d="M55 167 l5 9 M60 176 l7 7 M74 188 l8 5 M168 197 l7 -3 M194 179 l5 -7 M101 183 l8 2" stroke="#8B7355" stroke-width=".5" opacity=".67"/>
+</g>
+</svg>

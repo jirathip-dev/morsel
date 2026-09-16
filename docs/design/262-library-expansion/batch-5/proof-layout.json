@@ -1,0 +1,52 @@
+{
+  "batch": 5,
+  "cohorts": {
+    "01": [
+      "pancake",
+      "croissant",
+      "bacon",
+      "sausage",
+      "peanuts"
+    ],
+    "02": [
+      "ramen",
+      "donut",
+      "chicken-wings",
+      "grilled-squid",
+      "khanom-jeen"
+    ],
+    "03": [
+      "pad-thai",
+      "boba-tea"
+    ]
+  },
+  "ids": [
+    "pancake",
+    "croissant",
+    "bacon",
+    "sausage",
+    "peanuts",
+    "ramen",
+    "donut",
+    "chicken-wings",
+    "grilled-squid",
+    "khanom-jeen",
+    "pad-thai",
+    "boba-tea"
+  ],
+  "contact_size": [
+    1200,
+    950
+  ],
+  "phone_viewport": [
+    390,
+    844
+  ],
+  "native_art_size": 64,
+  "diagnostic_size": 40,
+  "fonts": [
+    "EB Garamond",
+    "Caveat",
+    "IBM Plex Mono"
+  ]
+}

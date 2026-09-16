@@ -32,6 +32,8 @@ All 12 promoted identities are for general coverage and have **0 observed rows r
 
 Dedicated `pad-thai` and `boba-tea` art is justified by their durable visual cues and a generic labeled reading, not by a claim about actual logged ingredients. The batch-5 report records the final depiction decision. Aliases on shipped identities remain unchanged regardless of that decision.
 
+The final visual decision and its limits are recorded in `batch-5/HONESTY-DECISION.md`. Approved alias metadata is retained; broad milk-tea/boba naming and different forms such as peanuts versus peanut butter still require conservative routing in the separate integration lane. No alias precedence was silently changed by this art delivery.
+
 ## Privacy and acceptance
 
 Raw account names and row-level mappings remain only in the original untracked `.lane-logs/`. The public evidence contains approved generic vocabulary, the issue's already-public examples and aggregate counts. No credentials or query scripts are copied.

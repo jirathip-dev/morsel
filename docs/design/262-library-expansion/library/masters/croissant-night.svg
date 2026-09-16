@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Croissant — rolled golden crescent with lifted pastry flakes</title>
+<desc>Original ink-and-wash study of a single asymmetric crescent. Broad overlapping pastry folds and tapered inward tips carry the small-size cue; fine lamination is supporting texture, not an ingredient claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="crescent-pale-underpainting">
+ <path d="M78 184 C61 189 45 173 42 154 C37 133 45 112 60 99 C64 89 79 83 90 80 C104 67 120 64 135 68 C150 64 165 75 175 88 C191 94 202 112 207 128 C217 149 211 176 194 189 C189 190 184 185 183 179 C181 164 175 155 166 147 C155 138 141 134 127 134 C111 130 94 138 86 151 C79 163 85 177 78 184Z" fill="#F2E9D9"/>
+ <path d="M76 183 C59 181 47 169 44 151 C40 132 50 109 65 101 C72 88 85 88 95 82 C109 70 122 68 136 72 C151 69 163 80 173 91 C190 99 200 115 203 131 C213 150 207 174 194 185 C188 181 191 170 183 156 C171 138 148 129 129 130 C109 126 91 133 82 148 C76 160 81 173 76 183Z" fill="#D6A62C" opacity=".68" filter="url(#wash)"/>
+</g>
+<g id="left-horn-turn-and-toast">
+ <path d="M68 96 C62 110 54 123 56 140 C54 156 68 174 79 177 Q79 183 74 183 C59 181 44 166 43 150 C41 129 51 106 68 96Z" fill="#A5750B" opacity=".55" filter="url(#wash)"/>
+ <path d="M51 121 C52 140 64 151 82 151 C77 158 79 168 79 173 C66 171 53 160 50 148 Q44 133 51 121Z" fill="#E66A2C" opacity=".27" filter="url(#wash)"/>
+ <path d="M46 143 C57 158 65 161 79 162 L79 168 C64 167 53 161 47 153Z" fill="#FBE1C9" opacity=".9"/>
+ <path d="M50 152 C59 161 66 163 74 164 M60 170 Q67 175 76 176" fill="none" stroke="#655A4B" stroke-width=".9" opacity=".72"/>
+ <path d="M67 100 C57 116 61 131 73 141 L83 148 L89 139 C74 130 68 116 73 101Z" fill="#A5750B" opacity=".46" filter="url(#wash)"/>
+ <path d="M65 106 C62 120 69 134 81 140 L86 139 C73 129 69 117 71 106Z" fill="#F2E9D9" opacity=".79" filter="url(#dry)"/>
+</g>
+<g id="right-horn-curled-folds">
+ <path d="M186 100 C201 111 208 131 210 147 C211 164 204 181 194 186 C189 181 190 169 184 158 C198 158 200 139 194 125Z" fill="#A5750B" opacity=".61" filter="url(#wash)"/>
+ <path d="M179 96 C178 116 169 129 159 140 Q169 145 176 154 C192 141 198 122 189 109Z" fill="#E66A2C" opacity=".27" filter="url(#wash)"/>
+ <path d="M193 119 C195 130 187 148 179 152 L181 158 C192 153 200 137 198 128Z" fill="#FBE1C9" opacity=".93"/>
+ <path d="M205 151 C201 161 194 167 187 169 L189 176 C198 173 205 165 207 157Z" fill="#F2E9D9" opacity=".76" filter="url(#dry)"/>
+ <path d="M197 132 Q194 146 184 154 M205 158 Q201 169 192 174 M198 178 l-5 5" fill="none" stroke="#9D917F" stroke-width=".86"/>
+</g>
+<g id="left-shoulder-laminated-roll">
+ <path d="M92 79 C82 92 81 113 92 128 L101 136 C94 137 88 143 85 148 C74 140 64 123 65 109 C65 97 77 84 92 79Z" fill="#D6A62C" opacity=".8" filter="url(#wash)"/>
+ <path d="M87 85 C79 96 78 108 83 119 C87 128 95 132 98 138 L89 141 C76 131 69 118 71 105 C73 94 79 88 87 85Z" fill="#A5750B" opacity=".48" filter="url(#wash)"/>
+ <path d="M92 83 C84 100 86 117 100 129 L96 136 C90 132 84 127 81 120 L79 114 L81 112 C77 102 82 88 87 86Z" fill="#F2E9D9" opacity=".85"/>
+ <path d="M98 79 C90 91 90 110 98 122 L108 132 L113 130 C100 116 96 100 103 79Z" fill="#FBE1C9" opacity=".76" filter="url(#dry)"/>
+ <path d="M85 94 Q79 113 92 128 M94 131 l4 4 M94 87 Q87 102 96 118" fill="none" stroke="#9D917F" stroke-width=".83"/>
+</g>
+<g id="right-shoulder-laminated-roll">
+ <path d="M152 72 C166 72 180 85 185 98 C184 117 173 131 161 142 L150 136 C165 121 172 102 167 86Z" fill="#D6A62C" opacity=".83" filter="url(#wash)"/>
+ <path d="M172 88 C181 99 174 116 166 127 L155 138 L163 143 C178 133 187 116 187 104Z" fill="#A5750B" opacity=".53" filter="url(#wash)"/>
+ <path d="M165 81 C175 94 170 116 153 133 L158 137 C166 132 171 124 175 116 L173 112 C179 103 176 93 173 87Z" fill="#F2E9D9" opacity=".83"/>
+ <path d="M159 81 C165 98 157 115 149 123 L146 130 L142 130 C152 114 162 99 154 81Z" fill="#FBE1C9" opacity=".81" filter="url(#dry)"/>
+ <path d="M175 95 Q180 110 165 129 M162 133 l-5 4 M164 92 Q169 108 154 126" fill="none" stroke="#9D917F" stroke-width=".9"/>
+</g>
+<g id="central-rolled-triangle">
+ <path d="M101 78 C111 68 124 65 137 69 C147 66 157 72 160 81 C163 95 152 116 143 127 L133 140 Q129 145 123 141 C112 133 99 113 98 99 Q95 86 101 78Z" fill="#FBE1C9"/>
+ <path d="M104 77 C116 69 124 69 137 73 Q151 69 157 81 C158 94 151 106 145 116 L133 132 C128 139 122 134 118 128 C106 114 98 92 104 77Z" fill="#D6A62C" opacity=".79" filter="url(#wash)"/>
+ <path d="M142 74 Q154 74 157 85 C153 97 149 97 148 107 C142 120 132 126 129 138 L123 136 C125 123 135 114 135 103 C141 93 144 86 142 74Z" fill="#A5750B" opacity=".57" filter="url(#wash)"/>
+ <path d="M104 81 C99 96 108 115 118 126 L122 130 C115 116 115 107 111 100 C108 92 113 86 112 78Z" fill="#E66A2C" opacity=".32" filter="url(#wash)"/>
+ <path d="M115 76 C109 85 110 95 114 102 L122 101 C117 91 121 84 124 77Z" fill="#F2E9D9" opacity=".72" filter="url(#dry)"/>
+ <path d="M105 104 Q116 112 135 110 L146 106 L143 114 Q125 121 111 112Z" fill="#FBE1C9" opacity=".75" filter="url(#dry)"/>
+ <path d="M118 126 Q125 133 136 128 L132 136 L127 138Z" fill="#F2E9D9" opacity=".87"/>
+ <path d="M104 79 Q99 85 100 95 M102 104 Q107 124 123 139 M135 136 Q149 121 157 99 M158 91 Q164 80 153 72" fill="none" stroke="#9D917F" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M111 109 Q122 116 136 112 M120 126 Q127 130 137 125" fill="none" stroke="#9D917F" stroke-width=".65" opacity=".72"/>
+</g>
+<g id="lifted-pastry-shards">
+ <path d="M79 112 l-5 -3 l3 9 l6 3Z M91 132 l-5 -1 l4 6 l7 2Z M173 111 l7 -3 l-3 9 l-5 3Z M143 83 l6 -2 l-3 5 l-5 2Z" fill="#F2E9D9" opacity=".88"/>
+ <path d="M74 109 l4 8 M87 134 l7 4 M176 113 l-4 7 M143 86 l4 -2" fill="none" stroke="#9D917F" stroke-width=".56"/>
+ <path d="M80 195 l7 -3 l4 4 l-6 3Z M168 187 l6 -4 l4 2 l-7 5Z" fill="#D6A62C" opacity=".57" filter="url(#wash)"/>
+ <path d="M81 195 l4 3 M171 188 l4 -3" fill="none" stroke="#9D917F" stroke-width=".6" opacity=".72"/>
+</g>
+<g id="broken-crescent-contour" fill="none" stroke="#9D917F" stroke-linecap="round">
+ <path d="M45 139 Q41 119 59 101 M66 94 Q75 84 86 82 M103 72 Q116 64 129 67 M165 78 l10 10" stroke-width=".7"/>
+ <path d="M46 162 Q54 182 73 185 Q78 185 80 177 M82 159 Q85 143 101 138 M145 137 Q170 141 180 163" stroke-width="1.25"/>
+ <path d="M191 105 Q204 119 208 139 M211 149 Q213 171 196 187 Q190 192 185 181" stroke-width="1.05"/>
+ <path d="M53 136 l1 8 M57 141 l2 9 M74 125 l4 8 M109 89 l1 7 M150 85 l-2 8 M179 126 l-5 8 M202 146 l-2 7" stroke-width=".48" opacity=".57"/>
+</g>
+</svg>

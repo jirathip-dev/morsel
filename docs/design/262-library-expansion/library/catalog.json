@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "library_version": "2.2.0-candidate-b4",
+  "library_version": "2.2.0-candidate-b5",
   "approval": "subject-list-approved-pixels-awaiting-owner-review-not-bundled",
   "assets": [
     {
@@ -5996,6 +5996,603 @@
         "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
         "demand": "approved-list; per-identity estimator rows in coverage.json",
         "batch": 4
+      }
+    },
+    {
+      "id": "pancake",
+      "name": "Pancakes",
+      "aliases": [
+        "pancakes",
+        "hotcakes",
+        "แพนเค้ก"
+      ],
+      "category": "grains",
+      "description": "A short stack of three pancakes with a butter square and a syrup drip.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/pancake.svg",
+      "masters": [
+        "masters/pancake-paper.svg",
+        "masters/pancake-night.svg"
+      ],
+      "exports": [
+        "exports/pancake-paper-64.png",
+        "exports/pancake-paper-192.png",
+        "exports/pancake-paper-512.png",
+        "exports/pancake-night-64.png",
+        "exports/pancake-night-192.png",
+        "exports/pancake-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "croissant",
+      "name": "Croissant",
+      "aliases": [
+        "pastry",
+        "ครัวซองต์"
+      ],
+      "category": "grains",
+      "description": "A single flaky croissant with layered crescent ink and a golden dry-brush top.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/croissant.svg",
+      "masters": [
+        "masters/croissant-paper.svg",
+        "masters/croissant-night.svg"
+      ],
+      "exports": [
+        "exports/croissant-paper-64.png",
+        "exports/croissant-paper-192.png",
+        "exports/croissant-paper-512.png",
+        "exports/croissant-night-64.png",
+        "exports/croissant-night-192.png",
+        "exports/croissant-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "bacon",
+      "name": "Bacon",
+      "aliases": [
+        "streaky bacon",
+        "เบคอน"
+      ],
+      "category": "protein",
+      "description": "Three wavy bacon rashers with red-brown meat bands and pale fat ribbons.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/bacon.svg",
+      "masters": [
+        "masters/bacon-paper.svg",
+        "masters/bacon-night.svg"
+      ],
+      "exports": [
+        "exports/bacon-paper-64.png",
+        "exports/bacon-paper-192.png",
+        "exports/bacon-paper-512.png",
+        "exports/bacon-night-64.png",
+        "exports/bacon-night-192.png",
+        "exports/bacon-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "sausage",
+      "name": "Sausage",
+      "aliases": [
+        "sausages",
+        "hot dog",
+        "ไส้กรอก"
+      ],
+      "category": "protein",
+      "description": "Two browned link sausages with a knife score and a small mustard dab.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/sausage.svg",
+      "masters": [
+        "masters/sausage-paper.svg",
+        "masters/sausage-night.svg"
+      ],
+      "exports": [
+        "exports/sausage-paper-64.png",
+        "exports/sausage-paper-192.png",
+        "exports/sausage-paper-512.png",
+        "exports/sausage-night-64.png",
+        "exports/sausage-night-192.png",
+        "exports/sausage-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "peanuts",
+      "name": "Peanuts",
+      "aliases": [
+        "roasted peanuts",
+        "peanut butter",
+        "ถั่วลิสง"
+      ],
+      "category": "protein",
+      "description": "A small heap of shelled peanuts with two in shell, ochre/brown wash.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/peanuts.svg",
+      "masters": [
+        "masters/peanuts-paper.svg",
+        "masters/peanuts-night.svg"
+      ],
+      "exports": [
+        "exports/peanuts-paper-64.png",
+        "exports/peanuts-paper-192.png",
+        "exports/peanuts-paper-512.png",
+        "exports/peanuts-night-64.png",
+        "exports/peanuts-night-192.png",
+        "exports/peanuts-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "ramen",
+      "name": "Ramen",
+      "aliases": [
+        "ramen bowl",
+        "tonkotsu",
+        "ราเมง"
+      ],
+      "category": "grains",
+      "description": "A deep bowl of wavy noodles in pale broth with a halved egg, chashu slice and nori.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/ramen.svg",
+      "masters": [
+        "masters/ramen-paper.svg",
+        "masters/ramen-night.svg"
+      ],
+      "exports": [
+        "exports/ramen-paper-64.png",
+        "exports/ramen-paper-192.png",
+        "exports/ramen-paper-512.png",
+        "exports/ramen-night-64.png",
+        "exports/ramen-night-192.png",
+        "exports/ramen-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "donut",
+      "name": "Donut",
+      "aliases": [
+        "doughnut",
+        "โดนัท"
+      ],
+      "category": "sweets",
+      "description": "A ring donut with a glossy glaze wash and a bite taken out.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/donut.svg",
+      "masters": [
+        "masters/donut-paper.svg",
+        "masters/donut-night.svg"
+      ],
+      "exports": [
+        "exports/donut-paper-64.png",
+        "exports/donut-paper-192.png",
+        "exports/donut-paper-512.png",
+        "exports/donut-night-64.png",
+        "exports/donut-night-192.png",
+        "exports/donut-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "chicken-wings",
+      "name": "Chicken wings",
+      "aliases": [
+        "wings",
+        "buffalo wings",
+        "ปีกไก่"
+      ],
+      "category": "protein",
+      "description": "Three glazed chicken wings with char marks and a celery stick.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/chicken-wings.svg",
+      "masters": [
+        "masters/chicken-wings-paper.svg",
+        "masters/chicken-wings-night.svg"
+      ],
+      "exports": [
+        "exports/chicken-wings-paper-64.png",
+        "exports/chicken-wings-paper-192.png",
+        "exports/chicken-wings-paper-512.png",
+        "exports/chicken-wings-night-64.png",
+        "exports/chicken-wings-night-192.png",
+        "exports/chicken-wings-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "grilled-squid",
+      "name": "Grilled squid",
+      "aliases": [
+        "squid",
+        "calamari",
+        "ปลาหมึกย่าง",
+        "ปลาหมึก"
+      ],
+      "category": "protein",
+      "description": "A scored grilled squid tube with tentacles, char marks and a lime wedge.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/grilled-squid.svg",
+      "masters": [
+        "masters/grilled-squid-paper.svg",
+        "masters/grilled-squid-night.svg"
+      ],
+      "exports": [
+        "exports/grilled-squid-paper-64.png",
+        "exports/grilled-squid-paper-192.png",
+        "exports/grilled-squid-paper-512.png",
+        "exports/grilled-squid-night-64.png",
+        "exports/grilled-squid-night-192.png",
+        "exports/grilled-squid-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "khanom-jeen",
+      "name": "Khanom jeen",
+      "aliases": [
+        "thai rice vermicelli",
+        "rice vermicelli",
+        "ขนมจีน"
+      ],
+      "category": "grains",
+      "description": "Coiled nests of thin white rice noodles on a plate with a curry pour and herb marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/khanom-jeen.svg",
+      "masters": [
+        "masters/khanom-jeen-paper.svg",
+        "masters/khanom-jeen-night.svg"
+      ],
+      "exports": [
+        "exports/khanom-jeen-paper-64.png",
+        "exports/khanom-jeen-paper-192.png",
+        "exports/khanom-jeen-paper-512.png",
+        "exports/khanom-jeen-night-64.png",
+        "exports/khanom-jeen-night-192.png",
+        "exports/khanom-jeen-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "pad-thai",
+      "name": "Pad thai",
+      "aliases": [
+        "phat thai",
+        "ผัดไทย"
+      ],
+      "category": "prepared",
+      "description": "Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/pad-thai.svg",
+      "masters": [
+        "masters/pad-thai-paper.svg",
+        "masters/pad-thai-night.svg"
+      ],
+      "exports": [
+        "exports/pad-thai-paper-64.png",
+        "exports/pad-thai-paper-192.png",
+        "exports/pad-thai-paper-512.png",
+        "exports/pad-thai-night-64.png",
+        "exports/pad-thai-night-192.png",
+        "exports/pad-thai-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
+      }
+    },
+    {
+      "id": "boba-tea",
+      "name": "Boba tea",
+      "aliases": [
+        "boba",
+        "pearl milk tea",
+        "ชาไข่มุก"
+      ],
+      "category": "drinks",
+      "description": "A domed-lid cup with dark tapioca pearls and a wide straw, cream/brown wash.",
+      "kind": "food",
+      "dimensions": [
+        512,
+        512
+      ],
+      "master_dimensions": [
+        256,
+        256
+      ],
+      "viewBox": [
+        0,
+        0,
+        256,
+        256
+      ],
+      "source": "sources/boba-tea.svg",
+      "masters": [
+        "masters/boba-tea-paper.svg",
+        "masters/boba-tea-night.svg"
+      ],
+      "exports": [
+        "exports/boba-tea-paper-64.png",
+        "exports/boba-tea-paper-192.png",
+        "exports/boba-tea-paper-512.png",
+        "exports/boba-tea-night-64.png",
+        "exports/boba-tea-night-192.png",
+        "exports/boba-tea-night-512.png"
+      ],
+      "provenance": {
+        "type": "original-agent-authored-svg-ink-wash",
+        "direction_approval": "https://github.com/jirathip-dev/morsel/issues/197#issuecomment-5646485904",
+        "addition_authority": "https://github.com/jirathip-dev/morsel/issues/262#issuecomment-5690755910",
+        "model": "gpt-6-astra",
+        "rights": "Original artwork for Morsel; no third-party food artwork",
+        "approval": "subject-list-approved-pixels-awaiting-owner-review",
+        "meaning": "Generic labeled illustration; not a photo, portion, ingredient, cut, allergy or nutrition claim",
+        "demand": "general-coverage-only; evidence-free for this account; 0 observed rows",
+        "batch": 5
       }
     }
   ]

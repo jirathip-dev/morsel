@@ -1,16 +1,16 @@
 {
-  "through_batch": 4,
+  "through_batch": 5,
   "approval": "subject list approved; pixels pending owner review; not integrated",
-  "new_food_identities": 95,
-  "total_food_identities": 108,
+  "new_food_identities": 107,
+  "total_food_identities": 120,
   "total_fallbacks": 10,
-  "total_assets": 118,
-  "theme_masters": 236,
-  "png_exports": 708,
+  "total_assets": 130,
+  "theme_masters": 260,
+  "png_exports": 780,
   "protected_product_files": 534,
   "shipped_art_files_byte_identical": 162,
-  "browser_captures": 58,
-  "clean_rebuild_files": 800,
+  "browser_captures": 68,
+  "clean_rebuild_files": 896,
   "coverage_method": "Frozen round-1 qualifier-tolerant estimator applied to delivered studies; NOT the shipped #260 matcher or live application coverage.",
   "specific_estimate": {
     "distinct": 230,
@@ -126,6 +126,30 @@
       "observed_rows_for_added_ids": 5,
       "mechanical_status": "PASS",
       "visual_review": "batch-4/VISUAL-REVIEW.md"
+    },
+    {
+      "batch": 5,
+      "new_foods": 12,
+      "new_fallbacks": 0,
+      "cumulative_foods": 120,
+      "specific_estimate": {
+        "distinct": 230,
+        "rows": 264,
+        "distinct_pct": 92.0,
+        "rows_pct": 93.0
+      },
+      "specific_delta_rows": 0,
+      "category_fallback_estimate": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "browser_captures": 10,
+      "clean_rebuild_files": 96,
+      "observed_rows_for_added_ids": 0,
+      "mechanical_status": "PASS",
+      "visual_review": "batch-5/VISUAL-REVIEW.md"
     }
   ],
   "identities": [
@@ -887,6 +911,102 @@
       "observed_rows": 0,
       "source_sha256": "709c99ce32e5dee8b54a6df05a68f33a520fb377d2e4eed6b198b2a63084f856",
       "demand": "general coverage; zero observed rows",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "pancake",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "9c501efea75430992a19f1953ed533140a84e74447563d821fd6253a8ad3f948",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "croissant",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "75748ece350bbd64f259e1fbe14e53a56a15e9a96dadbe267c526195dc7aac29",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "bacon",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "2cc82a2f4d781eec22d1da14f0d322d38d7b74870c3ad7c70b3ed7d9cb38e0db",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "sausage",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "b7b67671a5f201709daae56fe21b4cc288d8880d141a28993ac6e93b504081e3",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "peanuts",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "0afec7b786ed038da93be5d36e18f397ab105aa7ee6edd94ec5c8c72c6dec160",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "ramen",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "dd2c89ffc30ec8077994febcf27c403432adc86afc7c6159d13cdd8c2e29d09b",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "donut",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "d20f4c40dc47cec7e2e789211dec963839c33e8c90d2829ab9a5e4e33e9ce7a1",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "chicken-wings",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "883287d0a9505241d6ba0b84e85c183e4b098b0092305c02b25a359294cc55b1",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "grilled-squid",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "f1c4535976846d9f012072a02050688429122530b3ee665996934419fa0673ea",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "khanom-jeen",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "56c4f9e75828ca915b9fd0a52505557cf70b1a45d2b49d0bae2de2ab3616cda0",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "pad-thai",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "25fb62084e54b63f7132300c781d948474ccd4ef92f7ff2166829ee896de0c14",
+      "demand": "general-coverage-only; evidence-free for this account",
+      "pixel_approval": "pending owner review"
+    },
+    {
+      "id": "boba-tea",
+      "batch": 5,
+      "observed_rows": 0,
+      "source_sha256": "dd996b243b7519c0e8fc898a60be69c74064c4cb9f9979e86a36d48c83aa5194",
+      "demand": "general-coverage-only; evidence-free for this account",
       "pixel_approval": "pending owner review"
     }
   ]

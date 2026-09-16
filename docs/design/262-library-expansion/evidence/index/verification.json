@@ -1,16 +1,16 @@
 {
   "status": "PASS",
   "inputs_sha256": {
-    "library/fonts/EBGaramond[wght].ttf": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
     "library/fonts/IBMPlexMono-Regular.ttf": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
     "library/fonts/Caveat[wght].ttf": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
-    "index.html": "0e28cdf8e0ffaa89c1aae9bbc07fe0b0418d2d8018430da66a171c5ba4a5ee93"
+    "library/fonts/EBGaramond[wght].ttf": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+    "index.html": "6a30c123c86cb69ce35ad2b1dbab4a74bdfaf30ec571e7a979d33cea1ed355a0"
   },
   "capture_count": 2,
   "captures": [
     {
       "capture": "evidence/index/index-1440.png",
-      "sha256": "7d961bc4e39d69588fa0193ae17ff58f4f06cbf942bd1f5f5035069b56f1bb84",
+      "sha256": "9baddd910e243d4f01483fbd75534156044dcc6da6482688c87bea631bb04e23",
       "raw_exit": 0,
       "dom": {
         "viewport": [
@@ -24,7 +24,8 @@
           "batch-1",
           "batch-2",
           "batch-3",
-          "batch-4"
+          "batch-4",
+          "batch-5"
         ],
         "imageSizes": [],
         "allRowsVisible": true,
@@ -47,6 +48,10 @@
           "batch-4/contact-paper.png",
           "batch-4/contact-night.png",
           "batch-4/optical-both.png",
+          "batch-5/index.html",
+          "batch-5/contact-paper.png",
+          "batch-5/contact-night.png",
+          "batch-5/optical-both.png",
           "ROLLUP.md",
           "README.md",
           "INTEGRATION-HANDOFF.md"
@@ -55,7 +60,7 @@
     },
     {
       "capture": "evidence/index/index-390.png",
-      "sha256": "0e0af54dacca7bc4160c0dd9059d435cb7f95bd29dd26de7826b8c775dd947bc",
+      "sha256": "17b65414dedddd18b1df05dea6a966073bdeaa32b1cf51d49f3ac7ed890df404",
       "raw_exit": 0,
       "dom": {
         "viewport": [
@@ -69,7 +74,8 @@
           "batch-1",
           "batch-2",
           "batch-3",
-          "batch-4"
+          "batch-4",
+          "batch-5"
         ],
         "imageSizes": [],
         "allRowsVisible": true,
@@ -92,6 +98,10 @@
           "batch-4/contact-paper.png",
           "batch-4/contact-night.png",
           "batch-4/optical-both.png",
+          "batch-5/index.html",
+          "batch-5/contact-paper.png",
+          "batch-5/contact-night.png",
+          "batch-5/optical-both.png",
           "ROLLUP.md",
           "README.md",
           "INTEGRATION-HANDOFF.md"

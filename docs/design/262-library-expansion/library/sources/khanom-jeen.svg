@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Khanom jeen — thin white noodle nests with a poured curry wash</title>
+<desc>Original generic rice-noodle food study with pale coiled nests, a warm curry pour and sparse herb marks. General coverage only, zero observed rows; not a meal photograph or a claim about actual ingredients, recipe, portion or nutrition.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="shallow-ceramic-plate">
+ <path d="M34 139 C34 115 70 95 109 91 C151 84 198 103 215 124 C230 143 219 168 197 183 C165 205 106 206 68 190 C48 181 36 161 34 139Z" fill="{{paper}}" opacity=".94"/>
+ <path d="M39 151 C52 174 79 187 113 191 C155 199 195 181 217 161 C206 188 175 201 139 203 C94 206 51 187 39 151Z" fill="{{cream}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M61 145 C59 124 85 108 118 104 C153 101 186 114 198 135 C211 155 182 178 144 182 C104 188 67 170 61 145Z" fill="{{sage}}" opacity=".13" filter="url(#wash)"/>
+ <path d="M34 135 Q35 112 72 99 M88 95 Q128 84 160 96 M185 104 Q211 115 219 135 M221 147 Q219 169 197 183 M179 193 Q127 215 72 191 M57 183 Q41 172 37 154" fill="none" stroke="{{line}}" stroke-width=".85" stroke-linecap="round"/>
+ <path d="M56 143 Q56 124 76 115 M74 177 Q93 188 113 189 M157 185 Q187 180 202 162" fill="none" stroke="{{line}}" stroke-width=".5" opacity=".63" stroke-linecap="round"/>
+</g>
+<g id="nest-contact-shadows">
+ <path d="M55 125 C70 116 110 121 124 136 C122 148 93 154 70 145Z" fill="{{brown}}" opacity=".14" filter="url(#wash)"/>
+ <path d="M119 117 C144 107 181 118 191 141 C187 157 158 161 135 145Z M76 158 C101 143 144 148 170 167 C160 188 111 188 85 174Z" fill="{{brown}}" opacity=".14" filter="url(#wash)"/>
+</g>
+<g id="back-left-vermicelli-nest">
+ <path d="M53 119 C51 108 62 94 75 91 C83 78 101 80 113 91 C130 95 136 107 130 120 C128 133 114 146 97 146 C80 149 59 138 53 127Z" fill="{{cream}}"/>
+ <path d="M57 115 C60 100 75 95 84 93 C98 83 119 95 125 105 C133 116 118 129 108 135 C89 146 63 132 57 115Z" fill="{{paper}}"/>
+ <path d="M56 122 C74 136 86 136 101 132 C116 129 124 119 128 108 C136 125 119 143 100 146 C80 150 60 135 56 122Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M63 108 C70 96 96 87 110 98 C126 110 108 124 91 124 C75 126 69 116 79 107 C87 100 104 98 108 107 C113 117 95 123 85 116 C80 112 88 105 97 106" fill="none" stroke="{{cream}}" stroke-width="3.1"/>
+ <path d="M61 116 C70 132 102 137 117 121 C130 107 113 91 98 89 M61 121 C71 134 86 140 105 133 M70 99 C77 89 90 87 96 88" fill="none" stroke="{{cream}}" stroke-width="2.2"/>
+</g>
+<g id="back-left-fine-strand-folds" fill="none" stroke-linecap="round">
+ <path d="M56 111 C63 98 81 90 95 92 C113 92 127 102 121 115 C116 131 86 138 69 122 C56 110 74 99 86 98 C102 94 118 104 110 114 C103 125 80 123 78 113 C77 105 91 101 101 106 M57 119 Q63 136 87 140 M94 141 Q118 138 127 121 M62 128 Q74 141 91 144" stroke="{{line}}" stroke-width=".65" opacity=".67"/>
+ <path d="M64 115 C67 128 93 134 110 123 M67 108 C75 98 90 96 100 99 M82 113 Q91 120 101 114 M109 100 Q121 107 115 117 M59 121 Q68 134 78 135 M92 137 Q111 136 121 124" stroke="{{paper}}" stroke-width="1.6"/>
+ <path d="M80 84 Q93 77 106 86 M116 92 Q128 96 132 107 M130 119 Q128 131 117 138 M63 136 l-7 -8" stroke="{{line}}" stroke-width=".8"/>
+</g>
+<g id="right-noodle-nest-under-curry">
+ <path d="M124 109 C129 94 145 87 157 95 C173 87 189 99 195 112 C204 125 196 145 181 154 C165 164 143 156 131 144 C120 134 117 119 124 109Z" fill="{{cream}}"/>
+ <path d="M128 113 C138 96 154 96 164 99 C181 94 196 114 188 127 C181 143 155 150 139 135 C130 129 125 122 128 113Z" fill="{{paper}}"/>
+ <path d="M128 130 C145 149 171 149 188 134 L196 122 C201 141 182 161 165 157 C147 158 132 144 128 130Z" fill="{{brown}}" opacity=".16" filter="url(#wash)"/>
+ <path d="M129 118 C130 107 146 100 162 102 C178 105 187 118 178 129 C168 141 144 140 138 126 C131 113 150 106 161 112 C174 117 167 129 156 128 C146 129 142 120 150 117 M126 124 C132 142 156 151 177 139 M136 101 Q143 93 155 98 M143 146 Q161 155 182 142" fill="none" stroke="{{line}}" stroke-width=".6" opacity=".65" stroke-linecap="round"/>
+ <path d="M135 115 C142 103 163 105 173 117 M136 131 C147 144 173 141 180 129 M147 121 Q154 130 163 122 M138 137 Q148 149 170 144" fill="none" stroke="{{paper}}" stroke-width="1.6" stroke-linecap="round"/>
+</g>
+<g id="foreground-folded-white-nest">
+ <path d="M73 149 C75 135 91 124 108 126 C121 118 135 121 147 132 C164 137 173 153 169 166 C161 181 141 185 124 182 C109 186 90 178 80 170 C74 164 68 157 73 149Z" fill="{{cream}}"/>
+ <path d="M77 148 C89 134 104 134 116 130 C135 126 155 138 162 150 C167 160 153 172 137 175 C115 181 87 167 77 155Z" fill="{{paper}}"/>
+ <path d="M79 160 C98 173 126 179 144 171 C158 167 163 160 165 152 C175 168 159 181 145 182 C122 189 94 179 82 168Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M80 151 C88 140 106 137 120 136 C138 135 157 146 154 156 C151 169 122 175 102 164 C87 157 88 148 100 144 C115 139 142 144 143 154 C143 163 120 167 109 158 C101 152 114 147 126 151 M76 155 Q94 176 125 177 M91 134 C106 127 126 126 138 133" fill="none" stroke="{{cream}}" stroke-width="2.65"/>
+</g>
+<g id="foreground-fine-strand-folds" fill="none" stroke-linecap="round">
+ <path d="M77 147 C89 136 111 130 125 132 C145 136 166 150 158 160 C148 175 126 177 108 171 C91 166 79 156 89 148 C101 137 130 139 144 149 C157 160 130 169 116 161 C108 158 107 152 116 151 M81 162 Q104 182 133 180 M143 178 Q159 174 165 166 M99 137 Q109 134 120 135 M96 151 Q100 143 116 144" stroke="{{line}}" stroke-width=".6" opacity=".68"/>
+ <path d="M82 151 C94 141 117 133 136 141 M92 159 C106 173 135 174 151 163 M102 151 Q111 145 128 149 M109 155 Q120 164 135 158 M85 163 Q100 177 117 177 M134 173 Q148 173 158 163" stroke="{{paper}}" stroke-width="1.65"/>
+ <path d="M73 147 Q78 134 94 129 M105 126 Q124 116 140 128 M150 134 Q167 143 170 155 M165 170 Q157 180 145 181 M120 183 Q95 183 81 170 M73 161 l-2 -6" stroke="{{line}}" stroke-width=".85"/>
+</g>
+<g id="uneven-curry-pour-and-pool">
+ <path d="M175 106 C186 102 197 111 199 121 C201 132 213 135 215 148 C218 157 207 166 198 169 C188 173 183 183 174 179 C164 177 166 166 157 162 C148 158 146 151 149 145 C151 137 144 132 148 126 C153 120 164 127 170 122 C178 117 166 109 175 106Z" fill="{{gold}}" opacity=".86"/>
+ <path d="M180 108 C195 111 192 126 202 134 C214 140 216 149 206 157 C198 162 187 161 182 172 C175 180 169 171 172 165 C174 154 153 157 153 147 C158 143 154 133 152 129 C168 134 183 128 180 118Z" fill="{{ochre}}" opacity=".6" filter="url(#wash)"/>
+ <path d="M175 109 C184 105 193 117 191 124 C189 134 198 134 202 141 C204 149 199 152 191 149 C181 147 176 157 166 151 C159 148 166 144 163 137 C160 128 177 132 181 123Z" fill="{{orange}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M181 171 C190 159 205 167 213 154 C211 166 200 168 193 171 C187 175 183 181 177 178Z" fill="{{brown}}" opacity=".24" filter="url(#wash)"/>
+ <path d="M158 133 Q167 138 175 134 M171 144 Q181 141 187 144 M188 117 l2 6 M179 159 q7 -6 12 -3" fill="none" stroke="{{peach}}" stroke-width="1.8" opacity=".59" filter="url(#dry)"/>
+ <path d="M154 126 Q162 130 169 125 M196 121 Q199 131 204 134 M213 143 Q220 155 205 163 M193 171 Q184 182 175 178 M158 159 q-9 -4 -9 -10" fill="none" stroke="{{line}}" stroke-width=".75" stroke-linecap="round"/>
+</g>
+<g id="strands-emerging-through-the-pour" fill="none" stroke-linecap="round">
+ <path d="M151 130 Q159 136 171 130 M155 135 Q165 141 177 133 M159 141 Q168 145 177 140 M154 151 Q158 160 169 161" stroke="{{cream}}" stroke-width="1.35" opacity=".9"/>
+ <path d="M156 134 Q164 139 173 134 M158 143 Q167 148 175 143" stroke="{{line}}" stroke-width=".5" opacity=".55"/>
+</g>
+<g id="sparse-herb-marks">
+ <path d="M190 109 C182 98 191 92 201 91 C202 101 197 107 190 109Z M193 111 C196 103 207 103 213 108 C208 115 199 117 193 111Z" fill="{{sage}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M190 109 Q192 99 200 94 M191 111 l17 -2" fill="none" stroke="{{forest}}" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M182 151 Q179 143 186 137 C193 140 191 148 182 151Z" fill="{{forest}}" opacity=".79" filter="url(#wash)"/>
+ <path d="M183 150 l4 -9" fill="none" stroke="{{line}}" stroke-width=".55"/>
+</g>
+</svg>

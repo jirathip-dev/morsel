@@ -1,0 +1,97 @@
+{
+  "batch": 5,
+  "method": "Frozen round-1 qualifier-tolerant estimator applied to delivered studies; NOT the shipped #260 matcher or live application coverage.",
+  "evidence_window": "public.meal_items, read-only SELECT via Management API, 2026-09-05..2026-09-15, 284 rows / 250 distinct names (raw names stay local, untracked)",
+  "reference_recomputed_against_private_input": true,
+  "distinct_names": 250,
+  "total_rows": 284,
+  "specific": {
+    "distinct": 230,
+    "rows": 264,
+    "distinct_pct": 92.0,
+    "rows_pct": 93.0
+  },
+  "category_fallback": {
+    "distinct": 20,
+    "rows": 20,
+    "distinct_pct": 8.0,
+    "rows_pct": 7.0
+  },
+  "neutral": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "pending_later_studies": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "specific_delta_distinct": 0,
+  "specific_delta_rows": 0,
+  "new_foods": 12,
+  "cumulative_foods": 120,
+  "observed_rows_by_added_identity": {
+    "pancake": 0,
+    "croissant": 0,
+    "bacon": 0,
+    "sausage": 0,
+    "peanuts": 0,
+    "ramen": 0,
+    "donut": 0,
+    "chicken-wings": 0,
+    "grilled-squid": 0,
+    "khanom-jeen": 0,
+    "pad-thai": 0,
+    "boba-tea": 0
+  },
+  "coverage_driven_zero_observed_ids": [
+    "pancake",
+    "croissant",
+    "bacon",
+    "sausage",
+    "peanuts",
+    "ramen",
+    "donut",
+    "chicken-wings",
+    "grilled-squid",
+    "khanom-jeen",
+    "pad-thai",
+    "boba-tea"
+  ],
+  "demand_note": "All 12 subjects are evidence-free for this account (0 observed rows); general coverage only, not observed demand.",
+  "public_issue_examples_estimated_targets": [
+    {
+      "name": "Americano (black, no sugar, homemade)",
+      "target": "coffee",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Pork with brown gravy (moo ob style)",
+      "target": "braised-pork",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "White rice, cooked (half portion)",
+      "target": "jasmine-rice",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Chinese kale, cooked (kana)",
+      "target": "stir-fried-greens",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "Pasta (linguine), cooked",
+      "target": "pasta",
+      "tier": "specific",
+      "batch": 1
+    }
+  ]
+}

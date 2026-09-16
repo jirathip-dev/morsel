@@ -19,7 +19,7 @@ Open `index.html`; each batch has a separate `BATCH-REPORT.md`, Paper/Night cont
 
 The product mirror is documentation/artwork only. `docs/art/food-library-v2/`, `app/**`, Swift, database and schema files remain untouched. The original 18 entries are 13 foods plus five fallback signs, including neutral. Their exact source/master/export bytes and identity metadata are copied unchanged into the candidate library. Candidate metadata uses schema 2 / `2.2.0-candidate-bN`; this is not a bundled production version.
 
-Batches contain 24 / 24 / 24 / 23 / 12 new foods. Five approved labeled category fallbacks accompany batch 1. After all five, the target is 120 food identities, excluding fallback signs; machine evidence gives the actual delivered count.
+Batches contain 24 / 24 / 24 / 23 / 12 new foods. Five approved labeled category fallbacks accompany batch 1. All five are produced: 107 new food identities, 120 including the shipped 13, excluding fallback signs. The candidate contains 130 assets including 10 fallback signs; machine evidence records these actual counts.
 
 ## Locked design system
 
@@ -92,6 +92,16 @@ The index uses the same locked font/palette tokens, real 44px-or-larger links, n
 - Browser evidence is real Chromium output and DOM validation of fictional fixtures, not production/native screenshots.
 - Visual-review notes and the 10-tell composition audit are separate from mechanical gates. Neither grants pixel approval.
 - The orchestrator posts each report to issue #262; this lane makes no issue/PR writes.
+
+## Verifier audit and contract regression checks
+
+[VERIFIER-AUDIT.md](VERIFIER-AUDIT.md) records three corrected validation gaps, the retained old-verifier snapshot, eight behavioral RED failures, and ten focused GREEN controls. The complete retained art-contract run is 23 passing tests, separate from the nonzero npm test result:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/run_contract_gates.py
+```
+
+This command refreshes test evidence, so regenerate manifests afterwards. Batch 1 was freshly input-pinned without changing any of its 16 screenshot bytes. Batch-5 alias/study and general-coverage limits are in [HONESTY-DECISION.md](batch-5/HONESTY-DECISION.md).
 
 ## Post-publication audit
 
