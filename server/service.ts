@@ -167,6 +167,13 @@ function lowConfidenceItemCount(meals: Awaited<ReturnType<MorselRepository['getM
   )).length, 0)
 }
 
+/** Issue #258 — meals whose item rows could not be read. Their `items` (and
+ *  every total derived from them) may be short, so a read that degraded is
+ *  never presented as a complete day. */
+function incompleteMealCount(meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>): number {
+  return meals.filter((meal) => meal.items_read === 'incomplete').length
+}
+
 function createRenderSummary(
   meals: Awaited<ReturnType<MorselRepository['getMealsInRange']>>,
   startDate: string,
@@ -184,6 +191,7 @@ function createRenderSummary(
     ...(goal === undefined ? {} : { goal }),
     streakDays: countStreak(meals, endDate, days, timeZone),
     mealCount: meals.length,
+    incompleteMealCount: incompleteMealCount(meals),
     dailyCalories: dailyCalories(meals, startDate, days, timeZone),
     lowConfidenceItemCount: lowConfidenceItemCount(meals),
   }
@@ -645,6 +653,9 @@ export class MorselService {
       },
       weight_trend: weightTrend,
       ...(datedTargets === undefined ? {} : { dated_targets: datedTargets }),
+      // Issue #258 — the window's item rows degraded: say so instead of
+      // presenting the undercounted aggregates as a complete read.
+      ...(summary.incompleteMealCount > 0 ? { items_read: 'incomplete' as const } : {}),
       render: renderDashboardSummary(summary),
     }, 'get_dashboard_summary output')
   }

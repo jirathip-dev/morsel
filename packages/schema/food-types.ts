@@ -274,11 +274,20 @@ export const MealImageRecordSchema = z.object({
   expires_at: IsoDateTimeSchema,
 }).strict()
 
+// One entry of a day/dashboard read's COMPLETENESS, so a consumer can tell
+// "nothing logged" from "read incomplete" (issue #258). `incomplete` means at
+// least one item row of that meal (or of the read's window, for the summary)
+// could not be read — the read degrades instead of aborting and never reports
+// an unreadable day as `meals: []`. Absent keys on records whose item read
+// completed keep older consumers and producers valid.
+export const ItemsReadStateSchema = z.enum(['complete', 'incomplete'])
+
 export const MealRecordSchema = z.object({
   meal_log_id: z.uuid(),
   meal_type: MealTypeSchema,
   eaten_at: IsoDateTimeSchema,
   items: z.array(MealItemRecordSchema),
+  items_read: ItemsReadStateSchema.optional(),
   image: MealImageRecordSchema.optional(),
 }).strict()
 
@@ -408,6 +417,9 @@ export const GetDashboardSummaryOutputSchema = z.object({
   macro_split: MacroSplitSchema,
   weight_trend: z.array(WeightTrendPointSchema),
   dated_targets: z.array(DatedTargetSchema).optional(),
+  // Issue #258 — the window's item rows degraded: at least one meal could not
+  // be read, so the aggregates above undercount. Omitted when complete.
+  items_read: ItemsReadStateSchema.optional(),
   render: RenderPayloadSchema,
 }).strict()
 
@@ -541,6 +553,7 @@ export type AttachMealImageInput = z.infer<typeof AttachMealImageInputSchema>
 export type AttachMealImageOutput = z.infer<typeof AttachMealImageOutputSchema>
 export type MealImageRecord = z.infer<typeof MealImageRecordSchema>
 export type MealItemRecord = z.infer<typeof MealItemRecordSchema>
+export type ItemsReadState = z.infer<typeof ItemsReadStateSchema>
 export type MealRecord = z.infer<typeof MealRecordSchema>
 export type Totals = z.infer<typeof TotalsSchema>
 export type GoalSummary = z.infer<typeof GoalSummarySchema>

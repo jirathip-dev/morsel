@@ -46,6 +46,19 @@ struct TodayView: View {
                 TodaySkeleton()
             } else {
                 VStack(alignment: .leading, spacing: 0) {
+                    // Issue #258 — a day read that failed (cached copy on
+                    // screen) or degraded (meals whose items could not be
+                    // read) says so above the values it is showing.
+                    if viewModel.isShowingCachedDay {
+                        CachedDayNotice(lastLoadedAt: viewModel.lastLoadedAt) {
+                            Task { await viewModel.load() }
+                        }
+                    }
+                    if viewModel.incompleteMealCount > 0 {
+                        IncompleteDayNotice(mealCount: viewModel.incompleteMealCount) {
+                            Task { await viewModel.load() }
+                        }
+                    }
                     if let errorMessage = viewModel.errorMessage {
                         Text(errorMessage)
                             .font(.morselBody)

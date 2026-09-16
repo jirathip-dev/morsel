@@ -34,6 +34,7 @@ const daySummary: DashboardRenderSummary = {
   goal,
   streakDays: 1,
   mealCount: 1,
+  incompleteMealCount: 0,
   dailyCalories: [{ date: '2026-08-25', calories_kcal: 700 }],
   lowConfidenceItemCount: 0,
 }
@@ -49,6 +50,7 @@ const weekSummary: DashboardRenderSummary = {
   goal: undefined,
   streakDays: 3,
   mealCount: 7,
+  incompleteMealCount: 0,
   dailyCalories: [
     { date: '2026-08-19', calories_kcal: 1_600 },
     { date: '2026-08-20', calories_kcal: 2_000 },

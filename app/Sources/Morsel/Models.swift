@@ -169,8 +169,7 @@ struct MealImage: Equatable, Sendable, Codable {
         self.expiresAt = expiresAt
     }
 
-    /// A signed URL is only usable before its expiry instant (issue #135 —
-    /// callers must not fetch an expired URL; reads re-mint per refresh).
+    /// A signed URL is only usable before its expiry instant (issue #135).
     func isExpired(at date: Date = Date()) -> Bool {
         guard let expiresAt else {
             return false
@@ -188,6 +187,8 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
     /// #133 image contract; nil without a photo or before remote read.
     let image: MealImage?
     let items: [MealItem]
+    /// Issue #258 — item-read completeness; nil when no remote item read produced it.
+    let itemsRead: MealItemsReadState?
     /// #106: synced after remote readback; queued rows retain honest local state.
     let syncState: MealSyncState
     init(
@@ -198,6 +199,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         imagePath: String? = nil,
         image: MealImage? = nil,
         items: [MealItem],
+        itemsRead: MealItemsReadState? = nil,
         syncState: MealSyncState = .synced
     ) {
         self.mealLogID = mealLogID
@@ -207,6 +209,7 @@ struct MealRecord: Identifiable, Equatable, Sendable, Codable {
         self.imagePath = imagePath
         self.image = image
         self.items = items
+        self.itemsRead = itemsRead
         self.syncState = syncState
     }
 
@@ -287,8 +290,7 @@ enum GoalStatus: Equatable, Sendable {
 enum DashboardMath {
     static let lowConfidenceThreshold = 0.8
     static let nearGoalThreshold = 0.85
-    /// V1 goal tolerance: the History "soft ±50 kcal" band — a day within ±50
-    /// of the target reads "on target"; beyond it reads under/over.
+    /// V1 goal tolerance: the History "soft ±50 kcal" band (on target/over/under).
     static let onTargetToleranceKcal = 50.0
 
     /// The ONE displayed delta semantics (issue #94): eaten minus goal. Active
@@ -319,8 +321,7 @@ enum DashboardMath {
         }
     }
 
-    /// Effective goal resolution mirrors the server's "latest update wins"
-    /// rule — implemented in GoalsMath.swift (issue #113).
+    /// Effective goal resolution mirrors the server (GoalsMath.swift, #113).
     static func confidenceBadge(for confidence: Double?) -> ConfidenceBadge {
         guard let confidence, confidence.isFinite else {
             return .missing

@@ -89,6 +89,7 @@
 		66CAE95E31704E6E872405DF /* GoalsDirectionProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17910B2CF40361EC1AA86DCF /* GoalsDirectionProfileTests.swift */; };
 		66D9CFBEA01C3C94DEE65BAA /* MealThumbnailReuseEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0919CF260EC13E0B8F8964F9 /* MealThumbnailReuseEvidenceTests.swift */; };
 		675177370B6FE6E76B4CAC53 /* fallback-drinks-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 4D1B4606D790401E103547DC /* fallback-drinks-paper-64.png */; };
+		67B58D17DD8A2F2894A30664 /* DayReadDegradeEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12AC8D7BF90AB36E5A6410F /* DayReadDegradeEvidenceTests.swift */; };
 		690F6D99875E901FC2892BB2 /* LocalSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB6CF79A74AAB20CEAD21D /* LocalSyncEngine.swift */; };
 		69B6D4FB70B3588C2F172EDB /* orange-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = BA7DD79506B6E499B4134F9B /* orange-night-64.png */; };
 		6BA82E2F5B5E3D50DB32A227 /* grilled-chicken-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C3FFEC146EFA98ED7AAF9 /* grilled-chicken-paper-64.png */; };
@@ -117,7 +118,6 @@
 		86A60E20FC5299F69F265F81 /* vegetable-soup-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = DC16DE5E6A20F2D7186756A0 /* vegetable-soup-paper-64.png */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
 		87A39C7D9C021EE6228F07C3 /* vegetable-soup-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 79F8A95F4A1F020CA432E242 /* vegetable-soup-night-64.png */; };
-		88227A8D29871E293537E9A7 /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = E2A1C256489F1DDE08A35233 /* coffee-photo.png */; };
 		897748F275E689FA57D81807 /* JournalDiaryLoadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97968CFB8F765570DB035C /* JournalDiaryLoadTests.swift */; };
 		8D3051B39BFE13D81A3E7D01 /* PageIdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64505E614C91782115EAC760 /* PageIdentityTests.swift */; };
 		90193474B6D0F7F34E8C0CD6 /* LocalFirstMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A43E1724B9B801B059879 /* LocalFirstMenus.swift */; };
@@ -144,6 +144,7 @@
 		A99FED669C22A78D5798B927 /* DatedTargetReadRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36E5435614DF98E20B770119 /* DatedTargetReadRenderTests.swift */; };
 		AAD9BFE2CD0C8D62634CB61B /* LocalDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */; };
 		ABECBB85CB585CA269B156B4 /* ArtworkIdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7305FEA86FDAECBE321F87F /* ArtworkIdentityTests.swift */; };
+		AD1EE14F16977E2525B8F48B /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 75AD27DA4D63248B892F6B7A /* coffee-photo.png */; };
 		AD7B9937F5DF7E68D8D74935 /* LocalFirstRepository+ThumbnailRevision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12A77E9A43600228D074E0 /* LocalFirstRepository+ThumbnailRevision.swift */; };
 		B04F6AF20CF3C95CC5F75168 /* Caveat[wght].ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4578507457A87FBC7A41202A /* Caveat[wght].ttf */; };
 		B0788E582504BCA696DF4E37 /* SupabaseMenus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF903631265ED198B088E47 /* SupabaseMenus.swift */; };
@@ -202,6 +203,7 @@
 		F556FDD88E21E7D0275BB742 /* fallback-grains-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = F048F73732E88CDC64BC23FE /* fallback-grains-paper-64.png */; };
 		F5915D64A275682E08A53926 /* JournalFollowUpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A866AD215B3363C1FD801ED6 /* JournalFollowUpTests.swift */; };
 		F5F2E25453D37114687D569F /* broccoli-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F5C7D926644AA5C85E4C1FF /* broccoli-paper-64.png */; };
+		F621B686BC433F5C0F95CCC5 /* DayReadDegradeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */; };
 		F7293144CD46638158371B2C /* JournalArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755535266865EDC817D760FE /* JournalArtwork.swift */; };
 		F7C5F8D5F24ADC69D8A2C091 /* MealCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */; };
 		F864F9127EDDDBEE5A7F2261 /* JournalShellChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */; };
@@ -323,6 +325,7 @@
 		7376D035DE0602386598C7D7 /* MealCorrectionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCorrectionsTests.swift; sourceTree = "<group>"; };
 		755535266865EDC817D760FE /* JournalArtwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalArtwork.swift; sourceTree = "<group>"; };
 		75AB27CEFAB350EA6B5D5045 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
+		75AD27DA4D63248B892F6B7A /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		7820815EE9E0AEDFC445ED1C /* MealThumbnailCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailCache.swift; sourceTree = "<group>"; };
 		78283BF7519E5FD810AEC31A /* FoodArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodArtworkView.swift; sourceTree = "<group>"; };
 		7966656487164BB9762488BC /* a-night-stracciatella.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-night-stracciatella.png"; sourceTree = "<group>"; };
@@ -356,6 +359,7 @@
 		996042903A38530D44928673 /* mango-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mango-night-64.png"; sourceTree = "<group>"; };
 		9B00FD9F78D3E3FDD061596C /* LocalDayBucketTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDayBucketTests.swift; sourceTree = "<group>"; };
 		9BD4535877E3ADE07DFFAF06 /* a-paper-stracciatella.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-paper-stracciatella.png"; sourceTree = "<group>"; };
+		A12AC8D7BF90AB36E5A6410F /* DayReadDegradeEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadDegradeEvidenceTests.swift; sourceTree = "<group>"; };
 		A13E2AC66E93B0B5052C8B32 /* MenusScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenusScreen.swift; sourceTree = "<group>"; };
 		A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OFL-IBMPlexMono.txt"; sourceTree = "<group>"; };
 		A17BA3CB05DE369B680ABA21 /* WeightDeltaSurfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightDeltaSurfaceTests.swift; sourceTree = "<group>"; };
@@ -403,6 +407,7 @@
 		D2AF66A8CF193E708730E9BD /* JournalShellChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalShellChrome.swift; sourceTree = "<group>"; };
 		D417EF818CCA426C7F37AFFC /* a-paper-vegetables.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-paper-vegetables.png"; sourceTree = "<group>"; };
 		D4B08C06B55A22E227C4572A /* MealThumbnailTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailTestSupport.swift; sourceTree = "<group>"; };
+		D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadDegradeTests.swift; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		D6D797778BA1664F9C8F97F4 /* fallback-grains-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-grains-night-64.png"; sourceTree = "<group>"; };
 		D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPageTurner.swift; sourceTree = "<group>"; };
@@ -415,7 +420,6 @@
 		DF0D158665E5F1AF65CD855E /* SupabaseMealReadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealReadModel.swift; sourceTree = "<group>"; };
 		E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFocus.swift; sourceTree = "<group>"; };
 		E2293D35B4DA17DDD0A8FE40 /* fallback-protein-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-protein-paper-64.png"; sourceTree = "<group>"; };
-		E2A1C256489F1DDE08A35233 /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallelReadsTests.swift; sourceTree = "<group>"; };
 		E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReliabilityServices.swift; sourceTree = "<group>"; };
 		E444C6D0249794B57A7BAA86 /* grilled-chicken-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-chicken-night-64.png"; sourceTree = "<group>"; };
@@ -454,12 +458,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E37FB708DF7EB4C09271675 /* issue-258-day-read-degrade */ = {
+			isa = PBXGroup;
+			children = (
+				C525970DBE5042382BF223F5 /* docs */,
+			);
+			name = "issue-258-day-read-degrade";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		0E6BB38088E65EB396E40E6C /* issue-241-artwork-native */ = {
+			isa = PBXGroup;
+			children = (
+				5AE7BEA99093D4916D5B8E36 /* fixtures */,
+			);
+			path = "issue-241-artwork-native";
+			sourceTree = "<group>";
+		};
+		14815363FA5A42CC1B69D453 /* evidence */ = {
+			isa = PBXGroup;
+			children = (
+				0E6BB38088E65EB396E40E6C /* issue-241-artwork-native */,
+			);
+			path = evidence;
+			sourceTree = "<group>";
+		};
 		1AFDA4B412B398A53D28BA2A = {
 			isa = PBXGroup;
 			children = (
 				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				1C625302EE592BC774CC3FA7 /* Fonts */,
-				786A2B6C80BBFDB2C5A840C2 /* issue-254-p1-lifecycle */,
+				0E37FB708DF7EB4C09271675 /* issue-258-day-read-degrade */,
 				441456F0892E00AAF3B9BAFD /* Resources */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
@@ -480,14 +509,6 @@
 				A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		2FC01007FC0ECDA5E5F6836B /* issue-241-artwork-native */ = {
-			isa = PBXGroup;
-			children = (
-				A205F8DAC226FF99776F9989 /* fixtures */,
-			);
-			path = "issue-241-artwork-native";
 			sourceTree = "<group>";
 		};
 		3621CE8D3C7CB6FA69427469 /* Sources */ = {
@@ -646,37 +667,20 @@
 			path = FoodArt;
 			sourceTree = "<group>";
 		};
+		5AE7BEA99093D4916D5B8E36 /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				75AD27DA4D63248B892F6B7A /* coffee-photo.png */,
+			);
+			path = fixtures;
+			sourceTree = "<group>";
+		};
 		72FA8734899AB1DF14045A55 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				BB77CBB642C5C90A5C95394E /* MorselTests */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		786A2B6C80BBFDB2C5A840C2 /* issue-254-p1-lifecycle */ = {
-			isa = PBXGroup;
-			children = (
-				8D9A1751222AC67A5780FF04 /* docs */,
-			);
-			name = "issue-254-p1-lifecycle";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		7D1F22514FA9FFCC0D5B8B65 /* evidence */ = {
-			isa = PBXGroup;
-			children = (
-				2FC01007FC0ECDA5E5F6836B /* issue-241-artwork-native */,
-			);
-			path = evidence;
-			sourceTree = "<group>";
-		};
-		8D9A1751222AC67A5780FF04 /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				7D1F22514FA9FFCC0D5B8B65 /* evidence */,
-			);
-			path = docs;
 			sourceTree = "<group>";
 		};
 		97A4D9B8557C5A8E72B0EFE5 /* Products */ = {
@@ -686,14 +690,6 @@
 				7A85C2813FC9527332F6200F /* MorselTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A205F8DAC226FF99776F9989 /* fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				E2A1C256489F1DDE08A35233 /* coffee-photo.png */,
-			);
-			path = fixtures;
 			sourceTree = "<group>";
 		};
 		BB77CBB642C5C90A5C95394E /* MorselTests */ = {
@@ -707,6 +703,8 @@
 				5085C82B033CB96C02AD36EC /* AuthEmailErrorCopyTests.swift */,
 				37A12A89F0EF310480905F84 /* DashboardMathTests.swift */,
 				36E5435614DF98E20B770119 /* DatedTargetReadRenderTests.swift */,
+				A12AC8D7BF90AB36E5A6410F /* DayReadDegradeEvidenceTests.swift */,
+				D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */,
 				8A2DAAEC85CD0B377D1B036A /* EndpointCopyTests.swift */,
 				58C80CA1DB8CA7D85EA72B11 /* FoodArtworkFallbackTests.swift */,
 				29D0B6D11D68B9E0C2C67B89 /* GoalsContextLazyLoadTests.swift */,
@@ -765,6 +763,14 @@
 				B1B5C42479945B7A48EC226F /* WeightImportTests.swift */,
 			);
 			path = MorselTests;
+			sourceTree = "<group>";
+		};
+		C525970DBE5042382BF223F5 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				14815363FA5A42CC1B69D453 /* evidence */,
+			);
+			path = docs;
 			sourceTree = "<group>";
 		};
 		CBAD6484E6C141A6B0F32E72 /* JournalArt */ = {
@@ -865,7 +871,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88227A8D29871E293537E9A7 /* coffee-photo.png in Resources */,
+				AD1EE14F16977E2525B8F48B /* coffee-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1041,6 +1047,8 @@
 				47B7E3734699B38D25B0FDBF /* AuthEmailErrorCopyTests.swift in Sources */,
 				23D4162498D3055F4D6A3B32 /* DashboardMathTests.swift in Sources */,
 				A99FED669C22A78D5798B927 /* DatedTargetReadRenderTests.swift in Sources */,
+				67B58D17DD8A2F2894A30664 /* DayReadDegradeEvidenceTests.swift in Sources */,
+				F621B686BC433F5C0F95CCC5 /* DayReadDegradeTests.swift in Sources */,
 				9CECA75F07D5B89BFB81BE29 /* EndpointCopyTests.swift in Sources */,
 				99BDF69AD05758C535E26685 /* FoodArtworkFallbackTests.swift in Sources */,
 				83B752241598030E3B559964 /* GoalsContextLazyLoadTests.swift in Sources */,

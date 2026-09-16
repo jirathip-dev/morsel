@@ -1,0 +1,64 @@
+{
+  "kind": "simulator fixture evidence",
+  "issue": 258,
+  "device": "Morsel258-iPhone16",
+  "udid": "152E7AA9-8BC5-41D0-AD74-F73C7C69A3EB",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "fixture_clock_utc": "2026-09-05T04:00:00+00:00",
+  "fixture_read_path": "SupabaseDashboardRepository.loadToday over the shared StubTransport (production read path; no network)",
+  "evidence_run_log": ".lane-logs/native-focused-5.log",
+  "evidence_run_raw_exit": 0,
+  "evidence_run_tests": 7,
+  "evidence_run_failures": 0,
+  "native_command_log": ".lane-logs/native-full.log",
+  "native_raw_exit": 0,
+  "complete_native_tests": 437,
+  "complete_native_failures": 0,
+  "native_log_invocation": ".lane-logs/native-full.log (ONE complete unfiltered xcodebuild test invocation; raw_exit=0, 437 tests, 0 failures, 172.2 s, ** TEST SUCCEEDED **)",
+  "theme_ground_pixel": {
+    "paper": "#FEF8EA (design ground #FFF7E8 under the paper texture overlay)",
+    "night": "#29261F (design ground #2A261F under the night texture overlay)"
+  },
+  "state_assertions": {
+    "stale": "isShowingCachedDay == true, lastLoadedAt == fixture instant, incompleteMealCount == 0, 2 meals",
+    "degraded": "isShowingCachedDay == false, incompleteMealCount == 1, 2 meals"
+  },
+  "captures": [
+    {
+      "file": "258-paper-stale.png",
+      "state": "stale (cached day after a failed refresh)",
+      "theme": "paper",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "59a6bcfe46084ad0cf901ad7a378bc4746ac319371ce88f6402e81f637c549cf",
+      "visually_inspected": true
+    },
+    {
+      "file": "258-paper-degraded.png",
+      "state": "degraded (one meal's items could not be read)",
+      "theme": "paper",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "c20259b21d6aa510e8e28f43037c6faf4576198182e5ce39d76f9916c17738b8",
+      "visually_inspected": true
+    },
+    {
+      "file": "258-night-stale.png",
+      "state": "stale (cached day after a failed refresh)",
+      "theme": "night",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "85c1a84c00a9b26f547355770810437e0132a6adca61a00bbd287fe70709575a",
+      "visually_inspected": true
+    },
+    {
+      "file": "258-night-degraded.png",
+      "state": "degraded (one meal's items could not be read)",
+      "theme": "night",
+      "width": 1179,
+      "height": 2556,
+      "sha256": "833f4d9108457ceaea4b130d17a182b0a68987e7b15859ff5f4a27d955e1caa2",
+      "visually_inspected": true
+    }
+  ]
+}

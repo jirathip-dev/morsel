@@ -24,6 +24,10 @@ final class DashboardViewModel: ObservableObject {
     @Published private(set) var errorMessage: String?
     @Published private(set) var weightImportError: String?
     @Published private(set) var healthStatus: HealthCalmStatus = .unknown
+    /// Issue #258 — the last successful fresh day load, and whether the cached
+    /// copy is what the screen is showing (see the #258 notices in TodayLogViews).
+    @Published private(set) var lastLoadedAt: Date?
+    @Published private(set) var isShowingCachedDay = false
 
     let repository: any DashboardRepository
     let userID: UUID
@@ -56,9 +60,7 @@ final class DashboardViewModel: ObservableObject {
         self.dateProvider = dateProvider
     }
 
-    var totals: DashboardTotals {
-        DashboardMath.totals(for: snapshot?.meals ?? [])
-    }
+    var totals: DashboardTotals { DashboardMath.totals(for: snapshot?.meals ?? []) }
 
     /// The same Health status stamp drives the margin note (nil before first upload).
     var lastHealthImportDate: Date? {
@@ -67,20 +69,14 @@ final class DashboardViewModel: ObservableObject {
     }
 
     var mealGroups: [MealGroup] {
-        guard let meals = snapshot?.meals else {
-            return []
-        }
+        guard let meals = snapshot?.meals else { return [] }
         return MealType.allCases.compactMap { type in
             let matchingMeals = meals.filter { $0.mealType == type }
             return matchingMeals.isEmpty ? nil : MealGroup(type: type, meals: matchingMeals)
         }
     }
 
-    var reviewItems: [MealItem] {
-        snapshot?.meals
-            .flatMap(\.items)
-            .filter(\.needsReview) ?? []
-    }
+    var reviewItems: [MealItem] { snapshot?.meals.flatMap(\.items).filter(\.needsReview) ?? [] }
 
     /// Reconnect both Health types independently, then queue the upload pass.
     func retryHealthSync() async {
@@ -164,10 +160,15 @@ final class DashboardViewModel: ObservableObject {
             let loaded = try await repository.loadToday(userID: userID, date: date)
             guard generation == loadGeneration, date == selectedDate else { return }
             snapshot = loaded
+            lastLoadedAt = dateProvider()
+            isShowingCachedDay = false
         } catch is CancellationError {
             return
         } catch {
             guard generation == loadGeneration, date == selectedDate else { return }
+            // Issue #258 — a failed refresh keeps the cached day on screen but
+            // never as current: cached label, last load time, retry.
+            isShowingCachedDay = snapshot != nil
             errorMessage = DashboardUserMessage.userMessage(for: error)
         }
     }
@@ -302,6 +303,8 @@ extension DashboardViewModel {
         isLoading = false
         loadingDate = nil
         reloadAfterLoad = false
+        lastLoadedAt = nil
+        isShowingCachedDay = false
     }
 
     /// Anchor-bounded body-mass import, independently throwing.
@@ -315,8 +318,7 @@ extension DashboardViewModel {
         return stored.count
     }
 
-    /// One independent active-energy pass; returns the number of daily rows
-    /// durably stored.
+    /// One independent active-energy pass; returns the daily rows stored.
     private func importEnergyPass() async throws -> Int {
         guard let weightImporter else { return 0 }
         let anchor = try? healthStore?.energyAnchor()
@@ -341,8 +343,7 @@ extension DashboardViewModel {
         weightImportError = HealthSyncUserMessage.userMessage(for: error)
     }
 
-    /// #112/#173: await per-type read decisions (not share status). Unknown
-    /// permission cannot claim sync; only matching upload stamps name synced kinds.
+    /// #112/#173: await per-type read decisions; only matching stamps name synced kinds.
     private func updateCalmStatus(
         bodyMassFailed: Bool, energyFailed: Bool,
         bodyImported: Int, energyImported: Int
@@ -389,8 +390,7 @@ extension DashboardViewModel {
         return kinds
     }
 
-    /// Re-derives the calm status after a sync pass (rows drained → synced
-    /// with the last upload time + uploaded kinds; otherwise pending).
+    /// Re-derives the calm status after a sync pass (drained → synced).
     func refreshHealthCalmStatus() async {
         await updateCalmStatus(
             bodyMassFailed: false, energyFailed: false,
