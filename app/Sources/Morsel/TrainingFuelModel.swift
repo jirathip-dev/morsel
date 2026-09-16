@@ -18,13 +18,16 @@ final class TrainingFuelModel: ObservableObject {
     @Published private var confirmedAddition: Double?
     @Published var draft = ""
     @Published var acknowledgesDayOnly = false
+    @Published private(set) var isPresented = false
     @Published private(set) var isEditing = false
+    @Published private(set) var isReadingHealth = false
     @Published private(set) var isPending = false
     @Published private(set) var error: String?
     @Published var longerDay = false // Explicit user context, never inferred from Health.
     @Published var context = TrainingFuelContext()
 
     private var operation = UUID()
+    private var healthOperation = UUID()
     private var calendar: Calendar
     private let now: () -> Date
     private let accept: () async throws -> Void
@@ -40,8 +43,9 @@ final class TrainingFuelModel: ObservableObject {
     var baseline: DashboardGoal? { isCurrentDay ? storedBaseline : nil }
     var addition: Double? { isCurrentDay ? confirmedAddition : nil }
     var target: Double? {
-        guard let baseline else { return nil }
-        return baseline.calorieTargetKcal + (addition ?? 0)
+        guard let baseline, baseline.calorieTargetKcal.isFinite, baseline.calorieTargetKcal > 0 else { return nil }
+        let total = baseline.calorieTargetKcal + (addition ?? 0)
+        return total.isFinite ? total : nil
     }
     var requiresAcknowledgement: Bool { baseline?.source == .manual }
     var canConfirm: Bool {
@@ -54,6 +58,7 @@ final class TrainingFuelModel: ObservableObject {
         // removal is expressed by undo, never by an entered amount.
         let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty,
+              target != nil,
               let amount = Double(text.replacingOccurrences(of: Locale.current.decimalSeparator ?? ".", with: ".")),
               amount.isFinite, amount > 0, let baseline,
               (baseline.calorieTargetKcal + amount).isFinite else { return nil }
@@ -78,16 +83,42 @@ final class TrainingFuelModel: ObservableObject {
         if let goal = snapshot.goal { storedBaseline = goal }
     }
 
+    var rowText: String {
+        guard let target else { return "Usual target · unavailable" }
+        return "\(addition == nil ? "Usual day" : "Training day") · \(Self.amountText(target)) kcal"
+    }
+
+    static func amountText(_ amount: Double) -> String {
+        amount.formatted(.number.precision(.fractionLength(0...340)))
+    }
+
+    var validationMessage: String? {
+        if target == nil { return "Usual target unavailable. An addition cannot be confirmed without it." }
+        guard !draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
+        return parsedAmount == nil ? "Enter a finite amount greater than zero. To remove an addition, use Undo." : nil
+    }
+
+    func openSheet() {
+        synchronize(nil)
+        isPresented = true
+        draft = ""
+        acknowledgesDayOnly = false
+        error = nil
+        isEditing = addition == nil
+    }
+
     func beginReview() {
         guard isCurrentDay, baseline != nil, !isPending else { return }
         draft = addition.map { String($0) } ?? ""
         acknowledgesDayOnly = false
         error = nil
+        isPresented = true
         isEditing = true
     }
 
     func cancel() {
         operation = UUID() // late completion cannot apply a cancelled draft
+        isPresented = false
         isEditing = false
         isPending = false
         error = nil
@@ -121,12 +152,29 @@ final class TrainingFuelModel: ObservableObject {
         guard isCurrentDay, !isPending else { return }
         confirmedAddition = nil
         cancel()
-        draft = ""
-        acknowledgesDayOnly = false
+        openSheet()
+    }
+
+    func readHealth(using read: () async -> TrainingFuelContext) async {
+        guard !isReadingHealth else { return }
+        let token = UUID()
+        healthOperation = token
+        let readingDay = day
+        isReadingHealth = true
+        let result = await read()
+        guard healthOperation == token else { return }
+        isReadingHealth = false
+        guard !Task.isCancelled, readingDay == day, isCurrentDay else { return }
+        context = result
     }
 
     private func reset() {
+        let wasPresented = isPresented
         cancel()
+        isPresented = wasPresented
+        isEditing = wasPresented
+        healthOperation = UUID()
+        isReadingHealth = false
         storedBaseline = nil
         confirmedAddition = nil
         draft = ""

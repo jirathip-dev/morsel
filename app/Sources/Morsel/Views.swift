@@ -39,14 +39,22 @@ struct TodayView: View {
             .padding(.bottom, 18)
 
             if let errorMessage = viewModel.errorMessage, viewModel.snapshot == nil {
-                ErrorNotice(message: errorMessage) {
-                    Task { await viewModel.load() }
+                VStack(spacing: 20) {
+                    ErrorNotice(message: errorMessage) {
+                        Task { await viewModel.load() }
+                    }
+                    if viewModel.selectedDate == viewModel.today { TrainingDayUnavailableRow() }
                 }
             } else if viewModel.isLoading && viewModel.snapshot == nil {
-                TodaySkeleton()
+                VStack(spacing: 20) {
+                    if viewModel.selectedDate == viewModel.today { TrainingDayUnavailableRow() }
+                    TodaySkeleton()
+                }
             } else {
                 VStack(alignment: .leading, spacing: 0) {
                     if let errorMessage = viewModel.errorMessage {
+                        Text("Showing the last loaded diary; refresh failed.")
+                            .font(.morselBody).foregroundStyle(Color.morselInkTwo)
                         Text(errorMessage)
                             .font(.morselBody)
                             .foregroundStyle(Color.morselOver)
@@ -69,6 +77,12 @@ struct TodayView: View {
             await viewModel.load()
         }
     }
+}
+
+private struct TrainingDayUnavailableRow: View {
+    @EnvironmentObject private var trainingFuel: TrainingFuelModel
+
+    var body: some View { TrainingFuelSection(model: trainingFuel) }
 }
 
 // MARK: - Header (date line, hand title, add tab + toothed cog)
@@ -121,13 +135,9 @@ private struct JournalHeroView: View {
         DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: target)
     }
 
-    private var remaining: String? {
-        guard let target else { return nil }
-        let delta = viewModel.totals.caloriesKcal - target
-        if delta > 0 {
-            return "\(MorselFormat.number(delta)) kcal over"
-        }
-        return "\(MorselFormat.number(-delta)) kcal left"
+    private var hasCalories: Bool {
+        guard let snapshot = viewModel.snapshot else { return false }
+        return snapshot.meals.allSatisfy { !$0.items.isEmpty && $0.items.allSatisfy { $0.caloriesKcal != nil } }
     }
 
     var body: some View {
@@ -135,37 +145,33 @@ private struct JournalHeroView: View {
             HStack(alignment: .center, spacing: 16) {
                 JournalCalorieRing(
                     eaten: viewModel.totals.caloriesKcal,
-                    goal: target,
+                    goal: hasCalories ? target : nil,
                     status: status
                 )
+                .accessibilityHidden(!hasCalories)
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Eaten · Goal")
+                    Text("Eaten")
                         .morselSectionLabel()
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
-                        Text(MorselFormat.number(viewModel.totals.caloriesKcal))
+                        Text(hasCalories ? MorselFormat.number(viewModel.totals.caloriesKcal) : "—")
                             .font(.morselHero)
                             .foregroundStyle(Color.morselInk)
                             .monospacedDigit()
-                        if let target {
-                            Text("/ \(MorselFormat.number(target)) kcal")
+                        if hasCalories {
+                            Text("kcal")
                                 .font(.morselBody)
                                 .foregroundStyle(Color.morselInkTwo)
                         }
                     }
-                    if let remaining {
-                        Text(remaining)
-                            .font(.morselTitle)
-                            .foregroundStyle(Color.morselInk)
-                    } else {
-                        Text("Goal unavailable")
-                            .font(.morselTitle)
-                            .foregroundStyle(Color.morselInkThree)
-                    }
-                    if let goal {
-                        ProvenanceLabel(text: "source: \(goal.source.rawValue)")
-                    }
+                    Text(hasCalories ? "From your logged food" : "Meal nutrition incomplete")
+                        .font(.morselTitle)
+                        .foregroundStyle(Color.morselInkTwo)
                 }
                 Spacer(minLength: 0)
+            }
+
+            if isToday {
+                TrainingFuelSection(model: trainingFuel)
             }
 
             VStack(alignment: .leading, spacing: 11) {
@@ -187,17 +193,6 @@ private struct JournalHeroView: View {
                     target: goal?.fatG,
                     wash: .morselFatWash
                 )
-            }
-
-            if isToday {
-                TrainingFuelSection(model: trainingFuel) {
-                    Task {
-                        let day = trainingFuel.day
-                        let context = await TrainingFuelHealthReader().read(requestPermission: true)
-                        guard day == trainingFuel.day else { return }
-                        trainingFuel.context = context
-                    }
-                }
             }
         }
     }
