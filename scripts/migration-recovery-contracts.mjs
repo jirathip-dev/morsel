@@ -648,6 +648,36 @@ export const CANONICAL_CONSTRAINTS = {
   },
 };
 
+// ---- accepted successor renderings -----------------------------------------
+// A migration that OWNS a constraint keeps owning it after a forward-only
+// successor legitimately rewrites it: 0015 widens the two artwork allowlist
+// CHECKs 0013 owns, so a post-0015 database must still verify 0013. The
+// widened rendering is an ACCEPTED ALTERNATIVE for that constraint — never a
+// wider licence: any other id set (a partial widening included) stays drift
+// and remains un-convergeable, and unlisted constraints accept nothing extra.
+// The literals are the migration bodies' `check (...)` expressions, and
+// scripts/migration-recovery.test.mjs pins them to
+// db/migrations/0015_artwork_identity_expansion.sql AND to the bundled
+// catalog, so a future catalog change cannot silently widen this acceptance.
+export const ACCEPTED_CONSTRAINT_DEFS = {
+  "0013_artwork_identity.sql": {
+    meal_items: {
+      meal_items_artwork_id_published: [
+        "artwork_id in ('apple', 'avocado', 'bacon', 'banana', 'basil-stir-fry', 'beef-rice-bowl', 'beer', 'berries', 'boba-tea', 'boiled-egg', 'boiled-pork', 'braised-pork', 'broccoli', 'burger', 'cake', 'cereal-flakes', 'cheese', 'chicken-rice', 'chicken-wings', 'chili-oil', 'chocolate', 'coconut-water', 'coffee', 'cold-cuts', 'cookie', 'cooking-oil', 'corn', 'croissant', 'cucumber', 'curry', 'donut', 'dragon-fruit', 'dumplings', 'egg', 'eggplant', 'fallback-condiments', 'fallback-dairy', 'fallback-drinks', 'fallback-grains', 'fallback-neutral', 'fallback-prepared', 'fallback-produce', 'fallback-protein', 'fallback-soup', 'fallback-sweets', 'focaccia', 'french-fries', 'fried-chicken', 'fried-egg', 'fried-rice', 'grapes', 'gravy', 'green-salad', 'grilled-beef', 'grilled-chicken', 'grilled-pork', 'grilled-squid', 'guava', 'hot-pot', 'ice-cream', 'iced-coffee', 'instant-noodles', 'jasmine-rice', 'khanom-jeen', 'kimchi', 'larb', 'latte', 'mango', 'mango-sticky-rice', 'mashed-potato', 'matcha-latte', 'meatballs', 'milk', 'milk-tea', 'minced-pork', 'miso-soup', 'mixed-nuts', 'mushrooms', 'nam-jim', 'noodle-soup', 'oatmeal', 'omelette', 'orange', 'orange-juice', 'pad-thai', 'pancake', 'papaya', 'pasta', 'peanuts', 'pineapple', 'pizza-slice', 'poached-chicken', 'pomelo', 'protein-shake', 'purple-rice', 'ramen', 'raw-vegetable-plate', 'rice-porridge', 'roti', 'salmon', 'sandwich', 'sardines', 'satay', 'sausage', 'shabu-slices', 'shrimp', 'smoothie', 'som-tum', 'sourdough-bread', 'soy-milk', 'spring-roll', 'steamed-bun', 'steamed-fish', 'stewed-duck', 'sticky-rice', 'stir-fried-greens', 'stir-fried-noodles', 'strawberry', 'sushi', 'sweet-potato', 'tea', 'thai-sweets', 'toast', 'tofu', 'tom-yum', 'tomato', 'vegetable-soup', 'watermelon', 'wrap', 'yogurt')",
+      ],
+    },
+    menu_items: {
+      menu_items_artwork_id_published: [
+        "artwork_id in ('apple', 'avocado', 'bacon', 'banana', 'basil-stir-fry', 'beef-rice-bowl', 'beer', 'berries', 'boba-tea', 'boiled-egg', 'boiled-pork', 'braised-pork', 'broccoli', 'burger', 'cake', 'cereal-flakes', 'cheese', 'chicken-rice', 'chicken-wings', 'chili-oil', 'chocolate', 'coconut-water', 'coffee', 'cold-cuts', 'cookie', 'cooking-oil', 'corn', 'croissant', 'cucumber', 'curry', 'donut', 'dragon-fruit', 'dumplings', 'egg', 'eggplant', 'fallback-condiments', 'fallback-dairy', 'fallback-drinks', 'fallback-grains', 'fallback-neutral', 'fallback-prepared', 'fallback-produce', 'fallback-protein', 'fallback-soup', 'fallback-sweets', 'focaccia', 'french-fries', 'fried-chicken', 'fried-egg', 'fried-rice', 'grapes', 'gravy', 'green-salad', 'grilled-beef', 'grilled-chicken', 'grilled-pork', 'grilled-squid', 'guava', 'hot-pot', 'ice-cream', 'iced-coffee', 'instant-noodles', 'jasmine-rice', 'khanom-jeen', 'kimchi', 'larb', 'latte', 'mango', 'mango-sticky-rice', 'mashed-potato', 'matcha-latte', 'meatballs', 'milk', 'milk-tea', 'minced-pork', 'miso-soup', 'mixed-nuts', 'mushrooms', 'nam-jim', 'noodle-soup', 'oatmeal', 'omelette', 'orange', 'orange-juice', 'pad-thai', 'pancake', 'papaya', 'pasta', 'peanuts', 'pineapple', 'pizza-slice', 'poached-chicken', 'pomelo', 'protein-shake', 'purple-rice', 'ramen', 'raw-vegetable-plate', 'rice-porridge', 'roti', 'salmon', 'sandwich', 'sardines', 'satay', 'sausage', 'shabu-slices', 'shrimp', 'smoothie', 'som-tum', 'sourdough-bread', 'soy-milk', 'spring-roll', 'steamed-bun', 'steamed-fish', 'stewed-duck', 'sticky-rice', 'stir-fried-greens', 'stir-fried-noodles', 'strawberry', 'sushi', 'sweet-potato', 'tea', 'thai-sweets', 'toast', 'tofu', 'tom-yum', 'tomato', 'vegetable-soup', 'watermelon', 'wrap', 'yogurt')",
+      ],
+    },
+  },
+};
+
+// Accepted renderings pinned for one owned constraint (empty when none).
+export const acceptedConstraintDefs = (file, table, name) =>
+  ACCEPTED_CONSTRAINT_DEFS[file]?.[table]?.[name] ?? [];
+
 // ---- canonical RLS ---------------------------------------------------------
 // Tables that must have row-level security ENABLED in the canonical end
 // state, keyed by the migration that enables them.

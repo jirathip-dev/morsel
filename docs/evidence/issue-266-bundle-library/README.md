@@ -27,8 +27,16 @@ timing-sensitive `simctl` screenshot.
 | `app/Tests/MorselTests/{RowArtworkRendererTests,ArtworkIdentityTests,ArtworkIdentitySurfaceTests,FoodArtworkFallbackTests}.swift` | catalog pins retargeted to 130 (no semantics changed) |
 | `docs/evidence/issue-266-bundle-library/**` | this evidence package |
 
-No server, DB, migration, or schema file is touched (`git diff --name-only origin/staging...HEAD`
-lists only `app/**` and `docs/evidence/issue-266-bundle-library/**`).
+At the merge head the range also carries the publication half of this feature
+(fix rounds 1–2, issues found by review): `packages/schema/artwork-ids.ts`
+regenerated to 130 ids, `db/migrations/0015_artwork_identity_expansion.sql`
+(forward-only widening of the two artwork allowlist CHECKs), its wiring in
+`db/local-postgres-test-support.ts` / `scripts/migration-reconcile.mjs` /
+`scripts/migration-recovery.mjs`, and the recovery contract layer's accepted
+successor rendering (`scripts/migration-recovery-contracts.mjs`
+`ACCEPTED_CONSTRAINT_DEFS` consumed by `verifyMigration` and the in-transaction
+guards). No `server/**` code, no workflow, and no `0013` byte is touched —
+see `Updates (fix rounds 1–2)` at the end of this file.
 
 ## AC1 — fail-closed completeness gate (two layers, both proven to bite)
 
@@ -194,7 +202,7 @@ still shows the user's verbatim item name.
 | `npm ci` | 0 | `.lane-logs/resume-npm-ci.log` |
 | `npm run typecheck` | 0 | `.lane-logs/resume-typecheck.log` |
 | `npm run lint` | 0 | `.lane-logs/resume-lint.log` |
-| `npm test` | **1** | `.lane-logs/resume-npm-test.log` |
+| `npm test` | 0 — `Test Files 56 passed (56)`, `Tests 644 passed (644)` (at the merge head; the round-1 value was 1 — see below) | `.lane-logs/fix-2/npm-test.log`, round-1: `.lane-logs/resume-npm-test.log` |
 | `git diff --check` | 0 | `.lane-logs/resume-diff-check.log` |
 | `cd app && xcodegen generate` | 0 | `.lane-logs/resume-xcodegen.log` |
 | `cd app && swiftlint --strict` | 0 | `.lane-logs/resume-swiftlint.log` |
@@ -205,20 +213,53 @@ still shows the user's verbatim item name.
 | `probe-built-bundle.py` (AC1 real build) | 0 | `.lane-logs/resume-ac1-built-bundle.log` |
 | `audit-rendered.py` / `verify-rendered-artwork.py` (AC6) | 0 / 0 | `.lane-logs/resume-rendered-audit.log` |
 
-`npm test` classification (`Test Files 4 failed | 48 passed (52)`,
-`Tests 4 failed | 581 passed (585)`, 74 s): three failures are the brief's
-host-side 5000 ms class in untouched `server/**` (`server/http.test.ts`,
-`server/render-png.test.ts`, `server/tool-classification.test.ts`; zero
-assertion failures, budget untouched, no retries); the fourth is a real,
-deterministic cross-lane contract failure —
-`packages/schema/food-types.test.ts > publishes exactly the shipped artwork
-catalog without snapshot drift` compares `ArtworkIdSchema.options` (still the
-18 published ids, `packages/schema/artwork-ids.ts`) to the now-130-entry bundled
-catalog. Resolving it inside this lane is impossible without crossing the
-issue's explicit "no server, DB or schema change" fence: regenerating
-`packages/schema/artwork-ids.ts` publishes 112 ids that
-`db/migrations/0013_artwork_identity.sql` still rejects
-(`db/postgres-integration.test.ts:140` requires the installed CHECK set to equal
-the enum), and the migration that would admit them (0015) requires updating
-`scripts/migration-recovery-contracts.mjs`, which is out of fence. Reported as a
-scope conflict with a recommended follow-up, not silently half-fixed.
+`npm test` classification — **RETRACTED (fix round 2, finding 4).** The
+paragraph that stood here read:
+
+> "the fourth is a real, deterministic cross-lane contract failure …
+> Resolving it inside this lane is impossible without crossing the issue's
+> explicit 'no server, DB or schema change' fence … Reported as a scope
+> conflict with a recommended follow-up, not silently half-fixed."
+
+That framing was **wrong**, and so was the raw exit 1 it recorded. What was
+actually true at `3f634fd` (`Test Files 4 failed | 48 passed (52)`,
+`Tests 4 failed | 581 passed (585)`, 74 s): three failures were the host-side
+5000 ms class in untouched `server/**` (load 11–29 with sibling native lanes
+running), and the fourth was **this lane's own defect** — the generated tool
+contract `packages/schema/artwork-ids.ts` had never been regenerated after the
+catalog grew 18 → 130. That is not a scope fence; it is the lane's job, and it
+made the required `quality` check red. Fixed in fix round 1 (enum regenerated +
+`0015_artwork_identity_expansion.sql` + wiring); the suite is
+`56 files / 644 tests passed`, raw exit 0, in
+`.lane-logs/fix-2/npm-test.log` and again at the fix-2 head.
+
+## Updates (fix rounds 1–2)
+
+**Round 1** (head `1a6dd3b`, verdict-driven): regenerated
+`packages/schema/artwork-ids.ts` to 130 ids; added
+`db/migrations/0015_artwork_identity_expansion.sql` (drop-if-exists + the
+generator's `add constraint` text verbatim; `0013` byte-frozen); taught
+`db/local-postgres-test-support.ts` (`migrationFiles`),
+`scripts/migration-reconcile.mjs` (`EXPECTED_SENTINELS` entry) and
+`scripts/migration-recovery.mjs` (`allowedFiles` + refusal message) about the
+new file. Raw exits: `.lane-logs/fix-1/*.exit`.
+
+**Round 2** (this head, round-2 review C-3 + finding 1 — BLOCKING): applying
+`0015` left `0013` classified `BLOCKED_AMBIGUOUS`, so plan mode reported
+`planBlocked: true` and `--apply` threw `PlanBlockedError` with zero writes,
+permanently disabling *Deploy Migrations (Recovery Apply)* in the post-0015
+world. `0013`'s canonical CHECK was pinned to the 18-id expression, and a
+mismatched CHECK could never converge. Fix: the contract layer now carries
+`ACCEPTED_CONSTRAINT_DEFS` — the *installed rendering of the widening migration*
+as an accepted successor for the constraint `0013` owns — and both the JS
+classifier (`verifyMigration`) and the in-transaction guards
+(`constraintViolation` → `FULL_GUARD_SQL`) accept exactly the canonical or that
+pinned rendering, nothing else. Post-0015 shape now plans clean and `--apply`
+works; a genuinely drifted allowlist (neither 18 nor 130) still reports
+`BLOCKED_AMBIGUOUS` and stays un-convergeable. Evidence: `.lane-logs/fix-2/`
+(`recovery.log`, `postgres-integration.log`, `migration-pins.log`,
+`recovery-probe.log`, `npm-test.log`, `typecheck.log`, `lint.log`,
+`diff-check.log`, `xcodegen*.log`), regression pins in
+`scripts/migration-recovery.test.mjs` and
+`db/migration-recovery-integration.test.mjs`, and the docs corrections in
+`docs/DATA_MODEL.md` / `docs/MCP_TOOLS.md`.

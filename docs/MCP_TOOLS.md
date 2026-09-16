@@ -260,9 +260,12 @@ blank names are rejected), never replaced with a catalog name.
   input schemas (`tools/list`) publishes all allowed IDs. No new tool is added.
   The canonical published set is derived from the **shipped**
   [`app/Resources/FoodArt/catalog.json`](../app/Resources/FoodArt/catalog.json).
-  It includes 13 food and 5 fallback assets. The older design catalog at
-  `docs/art/food-library/catalog.json` has only 17 entries (no neutral fallback),
-  so it is not the complete publication list.
+  It includes 120 food and 10 fallback assets (130 identities). The older design
+  catalog at `docs/art/food-library/catalog.json` has only 17 entries (no
+  neutral fallback), so it is not the complete publication list. Migration
+  `0015_artwork_identity_expansion.sql` widens the database allowlist to this
+  set; until it is applied, the newer ids are rejected by the stored
+  constraints.
 - **Validation:** exact, case-sensitive enum membership; unknown IDs, empty
   strings, case/whitespace variants, and explicit JSON `null` are rejected as
   invalid input before writes. Nothing is silently dropped. Omit the field

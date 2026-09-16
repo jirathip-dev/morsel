@@ -89,12 +89,17 @@ not a nutrition lookup, photo, asset upload, or replacement display name.
 Names remain verbatim; IDs never infer or rewrite nutrition or photo references.
 
 The published source is the shipped `app/Resources/FoodArt/catalog.json`
-(18 entries, including neutral; the older design catalog has 17). A generated
+(130 entries — 120 food and 10 fallback assets, including the neutral sentinel;
+the older design catalog has 17). A generated
 `packages/schema/artwork-ids.ts` snapshot supplies the MCP enum. The generator
 `node packages/schema/generate-artwork-ids.mjs --sql` derives the migration
 CHECK constraints; tests compare the enum to the shipped catalog and verify the
 installed database constraints admit exactly the same set. Catalog changes
-require a new migration, never an edit to an applied one.
+require a new migration, never an edit to an applied one: `0013` pins the
+original 18 identities, and publication of the current set ships as the
+forward-only `0015_artwork_identity_expansion.sql` (drop-if-exists + re-add of
+both allowlist CHECKs), so a database must have `0015` applied before the
+112 newer ids can be written.
 
 Both `log_meal_with_items` and `log_meal_with_items_client` keep their existing
 signatures and accept the optional `artwork_id` key in `p_items`. Their returned

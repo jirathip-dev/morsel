@@ -34,6 +34,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { checkoutFreshness, checkoutGuardExitCode, parseMigrationNames } from "./migration-safety.mjs";
 import {
   ABSENT_COLUMNS,
+  acceptedConstraintDefs,
   CANONICAL_COLUMNS,
   CANONICAL_CONSTRAINTS,
   CANONICAL_FILES,
@@ -357,7 +358,11 @@ export function verifyMigration(file, snapshots) {
       }
       let ok = observed.contype === expected.kind;
       if (ok && expected.kind === "c") {
-        ok = normalizeExpr(observed.definition) === normalizeExpr(expected.def ?? "");
+        // A forward-only successor (0015) may legitimately rewrite a CHECK this
+        // migration owns: the pinned successor rendering is accepted too, and
+        // nothing else is — a partial or foreign id set stays drift.
+        const accepted = [expected.def ?? "", ...acceptedConstraintDefs(file, table, expected.name)];
+        ok = accepted.some((def) => normalizeExpr(observed.definition) === normalizeExpr(def));
       }
       if (ok && (expected.kind === "p" || expected.kind === "u" || expected.kind === "f")) {
         const columns = Array.isArray(observed.columns) ? observed.columns : [];
