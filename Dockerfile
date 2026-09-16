@@ -23,6 +23,19 @@ RUN bun install --no-progress
 COPY server ./server
 COPY packages ./packages
 
+# Issue #261: bake the git revision this image was built from, so the running
+# server can report exactly which revision is DEPLOYED (the `/version` route
+# reads MORSEL_BUILD_REVISION through server/app.ts `buildIdentity`, and
+# scripts/fly-revision-watchdog.mjs compares it with main). The Deploy Fly
+# workflow passes the value with `flyctl deploy --build-arg
+# MORSEL_BUILD_REVISION=<sha>` and then asserts the live /version reports it.
+# The empty default keeps a plain `docker build` valid: the server then reports
+# a null revision (the watchdog reports UNKNOWN) instead of a guess. This value
+# is BUILD-TIME ONLY — setting MORSEL_BUILD_REVISION as a runtime env/secret
+# would shadow the baked revision, which is why the deploy asserts it live.
+ARG MORSEL_BUILD_REVISION=""
+ENV MORSEL_BUILD_REVISION=${MORSEL_BUILD_REVISION}
+
 # fly.toml [http_service].internal_port; the entry point also defaults to it.
 ENV PORT=8080
 EXPOSE 8080

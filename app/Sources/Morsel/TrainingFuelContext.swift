@@ -20,6 +20,8 @@ struct TrainingFuelReading: Equatable {
 struct TrainingFuelContext: Equatable {
     var movement: TrainingFuelReading?
     var workout: TrainingFuelReading?
+    var movementFailed = false
+    var workoutFailed = false
 
     static func value(_ reading: TrainingFuelReading?) -> String { reading?.value ?? "Unavailable" }
 }

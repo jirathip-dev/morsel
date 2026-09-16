@@ -1,0 +1,1546 @@
+{
+  "source": "native-full.xcresult; full-suite exit 65 (WeightImportTests observer test failed); both TrainingDay suites passed",
+  "simulator": "D21F8DF6-8DB2-45F1-8285-F46ED0595E25",
+  "captures": [
+    {
+      "state": "usual",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-usual.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c0c06c397bfd09a2de7de2729c0b796ca066d374663382f6ee50e6722eef8ea2"
+    },
+    {
+      "state": "usual",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-usual.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "9106a9679384a4897bcc6ff5636bb65088fca2bf86de4c75f4b52089a77c3657"
+    },
+    {
+      "state": "confirmed",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-confirmed.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "5683398cfb46a068413ffce4b3bb83eb42a1688d1fad42da2198f2213a56db2b"
+    },
+    {
+      "state": "confirmed",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-confirmed.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "3b3cce6fe4eaa4404ba43a766e8c7d7e70f97df53cd1844f242bcd9a52647466"
+    },
+    {
+      "state": "unavailable",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-unavailable.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "9eac730ab87865c2b071ca0860ada9e20b4f7937515dfb5ab1da81c9184a9f7e"
+    },
+    {
+      "state": "unavailable",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-unavailable.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "8c0d29bc367d101f40de08e95d2856260119c86616d6ee4b3c6f6a3eeeb3643a"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-unconfirmed-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1e801fb560c47aa202cdbfa33ce46f59fa9f121eefc51c060624b97e74dbbdbc"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-unconfirmed-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "70e2b00898ee85e0cac7ec1b63dcfc8c09a4df51805e2fc7c0fc3fefbb1fec19"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-unconfirmed.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f7bcd8666eeeb6f4e765f6b03f86ab57aed8f96385488e780036306a2a81194c"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-unconfirmed-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7ec9941be58ef8e1d6195a2427dccedea1dbbd819116c88288ff24e8acef17af"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-unconfirmed-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f307a7e72dc5ecd3f93edcf66783756873b9350173c0773683da87895bc5b25b"
+    },
+    {
+      "state": "unconfirmed",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-unconfirmed.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a19c9474e24d50219d3fc30621f350e9e2da4bdd2f0487b969991ab0f9cbca6"
+    },
+    {
+      "state": "blank",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-blank-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1e801fb560c47aa202cdbfa33ce46f59fa9f121eefc51c060624b97e74dbbdbc"
+    },
+    {
+      "state": "blank",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-blank-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "70e2b00898ee85e0cac7ec1b63dcfc8c09a4df51805e2fc7c0fc3fefbb1fec19"
+    },
+    {
+      "state": "blank",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-blank.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f7bcd8666eeeb6f4e765f6b03f86ab57aed8f96385488e780036306a2a81194c"
+    },
+    {
+      "state": "blank",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-blank-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7ec9941be58ef8e1d6195a2427dccedea1dbbd819116c88288ff24e8acef17af"
+    },
+    {
+      "state": "blank",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-blank-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f307a7e72dc5ecd3f93edcf66783756873b9350173c0773683da87895bc5b25b"
+    },
+    {
+      "state": "blank",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-blank.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a19c9474e24d50219d3fc30621f350e9e2da4bdd2f0487b969991ab0f9cbca6"
+    },
+    {
+      "state": "invalid",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-invalid-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "invalid",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-invalid-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a9a3b953276f8896fc32f8541e77ae44fa26b98b2dc20296df47f68f077c89df"
+    },
+    {
+      "state": "invalid",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-invalid.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "75ba109dae108586934c07fbc1f5b1e3f655517682d3ef66584fec9d533db1b6"
+    },
+    {
+      "state": "invalid",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-invalid-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "invalid",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-invalid-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "06b236b49551a3666f5e98c34fa3ccf5de1d90c95cd28d4e9860e9ef4a7ca9df"
+    },
+    {
+      "state": "invalid",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-invalid.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1c3b5742c9dc8f880b5e3a695ae729ff9e68aca497e1fdeb26b30ead0d2c7a4b"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-valid-draft-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1e801fb560c47aa202cdbfa33ce46f59fa9f121eefc51c060624b97e74dbbdbc"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-valid-draft-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "567bc24b4875eb34814de96c5122f59535c28bd42109ba39e5a3b6c615724f89"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-valid-draft.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "6d12ed1eb645a04a41f6e76bc4428efce31e2e452946c64931e7a7a756c558f0"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-valid-draft-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7ec9941be58ef8e1d6195a2427dccedea1dbbd819116c88288ff24e8acef17af"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-valid-draft-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "bd5d382114c577e7fb1c6b0daf917be3b9f9eea94b45f333bf32e2e39374e81f"
+    },
+    {
+      "state": "valid-draft",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-valid-draft.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a7cfec94c2fdaa3ed155c9ecf1cf7bd34f6fc894f652ab6306669adcf55acd69"
+    },
+    {
+      "state": "pending",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-pending-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "pending",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-pending-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0613bf19ef8d02be713f5c028ff6962549c7e3d4f7fc50f6854b7b5a5bc2c2c7"
+    },
+    {
+      "state": "pending",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-pending.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2f8269ac9102517fa7acd7f95162ded792a52c50e4d917278e7d0c78a28e0135"
+    },
+    {
+      "state": "pending",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-pending-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "pending",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-pending-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "371829af8fbef72712d97f41ceb7afa879e4cbd2ae7877045ab2d9a5e98bce4d"
+    },
+    {
+      "state": "pending",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-pending.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "dd6383291eb3be88a3ccfad27d4052c574bd9f9333259f3215fa1db96b183e89"
+    },
+    {
+      "state": "save-error",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-save-error-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "save-error",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-save-error-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "ce19e5a910dbd6eb58066f3beae09e6de1681404b081caa0a7cb7cbc32202d64"
+    },
+    {
+      "state": "save-error",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-save-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "09c82de695819acd7e98514b300f7d211d635e36a5a452b778709201e0c124ef"
+    },
+    {
+      "state": "save-error",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-save-error-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "save-error",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-save-error-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "43a98ff8615ed3c7e3196e09b286e534e6ce09a96d2d816a7c28c238c4a6b3c5"
+    },
+    {
+      "state": "save-error",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-save-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "aef0be736d0562636cf31c3642c2bcdc5ddb3c0889340002be684d8a1c7d43da"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-confirmed-sheet-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-confirmed-sheet-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-confirmed-sheet.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2273a9da1de1e60fe324fed658f85d6e5835959a3ed0cff3026d8b94a4bed1da"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-confirmed-sheet-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-confirmed-sheet-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "confirmed-sheet",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-confirmed-sheet.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "de4775a281518916d8fb0f8f93d59c030206001fa2933f6b76ed1fcbb75c1ebe"
+    },
+    {
+      "state": "edit",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-edit-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1e801fb560c47aa202cdbfa33ce46f59fa9f121eefc51c060624b97e74dbbdbc"
+    },
+    {
+      "state": "edit",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-edit-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "567bc24b4875eb34814de96c5122f59535c28bd42109ba39e5a3b6c615724f89"
+    },
+    {
+      "state": "edit",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-edit.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a235db5e5c27481e4c0a5ab7a81f8805fa45de5f0ff19d208f6086b1cc7ca416"
+    },
+    {
+      "state": "edit",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-edit-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7ec9941be58ef8e1d6195a2427dccedea1dbbd819116c88288ff24e8acef17af"
+    },
+    {
+      "state": "edit",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-edit-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "bd5d382114c577e7fb1c6b0daf917be3b9f9eea94b45f333bf32e2e39374e81f"
+    },
+    {
+      "state": "edit",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-edit.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "59388adcde169c4f57f7a77764a6db5e3caa3f068ec968844f93b327059e454f"
+    },
+    {
+      "state": "undo",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-undo.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c0c06c397bfd09a2de7de2729c0b796ca066d374663382f6ee50e6722eef8ea2"
+    },
+    {
+      "state": "undo",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-undo.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "9106a9679384a4897bcc6ff5636bb65088fca2bf86de4c75f4b52089a77c3657"
+    },
+    {
+      "state": "missing-health",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-missing-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "948415c8c283c65242e98b31099634ac909d75aa6eaa3aa34fec8b25e1f91c64"
+    },
+    {
+      "state": "missing-health",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-missing-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f6dcce37cc2f1d59c8b741e9be4024033529a91d4f4ef410fd68715ca6c4c071"
+    },
+    {
+      "state": "missing-health",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-missing-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "09099da8c6b0cf4f3c5fb86bbb8bf81ca46b287ad5568a668d4908927fbaf741"
+    },
+    {
+      "state": "missing-health",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-missing-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b15e1203e6ff05ac5bca3a9afe08ce7a5a66b7143ff9b5d04983c32473168e8f"
+    },
+    {
+      "state": "missing-health",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-missing-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2fbd924780ee57db992b76640fe58bcb35ebc0d1b3c107b3fd2c87ebfcb874b4"
+    },
+    {
+      "state": "missing-health",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-missing-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7059527a0d54177bfc41682a1699b91264799813d0ec8596d2dffd8df321d26b"
+    },
+    {
+      "state": "denied-health",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-denied-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "948415c8c283c65242e98b31099634ac909d75aa6eaa3aa34fec8b25e1f91c64"
+    },
+    {
+      "state": "denied-health",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-denied-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f6dcce37cc2f1d59c8b741e9be4024033529a91d4f4ef410fd68715ca6c4c071"
+    },
+    {
+      "state": "denied-health",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-denied-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "09099da8c6b0cf4f3c5fb86bbb8bf81ca46b287ad5568a668d4908927fbaf741"
+    },
+    {
+      "state": "denied-health",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-denied-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b15e1203e6ff05ac5bca3a9afe08ce7a5a66b7143ff9b5d04983c32473168e8f"
+    },
+    {
+      "state": "denied-health",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-denied-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2fbd924780ee57db992b76640fe58bcb35ebc0d1b3c107b3fd2c87ebfcb874b4"
+    },
+    {
+      "state": "denied-health",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-denied-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7059527a0d54177bfc41682a1699b91264799813d0ec8596d2dffd8df321d26b"
+    },
+    {
+      "state": "stale-health",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-stale-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2f38e520dcf88ebab73fe51ca415d8ddda4d4a3e44f3ae582cf89952847d8638"
+    },
+    {
+      "state": "stale-health",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-stale-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "4076c6221797275d357f82a6fe0398bc7a88e914114f6e5f75942901d53acb91"
+    },
+    {
+      "state": "stale-health",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-stale-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "32be77eb293a31b35a46cfb6b12eb408f225296d23e20225998ea51308e4ab4e"
+    },
+    {
+      "state": "stale-health",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-stale-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "24a6049e74fbf86e4d28faef44afd282e824b6f521876eb80b5a1600e40bcd8d"
+    },
+    {
+      "state": "stale-health",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-stale-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b074e72e7fdde1a16482b60eb94211d5dc166ce19530e3d9318fc38eb0c3d659"
+    },
+    {
+      "state": "stale-health",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-stale-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1714f767a424563395974a3380b63b3ed88e4fafe91be3e23c2a7c19b23968e1"
+    },
+    {
+      "state": "zero-health",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-zero-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c0dbff7fa5d186a2cb67ec115dca5433c3dcb59a4a72b3bfde939de138ca9797"
+    },
+    {
+      "state": "zero-health",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-zero-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2d25408305c9533ae55bb5ebb00c785738a57e8b39cc2db1f84e817a47627720"
+    },
+    {
+      "state": "zero-health",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-zero-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "7bdd22f603930f559c4d0b523ebb9428899f67599df94a5a99e082befc5c9367"
+    },
+    {
+      "state": "zero-health",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-zero-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a88eed098cc5120855ea6051bb15bff47402671b8addea4375522111ce132f8f"
+    },
+    {
+      "state": "zero-health",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-zero-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "47d922f9580e4ef96ed52d9fec96f704390c9a1f1aff20c2cdc31fe909085dae"
+    },
+    {
+      "state": "zero-health",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-zero-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "4e946cb56e683eeb56fa17ffc1d2ac34ea60b00516b193a55c60c960b17cee61"
+    },
+    {
+      "state": "partial-health",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-partial-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b86482c940481a6ba2491c4578646614907ca5c317094dc13c4d28f6ae8476b7"
+    },
+    {
+      "state": "partial-health",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-partial-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "ec2998e57fa6b954239aa581a0b82f5f74f42ae14238e7b4a88e4b49c65591bd"
+    },
+    {
+      "state": "partial-health",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-partial-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "9e81a9241be6f8eb95b18e868dfd323b25af1ec6b9e0498222d8e6ef898150e2"
+    },
+    {
+      "state": "partial-health",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-partial-health-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "e1b133d92964d95209ba2c32924b593566cc8af6d940de28380cf8058475ed6a"
+    },
+    {
+      "state": "partial-health",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-partial-health-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a6979acb97fde6803606fb520c398304af87364f546def94727b137f5f25ab5d"
+    },
+    {
+      "state": "partial-health",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-partial-health.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c8314e62dd09713512674086b718bac90499da5822cc2611a41bb29847611487"
+    },
+    {
+      "state": "workout-only",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-workout-only-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "caeb13aaebcae0f058e8e7ec0e084b596a14cf51c9814e2d2288b57612fe7568"
+    },
+    {
+      "state": "workout-only",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-workout-only-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a06797a43200debd79a0bbcea9786063eadd5b33f32a992cd756c7ca41087d69"
+    },
+    {
+      "state": "workout-only",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-workout-only.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "85e99c81cfe1b4a70d598f55c8dd0e31ee1b60e68cc4afeb71b706bcf67d69c4"
+    },
+    {
+      "state": "workout-only",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-workout-only-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "cc9fd13f76ab430025759159432bec9648bff5c0b53e74cf2d44c3eee8f74cc5"
+    },
+    {
+      "state": "workout-only",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-workout-only-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b0016af7b9d422fabc9ab1303f6842791a18291b86d947ee6995511a608d004c"
+    },
+    {
+      "state": "workout-only",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-workout-only.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "d2adbac3f812f97a963e9f34ad02ada6ae1b96a9881a33f1444c29ae181a6bbf"
+    },
+    {
+      "state": "health-loading",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-health-loading-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c73013938e6ac0161dc289f9da28e01ad09b02daba430c419d2bea4fe520bf61"
+    },
+    {
+      "state": "health-loading",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-health-loading-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "028b34ccbe4e0d22c2376a7b9c0d801da7d2d33ae4ea2b505e0c28f8ea5be0b7"
+    },
+    {
+      "state": "health-loading",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-health-loading.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "83c72dc8731748b9820e7958aa7946e1bbe29e245845fb4d44ad1f5c1843e0ba"
+    },
+    {
+      "state": "health-loading",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-health-loading-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1ce4011e0a0b3102863077a8e06e193e0f6611473b88e5f95fec1d23d40cbcf2"
+    },
+    {
+      "state": "health-loading",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-health-loading-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "d7d6eda1bf16df2782b21ec8a2a6528d8cacb3f2876cdf75731c5c54e3e44456"
+    },
+    {
+      "state": "health-loading",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-health-loading.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "dec971dfac6661b8d44843737a39f1fb00fbdc62880382d44d5b99bc335b3cf7"
+    },
+    {
+      "state": "health-error",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-health-error-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "98d12ac28f63fcb2932332af1f2bc175ecde73bb59eebc313bd5d2522a931ce2"
+    },
+    {
+      "state": "health-error",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-health-error-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a6326aea00c2b6f153f2955c5445206fb6412271363a7cf6c5627c259277d14e"
+    },
+    {
+      "state": "health-error",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-health-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a1ba07bd4951686e20f02ecdb03d3afb47d4bef7d0b9d79bdaeb5a91ff2b70b"
+    },
+    {
+      "state": "health-error",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-health-error-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "97a46acc604bf73d299d897b1df22c270a71c52da9c0ea8e793e0fc5513e84f4"
+    },
+    {
+      "state": "health-error",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-health-error-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "1d805ff47625f6af0ad647a1b1a8744dc4d362c4de5d9e77b9b6d52c8bb908bc"
+    },
+    {
+      "state": "health-error",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-health-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "712308406304439a860f740e50ac7c5f2d609e358b66aa9cccad4cea655b4aeb"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-unavailable-sheet-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-unavailable-sheet-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "42d73e166c7e1f8e96620cc004f33a4a906ddc1483bc491cc69e3c71314495c8"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-unavailable-sheet.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0925d5595370028a1ee41193a88746706e6021753e3dcd7d960a02138c30bf1e"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-unavailable-sheet-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-unavailable-sheet-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2f453894f9ada36070b635dfe3606a56a601f32ca42a5948aabe3b586bf5e62e"
+    },
+    {
+      "state": "unavailable-sheet",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-unavailable-sheet.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "2a50a347794af8e6885187806152fa51c0c15e0156d60da54a2b77262cb02b00"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-manual-consent-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-manual-consent-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a48d7eb292e9f25eabbf49231c33ef9cab029b79bd2390e6ac00963e00a4ebbb"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-manual-consent.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "9fda94886b7f634d860a85f087d21d0090bfdf294d4a5c1d5d0bbf46bae65f52"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-manual-consent-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-manual-consent-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0f887f282c496913e7f7adaf541b97945985f6b02fc19616fff2798c46e31f54"
+    },
+    {
+      "state": "manual-consent",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-manual-consent.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "64c2936eac06b0666166f5a18d8bda2c799e362f126a1fb919e7fba373e1a08d"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-manual-ready-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "235b870830649ff1f41a5c19f10d4f955e7aa09e19d0d4ae6528455b17e4833e"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-manual-ready-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "135a8875202dcb6eefebb1ac1bb57852874f4e5132f6807f82f850c4a32e067c"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-manual-ready.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "f240f572ef9182963a2b89ace235e5af64171909a9858d700572d7f83ef0d02a"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-manual-ready-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0a56584701c087ec6a23704da966380c0ff1356598e2e15ffe792f66d44be3ab"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-manual-ready-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a26d2a646fee08536e92e9c7c7d5d12bf78d63b3509fb4a9c9cd9586672c3983"
+    },
+    {
+      "state": "manual-ready",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-manual-ready.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "fb4a45d98ebeab62a5c2bd1dcfb30c86b2bd7f7d0742db6bc87ae58dd312e401"
+    },
+    {
+      "state": "empty",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-empty.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "d1b8b9e47b6a4266468ee3f6d5ddf15ea451df7811a3b7c12d0db4f2d45429db"
+    },
+    {
+      "state": "empty",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-empty.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "b8f9ac9f31371cd30e28694b054d30ddb85b31f3a8e3ee19e6bf0ae7a4c6effc"
+    },
+    {
+      "state": "loading",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-loading.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "86698f1dbde265cacfa37ed4adb665cbf5f7a2d4327fba894da940079154ea90"
+    },
+    {
+      "state": "loading",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-loading.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "3645a842a82cadb1ab397452db572b533977d8136e56b0e2e2ed33c0f61dd4b9"
+    },
+    {
+      "state": "stale-data",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-stale-data.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "3b423cac4f07f71150b8a9f7db008a68e434e1dafa457ee3abbf9916d854b95e"
+    },
+    {
+      "state": "stale-data",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-stale-data.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "4e0325a8b969495648eeb71ea59ee5377274832b9889aceaa8d779369f896c6d"
+    },
+    {
+      "state": "error",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "be415aeb181d2134ccb09effebe1b2524f9a949efde796bd856a6a9a972a086c"
+    },
+    {
+      "state": "error",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-error.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "285c6f00bfc8a298212254ad8f784853758986fabf1f06c5abd92451b5cb382c"
+    },
+    {
+      "state": "multi-meal",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-multi-meal.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "a5ef0a11a6cba181c9932fac85848ec94b9f7b03b0fb0eec8966c4d3fb4bdfbd"
+    },
+    {
+      "state": "multi-meal",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-multi-meal.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "3c09e95e95f49d7d3f6429e4bbea6ba6bdd9f538b6d88a25a585df5753a43062"
+    },
+    {
+      "state": "partial-meal",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-partial-meal.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "6e7dcacc799b4462fc4258756f21f753842789df86424b64b370c1a8049be01e"
+    },
+    {
+      "state": "partial-meal",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-partial-meal.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "73d36abbda454739785bfd52634acba98393b5b7330fa187ce783165389c4ab6"
+    },
+    {
+      "state": "rollover",
+      "theme": "night",
+      "position": "about",
+      "file": "captures/263-a-night-rollover-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "0c11390101f1312c052177b77f7e916d90083247665e1e3869f0137752e3f8d0"
+    },
+    {
+      "state": "rollover",
+      "theme": "night",
+      "position": "readings",
+      "file": "captures/263-a-night-rollover-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "db53196a80f77ef39b6e800cb13036b8c6a34efc4ef0e5d9450afea06612f3b0"
+    },
+    {
+      "state": "rollover",
+      "theme": "night",
+      "position": "top",
+      "file": "captures/263-a-night-rollover.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "ff6e13314492eb5903c8a7e282df66a6ac08c53b7b4f6e92149a254beef7c3d6"
+    },
+    {
+      "state": "rollover",
+      "theme": "paper",
+      "position": "about",
+      "file": "captures/263-a-paper-rollover-about.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "c43f80c10d165d8891d775e3cd373bc75e4c479c282c53b6792994a51f6dffa3"
+    },
+    {
+      "state": "rollover",
+      "theme": "paper",
+      "position": "readings",
+      "file": "captures/263-a-paper-rollover-readings.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "85bdd7143dd9ef36c16d3b971406b3b04248b1c982e620dfba5e142b3a5f3a13"
+    },
+    {
+      "state": "rollover",
+      "theme": "paper",
+      "position": "top",
+      "file": "captures/263-a-paper-rollover.png",
+      "pixels": [
+        1170,
+        2532
+      ],
+      "sha256": "5f5787937a7dd7f2cc62c964dda673b0566612e763ffd5e27beac87c047280c1"
+    }
+  ]
+}

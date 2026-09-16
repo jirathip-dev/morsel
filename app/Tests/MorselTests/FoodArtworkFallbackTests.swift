@@ -1,3 +1,4 @@
+import SwiftUI
 import XCTest
 @testable import Morsel
 
@@ -250,5 +251,138 @@ final class FoodArtworkFallbackTests: XCTestCase {
         XCTAssertEqual(meal.items.map(\.name), ["jasmine rice", "grilled chicken"])
         XCTAssertEqual(meal.items.map { [$0.caloriesKcal, $0.proteinG, $0.carbsG, $0.fatG] }, beforeNutrition)
         XCTAssertEqual(meal.items.map(\.quantity), [1, 1])
+    }
+}
+
+// MARK: - Issue #260 qualifier tolerance
+
+/// Issue #260 — qualifier-tolerant resolution. The resolver may drop only a
+/// recognized TRAILING qualifier (a parenthetical, a cooking method, a
+/// portion/size token or a metric quantity), one at a time, and only while a
+/// whole head term survives. Nothing INSIDE a name is ever matched, so a
+/// distinct compound food keeps its whole meaning: `coffee cake` never becomes
+/// coffee, `rice cake` never becomes rice, `banana bread` never becomes bread.
+/// Ambiguity still resolves to neutral instead of a guess. Every case runs
+/// through the production decode path and the real row slot; the behavioural
+/// RED for these assertions ran at the pristine base source (see
+/// `docs/evidence/issue-260-artwork-qualifiers/README.md`).
+@MainActor
+final class FoodArtworkQualifierTests: JournalRenderingTestCase {
+    private let assets = FoodArtworkCatalog.bundled
+
+    /// The descriptive names the logging agent actually wrote (issue #260
+    /// symptom) plus the qualifier forms the resolver must now tolerate.
+    private let qualifiedNames: [(name: String, identity: String)] = [
+        ("White rice, cooked (half portion)", "jasmine-rice"),
+        ("white rice, cooked", "jasmine-rice"),
+        ("Jasmine rice (steamed)", "jasmine-rice"),
+        ("Steamed broccoli, 120 g", "broccoli"),
+        ("black coffee, large", "coffee"),
+        ("Americano (black, no sugar, homemade)", "coffee")
+    ]
+
+    /// Compound foods whose trailing word is a FOOD noun: it is never a
+    /// qualifier, so the name keeps its whole meaning and stays unresolved.
+    private let compoundFalseFriends = [
+        "coffee cake", "Coffee cake, large", "Rice cake", "orange juice",
+        "banana bread", "coffee ice cream", "Coffee with rice and chicken"
+    ]
+
+    func testQualifiedNamesResolveToTheirWholeTermStudy() throws {
+        for entry in qualifiedNames {
+            XCTAssertEqual(
+                FoodArtworkResolver.match(name: entry.name, in: assets)?.id, entry.identity,
+                "\(entry.name) must reach its whole-term entry"
+            )
+            let item = try ArtworkIdentityFixture.item(name: entry.name)
+            XCTAssertEqual(item.name, entry.name, "the qualifier resolver never rewrites the logged name")
+            XCTAssertEqual(JournalRowArtwork.resolve(items: [item]), try library(entry.identity), entry.name)
+        }
+    }
+
+    func testCompoundFalseFriendsNeverBecomeTheirHeadFood() throws {
+        let neutral = try XCTUnwrap(assets.first { $0.isNeutralFallback })
+        for name in compoundFalseFriends {
+            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), name)
+            let resolution = FoodArtworkResolver.resolve(name: name, in: assets)
+            XCTAssertEqual(resolution, .neutral(neutral), "\(name) stays unresolved")
+            XCTAssertFalse(
+                ["coffee", "jasmine-rice", "toast", "orange"].contains(resolution.asset?.id ?? ""),
+                "\(name) must not reach the specific asset its trailing noun names"
+            )
+            let item = try ArtworkIdentityFixture.item(name: name)
+            XCTAssertEqual(JournalRowArtwork.resolve(items: [item]), .study(.unknown), name)
+        }
+    }
+
+    /// The tolerance is trailing-only and closed: an unknown descriptor, a
+    /// nested or malformed parenthetical, or a head that is not a whole catalog
+    /// term all fail closed (the #241 Americano grammar included).
+    func testUnknownDescriptorsAndUnknownHeadsFailClosed() {
+        let rejected = [
+            "rice, cooked", "coffeeish", "cake with coffee", "Coffee cake (homemade)",
+            "Americano (cake)", "Americano (black (no sugar))", "Americano (black) with toast",
+            "White rice (half portion), cake", "coffee, 1/2 cup"
+        ]
+        for name in rejected {
+            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), name)
+        }
+        XCTAssertNotNil(
+            FoodArtworkResolver.match(name: "Americano (black, no sugar, homemade)", in: assets),
+            "the accepted Americano form is unchanged"
+        )
+    }
+
+    /// A qualifier never lets the resolver choose between two candidates.
+    func testAmbiguousQualifiedTermsAreRefused() {
+        let neutral = FoodArtworkAsset(
+            id: "neutral", name: "Food · fallback", aliases: [], category: "neutral", kind: .fallback
+        )
+        let ambiguous = [
+            FoodArtworkAsset(id: "one", name: "Black coffee", aliases: [], category: "drinks", kind: .food),
+            FoodArtworkAsset(
+                id: "two", name: "Other", aliases: ["black coffee"], category: "drinks", kind: .food
+            ),
+            neutral
+        ]
+        XCTAssertEqual(
+            FoodArtworkResolver.resolve(name: "black coffee, large", in: ambiguous), .neutral(neutral)
+        )
+    }
+
+    func testQualifiedRowPaintsTheCatalogStudyInBothThemes() throws {
+        let item = try ArtworkIdentityFixture.item(name: "White rice, cooked (half portion)")
+        for scheme in [ColorScheme.light, .dark] {
+            let reference = try XCTUnwrap(render(
+                FoodArtworkImageView(assetID: "jasmine-rice", label: "reference", hint: "reference", size: 56),
+                scheme: scheme
+            ))
+            let neutral = try XCTUnwrap(render(
+                FoodArtworkImageView(assetID: "fallback-neutral", label: "neutral", hint: "neutral", size: 56),
+                scheme: scheme
+            ))
+            let painted = try XCTUnwrap(render(MealArtworkSlot(items: [item], size: 56), scheme: scheme))
+            XCTAssertGreaterThan(nonWhitePixels(painted), 64, "the row is always illustrated")
+            try assertPixelsEqual(painted, reference, "the qualified rice row paints the rice study (\(scheme))")
+            try assertPixelsDiffer(painted, neutral, "the qualified rice row is not the neutral sign (\(scheme))")
+        }
+    }
+
+    func testQualifiedResolutionLeavesTheLoggedItemUntouched() throws {
+        let item = try ArtworkIdentityFixture.item(name: "White rice, cooked (half portion)")
+        let before = item
+        _ = FoodArtworkResolver.resolve(items: [item], in: assets)
+        _ = MealArtworkPresentation.resolve(photoPath: item.mealImage?.path, items: [item], assets: assets)
+        XCTAssertEqual(item, before, "illustration resolution never mutates the logged food or its nutrition")
+        XCTAssertEqual(item.name, "White rice, cooked (half portion)")
+        XCTAssertEqual([item.caloriesKcal, item.proteinG, item.carbsG, item.fatG], [23, 2, 3, 1])
+        XCTAssertEqual(item.quantity, 1.5)
+        XCTAssertEqual(item.unit, .cup)
+    }
+
+    private func library(_ identity: String) throws -> JournalRowArtwork {
+        let asset = try XCTUnwrap(assets.first { $0.id == identity })
+        if asset.isNeutralFallback { return .library(.neutral(asset)) }
+        return .library(asset.kind == .food ? .food(asset) : .category(asset))
     }
 }
