@@ -20,9 +20,13 @@ ROOT = Path(__file__).resolve().parents[3]
 BASE = "2ddba7e0443c3d05f1345a4ce178738426144781"
 LOGS = ROOT / ".lane-logs"
 LOGS.mkdir(exist_ok=True)
-SCRATCH = Path(tempfile.mkdtemp(prefix="morsel-185-"))
+SCRATCH = Path(tempfile.mkdtemp(prefix="morsel-185-", dir="/tmp"))
 (SCRATCH / ".issue-185-owned").touch()
 RESULTS = []
+GOALS_SUITES = ["GoalsContextLazyLoadTests", "GoalsDirectionProfileTests", "GoalsEditorTests",
+                "GoalsEditorPrecisionTests", "GoalsEditorRecencyTests", "GoalsPageCopyTests",
+                "GoalsPolishTests", "GoalsRestoreTests", "GoalsRestoreRenderingTests",
+                "GoalsDirectionRaceTests", "GoalsDirectionOwnershipTests"]
 
 
 def run(name, command, cwd=ROOT, timeout=900):
@@ -78,10 +82,7 @@ def main():
         head=head, base=BASE, scratch=str(SCRATCH), simulator=os.environ["SIMULATOR_UDID"]
     ), indent=2) + "\n")
     run("native-disk", ["df", "-h", "/"], timeout=30)
-    suites = ["GoalsContextLazyLoadTests", "GoalsDirectionProfileTests", "GoalsEditorTests",
-              "GoalsEditorPrecisionTests", "GoalsPageTests", "GoalsPolishTests", "GoalsRestoreTests",
-              "GoalsRestoreRenderingTests", "GoalsDirectionRaceTests", "GoalsDirectionOwnershipTests"]
-    if native("native-focused", ROOT, suites) != 0:
+    if native("native-focused", ROOT, GOALS_SUITES) != 0:
         return 1
 
     archive = SCRATCH / ROOT.name
