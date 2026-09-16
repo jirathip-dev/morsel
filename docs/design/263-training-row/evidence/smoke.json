@@ -1,0 +1,1060 @@
+{
+  "status": "PASS",
+  "mode": "smoke",
+  "checks": [
+    {
+      "name": "a-paper usual rendered route",
+      "pass": true
+    },
+    {
+      "name": "a-paper usual geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "training-row",
+            "w": 329,
+            "h": 54
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-paper-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-paper usual one Today row",
+      "pass": true
+    },
+    {
+      "name": "a-paper usual expected effective target",
+      "pass": true
+    },
+    {
+      "name": "a-paper usual literal row",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed rendered route",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "close",
+            "w": 44,
+            "h": 44
+          },
+          {
+            "text": "amount",
+            "w": 301,
+            "h": 50
+          },
+          {
+            "text": "confirm",
+            "w": 164,
+            "h": 44
+          },
+          {
+            "text": "cancel",
+            "w": 164,
+            "h": 44
+          },
+          {
+            "text": "read-health",
+            "w": 340,
+            "h": 45.390625
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-paper-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-paper unconfirmed one Today row",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed expected effective target",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed section order",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Food-target comparison, not a fuelling assessment.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Movement includes activity beyond workouts. It is context, not a calorie bonus.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Health may be missing or not shared; that does not mean a rest day.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Dates belong to the samples, and checked times describe these reads.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Overlap with your usual target is unknown.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves For a personal fuelling plan, consult a sports dietitian.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves not saved to Health or synced",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves No meal, future goal or historical target changes.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves Saved goals and macros stay unchanged.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed preserves No amount suggested.",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed draft is exact",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed confirm gate",
+      "pass": true
+    },
+    {
+      "name": "a-paper unconfirmed context reachable",
+      "pass": true
+    },
+    {
+      "name": "a-night usual rendered route",
+      "pass": true
+    },
+    {
+      "name": "a-night usual geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "training-row",
+            "w": 329,
+            "h": 54
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-night-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night usual one Today row",
+      "pass": true
+    },
+    {
+      "name": "a-night usual expected effective target",
+      "pass": true
+    },
+    {
+      "name": "a-night usual literal row",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed rendered route",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "close",
+            "w": 44,
+            "h": 44
+          },
+          {
+            "text": "amount",
+            "w": 301,
+            "h": 50
+          },
+          {
+            "text": "confirm",
+            "w": 164,
+            "h": 44
+          },
+          {
+            "text": "cancel",
+            "w": 164,
+            "h": 44
+          },
+          {
+            "text": "read-health",
+            "w": 340,
+            "h": 45.390625
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-night-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "a-night unconfirmed one Today row",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed expected effective target",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed section order",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Food-target comparison, not a fuelling assessment.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Movement includes activity beyond workouts. It is context, not a calorie bonus.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Health may be missing or not shared; that does not mean a rest day.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Dates belong to the samples, and checked times describe these reads.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Overlap with your usual target is unknown.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves For a personal fuelling plan, consult a sports dietitian.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves not saved to Health or synced",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves No meal, future goal or historical target changes.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves Saved goals and macros stay unchanged.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed preserves No amount suggested.",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed draft is exact",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed confirm gate",
+      "pass": true
+    },
+    {
+      "name": "a-night unconfirmed context reachable",
+      "pass": true
+    },
+    {
+      "name": "b-paper usual rendered route",
+      "pass": true
+    },
+    {
+      "name": "b-paper usual geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "training-row",
+            "w": 329,
+            "h": 54
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-paper-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper usual one Today row",
+      "pass": true
+    },
+    {
+      "name": "b-paper usual expected effective target",
+      "pass": true
+    },
+    {
+      "name": "b-paper usual literal row",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed rendered route",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "close",
+            "w": 44,
+            "h": 44
+          },
+          {
+            "text": "amount",
+            "w": 111.765625,
+            "h": 50
+          },
+          {
+            "text": "confirm",
+            "w": 340,
+            "h": 44
+          },
+          {
+            "text": "cancel",
+            "w": 340,
+            "h": 44
+          },
+          {
+            "text": "read-health",
+            "w": 340,
+            "h": 45.390625
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-paper-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-paper-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-paper unconfirmed one Today row",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed expected effective target",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed section order",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Food-target comparison, not a fuelling assessment.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Movement includes activity beyond workouts. It is context, not a calorie bonus.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Health may be missing or not shared; that does not mean a rest day.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Dates belong to the samples, and checked times describe these reads.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Overlap with your usual target is unknown.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves For a personal fuelling plan, consult a sports dietitian.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves not saved to Health or synced",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves No meal, future goal or historical target changes.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves Saved goals and macros stay unchanged.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed preserves No amount suggested.",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed draft is exact",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed confirm gate",
+      "pass": true
+    },
+    {
+      "name": "b-paper unconfirmed context reachable",
+      "pass": true
+    },
+    {
+      "name": "b-night usual rendered route",
+      "pass": true
+    },
+    {
+      "name": "b-night usual geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "training-row",
+            "w": 329,
+            "h": 54
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-night-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night usual one Today row",
+      "pass": true
+    },
+    {
+      "name": "b-night usual expected effective target",
+      "pass": true
+    },
+    {
+      "name": "b-night usual literal row",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed rendered route",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed geometry",
+      "pass": true,
+      "data": {
+        "width": 390,
+        "scroll": 390,
+        "dialogOverflow": false,
+        "controls": [
+          {
+            "text": "close",
+            "w": 44,
+            "h": 44
+          },
+          {
+            "text": "amount",
+            "w": 111.765625,
+            "h": 50
+          },
+          {
+            "text": "confirm",
+            "w": 340,
+            "h": 44
+          },
+          {
+            "text": "cancel",
+            "w": 340,
+            "h": 44
+          },
+          {
+            "text": "read-health",
+            "w": 340,
+            "h": 45.390625
+          }
+        ],
+        "images": [
+          {
+            "src": "assets/a-night-focaccia.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-mortadella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-stracciatella.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-vegetables.svg",
+            "loaded": true
+          },
+          {
+            "src": "assets/a-night-unknown.svg",
+            "loaded": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "b-night unconfirmed one Today row",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed expected effective target",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed section order",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Food-target comparison, not a fuelling assessment.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Movement includes activity beyond workouts. It is context, not a calorie bonus.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Health may be missing or not shared; that does not mean a rest day.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Dates belong to the samples, and checked times describe these reads.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Overlap with your usual target is unknown.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves For a personal fuelling plan, consult a sports dietitian.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves not saved to Health or synced",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves No meal, future goal or historical target changes.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves Saved goals and macros stay unchanged.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed preserves No amount suggested.",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed draft is exact",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed confirm gate",
+      "pass": true
+    },
+    {
+      "name": "b-night unconfirmed context reachable",
+      "pass": true
+    },
+    {
+      "name": "Console/runtime clean",
+      "pass": true,
+      "data": []
+    },
+    {
+      "name": "No prototype HTTP requests",
+      "pass": true,
+      "data": []
+    }
+  ],
+  "captures": [
+    {
+      "file": "evidence/a-paper-usual.png",
+      "sha256": "ca8d3381b5d138b9f16454b8422cec4f49f1a4bd0f9fe7b7dc8e9df1ec882173",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "paper",
+        "scenario": "usual",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "usual",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": false,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/a-paper-unconfirmed.png",
+      "sha256": "3d7f7a90d98a348cfb6079b92fd993e2c23faa6923aba27d03ea395e89c56dd3",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "paper",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/a-paper-unconfirmed-context.png",
+      "sha256": "1cfae13d5e93683c7fb70e00f16d19c4e24a72d6962b28af11861f12ce0721ec",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "paper",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/a-night-usual.png",
+      "sha256": "1761b29a5d9e853b389cfc0d04d891eea992fec6e44e7689cb3529ff2a1d4562",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "night",
+        "scenario": "usual",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "usual",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": false,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/a-night-unconfirmed.png",
+      "sha256": "6c26aaedf52b19bc88d7e53b0589ffeb75233e247ca3fc41bc35114b0f74fa1f",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "night",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/a-night-unconfirmed-context.png",
+      "sha256": "95fcac75fd0a69af9183557489aa1cfc5c96a81c6c9cb65bce180f592ff79b47",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "a",
+        "theme": "night",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-paper-usual.png",
+      "sha256": "a3adc5a3c0fe5470aa38b8adcc4d4c9b332e8a0780e9fcd99865391225bc1da1",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "paper",
+        "scenario": "usual",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "usual",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": false,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-paper-unconfirmed.png",
+      "sha256": "3b2149dbd5611dd8d1582ec9036d45ae46ad652e2d5fc54cd4833b31e8d9b213",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "paper",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-paper-unconfirmed-context.png",
+      "sha256": "81e75336b14d7b3cb7dfd72336c47b9f89a4d1cc22997415dfdc8fb5248f35f9",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "paper",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-night-usual.png",
+      "sha256": "d33fff47ba14dc6925b8add7f8683ec1ee8567ab2c3e9be4db71b65aaef36971",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "night",
+        "scenario": "usual",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "usual",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": false,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-night-unconfirmed.png",
+      "sha256": "c2258403b3e99a70f69cb2025ed9323a917809114e447f41e8c40db9416f888d",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "night",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    },
+    {
+      "file": "evidence/b-night-unconfirmed-context.png",
+      "sha256": "89e3d680d5280628dd5c31df443b690391cec508cf97d7eedc583ab0a03da123",
+      "width": 390,
+      "height": 844,
+      "observed": {
+        "variant": "b",
+        "theme": "night",
+        "scenario": "unconfirmed",
+        "base": 2126,
+        "addition": null,
+        "draft": "",
+        "editing": true,
+        "consent": false,
+        "pending": false,
+        "error": "",
+        "failed": false,
+        "health": "fresh",
+        "operation": 0,
+        "lastAction": "unconfirmed",
+        "target": 2126,
+        "row": "Usual day · 2,126 kcal",
+        "open": true,
+        "canConfirm": false
+      }
+    }
+  ],
+  "errors": [],
+  "network": [],
+  "renderer": {
+    "protocolVersion": "1.3",
+    "product": "HeadlessChrome/151.0.7922.34",
+    "revision": "@782af9cb30a53f54487e5d2e44738645a8ec457c",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "jsVersion": "15.1.206.8"
+  },
+  "note": "Real browser-only proof. Native/HealthKit/persistence unverified."
+}

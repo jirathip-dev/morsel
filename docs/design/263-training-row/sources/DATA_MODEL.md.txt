@@ -1,0 +1,247 @@
+# Data model
+
+Canonical schema SQL lives in the numbered files under [`db/migrations/`](../db/migrations/),
+starting with [`0001_init.sql`](../db/migrations/0001_init.sql); deployment seed
+data lives in [`db/seed.sql`](../db/seed.sql). This doc is the narrative version.
+
+Applied migrations are recorded in `public.migration_ledger` (`name` primary
+key, `applied_at`), created by the recovery runner (never bootstrapped by
+`apply-migrations.mjs`, which appends future migrations and their ledger rows
+in one atomic transaction and fails with zero writes when the ledger is
+missing/empty). Production was provisioned before the ledger existed; the
+human-gated reconciliation flow in
+[`docs/MIGRATION_RECOVERY.md`](../docs/MIGRATION_RECOVERY.md) (issue #76)
+classifies its recovery contract set (0001–0013) against their
+end-state contracts and converges missing/partial states idempotently before
+recording them; new forward migrations (including `0014_dated_targets.sql`) are
+appended through `apply-migrations.mjs` in the same atomic ledger transaction.
+
+## Dated targets
+
+[The dated-target contract](DATED_TARGETS.md) defines prospective baseline
+observations and confirmed per-account/date additions in
+`target_baseline_revisions` and `target_addition_revisions`. Migration 0014
+adds owner-read RLS, private append-only writers and unchanged-legacy-writer
+triggers. Today-only baseline revisions preserve additions; historical
+baselines remain unavailable without trustworthy observations. No backfill.
+
+## Entities
+
+| Table | Purpose | Key link |
+|---|---|---|
+| `users` | one row per account | — |
+| `profiles` | body metrics driving a **computed** target (age, sex, height, weight, activity, diet goal) plus the stored IANA `timezone` used for local-day bucketing | `user_id` |
+| `goals` | **effective** calorie/macro targets; computed from profile unless overridden (`source`) | `user_id` |
+| `meal_logs` | a meal session; **one photo = one log** | `user_id` |
+| `meal_items` | individual foods inside a meal (a meal → many items) | `meal_log_id` |
+| `meal_menus` | named, meal-type-free reusable item bundles (issue #152) | `user_id` |
+| `menu_items` | the template items of one menu (a menu → many items) | `menu_id` |
+| `water_logs` | optional, v1.1 | `user_id` |
+| `energy_burned_logs` | daily active-energy imports, v1.1 | `user_id` |
+| `weight_logs` | Apple Health body-mass measurements | `user_id` |
+| `food_catalog` | curated and USDA FoodData Central-backed reference data for search; external results are cached with `source='usda'` | `barcode` |
+
+## The core shape: a meal is a log, a log has many items
+
+```
+users 1 ──▶ N meal_logs 1 ──▶ N meal_items
+```
+
+This matches the agent's mental model: an uploaded photo of a bowl of rice,
+chicken, and vegetables is ONE `meal_log` with THREE `meal_items`. The `log_meal`
+tool takes an `items[]` array for exactly this reason.
+
+## Named menus: templates + snapshot grouping (issue #152)
+
+`meal_menus` and `menu_items` (migration `0012_named_menus.sql`) add named,
+meal-type-free templates: a menu is a bundle of items (e.g. breakfast set =
+toast + eggs + sauce) that can be logged again later, under ANY meal section
+(`meal_type` still decides the day-section anchor — a menu is never a meal
+boundary). A menu belongs to one user; `(user_id, name)` is unique.
+
+Logging a named menu **snapshots** it: the log's `meal_items` rows carry two
+nullable columns added by the same migration — `menu_group_id` (one shared
+UUID per logged set instance) and `menu_name` (a copy of the template name at
+log time). There is NO foreign key from `meal_items` to `meal_menus`: later
+menu edits or deletions never change past meals, and History keeps each day's
+grouping labels exactly as they were logged (copy semantics). Loose items
+keep both columns NULL, so one meal can mix several named sets and loose
+items — a set is a grouping over items, never a meal boundary.
+
+Both meal-log RPCs (`log_meal_with_items`, `log_meal_with_items_client`)
+accept optional per-item `menu_name`/`menu_group_id` keys inside `p_items`
+(old payloads without the keys are unchanged). When a log carries a
+`menu_name` that the user does not have yet, the RPC creates the reusable
+menu from that log's items in the same transaction; an existing menu is never
+overwritten by a log. `public.upsert_menu(p_user_id, p_menu_id, p_name,
+p_items)` is the atomic app-side save (create or full item-list replace in
+one call); menu deletion is a plain owner-scoped `meal_menus` delete (FK
+cascade removes `menu_items`).
+
+## Stable artwork identity (issue #241)
+
+Migration `0013_artwork_identity.sql` adds nullable `text` columns
+`meal_items.artwork_id` and `menu_items.artwork_id`. The second column is
+necessary to preserve identity through the existing named-menu create/reuse/save
+paths, not a new meal-level field. The agent selects an optional published ID;
+Morsel owns catalog publication and validation. This is an illustration choice,
+not a nutrition lookup, photo, asset upload, or replacement display name.
+Names remain verbatim; IDs never infer or rewrite nutrition or photo references.
+
+The published source is the shipped `app/Resources/FoodArt/catalog.json`
+(18 entries, including neutral; the older design catalog has 17). A generated
+`packages/schema/artwork-ids.ts` snapshot supplies the MCP enum. The generator
+`node packages/schema/generate-artwork-ids.mjs --sql` derives the migration
+CHECK constraints; tests compare the enum to the shipped catalog and verify the
+installed database constraints admit exactly the same set. Catalog changes
+require a new migration, never an edit to an applied one.
+
+Both `log_meal_with_items` and `log_meal_with_items_client` keep their existing
+signatures and accept the optional `artwork_id` key in `p_items`. Their returned
+item JSON includes the key only when non-null. Old RPC payloads still write
+NULL and keep the old response keys. Client-ID retries return the committed
+identity without overwriting items. `upsert_menu` stores the template identity;
+named logs snapshot it, and later template edits leave logged meals unchanged.
+The new migration also qualifies the existing `upsert_menu` delete's `menu_id`
+column to avoid collision with its output parameter on stock PostgreSQL.
+
+The public MCP schema rejects unknown IDs, blank IDs, whitespace/case variants,
+and explicit JSON null before writing. SQL permits NULL for compatibility and
+rejects any unpublished non-null value atomically, including direct item
+updates. `get_day`/`list_menus` omit the key for NULL/absent values;
+`update_meal_item` may replace it with a published ID, while omission preserves
+it. No MCP clear-to-null operation is added. User scoping, RLS, security-invoker
+RPCs and privileges remain unchanged. Existing rows gain NULL without a backfill;
+no data is relogged or migrated by this lane. The migration must precede new
+server projections; an unmigrated database is not supported by the new server.
+
+Native consumption is **deferred to part 2**. Its deterministic contract is:
+supported explicit ID → conservative unambiguous full name/alias match →
+unambiguous catalog category fallback → neutral. Unsupported IDs in an older
+bundle take that fallback path safely. Descriptive Americano rules must be
+conservative (never coffee-cake substring matching); fallback is read-only,
+offline, non-destructive and needs no owner relogging. Rows use illustrations
+even with a photo; the real photo belongs in detail. See
+[MCP artwork identity](MCP_TOOLS.md#artwork-identity-issue-241-contract-half).
+Native rendering and production data behavior are not verified here.
+
+## Local days and timezones (issue #121)
+
+Day-scoped reads (`get_day`, `get_dashboard_summary`, `get_weight_trend`,
+`get_energy_burned`) and the `log_meal` local-date report bucket days as
+**calendar days in a timezone**, never in a fixed UTC grid. The zone is resolved
+per call as: explicit tool `timezone` input → `profiles.timezone` → UTC.
+`profiles.timezone` is a nullable `text` column added by migration
+`0011_profiles_timezone.sql`; the column CHECK only admits the fixed `'UTC'`
+alias or IANA `Area/Location` names (server-side `Intl` validation is the
+authoritative gate before any write). NULL (the default for every existing
+profile) means "UTC as today" — the v0.1 behavior — so existing rows and
+clients without a zone are untouched. Instants (`meal_logs.eaten_at`,
+`weight_logs.measured_at`, `energy_burned_logs.burned_at`) are never changed;
+only the derived day buckets, streak windows, and "today" anchors move.
+
+## Targets are computed
+
+The calorie/macro goal is **derived from the profile**, not a blank manual number.
+`profiles` holds body metrics; `goals` holds the *effective* target plus a
+`source` (`computed` | `manual`). See [`TARGETS.md`](TARGETS.md) for the formula
+(Mifflin-St Jeor → activity factor → diet goal) and the review-and-adjust flow.
+
+## Enums (CHECK constraints)
+
+- `meal_type`: `breakfast` | `lunch` | `dinner` | `snack`
+- `source`: `manual` | `photo_vision` | `barcode` | `import` | `voice`
+- `unit`: `g` | `ml` | `serving` | `piece` | `cup`
+
+## Key columns
+
+- `meal_logs.eaten_at` — when the meal happened (agent passes it, not timestamp of upload).
+- `meal_logs.image_path` — the object path of the meal photo inside the private
+  `food-images` bucket: `{user_id}/{meal_log_id}.jpg`. It is written by the
+  native app's photo upload and by the MCP server after it stores validated
+  photo bytes (`image_base64` uploads or one fetched `image_url`, issue #122).
+  NULL (the usual case) means the meal has no photo. This column is only ever
+  a storage object path — external HTTPS references are never stored in it,
+  and consumers render a photo by downloading the object, not by treating the
+  value as a URL.
+- `meal_items.confidence` — 0..1, how sure the detecting agent is. Low confidence
+  should surface in the dashboard as "review me" items.
+- `meal_items.food_ref_id` — an optional UUID linking to `food_catalog`; the MCP
+  schema rejects non-UUID values before the database transaction begins.
+- `meal_items.source_notes` — the agent's own reasoning ("approx, shared plate").
+  Note that wrong-ish estimates, if honest, should be kept (human can correct later).
+ - `weight_logs.measured_at` — the original HealthKit measurement timestamp;
+  `(user_id, measured_at)` is unique so background sync is idempotent. Its
+  `source` is `manual` or `apple_health`.
+
+## Idempotent meal writes (native offline outbox, issue #106)
+
+`public.log_meal_with_items_client` (migration `0010_meal_outbox_client_ids.sql`)
+is the native app's idempotent meal write. The app generates the meal row
+identity client-side and passes it as `p_client_meal_id`; a retried delivery
+after a server-side commit conflicts on `meal_logs.id` (`on conflict (id) do
+nothing`) and returns the already-committed row instead of inserting a
+duplicate — duplicates are never deduped only in the client. The item insert
+runs only when the client id was NOT already committed, and an id that exists
+under a different `user_id` raises `42501`, so a foreign client id can never
+write through the authenticated path. The original `log_meal_with_items`
+(server/MCP path) keeps its server-generated identity and is untouched.
+Since migration `0012_named_menus.sql`, both RPCs also accept optional
+per-item `menu_name`/`menu_group_id` keys inside `p_items` (snapshot columns
+for named-menu logs; see the named-menus section above).
+The native app's local cache/outbox lives in a per-account SQLite store
+(`Application Support/Morsel/<user_id>/`) and is NOT part of the server data
+model; see `docs/APP_DATA_RELIABILITY.md`.
+
+## Row-level security
+
+Every user-scoped table is guarded by `auth.uid() = user_id`. `meal_items` is
+an exception: it has no `user_id`, so policies join through the parent
+`meal_logs`. That subquery works but is heavier per-row; if it ever becomes a
+hot path, add a denormalized `user_id` to `meal_items` and key on it directly.
+`menu_items` follows the same pattern through `meal_menus` (migration 0012).
+The `users` table is guarded by owner policies using `auth.uid() = id` for
+select, insert, and update.
+`food_catalog` is shared reference data: authenticated clients can select it,
+while its seed-owned rows have no client write policies.
+`oauth_authorization_grants` is a short-lived user-scoped table provisioned by
+`0005_oauth_authorization_grants.sql`. Authenticated users may insert only rows
+where `auth.uid() = user_id`; the public `claim_oauth_authorization_grant` RPC
+deletes and returns a matching unexpired row atomically, making an OAuth code
+single-use across Edge Function isolates. Its server-side refresh credential is
+never embedded in the client-facing authorization code.
+
+## Why one store for two clients
+
+The agent (via MCP) and the dashboard (via Supabase SDK) both read/write `user_id`
+rows. Because both authenticate to the same store and RLS scopes by the same
+`auth.uid()`, they can never see each other's data. No separate REST API needed.
+
+## Images
+
+Meal photos are real bytes in the private Supabase Storage bucket
+`food-images`, object path `{user_id}/{meal_log_id}.jpg`. Migration
+`0004_store_assets.sql` provisions the bucket (10 MB file limit; content types
+`image/jpeg`, `image/png`, `image/webp`) and allows authenticated users to
+insert, read, update, and delete objects only when the first path segment is
+their own user ID — every upload/download uses the caller's bearer token, so
+those policies scope both the native app and the MCP server.
+
+Both writers store bytes:
+- the native app re-encodes the camera frame to JPEG on-device before
+  uploading (`FoodImageStore`/`FoodImageCompressor`), and
+- the MCP server stores validated photo bytes from `image_base64`
+  (JPEG/PNG/WebP, ~5 MB cap) or one HTTPS `image_url` fetch (10 MB cap, 5 s
+  timeout, image-only, no redirects to private ranges); it never stores a URL
+  string. When a photo cannot be stored the tool response reports
+  `image_error` and the meal row still commits (issue #122).
+
+The row only records the object path (`meal_logs.image_path`). Reads return a
+short-lived signed URL per request instead of exposing the object directly:
+`get_day` meals carry `image: { path, signed_url, expires_at }` where `path`
+is the object path the app's thumbnail pipeline downloads (`MealThumbnailView`
+loads it through the authenticated Storage client). Deleting a meal removes
+its log row; any photo object stops being returned by reads and remains an
+owner-scoped bucket object until storage cleanup removes it.
+
+The catalog starts with a small deterministic seed in `db/seed.sql` and is extended by the USDA FoodData Central lookup path. Successful external results are cached with `source='usda'`; the server-only cache write path keeps shared catalog data out of caller-controlled writes.

@@ -1,0 +1,9236 @@
+{
+  "units": "font units",
+  "units_per_em": 1000,
+  "method": "hmtx after requested single-substitution GSUB lookup order; no shaping/GPOS or rasterization",
+  "weights_tested": [
+    400.0,
+    500,
+    600,
+    700,
+    800
+  ],
+  "summaries": [
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        506,
+        382,
+        505,
+        480,
+        500,
+        480,
+        484,
+        484,
+        472,
+        484
+      ],
+      "unique_advances": [
+        382,
+        472,
+        480,
+        484,
+        500,
+        505,
+        506
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480,
+        480
+      ],
+      "unique_advances": [
+        480
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        506,
+        382,
+        505,
+        480,
+        500,
+        480,
+        484,
+        484,
+        472,
+        484
+      ],
+      "unique_advances": [
+        382,
+        472,
+        480,
+        484,
+        500,
+        505,
+        506
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "glyphs": [
+        "zero.osf",
+        "one.osf",
+        "two.osf",
+        "three.osf",
+        "four.osf",
+        "five.osf",
+        "six.osf",
+        "seven.osf",
+        "eight.osf",
+        "nine.osf"
+      ],
+      "advances": [
+        507,
+        289,
+        440,
+        372,
+        492,
+        359,
+        489,
+        460,
+        452,
+        466
+      ],
+      "unique_advances": [
+        289,
+        359,
+        372,
+        440,
+        452,
+        460,
+        466,
+        489,
+        492,
+        507
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        533,
+        387,
+        513,
+        476,
+        523,
+        470,
+        498,
+        506,
+        500,
+        505
+      ],
+      "unique_advances": [
+        387,
+        470,
+        476,
+        498,
+        500,
+        505,
+        506,
+        513,
+        523,
+        533
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497,
+        497
+      ],
+      "unique_advances": [
+        497
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        533,
+        387,
+        513,
+        476,
+        523,
+        470,
+        498,
+        506,
+        500,
+        505
+      ],
+      "unique_advances": [
+        387,
+        470,
+        476,
+        498,
+        500,
+        505,
+        506,
+        513,
+        523,
+        533
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "glyphs": [
+        "zero.osf",
+        "one.osf",
+        "two.osf",
+        "three.osf",
+        "four.osf",
+        "five.osf",
+        "six.osf",
+        "seven.osf",
+        "eight.osf",
+        "nine.osf"
+      ],
+      "advances": [
+        509,
+        306,
+        453,
+        381,
+        506,
+        363,
+        496,
+        476,
+        470,
+        494
+      ],
+      "unique_advances": [
+        306,
+        363,
+        381,
+        453,
+        470,
+        476,
+        494,
+        496,
+        506,
+        509
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        558,
+        391,
+        520,
+        473,
+        543,
+        460,
+        510,
+        526,
+        524,
+        523
+      ],
+      "unique_advances": [
+        391,
+        460,
+        473,
+        510,
+        520,
+        523,
+        524,
+        526,
+        543,
+        558
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513,
+        513
+      ],
+      "unique_advances": [
+        513
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        558,
+        391,
+        520,
+        473,
+        543,
+        460,
+        510,
+        526,
+        524,
+        523
+      ],
+      "unique_advances": [
+        391,
+        460,
+        473,
+        510,
+        520,
+        523,
+        524,
+        526,
+        543,
+        558
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "glyphs": [
+        "zero.osf",
+        "one.osf",
+        "two.osf",
+        "three.osf",
+        "four.osf",
+        "five.osf",
+        "six.osf",
+        "seven.osf",
+        "eight.osf",
+        "nine.osf"
+      ],
+      "advances": [
+        510,
+        321,
+        464,
+        390,
+        518,
+        366,
+        503,
+        491,
+        486,
+        520
+      ],
+      "unique_advances": [
+        321,
+        366,
+        390,
+        464,
+        486,
+        491,
+        503,
+        510,
+        518,
+        520
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        583,
+        396,
+        528,
+        469,
+        565,
+        450,
+        523,
+        546,
+        550,
+        542
+      ],
+      "unique_advances": [
+        396,
+        450,
+        469,
+        523,
+        528,
+        542,
+        546,
+        550,
+        565,
+        583
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529,
+        529
+      ],
+      "unique_advances": [
+        529
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        583,
+        396,
+        528,
+        469,
+        565,
+        450,
+        523,
+        546,
+        550,
+        542
+      ],
+      "unique_advances": [
+        396,
+        450,
+        469,
+        523,
+        528,
+        542,
+        546,
+        550,
+        565,
+        583
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "glyphs": [
+        "zero.osf",
+        "one.osf",
+        "two.osf",
+        "three.osf",
+        "four.osf",
+        "five.osf",
+        "six.osf",
+        "seven.osf",
+        "eight.osf",
+        "nine.osf"
+      ],
+      "advances": [
+        512,
+        337,
+        476,
+        398,
+        531,
+        370,
+        510,
+        506,
+        502,
+        546
+      ],
+      "unique_advances": [
+        337,
+        370,
+        398,
+        476,
+        502,
+        506,
+        510,
+        512,
+        531,
+        546
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        600,
+        399,
+        533,
+        467,
+        579,
+        444,
+        531,
+        560,
+        567,
+        555
+      ],
+      "unique_advances": [
+        399,
+        444,
+        467,
+        531,
+        533,
+        555,
+        560,
+        567,
+        579,
+        600
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "glyphs": [
+        "zero",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "glyphs": [
+        "zero.tosf",
+        "one.tosf",
+        "two.tosf",
+        "three.tosf",
+        "four.tosf",
+        "five.tosf",
+        "six.tosf",
+        "seven.tosf",
+        "eight.tosf",
+        "nine.tosf"
+      ],
+      "advances": [
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540,
+        540
+      ],
+      "unique_advances": [
+        540
+      ],
+      "equal_digit_advances": true
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "glyphs": [
+        "zero.lf",
+        "one.lf",
+        "two.lf",
+        "three.lf",
+        "four.lf",
+        "five.lf",
+        "six.lf",
+        "seven.lf",
+        "eight.lf",
+        "nine.lf"
+      ],
+      "advances": [
+        600,
+        399,
+        533,
+        467,
+        579,
+        444,
+        531,
+        560,
+        567,
+        555
+      ],
+      "unique_advances": [
+        399,
+        444,
+        467,
+        531,
+        533,
+        555,
+        560,
+        567,
+        579,
+        600
+      ],
+      "equal_digit_advances": false
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "glyphs": [
+        "zero.osf",
+        "one.osf",
+        "two.osf",
+        "three.osf",
+        "four.osf",
+        "five.osf",
+        "six.osf",
+        "seven.osf",
+        "eight.osf",
+        "nine.osf"
+      ],
+      "advances": [
+        513,
+        348,
+        484,
+        404,
+        539,
+        372,
+        514,
+        516,
+        513,
+        564
+      ],
+      "unique_advances": [
+        348,
+        372,
+        404,
+        484,
+        513,
+        514,
+        516,
+        539,
+        564
+      ],
+      "equal_digit_advances": false
+    }
+  ],
+  "rows": [
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 480,
+      "lsb": 92,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 480,
+      "lsb": 32,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 480,
+      "lsb": 50,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 480,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 480,
+      "lsb": 72,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 480,
+      "lsb": 47,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 480,
+      "lsb": 36,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 480,
+      "lsb": 65,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "default",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 480,
+      "lsb": 53,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 480,
+      "lsb": 92,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 480,
+      "lsb": 32,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 480,
+      "lsb": 50,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 480,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 480,
+      "lsb": 72,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 480,
+      "lsb": 47,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 480,
+      "lsb": 36,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 480,
+      "lsb": 65,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 480,
+      "lsb": 53,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 480,
+      "lsb": 92,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 480,
+      "lsb": 32,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 480,
+      "lsb": 50,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 480,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 480,
+      "lsb": 72,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 480,
+      "lsb": 47,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 480,
+      "lsb": 36,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 480,
+      "lsb": 65,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 480,
+      "lsb": 53,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 480,
+      "lsb": 24,
+      "y_min": -14,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 480,
+      "lsb": 106,
+      "y_min": -3,
+      "y_max": 406
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 480,
+      "lsb": 59,
+      "y_min": -4,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 480,
+      "lsb": 86,
+      "y_min": -190,
+      "y_max": 413
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 480,
+      "lsb": 15,
+      "y_min": -181,
+      "y_max": 421
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 480,
+      "lsb": 106,
+      "y_min": -189,
+      "y_max": 415
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 480,
+      "lsb": 41,
+      "y_min": -14,
+      "y_max": 641
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 480,
+      "lsb": 31,
+      "y_min": -193,
+      "y_max": 407
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 480,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -186,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 506,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 382,
+      "lsb": 36,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 505,
+      "lsb": 36,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 480,
+      "lsb": 40,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 500,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 480,
+      "lsb": 52,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 484,
+      "lsb": 31,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 484,
+      "lsb": 20,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 472,
+      "lsb": 55,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 484,
+      "lsb": 43,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 480,
+      "lsb": 92,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 480,
+      "lsb": 32,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 480,
+      "lsb": 50,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 480,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 480,
+      "lsb": 72,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 480,
+      "lsb": 47,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 480,
+      "lsb": 36,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 480,
+      "lsb": 65,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 480,
+      "lsb": 53,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 480,
+      "lsb": 24,
+      "y_min": -14,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 480,
+      "lsb": 106,
+      "y_min": -3,
+      "y_max": 406
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 480,
+      "lsb": 59,
+      "y_min": -4,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 480,
+      "lsb": 86,
+      "y_min": -190,
+      "y_max": 413
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 480,
+      "lsb": 15,
+      "y_min": -181,
+      "y_max": 421
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 480,
+      "lsb": 106,
+      "y_min": -189,
+      "y_max": 415
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 480,
+      "lsb": 41,
+      "y_min": -14,
+      "y_max": 641
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 480,
+      "lsb": 31,
+      "y_min": -193,
+      "y_max": 407
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 480,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+tnum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 480,
+      "lsb": 45,
+      "y_min": -186,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 506,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 382,
+      "lsb": 36,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 505,
+      "lsb": 36,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 480,
+      "lsb": 40,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 500,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 480,
+      "lsb": 52,
+      "y_min": -38,
+      "y_max": 628
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 484,
+      "lsb": 31,
+      "y_min": -16,
+      "y_max": 643
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 484,
+      "lsb": 20,
+      "y_min": -32,
+      "y_max": 626
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 472,
+      "lsb": 55,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 400.0,
+      "variant": "lnum+pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 484,
+      "lsb": 43,
+      "y_min": -31,
+      "y_max": 629
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "0",
+      "glyph": "zero.osf",
+      "advance": 507,
+      "lsb": 40,
+      "y_min": -15,
+      "y_max": 413
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "1",
+      "glyph": "one.osf",
+      "advance": 289,
+      "lsb": 25,
+      "y_min": -3,
+      "y_max": 406
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "2",
+      "glyph": "two.osf",
+      "advance": 440,
+      "lsb": 40,
+      "y_min": -4,
+      "y_max": 414
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "3",
+      "glyph": "three.osf",
+      "advance": 372,
+      "lsb": 36,
+      "y_min": -190,
+      "y_max": 413
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "4",
+      "glyph": "four.osf",
+      "advance": 492,
+      "lsb": 21,
+      "y_min": -181,
+      "y_max": 421
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "5",
+      "glyph": "five.osf",
+      "advance": 359,
+      "lsb": 52,
+      "y_min": -189,
+      "y_max": 415
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "6",
+      "glyph": "six.osf",
+      "advance": 489,
+      "lsb": 41,
+      "y_min": -14,
+      "y_max": 641
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "7",
+      "glyph": "seven.osf",
+      "advance": 460,
+      "lsb": 24,
+      "y_min": -193,
+      "y_max": 407
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "8",
+      "glyph": "eight.osf",
+      "advance": 452,
+      "lsb": 55,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 400.0,
+      "variant": "onum+pnum",
+      "digit": "9",
+      "glyph": "nine.osf",
+      "advance": 466,
+      "lsb": 41,
+      "y_min": -186,
+      "y_max": 414
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 497,
+      "lsb": 38,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 497,
+      "lsb": 95,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 497,
+      "lsb": 42,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 497,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 497,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 497,
+      "lsb": 53,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 497,
+      "lsb": 36,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 497,
+      "lsb": 63,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "default",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 497,
+      "lsb": 54,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 497,
+      "lsb": 38,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 497,
+      "lsb": 95,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 497,
+      "lsb": 42,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 497,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 497,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 497,
+      "lsb": 53,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 497,
+      "lsb": 36,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 497,
+      "lsb": 63,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 497,
+      "lsb": 54,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 497,
+      "lsb": 38,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 497,
+      "lsb": 95,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 497,
+      "lsb": 42,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 497,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 497,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 497,
+      "lsb": 53,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 497,
+      "lsb": 36,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 497,
+      "lsb": 63,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 497,
+      "lsb": 54,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 497,
+      "lsb": 31,
+      "y_min": -14,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 497,
+      "lsb": 106,
+      "y_min": -4,
+      "y_max": 413
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 497,
+      "lsb": 56,
+      "y_min": -4,
+      "y_max": 421
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 497,
+      "lsb": 87,
+      "y_min": -186,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 497,
+      "lsb": 16,
+      "y_min": -181,
+      "y_max": 427
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 497,
+      "lsb": 107,
+      "y_min": -185,
+      "y_max": 422
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 497,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 497,
+      "lsb": 34,
+      "y_min": -193,
+      "y_max": 416
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 500,
+      "variant": "onum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 497,
+      "lsb": 41,
+      "y_min": -203,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 533,
+      "lsb": 49,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 387,
+      "lsb": 34,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 513,
+      "lsb": 38,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 476,
+      "lsb": 38,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 523,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 470,
+      "lsb": 46,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 498,
+      "lsb": 32,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 506,
+      "lsb": 21,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 500,
+      "lsb": 56,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 505,
+      "lsb": 44,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 497,
+      "lsb": 38,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 497,
+      "lsb": 95,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 497,
+      "lsb": 42,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 497,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 497,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 497,
+      "lsb": 53,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 497,
+      "lsb": 36,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 497,
+      "lsb": 63,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 497,
+      "lsb": 54,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 497,
+      "lsb": 31,
+      "y_min": -14,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 497,
+      "lsb": 106,
+      "y_min": -4,
+      "y_max": 413
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 497,
+      "lsb": 56,
+      "y_min": -4,
+      "y_max": 421
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 497,
+      "lsb": 87,
+      "y_min": -186,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 497,
+      "lsb": 16,
+      "y_min": -181,
+      "y_max": 427
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 497,
+      "lsb": 107,
+      "y_min": -185,
+      "y_max": 422
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 497,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 497,
+      "lsb": 34,
+      "y_min": -193,
+      "y_max": 416
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 497,
+      "lsb": 58,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 500,
+      "variant": "onum+tnum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 497,
+      "lsb": 41,
+      "y_min": -203,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 533,
+      "lsb": 49,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 387,
+      "lsb": 34,
+      "y_min": -3,
+      "y_max": 637
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 513,
+      "lsb": 38,
+      "y_min": -3,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 476,
+      "lsb": 38,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 523,
+      "lsb": 19,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 470,
+      "lsb": 46,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 498,
+      "lsb": 32,
+      "y_min": -15,
+      "y_max": 642
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 506,
+      "lsb": 21,
+      "y_min": -31,
+      "y_max": 627
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 500,
+      "lsb": 56,
+      "y_min": -14,
+      "y_max": 630
+    },
+    {
+      "weight": 500,
+      "variant": "lnum+pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 505,
+      "lsb": 44,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "0",
+      "glyph": "zero.osf",
+      "advance": 509,
+      "lsb": 36,
+      "y_min": -15,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "1",
+      "glyph": "one.osf",
+      "advance": 306,
+      "lsb": 24,
+      "y_min": -4,
+      "y_max": 413
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "2",
+      "glyph": "two.osf",
+      "advance": 453,
+      "lsb": 32,
+      "y_min": -4,
+      "y_max": 421
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "3",
+      "glyph": "three.osf",
+      "advance": 381,
+      "lsb": 31,
+      "y_min": -186,
+      "y_max": 420
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "4",
+      "glyph": "four.osf",
+      "advance": 506,
+      "lsb": 20,
+      "y_min": -181,
+      "y_max": 427
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "5",
+      "glyph": "five.osf",
+      "advance": 363,
+      "lsb": 44,
+      "y_min": -185,
+      "y_max": 422
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "6",
+      "glyph": "six.osf",
+      "advance": 496,
+      "lsb": 38,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "7",
+      "glyph": "seven.osf",
+      "advance": 476,
+      "lsb": 22,
+      "y_min": -193,
+      "y_max": 416
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "8",
+      "glyph": "eight.osf",
+      "advance": 470,
+      "lsb": 51,
+      "y_min": -13,
+      "y_max": 589
+    },
+    {
+      "weight": 500,
+      "variant": "onum+pnum",
+      "digit": "9",
+      "glyph": "nine.osf",
+      "advance": 494,
+      "lsb": 35,
+      "y_min": -203,
+      "y_max": 420
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 513,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 513,
+      "lsb": 97,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 513,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 513,
+      "lsb": 64,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 513,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 513,
+      "lsb": 80,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 513,
+      "lsb": 60,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 513,
+      "lsb": 62,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "default",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 513,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 513,
+      "lsb": 97,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 513,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 513,
+      "lsb": 64,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 513,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 513,
+      "lsb": 80,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 513,
+      "lsb": 60,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 513,
+      "lsb": 62,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 513,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 513,
+      "lsb": 97,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 513,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 513,
+      "lsb": 64,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 513,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 513,
+      "lsb": 80,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 513,
+      "lsb": 60,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 513,
+      "lsb": 62,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -14,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 513,
+      "lsb": 107,
+      "y_min": -4,
+      "y_max": 419
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -4,
+      "y_max": 427
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 513,
+      "lsb": 87,
+      "y_min": -182,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 513,
+      "lsb": 16,
+      "y_min": -181,
+      "y_max": 432
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 513,
+      "lsb": 107,
+      "y_min": -181,
+      "y_max": 429
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -193,
+      "y_max": 425
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 513,
+      "lsb": 56,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 600,
+      "variant": "onum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 513,
+      "lsb": 36,
+      "y_min": -219,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 558,
+      "lsb": 50,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 391,
+      "lsb": 33,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 520,
+      "lsb": 40,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 473,
+      "lsb": 36,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 543,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 460,
+      "lsb": 40,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 510,
+      "lsb": 34,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 526,
+      "lsb": 23,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 524,
+      "lsb": 57,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 523,
+      "lsb": 44,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 513,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 513,
+      "lsb": 97,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 513,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 513,
+      "lsb": 64,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 513,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 513,
+      "lsb": 80,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 513,
+      "lsb": 60,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 513,
+      "lsb": 62,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -14,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 513,
+      "lsb": 107,
+      "y_min": -4,
+      "y_max": 419
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -4,
+      "y_max": 427
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 513,
+      "lsb": 87,
+      "y_min": -182,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 513,
+      "lsb": 16,
+      "y_min": -181,
+      "y_max": 432
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 513,
+      "lsb": 107,
+      "y_min": -181,
+      "y_max": 429
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 513,
+      "lsb": 54,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 513,
+      "lsb": 37,
+      "y_min": -193,
+      "y_max": 425
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 513,
+      "lsb": 56,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 600,
+      "variant": "onum+tnum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 513,
+      "lsb": 36,
+      "y_min": -219,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 558,
+      "lsb": 50,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 391,
+      "lsb": 33,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 520,
+      "lsb": 40,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 473,
+      "lsb": 36,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 543,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 460,
+      "lsb": 40,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 510,
+      "lsb": 34,
+      "y_min": -15,
+      "y_max": 640
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 526,
+      "lsb": 23,
+      "y_min": -30,
+      "y_max": 627
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 524,
+      "lsb": 57,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "lnum+pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 523,
+      "lsb": 44,
+      "y_min": -44,
+      "y_max": 629
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "0",
+      "glyph": "zero.osf",
+      "advance": 510,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "1",
+      "glyph": "one.osf",
+      "advance": 321,
+      "lsb": 22,
+      "y_min": -4,
+      "y_max": 419
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "2",
+      "glyph": "two.osf",
+      "advance": 464,
+      "lsb": 26,
+      "y_min": -4,
+      "y_max": 427
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "3",
+      "glyph": "three.osf",
+      "advance": 390,
+      "lsb": 26,
+      "y_min": -182,
+      "y_max": 426
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "4",
+      "glyph": "four.osf",
+      "advance": 518,
+      "lsb": 18,
+      "y_min": -181,
+      "y_max": 432
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "5",
+      "glyph": "five.osf",
+      "advance": 366,
+      "lsb": 37,
+      "y_min": -181,
+      "y_max": 429
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "6",
+      "glyph": "six.osf",
+      "advance": 503,
+      "lsb": 35,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "7",
+      "glyph": "seven.osf",
+      "advance": 491,
+      "lsb": 21,
+      "y_min": -193,
+      "y_max": 425
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "8",
+      "glyph": "eight.osf",
+      "advance": 486,
+      "lsb": 47,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 600,
+      "variant": "onum+pnum",
+      "digit": "9",
+      "glyph": "nine.osf",
+      "advance": 520,
+      "lsb": 29,
+      "y_min": -219,
+      "y_max": 426
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 529,
+      "lsb": 26,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 529,
+      "lsb": 96,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 529,
+      "lsb": 71,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 529,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 529,
+      "lsb": 85,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 529,
+      "lsb": 66,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 529,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "default",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 529,
+      "lsb": 26,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 529,
+      "lsb": 96,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 529,
+      "lsb": 71,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 529,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 529,
+      "lsb": 85,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 529,
+      "lsb": 66,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 529,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 529,
+      "lsb": 26,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 529,
+      "lsb": 96,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 529,
+      "lsb": 71,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 529,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 529,
+      "lsb": 85,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 529,
+      "lsb": 66,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 529,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 529,
+      "lsb": 44,
+      "y_min": -14,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 529,
+      "lsb": 107,
+      "y_min": -5,
+      "y_max": 425
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 529,
+      "lsb": 52,
+      "y_min": -4,
+      "y_max": 433
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 529,
+      "lsb": 87,
+      "y_min": -179,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 529,
+      "lsb": 17,
+      "y_min": -181,
+      "y_max": 437
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 529,
+      "lsb": 108,
+      "y_min": -178,
+      "y_max": 436
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 529,
+      "lsb": 40,
+      "y_min": -193,
+      "y_max": 435
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 700,
+      "variant": "onum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 529,
+      "lsb": 33,
+      "y_min": -235,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 583,
+      "lsb": 51,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 396,
+      "lsb": 28,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 528,
+      "lsb": 43,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 469,
+      "lsb": 34,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 565,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 450,
+      "lsb": 35,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 523,
+      "lsb": 35,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 546,
+      "lsb": 24,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 550,
+      "lsb": 57,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 542,
+      "lsb": 45,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 529,
+      "lsb": 26,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 529,
+      "lsb": 96,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 529,
+      "lsb": 71,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 529,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 529,
+      "lsb": 85,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 529,
+      "lsb": 66,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 529,
+      "lsb": 37,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 529,
+      "lsb": 44,
+      "y_min": -14,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 529,
+      "lsb": 107,
+      "y_min": -5,
+      "y_max": 425
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 529,
+      "lsb": 52,
+      "y_min": -4,
+      "y_max": 433
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 529,
+      "lsb": 87,
+      "y_min": -179,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 529,
+      "lsb": 17,
+      "y_min": -181,
+      "y_max": 437
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 529,
+      "lsb": 108,
+      "y_min": -178,
+      "y_max": 436
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 529,
+      "lsb": 60,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 529,
+      "lsb": 40,
+      "y_min": -193,
+      "y_max": 435
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 529,
+      "lsb": 55,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 700,
+      "variant": "onum+tnum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 529,
+      "lsb": 33,
+      "y_min": -235,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 583,
+      "lsb": 51,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 396,
+      "lsb": 28,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 528,
+      "lsb": 43,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 469,
+      "lsb": 34,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 565,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 450,
+      "lsb": 35,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 523,
+      "lsb": 35,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 546,
+      "lsb": 24,
+      "y_min": -30,
+      "y_max": 628
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 550,
+      "lsb": 57,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "lnum+pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 542,
+      "lsb": 45,
+      "y_min": -50,
+      "y_max": 629
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "0",
+      "glyph": "zero.osf",
+      "advance": 512,
+      "lsb": 28,
+      "y_min": -14,
+      "y_max": 433
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "1",
+      "glyph": "one.osf",
+      "advance": 337,
+      "lsb": 21,
+      "y_min": -5,
+      "y_max": 425
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "2",
+      "glyph": "two.osf",
+      "advance": 476,
+      "lsb": 19,
+      "y_min": -4,
+      "y_max": 433
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "3",
+      "glyph": "three.osf",
+      "advance": 398,
+      "lsb": 21,
+      "y_min": -179,
+      "y_max": 432
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "4",
+      "glyph": "four.osf",
+      "advance": 531,
+      "lsb": 17,
+      "y_min": -181,
+      "y_max": 437
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "5",
+      "glyph": "five.osf",
+      "advance": 370,
+      "lsb": 29,
+      "y_min": -178,
+      "y_max": 436
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "6",
+      "glyph": "six.osf",
+      "advance": 510,
+      "lsb": 32,
+      "y_min": -14,
+      "y_max": 639
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "7",
+      "glyph": "seven.osf",
+      "advance": 506,
+      "lsb": 19,
+      "y_min": -193,
+      "y_max": 435
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "8",
+      "glyph": "eight.osf",
+      "advance": 502,
+      "lsb": 43,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 700,
+      "variant": "onum+pnum",
+      "digit": "9",
+      "glyph": "nine.osf",
+      "advance": 546,
+      "lsb": 24,
+      "y_min": -235,
+      "y_max": 432
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 540,
+      "lsb": 22,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 540,
+      "lsb": 94,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 540,
+      "lsb": 66,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 540,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 540,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 540,
+      "lsb": 87,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 540,
+      "lsb": 70,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 540,
+      "lsb": 37,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 540,
+      "lsb": 59,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "default",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 540,
+      "lsb": 55,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 540,
+      "lsb": 22,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 540,
+      "lsb": 94,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 540,
+      "lsb": 66,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 540,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 540,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 540,
+      "lsb": 87,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 540,
+      "lsb": 70,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 540,
+      "lsb": 37,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 540,
+      "lsb": 59,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 540,
+      "lsb": 55,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 540,
+      "lsb": 22,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 540,
+      "lsb": 94,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 540,
+      "lsb": 66,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 540,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 540,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 540,
+      "lsb": 87,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 540,
+      "lsb": 70,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 540,
+      "lsb": 37,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 540,
+      "lsb": 59,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 540,
+      "lsb": 55,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 540,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 540,
+      "lsb": 107,
+      "y_min": -5,
+      "y_max": 429
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 540,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 437
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 540,
+      "lsb": 88,
+      "y_min": -176,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 540,
+      "lsb": 17,
+      "y_min": -181,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 540,
+      "lsb": 108,
+      "y_min": -175,
+      "y_max": 440
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 540,
+      "lsb": 64,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 540,
+      "lsb": 42,
+      "y_min": -193,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 540,
+      "lsb": 53,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 800,
+      "variant": "onum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 540,
+      "lsb": 30,
+      "y_min": -246,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 600,
+      "lsb": 52,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 399,
+      "lsb": 23,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 533,
+      "lsb": 44,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 467,
+      "lsb": 33,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 579,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 444,
+      "lsb": 31,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 531,
+      "lsb": 36,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 560,
+      "lsb": 25,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 567,
+      "lsb": 58,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 555,
+      "lsb": 45,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "0",
+      "glyph": "zero",
+      "advance": 540,
+      "lsb": 22,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "1",
+      "glyph": "one",
+      "advance": 540,
+      "lsb": 94,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "2",
+      "glyph": "two",
+      "advance": 540,
+      "lsb": 66,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "3",
+      "glyph": "three",
+      "advance": 540,
+      "lsb": 76,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "4",
+      "glyph": "four",
+      "advance": 540,
+      "lsb": 21,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "5",
+      "glyph": "five",
+      "advance": 540,
+      "lsb": 87,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "6",
+      "glyph": "six",
+      "advance": 540,
+      "lsb": 70,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "7",
+      "glyph": "seven",
+      "advance": 540,
+      "lsb": 37,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "8",
+      "glyph": "eight",
+      "advance": 540,
+      "lsb": 59,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+tnum",
+      "digit": "9",
+      "glyph": "nine",
+      "advance": 540,
+      "lsb": 55,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "0",
+      "glyph": "zero.tosf",
+      "advance": 540,
+      "lsb": 48,
+      "y_min": -14,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "1",
+      "glyph": "one.tosf",
+      "advance": 540,
+      "lsb": 107,
+      "y_min": -5,
+      "y_max": 429
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "2",
+      "glyph": "two.tosf",
+      "advance": 540,
+      "lsb": 50,
+      "y_min": -4,
+      "y_max": 437
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "3",
+      "glyph": "three.tosf",
+      "advance": 540,
+      "lsb": 88,
+      "y_min": -176,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "4",
+      "glyph": "four.tosf",
+      "advance": 540,
+      "lsb": 17,
+      "y_min": -181,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "5",
+      "glyph": "five.tosf",
+      "advance": 540,
+      "lsb": 108,
+      "y_min": -175,
+      "y_max": 440
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "6",
+      "glyph": "six.tosf",
+      "advance": 540,
+      "lsb": 64,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "7",
+      "glyph": "seven.tosf",
+      "advance": 540,
+      "lsb": 42,
+      "y_min": -193,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "8",
+      "glyph": "eight.tosf",
+      "advance": 540,
+      "lsb": 53,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 800,
+      "variant": "onum+tnum",
+      "digit": "9",
+      "glyph": "nine.tosf",
+      "advance": 540,
+      "lsb": 30,
+      "y_min": -246,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "0",
+      "glyph": "zero.lf",
+      "advance": 600,
+      "lsb": 52,
+      "y_min": -14,
+      "y_max": 631
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "1",
+      "glyph": "one.lf",
+      "advance": 399,
+      "lsb": 23,
+      "y_min": -3,
+      "y_max": 636
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "2",
+      "glyph": "two.lf",
+      "advance": 533,
+      "lsb": 44,
+      "y_min": -4,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "3",
+      "glyph": "three.lf",
+      "advance": 467,
+      "lsb": 33,
+      "y_min": -38,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "4",
+      "glyph": "four.lf",
+      "advance": 579,
+      "lsb": 20,
+      "y_min": -3,
+      "y_max": 642
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "5",
+      "glyph": "five.lf",
+      "advance": 444,
+      "lsb": 31,
+      "y_min": -38,
+      "y_max": 630
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "6",
+      "glyph": "six.lf",
+      "advance": 531,
+      "lsb": 36,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "7",
+      "glyph": "seven.lf",
+      "advance": 560,
+      "lsb": 25,
+      "y_min": -29,
+      "y_max": 628
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "8",
+      "glyph": "eight.lf",
+      "advance": 567,
+      "lsb": 58,
+      "y_min": -13,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "lnum+pnum",
+      "digit": "9",
+      "glyph": "nine.lf",
+      "advance": 555,
+      "lsb": 45,
+      "y_min": -54,
+      "y_max": 629
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "0",
+      "glyph": "zero.osf",
+      "advance": 513,
+      "lsb": 25,
+      "y_min": -14,
+      "y_max": 437
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "1",
+      "glyph": "one.osf",
+      "advance": 348,
+      "lsb": 20,
+      "y_min": -5,
+      "y_max": 429
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "2",
+      "glyph": "two.osf",
+      "advance": 484,
+      "lsb": 14,
+      "y_min": -4,
+      "y_max": 437
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "3",
+      "glyph": "three.osf",
+      "advance": 404,
+      "lsb": 18,
+      "y_min": -176,
+      "y_max": 436
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "4",
+      "glyph": "four.osf",
+      "advance": 539,
+      "lsb": 16,
+      "y_min": -181,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "5",
+      "glyph": "five.osf",
+      "advance": 372,
+      "lsb": 24,
+      "y_min": -175,
+      "y_max": 440
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "6",
+      "glyph": "six.osf",
+      "advance": 514,
+      "lsb": 30,
+      "y_min": -14,
+      "y_max": 640
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "7",
+      "glyph": "seven.osf",
+      "advance": 516,
+      "lsb": 18,
+      "y_min": -193,
+      "y_max": 441
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "8",
+      "glyph": "eight.osf",
+      "advance": 513,
+      "lsb": 40,
+      "y_min": -13,
+      "y_max": 590
+    },
+    {
+      "weight": 800,
+      "variant": "onum+pnum",
+      "digit": "9",
+      "glyph": "nine.osf",
+      "advance": 564,
+      "lsb": 20,
+      "y_min": -246,
+      "y_max": 436
+    }
+  ],
+  "direct_feature_mapping_probes": [
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight",
+      "input_advance": 472,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.tosf",
+      "input_advance": 452,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.lf",
+      "output_glyph": "five",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.tosf",
+      "input_advance": 359,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.lf",
+      "output_glyph": "four",
+      "input_advance": 500,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.tosf",
+      "input_advance": 492,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine",
+      "input_advance": 484,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.tosf",
+      "input_advance": 466,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.lf",
+      "output_glyph": "one",
+      "input_advance": 382,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.tosf",
+      "input_advance": 289,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven",
+      "input_advance": 484,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.tosf",
+      "input_advance": 460,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.lf",
+      "output_glyph": "six",
+      "input_advance": 484,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.tosf",
+      "input_advance": 489,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.lf",
+      "output_glyph": "three",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.tosf",
+      "input_advance": 372,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.lf",
+      "output_glyph": "two",
+      "input_advance": 505,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.tosf",
+      "input_advance": 440,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero",
+      "input_advance": 506,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.tosf",
+      "input_advance": 507,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight",
+      "output_glyph": "eight.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight.osf",
+      "input_advance": 472,
+      "output_advance": 452
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five",
+      "output_glyph": "five.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five.lf",
+      "output_glyph": "five.osf",
+      "input_advance": 480,
+      "output_advance": 359
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four",
+      "output_glyph": "four.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four.lf",
+      "output_glyph": "four.osf",
+      "input_advance": 500,
+      "output_advance": 492
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine",
+      "output_glyph": "nine.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine.osf",
+      "input_advance": 484,
+      "output_advance": 466
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one",
+      "output_glyph": "one.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one.lf",
+      "output_glyph": "one.osf",
+      "input_advance": 382,
+      "output_advance": 289
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven",
+      "output_glyph": "seven.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven.osf",
+      "input_advance": 484,
+      "output_advance": 460
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six",
+      "output_glyph": "six.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six.lf",
+      "output_glyph": "six.osf",
+      "input_advance": 484,
+      "output_advance": 489
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three",
+      "output_glyph": "three.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three.lf",
+      "output_glyph": "three.osf",
+      "input_advance": 480,
+      "output_advance": 372
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two",
+      "output_glyph": "two.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two.lf",
+      "output_glyph": "two.osf",
+      "input_advance": 505,
+      "output_advance": 440
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero",
+      "output_glyph": "zero.tosf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero.osf",
+      "input_advance": 506,
+      "output_advance": 507
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.lf",
+      "input_advance": 452,
+      "output_advance": 472
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.lf",
+      "input_advance": 359,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.lf",
+      "input_advance": 492,
+      "output_advance": 500
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.lf",
+      "input_advance": 466,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.lf",
+      "input_advance": 289,
+      "output_advance": 382
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.lf",
+      "input_advance": 460,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.lf",
+      "input_advance": 489,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.lf",
+      "input_advance": 372,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.lf",
+      "input_advance": 440,
+      "output_advance": 505
+    },
+    {
+      "weight": 400.0,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.lf",
+      "input_advance": 507,
+      "output_advance": 506
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight",
+      "output_glyph": "eight.lf",
+      "input_advance": 480,
+      "output_advance": 472
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight.tosf",
+      "output_glyph": "eight.osf",
+      "input_advance": 480,
+      "output_advance": 452
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five",
+      "output_glyph": "five.lf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five.tosf",
+      "output_glyph": "five.osf",
+      "input_advance": 480,
+      "output_advance": 359
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four",
+      "output_glyph": "four.lf",
+      "input_advance": 480,
+      "output_advance": 500
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four.tosf",
+      "output_glyph": "four.osf",
+      "input_advance": 480,
+      "output_advance": 492
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine",
+      "output_glyph": "nine.lf",
+      "input_advance": 480,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine.tosf",
+      "output_glyph": "nine.osf",
+      "input_advance": 480,
+      "output_advance": 466
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one",
+      "output_glyph": "one.lf",
+      "input_advance": 480,
+      "output_advance": 382
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one.tosf",
+      "output_glyph": "one.osf",
+      "input_advance": 480,
+      "output_advance": 289
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven",
+      "output_glyph": "seven.lf",
+      "input_advance": 480,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven.tosf",
+      "output_glyph": "seven.osf",
+      "input_advance": 480,
+      "output_advance": 460
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six",
+      "output_glyph": "six.lf",
+      "input_advance": 480,
+      "output_advance": 484
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six.tosf",
+      "output_glyph": "six.osf",
+      "input_advance": 480,
+      "output_advance": 489
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three",
+      "output_glyph": "three.lf",
+      "input_advance": 480,
+      "output_advance": 480
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three.tosf",
+      "output_glyph": "three.osf",
+      "input_advance": 480,
+      "output_advance": 372
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two",
+      "output_glyph": "two.lf",
+      "input_advance": 480,
+      "output_advance": 505
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two.tosf",
+      "output_glyph": "two.osf",
+      "input_advance": 480,
+      "output_advance": 440
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero",
+      "output_glyph": "zero.lf",
+      "input_advance": 480,
+      "output_advance": 506
+    },
+    {
+      "weight": 400.0,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero.tosf",
+      "output_glyph": "zero.osf",
+      "input_advance": 480,
+      "output_advance": 507
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight",
+      "input_advance": 500,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.tosf",
+      "input_advance": 470,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.lf",
+      "output_glyph": "five",
+      "input_advance": 470,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.tosf",
+      "input_advance": 363,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.lf",
+      "output_glyph": "four",
+      "input_advance": 523,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.tosf",
+      "input_advance": 506,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine",
+      "input_advance": 505,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.tosf",
+      "input_advance": 494,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.lf",
+      "output_glyph": "one",
+      "input_advance": 387,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.tosf",
+      "input_advance": 306,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven",
+      "input_advance": 506,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.tosf",
+      "input_advance": 476,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.lf",
+      "output_glyph": "six",
+      "input_advance": 498,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.tosf",
+      "input_advance": 496,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.lf",
+      "output_glyph": "three",
+      "input_advance": 476,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.tosf",
+      "input_advance": 381,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.lf",
+      "output_glyph": "two",
+      "input_advance": 513,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.tosf",
+      "input_advance": 453,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero",
+      "input_advance": 533,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.tosf",
+      "input_advance": 509,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight",
+      "output_glyph": "eight.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight.osf",
+      "input_advance": 500,
+      "output_advance": 470
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five",
+      "output_glyph": "five.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five.lf",
+      "output_glyph": "five.osf",
+      "input_advance": 470,
+      "output_advance": 363
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four",
+      "output_glyph": "four.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four.lf",
+      "output_glyph": "four.osf",
+      "input_advance": 523,
+      "output_advance": 506
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine",
+      "output_glyph": "nine.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine.osf",
+      "input_advance": 505,
+      "output_advance": 494
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one",
+      "output_glyph": "one.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one.lf",
+      "output_glyph": "one.osf",
+      "input_advance": 387,
+      "output_advance": 306
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven",
+      "output_glyph": "seven.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven.osf",
+      "input_advance": 506,
+      "output_advance": 476
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six",
+      "output_glyph": "six.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six.lf",
+      "output_glyph": "six.osf",
+      "input_advance": 498,
+      "output_advance": 496
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three",
+      "output_glyph": "three.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three.lf",
+      "output_glyph": "three.osf",
+      "input_advance": 476,
+      "output_advance": 381
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two",
+      "output_glyph": "two.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two.lf",
+      "output_glyph": "two.osf",
+      "input_advance": 513,
+      "output_advance": 453
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero",
+      "output_glyph": "zero.tosf",
+      "input_advance": 497,
+      "output_advance": 497
+    },
+    {
+      "weight": 500,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero.osf",
+      "input_advance": 533,
+      "output_advance": 509
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.lf",
+      "input_advance": 470,
+      "output_advance": 500
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.lf",
+      "input_advance": 363,
+      "output_advance": 470
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.lf",
+      "input_advance": 506,
+      "output_advance": 523
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.lf",
+      "input_advance": 494,
+      "output_advance": 505
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.lf",
+      "input_advance": 306,
+      "output_advance": 387
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.lf",
+      "input_advance": 476,
+      "output_advance": 506
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.lf",
+      "input_advance": 496,
+      "output_advance": 498
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.lf",
+      "input_advance": 381,
+      "output_advance": 476
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.lf",
+      "input_advance": 453,
+      "output_advance": 513
+    },
+    {
+      "weight": 500,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.lf",
+      "input_advance": 509,
+      "output_advance": 533
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight",
+      "output_glyph": "eight.lf",
+      "input_advance": 497,
+      "output_advance": 500
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight.tosf",
+      "output_glyph": "eight.osf",
+      "input_advance": 497,
+      "output_advance": 470
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five",
+      "output_glyph": "five.lf",
+      "input_advance": 497,
+      "output_advance": 470
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five.tosf",
+      "output_glyph": "five.osf",
+      "input_advance": 497,
+      "output_advance": 363
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four",
+      "output_glyph": "four.lf",
+      "input_advance": 497,
+      "output_advance": 523
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four.tosf",
+      "output_glyph": "four.osf",
+      "input_advance": 497,
+      "output_advance": 506
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine",
+      "output_glyph": "nine.lf",
+      "input_advance": 497,
+      "output_advance": 505
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine.tosf",
+      "output_glyph": "nine.osf",
+      "input_advance": 497,
+      "output_advance": 494
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one",
+      "output_glyph": "one.lf",
+      "input_advance": 497,
+      "output_advance": 387
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one.tosf",
+      "output_glyph": "one.osf",
+      "input_advance": 497,
+      "output_advance": 306
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven",
+      "output_glyph": "seven.lf",
+      "input_advance": 497,
+      "output_advance": 506
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven.tosf",
+      "output_glyph": "seven.osf",
+      "input_advance": 497,
+      "output_advance": 476
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six",
+      "output_glyph": "six.lf",
+      "input_advance": 497,
+      "output_advance": 498
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six.tosf",
+      "output_glyph": "six.osf",
+      "input_advance": 497,
+      "output_advance": 496
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three",
+      "output_glyph": "three.lf",
+      "input_advance": 497,
+      "output_advance": 476
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three.tosf",
+      "output_glyph": "three.osf",
+      "input_advance": 497,
+      "output_advance": 381
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two",
+      "output_glyph": "two.lf",
+      "input_advance": 497,
+      "output_advance": 513
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two.tosf",
+      "output_glyph": "two.osf",
+      "input_advance": 497,
+      "output_advance": 453
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero",
+      "output_glyph": "zero.lf",
+      "input_advance": 497,
+      "output_advance": 533
+    },
+    {
+      "weight": 500,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero.tosf",
+      "output_glyph": "zero.osf",
+      "input_advance": 497,
+      "output_advance": 509
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight",
+      "input_advance": 524,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.tosf",
+      "input_advance": 486,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.lf",
+      "output_glyph": "five",
+      "input_advance": 460,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.tosf",
+      "input_advance": 366,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.lf",
+      "output_glyph": "four",
+      "input_advance": 543,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.tosf",
+      "input_advance": 518,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine",
+      "input_advance": 523,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.tosf",
+      "input_advance": 520,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.lf",
+      "output_glyph": "one",
+      "input_advance": 391,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.tosf",
+      "input_advance": 321,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven",
+      "input_advance": 526,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.tosf",
+      "input_advance": 491,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.lf",
+      "output_glyph": "six",
+      "input_advance": 510,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.tosf",
+      "input_advance": 503,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.lf",
+      "output_glyph": "three",
+      "input_advance": 473,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.tosf",
+      "input_advance": 390,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.lf",
+      "output_glyph": "two",
+      "input_advance": 520,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.tosf",
+      "input_advance": 464,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero",
+      "input_advance": 558,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.tosf",
+      "input_advance": 510,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight",
+      "output_glyph": "eight.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight.osf",
+      "input_advance": 524,
+      "output_advance": 486
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five",
+      "output_glyph": "five.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five.lf",
+      "output_glyph": "five.osf",
+      "input_advance": 460,
+      "output_advance": 366
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four",
+      "output_glyph": "four.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four.lf",
+      "output_glyph": "four.osf",
+      "input_advance": 543,
+      "output_advance": 518
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine",
+      "output_glyph": "nine.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine.osf",
+      "input_advance": 523,
+      "output_advance": 520
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one",
+      "output_glyph": "one.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one.lf",
+      "output_glyph": "one.osf",
+      "input_advance": 391,
+      "output_advance": 321
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven",
+      "output_glyph": "seven.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven.osf",
+      "input_advance": 526,
+      "output_advance": 491
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six",
+      "output_glyph": "six.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six.lf",
+      "output_glyph": "six.osf",
+      "input_advance": 510,
+      "output_advance": 503
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three",
+      "output_glyph": "three.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three.lf",
+      "output_glyph": "three.osf",
+      "input_advance": 473,
+      "output_advance": 390
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two",
+      "output_glyph": "two.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two.lf",
+      "output_glyph": "two.osf",
+      "input_advance": 520,
+      "output_advance": 464
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero",
+      "output_glyph": "zero.tosf",
+      "input_advance": 513,
+      "output_advance": 513
+    },
+    {
+      "weight": 600,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero.osf",
+      "input_advance": 558,
+      "output_advance": 510
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.lf",
+      "input_advance": 486,
+      "output_advance": 524
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.lf",
+      "input_advance": 366,
+      "output_advance": 460
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.lf",
+      "input_advance": 518,
+      "output_advance": 543
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.lf",
+      "input_advance": 520,
+      "output_advance": 523
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.lf",
+      "input_advance": 321,
+      "output_advance": 391
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.lf",
+      "input_advance": 491,
+      "output_advance": 526
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.lf",
+      "input_advance": 503,
+      "output_advance": 510
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.lf",
+      "input_advance": 390,
+      "output_advance": 473
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.lf",
+      "input_advance": 464,
+      "output_advance": 520
+    },
+    {
+      "weight": 600,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.lf",
+      "input_advance": 510,
+      "output_advance": 558
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight",
+      "output_glyph": "eight.lf",
+      "input_advance": 513,
+      "output_advance": 524
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight.tosf",
+      "output_glyph": "eight.osf",
+      "input_advance": 513,
+      "output_advance": 486
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five",
+      "output_glyph": "five.lf",
+      "input_advance": 513,
+      "output_advance": 460
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five.tosf",
+      "output_glyph": "five.osf",
+      "input_advance": 513,
+      "output_advance": 366
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four",
+      "output_glyph": "four.lf",
+      "input_advance": 513,
+      "output_advance": 543
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four.tosf",
+      "output_glyph": "four.osf",
+      "input_advance": 513,
+      "output_advance": 518
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine",
+      "output_glyph": "nine.lf",
+      "input_advance": 513,
+      "output_advance": 523
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine.tosf",
+      "output_glyph": "nine.osf",
+      "input_advance": 513,
+      "output_advance": 520
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one",
+      "output_glyph": "one.lf",
+      "input_advance": 513,
+      "output_advance": 391
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one.tosf",
+      "output_glyph": "one.osf",
+      "input_advance": 513,
+      "output_advance": 321
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven",
+      "output_glyph": "seven.lf",
+      "input_advance": 513,
+      "output_advance": 526
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven.tosf",
+      "output_glyph": "seven.osf",
+      "input_advance": 513,
+      "output_advance": 491
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six",
+      "output_glyph": "six.lf",
+      "input_advance": 513,
+      "output_advance": 510
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six.tosf",
+      "output_glyph": "six.osf",
+      "input_advance": 513,
+      "output_advance": 503
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three",
+      "output_glyph": "three.lf",
+      "input_advance": 513,
+      "output_advance": 473
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three.tosf",
+      "output_glyph": "three.osf",
+      "input_advance": 513,
+      "output_advance": 390
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two",
+      "output_glyph": "two.lf",
+      "input_advance": 513,
+      "output_advance": 520
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two.tosf",
+      "output_glyph": "two.osf",
+      "input_advance": 513,
+      "output_advance": 464
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero",
+      "output_glyph": "zero.lf",
+      "input_advance": 513,
+      "output_advance": 558
+    },
+    {
+      "weight": 600,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero.tosf",
+      "output_glyph": "zero.osf",
+      "input_advance": 513,
+      "output_advance": 510
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight",
+      "input_advance": 550,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.tosf",
+      "input_advance": 502,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.lf",
+      "output_glyph": "five",
+      "input_advance": 450,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.tosf",
+      "input_advance": 370,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.lf",
+      "output_glyph": "four",
+      "input_advance": 565,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.tosf",
+      "input_advance": 531,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine",
+      "input_advance": 542,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.tosf",
+      "input_advance": 546,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.lf",
+      "output_glyph": "one",
+      "input_advance": 396,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.tosf",
+      "input_advance": 337,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven",
+      "input_advance": 546,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.tosf",
+      "input_advance": 506,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.lf",
+      "output_glyph": "six",
+      "input_advance": 523,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.tosf",
+      "input_advance": 510,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.lf",
+      "output_glyph": "three",
+      "input_advance": 469,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.tosf",
+      "input_advance": 398,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.lf",
+      "output_glyph": "two",
+      "input_advance": 528,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.tosf",
+      "input_advance": 476,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero",
+      "input_advance": 583,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.tosf",
+      "input_advance": 512,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight",
+      "output_glyph": "eight.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight.osf",
+      "input_advance": 550,
+      "output_advance": 502
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five",
+      "output_glyph": "five.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five.lf",
+      "output_glyph": "five.osf",
+      "input_advance": 450,
+      "output_advance": 370
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four",
+      "output_glyph": "four.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four.lf",
+      "output_glyph": "four.osf",
+      "input_advance": 565,
+      "output_advance": 531
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine",
+      "output_glyph": "nine.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine.osf",
+      "input_advance": 542,
+      "output_advance": 546
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one",
+      "output_glyph": "one.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one.lf",
+      "output_glyph": "one.osf",
+      "input_advance": 396,
+      "output_advance": 337
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven",
+      "output_glyph": "seven.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven.osf",
+      "input_advance": 546,
+      "output_advance": 506
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six",
+      "output_glyph": "six.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six.lf",
+      "output_glyph": "six.osf",
+      "input_advance": 523,
+      "output_advance": 510
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three",
+      "output_glyph": "three.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three.lf",
+      "output_glyph": "three.osf",
+      "input_advance": 469,
+      "output_advance": 398
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two",
+      "output_glyph": "two.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two.lf",
+      "output_glyph": "two.osf",
+      "input_advance": 528,
+      "output_advance": 476
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero",
+      "output_glyph": "zero.tosf",
+      "input_advance": 529,
+      "output_advance": 529
+    },
+    {
+      "weight": 700,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero.osf",
+      "input_advance": 583,
+      "output_advance": 512
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.lf",
+      "input_advance": 502,
+      "output_advance": 550
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.lf",
+      "input_advance": 370,
+      "output_advance": 450
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.lf",
+      "input_advance": 531,
+      "output_advance": 565
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.lf",
+      "input_advance": 546,
+      "output_advance": 542
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.lf",
+      "input_advance": 337,
+      "output_advance": 396
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.lf",
+      "input_advance": 506,
+      "output_advance": 546
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.lf",
+      "input_advance": 510,
+      "output_advance": 523
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.lf",
+      "input_advance": 398,
+      "output_advance": 469
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.lf",
+      "input_advance": 476,
+      "output_advance": 528
+    },
+    {
+      "weight": 700,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.lf",
+      "input_advance": 512,
+      "output_advance": 583
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight",
+      "output_glyph": "eight.lf",
+      "input_advance": 529,
+      "output_advance": 550
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight.tosf",
+      "output_glyph": "eight.osf",
+      "input_advance": 529,
+      "output_advance": 502
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five",
+      "output_glyph": "five.lf",
+      "input_advance": 529,
+      "output_advance": 450
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five.tosf",
+      "output_glyph": "five.osf",
+      "input_advance": 529,
+      "output_advance": 370
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four",
+      "output_glyph": "four.lf",
+      "input_advance": 529,
+      "output_advance": 565
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four.tosf",
+      "output_glyph": "four.osf",
+      "input_advance": 529,
+      "output_advance": 531
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine",
+      "output_glyph": "nine.lf",
+      "input_advance": 529,
+      "output_advance": 542
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine.tosf",
+      "output_glyph": "nine.osf",
+      "input_advance": 529,
+      "output_advance": 546
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one",
+      "output_glyph": "one.lf",
+      "input_advance": 529,
+      "output_advance": 396
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one.tosf",
+      "output_glyph": "one.osf",
+      "input_advance": 529,
+      "output_advance": 337
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven",
+      "output_glyph": "seven.lf",
+      "input_advance": 529,
+      "output_advance": 546
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven.tosf",
+      "output_glyph": "seven.osf",
+      "input_advance": 529,
+      "output_advance": 506
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six",
+      "output_glyph": "six.lf",
+      "input_advance": 529,
+      "output_advance": 523
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six.tosf",
+      "output_glyph": "six.osf",
+      "input_advance": 529,
+      "output_advance": 510
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three",
+      "output_glyph": "three.lf",
+      "input_advance": 529,
+      "output_advance": 469
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three.tosf",
+      "output_glyph": "three.osf",
+      "input_advance": 529,
+      "output_advance": 398
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two",
+      "output_glyph": "two.lf",
+      "input_advance": 529,
+      "output_advance": 528
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two.tosf",
+      "output_glyph": "two.osf",
+      "input_advance": 529,
+      "output_advance": 476
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero",
+      "output_glyph": "zero.lf",
+      "input_advance": 529,
+      "output_advance": 583
+    },
+    {
+      "weight": 700,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero.tosf",
+      "output_glyph": "zero.osf",
+      "input_advance": 529,
+      "output_advance": 512
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight",
+      "input_advance": 567,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.tosf",
+      "input_advance": 513,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.lf",
+      "output_glyph": "five",
+      "input_advance": 444,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.tosf",
+      "input_advance": 372,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.lf",
+      "output_glyph": "four",
+      "input_advance": 579,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.tosf",
+      "input_advance": 539,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine",
+      "input_advance": 555,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.tosf",
+      "input_advance": 564,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.lf",
+      "output_glyph": "one",
+      "input_advance": 399,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.tosf",
+      "input_advance": 348,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven",
+      "input_advance": 560,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.tosf",
+      "input_advance": 516,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.lf",
+      "output_glyph": "six",
+      "input_advance": 531,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.tosf",
+      "input_advance": 514,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.lf",
+      "output_glyph": "three",
+      "input_advance": 467,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.tosf",
+      "input_advance": 404,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.lf",
+      "output_glyph": "two",
+      "input_advance": 533,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.tosf",
+      "input_advance": 484,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero",
+      "input_advance": 600,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "tnum",
+      "lookup": 19,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.tosf",
+      "input_advance": 513,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight",
+      "output_glyph": "eight.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "eight.lf",
+      "output_glyph": "eight.osf",
+      "input_advance": 567,
+      "output_advance": 513
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five",
+      "output_glyph": "five.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "five.lf",
+      "output_glyph": "five.osf",
+      "input_advance": 444,
+      "output_advance": 372
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four",
+      "output_glyph": "four.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "four.lf",
+      "output_glyph": "four.osf",
+      "input_advance": 579,
+      "output_advance": 539
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine",
+      "output_glyph": "nine.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "nine.lf",
+      "output_glyph": "nine.osf",
+      "input_advance": 555,
+      "output_advance": 564
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one",
+      "output_glyph": "one.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "one.lf",
+      "output_glyph": "one.osf",
+      "input_advance": 399,
+      "output_advance": 348
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven",
+      "output_glyph": "seven.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "seven.lf",
+      "output_glyph": "seven.osf",
+      "input_advance": 560,
+      "output_advance": 516
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six",
+      "output_glyph": "six.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "six.lf",
+      "output_glyph": "six.osf",
+      "input_advance": 531,
+      "output_advance": 514
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three",
+      "output_glyph": "three.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "three.lf",
+      "output_glyph": "three.osf",
+      "input_advance": 467,
+      "output_advance": 404
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two",
+      "output_glyph": "two.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "two.lf",
+      "output_glyph": "two.osf",
+      "input_advance": 533,
+      "output_advance": 484
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero",
+      "output_glyph": "zero.tosf",
+      "input_advance": 540,
+      "output_advance": 540
+    },
+    {
+      "weight": 800,
+      "feature": "onum",
+      "lookup": 20,
+      "input_glyph": "zero.lf",
+      "output_glyph": "zero.osf",
+      "input_advance": 600,
+      "output_advance": 513
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "eight.osf",
+      "output_glyph": "eight.lf",
+      "input_advance": 513,
+      "output_advance": 567
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "five.osf",
+      "output_glyph": "five.lf",
+      "input_advance": 372,
+      "output_advance": 444
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "four.osf",
+      "output_glyph": "four.lf",
+      "input_advance": 539,
+      "output_advance": 579
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "nine.osf",
+      "output_glyph": "nine.lf",
+      "input_advance": 564,
+      "output_advance": 555
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "one.osf",
+      "output_glyph": "one.lf",
+      "input_advance": 348,
+      "output_advance": 399
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "seven.osf",
+      "output_glyph": "seven.lf",
+      "input_advance": 516,
+      "output_advance": 560
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "six.osf",
+      "output_glyph": "six.lf",
+      "input_advance": 514,
+      "output_advance": 531
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "three.osf",
+      "output_glyph": "three.lf",
+      "input_advance": 404,
+      "output_advance": 467
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "two.osf",
+      "output_glyph": "two.lf",
+      "input_advance": 484,
+      "output_advance": 533
+    },
+    {
+      "weight": 800,
+      "feature": "lnum",
+      "lookup": 17,
+      "input_glyph": "zero.osf",
+      "output_glyph": "zero.lf",
+      "input_advance": 513,
+      "output_advance": 600
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight",
+      "output_glyph": "eight.lf",
+      "input_advance": 540,
+      "output_advance": 567
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "eight.tosf",
+      "output_glyph": "eight.osf",
+      "input_advance": 540,
+      "output_advance": 513
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five",
+      "output_glyph": "five.lf",
+      "input_advance": 540,
+      "output_advance": 444
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "five.tosf",
+      "output_glyph": "five.osf",
+      "input_advance": 540,
+      "output_advance": 372
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four",
+      "output_glyph": "four.lf",
+      "input_advance": 540,
+      "output_advance": 579
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "four.tosf",
+      "output_glyph": "four.osf",
+      "input_advance": 540,
+      "output_advance": 539
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine",
+      "output_glyph": "nine.lf",
+      "input_advance": 540,
+      "output_advance": 555
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "nine.tosf",
+      "output_glyph": "nine.osf",
+      "input_advance": 540,
+      "output_advance": 564
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one",
+      "output_glyph": "one.lf",
+      "input_advance": 540,
+      "output_advance": 399
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "one.tosf",
+      "output_glyph": "one.osf",
+      "input_advance": 540,
+      "output_advance": 348
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven",
+      "output_glyph": "seven.lf",
+      "input_advance": 540,
+      "output_advance": 560
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "seven.tosf",
+      "output_glyph": "seven.osf",
+      "input_advance": 540,
+      "output_advance": 516
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six",
+      "output_glyph": "six.lf",
+      "input_advance": 540,
+      "output_advance": 531
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "six.tosf",
+      "output_glyph": "six.osf",
+      "input_advance": 540,
+      "output_advance": 514
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three",
+      "output_glyph": "three.lf",
+      "input_advance": 540,
+      "output_advance": 467
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "three.tosf",
+      "output_glyph": "three.osf",
+      "input_advance": 540,
+      "output_advance": 404
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two",
+      "output_glyph": "two.lf",
+      "input_advance": 540,
+      "output_advance": 533
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "two.tosf",
+      "output_glyph": "two.osf",
+      "input_advance": 540,
+      "output_advance": 484
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero",
+      "output_glyph": "zero.lf",
+      "input_advance": 540,
+      "output_advance": 600
+    },
+    {
+      "weight": 800,
+      "feature": "pnum",
+      "lookup": 18,
+      "input_glyph": "zero.tosf",
+      "output_glyph": "zero.osf",
+      "input_advance": 540,
+      "output_advance": 513
+    }
+  ]
+}

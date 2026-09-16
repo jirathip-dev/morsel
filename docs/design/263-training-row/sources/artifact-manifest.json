@@ -1,0 +1,174 @@
+{
+  "base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "self_included": false,
+  "scope": "sources/** plus scripts/prove_fonts.py only; not the parent design bundle",
+  "files": [
+    {
+      "path": "sources/DATA_MODEL.md.txt",
+      "bytes": 14906,
+      "sha256": "54b31d93da100961e2005fa4279ee4726b0f7868910736e54a9d5c93efd97dfc"
+    },
+    {
+      "path": "sources/DATED_TARGETS.md.txt",
+      "bytes": 8276,
+      "sha256": "a1ab21e696234664824732d59b6928c8dc7c5335deac57d44a86bf9b120f68ee"
+    },
+    {
+      "path": "sources/DatedTargets.swift.txt",
+      "bytes": 6545,
+      "sha256": "0b3a14ee6762cc7e7130d5446f855390bf77cf186cfdd48c601cd10fa78eb0e3"
+    },
+    {
+      "path": "sources/DesignSystem.swift.txt",
+      "bytes": 17355,
+      "sha256": "066959e7891e914d125655c0dc1f158fa7270cb39b618657606964b25fd2a628"
+    },
+    {
+      "path": "sources/EBGaramond-GSUB-fvar.ttx",
+      "bytes": 171297,
+      "sha256": "6c644666dd18ebdd3973990eeaf190ff9e2b3db9f1bba24f5d81ed4121ff981b"
+    },
+    {
+      "path": "sources/MCP_TOOLS.md.txt",
+      "bytes": 44354,
+      "sha256": "683f35a52ccc8562a9a02604cb7d883ce61091aed36b543b53cf99783d96f9d2"
+    },
+    {
+      "path": "sources/OFL-Caveat.txt",
+      "bytes": 4384,
+      "sha256": "163a2b400e16916ad3196296c946c526d0efce6baf22a2164269ffc62fb9f671"
+    },
+    {
+      "path": "sources/OFL-EBGaramond.txt",
+      "bytes": 4397,
+      "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8"
+    },
+    {
+      "path": "sources/OFL-IBMPlexMono.txt",
+      "bytes": 4362,
+      "sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f"
+    },
+    {
+      "path": "sources/README.md",
+      "bytes": 10781,
+      "sha256": "4b634d638dfb103020ebeff2d94d95ba9ac293ccb918a9f0adbdcccaf4034a92"
+    },
+    {
+      "path": "sources/TrainingFuelContext.swift.txt",
+      "bytes": 814,
+      "sha256": "49777c8bb3ba90a1258aef1e8b8c510c71e472be8c13faa91ba0d1853dac1895"
+    },
+    {
+      "path": "sources/TrainingFuelHealthReader.swift.txt",
+      "bytes": 3980,
+      "sha256": "c3f4e9be074520ebee7c24ef2cd33ed2efe93a46784f8c711ab15633a2af687e"
+    },
+    {
+      "path": "sources/TrainingFuelHost.swift.txt",
+      "bytes": 1939,
+      "sha256": "3dbb10a78bc20bdf94dfd66624ee92dcfd36105d46ed52fd14395b6bf51a79da"
+    },
+    {
+      "path": "sources/TrainingFuelModel.swift.txt",
+      "bytes": 5788,
+      "sha256": "8e45ce6f0df6faf5bc505a0aeb3113c7f75be9fd8abd06def85185be5e1f9cad"
+    },
+    {
+      "path": "sources/TrainingFuelViews.swift.txt",
+      "bytes": 6677,
+      "sha256": "fbb1e1da2fa361dc07039d1df45daeb257cd8116d76e7c81cfd80de78409e6df"
+    },
+    {
+      "path": "sources/Views.swift.txt",
+      "bytes": 14896,
+      "sha256": "54d187a1202067f9d8bd32cdaec8237e89c4c5c8a4c4b7fb2deddb7489624acb"
+    },
+    {
+      "path": "sources/copy-inventory.md",
+      "bytes": 17073,
+      "sha256": "08b8b97d1a519515d15ee1478ba5469897217abec4027bdeb61ac31ee2cd30f4"
+    },
+    {
+      "path": "sources/digit-advances.raw.json",
+      "bytes": 178488,
+      "sha256": "381e9a84cb510fd2ea4049390f8b27bdde6a65d96c1c8902a159c3700cca6298"
+    },
+    {
+      "path": "sources/digit-advances.raw.tsv",
+      "bytes": 16306,
+      "sha256": "62a3b4e6cff4062a82ee31dbfbd90972bd4fe3ad92998e0ae20181ed2121f6f3"
+    },
+    {
+      "path": "sources/feature-mapping-advances.raw.tsv",
+      "bytes": 12866,
+      "sha256": "efb12ee36bca75789ebb70647fba3663cb0d39f0f1c75989e751267712bbf0b7"
+    },
+    {
+      "path": "sources/font-features.raw.json",
+      "bytes": 22328,
+      "sha256": "4dd92c45058347e5c505b6f146e25413b93a71cdb298d010e31f3a48139a978c"
+    },
+    {
+      "path": "sources/font-proof.raw.txt",
+      "bytes": 17618,
+      "sha256": "cc39032842135d9b032444e2be4c7668143d3853d24069da0405f95821f41999"
+    },
+    {
+      "path": "sources/issue-263-api.raw.json",
+      "bytes": 8143,
+      "sha256": "c634160d13cf30af2f4c2ca2a44c7b9e5891d29d40bd3c9e877bfef93d8388d7"
+    },
+    {
+      "path": "sources/issue-263.json",
+      "bytes": 7957,
+      "sha256": "30cd0d78af4f8775f46402dddcbd7adbf7a3c8698e7863fb1d1d73c427798b01"
+    },
+    {
+      "path": "sources/monospaced-digit-sites.json",
+      "bytes": 7175,
+      "sha256": "4bedaedf8369d43b601374bacd997c1c4fbb7f4e370ac0d4515289999e657682"
+    },
+    {
+      "path": "sources/monospaced-digit-sites.md",
+      "bytes": 3303,
+      "sha256": "f609503a336bdb83c837ba6fc11e83c3e5fd91ea3188d4fd82f0e76a9d5785d5"
+    },
+    {
+      "path": "sources/monospaced-digit-sites.raw.txt",
+      "bytes": 6787,
+      "sha256": "53173f493df4e1b584157eee1be44fae132041d2d339fd5e22d9ac99670f4f27"
+    },
+    {
+      "path": "sources/reproducibility.json",
+      "bytes": 3341,
+      "sha256": "142bfb75820d1c4ea4b43174ba4d6a94fb1e60731d97cc39bc2184d5a5e1f13c"
+    },
+    {
+      "path": "sources/source-hashes.json",
+      "bytes": 6982,
+      "sha256": "67ba9eb0ca7eab76eca31d64759d78d2f06a5f0e4e31b0f522b3d10334059545"
+    },
+    {
+      "path": "sources/tracked-tree.json",
+      "bytes": 257534,
+      "sha256": "82ef89d21fa53f3ba10f0a491dd386306f0f58341fc83b16c3f1e922fa9b1eee"
+    },
+    {
+      "path": "sources/verification-run.txt",
+      "bytes": 595,
+      "sha256": "2509837fc3c0f2ee05bcfa9c8c26f77c4461b398d93ada12d2bbf68e383867b6"
+    },
+    {
+      "path": "sources/verification.json",
+      "bytes": 423,
+      "sha256": "e964b5473aa9b578110d2caff10aab1ee969dc583833e01068af056917b206e4"
+    },
+    {
+      "path": "scripts/prove_fonts.py",
+      "bytes": 17840,
+      "sha256": "b8d87e69946fa375d926757bbc0e3e7ea97688e15878369183407baebbb48ca0"
+    }
+  ],
+  "file_count_excluding_manifest": 33,
+  "total_bytes_excluding_manifest": 905510
+}

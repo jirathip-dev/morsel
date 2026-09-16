@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "macro_claim_disposition": [
+    {
+      "variant": "a",
+      "theme": "paper",
+      "unchanged_y_300_through_843": true,
+      "last_changed_y": 273,
+      "disposition": "App target row/ring change; macro and food pixels do not change."
+    },
+    {
+      "variant": "a",
+      "theme": "night",
+      "unchanged_y_300_through_843": true,
+      "last_changed_y": 273,
+      "disposition": "App target row/ring change; macro and food pixels do not change."
+    },
+    {
+      "variant": "b",
+      "theme": "paper",
+      "unchanged_y_300_through_843": true,
+      "last_changed_y": 271,
+      "disposition": "App target row/ring change; macro and food pixels do not change."
+    },
+    {
+      "variant": "b",
+      "theme": "night",
+      "unchanged_y_300_through_843": true,
+      "last_changed_y": 271,
+      "disposition": "App target row/ring change; macro and food pixels do not change."
+    }
+  ],
+  "label_fix_changed_only": [
+    "evidence/alignment-night.png",
+    "evidence/alignment-paper.png"
+  ],
+  "unchanged_reviewed_captures": 202,
+  "all_app_and_gallery_captures_remain_byte_identical": true
+}

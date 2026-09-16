@@ -1,0 +1,256 @@
+{
+  "base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "scan": "all git-tracked blobs at immutable base; no path filter",
+  "tracked_path_count": 1381,
+  "candidate_paths": [
+    "app/Sources/Morsel/HistoryLedgerViews.swift",
+    "app/Sources/Morsel/JournalFoodRow.swift",
+    "app/Sources/Morsel/MealItemEditSheet.swift",
+    "app/Sources/Morsel/Views.swift"
+  ],
+  "mention_count": 4,
+  "call_site_count": 4,
+  "call_site_file_count": 4,
+  "sites": [
+    {
+      "path": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "line": 213,
+      "expression": ".monospacedDigit()",
+      "source_sha256": "87b807f3cdd93e26d7cabcc320107ecec8a30d4f909df28aa0b268d926d789a5",
+      "context": [
+        {
+          "line": 207,
+          "text": "    let label: String"
+        },
+        {
+          "line": 208,
+          "text": ""
+        },
+        {
+          "line": 209,
+          "text": "    var body: some View {"
+        },
+        {
+          "line": 210,
+          "text": "        VStack(alignment: .leading, spacing: 0) {"
+        },
+        {
+          "line": 211,
+          "text": "            Text(value)"
+        },
+        {
+          "line": 212,
+          "text": "                .font(.morselGauge)"
+        },
+        {
+          "line": 213,
+          "text": "                .monospacedDigit()"
+        },
+        {
+          "line": 214,
+          "text": "                .foregroundStyle(Color.morselInk)"
+        },
+        {
+          "line": 215,
+          "text": "            Text(label)"
+        },
+        {
+          "line": 216,
+          "text": "                .font(.morselFootnote)"
+        },
+        {
+          "line": 217,
+          "text": "                .foregroundStyle(Color.morselInkTwo)"
+        },
+        {
+          "line": 218,
+          "text": "        }"
+        },
+        {
+          "line": 219,
+          "text": "        .frame(maxWidth: .infinity, alignment: .leading)"
+        }
+      ]
+    },
+    {
+      "path": "app/Sources/Morsel/JournalFoodRow.swift",
+      "line": 101,
+      "expression": ".monospacedDigit()",
+      "source_sha256": "f14486f1814af5d0580318b8ff053af80501f0fccf1a6fad472e01e74341d591",
+      "context": [
+        {
+          "line": 95,
+          "text": "    /// The design's 38px column wraps the 16px Garamond chevron onto its own"
+        },
+        {
+          "line": 96,
+          "text": "    /// line under \"kcal\" — reproduced literally."
+        },
+        {
+          "line": 97,
+          "text": "    private var energyColumn: some View {"
+        },
+        {
+          "line": 98,
+          "text": "        VStack(alignment: .trailing, spacing: 0) {"
+        },
+        {
+          "line": 99,
+          "text": "            Text(MorselFormat.number(item.caloriesKcal))"
+        },
+        {
+          "line": 100,
+          "text": "                .font(.morselMono(size: 14))"
+        },
+        {
+          "line": 101,
+          "text": "                .monospacedDigit()"
+        },
+        {
+          "line": 102,
+          "text": "                .foregroundStyle(Color.morselInk)"
+        },
+        {
+          "line": 103,
+          "text": "                .frame(height: energyValueLine, alignment: .trailing)"
+        },
+        {
+          "line": 104,
+          "text": "            Text(\"kcal\")"
+        },
+        {
+          "line": 105,
+          "text": "                .font(.morselMono(size: 10))"
+        },
+        {
+          "line": 106,
+          "text": "                .foregroundStyle(Color.morselInkTwo)"
+        },
+        {
+          "line": 107,
+          "text": "                .frame(height: energyUnitLine, alignment: .trailing)"
+        }
+      ]
+    },
+    {
+      "path": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "line": 350,
+      "expression": ".monospacedDigit()",
+      "source_sha256": "9580dc52360e24887382850c441d9bf8cae7ceead1918d27ae32145354dc6ded",
+      "context": [
+        {
+          "line": 344,
+          "text": "            HStack(alignment: .firstTextBaseline, spacing: 4) {"
+        },
+        {
+          "line": 345,
+          "text": "                Text(\"Source: \\(item.provenance.rawValue) · Confidence:\")"
+        },
+        {
+          "line": 346,
+          "text": "                    .font(.morselSerif(size: 16))"
+        },
+        {
+          "line": 347,
+          "text": "                    .foregroundStyle(Color.morselInk)"
+        },
+        {
+          "line": 348,
+          "text": "                Text(MorselFormat.confidence(item.confidence))"
+        },
+        {
+          "line": 349,
+          "text": "                    .font(.morselMono(size: 12))"
+        },
+        {
+          "line": 350,
+          "text": "                    .monospacedDigit()"
+        },
+        {
+          "line": 351,
+          "text": "                    .foregroundStyle(Color.morselInk)"
+        },
+        {
+          "line": 352,
+          "text": "                Spacer(minLength: 0)"
+        },
+        {
+          "line": 353,
+          "text": "            }"
+        },
+        {
+          "line": 354,
+          "text": "            if let confidenceNote {"
+        },
+        {
+          "line": 355,
+          "text": "                Text(confidenceNote)"
+        },
+        {
+          "line": 356,
+          "text": "                    .font(.morselData)"
+        }
+      ]
+    },
+    {
+      "path": "app/Sources/Morsel/Views.swift",
+      "line": 148,
+      "expression": ".monospacedDigit()",
+      "source_sha256": "54d187a1202067f9d8bd32cdaec8237e89c4c5c8a4c4b7fb2deddb7489624acb",
+      "context": [
+        {
+          "line": 142,
+          "text": "                    Text(\"Eaten · Goal\")"
+        },
+        {
+          "line": 143,
+          "text": "                        .morselSectionLabel()"
+        },
+        {
+          "line": 144,
+          "text": "                    HStack(alignment: .firstTextBaseline, spacing: 6) {"
+        },
+        {
+          "line": 145,
+          "text": "                        Text(MorselFormat.number(viewModel.totals.caloriesKcal))"
+        },
+        {
+          "line": 146,
+          "text": "                            .font(.morselHero)"
+        },
+        {
+          "line": 147,
+          "text": "                            .foregroundStyle(Color.morselInk)"
+        },
+        {
+          "line": 148,
+          "text": "                            .monospacedDigit()"
+        },
+        {
+          "line": 149,
+          "text": "                        if let target {"
+        },
+        {
+          "line": 150,
+          "text": "                            Text(\"/ \\(MorselFormat.number(target)) kcal\")"
+        },
+        {
+          "line": 151,
+          "text": "                                .font(.morselBody)"
+        },
+        {
+          "line": 152,
+          "text": "                                .foregroundStyle(Color.morselInkTwo)"
+        },
+        {
+          "line": 153,
+          "text": "                        }"
+        },
+        {
+          "line": 154,
+          "text": "                    }"
+        }
+      ]
+    }
+  ]
+}

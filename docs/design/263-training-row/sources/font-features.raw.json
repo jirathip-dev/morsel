@@ -1,0 +1,1377 @@
+{
+  "base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "source_font": "app/Fonts/EBGaramond[wght].ttf",
+  "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+  "bytes": 851176,
+  "fonttools_version": "4.65.0",
+  "units_per_em": 1000,
+  "tables": [
+    "GlyphOrder",
+    "head",
+    "hhea",
+    "maxp",
+    "OS/2",
+    "hmtx",
+    "cmap",
+    "prep",
+    "loca",
+    "glyf",
+    "name",
+    "post",
+    "gasp",
+    "GDEF",
+    "GPOS",
+    "GSUB",
+    "HVAR",
+    "MVAR",
+    "STAT",
+    "avar",
+    "fvar",
+    "gvar"
+  ],
+  "name_records": [
+    {
+      "name_id": 0,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Copyright 2017 The EB Garamond Project Authors (https://github.com/octaviopardo/EBGaramond12)"
+    },
+    {
+      "name_id": 1,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EB Garamond"
+    },
+    {
+      "name_id": 2,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Regular"
+    },
+    {
+      "name_id": 3,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "1.003;PfEd;EBGaramond-Regular"
+    },
+    {
+      "name_id": 4,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EB Garamond Regular"
+    },
+    {
+      "name_id": 5,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Version 1.003"
+    },
+    {
+      "name_id": 6,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-Regular"
+    },
+    {
+      "name_id": 8,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Georg Duffner"
+    },
+    {
+      "name_id": 9,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Georg Duffner and Octavio Pardo"
+    },
+    {
+      "name_id": 11,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "http://georgduffner.at/"
+    },
+    {
+      "name_id": 12,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "http://georgduffner.at/"
+    },
+    {
+      "name_id": 13,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org"
+    },
+    {
+      "name_id": 14,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "https://openfontlicense.org"
+    },
+    {
+      "name_id": 25,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond"
+    },
+    {
+      "name_id": 256,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Weight"
+    },
+    {
+      "name_id": 257,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Regular"
+    },
+    {
+      "name_id": 258,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-Regular"
+    },
+    {
+      "name_id": 259,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Medium"
+    },
+    {
+      "name_id": 260,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-Medium"
+    },
+    {
+      "name_id": 261,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "SemiBold"
+    },
+    {
+      "name_id": 262,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-SemiBold"
+    },
+    {
+      "name_id": 263,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Bold"
+    },
+    {
+      "name_id": 264,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-Bold"
+    },
+    {
+      "name_id": 265,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "ExtraBold"
+    },
+    {
+      "name_id": 266,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "EBGaramond-ExtraBold"
+    },
+    {
+      "name_id": 267,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Italic"
+    },
+    {
+      "name_id": 268,
+      "platform_id": 3,
+      "encoding_id": 1,
+      "language_id": 1033,
+      "value": "Roman"
+    }
+  ],
+  "axes": [
+    {
+      "tag": "wght",
+      "min": 400.0,
+      "default": 400.0,
+      "max": 800.0
+    }
+  ],
+  "all_gsub_features": [
+    {
+      "index": 0,
+      "tag": "aalt",
+      "lookup_indices": [
+        0,
+        1
+      ]
+    },
+    {
+      "index": 1,
+      "tag": "c2pc",
+      "lookup_indices": [
+        24
+      ]
+    },
+    {
+      "index": 2,
+      "tag": "c2sc",
+      "lookup_indices": [
+        22
+      ]
+    },
+    {
+      "index": 3,
+      "tag": "case",
+      "lookup_indices": [
+        26
+      ]
+    },
+    {
+      "index": 4,
+      "tag": "dlig",
+      "lookup_indices": [
+        37
+      ]
+    },
+    {
+      "index": 5,
+      "tag": "dnom",
+      "lookup_indices": [
+        42
+      ]
+    },
+    {
+      "index": 6,
+      "tag": "frac",
+      "lookup_indices": [
+        12,
+        13,
+        14
+      ]
+    },
+    {
+      "index": 7,
+      "tag": "hist",
+      "lookup_indices": [
+        21
+      ]
+    },
+    {
+      "index": 8,
+      "tag": "hlig",
+      "lookup_indices": [
+        27
+      ]
+    },
+    {
+      "index": 9,
+      "tag": "liga",
+      "lookup_indices": [
+        28
+      ]
+    },
+    {
+      "index": 10,
+      "tag": "lnum",
+      "lookup_indices": [
+        17
+      ]
+    },
+    {
+      "index": 11,
+      "tag": "locl",
+      "lookup_indices": [
+        4
+      ]
+    },
+    {
+      "index": 12,
+      "tag": "locl",
+      "lookup_indices": [
+        5
+      ]
+    },
+    {
+      "index": 13,
+      "tag": "locl",
+      "lookup_indices": [
+        6
+      ]
+    },
+    {
+      "index": 14,
+      "tag": "locl",
+      "lookup_indices": [
+        7
+      ]
+    },
+    {
+      "index": 15,
+      "tag": "locl",
+      "lookup_indices": [
+        2
+      ]
+    },
+    {
+      "index": 16,
+      "tag": "locl",
+      "lookup_indices": [
+        3
+      ]
+    },
+    {
+      "index": 17,
+      "tag": "locl",
+      "lookup_indices": [
+        8
+      ]
+    },
+    {
+      "index": 18,
+      "tag": "numr",
+      "lookup_indices": [
+        41
+      ]
+    },
+    {
+      "index": 19,
+      "tag": "onum",
+      "lookup_indices": [
+        20
+      ]
+    },
+    {
+      "index": 20,
+      "tag": "ordn",
+      "lookup_indices": [
+        16
+      ]
+    },
+    {
+      "index": 21,
+      "tag": "pcap",
+      "lookup_indices": [
+        25
+      ]
+    },
+    {
+      "index": 22,
+      "tag": "pnum",
+      "lookup_indices": [
+        18
+      ]
+    },
+    {
+      "index": 23,
+      "tag": "rlig",
+      "lookup_indices": [
+        38,
+        39
+      ]
+    },
+    {
+      "index": 24,
+      "tag": "sinf",
+      "lookup_indices": [
+        10
+      ]
+    },
+    {
+      "index": 25,
+      "tag": "smcp",
+      "lookup_indices": [
+        23
+      ]
+    },
+    {
+      "index": 26,
+      "tag": "ss01",
+      "lookup_indices": [
+        30
+      ]
+    },
+    {
+      "index": 27,
+      "tag": "ss02",
+      "lookup_indices": [
+        31
+      ]
+    },
+    {
+      "index": 28,
+      "tag": "ss03",
+      "lookup_indices": [
+        32
+      ]
+    },
+    {
+      "index": 29,
+      "tag": "ss04",
+      "lookup_indices": [
+        33
+      ]
+    },
+    {
+      "index": 30,
+      "tag": "ss05",
+      "lookup_indices": [
+        34
+      ]
+    },
+    {
+      "index": 31,
+      "tag": "ss06",
+      "lookup_indices": [
+        35
+      ]
+    },
+    {
+      "index": 32,
+      "tag": "ss07",
+      "lookup_indices": [
+        36
+      ]
+    },
+    {
+      "index": 33,
+      "tag": "subs",
+      "lookup_indices": [
+        9
+      ]
+    },
+    {
+      "index": 34,
+      "tag": "sups",
+      "lookup_indices": [
+        11
+      ]
+    },
+    {
+      "index": 35,
+      "tag": "swsh",
+      "lookup_indices": [
+        29
+      ]
+    },
+    {
+      "index": 36,
+      "tag": "tnum",
+      "lookup_indices": [
+        19
+      ]
+    }
+  ],
+  "script_language_systems": [
+    {
+      "script": "DFLT",
+      "language": "default",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "cyrl",
+      "language": "default",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "cyrl",
+      "language": "MKD ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        15,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "cyrl",
+      "language": "SRB ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        16,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "default",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "AZE ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "CAT ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "CRT ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "DEU ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        13,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "LAT ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        14,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    },
+    {
+      "script": "latn",
+      "language": "TRK ",
+      "feature_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "tags": [
+        "aalt",
+        "c2pc",
+        "c2sc",
+        "case",
+        "dlig",
+        "dnom",
+        "frac",
+        "hist",
+        "hlig",
+        "liga",
+        "lnum",
+        "locl",
+        "numr",
+        "onum",
+        "ordn",
+        "pcap",
+        "pnum",
+        "rlig",
+        "sinf",
+        "smcp",
+        "ss01",
+        "ss02",
+        "ss03",
+        "ss04",
+        "ss05",
+        "ss06",
+        "ss07",
+        "subs",
+        "sups",
+        "swsh",
+        "tnum"
+      ]
+    }
+  ],
+  "required_feature_lookups": {
+    "tnum": [
+      {
+        "feature_index": 36,
+        "lookup_index": 19,
+        "subtable_index": 0,
+        "lookup_type": 1,
+        "lookup_flag": 0,
+        "mapping": {
+          "eight.lf": "eight",
+          "eight.osf": "eight.tosf",
+          "five.lf": "five",
+          "five.osf": "five.tosf",
+          "four.lf": "four",
+          "four.osf": "four.tosf",
+          "nine.lf": "nine",
+          "nine.osf": "nine.tosf",
+          "one.lf": "one",
+          "one.osf": "one.tosf",
+          "seven.lf": "seven",
+          "seven.osf": "seven.tosf",
+          "six.lf": "six",
+          "six.osf": "six.tosf",
+          "three.lf": "three",
+          "three.osf": "three.tosf",
+          "two.lf": "two",
+          "two.osf": "two.tosf",
+          "zero.lf": "zero",
+          "zero.osf": "zero.tosf"
+        }
+      }
+    ],
+    "onum": [
+      {
+        "feature_index": 19,
+        "lookup_index": 20,
+        "subtable_index": 0,
+        "lookup_type": 1,
+        "lookup_flag": 0,
+        "mapping": {
+          "eight": "eight.tosf",
+          "eight.lf": "eight.osf",
+          "five": "five.tosf",
+          "five.lf": "five.osf",
+          "four": "four.tosf",
+          "four.lf": "four.osf",
+          "nine": "nine.tosf",
+          "nine.lf": "nine.osf",
+          "one": "one.tosf",
+          "one.lf": "one.osf",
+          "seven": "seven.tosf",
+          "seven.lf": "seven.osf",
+          "six": "six.tosf",
+          "six.lf": "six.osf",
+          "three": "three.tosf",
+          "three.lf": "three.osf",
+          "two": "two.tosf",
+          "two.lf": "two.osf",
+          "zero": "zero.tosf",
+          "zero.lf": "zero.osf"
+        }
+      }
+    ],
+    "lnum": [
+      {
+        "feature_index": 10,
+        "lookup_index": 17,
+        "subtable_index": 0,
+        "lookup_type": 1,
+        "lookup_flag": 0,
+        "mapping": {
+          "eight.osf": "eight.lf",
+          "five.osf": "five.lf",
+          "four.osf": "four.lf",
+          "nine.osf": "nine.lf",
+          "one.osf": "one.lf",
+          "seven.osf": "seven.lf",
+          "six.osf": "six.lf",
+          "three.osf": "three.lf",
+          "two.osf": "two.lf",
+          "zero.osf": "zero.lf"
+        }
+      }
+    ],
+    "pnum": [
+      {
+        "feature_index": 22,
+        "lookup_index": 18,
+        "subtable_index": 0,
+        "lookup_type": 1,
+        "lookup_flag": 0,
+        "mapping": {
+          "eight": "eight.lf",
+          "eight.tosf": "eight.osf",
+          "five": "five.lf",
+          "five.tosf": "five.osf",
+          "four": "four.lf",
+          "four.tosf": "four.osf",
+          "nine": "nine.lf",
+          "nine.tosf": "nine.osf",
+          "one": "one.lf",
+          "one.tosf": "one.osf",
+          "seven": "seven.lf",
+          "seven.tosf": "seven.osf",
+          "six": "six.lf",
+          "six.tosf": "six.osf",
+          "three": "three.lf",
+          "three.tosf": "three.osf",
+          "two": "two.lf",
+          "two.tosf": "two.osf",
+          "zero": "zero.lf",
+          "zero.tosf": "zero.osf"
+        }
+      }
+    ]
+  },
+  "proof_layer": "fontTools raw GSUB/hmtx tables and in-memory variable instances; not native/browser rendering"
+}

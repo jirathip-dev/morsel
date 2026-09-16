@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "scope": "actual prototype parser/formatter only; no browser claim",
+  "checks": [
+    {
+      "draft": "",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "0",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "-1",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "NaN",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "1e999",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "1,000",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "2,126",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "1,500.5",
+      "actual": null,
+      "expected": null,
+      "pass": true
+    },
+    {
+      "draft": "300",
+      "actual": 300,
+      "expected": 300,
+      "pass": true
+    },
+    {
+      "draft": "400.5",
+      "actual": 400.5,
+      "expected": 400.5,
+      "pass": true
+    },
+    {
+      "draft": "0.004",
+      "actual": 0.004,
+      "expected": 0.004,
+      "pass": true
+    },
+    {
+      "draft": "300.005",
+      "actual": 300.005,
+      "expected": 300.005,
+      "pass": true
+    },
+    {
+      "amount": 0.004,
+      "display": "0.004",
+      "pass": true
+    },
+    {
+      "amount": 300.005,
+      "display": "300.005",
+      "pass": true
+    },
+    {
+      "amount": 300.001,
+      "display": "300.001",
+      "pass": true
+    }
+  ],
+  "mutation": {
+    "oldCommaParserReturns": 1,
+    "expected": null,
+    "detected": true
+  }
+}

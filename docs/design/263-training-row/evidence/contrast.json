@@ -1,0 +1,135 @@
+[
+  {
+    "theme": "paper",
+    "foreground": "#2A261F",
+    "background": "#FFF7E8",
+    "role": "ink/bg",
+    "ratio": 14.132453287842166,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#655A4B",
+    "background": "#FFF7E8",
+    "role": "secondary/bg",
+    "ratio": 6.326267610449247,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#655A4B",
+    "background": "#F2E9D9",
+    "role": "secondary/field",
+    "ratio": 5.592138187199728,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#2F654B",
+    "background": "#FFF7E8",
+    "role": "positive/bg",
+    "ratio": 6.394919144935291,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#2F654B",
+    "background": "#F2E9D9",
+    "role": "positive/field",
+    "ratio": 5.65282307934295,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#9C3A2F",
+    "background": "#FFF7E8",
+    "role": "error/bg",
+    "ratio": 6.445257738277224,
+    "minimum": 4.5
+  },
+  {
+    "theme": "paper",
+    "foreground": "#8B7355",
+    "background": "#FFF7E8",
+    "role": "inkline/bg",
+    "ratio": 4.212868876316405,
+    "minimum": 3
+  },
+  {
+    "theme": "paper",
+    "foreground": "#8B7355",
+    "background": "#F2E9D9",
+    "role": "inkline/field",
+    "ratio": 3.7239880402784897,
+    "minimum": 3
+  },
+  {
+    "theme": "night",
+    "foreground": "#FFF7E8",
+    "background": "#2A261F",
+    "role": "ink/bg",
+    "ratio": 14.132453287842166,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#F2E9D9",
+    "background": "#2A261F",
+    "role": "secondary/bg",
+    "ratio": 12.492457887684319,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#F2E9D9",
+    "background": "#423B31",
+    "role": "secondary/field",
+    "ratio": 9.167591365735095,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#E1E9D7",
+    "background": "#2A261F",
+    "role": "positive/bg",
+    "ratio": 12.066345994702816,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#E1E9D7",
+    "background": "#423B31",
+    "role": "positive/field",
+    "ratio": 8.854889114020052,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#FFF7E8",
+    "background": "#2A261F",
+    "role": "error/bg",
+    "ratio": 14.132453287842166,
+    "minimum": 4.5
+  },
+  {
+    "theme": "night",
+    "foreground": "#9D917F",
+    "background": "#2A261F",
+    "role": "inkline/bg",
+    "ratio": 4.865884371066466,
+    "minimum": 3
+  },
+  {
+    "theme": "night",
+    "foreground": "#9D917F",
+    "background": "#423B31",
+    "role": "inkline/field",
+    "ratio": 3.5708296916359012,
+    "minimum": 3
+  },
+  {
+    "role": "primary action ink/orange",
+    "ratio": 4.631084618819596,
+    "minimum": 4.5
+  }
+]

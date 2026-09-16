@@ -1,0 +1,10 @@
+{
+  "hold": false,
+  "reason": "Owner ruling: #262 gets the next quiet render window; #263 yields even before its render starts.",
+  "release_file": "/Users/jirathip/design-output/morsel/262-library-expansion/batch-1/browser.json",
+  "release_predicate": "#262 first browser batch has status PASS, and live process gate is clear",
+  "baseline": "No batch-*/browser.json existed when priority hold was recorded. Release is read-only observation, never a write into #262.",
+  "own_runner": "Stopped own proc_9efc59db843a on priority ruling; closed only owned CDP target. Two initial smoke states had started before the ruling; no complete verification claim.",
+  "released_at": "2026-09-16T09:23:19+0700",
+  "witness_status": "PASS"
+}

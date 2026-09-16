@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "difference_bbox": [
+    385,
+    0,
+    390,
+    774
+  ],
+  "content_identical_outside_rightmost_5px": true,
+  "note": "Scrollbar and antialiased edge removed only; app layout unchanged.",
+  "expected_sha256": "1cfae13d5e93683c7fb70e00f16d19c4e24a72d6962b28af11861f12ce0721ec",
+  "normalized_sha256": "48ef3fe657f6225a4dd3a89e453a1969f9408b6a4689508aca07204461407c5f"
+}

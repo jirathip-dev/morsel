@@ -1,0 +1,176 @@
+[
+  {
+    "path": "assets/fonts/Caveat[wght].ttf",
+    "source": "app/Fonts/Caveat[wght].ttf",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988"
+  },
+  {
+    "path": "assets/fonts/EBGaramond-Italic[wght].ttf",
+    "source": "app/Fonts/EBGaramond-Italic[wght].ttf",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "bba2c4499c93c9612b90b9825d32b07da52fce2fe57562a1eb6b833553f93c4e"
+  },
+  {
+    "path": "assets/fonts/EBGaramond[wght].ttf",
+    "source": "app/Fonts/EBGaramond[wght].ttf",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027"
+  },
+  {
+    "path": "assets/fonts/IBMPlexMono-Medium.ttf",
+    "source": "app/Fonts/IBMPlexMono-Medium.ttf",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "4fc14a73ca53ba9d32fd759ae1ca1a3133326035d0dd337862b3ee1633cc156e"
+  },
+  {
+    "path": "assets/fonts/IBMPlexMono-Regular.ttf",
+    "source": "app/Fonts/IBMPlexMono-Regular.ttf",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2"
+  },
+  {
+    "path": "assets/fonts/OFL-Caveat.txt",
+    "source": "app/Fonts/OFL-Caveat.txt",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "163a2b400e16916ad3196296c946c526d0efce6baf22a2164269ffc62fb9f671"
+  },
+  {
+    "path": "assets/fonts/OFL-EBGaramond.txt",
+    "source": "app/Fonts/OFL-EBGaramond.txt",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8"
+  },
+  {
+    "path": "assets/fonts/OFL-IBMPlexMono.txt",
+    "source": "app/Fonts/OFL-IBMPlexMono.txt",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f"
+  },
+  {
+    "path": "baseline/style.css",
+    "source": "docs/design/tactile-journal/style.css",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "633024e19e1f9205f683349158cf45c054042309becdbb0f8dbe343ad0eaf0d1"
+  },
+  {
+    "path": "baseline/app.js",
+    "source": "docs/design/tactile-journal/app.js",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "851949e0bea7453cc69cf1b224647f899aee6d9e68f9ef0a8de985eb623346be"
+  },
+  {
+    "path": "baseline/a.html",
+    "source": "docs/design/tactile-journal/a.html",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "83e58ceec5424784a91cc0b7037e899c159d91f6b353e5e104ccfe628c89daf6"
+  },
+  {
+    "path": "baseline/fixture.json",
+    "source": "docs/design/tactile-journal/fixture.json",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "fa77f88c692ca75028d5529672ee2344c4ab220f815336122255689ebfdc7350"
+  },
+  {
+    "path": "baseline/README.md",
+    "source": "docs/design/tactile-journal/README.md",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "a4b2e5460022e3279ecee4822ae034d271cfdb967a597846b5f55caea50e5df8"
+  },
+  {
+    "path": "baseline/evidence/a-paper.png",
+    "source": "docs/design/tactile-journal/evidence/a-paper.png",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "396b64a826c1545158764a817c994525c40380dd50f6e27e8ee5d97df222c841"
+  },
+  {
+    "path": "baseline/evidence/a-night.png",
+    "source": "docs/design/tactile-journal/evidence/a-night.png",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "73982eeabf9e9202b778912109d618ca12ebb26f637108dcb961cc403d5f7321"
+  },
+  {
+    "path": "assets/a-paper-focaccia.svg",
+    "source": "docs/design/tactile-journal/assets/a-paper-focaccia.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "c8c2b1fa454802b3639dc74cd072a82f7208b7e0fc7da9c536c90dd5e2019a4e"
+  },
+  {
+    "path": "assets/a-paper-mortadella.svg",
+    "source": "docs/design/tactile-journal/assets/a-paper-mortadella.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "ee1fd11818237c29d56fa5e611946b6f138cf44a9f3d34458d69c3b20e3efabc"
+  },
+  {
+    "path": "assets/a-paper-stracciatella.svg",
+    "source": "docs/design/tactile-journal/assets/a-paper-stracciatella.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "cb235d8b21a15b60f14b56728aed0ce4b8732c4be778ac205aec9334a7e27d6a"
+  },
+  {
+    "path": "assets/a-paper-vegetables.svg",
+    "source": "docs/design/tactile-journal/assets/a-paper-vegetables.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "319cd988dcfcecb720833ee29f712ed06f86bb7a7a1c152859749c86e4936bb8"
+  },
+  {
+    "path": "assets/a-paper-unknown.svg",
+    "source": "docs/design/tactile-journal/assets/a-paper-unknown.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "74e38f7640c5b28f1cad592f156d78b52257e22ca9abf2164c18818198197111"
+  },
+  {
+    "path": "assets/a-night-focaccia.svg",
+    "source": "docs/design/tactile-journal/assets/a-night-focaccia.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "bf04e92a95bacd7797f8ec50dacc33821992918757bf1f9f66b8ab53e45b8c0f"
+  },
+  {
+    "path": "assets/a-night-mortadella.svg",
+    "source": "docs/design/tactile-journal/assets/a-night-mortadella.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "0d3930fe7ee1521dd5d35b63d3d15220bb6e62b6b4f1768dbcaea0f0d8653865"
+  },
+  {
+    "path": "assets/a-night-stracciatella.svg",
+    "source": "docs/design/tactile-journal/assets/a-night-stracciatella.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "fb429e17fcec93b480e9e522ebe2968bcaa74094f356a018ae92abecfaafcaf8"
+  },
+  {
+    "path": "assets/a-night-vegetables.svg",
+    "source": "docs/design/tactile-journal/assets/a-night-vegetables.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "d1ff12b35d97fa530d9d7776d0b56f0b6763c726b4daeb4430c5ec4e650fd988"
+  },
+  {
+    "path": "assets/a-night-unknown.svg",
+    "source": "docs/design/tactile-journal/assets/a-night-unknown.svg",
+    "revision": "68be41d1f3e3fdabcfe28efab79e7c4a2879377b",
+    "sha256": "d860d05c03d0ba505bd6aa665716c2e5000e9fe984fd72569532c4215f1082b9"
+  },
+  {
+    "path": "references/DESIGN.md.txt",
+    "source": "docs/DESIGN.md",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "0fee490c0ff5ce332b08f0b5f52b0b4f22b202d5c7c04a6865ec162d1633047d"
+  },
+  {
+    "path": "references/ART-SPEC.md.txt",
+    "source": "docs/art/food-library/ART-SPEC.md",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "edd0355bb684606f11905973381bb9c0e725847fdd0bc8233bebabfeafbe9620"
+  },
+  {
+    "path": "references/DesignSystem.swift.txt",
+    "source": "app/Sources/Morsel/DesignSystem.swift",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "066959e7891e914d125655c0dc1f158fa7270cb39b618657606964b25fd2a628"
+  },
+  {
+    "path": "references/TrainingFuelContext.swift.txt",
+    "source": "app/Sources/Morsel/TrainingFuelContext.swift",
+    "revision": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+    "sha256": "49777c8bb3ba90a1258aef1e8b8c510c71e472be8c13faa91ba0d1853dac1895"
+  }
+]

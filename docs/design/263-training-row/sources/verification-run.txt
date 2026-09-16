@@ -1,0 +1,20 @@
+COMMAND ["uv", "run", "--no-project", "--no-config", "--with", "fonttools==4.65.0", "python", "/Users/jirathip/design-output/morsel/263-training-row/scripts/prove_fonts.py"]
+EXIT 0
+STDOUT
+{
+  "base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "source_hashes_verified": 22,
+  "reference_copies_verified": 14,
+  "call_site_count": 4,
+  "issue_comment_count_captured": 1,
+  "tracked_diff_against_base_empty": true,
+  "font_features_verified": [
+    "tnum",
+    "onum",
+    "lnum",
+    "pnum"
+  ],
+  "rendering_claim": "none; table/advance evidence only",
+  "source_fonts_copied": false
+}
+STDERR

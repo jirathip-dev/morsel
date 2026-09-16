@@ -1,0 +1,181 @@
+{
+  "base": "2d87d61e73c6c3db7bd1420294ccf1551232405d",
+  "files": [
+    {
+      "path": "app/Fonts/Caveat[wght].ttf",
+      "git_blob": "f84acf2ce2d1b3329b194749530dbaec047e6df6",
+      "bytes": 403648,
+      "sha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Fonts/EBGaramond-Italic[wght].ttf",
+      "git_blob": "f9ad996001c8ee72fd43b4b8e67c8924b7f615b1",
+      "bytes": 754468,
+      "sha256": "bba2c4499c93c9612b90b9825d32b07da52fce2fe57562a1eb6b833553f93c4e",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Fonts/EBGaramond[wght].ttf",
+      "git_blob": "52d34b86ec20977f222ce37e8158e6b3002c0a31",
+      "bytes": 851176,
+      "sha256": "ef9512f92f6d579e5dc75af59a5a4b1b8b47d2eda89e00b954d44520e5369027",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Fonts/IBMPlexMono-Medium.ttf",
+      "git_blob": "54927d50fdd603f47e231a56c9a1600ce919f27d",
+      "bytes": 129916,
+      "sha256": "4fc14a73ca53ba9d32fd759ae1ca1a3133326035d0dd337862b3ee1633cc156e",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Fonts/IBMPlexMono-Regular.ttf",
+      "git_blob": "02d682ca03457f91c604678b76aa42724c9f9489",
+      "bytes": 128812,
+      "sha256": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Fonts/OFL-Caveat.txt",
+      "git_blob": "5303054dc8fe29cde1b9b39d23b8a76b48807faf",
+      "bytes": 4384,
+      "sha256": "163a2b400e16916ad3196296c946c526d0efce6baf22a2164269ffc62fb9f671",
+      "working_copy_equals_base": true,
+      "reference_copy": "OFL-Caveat.txt"
+    },
+    {
+      "path": "app/Fonts/OFL-EBGaramond.txt",
+      "git_blob": "d4143a8192bba6c7dbb32621468ae0e70c6ed448",
+      "bytes": 4397,
+      "sha256": "b921242b4a54e7dbb2744fd44cc008f8b421d0585f8b902360a9300e00cb48b8",
+      "working_copy_equals_base": true,
+      "reference_copy": "OFL-EBGaramond.txt"
+    },
+    {
+      "path": "app/Fonts/OFL-IBMPlexMono.txt",
+      "git_blob": "670c6c04ec17a19131aefbb47472a11c2a5d831c",
+      "bytes": 4362,
+      "sha256": "d741e57d5f865e294df801f96b7b5161a88b211df65887e4358d271c9fc5fb4f",
+      "working_copy_equals_base": true,
+      "reference_copy": "OFL-IBMPlexMono.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/DatedTargets.swift",
+      "git_blob": "20b464293fc4e61c243d2bee1306f75efd3ade2a",
+      "bytes": 6545,
+      "sha256": "0b3a14ee6762cc7e7130d5446f855390bf77cf186cfdd48c601cd10fa78eb0e3",
+      "working_copy_equals_base": true,
+      "reference_copy": "DatedTargets.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/DesignSystem.swift",
+      "git_blob": "2506196f5e26919f389d90d5041007013b06d71f",
+      "bytes": 17355,
+      "sha256": "066959e7891e914d125655c0dc1f158fa7270cb39b618657606964b25fd2a628",
+      "working_copy_equals_base": true,
+      "reference_copy": "DesignSystem.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "git_blob": "174850502de51f1f690e49522888c008619a3015",
+      "bytes": 11207,
+      "sha256": "87b807f3cdd93e26d7cabcc320107ecec8a30d4f909df28aa0b268d926d789a5",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Sources/Morsel/JournalFoodRow.swift",
+      "git_blob": "4c46fa513e630f633003cf9f29726baeecbb218a",
+      "bytes": 6010,
+      "sha256": "f14486f1814af5d0580318b8ff053af80501f0fccf1a6fad472e01e74341d591",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "git_blob": "da073783dd93bfeecc1e981d2bdb2f8914a6fd88",
+      "bytes": 16365,
+      "sha256": "9580dc52360e24887382850c441d9bf8cae7ceead1918d27ae32145354dc6ded",
+      "working_copy_equals_base": true,
+      "reference_copy": null
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelContext.swift",
+      "git_blob": "bbf95871c63a65a3df4ff82d4dbb34d2786a8091",
+      "bytes": 814,
+      "sha256": "49777c8bb3ba90a1258aef1e8b8c510c71e472be8c13faa91ba0d1853dac1895",
+      "working_copy_equals_base": true,
+      "reference_copy": "TrainingFuelContext.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelHealthReader.swift",
+      "git_blob": "a4091140028a40d82dd189085a1c02a1fa5f7f31",
+      "bytes": 3980,
+      "sha256": "c3f4e9be074520ebee7c24ef2cd33ed2efe93a46784f8c711ab15633a2af687e",
+      "working_copy_equals_base": true,
+      "reference_copy": "TrainingFuelHealthReader.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelHost.swift",
+      "git_blob": "e66e8a332ba20f218345e39771cfd47eb9635b5b",
+      "bytes": 1939,
+      "sha256": "3dbb10a78bc20bdf94dfd66624ee92dcfd36105d46ed52fd14395b6bf51a79da",
+      "working_copy_equals_base": true,
+      "reference_copy": "TrainingFuelHost.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelModel.swift",
+      "git_blob": "ca078f5ac38c2629c8a4ea980df821f7e35b5785",
+      "bytes": 5788,
+      "sha256": "8e45ce6f0df6faf5bc505a0aeb3113c7f75be9fd8abd06def85185be5e1f9cad",
+      "working_copy_equals_base": true,
+      "reference_copy": "TrainingFuelModel.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "git_blob": "ac36df8ce64a474dbadfd70ce3b0a712340edc3d",
+      "bytes": 6677,
+      "sha256": "fbb1e1da2fa361dc07039d1df45daeb257cd8116d76e7c81cfd80de78409e6df",
+      "working_copy_equals_base": true,
+      "reference_copy": "TrainingFuelViews.swift.txt"
+    },
+    {
+      "path": "app/Sources/Morsel/Views.swift",
+      "git_blob": "0ed3759c4d2a2af2a0a3d6c48ce98d09472eb699",
+      "bytes": 14896,
+      "sha256": "54d187a1202067f9d8bd32cdaec8237e89c4c5c8a4c4b7fb2deddb7489624acb",
+      "working_copy_equals_base": true,
+      "reference_copy": "Views.swift.txt"
+    },
+    {
+      "path": "docs/DATA_MODEL.md",
+      "git_blob": "0ada5fda954b499bb63d9e3bb3435498e6a0e1ba",
+      "bytes": 14906,
+      "sha256": "54b31d93da100961e2005fa4279ee4726b0f7868910736e54a9d5c93efd97dfc",
+      "working_copy_equals_base": true,
+      "reference_copy": "DATA_MODEL.md.txt"
+    },
+    {
+      "path": "docs/DATED_TARGETS.md",
+      "git_blob": "f44126baca69b993403d124fa64c8176feeb32e6",
+      "bytes": 8276,
+      "sha256": "a1ab21e696234664824732d59b6928c8dc7c5335deac57d44a86bf9b120f68ee",
+      "working_copy_equals_base": true,
+      "reference_copy": "DATED_TARGETS.md.txt"
+    },
+    {
+      "path": "docs/MCP_TOOLS.md",
+      "git_blob": "b07e9caf088c6a868d958beb0b4c1cfacafc6d4a",
+      "bytes": 44354,
+      "sha256": "683f35a52ccc8562a9a02604cb7d883ce61091aed36b543b53cf99783d96f9d2",
+      "working_copy_equals_base": true,
+      "reference_copy": "MCP_TOOLS.md.txt"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "classification": "Browser overlay-scrollbar fade, not app-content drift",
+  "bbox": [
+    386,
+    67,
+    390,
+    692
+  ],
+  "changed_pixels": 2492,
+  "outside_rightmost_4px_identical": true,
+  "expected_sha256": "1cfae13d5e93683c7fb70e00f16d19c4e24a72d6962b28af11861f12ce0721ec",
+  "actual_sha256": "bb129c47d4b6c475d9bacb87e97e3fddafba49768098e0f2b65358af97c57b4a",
+  "scope": "Pre-normalization rejected capture; not final evidence"
+}

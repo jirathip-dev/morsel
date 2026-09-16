@@ -1,0 +1,321 @@
+[
+  {
+    "file": "evidence/contact-states-01.png",
+    "members": [
+      "evidence/a-paper-usual.png",
+      "evidence/a-night-usual.png",
+      "evidence/b-paper-usual.png",
+      "evidence/b-night-usual.png",
+      "evidence/a-paper-confirmed.png",
+      "evidence/a-night-confirmed.png",
+      "evidence/b-paper-confirmed.png",
+      "evidence/b-night-confirmed.png",
+      "evidence/a-paper-unavailable.png",
+      "evidence/a-night-unavailable.png",
+      "evidence/b-paper-unavailable.png",
+      "evidence/b-night-unavailable.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-02.png",
+    "members": [
+      "evidence/a-paper-unconfirmed.png",
+      "evidence/a-night-unconfirmed.png",
+      "evidence/b-paper-unconfirmed.png",
+      "evidence/b-night-unconfirmed.png",
+      "evidence/a-paper-blank.png",
+      "evidence/a-night-blank.png",
+      "evidence/b-paper-blank.png",
+      "evidence/b-night-blank.png",
+      "evidence/a-paper-invalid.png",
+      "evidence/a-night-invalid.png",
+      "evidence/b-paper-invalid.png",
+      "evidence/b-night-invalid.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-03.png",
+    "members": [
+      "evidence/a-paper-valid-draft.png",
+      "evidence/a-night-valid-draft.png",
+      "evidence/b-paper-valid-draft.png",
+      "evidence/b-night-valid-draft.png",
+      "evidence/a-paper-pending.png",
+      "evidence/a-night-pending.png",
+      "evidence/b-paper-pending.png",
+      "evidence/b-night-pending.png",
+      "evidence/a-paper-save-error.png",
+      "evidence/a-night-save-error.png",
+      "evidence/b-paper-save-error.png",
+      "evidence/b-night-save-error.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-04.png",
+    "members": [
+      "evidence/a-paper-confirmed-sheet.png",
+      "evidence/a-night-confirmed-sheet.png",
+      "evidence/b-paper-confirmed-sheet.png",
+      "evidence/b-night-confirmed-sheet.png",
+      "evidence/a-paper-edit.png",
+      "evidence/a-night-edit.png",
+      "evidence/b-paper-edit.png",
+      "evidence/b-night-edit.png",
+      "evidence/a-paper-undo.png",
+      "evidence/a-night-undo.png",
+      "evidence/b-paper-undo.png",
+      "evidence/b-night-undo.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-05.png",
+    "members": [
+      "evidence/a-paper-missing-health.png",
+      "evidence/a-night-missing-health.png",
+      "evidence/b-paper-missing-health.png",
+      "evidence/b-night-missing-health.png",
+      "evidence/a-paper-denied-health.png",
+      "evidence/a-night-denied-health.png",
+      "evidence/b-paper-denied-health.png",
+      "evidence/b-night-denied-health.png",
+      "evidence/a-paper-stale-health.png",
+      "evidence/a-night-stale-health.png",
+      "evidence/b-paper-stale-health.png",
+      "evidence/b-night-stale-health.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-06.png",
+    "members": [
+      "evidence/a-paper-zero-health.png",
+      "evidence/a-night-zero-health.png",
+      "evidence/b-paper-zero-health.png",
+      "evidence/b-night-zero-health.png",
+      "evidence/a-paper-partial-health.png",
+      "evidence/a-night-partial-health.png",
+      "evidence/b-paper-partial-health.png",
+      "evidence/b-night-partial-health.png",
+      "evidence/a-paper-workout-only.png",
+      "evidence/a-night-workout-only.png",
+      "evidence/b-paper-workout-only.png",
+      "evidence/b-night-workout-only.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-07.png",
+    "members": [
+      "evidence/a-paper-health-loading.png",
+      "evidence/a-night-health-loading.png",
+      "evidence/b-paper-health-loading.png",
+      "evidence/b-night-health-loading.png",
+      "evidence/a-paper-health-error.png",
+      "evidence/a-night-health-error.png",
+      "evidence/b-paper-health-error.png",
+      "evidence/b-night-health-error.png",
+      "evidence/a-paper-unavailable-sheet.png",
+      "evidence/a-night-unavailable-sheet.png",
+      "evidence/b-paper-unavailable-sheet.png",
+      "evidence/b-night-unavailable-sheet.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-08.png",
+    "members": [
+      "evidence/a-paper-manual-consent.png",
+      "evidence/a-night-manual-consent.png",
+      "evidence/b-paper-manual-consent.png",
+      "evidence/b-night-manual-consent.png",
+      "evidence/a-paper-manual-ready.png",
+      "evidence/a-night-manual-ready.png",
+      "evidence/b-paper-manual-ready.png",
+      "evidence/b-night-manual-ready.png",
+      "evidence/a-paper-empty.png",
+      "evidence/a-night-empty.png",
+      "evidence/b-paper-empty.png",
+      "evidence/b-night-empty.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-09.png",
+    "members": [
+      "evidence/a-paper-loading.png",
+      "evidence/a-night-loading.png",
+      "evidence/b-paper-loading.png",
+      "evidence/b-night-loading.png",
+      "evidence/a-paper-stale-data.png",
+      "evidence/a-night-stale-data.png",
+      "evidence/b-paper-stale-data.png",
+      "evidence/b-night-stale-data.png",
+      "evidence/a-paper-error.png",
+      "evidence/a-night-error.png",
+      "evidence/b-paper-error.png",
+      "evidence/b-night-error.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-states-10.png",
+    "members": [
+      "evidence/a-paper-multi-meal.png",
+      "evidence/a-night-multi-meal.png",
+      "evidence/b-paper-multi-meal.png",
+      "evidence/b-night-multi-meal.png",
+      "evidence/a-paper-partial-meal.png",
+      "evidence/a-night-partial-meal.png",
+      "evidence/b-paper-partial-meal.png",
+      "evidence/b-night-partial-meal.png",
+      "evidence/a-paper-rollover.png",
+      "evidence/a-night-rollover.png",
+      "evidence/b-paper-rollover.png",
+      "evidence/b-night-rollover.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-01.png",
+    "members": [
+      "evidence/a-paper-unconfirmed-context.png",
+      "evidence/a-night-unconfirmed-context.png",
+      "evidence/b-paper-unconfirmed-context.png",
+      "evidence/b-night-unconfirmed-context.png",
+      "evidence/a-paper-blank-context.png",
+      "evidence/a-night-blank-context.png",
+      "evidence/b-paper-blank-context.png",
+      "evidence/b-night-blank-context.png",
+      "evidence/a-paper-invalid-context.png",
+      "evidence/a-night-invalid-context.png",
+      "evidence/b-paper-invalid-context.png",
+      "evidence/b-night-invalid-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-02.png",
+    "members": [
+      "evidence/a-paper-valid-draft-context.png",
+      "evidence/a-night-valid-draft-context.png",
+      "evidence/b-paper-valid-draft-context.png",
+      "evidence/b-night-valid-draft-context.png",
+      "evidence/a-paper-pending-context.png",
+      "evidence/a-night-pending-context.png",
+      "evidence/b-paper-pending-context.png",
+      "evidence/b-night-pending-context.png",
+      "evidence/a-paper-save-error-context.png",
+      "evidence/a-night-save-error-context.png",
+      "evidence/b-paper-save-error-context.png",
+      "evidence/b-night-save-error-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-03.png",
+    "members": [
+      "evidence/a-paper-confirmed-sheet-context.png",
+      "evidence/a-night-confirmed-sheet-context.png",
+      "evidence/b-paper-confirmed-sheet-context.png",
+      "evidence/b-night-confirmed-sheet-context.png",
+      "evidence/a-paper-edit-context.png",
+      "evidence/a-night-edit-context.png",
+      "evidence/b-paper-edit-context.png",
+      "evidence/b-night-edit-context.png",
+      "evidence/a-paper-missing-health-context.png",
+      "evidence/a-night-missing-health-context.png",
+      "evidence/b-paper-missing-health-context.png",
+      "evidence/b-night-missing-health-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-04.png",
+    "members": [
+      "evidence/a-paper-denied-health-context.png",
+      "evidence/a-night-denied-health-context.png",
+      "evidence/b-paper-denied-health-context.png",
+      "evidence/b-night-denied-health-context.png",
+      "evidence/a-paper-stale-health-context.png",
+      "evidence/a-night-stale-health-context.png",
+      "evidence/b-paper-stale-health-context.png",
+      "evidence/b-night-stale-health-context.png",
+      "evidence/a-paper-zero-health-context.png",
+      "evidence/a-night-zero-health-context.png",
+      "evidence/b-paper-zero-health-context.png",
+      "evidence/b-night-zero-health-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-05.png",
+    "members": [
+      "evidence/a-paper-partial-health-context.png",
+      "evidence/a-night-partial-health-context.png",
+      "evidence/b-paper-partial-health-context.png",
+      "evidence/b-night-partial-health-context.png",
+      "evidence/a-paper-workout-only-context.png",
+      "evidence/a-night-workout-only-context.png",
+      "evidence/b-paper-workout-only-context.png",
+      "evidence/b-night-workout-only-context.png",
+      "evidence/a-paper-health-loading-context.png",
+      "evidence/a-night-health-loading-context.png",
+      "evidence/b-paper-health-loading-context.png",
+      "evidence/b-night-health-loading-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-06.png",
+    "members": [
+      "evidence/a-paper-health-error-context.png",
+      "evidence/a-night-health-error-context.png",
+      "evidence/b-paper-health-error-context.png",
+      "evidence/b-night-health-error-context.png",
+      "evidence/a-paper-unavailable-sheet-context.png",
+      "evidence/a-night-unavailable-sheet-context.png",
+      "evidence/b-paper-unavailable-sheet-context.png",
+      "evidence/b-night-unavailable-sheet-context.png",
+      "evidence/a-paper-manual-consent-context.png",
+      "evidence/a-night-manual-consent-context.png",
+      "evidence/b-paper-manual-consent-context.png",
+      "evidence/b-night-manual-consent-context.png"
+    ],
+    "width": 1560,
+    "height": 2652
+  },
+  {
+    "file": "evidence/contact-context-07.png",
+    "members": [
+      "evidence/a-paper-manual-ready-context.png",
+      "evidence/a-night-manual-ready-context.png",
+      "evidence/b-paper-manual-ready-context.png",
+      "evidence/b-night-manual-ready-context.png",
+      "evidence/a-paper-rollover-context.png",
+      "evidence/a-night-rollover-context.png",
+      "evidence/b-paper-rollover-context.png",
+      "evidence/b-night-rollover-context.png"
+    ],
+    "width": 1560,
+    "height": 1768
+  }
+]
