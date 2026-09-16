@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "attempts": [
+    {
+      "at_utc": "2026-09-16T03:22:06.536402+00:00",
+      "raw_pgrep_exit": 0,
+      "busy": [],
+      "idle_browser": [
+        {
+          "pid": 30243,
+          "cpu": 0.0,
+          "classification": "persistent-browser-idle"
+        },
+        {
+          "pid": 30538,
+          "cpu": 0.0,
+          "classification": "persistent-browser-idle"
+        },
+        {
+          "pid": 30541,
+          "cpu": 0.0,
+          "classification": "persistent-browser-idle"
+        },
+        {
+          "pid": 30546,
+          "cpu": 0.0,
+          "classification": "persistent-browser-idle"
+        },
+        {
+          "pid": 61231,
+          "cpu": 0.0,
+          "classification": "persistent-browser-idle"
+        }
+      ]
+    }
+  ],
+  "wait_limit_seconds": 60,
+  "probe_interval_seconds": 5,
+  "authority": "owner coordination ruling: native/render predicate; no load-idle gate"
+}

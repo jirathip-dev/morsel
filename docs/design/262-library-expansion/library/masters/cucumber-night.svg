@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cucumber — long green fruit and three seeded rounds</title>
+<desc>Original ink-and-wash study. Longitudinal skin ridges and three pale three-chamber cut faces are the durable cues, not a portion or cultivar claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="cucumber-whole-underpainting">
+ <path d="M77 156 C65 152 60 141 67 129 C80 107 113 85 142 65 C159 53 177 48 193 55 C210 61 220 74 213 90 C207 105 185 118 164 129 C140 142 112 159 91 163 Q83 164 77 156Z" fill="#5E7E57"/>
+ <path d="M74 148 C66 139 77 126 88 117 C108 99 132 80 151 68 C167 58 183 52 198 61 C209 67 217 79 206 92 C191 109 172 117 151 129 C126 143 102 157 86 157 Q78 157 74 148Z" fill="#2F654B" opacity=".83" filter="url(#wash)"/>
+ <path d="M76 134 C89 115 116 95 143 77 C163 63 181 58 194 63 C178 66 164 77 148 86 C122 102 99 122 84 145Z" fill="#E1E9D7" opacity=".43" filter="url(#wash)"/>
+ <path d="M87 156 C109 151 137 136 155 125 C183 111 204 96 212 80 C217 99 186 117 163 130 C135 144 109 163 88 162Z" fill="#2F654B" opacity=".84" filter="url(#wash)"/>
+ <path d="M126 119 C139 105 162 85 182 78 C195 73 201 73 207 76 C196 86 182 90 165 103 C151 113 137 122 126 119Z" fill="#5E7E57" opacity=".62" filter="url(#wash)"/>
+</g>
+<g id="longitudinal-skin-ridges" fill="none" stroke-linecap="round">
+ <path d="M79 135 C98 113 124 97 146 81 Q171 64 190 63 M92 146 C118 130 140 111 166 99 Q190 87 202 77" stroke="#E1E9D7" stroke-width="2.7" opacity=".61" filter="url(#dry)"/>
+ <path d="M105 144 Q133 130 153 115 M178 102 Q197 91 205 80" stroke="#D6A62C" stroke-width="1.5" opacity=".32" filter="url(#wash)"/>
+ <path d="M83 144 Q106 122 127 110 M137 100 Q162 81 181 75" stroke="#2F654B" stroke-width="2.4" opacity=".7" filter="url(#dry)"/>
+ <path d="M103 109 l3 -3 M120 101 l3 -2 M147 78 l4 -2 M178 67 l3 0 M154 108 l3 -2 M181 97 l3 -2 M101 146 l3 -1" stroke="#655A4B" stroke-width=".8" opacity=".47"/>
+</g>
+<g id="cucumber-tip-and-broken-ink">
+ <path d="M190 54 Q197 49 201 50 L204 53 Q199 53 197 58Z" fill="#655A4B" opacity=".82"/>
+ <path d="M69 147 Q64 147 64 151 Q66 157 75 156 L78 153Z" fill="#A5750B" opacity=".54" filter="url(#wash)"/>
+ <path d="M71 123 Q89 100 120 81 M133 72 Q165 49 183 51 M198 57 Q220 65 215 83" fill="none" stroke="#9D917F" stroke-width=".78" stroke-linecap="round"/>
+ <path d="M209 96 Q191 114 167 126 M155 133 Q121 153 94 162 M82 162 Q68 159 65 148" fill="none" stroke="#9D917F" stroke-width="1.15" stroke-linecap="round"/>
+ <path d="M77 156 l6 2 M88 160 l6 -1 M180 117 l7 -4" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".67"/>
+</g>
+<g id="rear-cut-round">
+ <path d="M130 143 C143 134 161 139 167 152 C174 166 167 183 152 189 C138 194 123 185 121 172 C117 161 120 151 130 143Z" fill="#2F654B" opacity=".92"/>
+ <path d="M128 149 C139 138 155 143 161 154 C168 166 160 180 148 184 C136 187 125 179 124 169 C122 160 122 155 128 149Z" fill="#E1E9D7"/>
+ <path d="M135 149 C145 145 155 151 157 161 C160 171 152 180 144 179 C134 179 128 171 129 163Z" fill="#F2E9D9" opacity=".8" filter="url(#wash)"/>
+ <path d="M144 150 Q148 156 145 162 Q155 160 156 168 Q151 173 145 168 Q145 178 138 177 Q134 170 139 165 Q133 161 135 155Z" fill="#5E7E57" opacity=".26" filter="url(#wash)"/>
+ <path d="M140 151 Q138 157 141 160 Q145 158 140 151Z M150 164 Q145 163 146 167 Q151 171 154 167Z M141 170 Q136 173 139 176 Q143 177 141 170Z" fill="#FFF7E8"/>
+ <path d="M127 146 Q142 133 156 143 M165 150 Q178 174 158 187 M148 191 Q129 192 122 179" fill="none" stroke="#9D917F" stroke-width=".78" stroke-linecap="round"/>
+</g>
+<g id="left-cut-round">
+ <path d="M48 159 C62 147 80 151 88 165 C98 182 86 200 70 205 C56 209 43 198 40 185 C37 174 40 165 48 159Z" fill="#5E7E57"/>
+ <path d="M41 182 C43 196 57 204 69 201 C82 198 89 187 91 175 C98 192 84 207 69 209 C54 212 42 200 41 182Z" fill="#2F654B" opacity=".76" filter="url(#wash)"/>
+ <path d="M49 163 C60 153 76 157 83 169 C90 181 80 195 68 199 C57 203 46 194 44 183 C42 175 43 168 49 163Z" fill="#E1E9D7"/>
+ <path d="M54 165 C67 158 77 167 78 177 C78 187 70 194 61 193 C51 192 48 184 49 176Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M61 165 Q69 165 67 177 Q78 175 77 182 Q73 188 65 182 Q65 194 58 193 Q52 189 60 179 Q52 175 55 170Z" fill="#5E7E57" opacity=".24" filter="url(#wash)"/>
+ <path d="M61 165 C57 168 59 174 63 176 Q67 169 61 165Z M67 179 Q70 185 75 183 Q76 178 67 179Z M61 184 Q55 187 58 191 Q63 193 61 184Z" fill="#FFF7E8"/>
+ <path d="M44 164 Q52 152 66 153 M78 158 Q94 172 87 188 M80 201 Q60 215 46 199" fill="none" stroke="#9D917F" stroke-width="1" stroke-linecap="round"/>
+ <path d="M48 187 Q49 195 57 199 M61 170 l1 3 M72 181 l-2 0 M59 190 l1 -2" fill="none" stroke="#9D917F" stroke-width=".53" opacity=".64"/>
+</g>
+<g id="front-cut-round">
+ <path d="M95 174 C108 164 127 168 138 181 C150 196 141 212 125 219 C108 226 88 216 85 201 C82 190 87 180 95 174Z" fill="#2F654B" opacity=".94"/>
+ <path d="M95 178 C108 168 125 174 134 184 C143 196 135 208 122 214 C108 219 92 210 89 199 C86 191 89 183 95 178Z" fill="#E1E9D7"/>
+ <path d="M100 181 C112 175 124 182 129 191 C133 201 123 209 113 210 C102 210 93 202 94 192Z" fill="#F2E9D9" opacity=".85" filter="url(#wash)"/>
+ <path d="M110 180 Q117 183 114 192 Q124 188 128 196 Q126 202 114 199 Q116 210 107 209 Q101 205 108 197 Q98 192 102 186Z" fill="#5E7E57" opacity=".28" filter="url(#wash)"/>
+ <path d="M109 182 Q105 190 111 193 Q116 189 109 182Z M117 194 Q119 201 125 198 Q127 193 117 194Z M110 201 Q104 203 108 207 Q115 209 110 201Z" fill="#FFF7E8"/>
+ <path d="M98 174 Q111 166 127 175 M139 184 Q151 204 132 216 M120 222 Q98 225 88 207" fill="none" stroke="#9D917F" stroke-width=".95" stroke-linecap="round"/>
+ <path d="M94 202 Q98 211 108 214 M108 185 l2 4 M122 197 l-3 -1 M108 206 l2 -2" fill="none" stroke="#9D917F" stroke-width=".55" opacity=".62"/>
+ <path d="M96 184 l5 -4 M122 182 l6 5" fill="none" stroke="#FFF7E8" stroke-width="2.1" opacity=".7" filter="url(#dry)"/>
+</g>
+</svg>

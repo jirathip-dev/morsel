@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Roti — folded, blistered flatbread in ink and wash</title>
+<desc>An uneven folded sheet with browned air blisters, separated flaky edges and a pale drizzle. A generic roti study, not a particular recipe or portion.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="flatbread-contact-wash">
+ <path d="M58 177 C87 173 109 181 141 179 C171 172 198 161 213 167 C203 183 173 196 143 201 C103 207 73 196 58 187Z" fill="{{brown}}" opacity=".13" filter="url(#wash)"/>
+</g>
+<g id="folded-under-sheet">
+ <path d="M49 116 C72 105 92 99 119 92 L181 86 C192 108 202 132 209 152 L204 166 C187 178 173 184 157 190 C126 199 97 199 71 189 L65 176 L59 151Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M60 155 C79 166 100 173 127 173 C158 172 189 157 208 149 L203 168 Q179 181 154 191 C122 198 94 197 73 189Z" fill="{{gold}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M70 176 C91 184 105 187 132 183 C157 183 176 173 190 170 L204 162 L200 170 C179 180 162 188 145 191 C116 196 91 194 74 187Z" fill="{{ochre}}" opacity=".54" filter="url(#wash)"/>
+ <path d="M68 172 C89 181 110 184 132 180 C152 182 173 170 184 168 M76 182 C104 193 126 188 147 188 M155 183 Q180 176 197 165" fill="none" stroke="{{paper}}" stroke-width="3.4" opacity=".86" filter="url(#dry)"/>
+ <path d="M78 188 Q100 197 128 193 M140 191 Q172 187 191 174 M196 171 L204 166" fill="none" stroke="{{line}}" stroke-width="1.04" stroke-linecap="round"/>
+</g>
+<g id="broad-uneven-roti-surface">
+ <path d="M50 109 C67 100 89 94 110 89 C135 87 157 77 179 82 C184 91 185 102 193 116 C198 128 205 135 208 149 C194 159 177 170 153 176 C123 187 94 184 69 174 C63 161 65 151 60 140 C58 128 52 120 50 109Z" fill="{{cream}}"/>
+ <path d="M54 110 C74 107 91 96 113 96 C137 92 157 83 178 86 C181 101 184 116 196 130 C198 138 203 144 201 149 C181 158 160 171 138 173 C112 180 90 176 73 169 C66 150 64 127 54 110Z" fill="{{gold}}" opacity=".47" filter="url(#wash)"/>
+ <path d="M57 116 C76 108 94 111 110 103 C132 93 141 100 158 96 C171 100 167 108 180 112 C161 108 143 116 125 112 C100 109 92 125 79 126 L67 140Z" fill="{{peach}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M74 156 C91 156 110 168 130 160 C145 154 155 165 171 151 C183 148 187 144 199 145 L204 150 C184 164 165 172 141 176 C117 183 91 178 71 171Z" fill="{{ochre}}" opacity=".33" filter="url(#wash)"/>
+</g>
+<g id="overlapping-fold-and-lifted-corner">
+ <path d="M52 109 C78 113 111 121 135 139 C156 129 175 115 185 102 C183 93 183 87 178 82 C156 78 137 88 113 90 C92 93 71 102 52 109Z" fill="{{paper}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M62 113 C88 120 110 126 135 142 C150 138 169 126 183 113 L184 119 C165 134 151 143 135 147 C112 132 88 124 64 119Z" fill="{{ochre}}" opacity=".37" filter="url(#wash)"/>
+ <path d="M70 174 Q84 163 89 150 C94 159 104 166 118 172 C99 176 85 176 70 174Z" fill="{{paper}}" opacity=".67"/>
+ <path d="M74 174 Q92 178 114 175 L105 180 Q86 184 74 180Z" fill="{{ochre}}" opacity=".47" filter="url(#wash)"/>
+ <path d="M60 113 Q96 121 121 134 M127 139 L135 144 Q157 135 171 124 M178 117 L184 111 M73 171 Q84 163 88 154" fill="none" stroke="{{line}}" stroke-width=".72" stroke-linecap="round"/>
+</g>
+<g id="broad-fried-air-blisters">
+ <path d="M81 105 C86 99 98 99 103 105 C108 111 100 114 94 112 C85 117 77 112 81 105Z M141 96 C146 89 160 88 165 94 C170 97 167 105 160 107 C150 103 142 107 141 96Z" fill="{{ochre}}" opacity=".71" filter="url(#wash)"/>
+ <path d="M86 105 Q95 101 100 107 L95 110 Q89 108 84 111Z M149 94 Q160 91 164 97 Q163 104 157 101 L150 101Z" fill="{{brown}}" opacity=".44" filter="url(#wash)"/>
+ <path d="M73 132 C77 124 87 126 91 133 C94 140 87 147 81 144 C74 148 69 138 73 132Z M111 152 C116 147 122 151 125 155 C132 152 141 156 137 163 C132 170 121 172 115 166 C108 164 107 158 111 152Z M174 129 C183 122 192 127 194 134 C190 143 180 146 175 140 C169 139 170 134 174 129Z" fill="{{ochre}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M76 133 Q83 127 87 134 L85 140 L79 141Z M115 156 Q122 155 126 160 L133 158 Q137 165 127 166 L118 164Z M178 132 Q187 127 191 133 L187 139 Q178 142 178 132Z" fill="{{brown}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M102 126 Q108 121 114 126 L112 131 L105 132Z M152 151 Q158 145 163 151 Q162 157 154 157Z" fill="{{ochre}}" opacity=".58" filter="url(#wash)"/>
+ <path d="M84 102 L91 101 M144 93 Q151 89 158 91 M73 130 L78 128 M112 153 L118 151 M177 130 L182 128" fill="none" stroke="{{cream}}" stroke-width="2.3" opacity=".8" filter="url(#dry)"/>
+</g>
+<g id="one-loose-pale-drizzle" fill="none" stroke-linecap="round">
+ <path d="M79 121 C87 121 107 111 122 110 C134 108 140 109 130 114 L102 134 C94 140 99 143 111 139 L158 120 C172 115 181 116 168 124 L125 151 C117 157 123 159 135 154 L178 137" stroke="{{ochre}}" stroke-width="3.5" opacity=".14"/>
+ <path d="M78 119 C86 119 106 109 121 108 C133 106 139 107 129 112 L101 132 C93 138 98 141 110 137 L157 118 C171 113 180 114 167 122 L124 149 C116 155 122 157 134 152 L177 135" stroke="{{paper}}" stroke-width="2.65" opacity=".88"/>
+</g>
+<g id="torn-edge-dry-brush">
+ <path d="M57 111 L63 125 L63 117Z M65 149 L72 165 L71 152Z M90 178 L102 181 L109 179 L98 177Z M136 180 L150 175 L158 176 L141 183Z M179 166 L189 156 L191 160 L183 168Z" fill="{{paper}}" opacity=".88" filter="url(#dry)"/>
+ <path d="M78 190 L82 193 L87 191 L82 188Z M161 189 L169 186 L166 190 L159 193Z" fill="{{cream}}" opacity=".92"/>
+</g>
+<g id="selective-folded-bread-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M51 108 Q73 97 93 94 M106 90 Q121 88 133 86 M147 82 Q167 77 179 82 M184 96 Q186 109 193 117" stroke-width=".69"/>
+ <path d="M200 131 L208 148 Q192 162 172 169 M160 173 Q137 183 115 183 M101 182 Q83 180 71 175 M65 161 Q62 151 62 142 M57 129 L52 116" stroke-width="1.12"/>
+ <path d="M89 112 Q98 114 102 109 M73 137 Q73 143 80 144 M118 165 L124 168 M180 143 Q190 144 193 136 M87 183 L95 186 M136 187 L145 185 M190 168 L196 163" stroke-width=".52" opacity=".73"/>
+</g>
+</svg>

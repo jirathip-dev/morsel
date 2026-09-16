@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Protein shake — shaker cup and loose mixing ball in ink and wash</title>
+<desc>Original generic shaker silhouette with a drinking spout, broad screw lid and a brown drink level. The loose mixing ball is a secondary equipment cue, not evidence of recipe, flavor, protein content, portion or nutrition.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="translucent-shaker-body">
+ <path d="M89 83 C90 93 91 99 94 104 L102 196 C103 208 109 216 130 217 C152 220 173 215 175 202 L182 107 Q185 96 181 83Z" fill="#F2E9D9" opacity=".9"/>
+ <path d="M96 94 L105 186 C105 202 109 210 123 212 C141 216 162 213 168 207 Q157 218 131 217 C109 217 104 211 102 199 L94 105Z" fill="#655A4B" opacity=".18" filter="url(#wash)"/>
+ <path d="M164 99 Q177 96 180 92 L176 153 L171 200 Q168 209 162 211 C169 178 166 141 164 99Z" fill="#5E7E57" opacity=".2" filter="url(#wash)"/>
+ <path d="M102 100 L110 124 L109 140 L106 128Z M108 153 L115 179 L118 202 L112 201Z" fill="#FFF7E8" opacity=".72" filter="url(#dry)"/>
+</g>
+<g id="brown-shake-and-uneven-liquid-level">
+ <path d="M98 129 C107 126 120 128 133 129 C149 131 167 125 178 128 L173 196 C171 206 162 211 140 212 C117 212 108 207 106 196Z" fill="#FBE1C9"/>
+ <path d="M99 131 C114 127 123 133 140 132 C155 133 166 126 176 130 L172 194 C174 204 158 210 140 209 C120 210 109 205 108 194Z" fill="#655A4B" opacity=".86" filter="url(#wash)"/>
+ <path d="M108 145 C115 132 122 142 134 140 C146 135 159 145 173 133 L171 165 Q153 159 142 166 C128 163 119 151 108 161Z" fill="#A5750B" opacity=".26" filter="url(#wash)"/>
+ <path d="M163 144 C166 162 159 175 162 188 Q159 205 130 207 C150 213 170 207 172 196 L176 139Z" fill="#2A261F" opacity=".3" filter="url(#wash)"/>
+ <path d="M112 165 Q125 163 132 174 C137 179 148 178 154 182 Q143 199 128 193 Q118 189 112 178Z" fill="#FBE1C9" opacity=".19" filter="url(#wash)"/>
+ <path d="M99 128 C107 123 119 128 131 128 C148 132 165 123 179 127 L176 134 C165 130 148 136 132 134 C118 131 109 130 100 133Z" fill="#F2E9D9" opacity=".72"/>
+ <path d="M101 129 Q114 125 128 130 M139 131 Q155 132 172 127" fill="none" stroke="#8B7355" stroke-width=".76" stroke-linecap="round"/>
+ <path d="M112 139 C117 151 112 166 118 179 L120 198 L116 199 Q109 182 110 166 L106 140Z" fill="#FFF7E8" opacity=".4" filter="url(#dry)"/>
+</g>
+<g id="body-seams-and-unlabelled-measure-marks" fill="none" stroke-linecap="round">
+ <path d="M90 90 Q91 99 94 106 L97 142 M99 155 L102 192 Q102 209 115 214 M124 217 Q152 222 168 213 C175 209 175 200 176 189 M177 173 L181 113 Q185 101 182 91" stroke="#8B7355" stroke-width="1.08"/>
+ <path d="M108 199 Q112 207 128 209 M140 210 Q160 212 168 204" stroke="#8B7355" stroke-width=".62" opacity=".7"/>
+ <path d="M157 105 l14 -1 M162 115 l8 -1 M158 143 l11 -1 M161 154 l7 -1" stroke="#8B7355" stroke-width=".85" opacity=".63"/>
+ <path d="M157 143 l11 -1 M161 154 l7 -1" stroke="#F2E9D9" stroke-width=".55" opacity=".78"/>
+ <path d="M171 193 l-2 8 M105 195 l2 6" stroke="#8B7355" stroke-width=".47" opacity=".64"/>
+</g>
+<g id="flipped-back-spout-cover">
+ <path d="M150 49 C148 42 151 34 159 33 C168 30 176 36 178 44 L176 53 Q165 58 153 53Z" fill="#F2E9D9"/>
+ <path d="M153 47 C150 38 157 33 163 34 C171 32 177 41 176 47 L173 53 Q161 55 153 50Z" fill="#5E7E57" opacity=".87" filter="url(#wash)"/>
+ <path d="M160 39 Q168 36 172 42 L173 47 Q165 51 158 47Z" fill="#2F654B" opacity=".52" filter="url(#wash)"/>
+ <path d="M151 43 Q150 33 160 32 M168 33 Q178 35 178 47 M175 53 l-11 3" fill="none" stroke="#8B7355" stroke-width=".88" stroke-linecap="round"/>
+</g>
+<g id="broad-screw-lid">
+ <path d="M85 74 C87 64 105 59 127 59 C150 57 177 63 184 72 L186 85 C183 96 163 100 135 100 C111 99 88 95 85 86Z" fill="#F2E9D9"/>
+ <path d="M86 75 C87 65 109 61 128 62 C154 59 178 65 182 74 L184 85 C183 94 157 97 134 97 Q99 98 88 88Z" fill="#5E7E57" opacity=".87" filter="url(#wash)"/>
+ <path d="M86 78 C101 88 118 89 140 89 C157 89 174 84 185 79 L184 87 C179 95 153 99 133 97 Q97 98 87 87Z" fill="#2F654B" opacity=".67" filter="url(#wash)"/>
+ <path d="M90 71 Q106 62 124 65 C115 69 107 68 101 74 L94 77Z" fill="#E1E9D7" opacity=".58" filter="url(#dry)"/>
+ <path d="M85 74 Q88 63 109 60 M119 60 Q153 56 175 65 M183 71 l3 14 Q186 94 166 97 M153 100 Q110 103 92 93 M86 89 l-1 -10" fill="none" stroke="#8B7355" stroke-width="1.07" stroke-linecap="round"/>
+ <path d="M90 79 Q109 89 137 90 M148 89 Q173 86 182 80" fill="none" stroke="#8B7355" stroke-width=".63"/>
+ <path d="M96 83 l1 7 M103 86 l1 7 M114 88 l1 6 M128 90 l0 6 M146 90 l0 6 M162 88 l-1 6 M175 84 l-1 6" fill="none" stroke="#F2E9D9" stroke-width=".9" opacity=".45" filter="url(#dry)"/>
+</g>
+<g id="raised-drinking-spout">
+ <path d="M133 67 L136 51 C140 44 155 43 164 49 L169 66 Q163 75 145 73Z" fill="#F2E9D9"/>
+ <path d="M134 66 L139 52 Q149 48 160 51 L167 65 Q162 72 146 71Z" fill="#5E7E57" opacity=".87" filter="url(#wash)"/>
+ <path d="M155 53 L162 52 L167 66 Q162 72 148 71 L149 67Z" fill="#2F654B" opacity=".63" filter="url(#wash)"/>
+ <path d="M137 51 C139 45 154 45 163 49 C168 55 155 59 147 58 C140 58 136 55 137 51Z" fill="#F2E9D9"/>
+ <path d="M141 52 C143 48 153 49 159 51 C163 54 155 56 149 56 Q142 56 141 52Z" fill="#2A261F" opacity=".87"/>
+ <path d="M135 60 l2 -8 M139 49 Q149 42 163 49 M165 53 l4 13 M166 69 Q156 76 141 71 M139 53 Q143 59 155 57" fill="none" stroke="#8B7355" stroke-width=".88" stroke-linecap="round"/>
+ <path d="M140 61 l-1 6" fill="none" stroke="#E1E9D7" stroke-width="2.5" opacity=".65" filter="url(#dry)"/>
+</g>
+<g id="loose-mixing-ball-underwash">
+ <path d="M58 181 C65 174 80 175 87 182 C97 193 92 207 82 212 C67 219 53 209 51 199 C48 192 53 186 58 181Z" fill="#F2E9D9" opacity=".75"/>
+ <path d="M53 197 Q64 209 82 206 Q91 202 92 194 C95 207 82 218 68 214 Q54 211 53 197Z" fill="#655A4B" opacity=".2" filter="url(#wash)"/>
+ <path d="M58 184 Q70 176 80 181 L86 186 Q70 182 60 193Z" fill="#FFF7E8" opacity=".66" filter="url(#dry)"/>
+</g>
+<g id="mixing-ball-large-coils" fill="none" stroke-linecap="round">
+ <path d="M56 185 C65 178 82 179 88 187 C94 194 79 202 65 198 C50 194 50 185 59 181 C73 174 92 186 92 196 C92 207 66 213 56 204 C48 197 57 190 72 191 C87 191 92 200 85 208 C77 220 59 214 55 204" stroke="#F2E9D9" stroke-width="3" opacity=".89"/>
+ <path d="M56 185 C65 178 82 179 88 187 C94 194 79 202 65 198 C50 194 50 185 59 181 C73 174 92 186 92 196 C92 207 66 213 56 204 C48 197 57 190 72 191 C87 191 92 200 85 208 C77 220 59 214 55 204" stroke="#8B7355" stroke-width="1.12"/>
+ <path d="M64 180 C57 188 60 207 73 214 M75 178 C88 187 83 207 77 214" stroke="#8B7355" stroke-width=".85" opacity=".8"/>
+ <path d="M53 192 Q49 201 58 209 M86 207 Q95 198 91 190" stroke="#8B7355" stroke-width=".64"/>
+</g>
+</svg>

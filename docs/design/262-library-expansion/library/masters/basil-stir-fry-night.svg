@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Basil stir-fry — wilted basil and browned mince over rice with a crisp egg</title>
+<desc>Original ink and wash study. Pale rice, a dark crumbled stir-fry, folded forest-green leaves and a small intact yolk form a composed plate. This generic sign does not identify actual ingredients, species, recipe or portion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="wide-porcelain-plate">
+ <path d="M35 138 C39 113 68 93 109 91 C152 86 199 99 217 126 C236 153 212 181 174 199 C131 220 80 206 51 183 C37 172 31 154 35 138Z" fill="#FFF7E8" opacity=".95"/>
+ <path d="M39 155 Q64 183 105 190 C143 200 190 181 218 151 C213 181 177 205 136 209 C95 212 53 191 43 171Z" fill="#F2E9D9" opacity=".86" filter="url(#wash)"/>
+ <path d="M52 141 Q75 112 113 108 Q173 101 203 135 C205 161 165 187 130 189 C92 189 64 169 52 141Z" fill="#655A4B" opacity=".14" filter="url(#wash)"/>
+ <path d="M36 133 Q44 111 73 99 M90 94 Q124 85 158 95 M178 100 Q205 108 217 128" fill="none" stroke="#9D917F" stroke-width=".69" stroke-linecap="round"/>
+ <path d="M220 150 Q218 175 183 195 M168 202 Q134 216 97 206 M80 201 Q47 189 36 164" fill="none" stroke="#9D917F" stroke-width="1.08" stroke-linecap="round"/>
+ <path d="M53 155 Q65 176 90 183 M150 194 Q184 186 200 164" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".55"/>
+</g>
+<g id="exposed-rice-at-left-and-front">
+ <path d="M54 141 L58 130 Q55 121 65 117 L66 111 L75 108 L80 98 L90 96 Q96 87 108 91 L118 88 L128 94 L137 94 L144 103 L155 106 L154 116 L164 124 L161 133 L166 144 L159 153 L162 163 L151 168 L145 177 L133 175 L123 182 L111 178 L101 181 L89 175 L79 176 L73 168 L63 165 L62 155 L54 150Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M58 144 Q74 121 92 130 C112 127 133 110 153 119 L162 139 L155 150 L158 161 L147 166 L142 174 L130 172 L120 179 L108 174 L97 177 L85 170 L76 172 L72 163 L64 159Z" fill="#F2E9D9" opacity=".9" filter="url(#wash)"/>
+ <path d="M61 147 Q75 149 85 143 L98 147 L107 154 L125 149 L142 158 L151 162 Q145 175 128 174 L116 179 L104 173 L95 177 L81 168 L73 168Z" fill="#A5750B" opacity=".19" filter="url(#wash)"/>
+ <path d="M61 140 l6 -6 M74 126 l5 -4 M73 153 l7 2 M82 165 l6 -2 M95 152 l5 3 M98 171 l8 1 M115 161 l6 -3 M126 175 l6 -2 M139 167 l5 -5" fill="none" stroke="#FFF7E8" stroke-width="2.8" opacity=".98" filter="url(#dry)"/>
+ <path d="M59 128 l3 -8 M57 151 l5 5 M69 167 l8 4 M100 179 l10 -1 M128 180 l7 -4 M73 145 l5 2 M90 167 l6 2 M110 159 l5 -2" fill="none" stroke="#9D917F" stroke-width=".56" opacity=".75" stroke-linecap="round"/>
+</g>
+<g id="brown-stir-fry-overlapping-rice">
+ <path d="M90 130 Q87 123 96 116 L97 108 L109 105 L114 98 L125 100 Q131 91 142 97 L150 92 L161 98 L170 96 L177 104 L187 103 L191 112 L201 118 L198 126 L207 133 L203 142 L209 150 L200 159 L199 167 L187 171 L183 178 L171 175 L163 182 L151 177 L143 181 L132 174 L121 173 L116 167 L105 169 L101 160 L92 157 L95 146 L88 139Z" fill="#655A4B" opacity=".98"/>
+ <path d="M96 130 L105 112 L119 113 L130 100 L144 104 L153 99 L165 104 L178 108 L184 118 L198 124 L194 137 L203 149 L194 161 L180 163 L172 173 L157 171 L142 173 L130 165 L117 165 L109 154 L96 152Z" fill="#A5750B" opacity=".53" filter="url(#wash)"/>
+ <path d="M97 139 Q110 137 117 145 L131 136 L143 145 L155 139 L168 149 L188 135 L202 143 L203 152 L193 162 L183 168 L178 176 L165 173 L158 179 L147 173 L140 177 L128 170 L118 170 L112 159 L101 160Z" fill="#2A261F" opacity=".42" filter="url(#wash)"/>
+</g>
+<g id="irregular-seared-mince-clusters">
+ <path d="M108 113 Q115 107 120 111 L124 117 L119 122 L110 121 L105 117Z M140 104 L147 101 L154 106 L152 114 L145 115 L139 111Z M169 111 Q177 107 181 114 L185 117 L180 123 L173 121 L167 117Z M189 134 L196 130 L201 137 L197 144 L189 142Z" fill="#FBE1C9" opacity=".53" filter="url(#wash)"/>
+ <path d="M105 143 L113 139 L120 144 L118 151 L109 152 L105 148Z M127 153 L133 148 L141 154 L139 160 L131 163 L125 159Z M156 128 L162 123 L169 128 L167 135 L159 137 L154 133Z M173 158 L181 153 L187 158 L185 164 L178 168 L172 164Z M151 165 L158 163 L164 167 L161 173 L151 174 L147 169Z" fill="#D6A62C" opacity=".5" filter="url(#wash)"/>
+ <path d="M110 126 l6 3 l6 -3 M132 119 l4 4 l5 -1 M146 141 l5 4 l6 -3 M173 131 l4 5 l7 -2 M123 166 l7 3 M189 152 l6 -4" fill="none" stroke="#2A261F" stroke-width="1.3" opacity=".63" stroke-linecap="round"/>
+ <path d="M110 113 l6 -2 M141 106 l6 -2 M129 154 l5 -3 M175 158 l6 -2 M153 166 l5 -1" fill="none" stroke="#F2E9D9" stroke-width="2" opacity=".58" filter="url(#dry)"/>
+ <path d="M92 151 l3 6 l7 2 M115 168 l8 4 M147 178 l10 1 M197 165 l3 -7 M200 119 l-7 -6" fill="none" stroke="#9D917F" stroke-width=".79" stroke-linecap="round"/>
+</g>
+<g id="wilted-basil-leaves">
+ <path d="M133 124 C128 116 128 103 137 97 Q152 101 156 110 C149 108 150 121 140 124 L137 130Z" fill="#5E7E57" opacity=".96"/>
+ <path d="M137 127 Q146 115 153 109 Q148 118 141 124Z M131 113 Q130 102 137 99 L140 105 L136 116Z" fill="#2F654B" opacity=".92" filter="url(#wash)"/>
+ <path d="M164 145 C164 136 168 128 179 129 Q190 128 198 135 C190 134 189 149 179 150 Q171 148 164 145Z" fill="#2F654B" opacity=".97"/>
+ <path d="M167 141 Q179 130 190 133 Q181 135 179 142 L175 147Z" fill="#5E7E57" opacity=".67" filter="url(#wash)"/>
+ <path d="M128 158 C118 160 111 152 111 143 Q112 136 118 132 C118 139 134 137 136 148 Q134 154 128 158Z" fill="#2F654B" opacity=".94"/>
+ <path d="M116 138 Q119 144 125 146 L130 154 Q119 151 116 146Z" fill="#5E7E57" opacity=".75" filter="url(#wash)"/>
+ <path d="M155 169 C145 169 142 162 143 155 Q156 150 166 156 C161 158 166 165 155 169Z" fill="#2F654B" opacity=".93"/>
+ <path d="M177 113 Q166 108 164 99 C169 94 183 98 189 106 Q180 105 177 113Z" fill="#5E7E57" opacity=".92" filter="url(#wash)"/>
+ <path d="M136 123 Q141 111 140 104 M168 144 Q180 138 190 135 M125 154 Q119 148 117 141 M148 163 l11 -4 M172 102 l7 6" fill="none" stroke="#E1E9D7" stroke-width=".85" opacity=".6" stroke-linecap="round"/>
+ <path d="M133 115 l-3 -5 M175 149 l7 0 M112 144 l1 6 l4 3 M147 168 l7 1" fill="none" stroke="#9D917F" stroke-width=".6"/>
+</g>
+<g id="two-curled-chili-pieces">
+ <path d="M147 131 Q155 121 163 113 L168 115 Q161 128 150 135 L146 137Z M174 172 Q186 171 191 158 L195 157 Q193 174 179 177Z" fill="#B94738" opacity=".94"/>
+ <path d="M149 132 l12 -13 M180 174 Q188 170 191 164" fill="none" stroke="#E66A2C" stroke-width="1.7" opacity=".71" filter="url(#dry)"/>
+ <path d="M165 114 l3 -3 M193 158 l3 -3" fill="none" stroke="#5E7E57" stroke-width="1.1"/>
+</g>
+<g id="crisp-fried-egg-on-top">
+ <path d="M54 107 L57 100 L54 96 Q57 89 64 89 L64 83 L73 83 Q77 75 85 78 L92 73 L99 77 L108 76 L114 83 L121 83 L123 91 L131 96 L128 102 L132 109 L126 114 L127 121 L117 122 L112 128 L103 125 L96 129 L87 125 L80 128 L74 122 L66 122 L63 115 L56 115Z" fill="#A5750B" opacity=".95"/>
+ <path d="M59 104 Q57 96 67 94 L68 87 L77 88 Q77 79 86 82 L92 78 L100 82 L108 81 L112 88 L120 88 L119 97 L127 99 L124 106 L127 112 L120 115 L121 119 L111 119 L106 124 L98 121 L92 124 L84 121 L78 123 L73 116 L67 117 L65 110 L59 112Z" fill="#FFF7E8" opacity=".99"/>
+ <path d="M62 104 Q72 102 74 109 L85 112 Q97 113 105 107 L120 105 L125 112 L119 116 L111 117 L105 122 L96 119 L87 122 L77 117 L70 116 L65 110Z" fill="#F2E9D9" opacity=".94" filter="url(#wash)"/>
+ <path d="M59 98 l5 -5 l4 0 M68 84 l7 1 M115 85 l6 4 M126 115 l-6 7 M85 126 l-6 -4 M58 111 l5 4" fill="none" stroke="#655A4B" stroke-width=".69" opacity=".76" stroke-linecap="round"/>
+ <path d="M78 98 C78 87 87 83 96 86 C105 87 111 95 107 105 C104 112 92 115 84 109 Q77 106 78 98Z" fill="#D6A62C" opacity=".99"/>
+ <path d="M80 103 C88 109 97 108 102 101 L108 96 C111 105 103 113 94 113 Q84 113 80 106Z" fill="#E66A2C" opacity=".49" filter="url(#wash)"/>
+ <path d="M83 94 Q87 87 95 89 L99 93 Q91 91 85 97Z" fill="#FFF7E8" opacity=".53" filter="url(#dry)"/>
+ <path d="M79 95 Q80 87 89 85 M107 101 Q106 112 95 113" fill="none" stroke="#9D917F" stroke-width=".64"/>
+</g>
+</svg>

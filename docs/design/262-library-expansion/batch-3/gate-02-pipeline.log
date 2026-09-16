@@ -1,0 +1,1 @@
+{"coverage": "PASS", "batch": 3, "specific": {"distinct": 225, "rows": 259, "distinct_pct": 90.0, "rows_pct": 91.2}, "foods": 85, "private_recomputed": true}

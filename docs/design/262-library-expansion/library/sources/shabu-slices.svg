@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Thin-sliced meat — pale-banded rolled ribbons on a plate</title>
+<desc>Original generic uncooked thin-slice study. Broad cream fat ribbons and open rolled ends are the small-size cues; no particular species, cut, recipe, portion or nutrition is established.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="shallow-serving-plate">
+ <path d="M36 153 C36 136 72 118 112 116 C159 112 207 131 219 151 C232 173 193 194 146 200 C101 205 49 187 38 169Z" fill="{{paper}}" opacity=".94"/>
+ <path d="M39 163 C55 181 99 195 139 195 C175 194 207 181 219 164 C213 185 178 201 139 201 C96 202 52 187 39 171Z" fill="{{cream}}" opacity=".89" filter="url(#wash)"/>
+ <path d="M55 155 C59 140 95 129 125 129 C158 129 191 140 201 154 C205 168 175 181 144 183 C109 183 69 174 55 155Z" fill="{{peach}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M65 159 C89 168 118 180 146 177 C167 178 182 168 195 164 Q178 185 142 184 C109 184 74 174 65 159Z" fill="{{brown}}" opacity=".13" filter="url(#wash)"/>
+ <path d="M37 150 Q41 132 72 122 M89 119 Q116 112 143 117 M166 122 Q208 131 219 150 M222 160 Q217 180 185 191 M171 196 Q123 210 72 192 M59 187 Q35 176 36 159" fill="none" stroke="{{line}}" stroke-width=".86" stroke-linecap="round"/>
+ <path d="M53 155 Q56 145 71 139 M62 168 Q85 182 116 186 M133 187 Q177 189 201 169" fill="none" stroke="{{line}}" stroke-width=".52" opacity=".61"/>
+</g>
+<g id="left-slice-thin-sheet">
+ <path d="M56 114 C65 98 81 76 96 74 C111 71 125 83 122 94 C121 107 110 115 105 128 L94 151 C89 160 68 164 56 154 C45 145 50 126 56 114Z" fill="{{peach}}"/>
+ <path d="M59 113 C70 96 83 78 96 78 C109 74 121 87 118 96 C114 110 100 125 98 139 Q93 158 75 157 C55 159 48 146 54 130Z" fill="{{red}}" opacity=".76" filter="url(#wash)"/>
+ <path d="M98 79 C112 77 123 90 117 99 C108 110 101 122 97 137 L87 145 L80 136 C92 119 99 102 102 93Z" fill="{{red}}" opacity=".66" filter="url(#wash)"/>
+ <path d="M57 119 Q65 108 69 99 C78 88 85 80 93 78 L99 81 Q89 89 85 98 C79 111 67 126 66 134 L57 141 Q52 133 57 119Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M108 81 Q118 86 118 93 C107 106 96 126 90 140 L81 138 C86 125 101 105 105 94Z" fill="{{cream}}" opacity=".9"/>
+ <path d="M68 110 Q76 100 82 96 L87 94 Q83 106 77 111 L71 126 L67 126Z" fill="{{peach}}" opacity=".64" filter="url(#dry)"/>
+ <path d="M62 108 Q75 84 93 76 M103 75 Q125 80 122 94 M119 103 Q109 116 105 128" fill="none" stroke="{{line}}" stroke-width=".74" stroke-linecap="round"/>
+</g>
+<g id="left-open-roll">
+ <path d="M56 134 C63 124 82 124 93 134 C102 142 94 157 82 161 C69 166 52 157 51 146 C50 141 52 137 56 134Z" fill="{{cream}}"/>
+ <path d="M58 138 C66 130 82 130 89 138 C95 145 84 156 75 155 C64 155 57 150 58 143 C61 137 70 136 76 140 C81 143 77 147 71 147 L66 145 C68 152 80 151 83 145 C87 133 63 130 58 138Z" fill="{{red}}" opacity=".82"/>
+ <path d="M55 147 C61 157 76 161 90 151 Q90 162 77 162 Q58 164 53 151Z" fill="{{red}}" opacity=".39" filter="url(#wash)"/>
+ <path d="M68 140 Q74 138 79 142 Q81 147 75 149 L69 146Z" fill="{{brown}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M52 138 Q57 128 71 128 M84 131 Q98 136 95 147 M90 156 Q76 169 60 158 M54 153 l-3 -7 M62 142 Q61 152 73 154" fill="none" stroke="{{line}}" stroke-width=".98" stroke-linecap="round"/>
+</g>
+<g id="central-slice-broad-fat-bands">
+ <path d="M98 112 C107 99 119 75 136 66 C146 60 164 66 166 78 C169 85 158 103 150 113 L134 148 C128 160 104 157 95 147 C87 137 94 120 98 112Z" fill="{{peach}}"/>
+ <path d="M101 115 C111 95 121 79 138 69 C147 63 162 72 163 79 Q161 92 148 109 L133 142 Q129 157 112 153 C92 152 90 137 101 115Z" fill="{{red}}" opacity=".78" filter="url(#wash)"/>
+ <path d="M146 71 C159 69 163 79 157 89 L141 115 L126 146 L115 145 Q121 126 133 109 C143 95 146 81 146 71Z" fill="{{red}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M135 69 L145 69 C131 87 121 100 116 114 C111 124 105 130 104 139 L94 138 Q98 120 108 106 C119 89 120 82 135 69Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M155 71 Q163 74 163 82 C153 101 142 109 138 124 L128 146 L118 143 C123 129 129 112 138 102 C146 91 149 81 155 71Z" fill="{{cream}}" opacity=".93"/>
+ <path d="M110 119 C116 116 124 116 130 109 L135 102 L140 99 C135 111 130 118 120 122 L112 131Z" fill="{{peach}}" opacity=".81"/>
+ <path d="M118 97 Q128 80 136 75 M104 125 l6 -13 M145 100 l6 -10" fill="none" stroke="{{paper}}" stroke-width="2.4" opacity=".62" filter="url(#dry)"/>
+ <path d="M101 108 Q111 85 129 71 M139 65 Q157 60 164 73 M166 82 Q165 91 155 103 M149 116 l-10 21" fill="none" stroke="{{line}}" stroke-width=".81" stroke-linecap="round"/>
+</g>
+<g id="central-open-roll">
+ <path d="M97 134 C101 122 119 120 131 128 C144 136 137 151 127 157 C113 163 95 156 92 146 C90 141 93 137 97 134Z" fill="{{cream}}"/>
+ <path d="M100 135 C110 126 126 128 130 137 C133 146 122 152 112 151 C103 150 98 143 102 139 C106 134 116 135 119 139 C122 144 117 146 111 142 Q111 148 119 148 C127 147 128 141 123 136 C117 130 107 131 100 135Z" fill="{{red}}" opacity=".81"/>
+ <path d="M96 146 C105 157 121 158 133 146 L132 154 Q119 167 102 155Z" fill="{{red}}" opacity=".36" filter="url(#wash)"/>
+ <path d="M111 138 Q117 137 121 142 L116 146 L110 143Z" fill="{{brown}}" opacity=".47" filter="url(#wash)"/>
+ <path d="M93 137 Q98 123 113 124 M125 127 Q141 133 138 144 M133 152 Q122 165 104 157 M97 153 l-5 -8 M102 140 Q101 149 113 151" fill="none" stroke="{{line}}" stroke-width="1.06" stroke-linecap="round"/>
+</g>
+<g id="right-slice-loose-fold">
+ <path d="M139 130 C146 115 158 92 173 85 C188 77 201 88 202 100 C203 108 195 117 192 126 L178 161 C172 174 150 180 138 168 C125 158 131 143 139 130Z" fill="{{peach}}"/>
+ <path d="M141 132 C149 114 159 96 173 89 C186 81 198 89 198 102 Q197 113 188 128 L176 158 C168 174 150 175 139 165 Q127 154 141 132Z" fill="{{red}}" opacity=".75" filter="url(#wash)"/>
+ <path d="M181 89 C192 86 201 98 196 109 C182 129 181 146 169 163 L153 164 C160 147 165 132 174 122 C183 108 186 101 181 89Z" fill="{{red}}" opacity=".68" filter="url(#wash)"/>
+ <path d="M172 87 L183 87 C174 98 168 108 162 123 C156 134 146 143 143 155 L133 153 C137 138 147 124 150 118 C156 104 163 94 172 87Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M195 92 Q201 97 198 106 C192 117 187 127 183 140 L174 159 L163 162 Q166 148 173 136 C178 127 178 121 185 111Z" fill="{{cream}}" opacity=".94"/>
+ <path d="M150 141 Q158 137 165 128 Q173 125 179 116 L181 121 Q175 132 168 135 Q162 145 155 149Z" fill="{{peach}}" opacity=".77"/>
+ <path d="M154 120 Q161 101 173 95 M143 141 l6 -12 M188 107 l4 -8" fill="none" stroke="{{paper}}" stroke-width="2.6" opacity=".61" filter="url(#dry)"/>
+ <path d="M144 119 Q157 93 171 86 M181 82 Q198 82 201 97 M201 106 Q197 116 192 126 M187 138 l-8 18" fill="none" stroke="{{line}}" stroke-width=".83" stroke-linecap="round"/>
+</g>
+<g id="right-open-roll-and-pooling-edge">
+ <path d="M135 151 C143 138 161 139 172 148 C184 160 171 177 157 179 C142 181 129 171 129 162 C129 158 131 154 135 151Z" fill="{{cream}}"/>
+ <path d="M137 154 C146 144 164 147 168 157 C172 165 158 173 149 169 C141 168 137 161 142 157 C146 153 154 153 158 158 C161 161 155 166 150 161 Q148 165 154 166 Q165 166 163 158 C160 148 144 148 137 154Z" fill="{{red}}" opacity=".83"/>
+ <path d="M133 164 C145 178 162 179 175 164 Q174 176 158 180 Q140 183 132 170Z" fill="{{red}}" opacity=".4" filter="url(#wash)"/>
+ <path d="M149 157 Q155 155 159 161 L155 165 L149 163Z" fill="{{brown}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M131 154 Q137 141 150 142 M160 145 Q180 150 176 164 M170 173 Q156 188 138 174 M131 168 l-2 -7 M142 158 Q139 166 151 171" fill="none" stroke="{{line}}" stroke-width="1.12" stroke-linecap="round"/>
+ <path d="M137 169 l4 4 M164 176 l6 -4" fill="none" stroke="{{line}}" stroke-width=".48" opacity=".65"/>
+</g>
+</svg>

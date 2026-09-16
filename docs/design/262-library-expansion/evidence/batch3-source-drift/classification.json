@@ -1,0 +1,22 @@
+{
+  "status": "INVALIDATED",
+  "reason": "source changed after initial compile; no stale proof accepted",
+  "drift": [
+    [
+      "focaccia",
+      "paper"
+    ],
+    [
+      "focaccia",
+      "night"
+    ],
+    [
+      "instant-noodles",
+      "paper"
+    ],
+    [
+      "instant-noodles",
+      "night"
+    ]
+  ]
+}

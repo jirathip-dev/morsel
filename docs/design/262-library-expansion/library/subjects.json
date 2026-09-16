@@ -993,6 +993,328 @@
       "category": "soup",
       "description": "A bowl of red-orange coconut curry with meat pieces and basil leaf marks, oil sheen ring at the rim.",
       "kind": "food"
+    },
+    {
+      "id": "fried-rice",
+      "name": "Fried rice",
+      "aliases": [
+        "khao pad",
+        "egg fried rice",
+        "ข้าวผัด"
+      ],
+      "category": "prepared",
+      "description": "A plate of golden fried rice with egg and scallion flecks, a cucumber slice and lime wedge at the edge.",
+      "kind": "food"
+    },
+    {
+      "id": "basil-stir-fry",
+      "name": "Basil stir-fry",
+      "aliases": [
+        "pad kra pao",
+        "krapow",
+        "holy basil stir-fry",
+        "ผัดกะเพรา",
+        "กะเพรา"
+      ],
+      "category": "prepared",
+      "description": "Dark minced meat and basil leaves over rice with a crisp fried egg on top, forest-green leaf marks.",
+      "kind": "food"
+    },
+    {
+      "id": "omelette",
+      "name": "Omelette",
+      "aliases": [
+        "thai omelette",
+        "kai jeow",
+        "scrambled eggs",
+        "ไข่เจียว",
+        "ไข่คน"
+      ],
+      "category": "protein",
+      "description": "A puffed golden Thai omelette folded on a plate with browned lace edges, gold/ochre wash.",
+      "kind": "food"
+    },
+    {
+      "id": "fried-chicken",
+      "name": "Fried chicken",
+      "aliases": [
+        "gai tod",
+        "crispy chicken",
+        "karaage",
+        "ไก่ทอด"
+      ],
+      "category": "protein",
+      "description": "Two craggy golden fried chicken pieces with dry-brush crust, one drumstick, one thigh.",
+      "kind": "food"
+    },
+    {
+      "id": "pizza-slice",
+      "name": "Pizza slice",
+      "aliases": [
+        "pizza",
+        "square pizza slice",
+        "พิซซ่า"
+      ],
+      "category": "prepared",
+      "description": "One triangular pizza slice with a browned crust edge, tomato-red wash and pale cheese pulls.",
+      "kind": "food"
+    },
+    {
+      "id": "sandwich",
+      "name": "Sandwich",
+      "aliases": [
+        "focaccia sandwich",
+        "baguette sandwich",
+        "toastie",
+        "แซนด์วิช"
+      ],
+      "category": "prepared",
+      "description": "A cut sandwich showing layered filling between two bread halves, cream crumb and greens marks.",
+      "kind": "food"
+    },
+    {
+      "id": "focaccia",
+      "name": "Focaccia",
+      "aliases": [
+        "focaccia bread",
+        "flatbread",
+        "โฟกัชชา"
+      ],
+      "category": "grains",
+      "description": "A dimpled rectangular focaccia square with rosemary and salt marks, oil-glossed ochre top.",
+      "kind": "food"
+    },
+    {
+      "id": "instant-noodles",
+      "name": "Instant noodles",
+      "aliases": [
+        "mama",
+        "mama noodles",
+        "ramyeon",
+        "cup noodles",
+        "มาม่า",
+        "บะหมี่กึ่งสำเร็จรูป"
+      ],
+      "category": "grains",
+      "description": "A bowl of wavy yellow noodles with a soft egg and scallion marks, chopsticks resting on the rim.",
+      "kind": "food"
+    },
+    {
+      "id": "roti",
+      "name": "Roti",
+      "aliases": [
+        "roti canai",
+        "thai roti",
+        "โรตี"
+      ],
+      "category": "grains",
+      "description": "A folded flaky roti with blistered golden layers and a drizzle line, ochre/cream wash.",
+      "kind": "food"
+    },
+    {
+      "id": "mashed-potato",
+      "name": "Mashed potato",
+      "aliases": [
+        "mash",
+        "potatoes",
+        "potato",
+        "มันบด",
+        "มันฝรั่ง"
+      ],
+      "category": "produce",
+      "description": "A soft heap of pale mashed potato with a butter pool and gravy pour, cream/gold wash.",
+      "kind": "food"
+    },
+    {
+      "id": "cooking-oil",
+      "name": "Cooking oil",
+      "aliases": [
+        "olive oil",
+        "extra virgin olive oil",
+        "oil",
+        "น้ำมัน",
+        "น้ำมันมะกอก"
+      ],
+      "category": "condiments",
+      "description": "A slim glass cruet of golden oil with a pour spout and a single oil drop, gold wash.",
+      "kind": "food"
+    },
+    {
+      "id": "raw-vegetable-plate",
+      "name": "Raw vegetable plate",
+      "aliases": [
+        "fresh vegetables",
+        "raw vegetables",
+        "crudites",
+        "vegetable sticks",
+        "ผักสด"
+      ],
+      "category": "produce",
+      "description": "Cucumber batons, long beans and a cabbage wedge fanned on a plate, leaf/sage washes.",
+      "kind": "food"
+    },
+    {
+      "id": "mixed-nuts",
+      "name": "Mixed nuts",
+      "aliases": [
+        "nuts",
+        "almonds",
+        "sliced almonds",
+        "cashews",
+        "nut butter",
+        "ถั่ว",
+        "อัลมอนด์"
+      ],
+      "category": "protein",
+      "description": "A small scatter of almonds, cashews and a walnut half, warm ochre/brown washes.",
+      "kind": "food"
+    },
+    {
+      "id": "shabu-slices",
+      "name": "Thin-sliced meat",
+      "aliases": [
+        "shabu beef",
+        "shabu pork",
+        "hotpot meat",
+        "sliced beef",
+        "thin sliced",
+        "เนื้อสไลด์",
+        "หมูสไลด์"
+      ],
+      "category": "protein",
+      "description": "Rolled thin raw meat slices fanned on a plate, red/pink marbled wash with pale fat lines.",
+      "kind": "food"
+    },
+    {
+      "id": "beef-rice-bowl",
+      "name": "Beef rice bowl",
+      "aliases": [
+        "gyudon",
+        "bibimbap",
+        "beef bowl",
+        "donburi",
+        "ข้าวหน้าเนื้อ"
+      ],
+      "category": "prepared",
+      "description": "A bowl of rice topped with thin simmered beef and onion, pickled ginger mark, viewed at an angle.",
+      "kind": "food"
+    },
+    {
+      "id": "protein-shake",
+      "name": "Protein shake",
+      "aliases": [
+        "protein milk",
+        "protein drink",
+        "chocolate protein shake",
+        "โปรตีนเชค"
+      ],
+      "category": "drinks",
+      "description": "A shaker bottle with a mixing ball and a dark chocolate-brown drink line, mono-line bottle geometry.",
+      "kind": "food"
+    },
+    {
+      "id": "apple",
+      "name": "Apple",
+      "aliases": [
+        "red apple",
+        "green apple",
+        "แอปเปิ้ล"
+      ],
+      "category": "produce",
+      "description": "A whole red apple beside a cut quarter with dark seeds, uneven red/gold wash.",
+      "kind": "food"
+    },
+    {
+      "id": "pomelo",
+      "name": "Pomelo",
+      "aliases": [
+        "pomelo segments",
+        "grapefruit",
+        "ส้มโอ"
+      ],
+      "category": "produce",
+      "description": "Peeled pale-pink pomelo segments beside a thick-rind wedge, peach/cream wash.",
+      "kind": "food"
+    },
+    {
+      "id": "cucumber",
+      "name": "Cucumber",
+      "aliases": [
+        "cucumber slices",
+        "แตงกวา"
+      ],
+      "category": "produce",
+      "description": "A cucumber with three cut rounds, dark green skin wash and pale seeded centres.",
+      "kind": "food"
+    },
+    {
+      "id": "kimchi",
+      "name": "Kimchi",
+      "aliases": [
+        "banchan",
+        "korean side dishes",
+        "pickled vegetables",
+        "กิมจิ"
+      ],
+      "category": "produce",
+      "description": "A small bowl of red-stained cabbage leaves with chili fleck marks, red/sage wash.",
+      "kind": "food"
+    },
+    {
+      "id": "mushrooms",
+      "name": "Mushrooms",
+      "aliases": [
+        "shiitake",
+        "enoki",
+        "button mushrooms",
+        "เห็ด"
+      ],
+      "category": "produce",
+      "description": "Three shiitake caps and a small enoki bundle, brown/cream dry-brush caps.",
+      "kind": "food"
+    },
+    {
+      "id": "shrimp",
+      "name": "Shrimp",
+      "aliases": [
+        "prawns",
+        "grilled shrimp",
+        "กุ้ง",
+        "กุ้งย่าง"
+      ],
+      "category": "protein",
+      "description": "Two curled cooked shrimp with orange-red banded shells and a lime wedge.",
+      "kind": "food"
+    },
+    {
+      "id": "stewed-duck",
+      "name": "Stewed duck",
+      "aliases": [
+        "duck",
+        "roast duck",
+        "braised duck",
+        "ped palo",
+        "เป็ด",
+        "เป็ดพะโล้",
+        "เป็ดย่าง"
+      ],
+      "category": "protein",
+      "description": "Sliced dark-glazed duck with crisp skin edge on a plate, deep brown wash and a star anise mark.",
+      "kind": "food"
+    },
+    {
+      "id": "cake",
+      "name": "Cake",
+      "aliases": [
+        "slice of cake",
+        "cheesecake",
+        "coffee cake",
+        "brownie",
+        "เค้ก"
+      ],
+      "category": "sweets",
+      "description": "A single triangular cake slice with two sponge layers and cream filling on a small plate.",
+      "kind": "food"
     }
   ]
 }

@@ -1,0 +1,107 @@
+{
+  "batch": 3,
+  "method": "Frozen round-1 qualifier-tolerant estimator applied to delivered studies; NOT the shipped #260 matcher or live application coverage.",
+  "evidence_window": "public.meal_items, read-only SELECT via Management API, 2026-09-05..2026-09-15, 284 rows / 250 distinct names (raw names stay local, untracked)",
+  "reference_recomputed_against_private_input": true,
+  "distinct_names": 250,
+  "total_rows": 284,
+  "specific": {
+    "distinct": 225,
+    "rows": 259,
+    "distinct_pct": 90.0,
+    "rows_pct": 91.2
+  },
+  "category_fallback": {
+    "distinct": 20,
+    "rows": 20,
+    "distinct_pct": 8.0,
+    "rows_pct": 7.0
+  },
+  "neutral": {
+    "distinct": 0,
+    "rows": 0,
+    "distinct_pct": 0.0,
+    "rows_pct": 0.0
+  },
+  "pending_later_studies": {
+    "distinct": 5,
+    "rows": 5,
+    "distinct_pct": 2.0,
+    "rows_pct": 1.8
+  },
+  "specific_delta_distinct": 24,
+  "specific_delta_rows": 25,
+  "new_foods": 24,
+  "cumulative_foods": 85,
+  "observed_rows_by_added_identity": {
+    "fried-rice": 0,
+    "basil-stir-fry": 0,
+    "omelette": 0,
+    "fried-chicken": 0,
+    "pizza-slice": 2,
+    "sandwich": 2,
+    "focaccia": 1,
+    "instant-noodles": 1,
+    "roti": 1,
+    "mashed-potato": 2,
+    "cooking-oil": 4,
+    "raw-vegetable-plate": 2,
+    "mixed-nuts": 2,
+    "shabu-slices": 0,
+    "beef-rice-bowl": 3,
+    "protein-shake": 2,
+    "apple": 0,
+    "pomelo": 1,
+    "cucumber": 1,
+    "kimchi": 0,
+    "mushrooms": 0,
+    "shrimp": 0,
+    "stewed-duck": 1,
+    "cake": 0
+  },
+  "coverage_driven_zero_observed_ids": [
+    "fried-rice",
+    "basil-stir-fry",
+    "omelette",
+    "fried-chicken",
+    "shabu-slices",
+    "apple",
+    "kimchi",
+    "mushrooms",
+    "shrimp",
+    "cake"
+  ],
+  "demand_note": "Observed and zero-observed general-coverage additions are distinguished above.",
+  "public_issue_examples_estimated_targets": [
+    {
+      "name": "Americano (black, no sugar, homemade)",
+      "target": "coffee",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Pork with brown gravy (moo ob style)",
+      "target": "braised-pork",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "White rice, cooked (half portion)",
+      "target": "jasmine-rice",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Chinese kale, cooked (kana)",
+      "target": "stir-fried-greens",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "Pasta (linguine), cooked",
+      "target": "pasta",
+      "tier": "specific",
+      "batch": 1
+    }
+  ]
+}

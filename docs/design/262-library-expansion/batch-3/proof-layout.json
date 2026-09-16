@@ -1,0 +1,80 @@
+{
+  "batch": 3,
+  "cohorts": {
+    "01": [
+      "fried-rice",
+      "basil-stir-fry",
+      "omelette",
+      "fried-chicken",
+      "pizza-slice"
+    ],
+    "02": [
+      "sandwich",
+      "focaccia",
+      "instant-noodles",
+      "roti",
+      "mashed-potato"
+    ],
+    "03": [
+      "cooking-oil",
+      "raw-vegetable-plate",
+      "mixed-nuts",
+      "shabu-slices",
+      "beef-rice-bowl"
+    ],
+    "04": [
+      "protein-shake",
+      "apple",
+      "pomelo",
+      "cucumber",
+      "kimchi"
+    ],
+    "05": [
+      "mushrooms",
+      "shrimp",
+      "stewed-duck",
+      "cake"
+    ]
+  },
+  "ids": [
+    "fried-rice",
+    "basil-stir-fry",
+    "omelette",
+    "fried-chicken",
+    "pizza-slice",
+    "sandwich",
+    "focaccia",
+    "instant-noodles",
+    "roti",
+    "mashed-potato",
+    "cooking-oil",
+    "raw-vegetable-plate",
+    "mixed-nuts",
+    "shabu-slices",
+    "beef-rice-bowl",
+    "protein-shake",
+    "apple",
+    "pomelo",
+    "cucumber",
+    "kimchi",
+    "mushrooms",
+    "shrimp",
+    "stewed-duck",
+    "cake"
+  ],
+  "contact_size": [
+    1200,
+    1760
+  ],
+  "phone_viewport": [
+    390,
+    844
+  ],
+  "native_art_size": 64,
+  "diagnostic_size": 40,
+  "fonts": [
+    "EB Garamond",
+    "Caveat",
+    "IBM Plex Mono"
+  ]
+}

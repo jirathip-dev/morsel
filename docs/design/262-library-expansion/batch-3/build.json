@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "raw_exit": 0,
+  "renderer": "rsvg-convert version 2.62.3\n\nlibraries used:\n  cairo 1.18.4\n  pango 1.58.0\n  harfbuzz 14.3.0\n  fontconfig 2.18.2",
+  "batch": 3,
+  "rebuilt": [
+    "focaccia",
+    "instant-noodles"
+  ],
+  "skipped": [
+    "fried-rice",
+    "basil-stir-fry",
+    "omelette",
+    "fried-chicken",
+    "pizza-slice",
+    "sandwich",
+    "roti",
+    "mashed-potato",
+    "cooking-oil",
+    "raw-vegetable-plate",
+    "mixed-nuts",
+    "shabu-slices",
+    "beef-rice-bowl",
+    "protein-shake",
+    "apple",
+    "pomelo",
+    "cucumber",
+    "kimchi",
+    "mushrooms",
+    "shrimp",
+    "stewed-duck",
+    "cake"
+  ],
+  "new_foods": 24,
+  "new_fallbacks": 0
+}

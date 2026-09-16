@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Stewed duck — dark-glazed sliced meat, original ink and wash</title>
+<desc>Overlapping cooked meat slices with darker skin edges and a shallow brown sauce pool. The accompanying label supplies duck; this drawing does not establish species, cut, recipe, seasoning or portion.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="wide-ceramic-plate">
+
+ <path d="M36 157 C38 138 72 126 105 124 C145 119 189 128 211 146 C227 159 221 179 197 193 C164 212 105 216 66 197 C46 188 34 173 36 157Z" fill="{{paper}}" opacity=".89"/>
+
+ <path d="M40 171 C61 192 110 205 153 199 C180 197 206 182 216 172 C210 193 178 207 140 210 C100 212 59 197 45 182Z" fill="{{cream}}" opacity=".88" filter="url(#wash)"/>
+ <path d="M37 157 Q39 143 61 134 M78 129 Q110 119 139 124 M173 129 Q201 136 213 149 M219 161 Q222 180 194 195 M178 202 Q130 220 80 203" fill="none" stroke="{{line}}" stroke-width=".83" stroke-linecap="round"/>
+ <path d="M37 168 Q41 184 66 197 M80 203 Q123 218 164 207 M57 179 Q70 190 88 193" fill="none" stroke="{{line}}" stroke-width=".8" stroke-linecap="round"/>
+</g>
+<g id="uneven-stew-sauce-pool">
+
+ <path d="M55 150 C73 134 90 140 109 131 C130 123 150 137 171 136 C186 136 207 144 207 157 C213 169 191 184 170 187 C148 195 135 190 119 195 C90 193 69 188 58 176 C50 168 48 159 55 150Z" fill="{{ochre}}" opacity=".49" filter="url(#wash)"/>
+ <path d="M62 159 C91 145 125 156 153 145 C174 139 195 149 200 159 C201 173 177 181 156 181 C132 190 93 184 73 177Z" fill="{{brown}}" opacity=".55" filter="url(#wash)"/>
+ <path d="M65 173 Q85 184 107 183 M174 180 Q190 178 199 169" fill="none" stroke="{{ochre}}" stroke-width="2.4" opacity=".55" filter="url(#dry)"/>
+</g>
+<g id="rear-glazed-piece">
+ <path d="M130 107 C133 89 150 78 166 78 C183 79 193 91 198 104 C204 116 191 132 175 134 C154 137 136 125 130 107Z" fill="{{ochre}}" opacity=".92"/>
+ <path d="M133 102 C140 84 157 79 171 83 C189 87 193 100 198 111 C187 117 174 113 165 119 C150 122 138 114 133 102Z" fill="{{brown}}" opacity=".82" filter="url(#wash)"/>
+ <path d="M141 94 C150 84 163 86 169 89 C177 95 185 91 189 103 C179 101 173 110 165 108 C157 101 151 106 141 102Z" fill="{{red}}" opacity=".38" filter="url(#wash)"/>
+ <path d="M135 110 Q151 122 169 122 C182 122 190 117 197 111 C197 124 186 132 174 132 C158 133 140 122 135 116Z" fill="{{dark}}" opacity=".48" filter="url(#wash)"/>
+ <path d="M146 89 Q157 83 166 86 M174 92 l8 4 M145 108 l12 4" fill="none" stroke="{{gold}}" stroke-width="2.7" opacity=".62" filter="url(#dry)"/>
+ <path d="M135 96 Q143 80 158 79 M174 80 Q189 84 195 99 M198 114 Q196 129 180 133" fill="none" stroke="{{line}}" stroke-width=".9" stroke-linecap="round"/>
+</g>
+<g id="upper-cut-slice">
+ <path d="M107 117 C112 104 128 94 140 99 C159 107 178 124 185 138 C183 148 174 156 163 155 C147 151 125 136 107 128Z" fill="{{brown}}" opacity=".94"/>
+ <path d="M110 119 C121 109 130 102 140 107 C156 114 172 128 178 138 C177 146 172 148 165 147 C146 142 130 129 112 127Z" fill="{{cream}}" opacity=".93"/>
+ <path d="M113 123 C125 114 132 108 141 113 C154 120 171 132 174 138 L167 144 C149 138 136 129 123 126Z" fill="{{peach}}" opacity=".87"/>
+ <path d="M119 123 Q133 109 144 119 C152 127 164 128 171 139 C157 136 149 131 143 132Z" fill="{{brown}}" opacity=".43" filter="url(#wash)"/>
+ <path d="M113 112 Q128 96 140 101 C157 109 177 128 182 137 L176 137 C158 119 142 113 132 107 L116 117Z" fill="{{red}}" opacity=".32" filter="url(#wash)"/>
+ <path d="M121 119 l15 8 M133 117 l18 14 M146 124 l14 10 M161 136 l7 3" fill="none" stroke="{{line}}" stroke-width=".6" opacity=".76" stroke-linecap="round"/>
+ <path d="M111 111 Q125 95 138 99 M151 105 Q172 119 183 136 M184 143 Q179 157 167 155" fill="none" stroke="{{line}}" stroke-width="1.03" stroke-linecap="round"/>
+</g>
+<g id="middle-cut-slice">
+ <path d="M83 135 C91 121 103 111 115 116 C137 123 156 137 168 151 C173 158 164 169 153 173 C129 171 107 155 86 147Z" fill="{{brown}}" opacity=".96"/>
+ <path d="M87 137 C98 125 106 120 115 124 C134 130 151 144 161 153 C164 158 159 163 152 164 C130 160 110 147 89 146Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M93 139 C104 129 110 126 118 131 C132 136 146 145 156 155 L151 161 C131 156 113 145 94 145Z" fill="{{peach}}" opacity=".89"/>
+ <path d="M98 138 C109 133 113 135 125 140 C135 145 147 148 153 157 C139 158 128 146 118 149Z" fill="{{brown}}" opacity=".42" filter="url(#wash)"/>
+ <path d="M85 135 Q100 115 112 117 C129 119 154 139 165 150 L159 150 C142 134 123 127 109 123Z" fill="{{ochre}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M98 138 l17 9 M110 134 l17 11 M129 142 l14 11 M142 154 l8 3" fill="none" stroke="{{line}}" stroke-width=".62" opacity=".77" stroke-linecap="round"/>
+ <path d="M87 131 Q103 113 114 117 M124 120 Q146 129 164 147 M168 154 Q170 166 154 172 M142 170 l-12 -4" fill="none" stroke="{{line}}" stroke-width="1.12" stroke-linecap="round"/>
+ <path d="M96 129 l9 -6 M121 125 l10 5" fill="none" stroke="{{gold}}" stroke-width="2.2" opacity=".66" filter="url(#dry)"/>
+</g>
+<g id="front-slice-open-meat-grain">
+ <path d="M64 153 C66 145 80 132 91 135 C111 140 132 153 145 164 C153 171 146 182 135 187 C112 187 87 173 70 166Z" fill="{{brown}}" opacity=".97"/>
+ <path d="M69 153 C79 143 85 140 93 144 C109 149 129 161 139 168 C143 173 140 177 135 179 C115 178 91 165 74 163Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M75 155 Q85 145 94 151 C109 157 123 164 135 171 L133 176 C113 171 96 165 79 161Z" fill="{{peach}}" opacity=".9"/>
+
+ <path d="M80 156 Q89 151 98 157 C111 162 123 169 131 172 L127 175 C108 170 96 161 84 162Z" fill="{{brown}}" opacity=".45" filter="url(#wash)"/>
+ <path d="M65 151 C73 139 85 134 94 138 C113 145 129 154 142 165 L136 167 C117 153 100 149 89 142 L70 156Z" fill="{{ochre}}" opacity=".7" filter="url(#wash)"/>
+ <path d="M76 155 l11 6 M88 153 l15 10 M104 160 l14 8 M121 170 l9 3" fill="none" stroke="{{line}}" stroke-width=".57" opacity=".82" stroke-linecap="round"/>
+ <path d="M65 153 Q67 143 82 137 M97 140 Q123 149 141 164 M146 174 Q144 183 135 187 M123 186 Q97 179 79 170 M72 167 l-7 -6" fill="none" stroke="{{line}}" stroke-width="1.14" stroke-linecap="round"/>
+ <path d="M74 150 l9 -6 M102 150 l9 4 M90 161 l12 5 M120 175 l8 2" fill="none" stroke="{{paper}}" stroke-width="1.8" opacity=".7" filter="url(#dry)"/>
+</g>
+</svg>

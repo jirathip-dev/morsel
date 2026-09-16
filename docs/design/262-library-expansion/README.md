@@ -70,7 +70,17 @@ The one repository `npm test` invocation remains raw FAIL (583 passed / 2 unchan
 
 - Original product-art/app/DB/schema snapshot: `references/shipped-baseline.json`.
 - Exact 18-identity before/after hashes per batch: `shipped-18-before-after.json`.
-- Raw file set must equal manifest file set (except the manifest itself); all hashes are checked. No transient browser/runtime caches, bytecode, editor backups or scratch in the deliverable. Named JSON build caches are deliberate, hash-verified pipeline inputs.
+- Raw file set must equal manifest file set (except the manifest itself); all hashes are checked. The aggregate review entry is [index.html](index.html); [ROLLUP.md](ROLLUP.md) and [ROLLUP.json](ROLLUP.json) aggregate completed batches with per-identity hashes and observed-versus-general-coverage records. Regenerate these after the latest batch's visual review:
+
+```sh
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/summarize.py --through "$N"
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/gallery_index.py
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/capture_index.py
+```
+
+The index uses the same locked font/palette tokens, real 44px-or-larger links, natural mobile scrolling, and explicit pending-pixel-approval language. Its captures and DOM evidence are separate in `evidence/index/`.
+
+No transient browser/runtime caches, bytecode, editor backups or scratch in the deliverable. Named JSON build caches are deliberate, hash-verified pipeline inputs.
 - `batch-N/SHA256SUMS.json` freezes that batch's source/art and proof/report files; later batches do not rewrite its art.
 - Root `SHA256SUMS.json` covers all final package files, including retained build/verifier scripts and previous batch manifests, excluding itself.
 - Browser evidence is real Chromium output and DOM validation of fictional fixtures, not production/native screenshots.

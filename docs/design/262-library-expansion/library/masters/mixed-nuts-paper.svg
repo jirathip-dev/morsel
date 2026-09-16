@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Mixed nuts — loose almond, cashew and walnut ink-wash study</title>
+<desc>Original generic assortment with pointed almonds, open crescent cashews and a lobed walnut half. A labeled category illustration, not evidence of actual ingredients, allergens, portion or nutrition.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="upper-almond-skin">
+ <path d="M107 63 C85 64 65 83 62 102 C59 117 68 128 80 124 C101 117 113 85 107 63Z" fill="#FBE1C9"/>
+ <path d="M106 64 C86 70 70 82 66 100 C60 114 69 124 80 122 C101 112 110 86 106 64Z" fill="#A5750B" opacity=".79" filter="url(#wash)"/>
+ <path d="M107 67 C110 89 103 110 82 122 C74 128 65 119 65 111 C77 119 79 109 88 101 C95 89 96 76 107 67Z" fill="#655A4B" opacity=".47" filter="url(#wash)"/>
+ <path d="M76 85 C84 77 94 69 101 69 C98 80 89 91 83 96 C81 104 75 109 70 107 C69 99 73 93 76 85Z" fill="#D6A62C" opacity=".5" filter="url(#wash)"/>
+ <path d="M74 99 Q81 82 95 76 M77 110 Q88 101 92 90" fill="none" stroke="#FBE1C9" stroke-width="2.3" opacity=".64" filter="url(#dry)"/>
+</g>
+<g id="upper-almond-selective-ink" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M103 64 Q83 67 69 86 M64 99 Q57 118 72 124 M84 122 Q101 110 107 90 M109 81 Q111 72 107 63" stroke-width="1.02"/>
+ <path d="M100 74 Q92 96 78 114 M97 88 Q92 106 83 112 M87 81 Q77 92 74 103 M102 95 l-5 11" stroke-width=".6" opacity=".76"/>
+</g>
+<g id="walnut-half-underpainting">
+ <path d="M143 86 C140 76 150 68 159 73 C166 61 180 68 181 78 C194 71 204 83 199 93 C212 101 204 112 204 116 C210 128 198 135 190 132 C187 145 173 145 169 139 C156 149 145 141 147 131 C133 131 130 118 136 111 C127 100 133 88 143 86Z" fill="#FBE1C9"/>
+ <path d="M145 86 Q140 76 154 75 Q164 68 172 74 Q177 81 180 81 Q196 75 199 90 Q191 94 202 103 Q211 113 200 118 Q206 130 193 132 Q182 146 170 137 Q155 147 148 134 Q146 126 140 127 Q128 118 140 110 Q131 98 140 94Z" fill="#A5750B" opacity=".68" filter="url(#wash)"/>
+ <path d="M169 77 C159 86 170 94 166 101 C158 109 164 116 162 123 C156 131 165 139 171 137 C178 126 170 121 177 112 C181 104 175 101 179 94 C183 85 177 78 169 77Z" fill="#655A4B" opacity=".73" filter="url(#wash)"/>
+ <path d="M139 112 Q147 111 151 121 Q159 121 157 132 L150 136 Q143 129 140 127 Q132 120 139 112Z M183 118 Q191 122 201 118 Q207 129 193 132 Q191 142 180 141 Q181 131 177 129Z M182 80 Q196 76 199 91 L192 98 Q181 94 184 87Z" fill="#655A4B" opacity=".39" filter="url(#wash)"/>
+</g>
+<g id="walnut-large-folds">
+ <path d="M151 79 Q145 86 150 91 Q158 94 153 101 Q149 107 154 111 L158 115 Q158 108 163 103 Q167 95 159 88 L163 80Z M144 97 Q137 101 143 108 L149 110 Q146 104 149 100Z M175 77 Q180 84 173 92 L175 97 Q185 91 182 82Z M188 98 Q182 104 188 110 Q196 110 199 104 L196 100 Q192 108 188 104Z M151 116 Q145 120 151 126 L155 130 L160 127 Q153 123 156 119Z M175 115 Q170 123 175 131 Q178 137 185 133 L188 127 Q181 132 179 126 L181 120Z" fill="#F2E9D9" opacity=".71" filter="url(#dry)"/>
+ <path d="M159 75 Q170 74 172 83 M145 89 Q140 95 143 102 M194 84 Q197 89 192 94 M198 113 Q201 117 197 121 M154 135 l7 2" fill="none" stroke="#FBE1C9" stroke-width="2.8" opacity=".76" filter="url(#dry)"/>
+</g>
+<g id="walnut-broken-seams" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M143 85 Q140 76 150 73 M162 68 Q176 65 180 78 M188 78 Q204 78 200 93 M207 103 Q211 111 204 116 M203 127 Q199 135 190 132 M185 141 Q175 146 169 139 M155 142 Q144 140 147 131 M136 124 Q130 118 136 111 M132 101 Q130 92 139 88" stroke-width=".93"/>
+ <path d="M167 82 Q161 89 168 96 Q172 101 165 109 M163 115 Q166 122 162 130 M147 96 Q154 98 151 105 M179 99 Q175 108 181 112 M187 115 Q195 119 199 112 M171 128 Q170 137 177 139" stroke-width=".73"/>
+</g>
+<g id="left-cashew-crescent">
+ <path d="M78 127 C63 120 48 130 44 144 C39 161 49 176 64 176 C76 176 89 162 81 153 C76 147 72 157 68 160 C58 167 52 153 57 145 C61 138 69 141 76 141 C86 142 88 132 78 127Z" fill="#F2E9D9"/>
+ <path d="M77 128 C59 123 44 137 46 153 C45 169 58 178 69 171 C78 168 85 159 80 154 Q73 153 69 162 Q56 172 51 155 C47 140 65 131 76 138 C85 140 85 131 77 128Z" fill="#D6A62C" opacity=".48" filter="url(#wash)"/>
+ <path d="M45 148 C41 162 50 176 65 174 Q76 173 81 163 L79 158 Q67 171 58 164 Q53 159 52 150Z" fill="#A5750B" opacity=".47" filter="url(#wash)"/>
+ <path d="M49 142 Q55 131 69 132 L76 135 M49 155 Q48 164 57 168" fill="none" stroke="#FFF7E8" stroke-width="3.2" opacity=".69" filter="url(#dry)"/>
+ <path d="M77 127 Q61 121 48 136 M44 145 Q37 165 54 173 M64 176 Q78 175 83 163 M80 153 Q76 148 71 156 M66 162 Q55 165 55 152 Q54 141 65 140 M73 141 Q88 145 85 135" fill="none" stroke="#8B7355" stroke-width="1.02" stroke-linecap="round"/>
+ <path d="M48 154 l1 7 M51 164 l4 5 M78 158 l-3 6" fill="none" stroke="#8B7355" stroke-width=".5" opacity=".6"/>
+</g>
+<g id="lower-almond">
+ <path d="M116 142 C103 147 91 165 92 181 C94 195 106 208 124 210 C139 199 142 177 132 159 C126 150 121 146 116 142Z" fill="#FBE1C9"/>
+ <path d="M116 143 Q95 158 95 179 C91 190 109 207 124 208 C136 198 139 178 130 160Z" fill="#A5750B" opacity=".83" filter="url(#wash)"/>
+ <path d="M119 150 C133 168 132 185 123 198 L121 208 Q140 195 136 176 Q131 157 119 150Z" fill="#655A4B" opacity=".57" filter="url(#wash)"/>
+ <path d="M107 158 Q98 172 102 182 Q106 194 117 199 Q111 185 113 176 Q118 166 107 158Z" fill="#D6A62C" opacity=".55" filter="url(#wash)"/>
+ <path d="M109 157 Q102 173 106 184 M111 190 l5 8 M118 160 Q125 176 122 187" fill="none" stroke="#FBE1C9" stroke-width="2.4" opacity=".56" filter="url(#dry)"/>
+ <path d="M115 143 Q101 149 94 169 M92 179 Q92 198 113 207 M124 210 Q138 200 139 182 M136 172 Q132 156 121 147" fill="none" stroke="#8B7355" stroke-width="1.1" stroke-linecap="round"/>
+ <path d="M115 151 Q109 173 117 194 M124 165 Q131 181 126 196 M99 175 Q99 189 108 197" fill="none" stroke="#8B7355" stroke-width=".6" opacity=".77"/>
+</g>
+<g id="right-cashew-open-hook">
+ <path d="M173 155 C158 157 149 174 155 189 C161 204 178 209 192 204 C207 199 214 186 209 178 C205 171 197 176 198 183 C197 192 185 198 177 194 C168 190 166 180 172 175 C179 170 185 172 187 166 C190 158 181 153 173 155Z" fill="#F2E9D9"/>
+ <path d="M172 156 C159 160 151 173 157 187 C161 202 180 208 192 201 C204 196 212 185 208 179 Q203 173 200 182 Q201 191 190 194 C178 201 163 192 164 180 C164 170 174 164 182 167 Q190 158 172 156Z" fill="#D6A62C" opacity=".42" filter="url(#wash)"/>
+ <path d="M155 180 C153 196 174 209 191 203 C204 197 212 188 209 180 L204 181 Q200 199 180 199 Q164 197 160 183Z" fill="#A5750B" opacity=".51" filter="url(#wash)"/>
+ <path d="M161 178 Q162 164 175 161 M163 191 Q174 203 187 198" fill="none" stroke="#FFF7E8" stroke-width="3.4" opacity=".72" filter="url(#dry)"/>
+ <path d="M178 155 Q162 153 156 169 M153 180 Q153 197 173 205 M185 206 Q204 202 211 185 M210 178 Q204 170 199 179 M195 189 Q185 201 174 192 M169 188 Q162 177 172 173 M180 172 Q192 170 187 161" fill="none" stroke="#8B7355" stroke-width="1.08" stroke-linecap="round"/>
+ <path d="M157 184 l3 8 M162 196 l8 5 M192 199 l7 -5" fill="none" stroke="#8B7355" stroke-width=".48" opacity=".66"/>
+</g>
+</svg>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Mashed potato — soft spooned ridges, butter pool and gravy wash</title>
+<desc>A pale, uneven heap on a shallow plate, with a small golden hollow and gravy running down one side. The drawing does not identify an actual recipe, ingredients or serving.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="shallow-warm-ceramic">
+ <path d="M36 163 C39 143 78 130 119 130 C165 127 206 140 219 159 C227 177 202 191 174 198 C134 208 83 202 55 187 C43 181 35 174 36 163Z" fill="{{cream}}" opacity=".93"/>
+ <path d="M40 165 C58 187 103 196 142 194 C175 193 204 181 218 164 C220 180 195 193 173 198 C130 208 79 199 55 186Z" fill="{{sage}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M48 160 C61 142 94 139 125 138 C162 136 196 147 207 160 C198 179 167 188 130 188 C94 189 62 179 48 165Z" fill="{{paper}}" opacity=".96"/>
+ <path d="M63 174 Q97 190 133 186 C158 188 183 179 197 172 C183 187 155 191 130 190 C98 191 76 183 63 174Z" fill="{{brown}}" opacity=".12" filter="url(#wash)"/>
+ <path d="M38 156 Q44 142 69 137 M81 133 Q99 129 117 131 M189 140 Q209 147 217 158 M219 169 Q211 187 179 197 M166 200 Q113 211 70 195 M58 189 Q39 180 36 169" fill="none" stroke="{{line}}" stroke-width=".83" stroke-linecap="round"/>
+ <path d="M53 170 Q62 180 85 185 M98 189 Q112 192 129 191 M171 185 Q193 179 202 169" fill="none" stroke="{{line}}" stroke-width=".47" opacity=".62"/>
+</g>
+<g id="pale-mash-underpainting">
+ <path d="M58 159 C54 149 62 140 70 134 C64 123 77 112 87 110 C90 97 101 93 111 95 C119 84 137 80 149 86 C158 82 168 93 169 104 C180 106 182 114 181 121 C193 122 199 135 194 145 C206 157 196 169 181 174 C162 182 144 179 128 183 C101 182 71 176 58 159Z" fill="{{cream}}"/>
+ <path d="M62 149 C65 139 81 143 80 132 C74 122 89 116 98 114 C102 101 110 104 119 102 C125 90 142 88 153 94 C160 92 166 101 165 108 C177 111 176 118 176 128 C184 135 191 137 189 146 C183 166 161 168 141 173 C116 180 80 171 62 158Z" fill="{{paper}}" opacity=".92" filter="url(#wash)"/>
+ <path d="M59 153 C75 163 92 158 111 166 C127 173 141 165 157 163 C174 163 187 151 193 143 C202 155 196 167 181 174 C166 181 145 178 128 182 C102 181 77 173 63 164Z" fill="{{ochre}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M65 157 C88 170 98 164 117 171 C132 176 140 171 151 170 C141 180 129 180 115 177 C94 176 78 170 65 157Z" fill="{{peach}}" opacity=".59" filter="url(#wash)"/>
+</g>
+<g id="unequal-spooned-potato-ridges">
+ <path d="M75 134 C75 124 88 118 103 119 C97 127 90 127 87 135 C81 141 74 143 64 146 C67 139 72 137 75 134Z" fill="{{brown}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M94 117 C99 107 115 105 126 105 C113 111 114 120 104 124 C98 127 92 128 87 127Z" fill="{{ochre}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M88 143 C99 132 115 132 129 135 C118 139 105 140 103 147 C111 152 122 151 134 149 C125 159 106 158 97 153 C90 152 84 149 88 143Z" fill="{{brown}}" opacity=".18" filter="url(#wash)"/>
+ <path d="M126 126 C135 122 149 120 155 110 C161 121 152 129 144 133 C138 135 132 138 133 142 C121 140 119 133 126 126Z" fill="{{ochre}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M141 156 C149 144 167 140 174 133 C173 149 157 152 154 160 C161 163 170 163 180 156 C172 169 156 171 146 166 C138 165 137 161 141 156Z" fill="{{brown}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M70 143 C84 139 78 130 98 126 M93 143 C102 136 118 135 127 137 M101 153 Q112 158 125 154 M131 127 Q145 124 151 115 M148 154 Q157 147 165 145" fill="none" stroke="{{paper}}" stroke-width="4.1" stroke-linecap="round" opacity=".92" filter="url(#dry)"/>
+ <path d="M97 110 Q106 102 116 106 M120 96 Q135 85 146 92 M69 156 Q78 162 90 162 M125 171 Q137 171 143 168" fill="none" stroke="{{paper}}" stroke-width="3.1" stroke-linecap="round" opacity=".82" filter="url(#dry)"/>
+</g>
+<g id="small-melted-butter-hollow">
+ <path d="M116 104 C121 95 137 95 148 98 C157 101 157 108 149 112 C139 118 124 116 115 112 C111 110 112 107 116 104Z" fill="{{ochre}}" opacity=".35" filter="url(#wash)"/>
+ <path d="M118 105 C124 99 139 99 148 102 C155 105 148 111 140 112 C129 115 119 111 116 109Z" fill="{{gold}}" opacity=".85" filter="url(#wash)"/>
+ <path d="M142 110 C142 117 136 120 134 126 C132 130 128 131 124 129 C126 124 132 121 132 114Z" fill="{{gold}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M122 104 Q133 100 144 104 L139 107 L126 107Z" fill="{{cream}}" opacity=".83" filter="url(#dry)"/>
+ <path d="M114 106 Q113 113 124 115 M135 116 Q148 116 152 109" fill="none" stroke="{{line}}" stroke-width=".55" opacity=".67" stroke-linecap="round"/>
+</g>
+<g id="gravy-ribbon-over-right-slope">
+ <path d="M151 104 C164 102 173 108 174 117 C177 125 175 132 184 136 C194 141 186 154 191 160 C194 164 205 164 207 169 C210 175 192 182 180 180 C168 180 164 175 173 171 C182 167 176 160 176 153 C177 146 169 144 167 139 C160 133 166 125 161 120 C156 115 144 114 145 109Z" fill="{{ochre}}" opacity=".68"/>
+ <path d="M159 109 C170 110 170 117 170 124 C169 133 177 135 181 140 C188 146 179 154 185 164 C188 169 197 168 201 171 C192 178 178 177 173 174 C183 170 181 165 179 158 C174 149 177 143 172 139 C161 134 170 123 158 118 L148 112Z" fill="{{brown}}" opacity=".53" filter="url(#wash)"/>
+ <path d="M155 108 C164 108 168 113 168 119 M177 139 Q186 145 181 152 M189 171 Q195 171 199 170" fill="none" stroke="{{gold}}" stroke-width="3" opacity=".44" filter="url(#dry)" stroke-linecap="round"/>
+ <path d="M153 104 Q171 103 174 115 M178 132 Q190 138 188 147 M190 161 Q191 165 200 165 M204 173 Q192 181 180 179" fill="none" stroke="{{line}}" stroke-width=".67" stroke-linecap="round"/>
+</g>
+<g id="broken-mash-contours" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M58 156 Q53 147 65 139 M70 131 Q64 119 78 113 M89 105 Q94 94 107 96 M117 89 Q133 79 147 85 M155 86 Q166 89 168 101" stroke-width=".64" opacity=".86"/>
+ <path d="M183 121 Q197 124 196 138 M196 148 Q204 160 191 169 M167 177 Q148 179 132 182 M120 182 Q92 180 76 171 M69 168 L61 162" stroke-width="1.02"/>
+ <path d="M78 133 Q78 128 86 124 M92 146 Q103 139 113 140 M109 157 L120 157 M135 128 L143 125 M144 159 Q145 155 152 152" stroke-width=".48" opacity=".54"/>
+</g>
+</svg>

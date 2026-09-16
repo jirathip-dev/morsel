@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Mushrooms — cooked caps and cut faces, original ink and wash</title>
+<desc>A loose plate of browned mushroom forms. Cap, underside and short stem are category cues, not identification of a species, recipe or portion.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="shallow-serving-plate">
+ <path d="M39 159 C41 139 76 127 118 128 C160 125 204 138 217 155 C229 174 207 193 170 201 C127 211 83 204 56 190 C43 183 36 171 39 159Z" fill="#FFF7E8" opacity=".84"/>
+ <path d="M42 171 C67 191 108 200 148 196 C176 194 201 183 216 170 C211 189 184 201 147 205 C105 208 61 195 47 180Z" fill="#F2E9D9" opacity=".83" filter="url(#wash)"/>
+ <path d="M54 158 C73 142 103 139 130 142 C169 139 199 150 207 162 C194 175 160 184 126 181 C96 181 62 171 54 158Z" fill="#A5750B" opacity=".12" filter="url(#wash)"/>
+ <path d="M39 160 Q41 146 63 138 M79 133 Q111 125 140 129 M169 133 Q208 140 217 156 M218 168 Q210 190 177 198 M160 202 Q113 214 66 194 M54 188 Q43 181 40 171" fill="none" stroke="#9D917F" stroke-width=".85" stroke-linecap="round"/>
+ <path d="M61 181 Q92 196 121 195 M172 186 Q194 180 202 171" fill="none" stroke="#9D917F" stroke-width=".5" opacity=".61"/>
+</g>
+<g id="rear-cap-short-stem">
+ <path d="M142 107 C143 118 140 128 146 137 C151 143 163 140 165 134 C157 126 159 116 162 107Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M152 110 C151 121 151 133 157 138 L164 134 C157 124 161 116 162 108Z" fill="#655A4B" opacity=".38" filter="url(#wash)"/>
+ <path d="M122 100 C123 82 139 70 157 72 C174 70 192 87 190 104 C184 116 142 122 125 111Z" fill="#A5750B" opacity=".63"/>
+ <path d="M124 99 C129 79 145 73 161 76 C179 76 190 89 188 102 C170 98 157 112 139 109 C131 109 126 106 124 99Z" fill="#655A4B" opacity=".74" filter="url(#wash)"/>
+ <path d="M129 91 C133 81 144 77 154 79 C149 88 143 90 133 96Z" fill="#D6A62C" opacity=".45" filter="url(#wash)"/>
+ <path d="M126 103 C143 111 167 111 188 100 C190 111 176 118 156 119 C142 119 130 114 126 108Z" fill="#655A4B" opacity=".68" filter="url(#wash)"/>
+ <path d="M135 106 Q145 111 153 110 M164 108 Q177 107 183 103" fill="none" stroke="#F2E9D9" stroke-width="2.2" opacity=".53" filter="url(#dry)"/>
+ <path d="M126 91 Q133 75 149 73 M163 73 Q181 77 188 94 M188 106 Q180 119 156 119 M132 114 l-6 -6 M143 119 Q141 132 148 137 M160 121 Q158 130 164 134" fill="none" stroke="#9D917F" stroke-width=".86" stroke-linecap="round"/>
+</g>
+<g id="left-cap-turned-underside">
+ <path d="M78 131 C82 141 81 153 74 166 C72 173 82 179 89 173 C99 162 101 150 98 136Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M87 137 Q93 153 80 170 L88 173 C96 163 101 150 98 137Z" fill="#A5750B" opacity=".39" filter="url(#wash)"/>
+ <path d="M52 119 C53 105 65 89 82 87 C107 82 125 103 122 124 C112 141 72 140 52 119Z" fill="#A5750B" opacity=".72"/>
+ <path d="M54 118 C59 99 73 90 88 91 C108 91 119 106 121 121 C105 116 89 115 74 120 C67 123 60 123 54 118Z" fill="#655A4B" opacity=".78" filter="url(#wash)"/>
+ <path d="M65 103 C71 95 80 91 89 93 L105 101 C93 99 87 108 78 109 C72 110 70 104 65 103Z" fill="#D6A62C" opacity=".48" filter="url(#wash)"/>
+ <path d="M54 120 C69 109 103 112 121 123 C120 136 88 145 64 134 C59 132 55 126 54 120Z" fill="#F2E9D9" opacity=".94"/>
+ <path d="M57 122 C70 117 93 116 116 124 C107 134 77 140 63 130Z" fill="#655A4B" opacity=".58" filter="url(#wash)"/>
+ <path d="M62 122 L81 130 M70 119 l15 9 M82 118 l7 9 M95 119 l-1 9 M106 121 l-8 9 M114 125 l-11 6 M68 132 l13 -1" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round" opacity=".89"/>
+ <path d="M53 115 Q58 96 74 90 M86 87 Q107 86 118 107 M121 121 Q124 132 104 137 M96 139 Q72 143 59 131 M83 145 Q84 157 77 167 M98 146 Q98 164 88 174" fill="none" stroke="#9D917F" stroke-width="1.08" stroke-linecap="round"/>
+ <path d="M69 100 l8 -4 M95 96 l9 5 M79 151 l-1 10" fill="none" stroke="#FFF7E8" stroke-width="2.4" opacity=".61" filter="url(#dry)"/>
+</g>
+<g id="foreground-cut-mushroom">
+ <path d="M120 145 C127 127 148 118 164 122 C185 126 195 144 189 155 C180 160 171 151 163 148 C162 158 173 170 169 177 C160 184 148 177 143 166 L138 154 C130 158 120 155 120 145Z" fill="#F2E9D9" opacity=".98"/>
+ <path d="M120 145 C126 128 148 116 165 122 C182 126 193 139 190 151 L184 154 C182 140 166 132 153 132 C140 131 130 139 125 150Z" fill="#655A4B" opacity=".87" filter="url(#wash)"/>
+ <path d="M130 140 C140 131 155 130 168 137 L176 143 C163 140 158 144 155 150 C150 151 146 141 130 146Z" fill="#A5750B" opacity=".29" filter="url(#wash)"/>
+ <path d="M145 150 C149 161 153 174 165 176 L169 172 C159 166 159 155 158 150Z" fill="#FBE1C9" opacity=".78" filter="url(#wash)"/>
+ <path d="M127 145 l14 3 M137 139 l10 7 M151 136 l2 10 M163 138 l-5 8 M174 143 l-13 4 M150 156 Q152 165 160 169" fill="none" stroke="#9D917F" stroke-width=".66" stroke-linecap="round"/>
+ <path d="M122 138 Q135 119 156 121 M169 124 Q189 134 191 147 Q192 158 180 156 M139 155 Q144 172 154 177 M163 179 Q175 178 168 169" fill="none" stroke="#9D917F" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M134 135 Q143 128 152 128 M147 154 l6 12" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".63" filter="url(#dry)"/>
+</g>
+<g id="cooked-edge-and-pan-juice">
+ <path d="M100 155 C108 150 115 153 119 158 C113 162 105 163 99 160Z M176 166 Q190 162 199 166 Q191 172 181 172Z" fill="#A5750B" opacity=".31" filter="url(#wash)"/>
+ <path d="M62 111 l4 -5 M114 114 l3 5 M173 83 l5 4 M132 133 l6 -4 M179 138 l4 6" fill="none" stroke="#655A4B" stroke-width="1.8" opacity=".66" filter="url(#dry)"/>
+</g>
+</svg>

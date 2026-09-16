@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Omelette — puffed folded egg with a browned lacy edge</title>
+<desc>Original Thai-omelette ink and wash study. An irregular golden fold, soft egg ridges and thin browned frills are the principal cues. This is a generic omelette depiction, not a literal representation of every aliased egg preparation.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="low-ceramic-serving-plate">
+ <path d="M34 147 C37 127 67 113 108 110 C152 105 203 119 219 140 C233 161 207 188 167 201 C128 216 77 205 51 186 C37 176 31 160 34 147Z" fill="#FFF7E8" opacity=".94"/>
+ <path d="M37 159 Q67 184 104 191 C144 201 185 183 220 153 C216 178 186 200 149 206 C105 213 63 195 43 176Z" fill="#F2E9D9" opacity=".89" filter="url(#wash)"/>
+ <path d="M55 151 C84 137 128 135 165 142 Q198 146 204 161 C180 181 128 192 92 181Z" fill="#A5750B" opacity=".17" filter="url(#wash)"/>
+ <path d="M35 141 Q45 122 76 115 M97 111 Q139 105 174 116 M195 124 Q216 132 221 146" fill="none" stroke="#9D917F" stroke-width=".66" stroke-linecap="round"/>
+ <path d="M219 167 Q204 191 169 201 M154 206 Q113 216 71 198 M58 192 Q35 176 34 157" fill="none" stroke="#9D917F" stroke-width="1.03" stroke-linecap="round"/>
+ <path d="M56 169 Q77 186 111 191 M172 185 Q189 178 201 166" fill="none" stroke="#9D917F" stroke-width=".48" opacity=".56"/>
+</g>
+<g id="folded-egg-lower-lip">
+ <path d="M50 132 Q61 124 82 131 C110 139 143 127 168 131 Q193 128 207 139 L211 148 L205 153 L208 161 L201 166 L199 174 L188 173 L182 181 L171 179 L163 186 L152 182 L143 187 L132 184 L120 187 L111 181 L101 184 L93 178 L82 179 L76 172 L65 172 L64 164 L55 160 L57 152 L49 147Z" fill="#D6A62C" opacity=".98"/>
+ <path d="M55 143 Q80 137 99 149 C125 164 155 143 174 147 Q192 141 207 145 L207 154 L200 160 L200 170 L188 170 L179 178 L167 176 L160 183 L148 179 L138 184 L127 180 L118 183 L108 177 L99 180 L92 174 L80 175 L74 168 L64 167Z" fill="#A5750B" opacity=".74" filter="url(#wash)"/>
+ <path d="M70 150 Q79 155 93 153 L107 161 Q117 167 133 163 C152 163 170 151 188 153 L199 149 L201 155 L186 164 L171 164 L159 173 L145 173 L133 178 L122 173 L111 175 L99 168 L89 169 L79 161Z" fill="#E66A2C" opacity=".34" filter="url(#wash)"/>
+ <path d="M84 161 Q97 160 105 169 L121 170 L128 175 L119 178 L110 173 L101 176 L93 169 L87 170Z M149 169 Q163 162 171 165 L178 161 L188 160 L182 168 L171 168 L164 177 L154 174Z" fill="#F2E9D9" opacity=".74" filter="url(#wash)"/>
+</g>
+<g id="puffed-upper-egg-fold">
+ <path d="M51 134 Q45 130 52 123 L49 119 Q49 113 58 112 L59 104 L66 106 Q65 95 76 96 L79 90 L88 91 Q91 81 99 85 L107 79 Q114 73 122 79 L129 75 Q141 74 145 83 L154 81 L161 87 Q169 82 175 91 L182 90 L183 99 Q194 97 194 108 L202 112 L199 119 Q211 121 205 129 L209 136 L204 141 Q194 151 178 150 C160 150 149 164 130 162 Q106 164 91 151 C79 154 63 149 57 143 L51 144Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M54 131 L58 122 L56 118 L64 113 L63 106 L70 108 Q69 100 78 101 L82 94 L91 96 Q91 88 100 90 L110 82 L121 83 L130 79 Q139 78 143 89 L155 86 L164 93 L173 94 L180 100 L189 104 L189 113 L199 117 L196 126 L204 130 L201 138 Q189 147 176 145 C155 146 146 160 127 158 Q111 160 94 148 C76 151 65 144 56 139Z" fill="#D6A62C" opacity=".92" filter="url(#wash)"/>
+ <path d="M54 131 Q65 128 73 133 Q86 141 96 137 C110 133 116 151 131 148 C148 145 156 131 173 132 Q190 135 201 125 L205 135 Q194 149 177 148 C154 150 147 162 127 160 Q108 161 94 150 C75 153 60 143 54 140Z" fill="#A5750B" opacity=".46" filter="url(#wash)"/>
+ <path d="M74 111 C81 96 91 100 100 92 Q112 87 119 91 C111 98 112 108 103 111 Q92 106 87 119Z M129 86 Q143 91 140 101 Q134 112 124 113 L120 107 Q128 99 123 92Z M150 107 Q154 96 164 100 C174 103 177 114 171 120 L164 116 L159 117Z" fill="#FFF7E8" opacity=".49" filter="url(#wash)"/>
+ <path d="M66 124 Q73 114 82 119 Q85 122 79 128 L76 134 L68 132Z M95 117 Q101 112 109 119 C115 130 127 129 132 122 Q139 125 134 135 C121 142 107 135 102 128 L96 129Z M146 129 C154 123 162 123 168 126 L174 133 Q162 133 152 140 L143 138Z M184 111 l8 6 l-4 11 l-8 1 l2 -8Z" fill="#E66A2C" opacity=".3" filter="url(#wash)"/>
+</g>
+<g id="uneven-browned-blisters">
+ <path d="M60 119 Q62 115 67 118 L66 124 L61 127 L57 123Z M81 98 L85 94 L90 96 L88 100 L83 102Z M115 84 L119 80 L125 84 L123 88 L118 89Z M159 94 L163 92 L170 97 L168 102 L163 100Z M190 115 L195 113 L201 117 L199 122 L193 124Z" fill="#A5750B" opacity=".71" filter="url(#wash)"/>
+ <path d="M89 128 Q94 121 101 127 L103 133 L98 137 L91 134Z M139 109 Q146 104 151 110 L149 115 L142 119 L138 115Z M175 135 L182 130 L188 132 L188 137 L182 141 L176 139Z M70 138 l5 -3 l6 5 l-3 4 l-6 -1Z" fill="#655A4B" opacity=".35" filter="url(#wash)"/>
+ <path d="M92 127 l5 -1 l3 3 M142 110 l5 -1 M178 135 l5 -2 M61 121 l2 -3" fill="none" stroke="#A5750B" stroke-width="1.05" opacity=".84" stroke-linecap="round"/>
+</g>
+<g id="lacy-frills-and-fold-seam">
+ <path d="M52 133 Q48 127 53 124 M53 114 l6 -1 M68 102 l-1 -5 l7 -1 M99 83 l8 -3 M138 78 l7 6 M183 93 l0 6 l7 1 M203 123 l3 4 l-2 5" fill="none" stroke="#9D917F" stroke-width=".69" stroke-linecap="round"/>
+ <path d="M58 141 Q72 149 87 148 M95 151 Q109 161 125 162 M135 161 Q151 158 165 151 M178 150 Q194 151 203 143" fill="none" stroke="#655A4B" stroke-width="1.18" opacity=".85" stroke-linecap="round"/>
+ <path d="M55 157 l8 6 l0 5 M81 177 l10 0 M102 181 l7 -1 M136 186 l9 0 M158 183 l6 2 l8 -6 M189 173 l10 0 l1 -6 M206 155 l2 6 l-5 3" fill="none" stroke="#9D917F" stroke-width=".86" stroke-linecap="round"/>
+ <path d="M72 162 l4 1 l-1 5 l-3 -2Z M95 176 l3 -4 l4 3 l-2 4Z M141 178 l5 -2 l3 3 l-5 3Z M178 169 l4 -3 l2 3 l-3 5Z M199 155 l4 -2 l1 4 l-3 3Z" fill="#655A4B" opacity=".57"/>
+ <path d="M77 109 Q86 104 91 105 M101 119 Q109 120 113 127 M123 97 Q121 104 125 107 M154 112 Q163 116 168 113 M143 139 Q152 133 162 133" fill="none" stroke="#9D917F" stroke-width=".51" opacity=".66" stroke-linecap="round"/>
+ <path d="M75 114 Q79 105 86 107 M101 99 l10 -5 M129 87 l7 4 M154 104 l8 3 M110 142 l9 3 M144 147 l10 -5 M88 163 l7 2 M153 171 l8 -3" fill="none" stroke="#FFF7E8" stroke-width="2.5" opacity=".71" filter="url(#dry)"/>
+</g>
+</svg>

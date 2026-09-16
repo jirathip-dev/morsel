@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Apple — whole fruit and seeded quarter in ink and wash</title>
+<desc>Original generic apple study. A notched red fruit, crooked stem and pale cut quarter carry the small-size identity; not a variety or portion claim.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="apple-body-underpainting">
+ <path d="M107 83 C95 75 86 69 72 74 C52 79 43 97 44 120 C44 150 59 180 79 192 C90 201 99 191 110 193 C125 203 141 185 152 169 C168 148 176 116 163 94 C151 74 134 72 121 77 C115 80 112 84 107 83Z" fill="#FBE1C9" opacity=".92"/>
+ <path d="M108 86 C91 77 79 72 67 79 C49 88 44 108 48 130 C51 153 63 179 81 189 C94 195 102 187 111 190 C127 198 143 177 154 157 C165 137 171 112 158 94 C147 78 132 77 121 82 C115 86 114 89 108 86Z" fill="#B94738" opacity=".84" filter="url(#wash)"/>
+ <path d="M58 91 C72 77 89 80 102 86 C96 99 78 98 76 118 C73 132 81 144 73 157 C62 152 56 135 54 118 C52 106 54 98 58 91Z" fill="#D6A62C" opacity=".47" filter="url(#wash)"/>
+ <path d="M139 83 C160 88 167 105 166 123 C163 150 147 181 125 192 C117 195 111 192 107 189 C128 176 132 159 137 141 C143 121 137 105 139 83Z" fill="#B94738" opacity=".63" filter="url(#wash)"/>
+ <path d="M50 137 C58 157 72 181 91 183 C101 181 111 184 116 190 C101 188 96 199 82 192 C65 183 54 161 50 137Z" fill="#655A4B" opacity=".25" filter="url(#wash)"/>
+ <path d="M119 86 C131 80 139 81 145 87 C134 87 130 96 120 99 C112 100 108 96 103 94Z" fill="#A5750B" opacity=".39" filter="url(#wash)"/>
+</g>
+<g id="apple-skin-brushwork" fill="none" stroke-linecap="round">
+ <path d="M64 100 Q58 118 65 132 M68 88 Q79 82 87 86" stroke="#F2E9D9" stroke-width="4.3" opacity=".52" filter="url(#dry)"/>
+ <path d="M91 106 C87 123 91 139 97 152 M80 140 Q83 154 91 167 M120 111 Q127 132 120 152" stroke="#E66A2C" stroke-width="2.5" opacity=".3" filter="url(#wash)"/>
+ <path d="M146 113 Q151 128 143 145 M128 169 l-6 10 M58 117 l1 7" stroke="#A5750B" stroke-width="1.4" opacity=".35" filter="url(#dry)"/>
+</g>
+<g id="apple-stem-and-leaf">
+ <path d="M106 87 C109 77 109 65 106 56 L111 53 C116 65 115 78 111 88Z" fill="#655A4B" opacity=".95"/>
+ <path d="M111 65 C117 53 134 50 150 56 C142 65 132 76 113 69Z" fill="#E1E9D7" opacity=".92"/>
+ <path d="M113 66 C124 54 137 54 150 56 C138 61 134 75 117 70Z" fill="#5E7E57" opacity=".84" filter="url(#wash)"/>
+ <path d="M115 67 Q130 62 144 58 M129 63 l1 -6 M132 62 l5 3" fill="none" stroke="#8B7355" stroke-width=".58"/>
+ <path d="M109 57 Q112 71 108 80 M100 85 Q106 90 115 86" fill="none" stroke="#8B7355" stroke-width=".9" stroke-linecap="round"/>
+</g>
+<g id="apple-selective-contour" fill="none" stroke="#8B7355" stroke-linecap="round">
+ <path d="M96 78 Q78 65 62 79 M53 90 Q40 106 46 132" stroke-width=".7"/>
+ <path d="M48 143 Q58 177 80 192 M87 196 Q99 190 107 192" stroke-width="1.22"/>
+ <path d="M123 77 Q147 66 162 92 M168 106 Q177 136 154 166" stroke-width=".88"/>
+ <path d="M65 176 l5 7 M71 183 l7 6 M143 173 l-5 8" stroke-width=".5" opacity=".7"/>
+</g>
+<g id="cut-quarter-red-peel">
+ <path d="M141 135 C154 130 169 130 181 137 C200 149 211 169 219 189 C209 204 184 213 163 203 C149 194 142 171 138 150 C137 143 138 138 141 135Z" fill="#B94738" opacity=".87"/>
+ <path d="M141 150 C147 176 153 193 169 202 C186 210 207 199 216 187 L219 191 C208 207 186 214 166 206 C150 199 143 176 141 150Z" fill="#B94738" opacity=".76" filter="url(#wash)"/>
+ <path d="M166 203 Q187 211 207 200 L203 205 Q181 216 168 208Z" fill="#655A4B" opacity=".32" filter="url(#wash)"/>
+</g>
+<g id="cut-quarter-cream-flesh">
+ <path d="M143 137 C157 134 168 134 179 141 C195 151 207 171 214 188 C204 198 185 207 169 199 C156 191 148 173 144 157 C142 148 140 143 143 137Z" fill="#F2E9D9"/>
+ <path d="M146 140 C158 136 169 139 178 145 C187 151 198 165 201 176 C187 168 184 157 173 154 C160 152 154 147 146 140Z" fill="#FFF7E8" opacity=".77" filter="url(#wash)"/>
+ <path d="M145 145 C153 152 159 156 170 161 C178 164 182 174 184 184 C186 190 194 194 198 196 Q183 203 171 196 C160 187 154 172 151 162Z" fill="#FBE1C9" opacity=".8" filter="url(#wash)"/>
+ <path d="M151 145 C156 152 166 157 172 164 C177 171 177 184 188 189 C178 188 172 179 168 171 C160 161 154 154 151 145Z" fill="#D6A62C" opacity=".24" filter="url(#wash)"/>
+ <path d="M163 160 C170 161 176 168 177 178 C169 177 163 170 163 160Z" fill="#F2E9D9" opacity=".85"/>
+</g>
+<g id="cut-quarter-seeds-and-ink">
+ <path d="M166 162 C166 170 173 177 175 172 C177 167 171 163 166 162Z M179 179 C178 187 182 191 185 188 C188 185 183 180 179 179Z" fill="#655A4B"/>
+ <path d="M167 165 Q169 170 173 172 M180 182 l2 4" fill="none" stroke="#2A261F" stroke-width=".8" opacity=".7"/>
+ <path d="M144 135 Q161 130 177 139 M185 145 Q205 163 218 189 M217 194 Q196 213 176 210 M164 204 Q149 192 143 169" fill="none" stroke="#8B7355" stroke-width="1.05" stroke-linecap="round"/>
+ <path d="M152 146 Q157 154 163 157 M173 179 Q176 186 182 190 M171 200 Q181 205 191 202" fill="none" stroke="#8B7355" stroke-width=".57" opacity=".72"/>
+ <path d="M156 171 Q160 183 165 188 M191 186 l6 5" fill="none" stroke="#FFF7E8" stroke-width="2" opacity=".65" filter="url(#dry)"/>
+</g>
+</svg>

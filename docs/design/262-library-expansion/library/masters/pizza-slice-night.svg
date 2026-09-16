@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Pizza slice — blistered crust, tomato wash and loose cheese</title>
+<desc>Original ink and wash. A broad curved crust tapers to one pointed slice; broken pale cheese crosses the red sauce. Generic pizza, not a particular topping, portion or recipe.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="thin-baked-base">
+ <path d="M58 82 C98 63 157 62 195 84 C186 111 163 141 149 160 L119 205 Q115 209 110 202 C96 175 83 143 71 114Z" fill="#F2E9D9"/>
+ <path d="M61 91 C77 119 96 173 115 200 Q118 203 121 198 L149 159 C167 135 184 110 193 90 L194 101 C175 133 149 169 122 207 Q118 212 112 207 C92 177 78 142 67 115Z" fill="#A5750B" opacity=".68" filter="url(#wash)"/>
+ <path d="M64 105 C77 127 79 143 89 161 L111 202 Q116 211 122 205 L132 190 Q122 199 116 195 C100 173 100 154 85 132Z" fill="#655A4B" opacity=".28" filter="url(#wash)"/>
+</g>
+<g id="uneven-tomato-sauce">
+ <path d="M67 87 C91 70 146 70 182 84 L188 92 C173 118 159 135 143 161 L119 195 Q113 195 108 180 L85 130Z" fill="#B94738" opacity=".89"/>
+ <path d="M73 91 C96 74 123 80 142 77 C160 75 176 85 184 93 C168 101 157 100 148 116 C136 129 121 118 106 133 Q95 118 92 108Z" fill="#E66A2C" opacity=".52" filter="url(#wash)"/>
+ <path d="M90 119 Q102 130 113 127 C128 136 143 118 158 124 C146 147 134 164 119 188 C112 167 98 151 90 119Z" fill="#B94738" opacity=".59" filter="url(#wash)"/>
+ <path d="M158 91 Q173 85 183 92 L172 111 L162 121 Q171 98 158 91Z M105 154 Q111 165 114 179 L119 190 L126 176 Q119 185 116 169Z" fill="#655A4B" opacity=".24" filter="url(#wash)"/>
+</g>
+<g id="melted-cheese-islands">
+ <path d="M77 88 C89 80 104 84 113 80 Q124 80 121 89 C115 96 105 91 102 102 C97 114 86 108 83 99Z" fill="#F2E9D9"/>
+ <path d="M123 84 C133 77 147 85 155 83 C167 82 181 89 177 97 C172 104 159 98 154 108 C150 117 137 119 134 110 C134 98 121 100 123 84Z" fill="#F2E9D9"/>
+ <path d="M95 118 C100 112 110 113 118 116 Q130 110 137 118 C139 127 129 129 126 139 C120 148 109 143 109 134 Q98 134 95 118Z" fill="#F2E9D9"/>
+ <path d="M135 137 Q144 125 153 125 C151 137 142 145 140 154 Q137 165 129 161 C124 154 133 148 135 137Z" fill="#F2E9D9"/>
+ <path d="M110 151 C121 145 128 156 121 164 C115 172 126 180 120 188 Q117 191 115 183 L114 171 Q107 163 110 151Z" fill="#F2E9D9"/>
+ <path d="M81 89 Q101 84 112 86 L99 95 L96 104 Q87 104 81 89Z M127 87 C141 82 152 91 168 89 L169 94 Q151 91 149 104 L139 108 Q140 93 127 87Z M101 119 Q114 119 124 117 L125 122 Q112 127 113 135 L107 132Z" fill="#FFF7E8" opacity=".87" filter="url(#wash)"/>
+ <path d="M86 101 Q97 103 102 94 L102 103 Q98 114 89 108Z M144 111 Q154 106 158 99 L172 98 Q159 105 155 112 Q149 120 140 114Z M112 139 Q122 141 127 131 L130 130 Q127 144 118 145Z M131 157 L139 145 L139 153 Q138 163 131 157Z" fill="#D6A62C" opacity=".53" filter="url(#wash)"/>
+ <path d="M99 96 Q102 108 109 116 M150 114 Q142 125 139 136 M120 145 L120 153" fill="none" stroke="#F2E9D9" stroke-width="2.5" stroke-linecap="round" opacity=".93"/>
+</g>
+<g id="puffed-browned-crust">
+ <path d="M55 80 C51 72 65 63 80 60 C97 52 123 51 139 56 C159 53 181 61 195 71 C207 80 202 91 192 96 Q185 99 175 91 C160 82 147 84 133 79 C116 75 101 78 87 80 C73 84 64 93 58 87Z" fill="#FBE1C9"/>
+ <path d="M56 78 Q62 66 83 63 C101 55 117 57 135 60 C156 57 178 66 194 77 Q201 84 191 91 C175 82 167 79 151 78 C136 71 120 76 106 72 C85 70 70 87 60 85Z" fill="#D6A62C" opacity=".69" filter="url(#wash)"/>
+ <path d="M60 83 C74 75 82 79 96 73 Q113 70 124 74 C145 71 153 81 168 79 Q184 84 192 91 L197 89 Q196 99 187 95 C169 82 158 86 139 81 C121 76 104 78 88 82 Q69 90 60 89Z" fill="#A5750B" opacity=".75" filter="url(#wash)"/>
+ <path d="M69 68 Q76 62 89 61 L85 67 L76 70Z M111 56 Q123 54 132 59 L128 63 L116 62Z M163 63 Q174 65 184 72 L182 76 L169 72Z M190 82 l6 0 l-2 7 l-5 -1Z" fill="#655A4B" opacity=".51" filter="url(#dry)"/>
+ <path d="M65 75 Q74 68 82 69 M94 65 Q106 61 114 64 M137 64 Q150 61 159 68 M179 77 l7 4" fill="none" stroke="#FFF7E8" stroke-width="3.6" opacity=".71" filter="url(#dry)"/>
+</g>
+<g id="small-basil-and-toasted-cheese">
+ <path d="M151 93 C153 86 164 88 168 94 Q163 103 154 104Z M97 136 Q98 126 105 127 Q111 137 109 143 Q101 143 97 136Z" fill="#5E7E57" opacity=".83" filter="url(#wash)"/>
+ <path d="M154 100 l9 -6 M103 131 l3 8" fill="none" stroke="#2F654B" stroke-width=".75" opacity=".78"/>
+ <path d="M90 94 l6 -1 l-2 4 l-5 -1Z M140 94 l7 1 l-1 4 l-5 -1Z M113 121 l7 0 l-3 3Z M134 149 l4 -4 l1 4 l-4 3Z" fill="#A5750B" opacity=".63" filter="url(#dry)"/>
+</g>
+<g id="loose-cheese-at-the-tip">
+ <path d="M118 183 C122 190 121 193 125 197 C130 202 124 210 132 212 Q137 212 135 206 L138 207 C140 217 129 219 126 212 C123 208 127 202 122 199 C117 196 120 190 116 186Z" fill="#F2E9D9" opacity=".96"/>
+ <path d="M125 200 Q130 205 127 209 Q129 217 134 214" fill="none" stroke="#9D917F" stroke-width=".57" opacity=".74"/>
+</g>
+<g id="selective-crust-and-slice-ink" fill="none" stroke="#9D917F" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M56 79 Q51 71 66 64 M78 60 Q100 50 117 54 M132 55 Q164 52 185 65 M194 70 Q207 79 199 89" stroke-width=".85"/>
+ <path d="M63 88 Q75 90 88 82 M103 78 Q122 74 135 79 M148 82 Q178 83 189 95 M71 117 Q86 159 107 194 M113 205 Q118 212 124 203 M144 169 Q174 129 190 104" stroke-width="1.17"/>
+ <path d="M103 101 Q100 113 90 108 M136 109 Q135 118 144 117 M110 134 Q116 147 125 140 M138 158 l4 -7 M75 97 l5 8 M96 168 l4 9 M165 132 l6 -8" stroke-width=".52" opacity=".72"/>
+</g>
+</svg>

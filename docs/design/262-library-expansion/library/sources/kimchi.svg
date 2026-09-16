@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Kimchi — chili-stained cabbage folds in a small ceramic bowl</title>
+<desc>Original generic kimchi study. Ruffled red-orange leaf blades contrast with broad pale cabbage ribs. The label identifies kimchi; the art does not identify a recipe or all banchan.</desc>
+<defs><!-- WASH_DEFS --></defs>
+<g id="small-ceramic-bowl">
+ <path d="M43 146 C49 177 64 199 93 207 C121 216 158 212 182 199 C201 189 211 171 215 145 C194 129 66 128 43 146Z" fill="{{cream}}" opacity=".98"/>
+ <path d="M48 155 C60 180 75 196 103 201 C133 209 166 199 187 187 C176 206 148 216 119 212 C84 214 57 191 51 174Z" fill="{{sage}}" opacity=".2" filter="url(#wash)"/>
+ <path d="M174 182 Q198 170 213 150 C208 174 203 188 181 201 C164 211 146 213 133 212 C153 205 166 197 174 182Z" fill="{{brown}}" opacity=".17" filter="url(#wash)"/>
+ <path d="M42 143 C44 126 79 117 121 119 C166 116 204 126 215 141 C223 155 187 174 139 176 C96 178 51 164 42 148Z" fill="{{paper}}" opacity=".97"/>
+ <path d="M51 144 C56 132 88 124 123 125 C162 123 196 134 207 144 C193 160 164 168 130 167 C95 169 62 158 51 144Z" fill="{{peach}}"/>
+ <path d="M62 147 C96 133 119 144 144 138 C166 136 191 141 203 149 Q176 166 139 168 C105 171 77 161 62 147Z" fill="{{red}}" opacity=".25" filter="url(#wash)"/>
+</g>
+<g id="rear-crumpled-cabbage-leaves">
+ <path d="M66 147 L60 136 L68 131 L66 122 L78 118 L76 108 L88 108 L94 96 L109 101 L116 95 L127 105 L124 122 L131 139 C117 156 87 163 66 147Z" fill="{{peach}}"/>
+ <path d="M64 136 L75 131 L72 122 L84 122 L83 111 L96 112 L99 103 L110 108 L119 103 L124 115 L116 126 L122 140 Q95 154 73 144Z" fill="{{orange}}" opacity=".86" filter="url(#wash)"/>
+ <path d="M105 113 L103 96 L115 91 L111 82 L127 81 L132 69 L143 75 L155 73 L158 86 L169 86 L173 101 L161 122 L152 144 L126 145Z" fill="{{peach}}"/>
+ <path d="M110 101 L123 96 L119 86 L132 86 L136 75 L144 82 L153 79 L154 94 L165 92 L167 103 L153 117 L150 136 L130 136Z" fill="{{red}}" opacity=".86" filter="url(#wash)"/>
+ <path d="M140 76 L145 85 L153 82 L153 94 L166 93 L161 109 L153 109 L147 120 L137 111 L139 96 L132 93Z" fill="{{sage}}" opacity=".46" filter="url(#wash)"/>
+ <path d="M164 126 L157 111 L167 105 L174 93 L183 98 L196 95 L198 108 L207 114 L201 126 L207 139 L194 151 L170 153Z" fill="{{peach}}"/>
+ <path d="M163 112 L174 109 L178 101 L187 105 L194 100 L195 115 L202 117 L194 130 L201 139 L187 148 L172 143Z" fill="{{red}}" opacity=".81" filter="url(#wash)"/>
+ <path d="M79 127 Q97 119 113 131 L119 140 Q98 150 77 143Z M129 105 L142 99 L150 108 L143 122 L155 128 L147 142 L132 135Z M185 120 L198 115 L193 129 L200 138 L186 145 L182 137Z" fill="{{brown}}" opacity=".24" filter="url(#wash)"/>
+</g>
+<g id="broad-cabbage-ribs">
+ <path d="M71 142 C90 143 101 138 119 133 C122 117 126 99 132 85 L139 88 C135 107 134 124 132 137 Q128 146 116 148 C102 152 84 154 76 150Z" fill="{{cream}}"/>
+ <path d="M80 148 C98 148 108 143 124 139 C128 123 128 110 133 98 L136 101 C133 119 134 136 130 143 Q106 155 82 152Z" fill="{{peach}}" opacity=".87" filter="url(#wash)"/>
+ <path d="M136 153 C154 145 164 130 177 111 L184 112 C180 129 168 149 151 160Z" fill="{{cream}}"/>
+ <path d="M148 151 Q165 137 175 125 L180 121 Q172 145 153 159Z" fill="{{orange}}" opacity=".25" filter="url(#wash)"/>
+ <path d="M121 134 Q111 123 97 114 M126 120 Q138 116 150 107 M131 103 l-7 -13 M162 137 Q158 125 166 116 M169 133 Q183 135 191 125" fill="none" stroke="{{cream}}" stroke-width="2.2" opacity=".84" filter="url(#dry)"/>
+</g>
+<g id="front-folded-kimchi-piece">
+ <path d="M78 153 L91 140 L105 143 L115 135 L128 142 L140 138 L151 149 L166 147 L180 156 L193 153 L199 163 Q184 175 163 176 L149 182 L132 176 L116 180 L101 172 L88 174 L76 164Z" fill="{{cream}}"/>
+ <path d="M79 154 L94 146 L104 151 L117 141 L130 148 L143 145 L153 155 L167 154 L181 162 L191 159 L192 167 L175 173 L163 168 L149 175 L133 169 L117 173 L102 165 L90 167Z" fill="{{orange}}" opacity=".88" filter="url(#wash)"/>
+ <path d="M89 157 L101 156 L116 147 L128 155 L144 152 L151 161 L168 157 L180 165 L170 172 L160 167 L147 176 L131 167 L118 173 L105 164 L93 168Z" fill="{{red}}" opacity=".64" filter="url(#wash)"/>
+ <path d="M88 153 C109 157 118 151 129 157 C141 161 150 167 164 165 L180 168 Q166 174 151 171 C137 171 132 164 120 162 C107 166 97 161 88 160Z" fill="{{cream}}" opacity=".96"/>
+ <path d="M103 153 Q113 154 118 149 M140 159 l-2 -8 M158 167 l9 -7 M97 162 l7 5" fill="none" stroke="{{peach}}" stroke-width="2.9" filter="url(#dry)"/>
+</g>
+<g id="leaf-fold-ink" fill="none" stroke="{{line}}" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M62 135 L69 131 L67 123 M78 118 l-1 -9 l11 0 M98 98 l11 3 M116 91 l-4 -9 l14 -1 M133 71 l10 5 l10 -2" stroke-width=".75"/>
+ <path d="M162 88 l9 13 l-7 9 M179 96 l6 4 l10 -3 M201 116 l-6 11 l9 12 l-7 8" stroke-width="1.08"/>
+ <path d="M85 136 Q103 131 116 138 M128 124 Q129 108 135 92 M131 141 Q124 147 110 149 M158 146 Q169 134 176 119" stroke-width=".58" opacity=".82"/>
+ <path d="M111 116 l9 6 l-2 10 M145 85 l-3 11 l8 6 M181 108 l8 7 l-6 10 M148 117 l-6 8" stroke-width=".65" opacity=".75"/>
+ <path d="M81 159 l9 10 l12 -3 M109 174 l8 4 l15 -4 M149 180 l14 -6 l12 1 M182 173 l14 -9" stroke-width="1.1"/>
+ <path d="M115 158 Q129 155 142 166 M153 172 l10 1 M91 151 l8 0" stroke-width=".51"/>
+</g>
+<g id="chili-pigment-and-dry-folds">
+ <path d="M91 116 l5 -3 l2 5 l-5 2Z M145 132 l5 -4 l2 4 l-4 3Z M178 147 l5 -1 l-1 4 l-3 1Z M111 167 l4 -2 l3 3 l-4 2Z" fill="{{red}}" opacity=".91"/>
+ <path d="M88 130 l8 -3 M140 91 l2 -7 M183 116 l5 2 M126 160 l7 3 M154 159 l5 1" fill="none" stroke="{{paper}}" stroke-width="2.1" opacity=".59" filter="url(#dry)"/>
+</g>
+<g id="bowl-selective-ink" fill="none" stroke="{{line}}" stroke-linecap="round">
+ <path d="M43 141 Q45 131 60 126 M204 132 Q221 141 213 152 M204 160 Q194 168 180 170" stroke-width=".7"/>
+ <path d="M46 157 Q54 188 79 202 M95 209 Q124 219 154 210 M169 206 Q202 194 210 168" stroke-width="1.15"/>
+ <path d="M49 151 Q58 162 79 167 M91 172 l14 3 M189 181 l7 -9 M72 190 l8 6 M80 199 l8 4" stroke-width=".5" opacity=".7"/>
+ <path d="M83 185 Q102 199 123 198" stroke="{{paper}}" stroke-width="3.2" opacity=".63" filter="url(#dry)"/>
+</g>
+</svg>

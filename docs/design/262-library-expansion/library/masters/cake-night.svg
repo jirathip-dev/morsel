@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Cake — a cut wedge with sponge and cream bands</title>
+<desc>An original generic baked cake slice: triangular top, soft crumb faces and a broad pale filling. It does not identify flavor, recipe, ingredients, serving size or a particular cake subtype.</desc>
+<defs><filter id="wash" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".095 .14" numOctaves="3" seed="197" result="tooth"/>
+  <feDisplacementMap in="SourceGraphic" in2="tooth" scale="1.55" xChannelSelector="R" yChannelSelector="G" result="edge"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  .23 .23 .23 0 .42" result="absorb"/>
+  <feComposite in="edge" in2="absorb" operator="in"/>
+</filter>
+<filter id="dry" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+  <feTurbulence type="fractalNoise" baseFrequency=".7 .22" numOctaves="2" seed="91" result="tooth"/>
+  <feColorMatrix in="tooth" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.1 1.1 1.1 0 -1.1" result="gaps"/>
+  <feComposite in="SourceGraphic" in2="gaps" operator="in"/>
+</filter>
+</defs>
+<g id="small-dessert-plate">
+ <path d="M37 182 C39 168 75 155 113 154 C159 151 197 162 215 177 C228 190 205 207 171 213 C128 220 79 214 53 203 C42 198 34 191 37 182Z" fill="#FFF7E8" opacity=".87"/>
+ <path d="M40 191 Q80 213 125 211 C164 213 199 201 216 186 C215 204 183 213 157 216 C115 219 65 211 48 200Z" fill="#F2E9D9" opacity=".87" filter="url(#wash)"/>
+ <path d="M72 190 C109 176 166 178 193 184 C184 197 143 204 111 202 C92 200 78 197 72 190Z" fill="#A5750B" opacity=".17" filter="url(#wash)"/>
+ <path d="M37 183 Q39 174 58 166 M80 160 Q100 154 122 155 M177 160 Q206 168 216 181 M217 191 Q207 207 172 213 M152 216 Q93 223 51 202 M42 197 l-5 -6" fill="none" stroke="#9D917F" stroke-width=".8" stroke-linecap="round"/>
+ <path d="M65 202 Q88 211 108 211 M180 204 l14 -5" fill="none" stroke="#9D917F" stroke-width=".47" opacity=".63"/>
+</g>
+<g id="rounded-back-crust">
+
+ <path d="M155 70 C173 69 195 86 202 103 L201 173 C188 161 173 153 154 142Z" fill="#D6A62C" opacity=".87"/>
+ <path d="M176 82 Q194 89 200 104 L199 170 Q190 159 179 154 C184 133 173 108 176 82Z" fill="#A5750B" opacity=".64" filter="url(#wash)"/>
+ <path d="M186 106 Q196 110 200 115 L200 169 L191 161 C195 141 185 126 186 106Z" fill="#655A4B" opacity=".26" filter="url(#wash)"/>
+</g>
+<g id="cut-face-pale-foundation">
+ <path d="M59 126 C98 120 154 111 200 105 L201 173 C169 182 103 193 61 198 C57 184 59 161 58 143Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M61 135 C99 128 151 119 198 114 L199 137 C166 145 103 154 61 159Z" fill="#D6A62C" opacity=".67" filter="url(#wash)"/>
+ <path d="M61 167 C103 161 158 153 199 144 L199 169 C155 179 103 189 62 193Z" fill="#D6A62C" opacity=".76" filter="url(#wash)"/>
+ <path d="M65 140 C97 130 123 135 146 126 C164 119 182 123 196 116 L197 133 C175 132 161 142 141 139 C117 145 86 149 63 151Z" fill="#FBE1C9" opacity=".68" filter="url(#wash)"/>
+ <path d="M64 173 C91 166 110 172 131 164 C157 159 177 158 194 151 L197 166 C174 175 152 170 134 178 C110 179 91 187 64 185Z" fill="#A5750B" opacity=".26" filter="url(#wash)"/>
+
+ <path d="M60 190 L198 168 L201 173 C162 183 104 193 61 198Z" fill="#A5750B" opacity=".58" filter="url(#wash)"/>
+</g>
+<g id="soft-cream-filling-band">
+ <path d="M60 153 C79 153 99 148 116 147 C137 143 155 142 174 137 L199 132 L199 144 C180 147 163 153 144 155 C118 158 91 165 61 168Z" fill="#FFF7E8" opacity=".98"/>
+ <path d="M64 160 C85 163 101 154 123 154 C148 151 176 144 197 140 L197 145 C178 150 161 153 144 155 C114 160 88 165 64 167Z" fill="#F2E9D9" opacity=".88" filter="url(#wash)"/>
+ <path d="M68 155 Q88 153 99 151 M111 149 l17 -3 M145 142 Q171 139 186 135 M68 168 Q91 166 109 161 M127 159 l14 -3 M160 153 Q178 150 192 146" fill="none" stroke="#9D917F" stroke-width=".58" stroke-linecap="round" opacity=".64"/>
+</g>
+<g id="triangular-frosted-top">
+ <path d="M57 125 C85 107 118 85 154 69 C169 67 194 85 201 99 C204 103 204 108 200 111 C156 117 102 127 61 135 C57 134 55 129 57 125Z" fill="#F2E9D9" opacity=".99"/>
+ <path d="M60 125 C94 105 124 85 155 72 C169 74 184 82 195 96 L197 102 C158 108 118 117 79 125Z" fill="#FFF7E8" opacity=".96"/>
+
+ <path d="M70 122 C102 106 124 92 153 79 C162 78 172 84 176 89 C159 85 148 93 135 99 C115 107 99 120 79 123Z" fill="#FBE1C9" opacity=".39" filter="url(#wash)"/>
+ <path d="M61 127 C100 122 137 113 162 108 C177 106 190 103 201 103 L200 111 Q182 113 174 115 C171 118 170 122 167 122 C164 120 165 117 163 117 C126 123 95 130 61 135Z" fill="#F2E9D9" opacity=".95"/>
+ <path d="M85 119 C100 112 117 112 130 105 C145 98 158 96 171 98 M143 86 Q158 78 173 87" fill="none" stroke="#9D917F" stroke-width=".57" opacity=".52" stroke-linecap="round"/>
+
+ <path d="M97 114 Q115 107 124 103 M139 90 Q151 83 162 84" fill="none" stroke="#FFF7E8" stroke-width="2.8" opacity=".9" filter="url(#dry)"/>
+</g>
+<g id="irregular-crumb-notches">
+ <path d="M76 142 q3 -3 6 -1 l-3 3Z M107 135 q3 -2 5 1 l-4 2Z M135 132 l6 -3 l2 3 l-6 2Z M165 125 q4 -3 7 -1 l-5 4Z M185 121 l4 -1 l1 3 l-4 1Z M78 180 q3 -4 7 -3 l-3 4Z M102 174 l6 -3 l3 3 l-6 1Z M133 172 q4 -4 7 -2 l-4 3Z M161 164 l5 -3 l2 3 l-5 2Z M183 158 q3 -2 6 0 l-4 3Z" fill="#A5750B" opacity=".53" filter="url(#dry)"/>
+
+ <path d="M80 146 l5 -1 M118 138 l7 -2 M149 132 l7 -2 M91 182 l7 -2 M120 179 l9 -3 M174 169 l9 -3" fill="none" stroke="#FFF7E8" stroke-width="2.2" opacity=".69" filter="url(#dry)"/>
+</g>
+<g id="broken-slice-structure" fill="none" stroke="#9D917F" stroke-linecap="round" stroke-linejoin="round">
+ <path d="M59 123 Q99 97 134 79 M148 72 Q159 65 173 74 M185 82 Q199 92 203 104 M198 112 l-18 3 M157 119 Q113 126 84 131 M70 134 l-9 1" stroke-width=".83"/>
+ <path d="M58 137 L59 162 M59 172 Q58 190 61 198 M72 197 Q105 194 133 187 M148 184 Q178 179 201 173 L201 154 M201 144 l0 -22" stroke-width="1.04"/>
+ <path d="M65 188 l5 3 M75 191 l10 -1 M142 180 l8 -2 M185 173 l9 -3" stroke-width=".48" opacity=".64"/>
+</g>
+</svg>
