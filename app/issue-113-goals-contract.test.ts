@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 // 1. the recency mirror (manual effective iff goals.updated_at >=
 //    profiles.updated_at, server resolveEffectiveGoal twin) in GoalsMath,
 // 2. the superseded-manual calm note + amendment B read-only profile line
-//    copy in GoalsEditorModel,
+//    copy in GoalsPageCopy,
 // 3. the amendment C Today margin note (Apple Health · last-import time
 //    from the SAME #112 stamp, no second clock) in MorselStamp/Views, and
 // 4. the Goals page/ViewModel wiring that renders both notes.
@@ -21,6 +21,7 @@ const read = (path: string): string => readFileSync(join(repoRoot, path), 'utf8'
 
 const goalsMath = read('app/Sources/Morsel/GoalsMath.swift')
 const goalsModel = read('app/Sources/Morsel/GoalsEditorModel.swift')
+const goalsCopy = read('app/Sources/Morsel/GoalsPageCopy.swift')
 const goalsEditor = read('app/Sources/Morsel/GoalsEditor.swift')
 const stamp = read('app/Sources/Morsel/MorselStamp.swift')
 const views = read('app/Sources/Morsel/Views.swift')
@@ -51,17 +52,17 @@ describe('issue #113 AC2: DashboardMath mirrors the server recency rule', () => 
 
 describe('issue #113 body item 4 + amendment B: Goals page notes', () => {
   it('renders the calm superseded note under YOUR TARGET with the old manual numbers', () => {
-    expect(goalsModel).toContain('your profile changed on')
-    expect(goalsModel).toContain('these are the new computed targets')
-    expect(goalsModel).toContain('your earlier manual numbers were')
+    expect(goalsCopy).toContain('your profile changed on')
+    expect(goalsCopy).toContain('these are the new computed targets')
+    expect(goalsCopy).toContain('your earlier manual numbers were')
     expect(goalsEditor).toContain('viewModel.supersededNote')
   })
 
   it('renders the read-only profile line driven by profile + weight_used analog', () => {
-    expect(goalsModel).toContain('computed from ')
-    expect(goalsModel).toContain('(Health · ')
-    expect(goalsModel).toContain('set via your agent')
-    expect(goalsModel).toContain('no profile yet — tell your agent your height, weight, age and activity')
+    expect(goalsCopy).toContain('computed from ')
+    expect(goalsCopy).toContain('(Health · ')
+    expect(goalsCopy).toContain('set via your agent')
+    expect(goalsCopy).toContain('no profile yet — tell your agent your height, weight, age and activity')
     expect(goalsEditor).toContain('viewModel.profileLine')
   })
 
