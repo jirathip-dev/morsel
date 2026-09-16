@@ -23,7 +23,7 @@ private struct TrainingFuelHost: ViewModifier {
         content
             .environmentObject(model)
             .environment(\.trainingFuelHosted, true)
-            .sheet(isPresented: Binding(get: { model.isEditing }, set: { if !$0 { model.cancel() } })) {
+            .sheet(isPresented: Binding(get: { model.isPresented }, set: { if !$0 { model.cancel() } })) {
                 TrainingFuelEditor(model: model)
             }
             .onReceive(viewModel.$snapshot) { model.synchronize($0, calendar: .autoupdatingCurrent) }
@@ -39,10 +39,7 @@ private struct TrainingFuelHost: ViewModifier {
 
     private func refresh() async {
         model.synchronize(viewModel.snapshot, calendar: .autoupdatingCurrent)
-        let day = model.day
-        let context = await reader.read()
-        guard !Task.isCancelled, day == model.day else { return }
-        model.context = context
+        await model.readHealth { await reader.read() }
     }
 }
 
