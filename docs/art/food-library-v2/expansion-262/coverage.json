@@ -1,0 +1,259 @@
+{
+  "source": "public.meal_items read-only aggregate; raw names kept local/untracked (public repository)",
+  "available": true,
+  "distinct_names": 250,
+  "total_rows": 284,
+  "today_shipped_catalog": {
+    "specific": {
+      "distinct": 26,
+      "rows": 39,
+      "distinct_pct": 10.4,
+      "rows_pct": 13.7
+    },
+    "category_fallback": {
+      "distinct": 16,
+      "rows": 16,
+      "distinct_pct": 6.4,
+      "rows_pct": 5.6
+    },
+    "neutral_or_missing": {
+      "distinct": 208,
+      "rows": 229,
+      "distinct_pct": 83.2,
+      "rows_pct": 80.6
+    }
+  },
+  "cumulative": {
+    "through_batch_1": {
+      "specific": {
+        "distinct": 138,
+        "rows": 171,
+        "distinct_pct": 55.2,
+        "rows_pct": 60.2
+      },
+      "category_fallback": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "neutral": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      },
+      "specific_pending_later_batch": {
+        "distinct": 92,
+        "rows": 93,
+        "distinct_pct": 36.8,
+        "rows_pct": 32.7
+      }
+    },
+    "through_batch_2": {
+      "specific": {
+        "distinct": 201,
+        "rows": 234,
+        "distinct_pct": 80.4,
+        "rows_pct": 82.4
+      },
+      "category_fallback": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "neutral": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      },
+      "specific_pending_later_batch": {
+        "distinct": 29,
+        "rows": 30,
+        "distinct_pct": 11.6,
+        "rows_pct": 10.6
+      }
+    },
+    "through_batch_3": {
+      "specific": {
+        "distinct": 225,
+        "rows": 259,
+        "distinct_pct": 90.0,
+        "rows_pct": 91.2
+      },
+      "category_fallback": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "neutral": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      },
+      "specific_pending_later_batch": {
+        "distinct": 5,
+        "rows": 5,
+        "distinct_pct": 2.0,
+        "rows_pct": 1.8
+      }
+    },
+    "through_batch_4": {
+      "specific": {
+        "distinct": 230,
+        "rows": 264,
+        "distinct_pct": 92.0,
+        "rows_pct": 93.0
+      },
+      "category_fallback": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "neutral": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      },
+      "specific_pending_later_batch": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      }
+    },
+    "through_batch_5": {
+      "specific": {
+        "distinct": 230,
+        "rows": 264,
+        "distinct_pct": 92.0,
+        "rows_pct": 93.0
+      },
+      "category_fallback": {
+        "distinct": 20,
+        "rows": 20,
+        "distinct_pct": 8.0,
+        "rows_pct": 7.0
+      },
+      "neutral": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      },
+      "specific_pending_later_batch": {
+        "distinct": 0,
+        "rows": 0,
+        "distinct_pct": 0.0,
+        "rows_pct": 0.0
+      }
+    }
+  },
+  "rows_per_proposed_identity": {
+    "yogurt": 15,
+    "boiled-egg": 11,
+    "sweet-potato": 9,
+    "berries": 8,
+    "hot-pot": 8,
+    "egg": 7,
+    "sourdough-bread": 7,
+    "cheese": 6,
+    "gravy": 6,
+    "noodle-soup": 6,
+    "sticky-rice": 6,
+    "cereal-flakes": 5,
+    "chili-oil": 5,
+    "ice-cream": 5,
+    "smoothie": 5,
+    "thai-sweets": 5,
+    "cooking-oil": 4,
+    "grilled-beef": 4,
+    "grilled-pork": 4,
+    "nam-jim": 4,
+    "poached-chicken": 4,
+    "soy-milk": 4,
+    "steamed-fish": 4,
+    "sushi": 4,
+    "wrap": 4,
+    "beef-rice-bowl": 3,
+    "boiled-pork": 3,
+    "cold-cuts": 3,
+    "matcha-latte": 3,
+    "purple-rice": 3,
+    "steamed-bun": 3,
+    "stir-fried-greens": 3,
+    "tom-yum": 3,
+    "braised-pork": 2,
+    "chicken-rice": 2,
+    "chocolate": 2,
+    "green-salad": 2,
+    "iced-coffee": 2,
+    "larb": 2,
+    "mashed-potato": 2,
+    "meatballs": 2,
+    "milk": 2,
+    "minced-pork": 2,
+    "mixed-nuts": 2,
+    "pasta": 2,
+    "pizza-slice": 2,
+    "protein-shake": 2,
+    "raw-vegetable-plate": 2,
+    "rice-porridge": 2,
+    "sandwich": 2,
+    "sardines": 2,
+    "corn": 1,
+    "cucumber": 1,
+    "curry": 1,
+    "dumplings": 1,
+    "eggplant": 1,
+    "focaccia": 1,
+    "instant-noodles": 1,
+    "milk-tea": 1,
+    "oatmeal": 1,
+    "pomelo": 1,
+    "roti": 1,
+    "som-tum": 1,
+    "stewed-duck": 1,
+    "tofu": 1,
+    "tomato": 1
+  },
+  "neutral_distinct_count": 0,
+  "published_names": [
+    {
+      "name": "Americano (black, no sugar, homemade)",
+      "target": "coffee",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Pork with brown gravy (moo ob style)",
+      "target": "braised-pork",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "White rice, cooked (half portion)",
+      "target": "jasmine-rice",
+      "tier": "existing",
+      "batch": 0
+    },
+    {
+      "name": "Chinese kale, cooked (kana)",
+      "target": "stir-fried-greens",
+      "tier": "specific",
+      "batch": 1
+    },
+    {
+      "name": "Pasta (linguine), cooked",
+      "target": "pasta",
+      "tier": "specific",
+      "batch": 1
+    }
+  ]
+}

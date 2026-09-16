@@ -1,0 +1,2410 @@
+{
+  "schema": "morsel-expansion-proposal/1",
+  "issue": "https://github.com/jirathip-dev/morsel/issues/262",
+  "status": "PROPOSED — awaiting owner review; nothing here is approved or produced",
+  "base_library": "docs/art/food-library-v2 (schema 2 / library 2.1.0, 13 foods + 4 category fallbacks + neutral, untouched)",
+  "evidence_window": "public.meal_items, read-only SELECT via Management API, 2026-09-05..2026-09-15, 284 rows / 250 distinct names (raw names stay local, untracked)",
+  "categories": {
+    "existing": [
+      "produce",
+      "grains",
+      "protein",
+      "drinks",
+      "soup"
+    ],
+    "proposed_new": {
+      "dairy": "yogurt, cheese, milk — 20+ observed rows with no honest existing category",
+      "sweets": "ice cream, Thai sweets, cake, chocolate — no existing category",
+      "prepared": "composed single-plate dishes (rice bowls, wraps, pizza, sushi) — neither a single ingredient nor a category",
+      "condiments": "dipping sauces, chili oil, gravies, oils — 15+ observed rows; small saucer/cruet studies"
+    },
+    "note": "New categories need a label entry in FoodArtwork.swift categoryLabels (impl lane, #260/#241 follow-up); without it the resolver falls back to the capitalized category id, which is acceptable."
+  },
+  "fallbacks_proposed": [
+    {
+      "id": "fallback-soup",
+      "category": "soup",
+      "reason": "category exists with one food and no fallback; pork/blood/clear soups currently drop to neutral"
+    },
+    {
+      "id": "fallback-dairy",
+      "category": "dairy",
+      "reason": "new category"
+    },
+    {
+      "id": "fallback-sweets",
+      "category": "sweets",
+      "reason": "new category; also the honest home for toppings/decorations"
+    },
+    {
+      "id": "fallback-prepared",
+      "category": "prepared",
+      "reason": "new category; shared plates and composite restaurant dishes"
+    },
+    {
+      "id": "fallback-condiments",
+      "category": "condiments",
+      "reason": "new category"
+    }
+  ],
+  "fallbacks_note": "Fallbacks are NOT counted toward the 100 identities. They are optional owner decisions; if declined, those rows resolve to neutral.",
+  "batches": {
+    "1": "Observed high-frequency + the issue's named gap classes (pork gravy, Chinese kale, linguine)",
+    "2": "Observed 2–4 rows + top everyday Thai staples",
+    "3": "Observed 1 row + Thai/Western staples the app realistically sees",
+    "4": "Zero-row staples that close the ≥100 target (fruit, drinks, Western fast food, sweets)",
+    "5": "Reserve — owner promotes or cuts; not required for ≥100"
+  },
+  "identities": [
+    {
+      "id": "sweet-potato",
+      "batch": 1,
+      "category": "produce",
+      "name": "Sweet potato",
+      "aliases": [
+        "soft dried sweet potato",
+        "japanese sweet potato",
+        "baked sweet potato",
+        "มันหวาน",
+        "มันหวานญี่ปุ่น",
+        "มันเทศ"
+      ],
+      "description": "A split roasted sweet potato with dark skin and golden-orange flesh beside a soft dried slab.",
+      "evidence": "10 rows (most frequent non-drink item)",
+      "match": [
+        "sweet potato",
+        "มันหวาน"
+      ],
+      "head": false
+    },
+    {
+      "id": "yogurt",
+      "batch": 1,
+      "category": "dairy",
+      "name": "Yogurt",
+      "aliases": [
+        "greek yogurt",
+        "plain yogurt",
+        "yogurt bowl",
+        "โยเกิร์ต",
+        "กรีกโยเกิร์ต"
+      ],
+      "description": "A shallow bowl of thick cream yogurt with an uneven spoon-pulled surface and a few dark berry marks.",
+      "evidence": "13 rows across plain / with cornflakes / with honey / garlicky",
+      "match": [
+        "yogurt(?! smoothie)",
+        "cilbir"
+      ],
+      "head": false
+    },
+    {
+      "id": "berries",
+      "batch": 1,
+      "category": "produce",
+      "name": "Berries",
+      "aliases": [
+        "blueberries",
+        "blackberries",
+        "mixed berries",
+        "frozen blueberries",
+        "บลูเบอร์รี่",
+        "เบอร์รี่"
+      ],
+      "description": "A loose scatter of small dark-blue and black berries with pale bloom highlights and broken ink outlines.",
+      "evidence": "8 rows",
+      "match": [
+        "blueberr",
+        "blackberr",
+        "berries"
+      ],
+      "head": false
+    },
+    {
+      "id": "boiled-egg",
+      "batch": 1,
+      "category": "protein",
+      "name": "Boiled egg",
+      "aliases": [
+        "soft-boiled egg",
+        "hard-boiled egg",
+        "poached egg",
+        "onsen egg",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "ไข่ออนเซ็น"
+      ],
+      "description": "A halved boiled egg with a soft warm yolk and a whole peeled egg beside it, cream wash and selective edge ink.",
+      "evidence": "10 rows (soft-boiled, boiled, poached, onsen, ไข่ต้ม, ไข่ลวก)",
+      "match": [
+        "boiled egg",
+        "poached egg",
+        "poached/soft",
+        "onsen",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "soft-boiled"
+      ],
+      "head": false
+    },
+    {
+      "id": "egg",
+      "batch": 1,
+      "category": "protein",
+      "name": "Egg",
+      "aliases": [
+        "eggs",
+        "chicken egg",
+        "duck egg",
+        "whole egg",
+        "ไข่",
+        "ไข่ไก่",
+        "ไข่เป็ด"
+      ],
+      "description": "Two whole eggs in the shell, one pale and one warm-brown, with uneven speckle wash and quiet shadow.",
+      "evidence": "7 rows written as bare 'Egg' / 'Eggs' / 'Chicken egg' / 'Duck egg' (cooking method unknown — a whole shell egg is the honest sign)",
+      "match": [
+        "^egg$",
+        "^eggs$",
+        "chicken egg",
+        "duck egg",
+        "^egg \\("
+      ],
+      "head": false
+    },
+    {
+      "id": "sticky-rice",
+      "batch": 1,
+      "category": "grains",
+      "name": "Sticky rice",
+      "aliases": [
+        "khao niao",
+        "glutinous rice",
+        "ข้าวเหนียว"
+      ],
+      "description": "A dense pressed mound of translucent-white sticky rice spilling from a woven bamboo basket lid.",
+      "evidence": "6 rows",
+      "match": [
+        "sticky rice",
+        "khao niao",
+        "ข้าวเหนียว"
+      ],
+      "head": false
+    },
+    {
+      "id": "braised-pork",
+      "batch": 1,
+      "category": "protein",
+      "name": "Braised pork",
+      "aliases": [
+        "pork with brown gravy",
+        "moo ob",
+        "stewed pork",
+        "pork stew",
+        "assorted pork",
+        "pork belly braised",
+        "หมูอบ",
+        "หมูตุ๋น",
+        "หมูพะโล้"
+      ],
+      "description": "Thick-cut pork pieces glossed with dark brown gravy pooling on a plate, ochre-brown washes and broken ink.",
+      "evidence": "3 rows incl. the issue's named gap 'Pork with brown gravy (moo ob style)'",
+      "match": [
+        "pork with brown gravy",
+        "moo ob",
+        "assorted pork",
+        "braised pork"
+      ],
+      "head": false
+    },
+    {
+      "id": "stir-fried-greens",
+      "batch": 1,
+      "category": "produce",
+      "name": "Stir-fried greens",
+      "aliases": [
+        "chinese kale",
+        "kana",
+        "kai lan",
+        "morning glory",
+        "pak boong",
+        "sauteed greens",
+        "cooked greens",
+        "ผัดคะน้า",
+        "ผัดผักบุ้ง",
+        "คะน้า",
+        "ผักบุ้ง"
+      ],
+      "description": "Glossy dark-green stalks and leaves heaped on a plate with oil sheen highlights and sage/forest overlapping washes.",
+      "evidence": "4 rows incl. the issue's named gap 'Chinese kale, cooked (kana)'",
+      "match": [
+        "kale",
+        "morning glory",
+        "green vegetable",
+        "greens"
+      ],
+      "head": false
+    },
+    {
+      "id": "pasta",
+      "batch": 1,
+      "category": "grains",
+      "name": "Pasta",
+      "aliases": [
+        "linguine",
+        "spaghetti",
+        "tagliatelle",
+        "fettuccine",
+        "cooked pasta",
+        "พาสต้า",
+        "สปาเก็ตตี้"
+      ],
+      "description": "A nest of long cream pasta strands twisted with a fork, strand ink broken and overlapping, no sauce claim.",
+      "evidence": "2 rows incl. the issue's named gap 'Pasta (linguine), cooked'",
+      "match": [
+        "pasta",
+        "linguine",
+        "tagliatelle",
+        "spaghetti"
+      ],
+      "head": false
+    },
+    {
+      "id": "sourdough-bread",
+      "batch": 1,
+      "category": "grains",
+      "name": "Sourdough bread",
+      "aliases": [
+        "sourdough",
+        "sourdough toast",
+        "seeded sourdough",
+        "whole wheat sourdough",
+        "crusty bread",
+        "ขนมปังซาวร์โดว์"
+      ],
+      "description": "A thick open-crumb sourdough slice with a scored blistered crust, ochre crust wash over cream crumb.",
+      "evidence": "7 rows (existing 'toast' depicts a wholegrain slice; sourdough rows never match it)",
+      "match": [
+        "sourdough"
+      ],
+      "head": true
+    },
+    {
+      "id": "cereal-flakes",
+      "batch": 1,
+      "category": "grains",
+      "name": "Cereal flakes",
+      "aliases": [
+        "cornflakes",
+        "corn flakes",
+        "granola",
+        "breakfast cereal",
+        "cereal",
+        "คอร์นเฟลก",
+        "ซีเรียล"
+      ],
+      "description": "A bowl of golden irregular flakes with milk pooling at the edge, dry-brush flake edges.",
+      "evidence": "5 rows",
+      "match": [
+        "cornflake",
+        "corn flake",
+        "granola",
+        "cereal"
+      ],
+      "head": false
+    },
+    {
+      "id": "smoothie",
+      "batch": 1,
+      "category": "drinks",
+      "name": "Smoothie",
+      "aliases": [
+        "fruit smoothie",
+        "yogurt smoothie",
+        "blended fruit",
+        "สมูทตี้"
+      ],
+      "description": "A tall glass of thick blended fruit with a straw, layered orange-to-red wash and a frothy rim.",
+      "evidence": "5 rows",
+      "match": [
+        "smoothie"
+      ],
+      "head": true
+    },
+    {
+      "id": "cheese",
+      "batch": 1,
+      "category": "dairy",
+      "name": "Cheese",
+      "aliases": [
+        "cheese slices",
+        "edam",
+        "halloumi",
+        "burrata",
+        "stracciatella",
+        "parmesan",
+        "ชีส"
+      ],
+      "description": "A cut wedge of pale cheese and two fanned slices, cream/gold wash and quiet rind line.",
+      "evidence": "6 rows (slices, edam, burrata ×2, stracciatella, halloumi)",
+      "match": [
+        "cheese",
+        "burrata",
+        "halloumi",
+        "stracciatella",
+        "edam"
+      ],
+      "head": false
+    },
+    {
+      "id": "ice-cream",
+      "batch": 1,
+      "category": "sweets",
+      "name": "Ice cream",
+      "aliases": [
+        "coconut ice cream",
+        "gelato",
+        "soft serve",
+        "blizzard",
+        "ไอศกรีม",
+        "ไอติม"
+      ],
+      "description": "Two uneven scoops in a small cup with a short spoon, cream and peach washes and melt drips.",
+      "evidence": "5 rows",
+      "match": [
+        "ice cream",
+        "blizzard"
+      ],
+      "head": true
+    },
+    {
+      "id": "grilled-pork",
+      "batch": 1,
+      "category": "protein",
+      "name": "Grilled pork",
+      "aliases": [
+        "moo yang",
+        "grilled pork slices",
+        "pork belly grilled",
+        "pork neck",
+        "kor moo yang",
+        "sun-dried pork",
+        "หมูย่าง",
+        "คอหมูย่าง",
+        "หมูแดดเดียว"
+      ],
+      "description": "Sliced grilled pork with charred edges and a fat ribbon, fanned on a plate with irregular grill marks.",
+      "evidence": "4 rows",
+      "match": [
+        "grilled pork",
+        "pork slice",
+        "pork sliced",
+        "หมูแดดเดียว"
+      ],
+      "head": false
+    },
+    {
+      "id": "grilled-beef",
+      "batch": 1,
+      "category": "protein",
+      "name": "Grilled beef",
+      "aliases": [
+        "beef steak",
+        "steak",
+        "seared beef",
+        "isaan grilled beef",
+        "marbled beef",
+        "เนื้อย่าง",
+        "สเต็ก"
+      ],
+      "description": "A thick seared beef slab cut to show a rosy interior, dark crust wash and a few red-brown juice marks.",
+      "evidence": "4 rows",
+      "match": [
+        "grilled beef",
+        "steak",
+        "marbled beef",
+        "seared beef"
+      ],
+      "head": false
+    },
+    {
+      "id": "steamed-fish",
+      "batch": 1,
+      "category": "protein",
+      "name": "Steamed fish",
+      "aliases": [
+        "white fish",
+        "cod",
+        "seabass",
+        "fish fillet",
+        "steamed seabass",
+        "ปลานึ่ง",
+        "ปลากะพง"
+      ],
+      "description": "A pale flaking white fish fillet on a plate with a scatter of scallion and ginger threads.",
+      "evidence": "4 rows (steamed fish, seabass, cod ×2)",
+      "match": [
+        "steamed fish",
+        "cod",
+        "seabass",
+        "fish, cooked"
+      ],
+      "head": false
+    },
+    {
+      "id": "hot-pot",
+      "batch": 1,
+      "category": "soup",
+      "name": "Hot pot",
+      "aliases": [
+        "shabu",
+        "suki",
+        "sukiyaki",
+        "malatang",
+        "hotpot",
+        "สุกี้",
+        "ชาบู",
+        "หม้อไฟ",
+        "หมาล่าทัง"
+      ],
+      "description": "A wide pot with simmering broth, ladle, and mixed greens, mushroom and thin meat slices breaking the surface.",
+      "evidence": "6 rows (malatang ×2, shabu ×2, hot pot vegetables, sukiyaki)",
+      "match": [
+        "malatang",
+        "shabu",
+        "hot pot",
+        "hotpot",
+        "sukiyaki"
+      ],
+      "head": true
+    },
+    {
+      "id": "tom-yum",
+      "batch": 1,
+      "category": "soup",
+      "name": "Tom yum",
+      "aliases": [
+        "tom yum soup",
+        "spicy soup",
+        "tom yum broth",
+        "ต้มยำ",
+        "ต้มยำกุ้ง"
+      ],
+      "description": "A bowl of red-orange broth with lemongrass, chili and lime leaf floating, warm red wash and steam marks.",
+      "evidence": "4 rows (broth ×2, tom yum black soy ×2)",
+      "match": [
+        "tom yum(?! seasoning)",
+        "ต้มยำ",
+        "spicy soup"
+      ],
+      "head": true
+    },
+    {
+      "id": "noodle-soup",
+      "batch": 1,
+      "category": "grains",
+      "name": "Noodle soup",
+      "aliases": [
+        "kuay tiao",
+        "boat noodle",
+        "rice noodle soup",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "pho",
+        "ก๋วยเตี๋ยว",
+        "ก๋วยเตี๋ยวเรือ",
+        "เย็นตาโฟ",
+        "เส้นเล็ก",
+        "เส้นใหญ่"
+      ],
+      "description": "A bowl of rice noodles in dark broth with chopsticks lifting strands, bean sprout and meat slice marks.",
+      "evidence": "5 rows (boat noodle ×2, sen lek, sen yai yentafo, ข้าวเปียกเส้น)",
+      "match": [
+        "boat noodle",
+        "boat-noodle",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "rice noodle",
+        "ข้าวเปียกเส้น",
+        "เส้นเล็ก"
+      ],
+      "head": true
+    },
+    {
+      "id": "nam-jim",
+      "batch": 1,
+      "category": "condiments",
+      "name": "Dipping sauce",
+      "aliases": [
+        "nam jim",
+        "nam jim jaew",
+        "jaew",
+        "seafood sauce",
+        "chili-garlic sauce",
+        "ginger soy sauce",
+        "dipping sauce",
+        "น้ำจิ้ม",
+        "น้ำจิ้มแจ่ว",
+        "แจ่ว",
+        "น้ำจิ้มซีฟู้ด"
+      ],
+      "description": "A small ceramic saucer of red-brown sauce with chili flake specks and a dip streak on the rim.",
+      "evidence": "5 rows",
+      "match": [
+        "nam jim",
+        "dipping sauce",
+        "jaew"
+      ],
+      "head": false
+    },
+    {
+      "id": "wrap",
+      "batch": 1,
+      "category": "prepared",
+      "name": "Wrap",
+      "aliases": [
+        "chicken wrap",
+        "shawarma wrap",
+        "lamb wrap",
+        "tortilla wrap",
+        "burrito",
+        "แร็พ"
+      ],
+      "description": "A tortilla wrap cut on the diagonal showing greens and filling, cream tortilla with browned press marks.",
+      "evidence": "4 rows",
+      "match": [
+        "wrap"
+      ],
+      "head": true
+    },
+    {
+      "id": "chicken-rice",
+      "batch": 1,
+      "category": "prepared",
+      "name": "Chicken rice",
+      "aliases": [
+        "khao man gai",
+        "hainanese chicken rice",
+        "poached chicken rice",
+        "ข้าวมันไก่"
+      ],
+      "description": "Sliced poached chicken over a mound of oily rice with cucumber and a small saucer, plate viewed from above.",
+      "evidence": "3 rows; everyday Thai staple",
+      "match": [
+        "chicken rice",
+        "khao man gai"
+      ],
+      "head": true
+    },
+    {
+      "id": "milk",
+      "batch": 1,
+      "category": "dairy",
+      "name": "Milk",
+      "aliases": [
+        "hot milk",
+        "fresh milk",
+        "oat milk",
+        "almond milk",
+        "lactose-free milk",
+        "นม",
+        "นมสด",
+        "นมข้าวโอ๊ต"
+      ],
+      "description": "A tall glass of white milk with an uneven cream wash and a small glass-edge highlight.",
+      "evidence": "5 rows (hot milk, oat milk ×2, oat-milk cereal, lactose-free milk)",
+      "match": [
+        "hot milk",
+        "oat milk",
+        "^milk"
+      ],
+      "head": false
+    },
+    {
+      "id": "purple-rice",
+      "batch": 2,
+      "category": "grains",
+      "name": "Purple rice",
+      "aliases": [
+        "riceberry",
+        "riceberry rice",
+        "black rice",
+        "mixed rice",
+        "brown rice",
+        "multigrain rice",
+        "ข้าวไรซ์เบอร์รี่",
+        "ข้าวกล้อง"
+      ],
+      "description": "A bowl of dark purple-brown rice grains with a few pale kernels, loose mound above the rim.",
+      "evidence": "3 rows",
+      "match": [
+        "purple",
+        "riceberry",
+        "brown rice"
+      ],
+      "head": false
+    },
+    {
+      "id": "rice-porridge",
+      "batch": 2,
+      "category": "grains",
+      "name": "Rice porridge",
+      "aliases": [
+        "khao tom",
+        "jok",
+        "congee",
+        "โจ๊ก",
+        "ข้าวต้ม"
+      ],
+      "description": "A bowl of loose white rice soup with a spoon, ginger threads and a soft-egg mark, watery cream wash.",
+      "evidence": "2 rows; Thai breakfast staple",
+      "match": [
+        "khao tom",
+        "porridge",
+        "congee"
+      ],
+      "head": true
+    },
+    {
+      "id": "steamed-bun",
+      "batch": 2,
+      "category": "grains",
+      "name": "Steamed bun",
+      "aliases": [
+        "salapao",
+        "bao",
+        "kaya bun",
+        "pork bun",
+        "ซาลาเปา"
+      ],
+      "description": "Two plump white steamed buns, one split to show a dark filling, soft cream wash and pleat ink.",
+      "evidence": "3 rows",
+      "match": [
+        "steamed bun",
+        "bun"
+      ],
+      "head": true
+    },
+    {
+      "id": "sushi",
+      "batch": 2,
+      "category": "prepared",
+      "name": "Sushi",
+      "aliases": [
+        "nigiri",
+        "maki",
+        "sushi roll",
+        "gunkan",
+        "inari",
+        "ซูชิ"
+      ],
+      "description": "Two nigiri and three maki pieces on a slate, rice grain marks, a red-orange fish wash and nori band.",
+      "evidence": "4 rows",
+      "match": [
+        "sushi",
+        "nigiri",
+        "gunkan",
+        "inari"
+      ],
+      "head": true
+    },
+    {
+      "id": "tofu",
+      "batch": 2,
+      "category": "protein",
+      "name": "Tofu",
+      "aliases": [
+        "fried tofu",
+        "bean curd",
+        "tofu skin",
+        "เต้าหู้",
+        "เต้าหู้ทอด",
+        "ฟองเต้าหู้"
+      ],
+      "description": "Golden fried tofu cubes and one pale soft block, dry-brush crust over cream interior.",
+      "evidence": "2 rows",
+      "match": [
+        "\\btofu\\b"
+      ],
+      "head": false
+    },
+    {
+      "id": "minced-pork",
+      "batch": 2,
+      "category": "protein",
+      "name": "Minced pork",
+      "aliases": [
+        "ground pork",
+        "moo sap",
+        "pork mince",
+        "bolognese",
+        "minced meat",
+        "หมูสับ"
+      ],
+      "description": "A crumbly heap of browned minced pork with oil sheen dots, ochre-brown broken wash.",
+      "evidence": "3 rows",
+      "match": [
+        "minced pork",
+        "bolognese",
+        "หมูสับ"
+      ],
+      "head": false
+    },
+    {
+      "id": "larb",
+      "batch": 2,
+      "category": "prepared",
+      "name": "Larb",
+      "aliases": [
+        "laab",
+        "beef larb",
+        "pork larb",
+        "koi",
+        "ลาบ",
+        "ก้อย"
+      ],
+      "description": "A plate of minced meat salad with mint leaves, toasted rice and chili flake marks, herb-green over brown.",
+      "evidence": "2 rows; Isaan staple",
+      "match": [
+        "larb"
+      ],
+      "head": true
+    },
+    {
+      "id": "boiled-pork",
+      "batch": 2,
+      "category": "protein",
+      "name": "Boiled pork slices",
+      "aliases": [
+        "suyuk",
+        "bossam",
+        "boiled pork",
+        "pork belly boiled",
+        "หมูต้ม"
+      ],
+      "description": "Pale sliced boiled pork belly fanned on a plate, layered cream-pink wash with a thin fat line.",
+      "evidence": "3 rows",
+      "match": [
+        "boiled pork",
+        "bossam",
+        "suyuk",
+        "수육"
+      ],
+      "head": false
+    },
+    {
+      "id": "poached-chicken",
+      "batch": 2,
+      "category": "protein",
+      "name": "Poached chicken",
+      "aliases": [
+        "shredded chicken",
+        "boiled chicken",
+        "chicken slices",
+        "ไก่ต้ม",
+        "ไก่ฉีก"
+      ],
+      "description": "Pale poached chicken sliced and partly shredded, soft cream wash and minimal ink.",
+      "evidence": "3 rows",
+      "match": [
+        "poached chicken",
+        "shredded chicken",
+        "chicken \\(oyakodon\\)",
+        "chicken thigh \\(oyakodon\\)"
+      ],
+      "head": false
+    },
+    {
+      "id": "sardines",
+      "batch": 2,
+      "category": "protein",
+      "name": "Sardines",
+      "aliases": [
+        "canned sardines",
+        "sardines in oil",
+        "tinned fish",
+        "ปลาซาร์ดีน",
+        "ปลากระป๋อง"
+      ],
+      "description": "An open rectangular tin with three sardines in oil, silver-grey fish wash and a rolled lid.",
+      "evidence": "2 rows",
+      "match": [
+        "sardine"
+      ],
+      "head": false
+    },
+    {
+      "id": "cold-cuts",
+      "batch": 2,
+      "category": "protein",
+      "name": "Cold cuts",
+      "aliases": [
+        "mortadella",
+        "chorizo",
+        "ham",
+        "salami",
+        "moo yor",
+        "sausage slices",
+        "หมูยอ",
+        "แฮม"
+      ],
+      "description": "Overlapping thin rounds of pink cured meat with fat flecks, one slice folded, on a board.",
+      "evidence": "3 rows (mortadella, chorizo, หมูยอ)",
+      "match": [
+        "mortadella",
+        "chorizo",
+        "หมูยอ",
+        "ham,",
+        "^ham"
+      ],
+      "head": false
+    },
+    {
+      "id": "dumplings",
+      "batch": 2,
+      "category": "prepared",
+      "name": "Dumplings",
+      "aliases": [
+        "wonton",
+        "fried wonton",
+        "gyoza",
+        "dim sum",
+        "เกี๊ยว",
+        "เกี๊ยวทอด",
+        "เกี๊ยวซ่า"
+      ],
+      "description": "Four pleated dumplings, two pan-browned and two pale steamed, on a small plate with a dip cup.",
+      "evidence": "2 rows",
+      "match": [
+        "wonton",
+        "dumpling",
+        "gyoza"
+      ],
+      "head": true
+    },
+    {
+      "id": "meatballs",
+      "batch": 2,
+      "category": "protein",
+      "name": "Meatballs",
+      "aliases": [
+        "fish balls",
+        "beef balls",
+        "pork balls",
+        "meatball skewer",
+        "look chin",
+        "ลูกชิ้น",
+        "ลูกชิ้นปิ้ง"
+      ],
+      "description": "Five round meatballs, three on a bamboo skewer with char marks, cream-brown wash.",
+      "evidence": "3 rows (fish balls, beef balls, skewer)",
+      "match": [
+        "meatball",
+        "fish ball",
+        "beef ball"
+      ],
+      "head": true
+    },
+    {
+      "id": "iced-coffee",
+      "batch": 2,
+      "category": "drinks",
+      "name": "Iced coffee",
+      "aliases": [
+        "iced americano",
+        "iced black coffee",
+        "cold brew",
+        "กาแฟเย็น",
+        "อเมริกาโน่เย็น"
+      ],
+      "description": "A tall clear cup of dark coffee over ice with a straw, cubes as pale negative shapes.",
+      "evidence": "2 rows; the existing coffee study is a hot ceramic cup",
+      "match": [
+        "iced americano",
+        "iced black coffee",
+        "iced coffee",
+        "cold brew"
+      ],
+      "head": true
+    },
+    {
+      "id": "matcha-latte",
+      "batch": 2,
+      "category": "drinks",
+      "name": "Matcha latte",
+      "aliases": [
+        "matcha",
+        "green tea latte",
+        "matcha oat milk",
+        "มัทฉะ",
+        "มัทฉะลาเต้"
+      ],
+      "description": "A glass of pale green matcha over milk with a swirl line, sage/leaf wash and a straw.",
+      "evidence": "2 rows",
+      "match": [
+        "matcha"
+      ],
+      "head": true
+    },
+    {
+      "id": "soy-milk",
+      "batch": 2,
+      "category": "drinks",
+      "name": "Soy milk",
+      "aliases": [
+        "soymilk",
+        "high-protein soy milk",
+        "tofusan",
+        "น้ำเต้าหู้"
+      ],
+      "description": "A stout bottle and a small glass of off-white soy milk with a few dark sesame specks.",
+      "evidence": "3 rows; Thai breakfast staple",
+      "match": [
+        "soy milk",
+        "soymilk",
+        "tofusan"
+      ],
+      "head": true
+    },
+    {
+      "id": "milk-tea",
+      "batch": 2,
+      "category": "drinks",
+      "name": "Milk tea",
+      "aliases": [
+        "thai tea",
+        "cha yen",
+        "bubble tea",
+        "taro milk tea",
+        "ชานม",
+        "ชาเย็น",
+        "ชานมไข่มุก"
+      ],
+      "description": "A tall cup of orange-cream tea with ice and a wide straw, dark pearls settled at the base.",
+      "evidence": "1 row; Thai everyday drink",
+      "match": [
+        "milk tea"
+      ],
+      "head": true
+    },
+    {
+      "id": "som-tum",
+      "batch": 2,
+      "category": "prepared",
+      "name": "Som tum",
+      "aliases": [
+        "papaya salad",
+        "somtum",
+        "som tam",
+        "ส้มตำ"
+      ],
+      "description": "A mound of shredded pale-green papaya with tomato wedges, long bean and chili marks in a shallow dish.",
+      "evidence": "1 row + shared Isaan plate; Thai staple",
+      "match": [
+        "som ?tum",
+        "papaya salad"
+      ],
+      "head": true
+    },
+    {
+      "id": "eggplant",
+      "batch": 2,
+      "category": "produce",
+      "name": "Eggplant",
+      "aliases": [
+        "aubergine",
+        "sauteed eggplant",
+        "grilled eggplant",
+        "มะเขือ",
+        "มะเขือยาว"
+      ],
+      "description": "Sautéed eggplant rounds with glossy purple-brown skin and pale soft flesh, oil sheen marks.",
+      "evidence": "2 rows",
+      "match": [
+        "eggplant"
+      ],
+      "head": false
+    },
+    {
+      "id": "green-salad",
+      "batch": 2,
+      "category": "produce",
+      "name": "Green salad",
+      "aliases": [
+        "mixed salad",
+        "mixed leaf salad",
+        "side salad",
+        "garden salad",
+        "สลัด",
+        "สลัดผัก"
+      ],
+      "description": "A bowl of loose mixed leaves with a beet slice and almond slivers, leaf/sage overlapping washes.",
+      "evidence": "2 rows",
+      "match": [
+        "salad w/",
+        "mixed salad",
+        "leaf salad"
+      ],
+      "head": true
+    },
+    {
+      "id": "chili-oil",
+      "batch": 2,
+      "category": "condiments",
+      "name": "Chili oil",
+      "aliases": [
+        "chili crisp",
+        "chili flakes",
+        "chili butter",
+        "crispy chili topping",
+        "fried shallot topping",
+        "พริกน้ำมัน",
+        "พริกป่น"
+      ],
+      "description": "A small jar of red-orange oil with sunk chili flake sediment and a drizzle spoon.",
+      "evidence": "5 rows",
+      "match": [
+        "chili oil",
+        "chili butter",
+        "chili flakes",
+        "spicy crispy topping",
+        "fried garlic",
+        "fried shallot"
+      ],
+      "head": false
+    },
+    {
+      "id": "gravy",
+      "batch": 2,
+      "category": "condiments",
+      "name": "Gravy",
+      "aliases": [
+        "sauce",
+        "brown sauce",
+        "peppercorn sauce",
+        "creamy sauce",
+        "tomato sauce",
+        "pan sauce",
+        "น้ำเกรวี่",
+        "ซอส"
+      ],
+      "description": "A small sauce boat with dark gravy pouring a short arc, brown wash and a spoon rest.",
+      "evidence": "7 rows (peppercorn, creamy, oyakodon sauce, tomato & pepper, onion dashi, miso, stew gravy)",
+      "match": [
+        "gravy",
+        "sauce",
+        "miso paste"
+      ],
+      "head": false
+    },
+    {
+      "id": "thai-sweets",
+      "batch": 2,
+      "category": "sweets",
+      "name": "Thai sweets",
+      "aliases": [
+        "khanom thai",
+        "khanom thuay",
+        "man nup",
+        "coconut cups",
+        "khanom",
+        "ขนมไทย",
+        "ขนมถ้วย"
+      ],
+      "description": "Three small ceramic cups of layered coconut custard and one chewy dark taro piece, cream/peach wash.",
+      "evidence": "4 rows",
+      "match": [
+        "khanom",
+        "man nup",
+        "ข้าวเกรียบปากหม้อ",
+        "mochi"
+      ],
+      "head": false
+    },
+    {
+      "id": "curry",
+      "batch": 2,
+      "category": "soup",
+      "name": "Curry",
+      "aliases": [
+        "thai curry",
+        "panang",
+        "red curry",
+        "massaman",
+        "coconut curry",
+        "แกง",
+        "พะแนง",
+        "แกงเผ็ด",
+        "มัสมั่น"
+      ],
+      "description": "A bowl of red-orange coconut curry with meat pieces and basil leaf marks, oil sheen ring at the rim.",
+      "evidence": "1 row (panang beef, written in Thai); core Thai staple",
+      "match": [
+        "พะแนง",
+        "curry"
+      ],
+      "head": true
+    },
+    {
+      "id": "fried-rice",
+      "batch": 3,
+      "category": "prepared",
+      "name": "Fried rice",
+      "aliases": [
+        "khao pad",
+        "egg fried rice",
+        "ข้าวผัด"
+      ],
+      "description": "A plate of golden fried rice with egg and scallion flecks, a cucumber slice and lime wedge at the edge.",
+      "evidence": "0 rows in window; universal Thai staple",
+      "match": [
+        "fried rice",
+        "khao pad",
+        "ข้าวผัด"
+      ],
+      "head": true
+    },
+    {
+      "id": "basil-stir-fry",
+      "batch": 3,
+      "category": "prepared",
+      "name": "Basil stir-fry",
+      "aliases": [
+        "pad kra pao",
+        "krapow",
+        "holy basil stir-fry",
+        "ผัดกะเพรา",
+        "กะเพรา"
+      ],
+      "description": "Dark minced meat and basil leaves over rice with a crisp fried egg on top, forest-green leaf marks.",
+      "evidence": "0 rows; the most common Thai one-plate dish",
+      "match": [
+        "kra ?pao",
+        "krapow",
+        "กะเพรา"
+      ],
+      "head": true
+    },
+    {
+      "id": "omelette",
+      "batch": 3,
+      "category": "protein",
+      "name": "Omelette",
+      "aliases": [
+        "thai omelette",
+        "kai jeow",
+        "scrambled eggs",
+        "ไข่เจียว",
+        "ไข่คน"
+      ],
+      "description": "A puffed golden Thai omelette folded on a plate with browned lace edges, gold/ochre wash.",
+      "evidence": "0 rows; Thai staple",
+      "match": [
+        "omelet",
+        "scrambled",
+        "ไข่เจียว"
+      ],
+      "head": true
+    },
+    {
+      "id": "fried-chicken",
+      "batch": 3,
+      "category": "protein",
+      "name": "Fried chicken",
+      "aliases": [
+        "gai tod",
+        "crispy chicken",
+        "karaage",
+        "ไก่ทอด"
+      ],
+      "description": "Two craggy golden fried chicken pieces with dry-brush crust, one drumstick, one thigh.",
+      "evidence": "0 rows; Thai/Western staple",
+      "match": [
+        "fried chicken",
+        "karaage",
+        "ไก่ทอด"
+      ],
+      "head": true
+    },
+    {
+      "id": "pizza-slice",
+      "batch": 3,
+      "category": "prepared",
+      "name": "Pizza slice",
+      "aliases": [
+        "pizza",
+        "square pizza slice",
+        "พิซซ่า"
+      ],
+      "description": "One triangular pizza slice with a browned crust edge, tomato-red wash and pale cheese pulls.",
+      "evidence": "2 rows",
+      "match": [
+        "pizza"
+      ],
+      "head": true
+    },
+    {
+      "id": "sandwich",
+      "batch": 3,
+      "category": "prepared",
+      "name": "Sandwich",
+      "aliases": [
+        "focaccia sandwich",
+        "baguette sandwich",
+        "toastie",
+        "แซนด์วิช"
+      ],
+      "description": "A cut sandwich showing layered filling between two bread halves, cream crumb and greens marks.",
+      "evidence": "2 rows",
+      "match": [
+        "sandwich",
+        "ขนมปังบาเก็ต"
+      ],
+      "head": true
+    },
+    {
+      "id": "focaccia",
+      "batch": 3,
+      "category": "grains",
+      "name": "Focaccia",
+      "aliases": [
+        "focaccia bread",
+        "flatbread",
+        "โฟกัชชา"
+      ],
+      "description": "A dimpled rectangular focaccia square with rosemary and salt marks, oil-glossed ochre top.",
+      "evidence": "1 row (+1 sandwich)",
+      "match": [
+        "focaccia(?! sandwich)"
+      ],
+      "head": false
+    },
+    {
+      "id": "instant-noodles",
+      "batch": 3,
+      "category": "grains",
+      "name": "Instant noodles",
+      "aliases": [
+        "mama",
+        "mama noodles",
+        "ramyeon",
+        "cup noodles",
+        "มาม่า",
+        "บะหมี่กึ่งสำเร็จรูป"
+      ],
+      "description": "A bowl of wavy yellow noodles with a soft egg and scallion marks, chopsticks resting on the rim.",
+      "evidence": "1 row; Thai staple",
+      "match": [
+        "instant noodle",
+        "mama"
+      ],
+      "head": true
+    },
+    {
+      "id": "roti",
+      "batch": 3,
+      "category": "grains",
+      "name": "Roti",
+      "aliases": [
+        "roti canai",
+        "thai roti",
+        "โรตี"
+      ],
+      "description": "A folded flaky roti with blistered golden layers and a drizzle line, ochre/cream wash.",
+      "evidence": "1 row",
+      "match": [
+        "roti",
+        "โรตี"
+      ],
+      "head": false
+    },
+    {
+      "id": "mashed-potato",
+      "batch": 3,
+      "category": "produce",
+      "name": "Mashed potato",
+      "aliases": [
+        "mash",
+        "potatoes",
+        "potato",
+        "มันบด",
+        "มันฝรั่ง"
+      ],
+      "description": "A soft heap of pale mashed potato with a butter pool and gravy pour, cream/gold wash.",
+      "evidence": "2 rows",
+      "match": [
+        "mashed potato",
+        "potato"
+      ],
+      "head": false
+    },
+    {
+      "id": "cooking-oil",
+      "batch": 3,
+      "category": "condiments",
+      "name": "Cooking oil",
+      "aliases": [
+        "olive oil",
+        "extra virgin olive oil",
+        "oil",
+        "น้ำมัน",
+        "น้ำมันมะกอก"
+      ],
+      "description": "A slim glass cruet of golden oil with a pour spout and a single oil drop, gold wash.",
+      "evidence": "4 rows",
+      "match": [
+        "oil"
+      ],
+      "head": false
+    },
+    {
+      "id": "raw-vegetable-plate",
+      "batch": 3,
+      "category": "produce",
+      "name": "Raw vegetable plate",
+      "aliases": [
+        "fresh vegetables",
+        "raw vegetables",
+        "crudites",
+        "vegetable sticks",
+        "ผักสด"
+      ],
+      "description": "Cucumber batons, long beans and a cabbage wedge fanned on a plate, leaf/sage washes.",
+      "evidence": "2 rows",
+      "match": [
+        "raw vegetables",
+        "fresh vegetables",
+        "vegetable sticks"
+      ],
+      "head": false
+    },
+    {
+      "id": "mixed-nuts",
+      "batch": 3,
+      "category": "protein",
+      "name": "Mixed nuts",
+      "aliases": [
+        "nuts",
+        "almonds",
+        "sliced almonds",
+        "cashews",
+        "nut butter",
+        "ถั่ว",
+        "อัลมอนด์"
+      ],
+      "description": "A small scatter of almonds, cashews and a walnut half, warm ochre/brown washes.",
+      "evidence": "2 rows",
+      "match": [
+        "nuts",
+        "almond",
+        "pistachio"
+      ],
+      "head": false
+    },
+    {
+      "id": "shabu-slices",
+      "batch": 3,
+      "category": "protein",
+      "name": "Thin-sliced meat",
+      "aliases": [
+        "shabu beef",
+        "shabu pork",
+        "hotpot meat",
+        "sliced beef",
+        "thin sliced",
+        "เนื้อสไลด์",
+        "หมูสไลด์"
+      ],
+      "description": "Rolled thin raw meat slices fanned on a plate, red/pink marbled wash with pale fat lines.",
+      "evidence": "3 rows",
+      "match": [
+        "shabu",
+        "hotpot meat",
+        "sliced beef"
+      ],
+      "head": false
+    },
+    {
+      "id": "beef-rice-bowl",
+      "batch": 3,
+      "category": "prepared",
+      "name": "Beef rice bowl",
+      "aliases": [
+        "gyudon",
+        "bibimbap",
+        "beef bowl",
+        "donburi",
+        "ข้าวหน้าเนื้อ"
+      ],
+      "description": "A bowl of rice topped with thin simmered beef and onion, pickled ginger mark, viewed at an angle.",
+      "evidence": "3 rows",
+      "match": [
+        "gyudon",
+        "beef bowl",
+        "bibimbap"
+      ],
+      "head": true
+    },
+    {
+      "id": "protein-shake",
+      "batch": 3,
+      "category": "drinks",
+      "name": "Protein shake",
+      "aliases": [
+        "protein milk",
+        "protein drink",
+        "chocolate protein shake",
+        "โปรตีนเชค"
+      ],
+      "description": "A shaker bottle with a mixing ball and a dark chocolate-brown drink line, mono-line bottle geometry.",
+      "evidence": "2 rows",
+      "match": [
+        "protein"
+      ],
+      "head": true
+    },
+    {
+      "id": "apple",
+      "batch": 3,
+      "category": "produce",
+      "name": "Apple",
+      "aliases": [
+        "red apple",
+        "green apple",
+        "แอปเปิ้ล"
+      ],
+      "description": "A whole red apple beside a cut quarter with dark seeds, uneven red/gold wash.",
+      "evidence": "0 standalone rows; universal staple",
+      "match": [
+        "^apple",
+        "apple,"
+      ],
+      "head": false
+    },
+    {
+      "id": "pomelo",
+      "batch": 3,
+      "category": "produce",
+      "name": "Pomelo",
+      "aliases": [
+        "pomelo segments",
+        "grapefruit",
+        "ส้มโอ"
+      ],
+      "description": "Peeled pale-pink pomelo segments beside a thick-rind wedge, peach/cream wash.",
+      "evidence": "1 row",
+      "match": [
+        "pomelo",
+        "ส้มโอ"
+      ],
+      "head": false
+    },
+    {
+      "id": "cucumber",
+      "batch": 3,
+      "category": "produce",
+      "name": "Cucumber",
+      "aliases": [
+        "cucumber slices",
+        "แตงกวา"
+      ],
+      "description": "A cucumber with three cut rounds, dark green skin wash and pale seeded centres.",
+      "evidence": "1 row",
+      "match": [
+        "cucumber"
+      ],
+      "head": false
+    },
+    {
+      "id": "kimchi",
+      "batch": 3,
+      "category": "produce",
+      "name": "Kimchi",
+      "aliases": [
+        "banchan",
+        "korean side dishes",
+        "pickled vegetables",
+        "กิมจิ"
+      ],
+      "description": "A small bowl of red-stained cabbage leaves with chili fleck marks, red/sage wash.",
+      "evidence": "1 row (Korean side dishes)",
+      "match": [
+        "kimchi",
+        "korean side"
+      ],
+      "head": false
+    },
+    {
+      "id": "mushrooms",
+      "batch": 3,
+      "category": "produce",
+      "name": "Mushrooms",
+      "aliases": [
+        "shiitake",
+        "enoki",
+        "button mushrooms",
+        "เห็ด"
+      ],
+      "description": "Three shiitake caps and a small enoki bundle, brown/cream dry-brush caps.",
+      "evidence": "0 standalone rows; frequent component",
+      "match": [
+        "mushroom"
+      ],
+      "head": false
+    },
+    {
+      "id": "shrimp",
+      "batch": 3,
+      "category": "protein",
+      "name": "Shrimp",
+      "aliases": [
+        "prawns",
+        "grilled shrimp",
+        "กุ้ง",
+        "กุ้งย่าง"
+      ],
+      "description": "Two curled cooked shrimp with orange-red banded shells and a lime wedge.",
+      "evidence": "0 rows; Thai staple",
+      "match": [
+        "shrimp",
+        "prawn"
+      ],
+      "head": false
+    },
+    {
+      "id": "stewed-duck",
+      "batch": 3,
+      "category": "protein",
+      "name": "Stewed duck",
+      "aliases": [
+        "duck",
+        "roast duck",
+        "braised duck",
+        "ped palo",
+        "เป็ด",
+        "เป็ดพะโล้",
+        "เป็ดย่าง"
+      ],
+      "description": "Sliced dark-glazed duck with crisp skin edge on a plate, deep brown wash and a star anise mark.",
+      "evidence": "1 row",
+      "match": [
+        "duck"
+      ],
+      "head": false
+    },
+    {
+      "id": "cake",
+      "batch": 3,
+      "category": "sweets",
+      "name": "Cake",
+      "aliases": [
+        "slice of cake",
+        "cheesecake",
+        "coffee cake",
+        "brownie",
+        "เค้ก"
+      ],
+      "description": "A single triangular cake slice with two sponge layers and cream filling on a small plate.",
+      "evidence": "0 rows; needed so 'coffee cake' has an honest home (matcher negative case in #260)",
+      "match": [
+        "cake",
+        "brownie"
+      ],
+      "head": true
+    },
+    {
+      "id": "tea",
+      "batch": 4,
+      "category": "drinks",
+      "name": "Tea",
+      "aliases": [
+        "hot tea",
+        "green tea",
+        "black tea",
+        "herbal tea",
+        "ชา",
+        "ชาเขียว",
+        "ชาร้อน"
+      ],
+      "description": "A ceramic cup of amber tea with a tag string over the rim, gold wash and steam marks.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "^tea",
+        " tea$",
+        "green tea"
+      ],
+      "head": false
+    },
+    {
+      "id": "latte",
+      "batch": 4,
+      "category": "drinks",
+      "name": "Latte",
+      "aliases": [
+        "cafe latte",
+        "cappuccino",
+        "flat white",
+        "milk coffee",
+        "ลาเต้",
+        "กาแฟนม"
+      ],
+      "description": "A wide cup of milk coffee with a leaf pour mark, cream/brown wash — distinct from the black-coffee study.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "latte",
+        "cappuccino",
+        "flat white"
+      ],
+      "head": false
+    },
+    {
+      "id": "orange-juice",
+      "batch": 4,
+      "category": "drinks",
+      "name": "Orange juice",
+      "aliases": [
+        "juice",
+        "fruit juice",
+        "น้ำส้ม",
+        "น้ำผลไม้"
+      ],
+      "description": "A short glass of orange juice with a pulp line and an orange half beside it.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "juice"
+      ],
+      "head": false
+    },
+    {
+      "id": "coconut-water",
+      "batch": 4,
+      "category": "drinks",
+      "name": "Coconut water",
+      "aliases": [
+        "young coconut",
+        "coconut juice",
+        "น้ำมะพร้าว"
+      ],
+      "description": "A trimmed young coconut with a straw and a splash of pale water, cream/sage wash.",
+      "evidence": "0 rows; Thai staple",
+      "match": [
+        "coconut water",
+        "coconut juice"
+      ],
+      "head": false
+    },
+    {
+      "id": "beer",
+      "batch": 4,
+      "category": "drinks",
+      "name": "Beer",
+      "aliases": [
+        "lager",
+        "draft beer",
+        "เบียร์"
+      ],
+      "description": "A tall pint glass of golden beer with an uneven foam head, gold wash and condensation marks.",
+      "evidence": "0 rows; owner may cut",
+      "match": [
+        "beer"
+      ],
+      "head": false
+    },
+    {
+      "id": "watermelon",
+      "batch": 4,
+      "category": "produce",
+      "name": "Watermelon",
+      "aliases": [
+        "แตงโม"
+      ],
+      "description": "A red watermelon wedge with black seed marks and a green rind band.",
+      "evidence": "0 rows; Thai fruit staple",
+      "match": [
+        "watermelon"
+      ],
+      "head": false
+    },
+    {
+      "id": "pineapple",
+      "batch": 4,
+      "category": "produce",
+      "name": "Pineapple",
+      "aliases": [
+        "สับปะรด"
+      ],
+      "description": "Cut pineapple spears beside a wedge with rind, gold wash and eye marks.",
+      "evidence": "0 standalone rows (smoothie ingredient); Thai fruit staple",
+      "match": [
+        "pineapple"
+      ],
+      "head": false
+    },
+    {
+      "id": "papaya",
+      "batch": 4,
+      "category": "produce",
+      "name": "Papaya",
+      "aliases": [
+        "ripe papaya",
+        "มะละกอ"
+      ],
+      "description": "A halved ripe papaya with orange flesh and a cluster of dark seeds.",
+      "evidence": "0 rows; Thai fruit staple",
+      "match": [
+        "papaya"
+      ],
+      "head": false
+    },
+    {
+      "id": "dragon-fruit",
+      "batch": 4,
+      "category": "produce",
+      "name": "Dragon fruit",
+      "aliases": [
+        "pitaya",
+        "แก้วมังกร"
+      ],
+      "description": "A halved dragon fruit with white speckled flesh and pink leafy skin.",
+      "evidence": "0 standalone rows; Thai fruit staple",
+      "match": [
+        "dragon fruit"
+      ],
+      "head": false
+    },
+    {
+      "id": "guava",
+      "batch": 4,
+      "category": "produce",
+      "name": "Guava",
+      "aliases": [
+        "ฝรั่ง"
+      ],
+      "description": "A whole green guava and a wedge showing pale flesh and seed band.",
+      "evidence": "0 standalone rows; Thai fruit staple",
+      "match": [
+        "guava"
+      ],
+      "head": false
+    },
+    {
+      "id": "grapes",
+      "batch": 4,
+      "category": "produce",
+      "name": "Grapes",
+      "aliases": [
+        "องุ่น"
+      ],
+      "description": "A small bunch of dark grapes with bloom highlights and a stem line.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "grape"
+      ],
+      "head": false
+    },
+    {
+      "id": "strawberry",
+      "batch": 4,
+      "category": "produce",
+      "name": "Strawberries",
+      "aliases": [
+        "strawberries",
+        "สตรอว์เบอร์รี่"
+      ],
+      "description": "Three strawberries, one halved, red wash with seed specks and leaf caps.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "strawberr"
+      ],
+      "head": false
+    },
+    {
+      "id": "tomato",
+      "batch": 4,
+      "category": "produce",
+      "name": "Tomato",
+      "aliases": [
+        "cherry tomatoes",
+        "tomatoes",
+        "มะเขือเทศ"
+      ],
+      "description": "A whole tomato and a cut half showing seed chambers, red wash and calyx ink.",
+      "evidence": "0 standalone rows; frequent component",
+      "match": [
+        "tomato"
+      ],
+      "head": false
+    },
+    {
+      "id": "corn",
+      "batch": 4,
+      "category": "produce",
+      "name": "Corn",
+      "aliases": [
+        "sweet corn",
+        "corn kernels",
+        "corn on the cob",
+        "ข้าวโพด"
+      ],
+      "description": "A corn cob with husk pulled back and a spill of loose kernels, gold wash.",
+      "evidence": "1 row",
+      "match": [
+        "\\bcorn\\b"
+      ],
+      "head": false
+    },
+    {
+      "id": "french-fries",
+      "batch": 4,
+      "category": "prepared",
+      "name": "French fries",
+      "aliases": [
+        "fries",
+        "chips",
+        "เฟรนช์ฟรายส์"
+      ],
+      "description": "A paper sleeve of golden fries at uneven heights, dry-brush crisp edges.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "fries"
+      ],
+      "head": true
+    },
+    {
+      "id": "burger",
+      "batch": 4,
+      "category": "prepared",
+      "name": "Burger",
+      "aliases": [
+        "hamburger",
+        "cheeseburger",
+        "เบอร์เกอร์"
+      ],
+      "description": "A stacked burger with a sesame bun, patty, cheese drip and lettuce edge.",
+      "evidence": "0 rows; universal",
+      "match": [
+        "burger"
+      ],
+      "head": true
+    },
+    {
+      "id": "spring-roll",
+      "batch": 4,
+      "category": "prepared",
+      "name": "Spring rolls",
+      "aliases": [
+        "fried spring roll",
+        "fresh spring roll",
+        "ปอเปี๊ยะ",
+        "ปอเปี๊ยะทอด"
+      ],
+      "description": "Three golden fried spring rolls, one cut to show filling, with a small dip cup.",
+      "evidence": "0 rows; Thai staple",
+      "match": [
+        "spring roll"
+      ],
+      "head": true
+    },
+    {
+      "id": "satay",
+      "batch": 4,
+      "category": "protein",
+      "name": "Satay",
+      "aliases": [
+        "moo ping",
+        "pork skewer",
+        "chicken satay",
+        "grilled skewer",
+        "หมูปิ้ง",
+        "สะเต๊ะ"
+      ],
+      "description": "Three charred meat skewers fanned on a plate with a small peanut sauce cup.",
+      "evidence": "0 rows; Thai street staple",
+      "match": [
+        "satay",
+        "moo ping",
+        "skewer"
+      ],
+      "head": true
+    },
+    {
+      "id": "mango-sticky-rice",
+      "batch": 4,
+      "category": "sweets",
+      "name": "Mango sticky rice",
+      "aliases": [
+        "khao niao mamuang",
+        "ข้าวเหนียวมะม่วง"
+      ],
+      "description": "Sliced golden mango beside a coconut-glossed sticky rice mound with a mung bean sprinkle.",
+      "evidence": "0 rows; Thai dessert staple",
+      "match": [
+        "mango sticky"
+      ],
+      "head": true
+    },
+    {
+      "id": "chocolate",
+      "batch": 4,
+      "category": "sweets",
+      "name": "Chocolate",
+      "aliases": [
+        "chocolate bar",
+        "dark chocolate",
+        "chocolate topping",
+        "ช็อกโกแลต"
+      ],
+      "description": "Two broken squares of a dark chocolate bar with a scored top, deep brown wash.",
+      "evidence": "2 rows (decorations/toppers)",
+      "match": [
+        "chocolate",
+        "wafer"
+      ],
+      "head": false
+    },
+    {
+      "id": "cookie",
+      "batch": 4,
+      "category": "sweets",
+      "name": "Cookie",
+      "aliases": [
+        "biscuit",
+        "cracker",
+        "cereal cracker",
+        "คุกกี้",
+        "บิสกิต"
+      ],
+      "description": "Two round cookies, one bitten, with chip marks and a cracked surface, ochre wash.",
+      "evidence": "1 row (cereal cracker)",
+      "match": [
+        "cookie",
+        "cracker",
+        "biscuit"
+      ],
+      "head": false
+    },
+    {
+      "id": "oatmeal",
+      "batch": 4,
+      "category": "grains",
+      "name": "Oatmeal",
+      "aliases": [
+        "oats",
+        "overnight oats",
+        "porridge oats",
+        "chia pudding",
+        "overnight chia",
+        "ข้าวโอ๊ต"
+      ],
+      "description": "A jar of layered oats with a berry top and a spoon, cream wash and grain marks.",
+      "evidence": "1 row (overnight chia)",
+      "match": [
+        "overnight",
+        "oats",
+        "oatmeal",
+        "chia"
+      ],
+      "head": false
+    },
+    {
+      "id": "miso-soup",
+      "batch": 4,
+      "category": "soup",
+      "name": "Miso soup",
+      "aliases": [
+        "miso",
+        "japanese soup",
+        "ซุปมิโซะ"
+      ],
+      "description": "A dark lacquer bowl of cloudy miso with tofu cubes and wakame threads.",
+      "evidence": "0 rows (miso paste 1); staple",
+      "match": [
+        "miso soup"
+      ],
+      "head": true
+    },
+    {
+      "id": "pancake",
+      "batch": 5,
+      "category": "grains",
+      "name": "Pancakes",
+      "aliases": [
+        "pancakes",
+        "hotcakes",
+        "แพนเค้ก"
+      ],
+      "description": "A short stack of three pancakes with a butter square and a syrup drip.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "pancake"
+      ],
+      "head": false
+    },
+    {
+      "id": "croissant",
+      "batch": 5,
+      "category": "grains",
+      "name": "Croissant",
+      "aliases": [
+        "pastry",
+        "ครัวซองต์"
+      ],
+      "description": "A single flaky croissant with layered crescent ink and a golden dry-brush top.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "croissant",
+        "pastry"
+      ],
+      "head": false
+    },
+    {
+      "id": "bacon",
+      "batch": 5,
+      "category": "protein",
+      "name": "Bacon",
+      "aliases": [
+        "streaky bacon",
+        "เบคอน"
+      ],
+      "description": "Three wavy bacon rashers with red-brown meat bands and pale fat ribbons.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "bacon"
+      ],
+      "head": false
+    },
+    {
+      "id": "sausage",
+      "batch": 5,
+      "category": "protein",
+      "name": "Sausage",
+      "aliases": [
+        "sausages",
+        "hot dog",
+        "ไส้กรอก"
+      ],
+      "description": "Two browned link sausages with a knife score and a small mustard dab.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "sausage"
+      ],
+      "head": false
+    },
+    {
+      "id": "peanuts",
+      "batch": 5,
+      "category": "protein",
+      "name": "Peanuts",
+      "aliases": [
+        "roasted peanuts",
+        "peanut butter",
+        "ถั่วลิสง"
+      ],
+      "description": "A small heap of shelled peanuts with two in shell, ochre/brown wash.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "peanut"
+      ],
+      "head": false
+    },
+    {
+      "id": "ramen",
+      "batch": 5,
+      "category": "grains",
+      "name": "Ramen",
+      "aliases": [
+        "ramen bowl",
+        "tonkotsu",
+        "ราเมง"
+      ],
+      "description": "A deep bowl of wavy noodles in pale broth with a halved egg, chashu slice and nori.",
+      "evidence": "0 rows; reserve (noodle-soup covers Thai bowls)",
+      "match": [
+        "ramen"
+      ],
+      "head": true
+    },
+    {
+      "id": "donut",
+      "batch": 5,
+      "category": "sweets",
+      "name": "Donut",
+      "aliases": [
+        "doughnut",
+        "โดนัท"
+      ],
+      "description": "A ring donut with a glossy glaze wash and a bite taken out.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "donut",
+        "doughnut"
+      ],
+      "head": false
+    },
+    {
+      "id": "chicken-wings",
+      "batch": 5,
+      "category": "protein",
+      "name": "Chicken wings",
+      "aliases": [
+        "wings",
+        "buffalo wings",
+        "ปีกไก่"
+      ],
+      "description": "Three glazed chicken wings with char marks and a celery stick.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "wings"
+      ],
+      "head": false
+    },
+    {
+      "id": "grilled-squid",
+      "batch": 5,
+      "category": "protein",
+      "name": "Grilled squid",
+      "aliases": [
+        "squid",
+        "calamari",
+        "ปลาหมึกย่าง",
+        "ปลาหมึก"
+      ],
+      "description": "A scored grilled squid tube with tentacles, char marks and a lime wedge.",
+      "evidence": "1 row (ika nigiri is sushi); reserve",
+      "match": [
+        "squid",
+        "calamari"
+      ],
+      "head": false
+    },
+    {
+      "id": "khanom-jeen",
+      "batch": 5,
+      "category": "grains",
+      "name": "Khanom jeen",
+      "aliases": [
+        "thai rice vermicelli",
+        "rice vermicelli",
+        "ขนมจีน"
+      ],
+      "description": "Coiled nests of thin white rice noodles on a plate with a curry pour and herb marks.",
+      "evidence": "0 rows; reserve",
+      "match": [
+        "khanom jeen",
+        "vermicelli"
+      ],
+      "head": true
+    },
+    {
+      "id": "pad-thai",
+      "batch": 5,
+      "category": "prepared",
+      "name": "Pad thai",
+      "aliases": [
+        "phat thai",
+        "ผัดไทย"
+      ],
+      "description": "Orange-tinted flat noodles with shrimp, bean sprouts, a lime wedge and crushed peanut marks.",
+      "evidence": "0 rows; reserve — alternatively an alias on the existing stir-fried-noodles study",
+      "match": [
+        "pad thai",
+        "ผัดไทย"
+      ],
+      "head": true
+    },
+    {
+      "id": "boba-tea",
+      "batch": 5,
+      "category": "drinks",
+      "name": "Boba tea",
+      "aliases": [
+        "boba",
+        "pearl milk tea",
+        "ชาไข่มุก"
+      ],
+      "description": "A domed-lid cup with dark tapioca pearls and a wide straw, cream/brown wash.",
+      "evidence": "0 rows; reserve — milk-tea already carries 'bubble tea' as an alias; only split if the owner wants a pearl-specific study",
+      "match": [
+        "boba"
+      ],
+      "head": true
+    }
+  ],
+  "existing_identity_estimates": {
+    "note": "Coverage estimation only — approximates the #260 qualifier-tolerant matcher over the untouched catalog; NOT the matcher contract.",
+    "jasmine-rice": [
+      "white rice",
+      "steamed rice",
+      "^rice \\(",
+      "cooked white rice",
+      "ข้าวสวย"
+    ],
+    "coffee": [
+      "americano",
+      "black coffee",
+      "drip coffee"
+    ],
+    "fried-egg": [
+      "fried egg"
+    ],
+    "grilled-chicken": [
+      "grilled chicken",
+      "gai yang",
+      "chicken thigh",
+      "chicken breast"
+    ],
+    "salmon": [
+      "salmon"
+    ],
+    "mango": [
+      "mango",
+      "มะม่วง"
+    ],
+    "orange": [
+      "^orange",
+      "mandarin"
+    ],
+    "toast": [
+      "toast"
+    ],
+    "vegetable-soup": [
+      "vegetable soup",
+      "clear soup",
+      "radish soup"
+    ],
+    "stir-fried-noodles": [
+      "stir-fried noodles",
+      "pad see ew"
+    ],
+    "avocado": [
+      "avocado"
+    ],
+    "banana": [
+      "banana"
+    ],
+    "broccoli": [
+      "broccoli"
+    ]
+  },
+  "category_fallback_estimates": {
+    "note": "Rows that resolve to a labeled category fallback (existing or proposed) instead of a specific study.",
+    "prepared": [
+      "oyakodon",
+      "pie",
+      "plate",
+      "dishes",
+      "bowl"
+    ],
+    "soup": [
+      "soup",
+      "broth",
+      "น้ำซุป"
+    ],
+    "protein": [
+      "beef",
+      "pork",
+      "chicken",
+      "fish",
+      "lamb",
+      "hummus",
+      "falafel",
+      "egg"
+    ],
+    "produce": [
+      "vegetable",
+      "sprouts",
+      "onion",
+      "nori",
+      "fruit"
+    ],
+    "grains": [
+      "noodle",
+      "rice",
+      "bread",
+      "bun"
+    ],
+    "drinks": [
+      "drink",
+      "shake"
+    ],
+    "sweets": [
+      "dessert",
+      "topper",
+      "topping",
+      "decoration",
+      "sweet"
+    ],
+    "condiments": [
+      "dressing",
+      "paste",
+      "seasoning",
+      "garnish"
+    ]
+  },
+  "intentionally_not_illustrated": [
+    {
+      "class": "Shared / composite restaurant plates",
+      "examples": [
+        "a quarter share of an Isaan spread",
+        "a Korean banchan side-dish set",
+        "a fish-ball / fish-tofu / dumpling assortment"
+      ],
+      "resolves_to": "fallback-prepared (proposed) else neutral",
+      "why": "no single honest subject; the neutral/prepared sign is the truthful mark"
+    },
+    {
+      "class": "Toppings, garnishes and decorations",
+      "examples": [
+        "chocolate wafer decoration",
+        "fried garlic or shallot garnish",
+        "grilled vegetable topping"
+      ],
+      "resolves_to": "chili-oil / chocolate / category fallback",
+      "why": "sub-item of another row; a dedicated study would out-weigh the food it garnishes"
+    },
+    {
+      "class": "Branded packaged products",
+      "examples": [
+        "branded cereal cracker pack",
+        "branded lactose-free protein milk",
+        "branded high-protein soy milk"
+      ],
+      "resolves_to": "generic study (cookie, protein-shake, soy-milk)",
+      "why": "no brand marks, packaging or logos in the library; generic form only"
+    },
+    {
+      "class": "Pure cooking inputs written as items",
+      "examples": [
+        "cooking oil used for eggs",
+        "olive oil in a sauce",
+        "miso paste"
+      ],
+      "resolves_to": "cooking-oil / gravy",
+      "why": "one generic cruet/saucer study; no per-ingredient art"
+    },
+    {
+      "class": "Specific cuts, breeds, offal and blood dishes",
+      "examples": [
+        "boiled pork with offal",
+        "pork skin/ear salad",
+        "pork blood soup"
+      ],
+      "resolves_to": "boiled-pork / fallback-protein / fallback-soup",
+      "why": "the library never claims a cut or organ; generic protein/soup marks only"
+    },
+    {
+      "class": "Water",
+      "examples": [],
+      "resolves_to": "n/a",
+      "why": "water is logged through water_logs, not meal_items"
+    }
+  ],
+  "resolver_note": "Coverage estimator only: (1) composite names (shared/assortment/side dishes) → fallback-prepared; (2) 'head' dish identities match anywhere outside parentheses; (3) remaining identity + shipped-identity rules by earliest match position; (4) category keywords; (5) neutral. It approximates #260 part A and is not the matcher contract.",
+  "composite_patterns": [
+    "shared dishes",
+    "side dishes",
+    "assortment",
+    "dishes \\("
+  ]
+}

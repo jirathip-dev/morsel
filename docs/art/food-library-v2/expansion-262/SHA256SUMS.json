@@ -1,0 +1,11 @@
+{
+  "subjects-proposed.json": "2de33a5cfb0f7fb734c1a0621f959e5df408a01e665ec6f65dc84c70f87edaf8",
+  "SUBJECT-LIST.md": "993d393ff2274fe513e671afcce735fcbe9b475935b774488252ed60d657a08d",
+  "coverage.json": "e4167b509c7aeb5781433e2a8deb7a304c7833f315e98d4c1ec4bda9317c38ab",
+  "alias-proposals-260.json": "3d1f4ba709ff17855fa025fafab17aa9ce939c97d9ed3bb56d26723e5d39bf54",
+  "shipped_catalog_sha256": {
+    "subjects.json": "c07f0f14710449fafd38f8c3a630fda2670f53136f47a17da2cc3e034c7829dd",
+    "catalog.json": "68592df5fe15eaf9426891f0451c20f1fa5611a43d33412709f8064652a48bb7",
+    "SHA256SUMS.json": "55ed9e3fe4d1db60e2c51dbf282175974389f7c3d77a6e16b6236cc5a118c470"
+  }
+}

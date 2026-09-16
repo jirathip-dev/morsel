@@ -1,0 +1,1900 @@
+{
+  "issue": "#262 → #260 coordination; catalog is owned by the design lane, matcher by the impl lane",
+  "principle": "Aliases are whole-term generic names the logging agent actually writes; the matcher strips qualifiers (parentheticals, cooked/steamed/grilled prefixes where the identity already implies them, portions, grams). Never substring-match a longer distinct food.",
+  "shipped_alias_additions": [
+    {
+      "id": "toast",
+      "add_aliases": [
+        "thick toast",
+        "sourdough-style toast"
+      ],
+      "why": "observed thick sourdough-style toast rows; the study depicts a toasted slice"
+    },
+    {
+      "id": "vegetable-soup",
+      "add_aliases": [
+        "radish soup",
+        "clear vegetable soup"
+      ],
+      "why": "observed 'Radish soup' row; the study is a clear vegetable broth"
+    }
+  ],
+  "proposed_identities": [
+    {
+      "id": "sweet-potato",
+      "category": "produce",
+      "name": "Sweet potato",
+      "aliases": [
+        "soft dried sweet potato",
+        "japanese sweet potato",
+        "baked sweet potato",
+        "มันหวาน",
+        "มันหวานญี่ปุ่น",
+        "มันเทศ"
+      ],
+      "tolerated_fragments": [
+        "sweet potato",
+        "มันหวาน"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "yogurt",
+      "category": "dairy",
+      "name": "Yogurt",
+      "aliases": [
+        "greek yogurt",
+        "plain yogurt",
+        "yogurt bowl",
+        "โยเกิร์ต",
+        "กรีกโยเกิร์ต"
+      ],
+      "tolerated_fragments": [
+        "yogurt(?! smoothie)",
+        "cilbir"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "berries",
+      "category": "produce",
+      "name": "Berries",
+      "aliases": [
+        "blueberries",
+        "blackberries",
+        "mixed berries",
+        "frozen blueberries",
+        "บลูเบอร์รี่",
+        "เบอร์รี่"
+      ],
+      "tolerated_fragments": [
+        "blueberr",
+        "blackberr",
+        "berries"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "boiled-egg",
+      "category": "protein",
+      "name": "Boiled egg",
+      "aliases": [
+        "soft-boiled egg",
+        "hard-boiled egg",
+        "poached egg",
+        "onsen egg",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "ไข่ออนเซ็น"
+      ],
+      "tolerated_fragments": [
+        "boiled egg",
+        "poached egg",
+        "poached/soft",
+        "onsen",
+        "ไข่ต้ม",
+        "ไข่ลวก",
+        "soft-boiled"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "egg",
+      "category": "protein",
+      "name": "Egg",
+      "aliases": [
+        "eggs",
+        "chicken egg",
+        "duck egg",
+        "whole egg",
+        "ไข่",
+        "ไข่ไก่",
+        "ไข่เป็ด"
+      ],
+      "tolerated_fragments": [
+        "^egg$",
+        "^eggs$",
+        "chicken egg",
+        "duck egg",
+        "^egg \\("
+      ],
+      "batch": 1
+    },
+    {
+      "id": "sticky-rice",
+      "category": "grains",
+      "name": "Sticky rice",
+      "aliases": [
+        "khao niao",
+        "glutinous rice",
+        "ข้าวเหนียว"
+      ],
+      "tolerated_fragments": [
+        "sticky rice",
+        "khao niao",
+        "ข้าวเหนียว"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "braised-pork",
+      "category": "protein",
+      "name": "Braised pork",
+      "aliases": [
+        "pork with brown gravy",
+        "moo ob",
+        "stewed pork",
+        "pork stew",
+        "assorted pork",
+        "pork belly braised",
+        "หมูอบ",
+        "หมูตุ๋น",
+        "หมูพะโล้"
+      ],
+      "tolerated_fragments": [
+        "pork with brown gravy",
+        "moo ob",
+        "assorted pork",
+        "braised pork"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "stir-fried-greens",
+      "category": "produce",
+      "name": "Stir-fried greens",
+      "aliases": [
+        "chinese kale",
+        "kana",
+        "kai lan",
+        "morning glory",
+        "pak boong",
+        "sauteed greens",
+        "cooked greens",
+        "ผัดคะน้า",
+        "ผัดผักบุ้ง",
+        "คะน้า",
+        "ผักบุ้ง"
+      ],
+      "tolerated_fragments": [
+        "kale",
+        "morning glory",
+        "green vegetable",
+        "greens"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "pasta",
+      "category": "grains",
+      "name": "Pasta",
+      "aliases": [
+        "linguine",
+        "spaghetti",
+        "tagliatelle",
+        "fettuccine",
+        "cooked pasta",
+        "พาสต้า",
+        "สปาเก็ตตี้"
+      ],
+      "tolerated_fragments": [
+        "pasta",
+        "linguine",
+        "tagliatelle",
+        "spaghetti"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "sourdough-bread",
+      "category": "grains",
+      "name": "Sourdough bread",
+      "aliases": [
+        "sourdough",
+        "sourdough toast",
+        "seeded sourdough",
+        "whole wheat sourdough",
+        "crusty bread",
+        "ขนมปังซาวร์โดว์"
+      ],
+      "tolerated_fragments": [
+        "sourdough"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "cereal-flakes",
+      "category": "grains",
+      "name": "Cereal flakes",
+      "aliases": [
+        "cornflakes",
+        "corn flakes",
+        "granola",
+        "breakfast cereal",
+        "cereal",
+        "คอร์นเฟลก",
+        "ซีเรียล"
+      ],
+      "tolerated_fragments": [
+        "cornflake",
+        "corn flake",
+        "granola",
+        "cereal"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "smoothie",
+      "category": "drinks",
+      "name": "Smoothie",
+      "aliases": [
+        "fruit smoothie",
+        "yogurt smoothie",
+        "blended fruit",
+        "สมูทตี้"
+      ],
+      "tolerated_fragments": [
+        "smoothie"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "cheese",
+      "category": "dairy",
+      "name": "Cheese",
+      "aliases": [
+        "cheese slices",
+        "edam",
+        "halloumi",
+        "burrata",
+        "stracciatella",
+        "parmesan",
+        "ชีส"
+      ],
+      "tolerated_fragments": [
+        "cheese",
+        "burrata",
+        "halloumi",
+        "stracciatella",
+        "edam"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "ice-cream",
+      "category": "sweets",
+      "name": "Ice cream",
+      "aliases": [
+        "coconut ice cream",
+        "gelato",
+        "soft serve",
+        "blizzard",
+        "ไอศกรีม",
+        "ไอติม"
+      ],
+      "tolerated_fragments": [
+        "ice cream",
+        "blizzard"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "grilled-pork",
+      "category": "protein",
+      "name": "Grilled pork",
+      "aliases": [
+        "moo yang",
+        "grilled pork slices",
+        "pork belly grilled",
+        "pork neck",
+        "kor moo yang",
+        "sun-dried pork",
+        "หมูย่าง",
+        "คอหมูย่าง",
+        "หมูแดดเดียว"
+      ],
+      "tolerated_fragments": [
+        "grilled pork",
+        "pork slice",
+        "pork sliced",
+        "หมูแดดเดียว"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "grilled-beef",
+      "category": "protein",
+      "name": "Grilled beef",
+      "aliases": [
+        "beef steak",
+        "steak",
+        "seared beef",
+        "isaan grilled beef",
+        "marbled beef",
+        "เนื้อย่าง",
+        "สเต็ก"
+      ],
+      "tolerated_fragments": [
+        "grilled beef",
+        "steak",
+        "marbled beef",
+        "seared beef"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "steamed-fish",
+      "category": "protein",
+      "name": "Steamed fish",
+      "aliases": [
+        "white fish",
+        "cod",
+        "seabass",
+        "fish fillet",
+        "steamed seabass",
+        "ปลานึ่ง",
+        "ปลากะพง"
+      ],
+      "tolerated_fragments": [
+        "steamed fish",
+        "cod",
+        "seabass",
+        "fish, cooked"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "hot-pot",
+      "category": "soup",
+      "name": "Hot pot",
+      "aliases": [
+        "shabu",
+        "suki",
+        "sukiyaki",
+        "malatang",
+        "hotpot",
+        "สุกี้",
+        "ชาบู",
+        "หม้อไฟ",
+        "หมาล่าทัง"
+      ],
+      "tolerated_fragments": [
+        "malatang",
+        "shabu",
+        "hot pot",
+        "hotpot",
+        "sukiyaki"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "tom-yum",
+      "category": "soup",
+      "name": "Tom yum",
+      "aliases": [
+        "tom yum soup",
+        "spicy soup",
+        "tom yum broth",
+        "ต้มยำ",
+        "ต้มยำกุ้ง"
+      ],
+      "tolerated_fragments": [
+        "tom yum(?! seasoning)",
+        "ต้มยำ",
+        "spicy soup"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "noodle-soup",
+      "category": "grains",
+      "name": "Noodle soup",
+      "aliases": [
+        "kuay tiao",
+        "boat noodle",
+        "rice noodle soup",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "pho",
+        "ก๋วยเตี๋ยว",
+        "ก๋วยเตี๋ยวเรือ",
+        "เย็นตาโฟ",
+        "เส้นเล็ก",
+        "เส้นใหญ่"
+      ],
+      "tolerated_fragments": [
+        "boat noodle",
+        "boat-noodle",
+        "sen lek",
+        "sen yai",
+        "yentafo",
+        "rice noodle",
+        "ข้าวเปียกเส้น",
+        "เส้นเล็ก"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "nam-jim",
+      "category": "condiments",
+      "name": "Dipping sauce",
+      "aliases": [
+        "nam jim",
+        "nam jim jaew",
+        "jaew",
+        "seafood sauce",
+        "chili-garlic sauce",
+        "ginger soy sauce",
+        "dipping sauce",
+        "น้ำจิ้ม",
+        "น้ำจิ้มแจ่ว",
+        "แจ่ว",
+        "น้ำจิ้มซีฟู้ด"
+      ],
+      "tolerated_fragments": [
+        "nam jim",
+        "dipping sauce",
+        "jaew"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "wrap",
+      "category": "prepared",
+      "name": "Wrap",
+      "aliases": [
+        "chicken wrap",
+        "shawarma wrap",
+        "lamb wrap",
+        "tortilla wrap",
+        "burrito",
+        "แร็พ"
+      ],
+      "tolerated_fragments": [
+        "wrap"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "chicken-rice",
+      "category": "prepared",
+      "name": "Chicken rice",
+      "aliases": [
+        "khao man gai",
+        "hainanese chicken rice",
+        "poached chicken rice",
+        "ข้าวมันไก่"
+      ],
+      "tolerated_fragments": [
+        "chicken rice",
+        "khao man gai"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "milk",
+      "category": "dairy",
+      "name": "Milk",
+      "aliases": [
+        "hot milk",
+        "fresh milk",
+        "oat milk",
+        "almond milk",
+        "lactose-free milk",
+        "นม",
+        "นมสด",
+        "นมข้าวโอ๊ต"
+      ],
+      "tolerated_fragments": [
+        "hot milk",
+        "oat milk",
+        "^milk"
+      ],
+      "batch": 1
+    },
+    {
+      "id": "purple-rice",
+      "category": "grains",
+      "name": "Purple rice",
+      "aliases": [
+        "riceberry",
+        "riceberry rice",
+        "black rice",
+        "mixed rice",
+        "brown rice",
+        "multigrain rice",
+        "ข้าวไรซ์เบอร์รี่",
+        "ข้าวกล้อง"
+      ],
+      "tolerated_fragments": [
+        "purple",
+        "riceberry",
+        "brown rice"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "rice-porridge",
+      "category": "grains",
+      "name": "Rice porridge",
+      "aliases": [
+        "khao tom",
+        "jok",
+        "congee",
+        "โจ๊ก",
+        "ข้าวต้ม"
+      ],
+      "tolerated_fragments": [
+        "khao tom",
+        "porridge",
+        "congee"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "steamed-bun",
+      "category": "grains",
+      "name": "Steamed bun",
+      "aliases": [
+        "salapao",
+        "bao",
+        "kaya bun",
+        "pork bun",
+        "ซาลาเปา"
+      ],
+      "tolerated_fragments": [
+        "steamed bun",
+        "bun"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "sushi",
+      "category": "prepared",
+      "name": "Sushi",
+      "aliases": [
+        "nigiri",
+        "maki",
+        "sushi roll",
+        "gunkan",
+        "inari",
+        "ซูชิ"
+      ],
+      "tolerated_fragments": [
+        "sushi",
+        "nigiri",
+        "gunkan",
+        "inari"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "tofu",
+      "category": "protein",
+      "name": "Tofu",
+      "aliases": [
+        "fried tofu",
+        "bean curd",
+        "tofu skin",
+        "เต้าหู้",
+        "เต้าหู้ทอด",
+        "ฟองเต้าหู้"
+      ],
+      "tolerated_fragments": [
+        "\\btofu\\b"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "minced-pork",
+      "category": "protein",
+      "name": "Minced pork",
+      "aliases": [
+        "ground pork",
+        "moo sap",
+        "pork mince",
+        "bolognese",
+        "minced meat",
+        "หมูสับ"
+      ],
+      "tolerated_fragments": [
+        "minced pork",
+        "bolognese",
+        "หมูสับ"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "larb",
+      "category": "prepared",
+      "name": "Larb",
+      "aliases": [
+        "laab",
+        "beef larb",
+        "pork larb",
+        "koi",
+        "ลาบ",
+        "ก้อย"
+      ],
+      "tolerated_fragments": [
+        "larb"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "boiled-pork",
+      "category": "protein",
+      "name": "Boiled pork slices",
+      "aliases": [
+        "suyuk",
+        "bossam",
+        "boiled pork",
+        "pork belly boiled",
+        "หมูต้ม"
+      ],
+      "tolerated_fragments": [
+        "boiled pork",
+        "bossam",
+        "suyuk",
+        "수육"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "poached-chicken",
+      "category": "protein",
+      "name": "Poached chicken",
+      "aliases": [
+        "shredded chicken",
+        "boiled chicken",
+        "chicken slices",
+        "ไก่ต้ม",
+        "ไก่ฉีก"
+      ],
+      "tolerated_fragments": [
+        "poached chicken",
+        "shredded chicken",
+        "chicken \\(oyakodon\\)",
+        "chicken thigh \\(oyakodon\\)"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "sardines",
+      "category": "protein",
+      "name": "Sardines",
+      "aliases": [
+        "canned sardines",
+        "sardines in oil",
+        "tinned fish",
+        "ปลาซาร์ดีน",
+        "ปลากระป๋อง"
+      ],
+      "tolerated_fragments": [
+        "sardine"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "cold-cuts",
+      "category": "protein",
+      "name": "Cold cuts",
+      "aliases": [
+        "mortadella",
+        "chorizo",
+        "ham",
+        "salami",
+        "moo yor",
+        "sausage slices",
+        "หมูยอ",
+        "แฮม"
+      ],
+      "tolerated_fragments": [
+        "mortadella",
+        "chorizo",
+        "หมูยอ",
+        "ham,",
+        "^ham"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "dumplings",
+      "category": "prepared",
+      "name": "Dumplings",
+      "aliases": [
+        "wonton",
+        "fried wonton",
+        "gyoza",
+        "dim sum",
+        "เกี๊ยว",
+        "เกี๊ยวทอด",
+        "เกี๊ยวซ่า"
+      ],
+      "tolerated_fragments": [
+        "wonton",
+        "dumpling",
+        "gyoza"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "meatballs",
+      "category": "protein",
+      "name": "Meatballs",
+      "aliases": [
+        "fish balls",
+        "beef balls",
+        "pork balls",
+        "meatball skewer",
+        "look chin",
+        "ลูกชิ้น",
+        "ลูกชิ้นปิ้ง"
+      ],
+      "tolerated_fragments": [
+        "meatball",
+        "fish ball",
+        "beef ball"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "iced-coffee",
+      "category": "drinks",
+      "name": "Iced coffee",
+      "aliases": [
+        "iced americano",
+        "iced black coffee",
+        "cold brew",
+        "กาแฟเย็น",
+        "อเมริกาโน่เย็น"
+      ],
+      "tolerated_fragments": [
+        "iced americano",
+        "iced black coffee",
+        "iced coffee",
+        "cold brew"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "matcha-latte",
+      "category": "drinks",
+      "name": "Matcha latte",
+      "aliases": [
+        "matcha",
+        "green tea latte",
+        "matcha oat milk",
+        "มัทฉะ",
+        "มัทฉะลาเต้"
+      ],
+      "tolerated_fragments": [
+        "matcha"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "soy-milk",
+      "category": "drinks",
+      "name": "Soy milk",
+      "aliases": [
+        "soymilk",
+        "high-protein soy milk",
+        "tofusan",
+        "น้ำเต้าหู้"
+      ],
+      "tolerated_fragments": [
+        "soy milk",
+        "soymilk",
+        "tofusan"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "milk-tea",
+      "category": "drinks",
+      "name": "Milk tea",
+      "aliases": [
+        "thai tea",
+        "cha yen",
+        "bubble tea",
+        "taro milk tea",
+        "ชานม",
+        "ชาเย็น",
+        "ชานมไข่มุก"
+      ],
+      "tolerated_fragments": [
+        "milk tea"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "som-tum",
+      "category": "prepared",
+      "name": "Som tum",
+      "aliases": [
+        "papaya salad",
+        "somtum",
+        "som tam",
+        "ส้มตำ"
+      ],
+      "tolerated_fragments": [
+        "som ?tum",
+        "papaya salad"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "eggplant",
+      "category": "produce",
+      "name": "Eggplant",
+      "aliases": [
+        "aubergine",
+        "sauteed eggplant",
+        "grilled eggplant",
+        "มะเขือ",
+        "มะเขือยาว"
+      ],
+      "tolerated_fragments": [
+        "eggplant"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "green-salad",
+      "category": "produce",
+      "name": "Green salad",
+      "aliases": [
+        "mixed salad",
+        "mixed leaf salad",
+        "side salad",
+        "garden salad",
+        "สลัด",
+        "สลัดผัก"
+      ],
+      "tolerated_fragments": [
+        "salad w/",
+        "mixed salad",
+        "leaf salad"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "chili-oil",
+      "category": "condiments",
+      "name": "Chili oil",
+      "aliases": [
+        "chili crisp",
+        "chili flakes",
+        "chili butter",
+        "crispy chili topping",
+        "fried shallot topping",
+        "พริกน้ำมัน",
+        "พริกป่น"
+      ],
+      "tolerated_fragments": [
+        "chili oil",
+        "chili butter",
+        "chili flakes",
+        "spicy crispy topping",
+        "fried garlic",
+        "fried shallot"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "gravy",
+      "category": "condiments",
+      "name": "Gravy",
+      "aliases": [
+        "sauce",
+        "brown sauce",
+        "peppercorn sauce",
+        "creamy sauce",
+        "tomato sauce",
+        "pan sauce",
+        "น้ำเกรวี่",
+        "ซอส"
+      ],
+      "tolerated_fragments": [
+        "gravy",
+        "sauce",
+        "miso paste"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "thai-sweets",
+      "category": "sweets",
+      "name": "Thai sweets",
+      "aliases": [
+        "khanom thai",
+        "khanom thuay",
+        "man nup",
+        "coconut cups",
+        "khanom",
+        "ขนมไทย",
+        "ขนมถ้วย"
+      ],
+      "tolerated_fragments": [
+        "khanom",
+        "man nup",
+        "ข้าวเกรียบปากหม้อ",
+        "mochi"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "curry",
+      "category": "soup",
+      "name": "Curry",
+      "aliases": [
+        "thai curry",
+        "panang",
+        "red curry",
+        "massaman",
+        "coconut curry",
+        "แกง",
+        "พะแนง",
+        "แกงเผ็ด",
+        "มัสมั่น"
+      ],
+      "tolerated_fragments": [
+        "พะแนง",
+        "curry"
+      ],
+      "batch": 2
+    },
+    {
+      "id": "fried-rice",
+      "category": "prepared",
+      "name": "Fried rice",
+      "aliases": [
+        "khao pad",
+        "egg fried rice",
+        "ข้าวผัด"
+      ],
+      "tolerated_fragments": [
+        "fried rice",
+        "khao pad",
+        "ข้าวผัด"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "basil-stir-fry",
+      "category": "prepared",
+      "name": "Basil stir-fry",
+      "aliases": [
+        "pad kra pao",
+        "krapow",
+        "holy basil stir-fry",
+        "ผัดกะเพรา",
+        "กะเพรา"
+      ],
+      "tolerated_fragments": [
+        "kra ?pao",
+        "krapow",
+        "กะเพรา"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "omelette",
+      "category": "protein",
+      "name": "Omelette",
+      "aliases": [
+        "thai omelette",
+        "kai jeow",
+        "scrambled eggs",
+        "ไข่เจียว",
+        "ไข่คน"
+      ],
+      "tolerated_fragments": [
+        "omelet",
+        "scrambled",
+        "ไข่เจียว"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "fried-chicken",
+      "category": "protein",
+      "name": "Fried chicken",
+      "aliases": [
+        "gai tod",
+        "crispy chicken",
+        "karaage",
+        "ไก่ทอด"
+      ],
+      "tolerated_fragments": [
+        "fried chicken",
+        "karaage",
+        "ไก่ทอด"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "pizza-slice",
+      "category": "prepared",
+      "name": "Pizza slice",
+      "aliases": [
+        "pizza",
+        "square pizza slice",
+        "พิซซ่า"
+      ],
+      "tolerated_fragments": [
+        "pizza"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "sandwich",
+      "category": "prepared",
+      "name": "Sandwich",
+      "aliases": [
+        "focaccia sandwich",
+        "baguette sandwich",
+        "toastie",
+        "แซนด์วิช"
+      ],
+      "tolerated_fragments": [
+        "sandwich",
+        "ขนมปังบาเก็ต"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "focaccia",
+      "category": "grains",
+      "name": "Focaccia",
+      "aliases": [
+        "focaccia bread",
+        "flatbread",
+        "โฟกัชชา"
+      ],
+      "tolerated_fragments": [
+        "focaccia(?! sandwich)"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "instant-noodles",
+      "category": "grains",
+      "name": "Instant noodles",
+      "aliases": [
+        "mama",
+        "mama noodles",
+        "ramyeon",
+        "cup noodles",
+        "มาม่า",
+        "บะหมี่กึ่งสำเร็จรูป"
+      ],
+      "tolerated_fragments": [
+        "instant noodle",
+        "mama"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "roti",
+      "category": "grains",
+      "name": "Roti",
+      "aliases": [
+        "roti canai",
+        "thai roti",
+        "โรตี"
+      ],
+      "tolerated_fragments": [
+        "roti",
+        "โรตี"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "mashed-potato",
+      "category": "produce",
+      "name": "Mashed potato",
+      "aliases": [
+        "mash",
+        "potatoes",
+        "potato",
+        "มันบด",
+        "มันฝรั่ง"
+      ],
+      "tolerated_fragments": [
+        "mashed potato",
+        "potato"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "cooking-oil",
+      "category": "condiments",
+      "name": "Cooking oil",
+      "aliases": [
+        "olive oil",
+        "extra virgin olive oil",
+        "oil",
+        "น้ำมัน",
+        "น้ำมันมะกอก"
+      ],
+      "tolerated_fragments": [
+        "oil"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "raw-vegetable-plate",
+      "category": "produce",
+      "name": "Raw vegetable plate",
+      "aliases": [
+        "fresh vegetables",
+        "raw vegetables",
+        "crudites",
+        "vegetable sticks",
+        "ผักสด"
+      ],
+      "tolerated_fragments": [
+        "raw vegetables",
+        "fresh vegetables",
+        "vegetable sticks"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "mixed-nuts",
+      "category": "protein",
+      "name": "Mixed nuts",
+      "aliases": [
+        "nuts",
+        "almonds",
+        "sliced almonds",
+        "cashews",
+        "nut butter",
+        "ถั่ว",
+        "อัลมอนด์"
+      ],
+      "tolerated_fragments": [
+        "nuts",
+        "almond",
+        "pistachio"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "shabu-slices",
+      "category": "protein",
+      "name": "Thin-sliced meat",
+      "aliases": [
+        "shabu beef",
+        "shabu pork",
+        "hotpot meat",
+        "sliced beef",
+        "thin sliced",
+        "เนื้อสไลด์",
+        "หมูสไลด์"
+      ],
+      "tolerated_fragments": [
+        "shabu",
+        "hotpot meat",
+        "sliced beef"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "beef-rice-bowl",
+      "category": "prepared",
+      "name": "Beef rice bowl",
+      "aliases": [
+        "gyudon",
+        "bibimbap",
+        "beef bowl",
+        "donburi",
+        "ข้าวหน้าเนื้อ"
+      ],
+      "tolerated_fragments": [
+        "gyudon",
+        "beef bowl",
+        "bibimbap"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "protein-shake",
+      "category": "drinks",
+      "name": "Protein shake",
+      "aliases": [
+        "protein milk",
+        "protein drink",
+        "chocolate protein shake",
+        "โปรตีนเชค"
+      ],
+      "tolerated_fragments": [
+        "protein"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "apple",
+      "category": "produce",
+      "name": "Apple",
+      "aliases": [
+        "red apple",
+        "green apple",
+        "แอปเปิ้ล"
+      ],
+      "tolerated_fragments": [
+        "^apple",
+        "apple,"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "pomelo",
+      "category": "produce",
+      "name": "Pomelo",
+      "aliases": [
+        "pomelo segments",
+        "grapefruit",
+        "ส้มโอ"
+      ],
+      "tolerated_fragments": [
+        "pomelo",
+        "ส้มโอ"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "cucumber",
+      "category": "produce",
+      "name": "Cucumber",
+      "aliases": [
+        "cucumber slices",
+        "แตงกวา"
+      ],
+      "tolerated_fragments": [
+        "cucumber"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "kimchi",
+      "category": "produce",
+      "name": "Kimchi",
+      "aliases": [
+        "banchan",
+        "korean side dishes",
+        "pickled vegetables",
+        "กิมจิ"
+      ],
+      "tolerated_fragments": [
+        "kimchi",
+        "korean side"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "mushrooms",
+      "category": "produce",
+      "name": "Mushrooms",
+      "aliases": [
+        "shiitake",
+        "enoki",
+        "button mushrooms",
+        "เห็ด"
+      ],
+      "tolerated_fragments": [
+        "mushroom"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "shrimp",
+      "category": "protein",
+      "name": "Shrimp",
+      "aliases": [
+        "prawns",
+        "grilled shrimp",
+        "กุ้ง",
+        "กุ้งย่าง"
+      ],
+      "tolerated_fragments": [
+        "shrimp",
+        "prawn"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "stewed-duck",
+      "category": "protein",
+      "name": "Stewed duck",
+      "aliases": [
+        "duck",
+        "roast duck",
+        "braised duck",
+        "ped palo",
+        "เป็ด",
+        "เป็ดพะโล้",
+        "เป็ดย่าง"
+      ],
+      "tolerated_fragments": [
+        "duck"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "cake",
+      "category": "sweets",
+      "name": "Cake",
+      "aliases": [
+        "slice of cake",
+        "cheesecake",
+        "coffee cake",
+        "brownie",
+        "เค้ก"
+      ],
+      "tolerated_fragments": [
+        "cake",
+        "brownie"
+      ],
+      "batch": 3
+    },
+    {
+      "id": "tea",
+      "category": "drinks",
+      "name": "Tea",
+      "aliases": [
+        "hot tea",
+        "green tea",
+        "black tea",
+        "herbal tea",
+        "ชา",
+        "ชาเขียว",
+        "ชาร้อน"
+      ],
+      "tolerated_fragments": [
+        "^tea",
+        " tea$",
+        "green tea"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "latte",
+      "category": "drinks",
+      "name": "Latte",
+      "aliases": [
+        "cafe latte",
+        "cappuccino",
+        "flat white",
+        "milk coffee",
+        "ลาเต้",
+        "กาแฟนม"
+      ],
+      "tolerated_fragments": [
+        "latte",
+        "cappuccino",
+        "flat white"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "orange-juice",
+      "category": "drinks",
+      "name": "Orange juice",
+      "aliases": [
+        "juice",
+        "fruit juice",
+        "น้ำส้ม",
+        "น้ำผลไม้"
+      ],
+      "tolerated_fragments": [
+        "juice"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "coconut-water",
+      "category": "drinks",
+      "name": "Coconut water",
+      "aliases": [
+        "young coconut",
+        "coconut juice",
+        "น้ำมะพร้าว"
+      ],
+      "tolerated_fragments": [
+        "coconut water",
+        "coconut juice"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "beer",
+      "category": "drinks",
+      "name": "Beer",
+      "aliases": [
+        "lager",
+        "draft beer",
+        "เบียร์"
+      ],
+      "tolerated_fragments": [
+        "beer"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "watermelon",
+      "category": "produce",
+      "name": "Watermelon",
+      "aliases": [
+        "แตงโม"
+      ],
+      "tolerated_fragments": [
+        "watermelon"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "pineapple",
+      "category": "produce",
+      "name": "Pineapple",
+      "aliases": [
+        "สับปะรด"
+      ],
+      "tolerated_fragments": [
+        "pineapple"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "papaya",
+      "category": "produce",
+      "name": "Papaya",
+      "aliases": [
+        "ripe papaya",
+        "มะละกอ"
+      ],
+      "tolerated_fragments": [
+        "papaya"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "dragon-fruit",
+      "category": "produce",
+      "name": "Dragon fruit",
+      "aliases": [
+        "pitaya",
+        "แก้วมังกร"
+      ],
+      "tolerated_fragments": [
+        "dragon fruit"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "guava",
+      "category": "produce",
+      "name": "Guava",
+      "aliases": [
+        "ฝรั่ง"
+      ],
+      "tolerated_fragments": [
+        "guava"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "grapes",
+      "category": "produce",
+      "name": "Grapes",
+      "aliases": [
+        "องุ่น"
+      ],
+      "tolerated_fragments": [
+        "grape"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "strawberry",
+      "category": "produce",
+      "name": "Strawberries",
+      "aliases": [
+        "strawberries",
+        "สตรอว์เบอร์รี่"
+      ],
+      "tolerated_fragments": [
+        "strawberr"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "tomato",
+      "category": "produce",
+      "name": "Tomato",
+      "aliases": [
+        "cherry tomatoes",
+        "tomatoes",
+        "มะเขือเทศ"
+      ],
+      "tolerated_fragments": [
+        "tomato"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "corn",
+      "category": "produce",
+      "name": "Corn",
+      "aliases": [
+        "sweet corn",
+        "corn kernels",
+        "corn on the cob",
+        "ข้าวโพด"
+      ],
+      "tolerated_fragments": [
+        "\\bcorn\\b"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "french-fries",
+      "category": "prepared",
+      "name": "French fries",
+      "aliases": [
+        "fries",
+        "chips",
+        "เฟรนช์ฟรายส์"
+      ],
+      "tolerated_fragments": [
+        "fries"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "burger",
+      "category": "prepared",
+      "name": "Burger",
+      "aliases": [
+        "hamburger",
+        "cheeseburger",
+        "เบอร์เกอร์"
+      ],
+      "tolerated_fragments": [
+        "burger"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "spring-roll",
+      "category": "prepared",
+      "name": "Spring rolls",
+      "aliases": [
+        "fried spring roll",
+        "fresh spring roll",
+        "ปอเปี๊ยะ",
+        "ปอเปี๊ยะทอด"
+      ],
+      "tolerated_fragments": [
+        "spring roll"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "satay",
+      "category": "protein",
+      "name": "Satay",
+      "aliases": [
+        "moo ping",
+        "pork skewer",
+        "chicken satay",
+        "grilled skewer",
+        "หมูปิ้ง",
+        "สะเต๊ะ"
+      ],
+      "tolerated_fragments": [
+        "satay",
+        "moo ping",
+        "skewer"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "mango-sticky-rice",
+      "category": "sweets",
+      "name": "Mango sticky rice",
+      "aliases": [
+        "khao niao mamuang",
+        "ข้าวเหนียวมะม่วง"
+      ],
+      "tolerated_fragments": [
+        "mango sticky"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "chocolate",
+      "category": "sweets",
+      "name": "Chocolate",
+      "aliases": [
+        "chocolate bar",
+        "dark chocolate",
+        "chocolate topping",
+        "ช็อกโกแลต"
+      ],
+      "tolerated_fragments": [
+        "chocolate",
+        "wafer"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "cookie",
+      "category": "sweets",
+      "name": "Cookie",
+      "aliases": [
+        "biscuit",
+        "cracker",
+        "cereal cracker",
+        "คุกกี้",
+        "บิสกิต"
+      ],
+      "tolerated_fragments": [
+        "cookie",
+        "cracker",
+        "biscuit"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "oatmeal",
+      "category": "grains",
+      "name": "Oatmeal",
+      "aliases": [
+        "oats",
+        "overnight oats",
+        "porridge oats",
+        "chia pudding",
+        "overnight chia",
+        "ข้าวโอ๊ต"
+      ],
+      "tolerated_fragments": [
+        "overnight",
+        "oats",
+        "oatmeal",
+        "chia"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "miso-soup",
+      "category": "soup",
+      "name": "Miso soup",
+      "aliases": [
+        "miso",
+        "japanese soup",
+        "ซุปมิโซะ"
+      ],
+      "tolerated_fragments": [
+        "miso soup"
+      ],
+      "batch": 4
+    },
+    {
+      "id": "pancake",
+      "category": "grains",
+      "name": "Pancakes",
+      "aliases": [
+        "pancakes",
+        "hotcakes",
+        "แพนเค้ก"
+      ],
+      "tolerated_fragments": [
+        "pancake"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "croissant",
+      "category": "grains",
+      "name": "Croissant",
+      "aliases": [
+        "pastry",
+        "ครัวซองต์"
+      ],
+      "tolerated_fragments": [
+        "croissant",
+        "pastry"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "bacon",
+      "category": "protein",
+      "name": "Bacon",
+      "aliases": [
+        "streaky bacon",
+        "เบคอน"
+      ],
+      "tolerated_fragments": [
+        "bacon"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "sausage",
+      "category": "protein",
+      "name": "Sausage",
+      "aliases": [
+        "sausages",
+        "hot dog",
+        "ไส้กรอก"
+      ],
+      "tolerated_fragments": [
+        "sausage"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "peanuts",
+      "category": "protein",
+      "name": "Peanuts",
+      "aliases": [
+        "roasted peanuts",
+        "peanut butter",
+        "ถั่วลิสง"
+      ],
+      "tolerated_fragments": [
+        "peanut"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "ramen",
+      "category": "grains",
+      "name": "Ramen",
+      "aliases": [
+        "ramen bowl",
+        "tonkotsu",
+        "ราเมง"
+      ],
+      "tolerated_fragments": [
+        "ramen"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "donut",
+      "category": "sweets",
+      "name": "Donut",
+      "aliases": [
+        "doughnut",
+        "โดนัท"
+      ],
+      "tolerated_fragments": [
+        "donut",
+        "doughnut"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "chicken-wings",
+      "category": "protein",
+      "name": "Chicken wings",
+      "aliases": [
+        "wings",
+        "buffalo wings",
+        "ปีกไก่"
+      ],
+      "tolerated_fragments": [
+        "wings"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "grilled-squid",
+      "category": "protein",
+      "name": "Grilled squid",
+      "aliases": [
+        "squid",
+        "calamari",
+        "ปลาหมึกย่าง",
+        "ปลาหมึก"
+      ],
+      "tolerated_fragments": [
+        "squid",
+        "calamari"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "khanom-jeen",
+      "category": "grains",
+      "name": "Khanom jeen",
+      "aliases": [
+        "thai rice vermicelli",
+        "rice vermicelli",
+        "ขนมจีน"
+      ],
+      "tolerated_fragments": [
+        "khanom jeen",
+        "vermicelli"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "pad-thai",
+      "category": "prepared",
+      "name": "Pad thai",
+      "aliases": [
+        "phat thai",
+        "ผัดไทย"
+      ],
+      "tolerated_fragments": [
+        "pad thai",
+        "ผัดไทย"
+      ],
+      "batch": 5
+    },
+    {
+      "id": "boba-tea",
+      "category": "drinks",
+      "name": "Boba tea",
+      "aliases": [
+        "boba",
+        "pearl milk tea",
+        "ชาไข่มุก"
+      ],
+      "tolerated_fragments": [
+        "boba"
+      ],
+      "batch": 5
+    }
+  ],
+  "new_category_labels": {
+    "dairy": "Dairy",
+    "sweets": "Sweets",
+    "prepared": "Prepared",
+    "condiments": "Condiments"
+  },
+  "negative_cases": [
+    {
+      "name": "coffee cake",
+      "must_not": "coffee",
+      "expected": "cake (batch 3) else fallback-sweets"
+    },
+    {
+      "name": "Isaan shared dishes (1/4 share ...)",
+      "must_not": "any single identity",
+      "expected": "fallback-prepared else fallback-neutral"
+    },
+    {
+      "name": "unknown food",
+      "must_not": "any identity",
+      "expected": "fallback-neutral"
+    }
+  ]
+}
