@@ -111,6 +111,7 @@ struct SignInView: View {
                         }
                     }
                     .buttonStyle(MorselPrimaryButtonStyle())
+                    .padding(.vertical, -2)
                     .frame(maxWidth: .infinity)
                     .disabled(isWorking)
                     .morselResignsKeyboardOnTap()

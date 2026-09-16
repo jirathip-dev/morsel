@@ -27,7 +27,10 @@ final class JournalDiaryLoadTests: XCTestCase {
     }
 }
 
-final class DiaryReadRepository: DashboardRepository, @unchecked Sendable {
+final class DiaryReadRepository: DashboardRepository, JournalCalendarReading, @unchecked Sendable {
+    var indexedDates: [Date] = []
+    var historyRead: ((UUID, Date, Int) async throws -> HistoryOverview)?
+    func calendarDates(userID: UUID) async throws -> [Date] { indexedDates }
     var parkedDate: Date?
     var pending: CheckedContinuation<DashboardSnapshot, Error>?
     var requestedDates: [Date] = []
@@ -55,7 +58,8 @@ final class DiaryReadRepository: DashboardRepository, @unchecked Sendable {
         }, goal: nil)
     }
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
-        HistoryOverview(days: [], goal: nil, weightTrend: [])
+        if let historyRead { return try await historyRead(userID, end, days) }
+        return HistoryOverview(days: [], goal: nil, weightTrend: [])
     }
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? { nil }
     func confirmMealItem(userID: UUID, itemID: UUID) async throws { confirmedItem = itemID }

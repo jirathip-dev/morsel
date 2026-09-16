@@ -48,7 +48,7 @@ final class PaperDeleteAndSkeletonTests: XCTestCase {
         let views = try readSource("Views.swift")
         let dialog = try slice(views, from: "struct DeleteMealPaperDialog")
         let destructiveStyle = try slice(
-            views, from: "private struct MorselDestructiveButtonStyle", to: "struct DeleteMealPaperDialog"
+            views, from: "struct MorselDestructiveButtonStyle", to: "struct DeleteMealPaperDialog"
         )
 
         XCTAssertTrue(dialog.contains("Button(\"Cancel\") { dismiss() }"))

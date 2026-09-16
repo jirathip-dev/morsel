@@ -19,7 +19,7 @@ extension SupabaseDashboardRepository {
 
         // Issue #121 — day windows are the DEVICE'S LOCAL days (device zone).
         let endStart = calendar.startOfDay(for: end)
-        let clampedDays = min(max(days, 1), 30)
+        let clampedDays = min(max(days, 1), 31) // A full calendar month fits in one overview (#249).
         guard let start = calendar.date(byAdding: .day, value: -(clampedDays - 1), to: endStart),
               let nextDay = calendar.date(byAdding: .day, value: 1, to: endStart),
               let trendStart = calendar.date(byAdding: .day, value: -29, to: endStart) else {

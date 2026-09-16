@@ -287,6 +287,7 @@ private struct DayReadNotice: View {
                 .foregroundStyle(Color.morselInkTwo)
             Button("Try again", action: retry)
                 .buttonStyle(MorselGhostButtonStyle())
+                .padding(.vertical, -2)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
