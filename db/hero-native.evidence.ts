@@ -97,7 +97,10 @@ it('captures native writes prospectively and reads the real dated rows back', as
     if (address === null || typeof address === 'string') throw new Error('bridge address missing')
     writeFileSync(ready, JSON.stringify({ url: `http://127.0.0.1:${String(address.port)}`, userID }))
     console.log(`HERO-LIVE: ready port=${String(address.port)}; no baseline before native write`)
-    const deadline = Date.now() + 1_080_000
+    // 45 min: the native peer must pass the contended shared simulator-admission
+    // lock (/tmp/n.lock) before it can build, so an 18-minute window expired while
+    // this lane legitimately waited in that queue.
+    const deadline = Date.now() + 2_700_000
     while (!existsSync(done) && Date.now() < deadline) await setTimeout(250)
     expect(existsSync(done), 'native write/read/capture must acknowledge before deadline').toBe(true)
     clock('2026-09-18')
