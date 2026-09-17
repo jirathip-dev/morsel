@@ -4,12 +4,12 @@
 Executed 542 tests, with 3 tests skipped and 5 failures (0 unexpected) in 329.937 (330.224) seconds
 LEG head raw_exit=65  Executed 4 tests, with 4 failures (0 unexpected) in 0.697 (0.700) seconds
 
-Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' failed 
-Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed 
-Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed 
-Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed 
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' failed
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed
 
-known pre-existing reds (see pre-existing-native-base.txt / -head.txt): 
+known pre-existing reds (see pre-existing-native-base.txt / -head.txt):
   MealReliabilityTests.testOfflineAddMealCommitsLocallyAndPaintsPendingRow
   PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll
   ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts

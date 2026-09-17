@@ -81,6 +81,10 @@ named test, and the source is restored with `git diff --exit-code -- app/Sources
 | hosted app contracts (`npx vitest run app/`) | 20 files / 142 tests passed, raw exit 0 (`hosted-contracts.txt`) |
 | `npm test` | 61 files (3 failed) / 675 tests (4 failed), raw exit **1**, `AssertionError` count 0, all four failures are `Test timed out in 5000ms` in Swift-unrelated server suites; the three files pass 12/12 alone with a 60 s diagnostic budget (`hosted-contracts.txt` — diagnostic only, never gate evidence) |
 
+The committed excerpts are the raw log's lines with trailing whitespace stripped (raw tool
+output carries it and the repo's `git diff --check` gate rejects it); the raw logs themselves,
+whose SHA-256 each excerpt header states, stay byte-intact in the untracked `.lane-logs/`.
+
 ## Known pre-existing red (disclosed, not folded in)
 
 The unfiltered native run's 5 failures come from 4 test methods. Reverting the fix to `163830a`
