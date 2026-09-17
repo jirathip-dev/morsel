@@ -1,0 +1,24 @@
+XCTAssertTrue failed - Past-day target silently disappears despite correct totals: Wednesday, 16 September
+Wednesday,
+16 Sep
++
+EATEN
+1,953 kcal
+From your logged food
+16. SEP. 2026
+Protein
+Carbs
+Fat
+124g
+162
+g
+80 g
+TODAY'S LOG
+1 meals • 1,953 kcal
+Lunch 7:00 PM
+1,953 kcal
+Repro meal
+1 serving
+P 124g • C 162g • F 80g
+1,9...
+kcal
