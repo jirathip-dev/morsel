@@ -1,8 +1,9 @@
 # Issue #183 — reject obsolete cache writes and preserve cancellation semantics
 
 Base `163830a2e343a59a72935fc45936391372ebe534` (`origin/staging` at lane start, carrying
-#182's refresh owner). Head = this lane's commits on `issue/183-cache-ordering` (exact sha in
-the lane `.report.md` and in `exits.json`).
+#182's refresh owner). The **fix head** is `802e9cd` — every gate below was run there; the evidence commit
+`3a0f94f` adds only the files in this directory (no source change), so the branch head carries
+the same tested source tree. Both shas and the branch head are pinned in `exits.json`.
 
 Everything here is an **unsigned Debug simulator run** (`CODE_SIGNING_ALLOWED=NO`, lane-private
 iPhone 16 simulator `Morsel183-iPhone16` on iOS 26.5) — **not** a physical device, no HealthKit,

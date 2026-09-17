@@ -1,5 +1,8 @@
 {
   "base_sha": "163830a2e343a59a72935fc45936391372ebe534",
+  "evidence_commit_sha": "3a0f94f2b2ce875e82dac61d8d4eb8a90bcc7614",
+  "evidence_note": "every gate in this directory was run at fix_head_sha; the evidence commit adds only the files in this directory (no source change), so the branch head carries the same tested source tree",
+  "fix_head_sha": "802e9cd4a4eeca2ebb0f7aa3fbe72a6c6b209108",
   "full_native_head": {
     "failures": 5,
     "known_pre_existing": [
@@ -11,7 +14,6 @@
     "skipped": 3,
     "tests": 542
   },
-  "head_sha": "802e9cd4a4eeca2ebb0f7aa3fbe72a6c6b209108",
   "issue": 183,
   "logs": {
     "app_contracts": {
