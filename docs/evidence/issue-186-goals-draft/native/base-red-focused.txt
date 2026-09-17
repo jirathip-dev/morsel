@@ -1,0 +1,42 @@
+# Base 69a81602d6be03a2c316f85270a32ede84455d2a + the committed test bytes (only GoalsEditorModel.swift stashed away).
+# The audited mechanism: a late cached paint / remote context / revisit refresh
+# replaces drafted fields, and a write acks a revision it did not submit.
+# raw exit 65; complete log: .lane-logs/red-goals-draft-revision-7tests.log
+
+hermes-sim-task: running on B296FFD4-B7AA-4426-8AD7-71E1A8DBA7EB (Hermes task 5498-ea07bfaa00bf)
+Test Case '-[MorselTests.GoalsDraftRevisionTests testAccountChangeStartsAPristineDraftAndLateReadsStayWithTheirAccount]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testAccountChangeStartsAPristineDraftAndLateReadsStayWithTheirAccount]' passed (0.008 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:183: error: -[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved] : XCTAssertFalse failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:184: error: -[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved] : XCTAssertFalse failed
+Test Case '-[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved]' failed (1.461 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:87: error: -[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("") is not equal to ("200.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:88: error: -[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("") is not equal to ("70.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:89: error: -[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("nil") is not equal to ("Optional(Morsel.GoalSource.manual)")
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' failed (0.016 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateComputeCannotOverwriteAnEditedDraft]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateComputeCannotOverwriteAnEditedDraft]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:118: error: -[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("2000.0") is not equal to ("2100.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:119: error: -[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("200.0") is not equal to ("210.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:120: error: -[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("70.0") is not equal to ("75.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:122: error: -[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes] : XCTAssertEqual failed: ("Optional(2000.0)") is not equal to ("Optional(2100.0)")
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' failed (0.046 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:148: error: -[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields] : XCTAssertEqual failed: ("2400.0") is not equal to ("")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:149: error: -[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields] : XCTAssertEqual failed: ("170.0") is not equal to ("abc")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:153: error: -[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields] : XCTAssertEqual failed: ("nil") is not equal to ("Optional("Enter a number of 0 or more.")")
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:154: error: -[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields] : XCTAssertFalse failed
+Test Case '-[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields]' failed (0.030 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:216: error: -[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues] : XCTAssertEqual failed: ("2600.0") is not equal to ("2300.0") - the refresh must not rewrite the submission
+/Users/jirathip/.herdr/worktrees/morsel/issue-186-goals-draft/app/Tests/MorselTests/GoalsDraftRevisionTests.swift:222: error: -[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues] : XCTAssertEqual failed: ("2600.0") is not equal to ("2300.0")
+Test Case '-[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues]' failed (0.004 seconds).
+Test Suite 'GoalsDraftRevisionTests' failed at 2569-09-17 8:11:10.936 PM.
+	 Executed 7 tests, with 15 failures (0 unexpected) in 1.567 (1.572) seconds
+	 Executed 7 tests, with 15 failures (0 unexpected) in 1.567 (1.572) seconds
+	 Executed 7 tests, with 15 failures (0 unexpected) in 1.567 (1.621) seconds
+2026-09-17 20:11:55.206 xcodebuild[8959:16878607] [MT] IDETestOperationsObserverDebug: 66.631 elapsed -- Testing started completed.
+** TEST FAILED **
+Testing started
