@@ -1,0 +1,14 @@
+# head-green-focused
+# command: HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=A9030A2E-3931-4189-8950-0EF9F2D1B096' -derivedDataPath /tmp/morsel-189-dd -only-testing:MorselTests/SyncNotifyReconciliationTests -only-testing:MorselTests/SyncNotifyPassCoverageTests
+# full raw log: .lane-logs/issue-189/head-focused-r2.log  sha256=8a966ffff4c5dc46dcf1fa786e9a230b541a754ea9f4c764cc8385c33e6f97f4
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+Test Suite 'Selected tests' started at 2569-09-17 10:31:06.228 PM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.194 (0.196) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.086 (0.087) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.280 (0.284) seconds
+Test Suite 'Selected tests' passed at 2569-09-17 10:31:06.513 PM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.280 (0.284) seconds
+** TEST SUCCEEDED **
+RAW_EXIT=0
+HEAD_R2=0
