@@ -20,9 +20,9 @@ import Foundation
 // lists have nothing to depict. No logged name, nutrition or photo is changed.
 //
 // Issue #260 keeps that order and adds ONE bounded tolerance: before each step a
-// recognized TRAILING qualifier (a parenthetical, a cooking method, a
-// portion/size token, a metric quantity) may be dropped, one at a time. The
-// closed grammar below holds no food nouns, so a distinct compound food keeps
+// recognized leading or trailing qualifier may be dropped one at a
+// time. Noun parentheticals must be aliases of the SAME asset, not qualifiers.
+// The closed qualifier grammar holds no food nouns, so a compound food keeps
 // its whole meaning (`coffee cake` is never a coffee) and ambiguity still
 // resolves to neutral instead of a guess.
 
@@ -136,20 +136,35 @@ enum FoodArtworkResolver {
     static func match(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
         let key = FoodArtworkCatalog.normalize(name)
         guard !key.isEmpty else { return nil }
-        let terms = [key] + qualifiedTerms(of: key)
+        // A complete catalog name outranks a weaker qualifier interpretation:
+        // fried egg must keep its own study even when egg names another study.
+        let whole = uniqueByID(assets.filter { matchesWholeTerm($0, key) })
+        guard whole.count <= 1 else { return nil }
+        if let match = whole.first { return match }
+        let terms = qualifiedTerms(of: key)
         let matches = uniqueByID(terms.flatMap { term in assets.filter { matchesWholeTerm($0, term) } })
         guard matches.count <= 1 else { return nil }
         if let match = matches.first { return match }
-        if terms.contains(where: isAmericano) { return explicitAsset("coffee", in: assets) }
-        for term in terms {
+        if ([key] + terms).contains(where: isAmericano) { return explicitAsset("coffee", in: assets) }
+        for term in [key] + terms {
             if let fallback = categoryFallback(for: term, in: assets) { return fallback }
         }
         return nil
     }
 
     private static func matchesWholeTerm(_ asset: FoodArtworkAsset, _ term: String) -> Bool {
-        FoodArtworkCatalog.normalize(asset.name) == term
-            || asset.aliases.contains { FoodArtworkCatalog.normalize($0) == term }
+        let vocabulary = ([asset.name] + asset.aliases).map(FoodArtworkCatalog.normalize)
+        if vocabulary.contains(term) { return true }
+        // A noun parenthetical is not a disposable qualifier. Both complete
+        // terms must independently name THIS same asset (pasta + linguine).
+        guard term.hasSuffix(")"), let open = term.firstIndex(of: "(") else { return false }
+        let head = FoodArtworkCatalog.normalize(String(term[..<open]))
+        let inner = FoodArtworkCatalog.normalize(
+            String(term[term.index(after: open)..<term.index(before: term.endIndex)])
+        )
+        guard !head.isEmpty, !head.contains(")"), !inner.contains("("), !inner.contains(")"),
+              vocabulary.contains(inner) else { return false }
+        return ([head] + qualifiedTerms(of: head)).contains { vocabulary.contains($0) }
     }
 
     // MARK: - Issue #260 trailing qualifiers
@@ -163,7 +178,7 @@ enum FoodArtworkResolver {
         "cooked", "steamed", "grilled", "fried", "stir-fried", "stir fried", "boiled", "roasted",
         "baked", "toasted", "sauteed", "sautéed", "poached", "scrambled", "mashed", "raw", "fresh",
         "homemade", "smoked", "marinated", "reheated", "warm", "hot", "iced", "cold", "decaf",
-        "unsweetened", "unsalted", "no sugar", "sugar-free", "low-fat", "sliced", "diced", "chopped",
+        "unsweetened", "unsalted", "no sugar", "sugar free", "low fat", "sliced", "diced", "chopped",
         "shredded", "grated", "peeled", "drained", "rinsed", "frozen", "half", "half portion",
         "portion", "small", "medium", "large", "regular", "single", "double", "triple", "side",
         "serving", "servings", "slice", "slices", "piece", "pieces", "bowl", "plate", "cup", "cups",
@@ -183,9 +198,10 @@ enum FoodArtworkResolver {
     private static func isQualifierPhrase(_ text: String) -> Bool {
         let parts = text.split(separator: ",", omittingEmptySubsequences: false)
         return parts.allSatisfy { part in
-            let token = FoodArtworkCatalog.normalize(String(part))
+            let token = FoodArtworkCatalog.normalize(String(part).replacingOccurrences(of: "-", with: " "))
+            let descriptors = token.split(separator: " ").allSatisfy { trailingDescriptors.contains(String($0)) }
             return !token.isEmpty
-                && (trailingDescriptors.contains(token) || isQuantity(token))
+                && (trailingDescriptors.contains(token) || descriptors || isQuantity(token))
         }
     }
 
@@ -230,12 +246,26 @@ enum FoodArtworkResolver {
         return droppingTrailingDescriptor(key)
     }
 
+    /// The same closed preparation/size/quantity grammar at the leading edge.
+    /// Whole catalog terms win first; unknown food nouns are never discarded.
+    private static func strippingLeadingQualifier(_ key: String) -> String? {
+        let words = key.split(separator: " ").map(String.init)
+        guard words.count >= 2 else { return nil }
+        for length in stride(from: min(2, words.count - 1), through: 1, by: -1) {
+            let prefix = words.prefix(length).joined(separator: " ")
+            let descriptor = prefix.hasSuffix(",") ? String(prefix.dropLast()) : prefix
+            if isQualifierPhrase(descriptor) { return words.dropFirst(length).joined(separator: " ") }
+        }
+        return nil
+    }
+
     /// Successive qualifier removals, longest first, bounded: a name can carry
     /// at most a handful of trailing descriptors.
     private static func qualifiedTerms(of key: String) -> [String] {
         var terms: [String] = []
         var current = key
-        while terms.count < 4, let stripped = strippingTrailingQualifier(current) {
+        while terms.count < 4,
+              let stripped = strippingLeadingQualifier(current) ?? strippingTrailingQualifier(current) {
             guard stripped != current else { break }
             if !terms.contains(stripped) { terms.append(stripped) }
             current = stripped
@@ -263,6 +293,9 @@ enum FoodArtworkResolver {
         guard let matched = explicitAsset(artworkID, in: assets) ?? match(name: name, in: assets) else {
             return neutral(in: assets)
         }
+        // This approved study depicts a cooked-greens class, not a leaf variety.
+        // Keep the frozen catalog bytes; use the existing labelled Produce path.
+        if matched.id == "stir-fried-greens" { return .category(matched) }
         if matched.kind == .food {
             return .food(matched)
         }

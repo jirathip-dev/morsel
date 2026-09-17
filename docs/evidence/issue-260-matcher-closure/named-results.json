@@ -1,0 +1,580 @@
+[
+  {
+    "actual": "fallback-neutral",
+    "case": "pork-gravy",
+    "desired": "braised-pork",
+    "kind": "neutral",
+    "names": [
+      "pork gravy"
+    ],
+    "row": "study:unknown",
+    "status": "FINDING",
+    "theme": "paper"
+  },
+  {
+    "actual": "braised-pork",
+    "case": "brown-gravy",
+    "desired": "braised-pork",
+    "kind": "food",
+    "names": [
+      "pork with brown gravy"
+    ],
+    "row": "library:food:braised-pork",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "stir-fried-greens",
+    "case": "chinese-kale",
+    "desired": "stir-fried-greens",
+    "kind": "category",
+    "names": [
+      "Chinese kale"
+    ],
+    "row": "library:category:stir-fried-greens",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "stir-fried-greens",
+    "case": "kana",
+    "desired": "stir-fried-greens",
+    "kind": "category",
+    "names": [
+      "kana"
+    ],
+    "row": "library:category:stir-fried-greens",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "pasta",
+    "case": "linguine",
+    "desired": "pasta",
+    "kind": "food",
+    "names": [
+      "linguine"
+    ],
+    "row": "library:food:pasta",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "pasta",
+    "case": "qualified-pasta",
+    "desired": "pasta",
+    "kind": "food",
+    "names": [
+      "pasta (linguine), cooked"
+    ],
+    "row": "library:food:pasta",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "white-rice",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "white rice"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "half-rice",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "half-portion white rice"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "rice-qualified",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "white rice, cooked (half portion)"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "coffee",
+    "case": "americano",
+    "desired": "coffee",
+    "kind": "food",
+    "names": [
+      "Americano (black, no sugar, homemade)"
+    ],
+    "row": "library:food:coffee",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "coffee",
+    "case": "iced-americano",
+    "desired": "coffee",
+    "kind": "food",
+    "names": [
+      "Iced americano (black, no sugar)"
+    ],
+    "row": "library:food:coffee",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "cake",
+    "case": "coffee-cake",
+    "desired": "cake",
+    "kind": "food",
+    "names": [
+      "coffee cake"
+    ],
+    "row": "library:food:cake",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "milk-tea",
+    "case": "milk-tea",
+    "desired": "milk-tea",
+    "kind": "food",
+    "names": [
+      "milk tea"
+    ],
+    "row": "library:food:milk-tea",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "boba-tea",
+    "case": "boba-tea",
+    "desired": "boba-tea",
+    "kind": "food",
+    "names": [
+      "boba tea"
+    ],
+    "row": "library:food:boba-tea",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "pad-thai",
+    "case": "pad-thai",
+    "desired": "pad-thai",
+    "kind": "food",
+    "names": [
+      "pad thai"
+    ],
+    "row": "library:food:pad-thai",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "stir-fried-noodles",
+    "case": "noodles",
+    "desired": "stir-fried-noodles",
+    "kind": "food",
+    "names": [
+      "stir-fried noodles"
+    ],
+    "row": "library:food:stir-fried-noodles",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "generic-noodles",
+    "desired": "stir-fried-noodles",
+    "kind": "neutral",
+    "names": [
+      "generic stir-fried noodles"
+    ],
+    "row": "study:unknown",
+    "status": "FINDING",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "unknown",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "Uncatalogued lunar stew"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "shared-plate",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "composite/shared restaurant plate"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "composite",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "white rice",
+      "braised pork"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-dairy",
+    "case": "dairy",
+    "desired": "fallback-dairy",
+    "kind": "category",
+    "names": [
+      "Dairy"
+    ],
+    "row": "library:category:fallback-dairy",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-sweets",
+    "case": "sweets",
+    "desired": "fallback-sweets",
+    "kind": "category",
+    "names": [
+      "Sweets"
+    ],
+    "row": "library:category:fallback-sweets",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-prepared",
+    "case": "prepared",
+    "desired": "fallback-prepared",
+    "kind": "category",
+    "names": [
+      "Prepared"
+    ],
+    "row": "library:category:fallback-prepared",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-condiments",
+    "case": "condiments",
+    "desired": "fallback-condiments",
+    "kind": "category",
+    "names": [
+      "Condiments"
+    ],
+    "row": "library:category:fallback-condiments",
+    "status": "PASS",
+    "theme": "paper"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "pork-gravy",
+    "desired": "braised-pork",
+    "kind": "neutral",
+    "names": [
+      "pork gravy"
+    ],
+    "row": "study:unknown",
+    "status": "FINDING",
+    "theme": "night"
+  },
+  {
+    "actual": "braised-pork",
+    "case": "brown-gravy",
+    "desired": "braised-pork",
+    "kind": "food",
+    "names": [
+      "pork with brown gravy"
+    ],
+    "row": "library:food:braised-pork",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "stir-fried-greens",
+    "case": "chinese-kale",
+    "desired": "stir-fried-greens",
+    "kind": "category",
+    "names": [
+      "Chinese kale"
+    ],
+    "row": "library:category:stir-fried-greens",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "stir-fried-greens",
+    "case": "kana",
+    "desired": "stir-fried-greens",
+    "kind": "category",
+    "names": [
+      "kana"
+    ],
+    "row": "library:category:stir-fried-greens",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "pasta",
+    "case": "linguine",
+    "desired": "pasta",
+    "kind": "food",
+    "names": [
+      "linguine"
+    ],
+    "row": "library:food:pasta",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "pasta",
+    "case": "qualified-pasta",
+    "desired": "pasta",
+    "kind": "food",
+    "names": [
+      "pasta (linguine), cooked"
+    ],
+    "row": "library:food:pasta",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "white-rice",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "white rice"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "half-rice",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "half-portion white rice"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "jasmine-rice",
+    "case": "rice-qualified",
+    "desired": "jasmine-rice",
+    "kind": "food",
+    "names": [
+      "white rice, cooked (half portion)"
+    ],
+    "row": "library:food:jasmine-rice",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "coffee",
+    "case": "americano",
+    "desired": "coffee",
+    "kind": "food",
+    "names": [
+      "Americano (black, no sugar, homemade)"
+    ],
+    "row": "library:food:coffee",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "coffee",
+    "case": "iced-americano",
+    "desired": "coffee",
+    "kind": "food",
+    "names": [
+      "Iced americano (black, no sugar)"
+    ],
+    "row": "library:food:coffee",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "cake",
+    "case": "coffee-cake",
+    "desired": "cake",
+    "kind": "food",
+    "names": [
+      "coffee cake"
+    ],
+    "row": "library:food:cake",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "milk-tea",
+    "case": "milk-tea",
+    "desired": "milk-tea",
+    "kind": "food",
+    "names": [
+      "milk tea"
+    ],
+    "row": "library:food:milk-tea",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "boba-tea",
+    "case": "boba-tea",
+    "desired": "boba-tea",
+    "kind": "food",
+    "names": [
+      "boba tea"
+    ],
+    "row": "library:food:boba-tea",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "pad-thai",
+    "case": "pad-thai",
+    "desired": "pad-thai",
+    "kind": "food",
+    "names": [
+      "pad thai"
+    ],
+    "row": "library:food:pad-thai",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "stir-fried-noodles",
+    "case": "noodles",
+    "desired": "stir-fried-noodles",
+    "kind": "food",
+    "names": [
+      "stir-fried noodles"
+    ],
+    "row": "library:food:stir-fried-noodles",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "generic-noodles",
+    "desired": "stir-fried-noodles",
+    "kind": "neutral",
+    "names": [
+      "generic stir-fried noodles"
+    ],
+    "row": "study:unknown",
+    "status": "FINDING",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "unknown",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "Uncatalogued lunar stew"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "shared-plate",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "composite/shared restaurant plate"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-neutral",
+    "case": "composite",
+    "desired": "fallback-neutral",
+    "kind": "neutral",
+    "names": [
+      "white rice",
+      "braised pork"
+    ],
+    "row": "study:unknown",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-dairy",
+    "case": "dairy",
+    "desired": "fallback-dairy",
+    "kind": "category",
+    "names": [
+      "Dairy"
+    ],
+    "row": "library:category:fallback-dairy",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-sweets",
+    "case": "sweets",
+    "desired": "fallback-sweets",
+    "kind": "category",
+    "names": [
+      "Sweets"
+    ],
+    "row": "library:category:fallback-sweets",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-prepared",
+    "case": "prepared",
+    "desired": "fallback-prepared",
+    "kind": "category",
+    "names": [
+      "Prepared"
+    ],
+    "row": "library:category:fallback-prepared",
+    "status": "PASS",
+    "theme": "night"
+  },
+  {
+    "actual": "fallback-condiments",
+    "case": "condiments",
+    "desired": "fallback-condiments",
+    "kind": "category",
+    "names": [
+      "Condiments"
+    ],
+    "row": "library:category:fallback-condiments",
+    "status": "PASS",
+    "theme": "night"
+  }
+]

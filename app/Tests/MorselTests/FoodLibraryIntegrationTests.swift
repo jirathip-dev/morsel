@@ -20,7 +20,9 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         .init(key: "qualified-pasta", names: ["pasta (linguine), cooked"], desired: "pasta"),
         .init(key: "white-rice", names: ["white rice"], desired: "jasmine-rice"),
         .init(key: "half-rice", names: ["half-portion white rice"], desired: "jasmine-rice"),
+        .init(key: "rice-qualified", names: ["white rice, cooked (half portion)"], desired: "jasmine-rice"),
         .init(key: "americano", names: ["Americano (black, no sugar, homemade)"], desired: "coffee"),
+        .init(key: "iced-americano", names: ["Iced americano (black, no sugar)"], desired: "coffee"),
         .init(key: "coffee-cake", names: ["coffee cake"], desired: "cake"),
         .init(key: "milk-tea", names: ["milk tea"], desired: "milk-tea"),
         .init(key: "boba-tea", names: ["boba tea"], desired: "boba-tea"),
@@ -51,8 +53,16 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         }
     }
 
+    private func items(for fixture: Fixture) throws -> [MealItem] {
+        let items = try fixture.names.enumerated().map { index, name in
+            try ArtworkIdentityFixture.item(name: name, id: String(format: "22222222-2222-4222-8222-%012d", index + 1))
+        }
+        XCTAssertEqual(Set(items.map(\.itemID)).count, items.count)
+        return items
+    }
+
     private func capture(_ fixture: Fixture, window: UIWindow, theme: String, scheme: ColorScheme) async throws {
-        let items = try fixture.names.map { try ArtworkIdentityFixture.item(name: $0) }
+        let items = try items(for: fixture)
         let resolution = FoodArtworkResolver.resolve(items: items, in: FoodArtworkCatalog.bundled)
         let rowResolution = JournalRowArtwork.resolve(items: items)
         let actual = resolution.asset?.id ?? "none"
@@ -63,8 +73,15 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         ]
         let json = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
         print("ISSUE266_RESOLVER \(try XCTUnwrap(String(data: json, encoding: .utf8)))")
-        // This is an observation gate, not a matcher rewrite. Missing named positives
-        // remain explicit FINDINGs in the raw report rather than being tuned to pass.
+        // The named closure cases are now assertions; retain the extra historical
+        // observations without rewriting their desired identities to hide gaps.
+        if !["pork-gravy", "generic-noodles"].contains(fixture.key) {
+            XCTAssertEqual(actual, fixture.desired, fixture.key)
+        }
+        if ["chinese-kale", "kana"].contains(fixture.key) {
+            XCTAssertEqual(kind(resolution), "category")
+            XCTAssertEqual(resolution.asset?.categoryLabel, "Produce")
+        }
         XCTAssertNotEqual(rowResolution, .none, "every named case must paint honest artwork")
         let page = JournalPage(date: Date(timeIntervalSince1970: 1_783_200_000)) {
             VStack(alignment: .leading, spacing: 16) {

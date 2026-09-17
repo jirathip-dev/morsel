@@ -152,16 +152,16 @@ final class FoodArtworkQualifierSurfaceTests: XCTestCase {
     }
 
     /// The issue's observed agent-written names (qualifier positives), the
-    /// no-regression Americano form, two compound false friends, and two names
-    /// whose noun parentheticals remain outside the shipped qualifier grammar.
+    /// no-regression Americano form, compound false friends, and noun
+    /// parentheticals confirmed against the same catalog identity.
     private let fixtures = [
         Fixture(key: "rice-qualified", name: "White rice, cooked (half portion)", identity: "jasmine-rice"),
         Fixture(key: "black-coffee-large", name: "black coffee, large", identity: "coffee"),
         Fixture(key: "descriptive-americano", name: "Americano (black, no sugar, homemade)", identity: "coffee"),
         Fixture(key: "coffee-cake", name: "coffee cake", identity: "cake"),
         Fixture(key: "rice-cake", name: "Rice cake", identity: nil),
-        Fixture(key: "pasta-gap", name: "Pasta (linguine), cooked", identity: nil),
-        Fixture(key: "kale-gap", name: "Chinese kale, cooked (kana)", identity: nil)
+        Fixture(key: "pasta-qualified", name: "Pasta (linguine), cooked", identity: "pasta"),
+        Fixture(key: "kale-qualified", name: "Chinese kale, cooked (kana)", identity: "stir-fried-greens")
     ]
 
     func testQualifiedRowAndDetailSurfacesInPaperAndNight() async throws {
@@ -225,7 +225,7 @@ final class FoodArtworkQualifierSurfaceTests: XCTestCase {
         guard let identity = fixture.identity, let asset = assets.first(where: { $0.id == identity }) else {
             return .study(.unknown)
         }
-        return .library(asset.kind == .food ? .food(asset) : .category(asset))
+        return .library(asset.kind == .food && identity != "stir-fried-greens" ? .food(asset) : .category(asset))
     }
 
     private func mount(_ view: some View, in window: UIWindow, scheme: ColorScheme) async throws {
