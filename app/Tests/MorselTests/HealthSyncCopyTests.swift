@@ -112,7 +112,7 @@ final class HealthSyncCopyTests: XCTestCase {
 private final class ThrowingWeightReader: WeightSampleReading {
     func requestAuthorization() async throws {}
 
-    func samples(since: Date?) async throws -> [WeightLog] {
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
         throw NSError(
             domain: "com.apple.healthkit",
             code: 5,
@@ -123,7 +123,9 @@ private final class ThrowingWeightReader: WeightSampleReading {
         )
     }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("empty-energy".utf8))
+    }
 
     func startObserving(
         _ kind: HealthKitObserverKind,
@@ -140,9 +142,13 @@ private final class ObservingWeightReader: WeightSampleReading {
 
     func requestAuthorization() async throws {}
 
-    func samples(since: Date?) async throws -> [WeightLog] { [] }
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("empty-body".utf8))
+    }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("empty-energy".utf8))
+    }
 
     func startObserving(
         _ kind: HealthKitObserverKind,

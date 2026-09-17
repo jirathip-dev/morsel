@@ -1,0 +1,12 @@
+# Issue #192 — mise exec node@22 -- npm ci (tail; the full log is .lane-logs/npm-ci.log).
+# RAW_EXIT=0
+
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 256 packages, and audited 257 packages in 3s
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.

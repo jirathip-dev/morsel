@@ -10,8 +10,13 @@ enum HealthKitObserverKind: Equatable {
 
 protocol WeightSampleReading: AnyObject {
     func requestAuthorization() async throws
-    func samples(since: Date?) async throws -> [WeightLog]
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog]
+    /// Issue #192 — one incremental read: every sample HealthKit reports as
+    /// added or removed since `anchor` (nil = the complete history), plus the
+    /// anchor that may only be persisted together with the applied window.
+    /// A backdated sample is reported whenever it arrives, however old its
+    /// start date — a bounded `since:` window cannot see those.
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog>
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog>
     func startObserving(
         _ kind: HealthKitObserverKind,
         handler: @escaping () async -> Result<Void, Error>,
@@ -36,7 +41,18 @@ extension WeightSampleReading {
 
 enum HealthKitWeightImporterError: LocalizedError {
     case bodyMassTypeUnavailable
-    var errorDescription: String? { "Apple Health body-mass data is unavailable." }
+    /// Issue #192 — HealthKit answered a window without an anchor to persist;
+    /// the window is refused rather than silently re-read next pass.
+    case anchorUnavailable
+
+    var errorDescription: String? {
+        switch self {
+        case .bodyMassTypeUnavailable:
+            return "Apple Health body-mass data is unavailable."
+        case .anchorUnavailable:
+            return "Apple Health sync could not be advanced."
+        }
+    }
 }
 
 /// User-facing copy table for the weight-import surface (v0.4 hotfix #89).
@@ -103,45 +119,61 @@ final class HealthKitWeightReader: WeightSampleReading {
             }
         }
     }
-    func samples(since: Date?) async throws -> [WeightLog] {
-        let predicate = since.map {
-            HKQuery.predicateForSamples(withStart: $0, end: nil, options: .strictStartDate)
+    /// Issue #192 — anchored reads: HealthKit reports what changed since the
+    /// persisted anchor, so a no-change notification returns an empty window
+    /// (plus the advanced anchor) and a backdated sample is still delivered.
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
+        let unit = HKUnit.gramUnit(with: .kilo)
+        return try await anchoredWindow(type: bodyMassType, anchor: anchor) { sample in
+            WeightLog(
+                measuredAt: sample.startDate,
+                kilograms: sample.quantity.doubleValue(for: unit),
+                sampleID: sample.uuid
+            )
+        }
+    }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        let unit = HKUnit.kilocalorie()
+        return try await anchoredWindow(type: activeEnergyType, anchor: anchor) { sample in
+            EnergyBurnedLog(
+                burnedAt: sample.startDate,
+                activeKilocalories: sample.quantity.doubleValue(for: unit),
+                sampleID: sample.uuid
+            )
+        }
+    }
+
+    /// One HKAnchoredObjectQuery pass: the samples added since the anchor, the
+    /// identities deleted since it, and the anchor that supersedes it. The
+    /// caller persists the new anchor only with the applied window.
+    private func anchoredWindow<Sample: Sendable>(
+        type: HKQuantityType,
+        anchor: Data?,
+        map: @escaping (HKQuantitySample) -> Sample
+    ) async throws -> HealthSampleWindow<Sample> {
+        let queryAnchor = anchor.flatMap {
+            try? NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: $0)
         }
         return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(
-                sampleType: bodyMassType,
-                predicate: predicate,
-                limit: HKObjectQueryNoLimit,
-                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
-            ) { _, results, error in
+            let query = HKAnchoredObjectQuery(
+                type: type, predicate: nil, anchor: queryAnchor, limit: HKObjectQueryNoLimit
+            ) { _, samples, deleted, newAnchor, error in
                 if let error {
                     continuation.resume(throwing: error)
                     return
                 }
-                let unit = HKUnit.gramUnit(with: .kilo)
-                let logs = (results as? [HKQuantitySample] ?? []).map {
-                    WeightLog(
-                        measuredAt: $0.startDate,
-                        kilograms: $0.quantity.doubleValue(for: unit)
-                    )
+                guard let newAnchor,
+                      let encoded = try? NSKeyedArchiver.archivedData(
+                          withRootObject: newAnchor, requiringSecureCoding: true
+                      ) else {
+                    continuation.resume(throwing: HealthKitWeightImporterError.anchorUnavailable)
+                    return
                 }
-                continuation.resume(returning: logs)
-            }
-            self.healthStore.execute(query)
-        }
-    }
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] {
-        let predicate = since.map { HKQuery.predicateForSamples(withStart: $0, end: nil, options: .strictStartDate) }
-        return try await withCheckedThrowingContinuation { continuation in
-            let query = HKSampleQuery(
-                sampleType: activeEnergyType, predicate: predicate, limit: HKObjectQueryNoLimit,
-                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
-            ) { _, results, error in
-                if let error { continuation.resume(throwing: error); return }
-                let unit = HKUnit.kilocalorie()
-                continuation.resume(returning: (results as? [HKQuantitySample] ?? []).map {
-                    EnergyBurnedLog(burnedAt: $0.startDate, activeKilocalories: $0.quantity.doubleValue(for: unit))
-                })
+                continuation.resume(returning: HealthSampleWindow(
+                    samples: (samples as? [HKQuantitySample] ?? []).map(map),
+                    removedSampleIDs: (deleted ?? []).map(\.uuid),
+                    anchor: encoded
+                ))
             }
             self.healthStore.execute(query)
         }
@@ -205,7 +237,7 @@ private final class HealthStatusAnswer: @unchecked Sendable {
 
 final class HealthKitWeightImporter {
     private let reader: WeightSampleReading
-    private let store: WeightLogStore
+    private let store: any HealthDeltaStore
     private var isObserving = false
     /// Per-kind single-flight gates: overlapping callbacks coalesce into one
     /// import pass per type; one type's activity never suppresses the other.
@@ -217,47 +249,33 @@ final class HealthKitWeightImporter {
 
     init(
         reader: WeightSampleReading? = nil,
-        store: WeightLogStore
+        store: any HealthDeltaStore
     ) throws {
         self.reader = try reader ?? HealthKitWeightReader()
         self.store = store
     }
 
-    /// Independent body-mass import; returns durably stored samples.
+    /// Independent body-mass delta pass: the durable cursor bounds the read
+    /// and advances only with the window the store persisted (issue #192).
     @discardableResult
-    func importBodyMass(since: Date? = nil) async throws -> [WeightLog] {
+    func importBodyMassDelta() async throws -> [WeightLog] {
         guard HKHealthStore.isHealthDataAvailable() else { return [] }
         return try await withBodyGate { [self] in
             try await reader.requestAuthorization()
-            let samples = try await reader.samples(since: since)
-            let valid = samples.filter { $0.kilograms > 0 && $0.kilograms.isFinite }
-            try await store.upsert(valid)
-            return valid
+            let window = try await reader.bodyMassWindow(after: try store.bodyMassAnchor())
+            return try await store.applyBodyMassWindow(window)
         } ?? []
     }
 
+    /// Independent active-energy delta pass; the returned rows are the touched
+    /// LOCAL day totals, recomputed from every contribution the day keeps.
     @discardableResult
-    func importActiveEnergy(since: Date? = nil) async throws -> [EnergyBurnedLog] {
+    func importActiveEnergyDelta() async throws -> [EnergyBurnedLog] {
         guard HKHealthStore.isHealthDataAvailable() else { return [] }
         return try await withEnergyGate { [self] in
             try await reader.requestAuthorization()
-            let samples = try await reader.activeEnergyBurned(since: since)
-            var byDate: [Date: (total: Double, samples: Set<String>)] = [:]
-            // Issue #121 — day totals aggregate on the DEVICE'S LOCAL days.
-            let calendar = Calendar.autoupdatingCurrent
-            for sample in samples
-                where sample.activeKilocalories > 0 && sample.activeKilocalories.isFinite {
-                let day = calendar.startOfDay(for: sample.burnedAt)
-                let key = "\(sample.burnedAt.timeIntervalSince1970):\(sample.activeKilocalories)"
-                guard byDate[day]?.samples.contains(key) != true else { continue }
-                byDate[day, default: (0, [])].samples.insert(key)
-                byDate[day]?.total += sample.activeKilocalories
-            }
-            let dailyLogs = byDate.map {
-                EnergyBurnedLog(burnedAt: $0.key, activeKilocalories: $0.value.total)
-            }
-            try await store.upsertEnergyBurned(dailyLogs)
-            return dailyLogs
+            let window = try await reader.activeEnergyWindow(after: try store.energyAnchor())
+            return try await store.applyEnergyWindow(window)
         } ?? []
     }
 
@@ -301,9 +319,9 @@ final class HealthKitWeightImporter {
             do {
                 switch kind {
                 case .bodyMass:
-                    _ = try await self.importBodyMass()
+                    _ = try await self.importBodyMassDelta()
                 case .activeEnergyBurned:
-                    _ = try await self.importActiveEnergy()
+                    _ = try await self.importActiveEnergyDelta()
                 }
                 onSuccess()
                 return .success(())
@@ -320,7 +338,7 @@ final class HealthKitWeightImporter {
     private func withBodyGate<T>(_ body: () async throws -> T) async throws -> T? {
         try await withGate(
             inFlight: &bodyInFlight, again: &bodyAgain,
-            rerun: { [weak self] in _ = try? await self?.importBodyMass() },
+            rerun: { [weak self] in _ = try? await self?.importBodyMassDelta() },
             body: body
         )
     }
@@ -329,7 +347,7 @@ final class HealthKitWeightImporter {
     private func withEnergyGate<T>(_ body: () async throws -> T) async throws -> T? {
         try await withGate(
             inFlight: &energyInFlight, again: &energyAgain,
-            rerun: { [weak self] in _ = try? await self?.importActiveEnergy() },
+            rerun: { [weak self] in _ = try? await self?.importActiveEnergyDelta() },
             body: body
         )
     }

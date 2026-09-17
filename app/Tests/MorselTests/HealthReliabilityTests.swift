@@ -42,12 +42,13 @@ final class HealthReliabilityTests: XCTestCase {
         let health = try makeHealthStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: health)
 
-        _ = try? await importer.importBodyMass(since: nil) // fails: raw denial surfaces
-        let energy = try await importer.importActiveEnergy(since: nil)
+        _ = try? await importer.importBodyMassDelta() // fails: raw denial surfaces
+        let energy = try await importer.importActiveEnergyDelta()
 
         XCTAssertFalse(energy.isEmpty, "the energy path must still import after a body-mass failure")
         XCTAssertFalse(try health.dirtyEnergyDays().isEmpty)
-        XCTAssertEqual(try health.energyAnchor(), nil, "no anchor until a successful pass completes")
+        XCTAssertNil(try health.bodyMassAnchor(), "a failed pass advances no cursor")
+        XCTAssertNotNil(try health.energyAnchor(), "…while the successful type advances its own")
     }
 
     func testImportFailuresSurfaceOnlyMappedCopyThroughViewModel() async throws {
@@ -110,13 +111,15 @@ final class HealthReliabilityTests: XCTestCase {
         let health = try makeHealthStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: health)
 
-        let stored = try await importer.importBodyMass(since: nil)
-        let latest = try XCTUnwrap(stored.map(\.measuredAt).max())
-        try health.setBodyMassAnchor(latest)
-        XCTAssertEqual(try health.bodyMassAnchor(), sample)
+        let stored = try await importer.importBodyMassDelta()
+        XCTAssertEqual(stored.map(\.measuredAt), [sample])
+        XCTAssertNotNil(try health.bodyMassAnchor(), "a successful pass advances the cursor")
 
-        let second = try await importer.importBodyMass(since: try health.bodyMassAnchor())
+        let second = try await importer.importBodyMassDelta()
         XCTAssertTrue(second.isEmpty, "no full-history rescan: the anchor bounds the next query")
+        XCTAssertEqual(reader.windows.count, 2, "one read per pass, never a repeated scan")
+        XCTAssertNil(reader.windows[0], "the first pass reads the full history once")
+        XCTAssertNotNil(reader.windows[1], "every later pass is anchored")
     }
 
     func testDuplicateSampleReimportStaysDeduplicatedAndClean() async throws {
@@ -256,7 +259,9 @@ private final class ScriptedHealthReader: WeightSampleReading {
     var failBodyMassSamples = false
     private(set) var registeredKinds: [HealthKitObserverKind] = []
     private(set) var handlers: [HealthKitObserverKind: () async -> Result<Void, Error>] = [:]
-    private(set) var samplesSince: [Date?] = []
+    private(set) var windows: [Data?] = []
+    private(set) var energyWindows: [Data?] = []
+    private var anchorCounter = 0
 
     init(logs: [WeightLog] = [], energyLogs: [EnergyBurnedLog] = []) {
         self.logs = logs
@@ -265,19 +270,31 @@ private final class ScriptedHealthReader: WeightSampleReading {
 
     func requestAuthorization() async throws {}
 
-    func samples(since: Date?) async throws -> [WeightLog] {
-        samplesSince.append(since)
+    /// Issue #192 — the first (nil-anchor) pass reads the full history; every
+    /// later pass reports only what arrived since, which these fixtures make
+    /// empty (the no-change shape).
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
+        windows.append(anchor)
         if failBodyMassSamples {
             throw NSError(domain: "com.apple.healthkit", code: 5,
                           userInfo: [NSLocalizedDescriptionKey: "denied"])
         }
-        if let since {
-            return logs.filter { $0.measuredAt > since }
-        }
-        return logs
+        return HealthSampleWindow(
+            samples: anchor == nil ? logs : [], removedSampleIDs: [], anchor: nextAnchor()
+        )
     }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        energyWindows.append(anchor)
+        return HealthSampleWindow(
+            samples: anchor == nil ? energyLogs : [], removedSampleIDs: [], anchor: nextAnchor()
+        )
+    }
+
+    private func nextAnchor() -> Data {
+        anchorCounter += 1
+        return Data("scripted-anchor-\(anchorCounter)".utf8)
+    }
 
     func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { authorized }
 
@@ -302,10 +319,10 @@ private final class GatedHealthReader: WeightSampleReading {
 
     func requestAuthorization() async throws {}
 
-    func samples(since: Date?) async throws -> [WeightLog] {
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
         samplesCallCount += 1
         await withCheckedContinuation { gate = $0 }
-        return []
+        return HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("gated".utf8))
     }
 
     func release() {
@@ -313,7 +330,9 @@ private final class GatedHealthReader: WeightSampleReading {
         gate = nil
     }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("gated-energy".utf8))
+    }
 
     func startObserving(
         _ kind: HealthKitObserverKind,

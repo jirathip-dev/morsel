@@ -292,27 +292,19 @@ extension DashboardViewModel {
         errorMessage = nil
     }
 
-    /// Anchor-bounded body-mass import, independently throwing.
+    /// One independent body-mass delta pass (issue #192): the importer owns the
+    /// durable cursor, which advances only with the persisted window, so the
+    /// foreground path and the observer path share one ownership.
     private func importBodyMassPass() async throws -> Int {
         guard let weightImporter else { return 0 }
-        let anchor = try? healthStore?.bodyMassAnchor()
-        let stored = try await weightImporter.importBodyMass(since: anchor)
-        if let latest = stored.map(\.measuredAt).max(), latest > (anchor ?? .distantPast) {
-            try? healthStore?.setBodyMassAnchor(latest)
-        }
-        return stored.count
+        return try await weightImporter.importBodyMassDelta().count
     }
 
-    /// One independent active-energy pass; returns the number of daily rows
-    /// durably stored.
+    /// One independent active-energy delta pass; returns the number of local
+    /// day rows the window touched.
     private func importEnergyPass() async throws -> Int {
         guard let weightImporter else { return 0 }
-        let anchor = try? healthStore?.energyAnchor()
-        let stored = try await weightImporter.importActiveEnergy(since: anchor)
-        if let latest = stored.map(\.burnedAt).max(), latest > (anchor ?? .distantPast) {
-            try? healthStore?.setEnergyAnchor(latest)
-        }
-        return stored.count
+        return try await weightImporter.importActiveEnergyDelta().count
     }
 
     /// Observer failure: human copy, then derive status with zero imported rows.

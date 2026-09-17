@@ -32,6 +32,7 @@
 		0AA0E3BE156E3997A9178740 /* tomato-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 12FA2AFF34646EF99D7AE005 /* tomato-night-64.png */; };
 		0B4D54E67AD30211982B17F4 /* WeightDeltaCaptureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18336B0358C7A2945CA34D8 /* WeightDeltaCaptureTests.swift */; };
 		0C1B91B3E8C0DAE28EEA3ADA /* mixed-nuts-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A9B55DF58EA6A5E9C7BCC816 /* mixed-nuts-paper-64.png */; };
+		0C24475B2AD52CB1F26EDE52 /* LocalHealthStore+Delta.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60B3FB49959B57B16985C72 /* LocalHealthStore+Delta.swift */; };
 		0C3B24DE51B59630E82496B3 /* JournalPageTurner.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7D58E0A7C0B7D880E28A /* JournalPageTurner.swift */; };
 		0D5313F182E46843CF5CC503 /* minced-pork-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = BC064F3EF33D32DDD435EA9D /* minced-pork-night-64.png */; };
 		0E850DAEBCABB20F43E160EA /* grilled-chicken-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E444C6D0249794B57A7BAA86 /* grilled-chicken-night-64.png */; };
@@ -153,6 +154,7 @@
 		520621D573B3BA74B3C258E1 /* TrainingDayEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8E12C50F979B71F909550 /* TrainingDayEvidenceTests.swift */; };
 		53C10044A1E1064987EC4C0E /* pancake-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3F1A996B775E2CDCA58F5A /* pancake-night-64.png */; };
 		53C32E4048A7B343A4CDB450 /* wrap-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC5D16F823445F705B11AFD /* wrap-night-64.png */; };
+		542FF40D84A5262D782278EF /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D2AE5EB90C251AAD78CBE4D /* coffee-photo.png */; };
 		564B130073F003615823DE4F /* iced-coffee-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6150529785583E6D83E6711E /* iced-coffee-paper-64.png */; };
 		56DE4D2CA160936251216C1E /* chicken-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 054BF93A800C64E8EB43D60A /* chicken-rice-night-64.png */; };
 		584ECCF5EF0963E29C8B50DF /* curry-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E82F01A4D013D80145EC5F02 /* curry-paper-64.png */; };
@@ -198,6 +200,7 @@
 		68E102CA6C79A9391BBC57FD /* fallback-prepared-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 131DF0C964123EDF72F98D13 /* fallback-prepared-night-64.png */; };
 		690F6D99875E901FC2892BB2 /* LocalSyncEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CCB6CF79A74AAB20CEAD21D /* LocalSyncEngine.swift */; };
 		69A161293615F73D7743EB56 /* thai-sweets-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A5688EB105E6E7478E190247 /* thai-sweets-paper-64.png */; };
+		69B5AA9E41583463DBC41355 /* HealthDeltaImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ADAC5C0E70E5AD218D1D3EC /* HealthDeltaImportTests.swift */; };
 		69B6D4FB70B3588C2F172EDB /* orange-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = BA7DD79506B6E499B4134F9B /* orange-night-64.png */; };
 		69D879D2CB6684B3969CD7F8 /* steamed-fish-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F69C813C5AE69B8D36A894 /* steamed-fish-night-64.png */; };
 		6BA82E2F5B5E3D50DB32A227 /* grilled-chicken-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A1C3FFEC146EFA98ED7AAF9 /* grilled-chicken-paper-64.png */; };
@@ -303,6 +306,7 @@
 		A0B322BC362350B67285EFE8 /* purple-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7562F85896A8ED284939ED0F /* purple-rice-night-64.png */; };
 		A0FF22BB598957982FCCC7B6 /* toast-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C0F1AF1ABCCE4B3F31178D76 /* toast-night-64.png */; };
 		A2A79C4866A57FD486FB3A37 /* khanom-jeen-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F57E6AEE01D7BC015BB702 /* khanom-jeen-night-64.png */; };
+		A4C2B49326C650BCA227C591 /* HealthDeltaTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF4CC98910EC9DF92DDDD5C /* HealthDeltaTestSupport.swift */; };
 		A585BD73DFFBC9B2D24BFCA9 /* grilled-beef-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A6281EED323305F2C57B8 /* grilled-beef-paper-64.png */; };
 		A5A5A15023FAFBC5CEB62399 /* AddMealPhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */; };
 		A5B8CAEAD4A0FFF442F4A518 /* HistoryCacheScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D5886C5CA7CBA1812CC72B /* HistoryCacheScopeTests.swift */; };
@@ -363,6 +367,7 @@
 		C47A15D126448944F05AAB3A /* GoalsEditorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */; };
 		C49FD84B1BA5972846B5AF00 /* DayDrillDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941533B57CA67FE64677BDCE /* DayDrillDown.swift */; };
 		C53B8A1391E58E295E2D86FE /* peanuts-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = B09A3830E1B4C61FD51EC1EF /* peanuts-paper-64.png */; };
+		C5CA34344C31615E76F54018 /* HealthEnergyDeltaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16365419B29D10B92A8AE11 /* HealthEnergyDeltaTests.swift */; };
 		C5EB0B0DAF6938AD92E03D1F /* fallback-grains-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = D6D797778BA1664F9C8F97F4 /* fallback-grains-night-64.png */; };
 		C62B68C82582735CC0DDCD7A /* braised-pork-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = F293224C857262DB36A0EB4D /* braised-pork-night-64.png */; };
 		C783EFF6E63FC74C39232AED /* HitRegionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559F64760839557D80CE390B /* HitRegionTests.swift */; };
@@ -379,7 +384,6 @@
 		CE0F6E8680E2039517EA1421 /* fried-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B61182ACD53EB280579846 /* fried-rice-night-64.png */; };
 		CE13203FC3B35CC07E4028AF /* egg-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1529864179391D77892C9695 /* egg-night-64.png */; };
 		CE16E9D1A6B3A387E5673CF3 /* cookie-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E764910603E3674307B9948E /* cookie-night-64.png */; };
-		CEFAB8A3555B271BCBA6D1AC /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 38960C6D7D0869F1E94F475A /* coffee-photo.png */; };
 		CFAFC18B593711A0365DB47C /* cake-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 683E8D0263F5936B413AF1A7 /* cake-paper-64.png */; };
 		CFB6A3D4AB37D0793BB42F3A /* MealThumbnailPreparationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D114C563B4AF938F7DEB7A /* MealThumbnailPreparationTests.swift */; };
 		D142119609CBC4B43FFE9432 /* peanuts-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 2021CC1B9B4CEA90C74DD0AC /* peanuts-night-64.png */; };
@@ -581,6 +585,7 @@
 		2BA2F5BA17587F9779E6E0E2 /* tea-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tea-paper-64.png"; sourceTree = "<group>"; };
 		2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCopyPill.swift; sourceTree = "<group>"; };
 		2BFAC6521EADAFB3B13DDE49 /* broccoli-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "broccoli-night-64.png"; sourceTree = "<group>"; };
+		2D2AE5EB90C251AAD78CBE4D /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		2D95149B6885BC40EF8A368E /* GoalsPageRequestSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsPageRequestSpy.swift; sourceTree = "<group>"; };
 		2DA23678E756C0D4E397F6F3 /* bacon-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bacon-paper-64.png"; sourceTree = "<group>"; };
 		2E8C41251C3505A9ECAA18F5 /* milk-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milk-night-64.png"; sourceTree = "<group>"; };
@@ -603,7 +608,6 @@
 		378A0286DBF2D0FA33D2A955 /* MealReliabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealReliabilityTests.swift; sourceTree = "<group>"; };
 		37A12A89F0EF310480905F84 /* DashboardMathTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMathTests.swift; sourceTree = "<group>"; };
 		3831705084A25885D3664C7E /* HistoryFreezeRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryFreezeRegressionTests.swift; sourceTree = "<group>"; };
-		38960C6D7D0869F1E94F475A /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		39581B9DCB3320CCE36E399B /* poached-chicken-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "poached-chicken-paper-64.png"; sourceTree = "<group>"; };
 		3995F66FE5DE2679A3953315 /* MealPhotoEditorSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPhotoEditorSection.swift; sourceTree = "<group>"; };
 		39B4A6226C05C69F0CAA0887 /* LocalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStoreTests.swift; sourceTree = "<group>"; };
@@ -699,6 +703,7 @@
 		6C2FED522F1E370EDD60BADF /* LocalDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataStore.swift; sourceTree = "<group>"; };
 		6DA3807734F8A91C873E34AE /* meatballs-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meatballs-paper-64.png"; sourceTree = "<group>"; };
 		6F2B9A8EFCABA25D5368EEC7 /* cheese-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cheese-paper-64.png"; sourceTree = "<group>"; };
+		6FF4CC98910EC9DF92DDDD5C /* HealthDeltaTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDeltaTestSupport.swift; sourceTree = "<group>"; };
 		71181F42D2D74093AED142DC /* WeightTrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightTrendView.swift; sourceTree = "<group>"; };
 		7182AE2BC9065E994451E586 /* PhotoPreparationOffMainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreparationOffMainTests.swift; sourceTree = "<group>"; };
 		7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditor.swift; sourceTree = "<group>"; };
@@ -729,6 +734,7 @@
 		7A0DDA5C9C79E66C218B00C8 /* Morsel.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Morsel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A85C2813FC9527332F6200F /* MorselTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MorselTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AC5D16F823445F705B11AFD /* wrap-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wrap-night-64.png"; sourceTree = "<group>"; };
+		7ADAC5C0E70E5AD218D1D3EC /* HealthDeltaImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthDeltaImportTests.swift; sourceTree = "<group>"; };
 		7BB05A1646F92354B1A914FC /* avocado-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avocado-night-64.png"; sourceTree = "<group>"; };
 		7BBC4D5379BE57B763C1A241 /* chili-oil-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chili-oil-paper-64.png"; sourceTree = "<group>"; };
 		7BDDE745CCE4A0EF4A3441B4 /* shabu-slices-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shabu-slices-paper-64.png"; sourceTree = "<group>"; };
@@ -898,6 +904,7 @@
 		D4B08C06B55A22E227C4572A /* MealThumbnailTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailTestSupport.swift; sourceTree = "<group>"; };
 		D58A6281EED323305F2C57B8 /* grilled-beef-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-beef-paper-64.png"; sourceTree = "<group>"; };
 		D5A43B63961076E3C0FF2DC4 /* DayReadDegradeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadDegradeTests.swift; sourceTree = "<group>"; };
+		D60B3FB49959B57B16985C72 /* LocalHealthStore+Delta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalHealthStore+Delta.swift"; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		D6D797778BA1664F9C8F97F4 /* fallback-grains-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-grains-night-64.png"; sourceTree = "<group>"; };
 		D71C79A394BD3AF107F8638B /* milk-tea-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milk-tea-paper-64.png"; sourceTree = "<group>"; };
@@ -919,6 +926,7 @@
 		DD5826EED77A83AFE469518F /* PaperDeleteAndSkeletonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperDeleteAndSkeletonTests.swift; sourceTree = "<group>"; };
 		DD8FB844F9D97B5294699C5B /* fried-rice-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fried-rice-paper-64.png"; sourceTree = "<group>"; };
 		DF0D158665E5F1AF65CD855E /* SupabaseMealReadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseMealReadModel.swift; sourceTree = "<group>"; };
+		E16365419B29D10B92A8AE11 /* HealthEnergyDeltaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthEnergyDeltaTests.swift; sourceTree = "<group>"; };
 		E1AE2477B580D6FD0B772563 /* GoalsDraftRevisionHarness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsDraftRevisionHarness.swift; sourceTree = "<group>"; };
 		E1C0D17F033BDA74DEAF40FA /* JournalFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalFocus.swift; sourceTree = "<group>"; };
 		E1CFC87B5D51082260011FBD /* chicken-rice-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chicken-rice-paper-64.png"; sourceTree = "<group>"; };
@@ -1001,7 +1009,7 @@
 			children = (
 				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				1C625302EE592BC774CC3FA7 /* Fonts */,
-				E9FF2C4AB9A72C7FD2F686A3 /* issue-191-targeted-reads */,
+				8CC8CEBC931D8219AC683E57 /* issue-192-health-delta */,
 				441456F0892E00AAF3B9BAFD /* Resources */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
@@ -1024,20 +1032,20 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		282E054C82A86743CE532A58 /* issue-241-artwork-native */ = {
-			isa = PBXGroup;
-			children = (
-				AF0B804417093C978E9B9EEB /* fixtures */,
-			);
-			path = "issue-241-artwork-native";
-			sourceTree = "<group>";
-		};
 		3621CE8D3C7CB6FA69427469 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				3EDC9E1457D9FA11E083E6B4 /* Morsel */,
 			);
 			path = Sources;
+			sourceTree = "<group>";
+		};
+		3680568EFF586BFD4EFA02AC /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				59C26C5D0D9D0468094C6708 /* evidence */,
+			);
+			path = docs;
 			sourceTree = "<group>";
 		};
 		3EDC9E1457D9FA11E083E6B4 /* Morsel */ = {
@@ -1090,6 +1098,7 @@
 				F4A372A98AF1458720106781 /* LocalFirstRepository.swift */,
 				6A12A77E9A43600228D074E0 /* LocalFirstRepository+ThumbnailRevision.swift */,
 				213B1C3D472C5403A5040BBF /* LocalHealthStore.swift */,
+				D60B3FB49959B57B16985C72 /* LocalHealthStore+Delta.swift */,
 				994DE4DA43BFD98BC1938161 /* LocalHealthStore+SQLite.swift */,
 				B046ED419DD576E854AE9FE8 /* LocalSnapshotCache.swift */,
 				7CCB6CF79A74AAB20CEAD21D /* LocalSyncEngine.swift */,
@@ -1418,12 +1427,29 @@
 			path = FoodArt;
 			sourceTree = "<group>";
 		};
+		59C26C5D0D9D0468094C6708 /* evidence */ = {
+			isa = PBXGroup;
+			children = (
+				C0A5B8F882C079DE46FB5697 /* issue-241-artwork-native */,
+			);
+			path = evidence;
+			sourceTree = "<group>";
+		};
 		72FA8734899AB1DF14045A55 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				BB77CBB642C5C90A5C95394E /* MorselTests */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		8CC8CEBC931D8219AC683E57 /* issue-192-health-delta */ = {
+			isa = PBXGroup;
+			children = (
+				3680568EFF586BFD4EFA02AC /* docs */,
+			);
+			name = "issue-192-health-delta";
+			path = ..;
 			sourceTree = "<group>";
 		};
 		97A4D9B8557C5A8E72B0EFE5 /* Products */ = {
@@ -1435,18 +1461,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9C1827647A016D9573E40254 /* evidence */ = {
+		AD1D3ECE9D651BA340A4B5C3 /* fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				282E054C82A86743CE532A58 /* issue-241-artwork-native */,
-			);
-			path = evidence;
-			sourceTree = "<group>";
-		};
-		AF0B804417093C978E9B9EEB /* fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				38960C6D7D0869F1E94F475A /* coffee-photo.png */,
+				2D2AE5EB90C251AAD78CBE4D /* coffee-photo.png */,
 			);
 			path = fixtures;
 			sourceTree = "<group>";
@@ -1482,6 +1500,9 @@
 				D731897702EDD24050F51582 /* GoalsRestoreRenderingTests.swift */,
 				4BBAC67F5200071231231766 /* GoalsRestoreTests.swift */,
 				07707EDC7EC2534BC388BC4D /* GoalsRestoreTransport.swift */,
+				7ADAC5C0E70E5AD218D1D3EC /* HealthDeltaImportTests.swift */,
+				6FF4CC98910EC9DF92DDDD5C /* HealthDeltaTestSupport.swift */,
+				E16365419B29D10B92A8AE11 /* HealthEnergyDeltaTests.swift */,
 				3BB760A6B6FB4D11A85BDB79 /* HealthReliabilityTests.swift */,
 				B32734D6A1D870452F230883 /* HealthStatusAsyncTests.swift */,
 				8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */,
@@ -1563,6 +1584,14 @@
 			path = MorselTests;
 			sourceTree = "<group>";
 		};
+		C0A5B8F882C079DE46FB5697 /* issue-241-artwork-native */ = {
+			isa = PBXGroup;
+			children = (
+				AD1D3ECE9D651BA340A4B5C3 /* fixtures */,
+			);
+			path = "issue-241-artwork-native";
+			sourceTree = "<group>";
+		};
 		CBAD6484E6C141A6B0F32E72 /* JournalArt */ = {
 			isa = PBXGroup;
 			children = (
@@ -1578,23 +1607,6 @@
 				D417EF818CCA426C7F37AFFC /* a-paper-vegetables.png */,
 			);
 			path = JournalArt;
-			sourceTree = "<group>";
-		};
-		E9FF2C4AB9A72C7FD2F686A3 /* issue-191-targeted-reads */ = {
-			isa = PBXGroup;
-			children = (
-				FBADC9C5D544CAC18CB019BD /* docs */,
-			);
-			name = "issue-191-targeted-reads";
-			path = ..;
-			sourceTree = "<group>";
-		};
-		FBADC9C5D544CAC18CB019BD /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				9C1827647A016D9573E40254 /* evidence */,
-			);
-			path = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1679,7 +1691,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEFAB8A3555B271BCBA6D1AC /* coffee-photo.png in Resources */,
+				542FF40D84A5262D782278EF /* coffee-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2044,6 +2056,7 @@
 				90193474B6D0F7F34E8C0CD6 /* LocalFirstMenus.swift in Sources */,
 				AD7B9937F5DF7E68D8D74935 /* LocalFirstRepository+ThumbnailRevision.swift in Sources */,
 				E8097E3FDEB8350477C78A21 /* LocalFirstRepository.swift in Sources */,
+				0C24475B2AD52CB1F26EDE52 /* LocalHealthStore+Delta.swift in Sources */,
 				C33AE13BB3FA48B1FBDF0D77 /* LocalHealthStore+SQLite.swift in Sources */,
 				4B37AB377BEEF5A694BAE7DB /* LocalHealthStore.swift in Sources */,
 				5A6B4E833702CD7AE49BFEAB /* LocalSnapshotCache.swift in Sources */,
@@ -2127,6 +2140,9 @@
 				18C28579EEAD9A49ECAE78E6 /* GoalsRestoreRenderingTests.swift in Sources */,
 				86B576221F96FF61D096D70D /* GoalsRestoreTests.swift in Sources */,
 				F554D63A26DBC068A4A817DB /* GoalsRestoreTransport.swift in Sources */,
+				69B5AA9E41583463DBC41355 /* HealthDeltaImportTests.swift in Sources */,
+				A4C2B49326C650BCA227C591 /* HealthDeltaTestSupport.swift in Sources */,
+				C5CA34344C31615E76F54018 /* HealthEnergyDeltaTests.swift in Sources */,
 				1A372F1D188F4A2BEF17E62A /* HealthReliabilityTests.swift in Sources */,
 				CCCEEAE3A5127FDB9851198E /* HealthStatusAsyncTests.swift in Sources */,
 				46D8D3FBE6EFB11D522B3554 /* HealthSyncCopyTests.swift in Sources */,
