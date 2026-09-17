@@ -53,6 +53,11 @@ final class TodayRefreshRegressionTests: TodayRefreshTestCase {
         XCTAssertFalse(publications.contains(1000), "pre-write state must not be published even transiently")
         harness.finish(1, marker: 2400)
         await until("all write callers returned") { saved == 3 }
+        // Issue #190 — the writes no longer wait for this read: the post-mutation
+        // publish is bounded-waited instead of implied by a write returning.
+        await until("the post-mutation read published") {
+            model.snapshot?.goal?.calorieTargetKcal == 2400 && !model.isLoading
+        }
         XCTAssertEqual(harness.reads.count, 2)
         XCTAssertEqual(model.snapshot?.goal?.calorieTargetKcal, 2400)
         XCTAssertFalse(model.isLoading)
