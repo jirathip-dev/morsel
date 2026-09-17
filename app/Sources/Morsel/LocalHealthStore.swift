@@ -12,17 +12,19 @@ final class LocalHealthStore: WeightLogStore {
     let database: OpaquePointer
     let lock = NSRecursiveLock()
     /// Issue #121 — energy day rows bucket on the DEVICE'S LOCAL day.
-    private let calendar = Calendar.autoupdatingCurrent
+    /// Issue #192 — injectable so the DST/day-boundary tests can pin a zone
+    /// (internal like `database`/`lock`: the delta extension in
+    /// LocalHealthStore+Delta.swift shares it).
+    let calendar: Calendar
 
     private enum Key {
-        static let bodyMassAnchor = "health.anchor.bodyMass"
-        static let energyAnchor = "health.anchor.activeEnergyBurned"
         static let lastSync = "health.last_upload_success"
         static let lastWeightUpload = "health.last_weight_upload_success"
         static let lastEnergyUpload = "health.last_energy_upload_success"
     }
 
-    init(databaseURL: URL) throws {
+    init(databaseURL: URL, calendar: Calendar = .autoupdatingCurrent) throws {
+        self.calendar = calendar
         try FileManager.default.createDirectory(
             at: databaseURL.deletingLastPathComponent(),
             withIntermediateDirectories: true
@@ -38,38 +40,58 @@ final class LocalHealthStore: WeightLogStore {
         database = opened
         sqlite3_busy_timeout(database, 2_000)
         do {
-            try runUnsafe("PRAGMA journal_mode = WAL")
-            try runUnsafe("""
-            CREATE TABLE IF NOT EXISTS weight_samples(
-              measured_at REAL PRIMARY KEY,
-              kg REAL NOT NULL,
-              uploaded INTEGER NOT NULL DEFAULT 0
-            )
-            """)
-            try runUnsafe("""
-            CREATE TABLE IF NOT EXISTS energy_days(
-              day_key TEXT PRIMARY KEY,
-              total REAL NOT NULL,
-              uploaded_total REAL,
-              upload_burned_at REAL
-            )
-            """)
-            // Issue #121 one-time re-bucket: legacy files carry the 3-column
-            // shape; add the upload-instant column in place (new files get it
-            // from the CREATE above). upload_burned_at keeps the ORIGINAL
-            // (pre-re-bucket) day-start instant a row was uploaded under, so
-            // corrected totals upsert over the legacy remote row instead of
-            // inserting a duplicate beside it.
-            do {
-                try runUnsafe("ALTER TABLE energy_days ADD COLUMN upload_burned_at REAL")
-            } catch {
-                // Column already present (fresh or previously migrated file).
-            }
-            try runUnsafe("CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)")
+            try createSchema()
         } catch {
             sqlite3_close(database)
             throw error
         }
+    }
+
+    /// Tables + in-place column adds; split out of the initializer to stay
+    /// inside the strict lint budgets.
+    private func createSchema() throws {
+        try runUnsafe("PRAGMA journal_mode = WAL")
+        try runUnsafe("""
+        CREATE TABLE IF NOT EXISTS weight_samples(
+          measured_at REAL PRIMARY KEY,
+          kg REAL NOT NULL,
+          uploaded INTEGER NOT NULL DEFAULT 0,
+          sample_id TEXT
+        )
+        """)
+        try runUnsafe("""
+        CREATE TABLE IF NOT EXISTS energy_days(
+          day_key TEXT PRIMARY KEY,
+          total REAL NOT NULL,
+          uploaded_total REAL,
+          upload_burned_at REAL
+        )
+        """)
+        // Issue #192 — the per-sample contribution ledger behind every local
+        // daily energy total: one row per HealthKit sample identity, so a
+        // repeated delivery replaces instead of double-counting, a backdated
+        // sample lands on its own local day, and a removal drops exactly one
+        // contribution.
+        try runUnsafe("""
+        CREATE TABLE IF NOT EXISTS energy_sample_ledger(
+          sample_key TEXT PRIMARY KEY,
+          day_key TEXT NOT NULL,
+          kcal REAL NOT NULL
+        )
+        """)
+        try runUnsafe(
+            "CREATE INDEX IF NOT EXISTS energy_sample_ledger_day ON energy_sample_ledger(day_key)"
+        )
+        // Issue #121 one-time re-bucket: legacy files carry the 3-column
+        // shape; add the upload-instant column in place (new files get it
+        // from the CREATE above). upload_burned_at keeps the ORIGINAL
+        // (pre-re-bucket) day-start instant a row was uploaded under, so
+        // corrected totals upsert over the legacy remote row instead of
+        // inserting a duplicate beside it.
+        try? runUnsafe("ALTER TABLE energy_days ADD COLUMN upload_burned_at REAL")
+        // Issue #192 — legacy files predate sample identity on weight rows.
+        try? runUnsafe("ALTER TABLE weight_samples ADD COLUMN sample_id TEXT")
+        try runUnsafe("CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT NOT NULL)")
     }
 
     deinit { sqlite3_close(database) }
@@ -78,19 +100,29 @@ final class LocalHealthStore: WeightLogStore {
 
     /// Dedupe rule: one row per measurement time — a later sample for the
     /// same time replaces the earlier value; identical re-imports keep the
-    /// uploaded flag (no useless re-upload), changed values go dirty.
+    /// uploaded flag (no useless re-upload), changed values go dirty. Issue
+    /// #192 keeps the sample identity so a removed Health sample can drop the
+    /// local row it produced.
     func upsert(_ logs: [WeightLog]) async throws {
         try lock.lock(); defer { lock.unlock() }
+        try upsertWeightRowsLocked(logs)
+    }
+
+    /// The same upsert without taking the lock: callers already hold it (the
+    /// window application runs it inside its own transaction).
+    func upsertWeightRowsLocked(_ logs: [WeightLog]) throws {
         for log in logs where log.kilograms.isFinite && log.kilograms > 0 {
             try runUnsafe("""
-            INSERT INTO weight_samples(measured_at, kg, uploaded)
-            VALUES (?, ?, 0)
+            INSERT INTO weight_samples(measured_at, kg, uploaded, sample_id)
+            VALUES (?, ?, 0, ?)
             ON CONFLICT(measured_at) DO UPDATE SET
               kg = excluded.kg,
+              sample_id = COALESCE(excluded.sample_id, weight_samples.sample_id),
               uploaded = CASE
                 WHEN weight_samples.kg = excluded.kg THEN weight_samples.uploaded
                 ELSE 0 END
-            """, .double(log.measuredAt.timeIntervalSince1970), .double(log.kilograms))
+            """, .double(log.measuredAt.timeIntervalSince1970), .double(log.kilograms),
+                 log.sampleID.map { .text($0.uuidString) } ?? .null)
         }
     }
 
@@ -102,19 +134,26 @@ final class LocalHealthStore: WeightLogStore {
     func upsertEnergyBurned(_ logs: [EnergyBurnedLog]) async throws {
         try lock.lock(); defer { lock.unlock() }
         for log in logs where log.activeKilocalories.isFinite && log.activeKilocalories > 0 {
-            let day = calendar.startOfDay(for: log.burnedAt)
-            try runUnsafe("""
-            INSERT INTO energy_days(day_key, total, uploaded_total)
-            VALUES (?, ?, NULL)
-            ON CONFLICT(day_key) DO UPDATE SET
-              total = excluded.total,
-              uploaded_total = CASE
-                WHEN energy_days.uploaded_total = energy_days.total
-                 AND excluded.total = energy_days.total
-                THEN energy_days.uploaded_total
-                ELSE NULL END
-            """, .text(Self.dayKey(day)), .double(log.activeKilocalories))
+            try upsertEnergyDayLocked(
+                calendar.startOfDay(for: log.burnedAt), total: log.activeKilocalories
+            )
         }
+    }
+
+    /// One local day's total in the upload outbox, without taking the lock: the
+    /// window application recomputes day totals inside its own transaction.
+    func upsertEnergyDayLocked(_ day: Date, total: Double) throws {
+        try runUnsafe("""
+        INSERT INTO energy_days(day_key, total, uploaded_total)
+        VALUES (?, ?, NULL)
+        ON CONFLICT(day_key) DO UPDATE SET
+          total = excluded.total,
+          uploaded_total = CASE
+            WHEN energy_days.uploaded_total = energy_days.total
+             AND excluded.total = energy_days.total
+            THEN energy_days.uploaded_total
+            ELSE NULL END
+        """, .text(Self.dayKey(day)), .double(total))
     }
 
     /// All body-mass rows still awaiting an authenticated remote upsert.
@@ -247,12 +286,11 @@ final class LocalHealthStore: WeightLogStore {
         return !days.isEmpty
     }
 
-    // MARK: - Watermarks (last-successful import anchors)
+    // MARK: - Watermarks (last-successful upload stamps)
 
-    func bodyMassAnchor() throws -> Date? { try anchor(Key.bodyMassAnchor) }
-    func setBodyMassAnchor(_ date: Date) throws { try setAnchor(date, Key.bodyMassAnchor) }
-    func energyAnchor() throws -> Date? { try anchor(Key.energyAnchor) }
-    func setEnergyAnchor(_ date: Date) throws { try setAnchor(date, Key.energyAnchor) }
+    // Issue #192 — the per-type READ cursors (opaque HealthKit anchors) live in
+    // LocalHealthStore+Delta.swift beside the window application that advances
+    // them; only the upload stamps stay here.
 
     func lastSuccessfulUpload() throws -> Date? { try anchor(Key.lastSync) }
     func setLastSuccessfulUpload(_ date: Date) throws { try setAnchor(date, Key.lastSync) }

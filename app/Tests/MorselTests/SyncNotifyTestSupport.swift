@@ -141,8 +141,12 @@ final class SyncNotifyHealthRemote: WeightLogStore {
 /// the durable rows directly in the account's SQLite file).
 final class SyncNotifyReader: WeightSampleReading {
     func requestAuthorization() async throws {}
-    func samples(since: Date?) async throws -> [WeightLog] { [] }
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { [] }
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("empty-body".utf8))
+    }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        HealthSampleWindow(samples: [], removedSampleIDs: [], anchor: Data("empty-energy".utf8))
+    }
     func authorizationStatus(for kind: HealthKitObserverKind) async -> Bool { true }
     func startObserving(
         _ kind: HealthKitObserverKind,
