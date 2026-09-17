@@ -49,7 +49,7 @@ struct SignInView: View {
                             .fill(Color.morselLine)
                             .frame(height: 1)
                         Text("or email")
-                            .font(.morselData)
+                            .font(.morselValue)
                             .foregroundStyle(Color.morselInkThree)
                         Rectangle()
                             .fill(Color.morselLine)
@@ -91,7 +91,7 @@ struct SignInView: View {
                                 code = ""
                                 message = nil
                             }
-                            .font(.morselData)
+                            .font(.morselValue)
                             .foregroundStyle(Color.morselForest)
                             .morselResignsKeyboardOnTap()
                         }

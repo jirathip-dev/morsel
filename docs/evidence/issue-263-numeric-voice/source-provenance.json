@@ -1,0 +1,465 @@
+{
+  "before_commit": "05e6314f2ebd107149c5be22f2b09f003e697948",
+  "design_commit": "cfd5940",
+  "capture_driver": {
+    "path": "app/Tests/MorselTests/NumericVoiceCaptureTests.swift",
+    "sha256": "20d32b8d84142e38f0fffd3f4516f9ef76f2d8e3304bdedf58e4b37bc3e28bd7"
+  },
+  "production_sources": [
+    {
+      "path": "app/Sources/Morsel/.gitkeep",
+      "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app/Sources/Morsel/AddMealPhotoSection.swift",
+      "before_sha256": "e85064efedc1e777fb24e182e55c3c22baaf2e83266d57e5ce72d00392262c97",
+      "after_sha256": "0b68e67cb36e1aa36e1ed7b980eb20e523257a98abf7d7e1453c24cfae618f8b"
+    },
+    {
+      "path": "app/Sources/Morsel/Auth.swift",
+      "before_sha256": "aa3b106eff75ba0f26761ec4b5c19a4f4600b0a62b15f9807109abfb12ed8d88",
+      "after_sha256": "aa3b106eff75ba0f26761ec4b5c19a4f4600b0a62b15f9807109abfb12ed8d88"
+    },
+    {
+      "path": "app/Sources/Morsel/AuthView.swift",
+      "before_sha256": "14f73d82594157f560f74dea64156e1947741ac9427799503bb66c5c0a8831ff",
+      "after_sha256": "5102bbd2f1e5c0f643bcc68b9c149412c37bc78d8a93c6123fdd7c4f27b977d9"
+    },
+    {
+      "path": "app/Sources/Morsel/DatedTargets.swift",
+      "before_sha256": "0b3a14ee6762cc7e7130d5446f855390bf77cf186cfdd48c601cd10fa78eb0e3",
+      "after_sha256": "0b3a14ee6762cc7e7130d5446f855390bf77cf186cfdd48c601cd10fa78eb0e3"
+    },
+    {
+      "path": "app/Sources/Morsel/DayDrillDown.swift",
+      "before_sha256": "873b35e829410da22857a8dd8d538cb5b88fc6fc5a2fc2ff8b78cc37fd0e26d9",
+      "after_sha256": "1d824b141e81b610b000bdb496f0cea2f8c77aa8d31124fd2df6a75cdedfaf94"
+    },
+    {
+      "path": "app/Sources/Morsel/DayReadState.swift",
+      "before_sha256": "5a4ca544ffcc6bf00ac28951c969d547ea4445745857fb8923f263d4209db743",
+      "after_sha256": "5a4ca544ffcc6bf00ac28951c969d547ea4445745857fb8923f263d4209db743"
+    },
+    {
+      "path": "app/Sources/Morsel/DesignSystem.swift",
+      "before_sha256": "8d67432332c6ca8d405700453b1b499e1590d318257c2c92b3edcb5602cf4322",
+      "after_sha256": "8e6ec36fcee8012deddb92076613060d07aa617d306f932fef96c40d0f740931"
+    },
+    {
+      "path": "app/Sources/Morsel/DeviceTimezoneSync.swift",
+      "before_sha256": "296662f694b12b1fd8afe421747c5d95e237cf9f88a76a9b9f4d58a37b5ba57b",
+      "after_sha256": "296662f694b12b1fd8afe421747c5d95e237cf9f88a76a9b9f4d58a37b5ba57b"
+    },
+    {
+      "path": "app/Sources/Morsel/EndpointCopyPill.swift",
+      "before_sha256": "b620bfa15541832ad9415f284a1c0261b98646d6f94e0462bd9a0041747241fe",
+      "after_sha256": "b620bfa15541832ad9415f284a1c0261b98646d6f94e0462bd9a0041747241fe"
+    },
+    {
+      "path": "app/Sources/Morsel/FoodArtwork.swift",
+      "before_sha256": "aa2ff8a75e8b155543b279c26d8ee8bb1ca05d7f71fb89432638c5442e0558b1",
+      "after_sha256": "aa2ff8a75e8b155543b279c26d8ee8bb1ca05d7f71fb89432638c5442e0558b1"
+    },
+    {
+      "path": "app/Sources/Morsel/FoodArtworkView.swift",
+      "before_sha256": "d17a16f038cd453a0517cac81604530a578e84e38d17f673892e69f206b2769a",
+      "after_sha256": "d17a16f038cd453a0517cac81604530a578e84e38d17f673892e69f206b2769a"
+    },
+    {
+      "path": "app/Sources/Morsel/GoalPageContext.swift",
+      "before_sha256": "197150080d498bc473febb92c468e0d1f6cee16264f29f0df8420378fba6cd9c",
+      "after_sha256": "197150080d498bc473febb92c468e0d1f6cee16264f29f0df8420378fba6cd9c"
+    },
+    {
+      "path": "app/Sources/Morsel/GoalsEditor.swift",
+      "before_sha256": "272d2a58716fafaf6061fd9def1477893748ca33fa24a0b47e1fe0552ad50d23",
+      "after_sha256": "272d2a58716fafaf6061fd9def1477893748ca33fa24a0b47e1fe0552ad50d23"
+    },
+    {
+      "path": "app/Sources/Morsel/GoalsEditorModel.swift",
+      "before_sha256": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b",
+      "after_sha256": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b"
+    },
+    {
+      "path": "app/Sources/Morsel/GoalsMath.swift",
+      "before_sha256": "81415cada054b00716711267efc3f03a3befebf935715326305099d0a0befe70",
+      "after_sha256": "81415cada054b00716711267efc3f03a3befebf935715326305099d0a0befe70"
+    },
+    {
+      "path": "app/Sources/Morsel/GoalsPageCopy.swift",
+      "before_sha256": "f078166ba627dc694292b854fb0e5d3145bfe296376782a3ca22a974391e6c8f",
+      "after_sha256": "f078166ba627dc694292b854fb0e5d3145bfe296376782a3ca22a974391e6c8f"
+    },
+    {
+      "path": "app/Sources/Morsel/HealthCalmStatus.swift",
+      "before_sha256": "f4578bde4f729cce0e22879061068394c1c5fa4afca4e9ad398f21705fc9e02a",
+      "after_sha256": "f4578bde4f729cce0e22879061068394c1c5fa4afca4e9ad398f21705fc9e02a"
+    },
+    {
+      "path": "app/Sources/Morsel/HealthKitWeightImporter.swift",
+      "before_sha256": "dfa2b52593e9cd56f76cbbd18bace1be393c10da20cbb47983d552e17c956d9c",
+      "after_sha256": "dfa2b52593e9cd56f76cbbd18bace1be393c10da20cbb47983d552e17c956d9c"
+    },
+    {
+      "path": "app/Sources/Morsel/HealthLogStores.swift",
+      "before_sha256": "1463de64266d03ba347f680d6c6d3cff0460803351a13d5711bdb8b9bfe716a2",
+      "after_sha256": "1463de64266d03ba347f680d6c6d3cff0460803351a13d5711bdb8b9bfe716a2"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryLedgerViews.swift",
+      "before_sha256": "87b807f3cdd93e26d7cabcc320107ecec8a30d4f909df28aa0b268d926d789a5",
+      "after_sha256": "b12078ee83e7b9aeb568deccfa9630d331b92836ce1200e09b7a6570d905fc2a"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryModels.swift",
+      "before_sha256": "dc6b0866db11091029c8053d4d868cea8afc2f6d0537a0eba827e7532db102bc",
+      "after_sha256": "dc6b0866db11091029c8053d4d868cea8afc2f6d0537a0eba827e7532db102bc"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryRepository.swift",
+      "before_sha256": "93e8cf6cd21d2096b831c0b7f4f995ffb5bfa6b977840625842df46a9d9cf45d",
+      "after_sha256": "93e8cf6cd21d2096b831c0b7f4f995ffb5bfa6b977840625842df46a9d9cf45d"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryView.swift",
+      "before_sha256": "60370deae060af8f3b2ef031b996660d8fb049348d783d0ecb1a58871f4313c8",
+      "after_sha256": "60370deae060af8f3b2ef031b996660d8fb049348d783d0ecb1a58871f4313c8"
+    },
+    {
+      "path": "app/Sources/Morsel/HistoryViewModel.swift",
+      "before_sha256": "43b4a1991cfa6e8725a7ab7dc69ba4a1499246cf4a262adaa3e5bc93d29f5e55",
+      "after_sha256": "43b4a1991cfa6e8725a7ab7dc69ba4a1499246cf4a262adaa3e5bc93d29f5e55"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalArtwork.swift",
+      "before_sha256": "53288e5333acd37914138204e689de18dc96b86809a065e80cdac1b156304e3c",
+      "after_sha256": "53288e5333acd37914138204e689de18dc96b86809a065e80cdac1b156304e3c"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalCalendarModel.swift",
+      "before_sha256": "44c4d86964ee50fe1c8f9dfbc0528904b4611352fa52ba26ecbf4e9becc9098f",
+      "after_sha256": "44c4d86964ee50fe1c8f9dfbc0528904b4611352fa52ba26ecbf4e9becc9098f"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalCalendarRepository.swift",
+      "before_sha256": "7b83e278fb14f9f3a1a731a364145f0704bf18f9f2f766a7d9d4790c2b2981dc",
+      "after_sha256": "7b83e278fb14f9f3a1a731a364145f0704bf18f9f2f766a7d9d4790c2b2981dc"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalCalendarView.swift",
+      "before_sha256": "5a9d623e1d6e281b983d7881e3a97d5988e13bd6504e55a768087f40c100fdf4",
+      "after_sha256": "d4dc43fc401cfefd12753e7ff5fb4079edbde90d7e3f8d191a3e50842906c5a2"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalDiaryPage.swift",
+      "before_sha256": "4ab14fd63ca8ce1b15e9b4bacfe89d6ec1519f6434fd4fa3a717b555a0de3a5a",
+      "after_sha256": "4ab14fd63ca8ce1b15e9b4bacfe89d6ec1519f6434fd4fa3a717b555a0de3a5a"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalFocus.swift",
+      "before_sha256": "954f4e61f8e0a991144ce4714fcab958e0558425cdc291000c39415a5ebe21e9",
+      "after_sha256": "954f4e61f8e0a991144ce4714fcab958e0558425cdc291000c39415a5ebe21e9"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalFoodRow.swift",
+      "before_sha256": "f14486f1814af5d0580318b8ff053af80501f0fccf1a6fad472e01e74341d591",
+      "after_sha256": "5d42f16fa5ce5d97e93744052d35626673ca4a06a4b95401d55a08910e1c5196"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalHistoryRangePicker.swift",
+      "before_sha256": "ab2398b0bb432a088da3a2290277437f6fe8588e5cde7ab8b2ddc94c619fd4d1",
+      "after_sha256": "ab2398b0bb432a088da3a2290277437f6fe8588e5cde7ab8b2ddc94c619fd4d1"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalNavigation.swift",
+      "before_sha256": "4bbb19273902b9c8b330d0861952513124360d074149fdf31ba53ecc2044feb5",
+      "after_sha256": "4bbb19273902b9c8b330d0861952513124360d074149fdf31ba53ecc2044feb5"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalPageTurner.swift",
+      "before_sha256": "c924b9e176c72b7d51cdeb1cf5df311f294192c3455c5ec10d900a50b01f8bb4",
+      "after_sha256": "c924b9e176c72b7d51cdeb1cf5df311f294192c3455c5ec10d900a50b01f8bb4"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalPaperTexture.swift",
+      "before_sha256": "09fa5ad3d106a1c40fb15b496a21b8fa6e53b2055ee8de1d93e66d71ee6088e2",
+      "after_sha256": "09fa5ad3d106a1c40fb15b496a21b8fa6e53b2055ee8de1d93e66d71ee6088e2"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalPresentationModel.swift",
+      "before_sha256": "d275f8603613f0d6611b9644bea62a509d3afae4075e6959cce37a6fd980909f",
+      "after_sha256": "d275f8603613f0d6611b9644bea62a509d3afae4075e6959cce37a6fd980909f"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalShellChrome.swift",
+      "before_sha256": "dbd5fbf818fabf0376918d088fea04c46f91753b9b5cf47f214a43d96b64b49c",
+      "after_sha256": "dbd5fbf818fabf0376918d088fea04c46f91753b9b5cf47f214a43d96b64b49c"
+    },
+    {
+      "path": "app/Sources/Morsel/JournalUI.swift",
+      "before_sha256": "7fefcf3673ef83373f0b1b2503c9420d83018ad920c3970e991295468c4cda36",
+      "after_sha256": "bb4c6e6f3719e09966e364784dea024c4eb52b8ed09765d6af5a36470e8dbbe8"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalDataStore+SQLite.swift",
+      "before_sha256": "6c73fe048460f2d32601a4c5a875c6e0048f2ec889e5d5f85961f80ad0f30962",
+      "after_sha256": "6c73fe048460f2d32601a4c5a875c6e0048f2ec889e5d5f85961f80ad0f30962"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalDataStore.swift",
+      "before_sha256": "785d02b47f26cf4a9c5e1f0a195a8bac31d95b33891bab5ef629b9946f31df85",
+      "after_sha256": "785d02b47f26cf4a9c5e1f0a195a8bac31d95b33891bab5ef629b9946f31df85"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalDayMigration.swift",
+      "before_sha256": "8e8ce633dc79f2351995a0abe1f408a3ac3ec1f45ff63a0d267d716140232b54",
+      "after_sha256": "8e8ce633dc79f2351995a0abe1f408a3ac3ec1f45ff63a0d267d716140232b54"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalFirstMenus.swift",
+      "before_sha256": "a89bfa3dd2c7bb9d75517b5cc58459636567c2ea7247176a70050ce645f63134",
+      "after_sha256": "a89bfa3dd2c7bb9d75517b5cc58459636567c2ea7247176a70050ce645f63134"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalFirstRepository+ThumbnailRevision.swift",
+      "before_sha256": "f737fd531ccbd2f68809675f4adfac841cba3cb0da5e902b512712522ef58886",
+      "after_sha256": "f737fd531ccbd2f68809675f4adfac841cba3cb0da5e902b512712522ef58886"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalFirstRepository.swift",
+      "before_sha256": "35f926d27b4cac09283b85ed589a461d2f865ff4f0056d6a3bcde1c61ab0e806",
+      "after_sha256": "35f926d27b4cac09283b85ed589a461d2f865ff4f0056d6a3bcde1c61ab0e806"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalHealthStore+SQLite.swift",
+      "before_sha256": "60ab0f37037be1c9eafaf93df614a4916d45e1891f5c05ef5926cc1206944f0e",
+      "after_sha256": "60ab0f37037be1c9eafaf93df614a4916d45e1891f5c05ef5926cc1206944f0e"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalHealthStore.swift",
+      "before_sha256": "2fa8b90dc7efdf3e01ca2ba80945766d3a67c9daf0511ecc953f5ee48d06a931",
+      "after_sha256": "2fa8b90dc7efdf3e01ca2ba80945766d3a67c9daf0511ecc953f5ee48d06a931"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalSnapshotCache.swift",
+      "before_sha256": "1c2bfb42e54163154e8940833392b88458ca22bbb80fb4c6f743c91fe6159ff5",
+      "after_sha256": "1c2bfb42e54163154e8940833392b88458ca22bbb80fb4c6f743c91fe6159ff5"
+    },
+    {
+      "path": "app/Sources/Morsel/LocalSyncEngine.swift",
+      "before_sha256": "45839f78691a154e48e15be2c0ad7d3320c900e160b0f571127952eb847b68b2",
+      "after_sha256": "45839f78691a154e48e15be2c0ad7d3320c900e160b0f571127952eb847b68b2"
+    },
+    {
+      "path": "app/Sources/Morsel/MealCapture.swift",
+      "before_sha256": "e7c7df37c1d3c351805579c84bdbdced2dee192e6a835d3c88e323fd0b07ac6e",
+      "after_sha256": "e7c7df37c1d3c351805579c84bdbdced2dee192e6a835d3c88e323fd0b07ac6e"
+    },
+    {
+      "path": "app/Sources/Morsel/MealCaptureView.swift",
+      "before_sha256": "dd8ba1775c8c30274d646d1b9169c7dca27f890f35719ae671b4dfef8ab666ae",
+      "after_sha256": "287bb7eaf88ab1dc5801f7757ec0bb09126c9ffa3cf229056941cb687c12e470"
+    },
+    {
+      "path": "app/Sources/Morsel/MealCorrections.swift",
+      "before_sha256": "6b3fec025e695f9d8e04f1b45d82b1bd566e8d129410ce49e26fcd8794278ba7",
+      "after_sha256": "6b3fec025e695f9d8e04f1b45d82b1bd566e8d129410ce49e26fcd8794278ba7"
+    },
+    {
+      "path": "app/Sources/Morsel/MealItemEditSheet.swift",
+      "before_sha256": "9580dc52360e24887382850c441d9bf8cae7ceead1918d27ae32145354dc6ded",
+      "after_sha256": "6f3791a040556883f637300109e0fa1588fc2f50aef77b15d8bc3fb8037867a7"
+    },
+    {
+      "path": "app/Sources/Morsel/MealPhotoEditorSection.swift",
+      "before_sha256": "28654abfcb03781aa3b64711b82a82e9ee39205ea2564e226d6392b09537d1b8",
+      "after_sha256": "7a7806dd7b49fad3c3333aa0549d634bfc8befa5e2f9bc8229045bb8b4845fc4"
+    },
+    {
+      "path": "app/Sources/Morsel/MealPhotoRevisions.swift",
+      "before_sha256": "5a172d7427d93b72a69b7f17b4c3922c376d1d7f274c4a7e927be79ebbcbeee9",
+      "after_sha256": "5a172d7427d93b72a69b7f17b4c3922c376d1d7f274c4a7e927be79ebbcbeee9"
+    },
+    {
+      "path": "app/Sources/Morsel/MealRepository.swift",
+      "before_sha256": "743cd840a11875f3934aa93e972dfff832d2cbd66499628fb57ab9cf999ff28a",
+      "after_sha256": "743cd840a11875f3934aa93e972dfff832d2cbd66499628fb57ab9cf999ff28a"
+    },
+    {
+      "path": "app/Sources/Morsel/MealThumbnailCache.swift",
+      "before_sha256": "e2d1a265a75b21dfc0e4a2dc5da755d34dfbb54dc9fcf189e71643b5f5feec2d",
+      "after_sha256": "e2d1a265a75b21dfc0e4a2dc5da755d34dfbb54dc9fcf189e71643b5f5feec2d"
+    },
+    {
+      "path": "app/Sources/Morsel/MealThumbnailKey.swift",
+      "before_sha256": "3d29484ac9abddac08af64e647ff04a45ff61d7c8f36913d9433425e3bc0b176",
+      "after_sha256": "3d29484ac9abddac08af64e647ff04a45ff61d7c8f36913d9433425e3bc0b176"
+    },
+    {
+      "path": "app/Sources/Morsel/MealThumbnailPreparer.swift",
+      "before_sha256": "777ad9c3a169bf54d8118be0259614ff60a7e71980e3b3e4f9fff988b3ebb33e",
+      "after_sha256": "777ad9c3a169bf54d8118be0259614ff60a7e71980e3b3e4f9fff988b3ebb33e"
+    },
+    {
+      "path": "app/Sources/Morsel/MenuEditorSheet.swift",
+      "before_sha256": "d5cb02aab7d53e76799a453df00c7a00f3bbc76586cf827462e98964753dbb3a",
+      "after_sha256": "d5cb02aab7d53e76799a453df00c7a00f3bbc76586cf827462e98964753dbb3a"
+    },
+    {
+      "path": "app/Sources/Morsel/MenuLibrary.swift",
+      "before_sha256": "753565b6ce0788614d711a35409e5dd8ab0b38463f63e107e1ab90c25140a1e4",
+      "after_sha256": "753565b6ce0788614d711a35409e5dd8ab0b38463f63e107e1ab90c25140a1e4"
+    },
+    {
+      "path": "app/Sources/Morsel/MenusScreen.swift",
+      "before_sha256": "63342d1a21bdce36ec14fcc9edc642fa216246d3bd73c3ac015128dce330aba6",
+      "after_sha256": "9904e66233a80b9ae789bcd74ca12d12be2929b8b99d3ea7313d6b22ede5acf8"
+    },
+    {
+      "path": "app/Sources/Morsel/MockRepository.swift",
+      "before_sha256": "72df65f3b2fca295594ca2d5cba52646a67e23b27cfdfdcd178b6ecd3e18d469",
+      "after_sha256": "72df65f3b2fca295594ca2d5cba52646a67e23b27cfdfdcd178b6ecd3e18d469"
+    },
+    {
+      "path": "app/Sources/Morsel/Models.swift",
+      "before_sha256": "4157a1a6c5b9d2e291eb86c43051819910aff033118209ebdfde89b5341f9a8d",
+      "after_sha256": "4157a1a6c5b9d2e291eb86c43051819910aff033118209ebdfde89b5341f9a8d"
+    },
+    {
+      "path": "app/Sources/Morsel/MorselApp.swift",
+      "before_sha256": "43bef9ac8e9907116b965c178a0641287c284f81e9a75188c8ad7a365066c3be",
+      "after_sha256": "43bef9ac8e9907116b965c178a0641287c284f81e9a75188c8ad7a365066c3be"
+    },
+    {
+      "path": "app/Sources/Morsel/MorselAppearance.swift",
+      "before_sha256": "4e366d024239127a8f0f7fa729ebc1e3d73494c537c10e4578c7a53f0da19d29",
+      "after_sha256": "4e366d024239127a8f0f7fa729ebc1e3d73494c537c10e4578c7a53f0da19d29"
+    },
+    {
+      "path": "app/Sources/Morsel/MorselDate.swift",
+      "before_sha256": "1793375daea30325ce16335ee6ed670fea100f238d2d855435b9057c55fc7567",
+      "after_sha256": "1793375daea30325ce16335ee6ed670fea100f238d2d855435b9057c55fc7567"
+    },
+    {
+      "path": "app/Sources/Morsel/MorselStamp.swift",
+      "before_sha256": "71f5d0eb24bbc0ef21849cc6e48dfdf785a97793f04faf605dcd96dba34577c7",
+      "after_sha256": "71f5d0eb24bbc0ef21849cc6e48dfdf785a97793f04faf605dcd96dba34577c7"
+    },
+    {
+      "path": "app/Sources/Morsel/NamedMenus.swift",
+      "before_sha256": "eeeef635a0ed6d37a545641cc32a8f0e9604dbb7bd382e2e763d3eaf0e8cecff",
+      "after_sha256": "eeeef635a0ed6d37a545641cc32a8f0e9604dbb7bd382e2e763d3eaf0e8cecff"
+    },
+    {
+      "path": "app/Sources/Morsel/Onboarding.swift",
+      "before_sha256": "dcfa0560ba7ac29a8a77ea0ac3bd8ba87ca6091840fd9ea7a1d2753a5651ba90",
+      "after_sha256": "8ff86c073aff48d23bef0cdb6ac0566f672ddfd302d366a0999c1f62a485f569"
+    },
+    {
+      "path": "app/Sources/Morsel/OutboxModels.swift",
+      "before_sha256": "b1a8523fa4e13566d66ea1d2bb29cf323773322bede4f25186cc54b00197fc99",
+      "after_sha256": "b1a8523fa4e13566d66ea1d2bb29cf323773322bede4f25186cc54b00197fc99"
+    },
+    {
+      "path": "app/Sources/Morsel/PaperFields.swift",
+      "before_sha256": "55913402b9aa80289619614211552adcee31e4449d10cf228f48c8c11d590c72",
+      "after_sha256": "30b7db5cf28af204cf244c5d0e87878c7daecb85ec8111c5741193b95a57e022"
+    },
+    {
+      "path": "app/Sources/Morsel/PreviewData.swift",
+      "before_sha256": "d69274ffc6a147ae544cc660c03def86e8c112d07ed99b10a8dbc7e03706d668",
+      "after_sha256": "d69274ffc6a147ae544cc660c03def86e8c112d07ed99b10a8dbc7e03706d668"
+    },
+    {
+      "path": "app/Sources/Morsel/ReliabilityServices.swift",
+      "before_sha256": "02a5fd4f09e25a1e7363342ccbc68a4dd32b8219b2d1cd7d3aca2a18e03e85b2",
+      "after_sha256": "02a5fd4f09e25a1e7363342ccbc68a4dd32b8219b2d1cd7d3aca2a18e03e85b2"
+    },
+    {
+      "path": "app/Sources/Morsel/Repository.swift",
+      "before_sha256": "22da066321bb34aae75eea48e82125d698f8e88dd54f791f09893745d60a2c55",
+      "after_sha256": "22da066321bb34aae75eea48e82125d698f8e88dd54f791f09893745d60a2c55"
+    },
+    {
+      "path": "app/Sources/Morsel/SessionStore.swift",
+      "before_sha256": "ea2902a732e7e87c895ba4cdf0a47c03b9323d171f03dfe7cdb24bea0f66b03a",
+      "after_sha256": "ea2902a732e7e87c895ba4cdf0a47c03b9323d171f03dfe7cdb24bea0f66b03a"
+    },
+    {
+      "path": "app/Sources/Morsel/SettingsView.swift",
+      "before_sha256": "d1e2fe0b96d083fd43ca8d424c7297023d35cb402b5d5e69994dab19eb31ae92",
+      "after_sha256": "d1e2fe0b96d083fd43ca8d424c7297023d35cb402b5d5e69994dab19eb31ae92"
+    },
+    {
+      "path": "app/Sources/Morsel/SupabaseMealMutations.swift",
+      "before_sha256": "057e7feda830bb1f1b0e259c9d03dbf73265880e8a3f9fb6d64bb12f340e0c39",
+      "after_sha256": "057e7feda830bb1f1b0e259c9d03dbf73265880e8a3f9fb6d64bb12f340e0c39"
+    },
+    {
+      "path": "app/Sources/Morsel/SupabaseMealReadModel.swift",
+      "before_sha256": "8b78afd1ef0eb6a52c7cb102b7ec70b207a28b41378d95f66cc10d3876c31b67",
+      "after_sha256": "8b78afd1ef0eb6a52c7cb102b7ec70b207a28b41378d95f66cc10d3876c31b67"
+    },
+    {
+      "path": "app/Sources/Morsel/SupabaseMenus.swift",
+      "before_sha256": "2c25344b58ff82320b048dd8765be6f7c17a0b55fc5a35102b810f801acd4a78",
+      "after_sha256": "2c25344b58ff82320b048dd8765be6f7c17a0b55fc5a35102b810f801acd4a78"
+    },
+    {
+      "path": "app/Sources/Morsel/TodayLogViews.swift",
+      "before_sha256": "15cea7ab14136341ef2ae93790511ed791aa176de2ad0f3f2d521f730f97b6e4",
+      "after_sha256": "1df2412f384c32d3fe72741e166322260b7623065f2a9cdbe615f302e47f2c66"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelContext.swift",
+      "before_sha256": "f43be32c5e16b20663f655f31cc3ce9acb39395eb297a8d23a1e3fb9abf7828e",
+      "after_sha256": "f43be32c5e16b20663f655f31cc3ce9acb39395eb297a8d23a1e3fb9abf7828e"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelHealthReader.swift",
+      "before_sha256": "d0cb1750d1fb8508ec74c8b85bacd0a54f23f6c2d1ee64d383c49fd13a26dbe2",
+      "after_sha256": "d0cb1750d1fb8508ec74c8b85bacd0a54f23f6c2d1ee64d383c49fd13a26dbe2"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelHost.swift",
+      "before_sha256": "e0e8cf77bb8011c16f24133ac1b28611c9a37a02ebcaf538ccb895322022751b",
+      "after_sha256": "e0e8cf77bb8011c16f24133ac1b28611c9a37a02ebcaf538ccb895322022751b"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelModel.swift",
+      "before_sha256": "170b64f2e92b0cf0a1a71c29c28f18268a9589deaf738fe39613a191af3b2e1c",
+      "after_sha256": "170b64f2e92b0cf0a1a71c29c28f18268a9589deaf738fe39613a191af3b2e1c"
+    },
+    {
+      "path": "app/Sources/Morsel/TrainingFuelViews.swift",
+      "before_sha256": "a6fdd868757b6cf43bf9363ab8d30540659c002223bf779a12e52871e51a7d55",
+      "after_sha256": "a6fdd868757b6cf43bf9363ab8d30540659c002223bf779a12e52871e51a7d55"
+    },
+    {
+      "path": "app/Sources/Morsel/ViewModel.swift",
+      "before_sha256": "bd67ae396598e229cc9c0279bad816bc3837dc1e8ba292545184cf144cf16f72",
+      "after_sha256": "bd67ae396598e229cc9c0279bad816bc3837dc1e8ba292545184cf144cf16f72"
+    },
+    {
+      "path": "app/Sources/Morsel/Views.swift",
+      "before_sha256": "8a7a2afa46dac64066116a967ac09a8a2f508410d7d25e9476def29841cd5f8c",
+      "after_sha256": "5d29556629404af142ec464ec250d63531d3adf9a220fff048d624e5181bb3cb"
+    },
+    {
+      "path": "app/Sources/Morsel/WeightDeltaBand.swift",
+      "before_sha256": "c3e87c312106164f155ca140e095b09f30f3c11473e6bf069b3c1bc6bb377eaa",
+      "after_sha256": "b849c191dce1244eb8d9e68c8f9cb83b83950adb41ef279e90397e48007badd9"
+    },
+    {
+      "path": "app/Sources/Morsel/WeightDeltaModels.swift",
+      "before_sha256": "7382e80739ef69aadb263d367d5823da6e92b24e3d061a945758124f79c8a9ab",
+      "after_sha256": "7382e80739ef69aadb263d367d5823da6e92b24e3d061a945758124f79c8a9ab"
+    },
+    {
+      "path": "app/Sources/Morsel/WeightTrendView.swift",
+      "before_sha256": "40f2001e2c1587ba2b3a18e5650fccae17884a9cbd732878fee4098f670c5f11",
+      "after_sha256": "40f2001e2c1587ba2b3a18e5650fccae17884a9cbd732878fee4098f670c5f11"
+    }
+  ]
+}

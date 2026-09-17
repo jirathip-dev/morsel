@@ -1,0 +1,12 @@
+COMMAND=['xcodebuild', 'test', '-project', 'Morsel.xcodeproj', '-scheme', 'Morsel', '-destination', 'platform=iOS Simulator,id=9E5B8345-2E06-4A8D-84C3-4A9518A4EA5F', '-derivedDataPath', '/tmp/morsel-263-dd', '-resultBundlePath', '/tmp/morsel-263-native-full.xcresult', '-parallel-testing-enabled', 'NO', 'CODE_SIGNING_ALLOWED=NO']
+Test Case '-[MorselTests.NumericVoiceTests testSwiftUIRenderedDigitColumnsAtProductionSizes]' started.
+Test Case '-[MorselTests.NumericVoiceTests testSwiftUIRenderedDigitColumnsAtProductionSizes]' passed (3.765 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-263-numeric/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.455 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-263-numeric/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-263-numeric/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.009 seconds).
+	 Executed 488 tests, with 1 test skipped and 3 failures (0 unexpected) in 315.930 (316.169) seconds
+	 Executed 488 tests, with 1 test skipped and 3 failures (0 unexpected) in 315.930 (316.170) seconds
+** TEST FAILED **
+RAW_EXIT=65

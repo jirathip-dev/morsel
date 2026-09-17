@@ -253,6 +253,24 @@ extension Font {
         return Font(UIFontMetrics(forTextStyle: .body).scaledFont(for: weighted))
     }
 
+    /// Diary numbers and their accompanying labels; technical mono roles stay separate.
+    static func morselNumber(size: CGFloat, weight: CGFloat = 400) -> Font {
+        guard let base = MorselFontCatalog.variableSerif(size: size, weight: weight) else {
+            return Font.custom("EB Garamond", size: size).monospacedDigit()
+        }
+        let descriptor = base.fontDescriptor.addingAttributes([.featureSettings: [
+            [UIFontDescriptor.FeatureKey.type: kNumberSpacingType,
+             UIFontDescriptor.FeatureKey.selector: kMonospacedNumbersSelector], // tnum
+            [UIFontDescriptor.FeatureKey.type: kNumberCaseType,
+             UIFontDescriptor.FeatureKey.selector: kUpperCaseNumbersSelector] // lnum
+        ]])
+        let number = UIFont(descriptor: descriptor, size: size)
+        return Font(UIFontMetrics(forTextStyle: .body).scaledFont(for: number))
+    }
+
+    static let morselValue = Font.morselNumber(size: 11)
+    static let morselValueMedium = Font.morselNumber(size: 11, weight: 500)
+
     static let morselDisplay = Font.morselHand(size: 34)
     static let morselTitle = Font.morselSerif(size: 17).weight(.semibold)
     static let morselBody = Font.morselSerif(size: 15)

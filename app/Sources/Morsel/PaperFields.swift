@@ -63,7 +63,7 @@ struct JournalPaperField<Key: Hashable>: View {
                 .frame(height: error == nil ? 1 : 1.4)
             if let error {
                 Text(error)
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselOver)
                     .accessibilityLabel("\\(label) error: \\(error)")
             }
@@ -88,7 +88,7 @@ struct JournalPaperField<Key: Hashable>: View {
 
     private var valueFont: Font {
         guard monospacedValue else { return .morselBody }
-        return prominent ? Font.morselMonoMedium(size: 22) : Font.morselMonoMedium(size: 17)
+        return Font.morselNumber(size: prominent ? 22 : 17, weight: 500)
     }
 
     private var ruleColor: Color {

@@ -40,7 +40,7 @@ struct JournalCalendarView: View {
             if let first = model.firstLoggedDay {
                 Text("\(first.formatted(date: .abbreviated, time: .omitted)) – " +
                      model.today.formatted(date: .abbreviated, time: .omitted))
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
             }
             JournalRule()
@@ -101,7 +101,7 @@ struct JournalCalendarView: View {
         let logged = model.loggedDates.contains(date)
         return Button { openDay(date) } label: {
             VStack(spacing: 3) {
-                Text(date.formatted(.dateTime.day())).font(.morselData)
+                Text(date.formatted(.dateTime.day())).font(.morselValue)
                 Circle().fill(dotColor(date)).frame(width: 6, height: 6).opacity(logged ? 1 : 0)
             }
             .frame(maxWidth: .infinity, minHeight: 44)
