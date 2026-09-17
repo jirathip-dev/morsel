@@ -38,6 +38,13 @@ struct HistoryOverview: Equatable, Sendable, Codable {
     let days: [HistoryDay]
     let goal: DashboardGoal?
     let weightTrend: [WeightTrendPoint]
+    var readProvenance: DayReadProvenance?
+
+    var cachedCopy: HistoryOverview {
+        var copy = self
+        copy.readProvenance = DayReadProvenance(isCached: true, loadedAt: readProvenance?.loadedAt)
+        return copy
+    }
 
     init(days: [HistoryDay], goal: DashboardGoal?, weightTrend: [WeightTrendPoint] = []) {
         self.days = days

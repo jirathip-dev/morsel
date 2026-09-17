@@ -1,0 +1,18 @@
+path	line	classification	reason	source
+app/Sources/Morsel/AuthView.swift	29	kept technical string	Explicitly retained wordmark exception (brand, not technical)	.font(.morselData)
+app/Sources/Morsel/DesignSystem.swift	238	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static func morselMono(size: CGFloat) -> Font { Font.custom("IBM Plex Mono", size: size) }
+app/Sources/Morsel/DesignSystem.swift	240	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static func morselMonoMedium(size: CGFloat) -> Font { Font.custom("IBM Plex Mono Medium", size: size) }
+app/Sources/Morsel/DesignSystem.swift	279	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static let morselData = Font.morselMono(size: 11)
+app/Sources/Morsel/DesignSystem.swift	280	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static let morselDataMedium = Font.morselMonoMedium(size: 11)
+app/Sources/Morsel/DesignSystem.swift	281	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static let morselGauge = Font.morselMonoMedium(size: 30)
+app/Sources/Morsel/DesignSystem.swift	282	deliberate documented exception	Preserved mono factory/token, not a rendered number-bearing call site	static let morselHero = Font.morselMonoMedium(size: 32)
+app/Sources/Morsel/DesignSystem.swift	322	deliberate documented exception	Unused morselTag helper; no production caller	font(.morselData)
+app/Sources/Morsel/EndpointCopyPill.swift	20	kept technical string	Retained copy pill	.font(.morselDataMedium)
+app/Sources/Morsel/Onboarding.swift	192	kept technical string	Explicitly retained wordmark exception (brand, not technical)	Text("morsel").font(.morselData).foregroundStyle(Color.morselForest)
+app/Sources/Morsel/Onboarding.swift	304	kept technical string	Copy-paste setup prompt	.font(.morselData)
+app/Sources/Morsel/Onboarding.swift	332	kept technical string	MCP endpoint URL	Text(value).font(.morselData).foregroundStyle(Color.morselInk)
+app/Sources/Morsel/SettingsView.swift	125	kept technical string	Retained settings endpoint/configuration block or settings-row SF Symbol	.font(.morselData)
+app/Sources/Morsel/SettingsView.swift	136	kept technical string	Retained settings endpoint/configuration block or settings-row SF Symbol	.font(.morselData)
+app/Sources/Morsel/SettingsView.swift	159	kept technical string	Retained settings endpoint/configuration block or settings-row SF Symbol	.font(.morselData)
+app/Sources/Morsel/SettingsView.swift	208	kept technical string	Retained settings endpoint/configuration block or settings-row SF Symbol	.font(.morselData)
+# deliberate documented exception: app/Sources/Morsel/TrainingFuelViews.swift; 0 mono-face sites after half-(a); local TrainingDayType is outside the approved surface list.

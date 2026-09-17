@@ -1,0 +1,29 @@
+Issue #181 — FULL native suite at head b6401f5 (no -only-testing)
+Full raw log SHA-256: e5b61b8b745910790f8602b132d3a187312efa98ce43be22e8e69bce0ef4ca51
+raw exit: 65   full log: .lane-logs/green-full.txt (untracked)
+534 tests / 3 skipped / 5 failures: the three classes below are ALSO red at base with this lane's fix
+stashed (see base-red-final-tests.txt) and are untouched by this lane; the MealReliabilityTests case below
+passes in the focused reruns at base and at head (load/timing flake in the full run).
+
+Test Suite 'MorselTests.xctest' started at 2569-09-17 2:22:49.882 PM.
+Test Suite 'MealReliabilityTests' started at 2569-09-17 2:25:47.837 PM.
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/MealReliabilityTests.swift:64: error: -[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow] : XCTAssertNil failed: "Something went wrong. Please try again."
+Test Suite 'MealReliabilityTests' failed at 2569-09-17 2:25:50.654 PM.
+Test Suite 'PageIdentityTests' started at 2569-09-17 2:25:56.024 PM.
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Suite 'PageIdentityTests' failed at 2569-09-17 2:26:00.821 PM.
+Test Suite 'ParallelReadsTests' started at 2569-09-17 2:26:00.835 PM.
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Suite 'ParallelReadsTests' failed at 2569-09-17 2:26:01.329 PM.
+Test Suite 'SharedButtonTargetTests' started at 2569-09-17 2:26:10.276 PM.
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Suite 'SharedButtonTargetTests' failed at 2569-09-17 2:26:13.391 PM.
+Test Suite 'TodayFirstPaintBoundaryTests' started at 2569-09-17 2:26:13.391 PM.
+Test Suite 'TodayFirstPaintBoundaryTests' passed at 2569-09-17 2:26:13.430 PM.
+Test Suite 'TodayFirstPaintOverlayTests' started at 2569-09-17 2:26:13.430 PM.
+Test Suite 'TodayFirstPaintOverlayTests' passed at 2569-09-17 2:26:13.461 PM.
+Test Suite 'MorselTests.xctest' failed at 2569-09-17 2:28:31.262 PM.
+	 Executed 534 tests, with 3 tests skipped and 5 failures (0 unexpected) in 341.095 (341.380) seconds
+	 Executed 534 tests, with 3 tests skipped and 5 failures (0 unexpected) in 341.095 (341.382) seconds
+Failing tests:

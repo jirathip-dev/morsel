@@ -1,0 +1,11 @@
+{
+  "head": "47833ddbfe6cb37358a3f757088f615a9adce02c",
+  "tree": "/tmp/morsel-286-mutation-qcdw70bm/issue-286-hero",
+  "udid": "AB3BD9FD-BCC4-4851-991B-6BD5E8AE53CE",
+  "before_sha256": "5aec18e5c34aa261d5fdf52d3cf5ea6200155380f980508ca4c8dd835dc70ca8",
+  "mutated_sha256": "f58e84710be276c5e7936583ba7b8904f26ac253b4f0ccad788f07e9b892505a",
+  "red_exit": 65,
+  "restored_sha256": "5aec18e5c34aa261d5fdf52d3cf5ea6200155380f980508ca4c8dd835dc70ca8",
+  "original_checkout_sha256": "5aec18e5c34aa261d5fdf52d3cf5ea6200155380f980508ca4c8dd835dc70ca8",
+  "green_exit": 0
+}

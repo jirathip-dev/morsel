@@ -126,7 +126,7 @@ struct AddMealPhotoSection: View {
 
             if !UIImagePickerController.isSourceTypeAvailable(.camera) {
                 Text("Camera is unavailable in this simulator.")
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
             }
 
@@ -153,7 +153,7 @@ struct AddMealPhotoSection: View {
                         Text("Photo ready")
                             .font(.morselBodyStrong)
                         Text("JPEG · \(photo.data.count / 1_024) KB")
-                            .font(.morselData)
+                            .font(.morselValue)
                             .foregroundStyle(Color.morselInkTwo)
                     }
                     Spacer()
@@ -162,7 +162,7 @@ struct AddMealPhotoSection: View {
                         pickerItem = nil
                         cancelPreparation()
                     }
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselForest)
                 }
                 .padding(.top, 6)

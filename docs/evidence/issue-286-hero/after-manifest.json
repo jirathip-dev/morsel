@@ -1,0 +1,90 @@
+[
+  {
+    "file": "286-night-past-unavailable.png",
+    "sha256": "d74d51c5ada6c9597944febc73cbdf7b66ab615c036058cd2271e2c2a5ed573f",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testMissingOrUnattributableTargetIsExplicitAndNeverBorrows()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "3D02E316-55AD-48DB-9C20-28042C304FC0.png"
+  },
+  {
+    "file": "286-paper-past-unavailable.png",
+    "sha256": "553aefff2e192259b5bbdf7b6ede7676a209bd89bbd2c9351528f42e3ac2fbda",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testMissingOrUnattributableTargetIsExplicitAndNeverBorrows()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "5D82AA26-04E8-472B-8A20-B828C21D02D1.png"
+  },
+  {
+    "file": "286-night-past-saved.png",
+    "sha256": "5425ee056dc844af5dd071aef79a88842d7d69e025bd3a179ef4790c44553fb0",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testPastUsesSavedCaloriesAndMacrosNotTodaysGoal()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "4AFD7C7A-0153-4A75-9F54-EE0F4D1A319D.png"
+  },
+  {
+    "file": "286-paper-past-saved.png",
+    "sha256": "fe191f57fa4d105630227d0aa27d4689ba23ad1eba0eb14d924ee92906e9235f",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testPastUsesSavedCaloriesAndMacrosNotTodaysGoal()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "B31A1DDE-4716-46DD-98BA-113EBAA79F8C.png"
+  },
+  {
+    "file": "286-night-today.png",
+    "sha256": "ca0e87620a10f069d3b268849be301fe0ef7767536cdb763eb1861db31f7151e",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testTodayKeepsBaselineAndConfirmedDayOnlyAddition()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "A2CD7423-F330-4F91-876A-626D5F8FAA74.png"
+  },
+  {
+    "file": "286-paper-today.png",
+    "sha256": "b13c3a8add81db8f40cd48cad8bcec4c2e33462bcc9b9dde046b576fc31662b1",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroDatedTargetTests/testTodayKeepsBaselineAndConfirmedDayOnlyAddition()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "60C1B707-A4F0-403E-A44A-D7F2FA5D27A1.png"
+  },
+  {
+    "file": "286-live-night-past-saved.png",
+    "sha256": "5425ee056dc844af5dd071aef79a88842d7d69e025bd3a179ef4790c44553fb0",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroNativeRoundTripTests/testNativeWriteTriggerReadAndRenderedHero()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "160E35EB-8B48-466E-8B07-BE14BC559EC5.png"
+  },
+  {
+    "file": "286-live-paper-past-saved.png",
+    "sha256": "fe191f57fa4d105630227d0aa27d4689ba23ad1eba0eb14d924ee92906e9235f",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "test": "HeroNativeRoundTripTests/testNativeWriteTriggerReadAndRenderedHero()",
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "305F6859-D955-4BC9-B0C5-D37387916B17.png"
+  }
+]

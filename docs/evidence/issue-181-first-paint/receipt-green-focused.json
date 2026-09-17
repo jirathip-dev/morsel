@@ -1,0 +1,22 @@
+{
+  "label": "green-focused",
+  "command": [
+    "/Users/jirathip/.local/bin/xcodebuild",
+    "test",
+    "-project",
+    "app/Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,name=iPhone 16,OS=latest",
+    "-only-testing:MorselTests/TodayFirstPaintOverlayTests",
+    "-only-testing:MorselTests/TodayFirstPaintBoundaryTests",
+    "-derivedDataPath",
+    "/tmp/morsel-181-dd",
+    "CODE_SIGNING_ALLOWED=NO"
+  ],
+  "exit_status": 0,
+  "seconds": 198.4,
+  "log": ".lane-logs/green-focused.txt",
+  "log_sha256": "8cabcf644f305053c666ba04a14b71235f59185127ab422d2f0569e528b5ee61"
+}

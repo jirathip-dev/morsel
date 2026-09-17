@@ -1,0 +1,61 @@
+{
+  "counts": {
+    "category": 1,
+    "neutral": 191,
+    "none": 0,
+    "specific": 58
+  },
+  "distinct_names": 250,
+  "native_receipt": {
+    "command": [
+      "xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=61B0A2F6-1759-4A48-AC36-48F33791161D",
+      "-derivedDataPath",
+      "/tmp/morsel-260-derived",
+      "-resultBundlePath",
+      "/tmp/morsel-260-native-closure.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-maximum-concurrent-test-simulator-destinations",
+      "1",
+      "-jobs",
+      "2",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/FoodArtworkMatcherClosureTests",
+      "-only-testing:MorselTests/FoodArtworkFallbackTests",
+      "-only-testing:MorselTests/FoodArtworkQualifierTests",
+      "-only-testing:MorselTests/ArtworkIdentityTests",
+      "-only-testing:MorselTests/ArtworkIdentitySurfaceTests",
+      "-only-testing:MorselTests/FoodArtworkQualifierSurfaceTests",
+      "-only-testing:MorselTests/RowArtworkRendererTests",
+      "-only-testing:MorselTests/FoodLibraryIntegrationTests",
+      "-only-testing:MorselTests/FoodLibraryCostTests",
+      "-only-testing:MorselTests/FoodArtworkPrivateCoverageTests"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+    "duration_seconds": 190.394,
+    "raw_exit": 0,
+    "timed_out": false
+  },
+  "percentages": {
+    "category": 0.4,
+    "neutral": 76.4,
+    "none": 0.0,
+    "specific": 23.2
+  },
+  "provenance": {
+    "catalog_sha256": "996177e2d8b52f1b4ebfdb6ef890c98a04011ef29dceb71f9faf9f20e938893b",
+    "distinct_names": 250,
+    "mtime_ns": 1789518769900771338,
+    "path": "/Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion/.lane-logs/logged-names.json",
+    "resolver_sha256": "1e3517b4c588ad0c2196e168f98986040caced4efffe760c5eb82a7ec5481639",
+    "rows": 250,
+    "sha256": "76bf28f6ef33a07b6b436ec67f23b40775d136418a5c3c2be478f2f31f5bb09c"
+  }
+}

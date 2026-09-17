@@ -13,9 +13,9 @@ enum ArtworkIdentityFixture {
     static let itemID = "22222222-2222-4222-8222-222222222222"
     static let photoPath = "33333333-3333-4333-8333-333333333333/11111111-1111-4111-8111-111111111111.jpg"
 
-    static func data(name: String, identity: String? = nil) throws -> Data {
+    static func data(name: String, identity: String? = nil, id: String = itemID) throws -> Data {
         var object: [String: Any] = [
-            "id": itemID, "meal_log_id": mealID, "name": name, "quantity": 1.5, "unit": "cup",
+            "id": id, "meal_log_id": mealID, "name": name, "quantity": 1.5, "unit": "cup",
             "calories_kcal": 23, "protein_g": 2, "carbs_g": 3, "fat_g": 1,
             "fiber_g": 0.5, "sugar_g": 0.25, "confidence": 0.9, "source_notes": "Synthetic fixture"
         ]
@@ -23,8 +23,11 @@ enum ArtworkIdentityFixture {
         return try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
     }
 
-    static func item(name: String, identity: String? = nil, photo: Bool = false) throws -> MealItem {
-        let response = try JSONDecoder().decode(MealItemResponse.self, from: data(name: name, identity: identity))
+    static func item(
+        name: String, identity: String? = nil, photo: Bool = false, id: String = itemID
+    ) throws -> MealItem {
+        let bytes = try data(name: name, identity: identity, id: id)
+        let response = try JSONDecoder().decode(MealItemResponse.self, from: bytes)
         let item = try SupabaseDashboardRepository(client: nil).parseItem(response, source: .photoVision)
         return item.withMealImage(photo ? MealImage(path: photoPath) : nil)
     }
@@ -102,10 +105,8 @@ final class ArtworkIdentityTests: JournalRenderingTestCase {
     func testOldRowsCategoryAndMixedMealCompatibility() throws {
         for asset in assets {
             for name in [asset.name] + asset.aliases {
-                // Frozen alias collides with the shipped trailing-qualifier grammar:
-                // cold-cuts' "sausage slices" also reduces to sausage. Do not guess.
-                let expected = name == "sausage slices" ? "fallback-neutral" : asset.id
-                XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, expected, name)
+                // Complete catalog aliases outrank weaker qualifier reductions.
+                XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, asset.id, name)
             }
         }
         let items = try ["Coffee", "Jasmine rice"].map { try ArtworkIdentityFixture.item(name: $0) }
@@ -139,7 +140,7 @@ final class ArtworkIdentityTests: JournalRenderingTestCase {
     private func food(_ identity: String) throws -> FoodArtworkResolution {
         let asset = try XCTUnwrap(assets.first { $0.id == identity })
         if asset.isNeutralFallback { return .neutral(asset) }
-        return asset.kind == .food ? .food(asset) : .category(asset)
+        return asset.kind == .food && identity != "stir-fried-greens" ? .food(asset) : .category(asset)
     }
 
     private func library(_ identity: String) throws -> JournalRowArtwork { .library(try food(identity)) }

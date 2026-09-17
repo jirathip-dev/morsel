@@ -1,0 +1,20 @@
+{
+  "label": "green-full",
+  "command": [
+    "/Users/jirathip/.local/bin/xcodebuild",
+    "test",
+    "-project",
+    "app/Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,name=iPhone 16,OS=latest",
+    "-derivedDataPath",
+    "/tmp/morsel-181-dd",
+    "CODE_SIGNING_ALLOWED=NO"
+  ],
+  "exit_status": 65,
+  "seconds": 540.6,
+  "log": ".lane-logs/green-full.txt",
+  "log_sha256": "e5b61b8b745910790f8602b132d3a187312efa98ce43be22e8e69bce0ef4ca51"
+}

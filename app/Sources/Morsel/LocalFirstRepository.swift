@@ -1,12 +1,7 @@
 import Foundation
 
-// Issue #106 — local-first repository facade. Every read hydrates from the
-// account-scoped SQLite cache first (or writes the authoritative remote
-// snapshot through on success); a remote failure never erases the last valid
-// cached snapshot and queued meal rows are always merged into the journal so
-// a save is visible the moment its local transaction commits. The store is a
-// cache/outbox — RLS, the security-invoker meal transaction and friendly
-// error boundaries remain authoritative on the server.
+// Account-scoped cache/outbox: explicit cached reads paint before remote refresh.
+// Successful reads write through; failures preserve saved data with cached provenance.
 final class LocalFirstDashboardRepository: DashboardRepository {
     // remote/store/snapshotCache are internal (not private) so the cross-file
     // LocalFirstMenus (#152) and #188 revision seams can reach them.
@@ -49,12 +44,15 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         let dayKey = Self.dayKey(date)
         do {
             var snapshot = try await remote.loadToday(userID: userID, date: date)
+            try Task.checkCancellation()
+            guard Self.dayKey(date) == dayKey else { throw CancellationError() }
             snapshot.readProvenance = DayReadProvenance(isCached: false, loadedAt: dateProvider())
             try snapshotCache.saveDashboardCache(dayKey: dayKey, payload: try Self.encode(snapshot))
             return try merged(snapshot, userID: userID, date: date)
         } catch {
-            // Remote failure must not erase a valid cached snapshot: serve
-            // the last local copy (with queued rows) instead of throwing.
+            if Task.isCancelled || error is CancellationError || (error as? URLError)?.code == .cancelled {
+                throw CancellationError()
+            }
             if let cached = try cachedSnapshot(dayKey: dayKey) {
                 return try merged(cached, userID: userID, date: date)
             }
@@ -67,22 +65,21 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
         let cacheKey = Self.historyKey(end: end, days: days)
         do {
-            let overview = try await remote.loadHistory(userID: userID, end: end, days: days)
+            var overview = try await remote.loadHistory(userID: userID, end: end, days: days)
+            try Task.checkCancellation()
+            guard Self.historyKey(end: end, days: days) == cacheKey else { throw CancellationError() }
+            overview.readProvenance = DayReadProvenance(isCached: false, loadedAt: dateProvider())
             try snapshotCache.saveHistoryCache(cacheKey: cacheKey, payload: try Self.encode(overview))
             return overview
         } catch {
+            if Task.isCancelled || error is CancellationError || (error as? URLError)?.code == .cancelled {
+                throw CancellationError()
+            }
             if let payload = try snapshotCache.loadHistoryCache(cacheKey: cacheKey) {
-                return try Self.decode(HistoryOverview.self, payload)
+                return try Self.decode(HistoryOverview.self, payload).cachedCopy
             }
             throw error
         }
-    }
-
-    func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview? {
-        guard let payload = try snapshotCache.loadHistoryCache(cacheKey: Self.historyKey(end: end, days: days)) else {
-            return nil
-        }
-        return try Self.decode(HistoryOverview.self, payload)
     }
 
     func loadGoals(userID: UUID) async throws -> StoredDashboardGoal? {
@@ -209,7 +206,10 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     /// Serves the journal snapshot with durable queued rows merged in. Rows
     /// the server already carries (identical client/server ids after sync)
     /// are replaced by their authoritative remote copy — never duplicated.
-    private func merged(_ snapshot: DashboardSnapshot, userID: UUID, date: Date) throws -> DashboardSnapshot {
+    /// Issue #181 — internal (not private) so the cached/first-paint hydration
+    /// seam in `DayReadState` merges through THIS same account/day rule set
+    /// instead of a second one.
+    func merged(_ snapshot: DashboardSnapshot, userID: UUID, date: Date) throws -> DashboardSnapshot {
         let dayStart = calendar.startOfDay(for: date)
         var meals = snapshot.meals
         var remoteIDs = Set(meals.map(\.mealLogID))
@@ -228,7 +228,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             goal: snapshot.goal,
             weightTrend: try mergedWeightTrend(snapshot.weightTrend, from: trendStart, to: trendEnd),
             activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart),
-            readProvenance: snapshot.readProvenance
+            readProvenance: snapshot.readProvenance, datedTarget: snapshot.datedTarget
         )
     }
 
@@ -321,6 +321,12 @@ final class LocalFirstDashboardRepository: DashboardRepository {
 // paints before the remote round-trip; the remote read then reconciles.
 // nil when no goals cache exists yet.
 extension LocalFirstDashboardRepository {
+    func cachedHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview? {
+        guard let payload = try snapshotCache.loadHistoryCache(cacheKey: Self.historyKey(end: end, days: days)) else {
+            return nil
+        }
+        return try Self.decode(HistoryOverview.self, payload).cachedCopy
+    }
     func cachedGoals(userID: UUID) async throws -> StoredDashboardGoal? {
         guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else {
             return nil

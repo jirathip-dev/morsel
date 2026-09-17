@@ -12,6 +12,12 @@ struct DayDrillDown: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             if let snapshot = viewModel.daySnapshot {
+                if let error = viewModel.expandedError {
+                    ProvenanceLabel(text: error)
+                } else if snapshot.readProvenance?.isCached == true {
+                    ProvenanceLabel(text: viewModel.isExpandedLoading
+                                    ? "Showing saved meals · refreshing…" : "Showing saved meals")
+                }
                 dayContent(snapshot)
             } else if viewModel.isExpandedLoading {
                 DayDrillDownSkeleton()
@@ -56,15 +62,15 @@ struct DayDrillDown: View {
             dayCardHeader(snapshot)
             HStack(spacing: 6) {
                 Text("\(MorselFormat.number(totals.caloriesKcal)) kcal")
-                    .font(.morselDataMedium)
+                    .font(.morselValueMedium)
                     .foregroundStyle(Color.morselInk)
                 if let goal {
                     Text("vs \(MorselFormat.number(goal))")
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(Color.morselInkThree)
                     let delta = DashboardMath.eatenMinusGoal(eaten: totals.caloriesKcal, goal: goal) ?? 0
                     Text(delta > 0 ? "· +\(MorselFormat.number(delta)) over" : "· on target")
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(delta > 0 ? Color.morselOver : Color.morselForest)
                 }
             }
