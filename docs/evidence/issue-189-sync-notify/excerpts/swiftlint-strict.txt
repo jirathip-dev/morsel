@@ -1,0 +1,6 @@
+# swiftlint-strict
+# command: swiftlint lint --strict --quiet   (repo root; .swiftlint.yml includes app/)
+# full raw log: .lane-logs/issue-189/swiftlint.log  sha256=439a1b27883d736a5f873c7171c522afbaf32376cb6063030afbf5cb9deb1be0
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+SWIFTLINT_EXIT=0
