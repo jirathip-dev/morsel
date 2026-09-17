@@ -1,0 +1,470 @@
+[
+  {
+    "file": "before/263-b-night-calendar.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-day-drill-down.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-goals-filled.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-goals-invalid.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-history-ledger-gauge.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-meal-capture-bottom.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-meal-capture.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-meal-edit-bottom.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-meal-edit.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-menu-editor.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-photo-metadata.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-today.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-night-weight-chart.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-calendar.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-day-drill-down.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-goals-filled.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-goals-invalid.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-history-ledger-gauge.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-meal-capture-bottom.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-meal-capture.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-meal-edit-bottom.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-meal-edit.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-menu-editor.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-photo-metadata.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-today.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "before/263-b-paper-weight-chart.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-calendar.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-day-drill-down.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-goals-filled.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-goals-invalid.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-history-ledger-gauge.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-meal-capture-bottom.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-meal-capture.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-meal-edit-bottom.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-meal-edit.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-menu-editor.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-photo-metadata.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-today.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-night-weight-chart.png",
+    "srgb_corner": [
+      42,
+      38,
+      30
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-calendar.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-day-drill-down.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-goals-filled.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-goals-invalid.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-history-ledger-gauge.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-meal-capture-bottom.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-meal-capture.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-meal-edit-bottom.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-meal-edit.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-menu-editor.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-photo-metadata.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-today.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  },
+  {
+    "file": "after/263-b-paper-weight-chart.png",
+    "srgb_corner": [
+      255,
+      248,
+      232
+    ],
+    "icc_present": true
+  }
+]

@@ -45,7 +45,7 @@ struct JournalPageFurniture: View {
             VStack(spacing: 0) {
                 Spacer(minLength: 96)
                 Text(Self.gutterDate(date))
-                    .font(Font.morselMono(size: 9))
+                    .font(Font.morselNumber(size: 9))
                     .tracking(0.5)
                     .foregroundStyle(Color.morselInkThree)
                     .rotationEffect(.degrees(-90))
@@ -230,7 +230,7 @@ struct MacroWashStrip: View {
             .frame(height: 8)
             .accessibilityHidden(true)
             Text(valueText)
-                .font(.morselDataMedium)
+                .font(.morselValueMedium)
                 .foregroundStyle(Color.morselInkTwo)
                 .frame(width: 108, alignment: .trailing)
         }
@@ -361,7 +361,7 @@ struct SectionHeading: View {
             Spacer()
             if let detail {
                 Text(detail)
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
             }
         }

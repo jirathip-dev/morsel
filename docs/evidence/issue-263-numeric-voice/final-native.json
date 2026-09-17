@@ -1,0 +1,24 @@
+{
+  "command": [
+    "xcodebuild",
+    "test",
+    "-project",
+    "Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,id=9E5B8345-2E06-4A8D-84C3-4A9518A4EA5F",
+    "-derivedDataPath",
+    "/tmp/morsel-263-dd",
+    "-resultBundlePath",
+    "/tmp/morsel-263-native-full.xcresult",
+    "-parallel-testing-enabled",
+    "NO",
+    "CODE_SIGNING_ALLOWED=NO"
+  ],
+  "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-263-numeric/app",
+  "raw_exit": 65,
+  "seconds": 471.85,
+  "simulator": "9E5B8345-2E06-4A8D-84C3-4A9518A4EA5F",
+  "result": "/tmp/morsel-263-native-full.xcresult"
+}

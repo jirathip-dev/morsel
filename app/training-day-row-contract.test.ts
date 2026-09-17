@@ -31,8 +31,8 @@ describe('approved training-day variant A only', () => {
     expect(read('TrainingFuelHost')).toContain('model.isPresented')
     expect(views).toContain('model.validationMessage')
   })
-  it('preserves the existing hero mono typography and uses no inferred amount', () => {
-    expect(today).toContain('.font(.morselHero)')
+  it('uses the separately approved numeric hero role without changing local training typography', () => {
+    expect(today).toContain('.font(.morselNumber(size: 32, weight: 500))')
     expect(read('DesignSystem')).toContain('static let morselHero = Font.morselMonoMedium(size: 32)')
     expect(views + read('TrainingFuelModel')).not.toMatch(/\b300\b|\b2126\b|\b2426\b/)
   })

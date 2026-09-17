@@ -167,7 +167,7 @@ private struct JournalHeroView: View {
                         .morselSectionLabel()
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text(hasCalories ? MorselFormat.number(viewModel.totals.caloriesKcal) : "—")
-                            .font(.morselHero)
+                            .font(.morselNumber(size: 32, weight: 500))
                             .foregroundStyle(Color.morselInk)
                             .monospacedDigit()
                         if hasCalories {

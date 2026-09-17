@@ -84,7 +84,7 @@ struct MealGroupView: View {
                             .foregroundStyle(Color.morselInk)
                         if let firstMealTime = group.firstMealTime {
                             Text(firstMealTime.formatted(date: .omitted, time: .shortened))
-                                .font(.morselData)
+                                .font(.morselValue)
                                 .foregroundStyle(Color.morselInkThree)
                         }
                         if group.meals.count == 1, let meal = group.meals.first {
@@ -92,7 +92,7 @@ struct MealGroupView: View {
                         }
                     }
                     Text("\(MorselFormat.number(group.totalCalories)) kcal")
-                        .font(.morselDataMedium)
+                        .font(.morselValueMedium)
                         .foregroundStyle(Color.morselInkTwo)
                 }
                 Spacer(minLength: 4)
@@ -112,7 +112,7 @@ struct MealGroupView: View {
                 if group.meals.count > 1 {
                     HStack {
                         Text(meal.eatenAt.formatted(date: .omitted, time: .shortened))
-                            .font(.morselData)
+                            .font(.morselValue)
                             .foregroundStyle(Color.morselInkThree)
                         MealSyncMarker(meal: meal)
                         Spacer()
