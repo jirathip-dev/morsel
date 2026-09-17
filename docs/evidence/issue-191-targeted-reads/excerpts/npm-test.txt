@@ -1,0 +1,5 @@
+Hosted app contracts: mise exec node@22 -- npm test (CI node 22) at the fix head
+raw log: .lane-logs/issue-191/npm-test.log
+ Test Files  63 passed (63)
+      Tests  701 passed (701)
+RAW_EXIT=0 LABEL=npm-test

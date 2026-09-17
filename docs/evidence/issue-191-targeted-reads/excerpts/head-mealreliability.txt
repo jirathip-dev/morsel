@@ -1,0 +1,19 @@
+HEAD focused rerun of the load-flake class (diagnostic classification)
+command: xcodebuild test -only-testing:MorselTests/MealReliabilityTests
+raw log: .lane-logs/issue-191/head-mealreliability.log  RAW_EXIT=0
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.024 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.019 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.030 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.006 seconds).
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.166 (2.170) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.166 (2.171) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.166 (2.171) seconds

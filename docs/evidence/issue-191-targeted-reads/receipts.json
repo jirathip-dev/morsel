@@ -1,0 +1,43 @@
+[
+  {
+    "file": "excerpts/base-red-focused.txt",
+    "sha256": "a8b8dd6a5dfa2255873624ed7ffa8f4777c4c8d266684ac40c66e22f6c4d783d",
+    "bytes": 8462
+  },
+  {
+    "file": "excerpts/head-green-focused.txt",
+    "sha256": "e479a5d1a8c6dd0c0dc13edde9502c09165b2b08545475b9770332658aff5fb7",
+    "bytes": 2081
+  },
+  {
+    "file": "excerpts/head-full-suite.txt",
+    "sha256": "e6585255ab2c7a4faf1208525deb869761e630b159268dbf7a3113b44b60f2d1",
+    "bytes": 10543
+  },
+  {
+    "file": "excerpts/swiftlint-strict.txt",
+    "sha256": "908cc7bf5564cc1e8787a2860b9761b42a1b9acf49de09bd4bab490057aca1f7",
+    "bytes": 146
+  },
+  {
+    "file": "excerpts/base-known-reds.txt",
+    "sha256": "855466ad1833fd9d5a0d5a93f49aba739701fa7de08245de3b0fefd7223ae3b8",
+    "bytes": 5599
+  },
+  {
+    "file": "excerpts/head-mealreliability.txt",
+    "sha256": "7c03006d9de3b809c26d5bd4b408bdb9bdfb0b0551f47961ed9e994b3c5f053b",
+    "bytes": 2042
+  },
+  {
+    "file": "excerpts/npm-test.txt",
+    "sha256": "87c06f9373cc5902c0fa9506852e17fae975abe85172cf090a5ae1a5acfc9c4d",
+    "bytes": 208
+  },
+  {
+    "file": ".lane-logs/issue-191/base-overlay.patch (lane-local, uncommitted)",
+    "sha256": "71a4586c0040c395ab561038131647816250662ffe6b38fd6fbee745ac942a95",
+    "bytes": 2161,
+    "note": "raw overlay, byte counter only; NOT committed because a unified diff's whitespace-only context lines trip `git diff --check`"
+  }
+]
