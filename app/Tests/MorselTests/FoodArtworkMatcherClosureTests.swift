@@ -21,8 +21,55 @@ final class FoodArtworkMatcherClosureTests: XCTestCase {
         }
     }
 
+    func testEveryLeadingDescriptorUsesTheSharedClosedGrammar() {
+        let descriptors = [
+            "iced", "hot", "cooked", "boiled", "steamed", "grilled", "fried", "raw", "half portion", "half-portion",
+            "stir-fried", "stir fried", "roasted", "baked", "toasted", "sauteed", "sautéed", "poached",
+            "scrambled", "mashed", "fresh", "homemade", "smoked", "marinated", "reheated", "warm", "cold", "decaf",
+            "unsweetened", "unsalted", "no sugar", "sugar-free", "low-fat", "sliced", "diced", "chopped",
+            "shredded", "grated", "peeled", "drained", "rinsed", "frozen", "half", "portion", "small", "medium",
+            "large", "regular", "single", "double", "triple", "side", "serving", "servings", "slice", "slices",
+            "piece", "pieces", "bowl", "plate", "cup", "cups", "glass", "mug", "shot", "helping", "extra", "120 g"
+        ]
+        let study = FoodArtworkAsset(id: "test-study", name: "Test dish", aliases: [],
+                                     category: "prepared", kind: .food)
+        for descriptor in descriptors {
+            for separator in [" ", ", "] {
+                let name = descriptor + separator + "test dish, cooked"
+                XCTAssertEqual(FoodArtworkResolver.match(name: name, in: [study]), study, name)
+            }
+        }
+    }
+
+    func testCompleteCookingIdentityWinsBeforeRemovingDescriptors() {
+        let fried = FoodArtworkAsset(id: "fried-study", name: "Fried egg", aliases: [],
+                                     category: "protein", kind: .food)
+        let other = FoodArtworkAsset(id: "other-study", name: "Egg", aliases: [],
+                                     category: "protein", kind: .food)
+        XCTAssertEqual(FoodArtworkResolver.match(name: "fried egg", in: [fried, other]), fried)
+        XCTAssertEqual(FoodArtworkResolver.match(name: "egg", in: [fried, other]), other)
+    }
+
+    func testLeadingNegativeNamesNeverCrossIdentitiesInEitherDirection() {
+        let pairs = [("coffee cake", "coffee"), ("coffee", "cake"), ("milk tea", "boba-tea"),
+                     ("boba tea", "milk-tea"), ("pad thai", "stir-fried-noodles"), ("stir-fried noodles", "pad-thai")]
+        let prefixes = ["", "iced ", "hot ", "cooked ", "boiled ", "steamed ",
+                        "grilled ", "fried ", "raw ", "half-portion "]
+        let unknown = ["Uncatalogued lunar stew", "composite/shared restaurant plate", "coffee with rice and chicken"]
+        for prefix in prefixes {
+            for (name, wrongIdentity) in pairs {
+                XCTAssertNotEqual(FoodArtworkResolver.resolve(name: prefix + name, in: assets).asset?.id,
+                                  wrongIdentity, prefix + name)
+            }
+            for name in unknown {
+                XCTAssertTrue(isNeutral(FoodArtworkResolver.resolve(name: prefix + name, in: assets)), prefix + name)
+            }
+        }
+    }
+
     func testNounParentheticalsRequireTwoAliasesOfTheSameAsset() {
         let positives = [
+            ("Iced americano (black, no sugar)", "coffee"),
             ("pasta (linguine), cooked", "pasta"), ("linguine (pasta), cooked", "pasta"),
             ("pasta, cooked (spaghetti)", "pasta"), ("pasta (fettuccine) cooked", "pasta"),
             ("half-portion pasta (tagliatelle), cooked", "pasta"),
@@ -49,7 +96,7 @@ final class FoodArtworkMatcherClosureTests: XCTestCase {
             "pasta (linguine, chicken)", "pasta (linguine) (cake)", "rice cake (half-portion)",
             "half-portion coffee cake with rice", "half-portion white rice and pork",
             "milk tea (boba tea)", "pad thai (stir-fried noodles)", "unknown food, cooked",
-            "composite/shared restaurant plate", "half-portion white riceish", "fried white rice"
+            "composite/shared restaurant plate", "half-portion white riceish"
         ] {
             XCTAssertTrue(isNeutral(FoodArtworkResolver.resolve(name: name, in: assets)), name)
         }

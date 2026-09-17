@@ -69,24 +69,29 @@ def inside(args):
         result = native(args.label, suites)
         if result != 0:
             return result
-        result = run("export-attachments", ["xcrun", "xcresulttool", "export", "attachments", "--path",
-                     f"/tmp/morsel-260-{args.label}.xcresult", "--output-path", str(LOGS / "attachments")], 120)
+        result = run(args.label + "-export-attachments", ["xcrun", "xcresulttool", "export", "attachments", "--path",
+                     f"/tmp/morsel-260-{args.label}.xcresult", "--output-path", str(LOGS / (args.label + "-attachments"))], 120)
         if result != 0 or not args.mutation:
             return result
         fixed = SOURCE.read_bytes()
         digest = hashlib.sha256(fixed).hexdigest()
         (LOGS / "FoodArtwork.fixed.swift").write_bytes(fixed)
-        try:
-            old = subprocess.check_output(["git", "show", BASE + ":app/Sources/Morsel/FoodArtwork.swift"], cwd=ROOT)
-            SOURCE.write_bytes(old)
-            red = native("base-grammar-red", ["FoodArtworkMatcherClosureTests"])
-        finally:
-            SOURCE.write_bytes(fixed)
-            os.utime(SOURCE, None)
-            assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == digest
-            (LOGS / "restored-source.sha256").write_text(digest + "\n")
-        green = native("restored-green", ["FoodArtworkMatcherClosureTests"])
-        return 0 if red == 65 and green == 0 else 1
+        old = subprocess.check_output(["git", "show", BASE + ":app/Sources/Morsel/FoodArtwork.swift"], cwd=ROOT)
+        leading = b"strippingLeadingQualifier(current) ?? strippingTrailingQualifier(current)"
+        assert fixed.count(leading) == 1
+        no_leading = fixed.replace(leading, b"strippingTrailingQualifier(current)")
+        reds = []
+        for label, mutated in [("base-grammar-red", old), ("leading-rule-red", no_leading)]:
+            try:
+                SOURCE.write_bytes(mutated)
+                reds.append(native(args.label + "-" + label, ["FoodArtworkMatcherClosureTests"]))
+            finally:
+                SOURCE.write_bytes(fixed)
+                os.utime(SOURCE, None)
+                assert hashlib.sha256(SOURCE.read_bytes()).hexdigest() == digest
+                (LOGS / (args.label + "-restored-source.sha256")).write_text(digest + "\n")
+        green = native(args.label + "-restored-green", ["FoodArtworkMatcherClosureTests"])
+        return 0 if reds == [65, 65] and green == 0 else 1
     finally:
         if args.corpus:
             MARKER.unlink(missing_ok=True)

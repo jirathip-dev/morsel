@@ -105,10 +105,8 @@ final class ArtworkIdentityTests: JournalRenderingTestCase {
     func testOldRowsCategoryAndMixedMealCompatibility() throws {
         for asset in assets {
             for name in [asset.name] + asset.aliases {
-                // Frozen alias collides with the shipped trailing-qualifier grammar:
-                // cold-cuts' "sausage slices" also reduces to sausage. Do not guess.
-                let expected = name == "sausage slices" ? "fallback-neutral" : asset.id
-                XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, expected, name)
+                // Complete catalog aliases outrank weaker qualifier reductions.
+                XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, asset.id, name)
             }
         }
         let items = try ["Coffee", "Jasmine rice"].map { try ArtworkIdentityFixture.item(name: $0) }

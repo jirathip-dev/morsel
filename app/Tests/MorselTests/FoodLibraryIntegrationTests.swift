@@ -22,6 +22,7 @@ final class FoodLibraryIntegrationTests: XCTestCase {
         .init(key: "half-rice", names: ["half-portion white rice"], desired: "jasmine-rice"),
         .init(key: "rice-qualified", names: ["white rice, cooked (half portion)"], desired: "jasmine-rice"),
         .init(key: "americano", names: ["Americano (black, no sugar, homemade)"], desired: "coffee"),
+        .init(key: "iced-americano", names: ["Iced americano (black, no sugar)"], desired: "coffee"),
         .init(key: "coffee-cake", names: ["coffee cake"], desired: "cake"),
         .init(key: "milk-tea", names: ["milk tea"], desired: "milk-tea"),
         .init(key: "boba-tea", names: ["boba tea"], desired: "boba-tea"),

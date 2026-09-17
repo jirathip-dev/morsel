@@ -20,7 +20,7 @@ import Foundation
 // lists have nothing to depict. No logged name, nutrition or photo is changed.
 //
 // Issue #260 keeps that order and adds ONE bounded tolerance: before each step a
-// recognized trailing qualifier or leading portion may be dropped one at a
+// recognized leading or trailing qualifier may be dropped one at a
 // time. Noun parentheticals must be aliases of the SAME asset, not qualifiers.
 // The closed qualifier grammar holds no food nouns, so a compound food keeps
 // its whole meaning (`coffee cake` is never a coffee) and ambiguity still
@@ -136,12 +136,17 @@ enum FoodArtworkResolver {
     static func match(name: String, in assets: [FoodArtworkAsset]) -> FoodArtworkAsset? {
         let key = FoodArtworkCatalog.normalize(name)
         guard !key.isEmpty else { return nil }
-        let terms = [key] + qualifiedTerms(of: key)
+        // A complete catalog name outranks a weaker qualifier interpretation:
+        // fried egg must keep its own study even when egg names another study.
+        let whole = uniqueByID(assets.filter { matchesWholeTerm($0, key) })
+        guard whole.count <= 1 else { return nil }
+        if let match = whole.first { return match }
+        let terms = qualifiedTerms(of: key)
         let matches = uniqueByID(terms.flatMap { term in assets.filter { matchesWholeTerm($0, term) } })
         guard matches.count <= 1 else { return nil }
         if let match = matches.first { return match }
-        if terms.contains(where: isAmericano) { return explicitAsset("coffee", in: assets) }
-        for term in terms {
+        if ([key] + terms).contains(where: isAmericano) { return explicitAsset("coffee", in: assets) }
+        for term in [key] + terms {
             if let fallback = categoryFallback(for: term, in: assets) { return fallback }
         }
         return nil
@@ -240,15 +245,15 @@ enum FoodArtworkResolver {
         return droppingTrailingDescriptor(key)
     }
 
-    /// Only portion/size prefixes move before the food; cooking methods remain
-    /// identity-bearing there (fried egg is not a boiled egg).
-    private static func strippingLeadingPortion(_ key: String) -> String? {
-        let portions = ["half portion", "small portion", "medium portion", "large portion", "half", "small", "large"]
-        for portion in portions {
-            for spelling in [portion, portion.replacingOccurrences(of: " ", with: "-")] {
-                let prefix = spelling + " "
-                if key.hasPrefix(prefix) { return String(key.dropFirst(prefix.count)) }
-            }
+    /// The same closed preparation/size/quantity grammar at the leading edge.
+    /// Whole catalog terms win first; unknown food nouns are never discarded.
+    private static func strippingLeadingQualifier(_ key: String) -> String? {
+        let words = key.split(separator: " ").map(String.init)
+        guard words.count >= 2 else { return nil }
+        for length in stride(from: min(2, words.count - 1), through: 1, by: -1) {
+            let prefix = words.prefix(length).joined(separator: " ")
+            let descriptor = prefix.hasSuffix(",") ? String(prefix.dropLast()) : prefix
+            if isQualifierPhrase(descriptor) { return words.dropFirst(length).joined(separator: " ") }
         }
         return nil
     }
@@ -259,7 +264,7 @@ enum FoodArtworkResolver {
         var terms: [String] = []
         var current = key
         while terms.count < 4,
-              let stripped = strippingLeadingPortion(current) ?? strippingTrailingQualifier(current) {
+              let stripped = strippingLeadingQualifier(current) ?? strippingTrailingQualifier(current) {
             guard stripped != current else { break }
             if !terms.contains(stripped) { terms.append(stripped) }
             current = stripped
