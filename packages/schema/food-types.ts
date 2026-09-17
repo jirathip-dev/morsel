@@ -3,7 +3,7 @@
 // this file first when the contract changes.
 
 import { z } from 'zod'
-import { ArtworkIdValues } from './artwork-ids.ts'
+import { ArtworkCatalogVersion, ArtworkIdValues } from './artwork-ids.ts'
 
 const finiteNumber = z.number()
 const nonNegativeNumber = finiteNumber.nonnegative()
@@ -53,6 +53,25 @@ export const FoodRefIdSchema = z.uuid()
 export const ArtworkIdSchema = z.enum(ArtworkIdValues).describe(
   'Optional published illustration ID; select only an enum value, never invent one. Keep name verbatim. Omit when uncertain.',
 )
+
+// Issue #294 — the MCP tool contract revision. This constant is the single
+// canonical source: the server advertises it as its MCP server version (the
+// version a client records when the session connects) and serves it in the
+// read-only `contract` stamp, so a client that holds a stale tools/list can
+// compare the two and say so. Bump it whenever the agent-visible tool contract
+// changes (tools, schemas, descriptions).
+export const MCP_CONTRACT_VERSION = '0.2.0'
+
+// Issue #294 — the canonical agent-visible instruction that the `log_meal` and
+// `update_meal_item` descriptions carry. The server registers these strings
+// verbatim; the agent skill and docs/MCP_TOOLS.md restate them for humans. It
+// is phrased as an instruction, never as a description of a field.
+export const ARTWORK_ID_INSTRUCTION = "When an item matches a published artwork identity, set artwork_id to that exact published ID from this tool's artwork_id enum — allowed IDs are the enum and the shipped catalog is the canonical set. Omit artwork_id only when genuinely uncertain; never invent an ID and never upload illustration files."
+
+export const LOG_MEAL_DESCRIPTION = `Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented. ${ARTWORK_ID_INSTRUCTION}`
+
+export const UPDATE_MEAL_ITEM_DESCRIPTION = `Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required. When replacing an item's illustration identity, set artwork_id to that exact published ID from this tool's artwork_id enum; omitting artwork_id preserves the stored identity. Never invent an ID and never upload illustration files.`
+
 const FoodNameSchema = z.string().min(1).refine((value) => value.trim().length > 0, 'name must not be blank')
 
 // Accepted food-photo mime types. This set mirrors the `food-images` bucket
@@ -380,9 +399,32 @@ export type DatedTarget = z.infer<typeof DatedTargetSchema>
 export type SetDatedTargetAdditionInput = z.output<typeof SetDatedTargetAdditionInputSchema>
 export type SetDatedTargetAdditionOutput = z.infer<typeof SetDatedTargetAdditionOutputSchema>
 
+// Issue #294 — the read-only staleness stamp. A client holding an older
+// tools/list compares `published_identity_count` with the size of the
+// `artwork_id` enum it holds, and `contract_version` with the MCP server
+// version it recorded at connect; both values are derived from their canonical
+// source (the shipped catalog's generated snapshot, the published identity
+// union) — never hand-typed literals that can drift.
+export const ContractVersionSchema = z.object({
+  contract_version: z.string().min(1),
+  artwork_catalog_version: z.string().min(1),
+  published_identity_count: z.number().int().positive(),
+}).strict()
+
+export type ContractVersion = z.infer<typeof ContractVersionSchema>
+
+export function contractVersionStamp(): ContractVersion {
+  return {
+    contract_version: MCP_CONTRACT_VERSION,
+    artwork_catalog_version: ArtworkCatalogVersion,
+    published_identity_count: ArtworkIdValues.length,
+  }
+}
+
 export const GetDayOutputSchema = z.object({
   date: CalendarDateSchema,
   timezone: TimezoneSchema,
+  contract: ContractVersionSchema,
   meals: z.array(MealRecordSchema),
   totals: TotalsSchema,
   goal: GoalSummarySchema.optional(),
