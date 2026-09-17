@@ -1,0 +1,245 @@
+{
+  "provenance": "native SupabaseDashboardRepository -> loopback SQL transport -> real PostgreSQL triggers/RPCs",
+  "clock_control": "only database clock expressions; no target-history inserts or updates",
+  "days": [
+    {
+      "date": "2026-09-15",
+      "timezone": "UTC",
+      "confirmed_addition_kcal": 0
+    },
+    {
+      "date": "2026-09-16",
+      "baseline": {
+        "goal": {
+          "fat_g": 90,
+          "source": "manual",
+          "carbs_g": 280,
+          "protein_g": 140,
+          "calorie_target_kcal": 2400
+        },
+        "timezone": "UTC",
+        "recorded_at": "2026-09-16T19:00:00+07:00",
+        "revision_id": "7e18e6ba-a7fa-49a5-95c6-726c6eefff3f",
+        "effective_date": "2026-09-16",
+        "source_version": "targets-v1",
+        "goals_updated_at": "2026-09-16T19:00:00+07:00"
+      },
+      "timezone": "UTC",
+      "addition_revision": {
+        "timezone": "Asia/Bangkok",
+        "recorded_at": "2026-09-16T19:00:00+07:00",
+        "revision_id": "0136bbea-a979-463e-bd2c-f587c8f29964",
+        "historical_confirmation": false,
+        "manual_goal_acknowledged": true
+      },
+      "total_target_kcal": 2520,
+      "confirmed_addition_kcal": 120
+    },
+    {
+      "date": "2026-09-17",
+      "baseline": {
+        "goal": {
+          "fat_g": 100,
+          "source": "manual",
+          "carbs_g": 350,
+          "protein_g": 180,
+          "calorie_target_kcal": 3000
+        },
+        "timezone": "UTC",
+        "recorded_at": "2026-09-17T19:00:00+07:00",
+        "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+        "effective_date": "2026-09-17",
+        "source_version": "targets-v1",
+        "goals_updated_at": "2026-09-17T19:00:00+07:00"
+      },
+      "timezone": "UTC",
+      "total_target_kcal": 3000,
+      "confirmed_addition_kcal": 0
+    },
+    {
+      "date": "2026-09-18",
+      "baseline": {
+        "goal": {
+          "fat_g": 100,
+          "source": "manual",
+          "carbs_g": 350,
+          "protein_g": 180,
+          "calorie_target_kcal": 3000
+        },
+        "timezone": "UTC",
+        "recorded_at": "2026-09-17T19:00:00+07:00",
+        "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+        "effective_date": "2026-09-17",
+        "source_version": "targets-v1",
+        "goals_updated_at": "2026-09-17T19:00:00+07:00"
+      },
+      "timezone": "UTC",
+      "total_target_kcal": 3000,
+      "confirmed_addition_kcal": 0
+    }
+  ],
+  "baseline_revisions": [
+    {
+      "goal": null,
+      "user_id": "00000000-0000-4000-8000-000000000286",
+      "timezone": "UTC",
+      "recorded_at": "2026-09-16T19:00:00+07:00",
+      "revision_id": "6c0ea9df-bae8-4792-86c0-73241372a35a",
+      "source_inputs": {
+        "goals": {
+          "fat_g": null,
+          "source": null,
+          "carbs_g": null,
+          "user_id": null,
+          "protein_g": null,
+          "updated_at": null,
+          "calorie_target_kcal": null
+        },
+        "weight": {
+          "id": null,
+          "kg": null,
+          "source": null,
+          "user_id": null,
+          "measured_at": null
+        },
+        "profile": {
+          "sex": null,
+          "user_id": null,
+          "timezone": null,
+          "age_years": null,
+          "diet_goal": null,
+          "height_cm": null,
+          "weight_kg": null,
+          "updated_at": null,
+          "activity_level": null,
+          "goal_weight_kg": null
+        }
+      },
+      "effective_date": "2026-09-16",
+      "revision_order": 1,
+      "source_version": "targets-v1",
+      "goals_updated_at": null,
+      "profile_updated_at": null,
+      "weight_measured_at": null
+    },
+    {
+      "goal": {
+        "fat_g": 90,
+        "source": "manual",
+        "carbs_g": 280,
+        "protein_g": 140,
+        "calorie_target_kcal": 2400
+      },
+      "user_id": "00000000-0000-4000-8000-000000000286",
+      "timezone": "UTC",
+      "recorded_at": "2026-09-16T19:00:00+07:00",
+      "revision_id": "7e18e6ba-a7fa-49a5-95c6-726c6eefff3f",
+      "source_inputs": {
+        "goals": {
+          "fat_g": 90,
+          "source": "manual",
+          "carbs_g": 280,
+          "user_id": "00000000-0000-4000-8000-000000000286",
+          "protein_g": 140,
+          "updated_at": "2026-09-16T19:00:00+07:00",
+          "calorie_target_kcal": 2400
+        },
+        "weight": {
+          "id": null,
+          "kg": null,
+          "source": null,
+          "user_id": null,
+          "measured_at": null
+        },
+        "profile": {
+          "sex": null,
+          "user_id": null,
+          "timezone": null,
+          "age_years": null,
+          "diet_goal": null,
+          "height_cm": null,
+          "weight_kg": null,
+          "updated_at": null,
+          "activity_level": null,
+          "goal_weight_kg": null
+        }
+      },
+      "effective_date": "2026-09-16",
+      "revision_order": 2,
+      "source_version": "targets-v1",
+      "goals_updated_at": "2026-09-16T19:00:00+07:00",
+      "profile_updated_at": null,
+      "weight_measured_at": null
+    },
+    {
+      "goal": {
+        "fat_g": 100,
+        "source": "manual",
+        "carbs_g": 350,
+        "protein_g": 180,
+        "calorie_target_kcal": 3000
+      },
+      "user_id": "00000000-0000-4000-8000-000000000286",
+      "timezone": "UTC",
+      "recorded_at": "2026-09-17T19:00:00+07:00",
+      "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+      "source_inputs": {
+        "goals": {
+          "fat_g": 100,
+          "source": "manual",
+          "carbs_g": 350,
+          "user_id": "00000000-0000-4000-8000-000000000286",
+          "protein_g": 180,
+          "updated_at": "2026-09-17T19:00:00+07:00",
+          "calorie_target_kcal": 3000
+        },
+        "weight": {
+          "id": null,
+          "kg": null,
+          "source": null,
+          "user_id": null,
+          "measured_at": null
+        },
+        "profile": {
+          "sex": null,
+          "user_id": null,
+          "timezone": null,
+          "age_years": null,
+          "diet_goal": null,
+          "height_cm": null,
+          "weight_kg": null,
+          "updated_at": null,
+          "activity_level": null,
+          "goal_weight_kg": null
+        }
+      },
+      "effective_date": "2026-09-17",
+      "revision_order": 3,
+      "source_version": "targets-v1",
+      "goals_updated_at": "2026-09-17T19:00:00+07:00",
+      "profile_updated_at": null,
+      "weight_measured_at": null
+    }
+  ],
+  "requests": [
+    "POST /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource",
+    "POST /rest/v1/rpc/set_dated_target_addition",
+    "POST /advance-day",
+    "POST /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource",
+    "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
+    "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
+    "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000286&eaten_at=gte.2026-09-15T17%3A00%3A00.000Z&eaten_at=lt.2026-09-16T17%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
+    "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000286&measured_at=gte.2026-08-17T17%3A00%3A00.000Z&measured_at=lt.2026-09-16T17%3A00%3A00.000Z&order=measured_at.asc.nullslast",
+    "GET /rest/v1/meal_items?select=id%2Cmeal_log_id%2Cname%2Cquantity%2Cunit%2Ccalories_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Cfiber_g%2Csugar_g%2Cconfidence%2Csource_notes%2Cmenu_group_id%2Cmenu_name%2Cartwork_id&meal_log_id=in.%2800000000-0000-4000-8000-000000002816%29&order=created_at.asc.nullslast",
+    "GET /rest/v1/energy_burned_logs?select=burned_at%2Cactive_kcal&user_id=eq.00000000-0000-4000-8000-000000000286&burned_at=gte.2026-09-15T17%3A00%3A00.000Z&burned_at=lt.2026-09-16T17%3A00%3A00.000Z",
+    "POST /rest/v1/rpc/get_dated_targets",
+    "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
+    "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
+    "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000286&eaten_at=gte.2026-09-14T17%3A00%3A00.000Z&eaten_at=lt.2026-09-15T17%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
+    "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000286&measured_at=gte.2026-08-16T17%3A00%3A00.000Z&measured_at=lt.2026-09-15T17%3A00%3A00.000Z&order=measured_at.asc.nullslast",
+    "GET /rest/v1/energy_burned_logs?select=burned_at%2Cactive_kcal&user_id=eq.00000000-0000-4000-8000-000000000286&burned_at=gte.2026-09-14T17%3A00%3A00.000Z&burned_at=lt.2026-09-15T17%3A00%3A00.000Z",
+    "GET /rest/v1/meal_items?select=id%2Cmeal_log_id%2Cname%2Cquantity%2Cunit%2Ccalories_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Cfiber_g%2Csugar_g%2Cconfidence%2Csource_notes%2Cmenu_group_id%2Cmenu_name%2Cartwork_id&meal_log_id=in.%2800000000-0000-4000-8000-000000002815%29&order=created_at.asc.nullslast",
+    "POST /rest/v1/rpc/get_dated_targets",
+    "POST /finish"
+  ]
+}

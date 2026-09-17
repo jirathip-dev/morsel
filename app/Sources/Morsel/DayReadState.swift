@@ -29,10 +29,11 @@ struct DashboardSnapshot: Equatable, Sendable, Codable {
     let weightTrend: [WeightTrendPoint]
     let activeEnergyBurned: Double
     var readProvenance: DayReadProvenance?
+    let datedTarget: DatedTarget?
 
     init(
         date: Date, meals: [MealRecord], goal: DashboardGoal?, weightTrend: [WeightTrendPoint] = [],
-        activeEnergyBurned: Double = 0, readProvenance: DayReadProvenance? = nil
+        activeEnergyBurned: Double = 0, readProvenance: DayReadProvenance? = nil, datedTarget: DatedTarget? = nil
     ) {
         self.date = date
         self.meals = meals
@@ -40,6 +41,7 @@ struct DashboardSnapshot: Equatable, Sendable, Codable {
         self.weightTrend = weightTrend
         self.activeEnergyBurned = activeEnergyBurned
         self.readProvenance = readProvenance
+        self.datedTarget = datedTarget
     }
 }
 

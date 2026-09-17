@@ -1,0 +1,16 @@
+[
+  {
+    "file": "286-before-night.png",
+    "sha256": "cfaf9bc29345e5aefb3b6bb7391e1cdab2b65968ad009c7b6fb0054394cc6b80",
+    "device": "Morsel286-before",
+    "udid": "93F6FD87-96E3-4F41-A60B-02B579B77C9A",
+    "source": "6ae782e8a606111de26b1171d48c3a96115d4b85 + test-only harness"
+  },
+  {
+    "file": "286-before-paper.png",
+    "sha256": "ef0c6d59c6ca9fa652a693743369937f5670b6b94caf7b0b43ecac3856d81e86",
+    "device": "Morsel286-before",
+    "udid": "93F6FD87-96E3-4F41-A60B-02B579B77C9A",
+    "source": "6ae782e8a606111de26b1171d48c3a96115d4b85 + test-only harness"
+  }
+]
