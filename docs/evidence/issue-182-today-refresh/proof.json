@@ -1,0 +1,147 @@
+{
+  "head": "ef22daba5eb3f6316d5c4293b5abeb46d71e38d9",
+  "base": "2ddba7e0443c3d05f1345a4ce178738426144781",
+  "scratch": "/tmp/morsel-182-proof-1424jgl6",
+  "lane_before": {
+    "app/Sources/Morsel/ViewModel.swift": "d7003793b5e97272ce6fe5a749cc7d0de55c74eeff697bbc747c6acafb7e499e",
+    "app/Sources/Morsel/MorselApp.swift": "8aa302467b6fd7c6045c21f38829cb16a503744715c7d111c9be8d504626999a",
+    "app/Sources/Morsel/Views.swift": "595f742d3394d760eff0ae03400e31e11f1cd45e6279747465aff17ecaac148a",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "a0237cac8eb6c045ba223cce5f0df2db67e650fff269fad65e1ada6148e851d6",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  },
+  "archive_before": {
+    "app/Sources/Morsel/ViewModel.swift": "d7003793b5e97272ce6fe5a749cc7d0de55c74eeff697bbc747c6acafb7e499e",
+    "app/Sources/Morsel/MorselApp.swift": "8aa302467b6fd7c6045c21f38829cb16a503744715c7d111c9be8d504626999a",
+    "app/Sources/Morsel/Views.swift": "595f742d3394d760eff0ae03400e31e11f1cd45e6279747465aff17ecaac148a",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "a0237cac8eb6c045ba223cce5f0df2db67e650fff269fad65e1ada6148e851d6",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  },
+  "base_sources": {
+    "app/Sources/Morsel/ViewModel.swift": "bd67ae396598e229cc9c0279bad816bc3837dc1e8ba292545184cf144cf16f72",
+    "app/Sources/Morsel/MorselApp.swift": "43bef9ac8e9907116b965c178a0641287c284f81e9a75188c8ad7a365066c3be",
+    "app/Sources/Morsel/Views.swift": "8a7a2afa46dac64066116a967ac09a8a2f508410d7d25e9476def29841cd5f8c",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "2898da36e58eb2e3986345c6b22ce929fcc4e26c41566f829682483dc40eea43",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  },
+  "red": {
+    "command": [
+      "xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925",
+      "-derivedDataPath",
+      "/tmp/morsel-182-dd",
+      "-resultBundlePath",
+      "/tmp/morsel-182-proof-1424jgl6/base-red.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-maximum-concurrent-test-simulator-destinations",
+      "1",
+      "-jobs",
+      "2",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/TodayRefreshRegressionTests"
+    ],
+    "cwd": "/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app",
+    "raw_exit": 65,
+    "duration_s": 142.6,
+    "test_totals": [
+      [
+        4,
+        16
+      ],
+      [
+        4,
+        16
+      ],
+      [
+        4,
+        16
+      ]
+    ]
+  },
+  "archive_restored": {
+    "app/Sources/Morsel/ViewModel.swift": "d7003793b5e97272ce6fe5a749cc7d0de55c74eeff697bbc747c6acafb7e499e",
+    "app/Sources/Morsel/MorselApp.swift": "8aa302467b6fd7c6045c21f38829cb16a503744715c7d111c9be8d504626999a",
+    "app/Sources/Morsel/Views.swift": "595f742d3394d760eff0ae03400e31e11f1cd45e6279747465aff17ecaac148a",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "a0237cac8eb6c045ba223cce5f0df2db67e650fff269fad65e1ada6148e851d6",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  },
+  "lane_after": {
+    "app/Sources/Morsel/ViewModel.swift": "d7003793b5e97272ce6fe5a749cc7d0de55c74eeff697bbc747c6acafb7e499e",
+    "app/Sources/Morsel/MorselApp.swift": "8aa302467b6fd7c6045c21f38829cb16a503744715c7d111c9be8d504626999a",
+    "app/Sources/Morsel/Views.swift": "595f742d3394d760eff0ae03400e31e11f1cd45e6279747465aff17ecaac148a",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "a0237cac8eb6c045ba223cce5f0df2db67e650fff269fad65e1ada6148e851d6",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  },
+  "green": {
+    "command": [
+      "xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925",
+      "-derivedDataPath",
+      "/tmp/morsel-182-dd",
+      "-resultBundlePath",
+      "/tmp/morsel-182-proof-1424jgl6/head-green.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-maximum-concurrent-test-simulator-destinations",
+      "1",
+      "-jobs",
+      "2",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/TodayRefreshRegressionTests"
+    ],
+    "cwd": "/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app",
+    "raw_exit": 0,
+    "duration_s": 21.18,
+    "test_totals": [
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ]
+  },
+  "archive_after_green": {
+    "app/Sources/Morsel/ViewModel.swift": "d7003793b5e97272ce6fe5a749cc7d0de55c74eeff697bbc747c6acafb7e499e",
+    "app/Sources/Morsel/MorselApp.swift": "8aa302467b6fd7c6045c21f38829cb16a503744715c7d111c9be8d504626999a",
+    "app/Sources/Morsel/Views.swift": "595f742d3394d760eff0ae03400e31e11f1cd45e6279747465aff17ecaac148a",
+    "app/Tests/MorselTests/TodayRefreshLifecycleTests.swift": "a0237cac8eb6c045ba223cce5f0df2db67e650fff269fad65e1ada6148e851d6",
+    "app/Tests/MorselTests/TodayRefreshRegressionTests.swift": "6250c53a06b88ae52d626b56461781f845239eb0a4d7f42a776e99bf193243e5",
+    "app/Tests/MorselTests/TodayRefreshTestSupport.swift": "96e723ff88992d4edfe88c730780e99f46e44cf80b8e5e46549e589b218ff9c2",
+    "app/Sources/Morsel/TodayRefreshOwner.swift": "dadde272a27d3cddc44c05cc68042fa8b1662492f8752d126ce449f851135a41",
+    "app/Morsel.xcodeproj/project.pbxproj": "813feb5f2b9707719fbf71cbb5ac546737e8a0324258dcdf5f7cda99bb056006"
+  }
+}
