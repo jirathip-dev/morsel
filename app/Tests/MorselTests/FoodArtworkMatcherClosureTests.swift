@@ -140,13 +140,94 @@ final class FoodArtworkMatcherClosureTests: XCTestCase {
     }
 }
 
+// MARK: - Issue #288 closed secondary-phrase tolerance
+
+/// Issue #288 — a descriptive name may carry ONE trailing secondary phrase from
+/// a closed class: an accompaniment after an attachment marker, a `for <use>`
+/// purpose, or an `A / B` alternation whose remaining components are themselves
+/// closed accompaniments/purposes (see `FoodArtworkSecondary`). The head still
+/// has to reach a whole catalog name/alias, an unrecognized tail is never
+/// dropped, and a tail naming a second identity fails closed. Behavioural RED
+/// ran at the pristine #260 source (every case below fell to
+/// `fallback-neutral`); the mutation battery lives in
+/// `docs/evidence/issue-288-descriptive-names/README.md`.
+@MainActor
+final class FoodArtworkSecondaryPhraseTests: XCTestCase {
+    private let assets = FoodArtworkCatalog.bundled
+
+    /// The issue's own rows plus one case per tolerated secondary class.
+    func testClosedSecondaryPhrasesReachTheirHeadIdentity() {
+        let cases: [(String, String)] = [
+            ("Satay skewers with peanut sauce", "satay"),
+            ("satay skewers", "satay"),
+            ("half-portion satay", "satay"),
+            ("Olive oil / butter for cooking", "cooking-oil"),
+            ("Olive oil for cooking", "cooking-oil"),
+            ("Mashed potato with gravy", "mashed-potato"),
+            ("Mixed salad with dressing", "green-salad"),
+            ("Chili oil drizzle", "chili-oil"),
+            ("Chili flakes & herbs", "chili-oil"),
+            ("Greek yogurt with honey", "yogurt")
+        ]
+        for (name, identity) in cases {
+            XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, identity, name)
+        }
+    }
+
+    /// An out-of-vocabulary tail, a tail naming a second identity and a head
+    /// that reaches no whole term all keep the neutral sign.
+    func testVetoedTailsAndHeadsNeverReachAnIdentity() {
+        for name in [
+            "Coffee with rice and chicken", "Coffee with rice and chicken only",
+            "Cake with coffee", "Americano (black) with toast", "Som tum with peanuts",
+            "chicken skewers", "butter for cooking", "skewers with peanut sauce",
+            "coffee / tea", "Egg salad / creamy egg spread", "Fish balls / fish tofu / dumpling assortment"
+        ] {
+            XCTAssertTrue(isNeutral(FoodArtworkResolver.resolve(name: name, in: assets)), name)
+        }
+    }
+
+    /// The veto is catalog-derived: the same tail is tolerated while it names no
+    /// second identity and refused the moment it does.
+    func testToleratedPhraseThatNamesASecondIdentityFailsClosed() {
+        let dish = FoodArtworkAsset(id: "test-dish", name: "Test dish", aliases: [],
+                                    category: "prepared", kind: .food)
+        let fat = FoodArtworkAsset(id: "test-butter", name: "Butter", aliases: [],
+                                   category: "dairy", kind: .food)
+        XCTAssertEqual(FoodArtworkResolver.match(name: "test dish with butter", in: [dish])?.id, "test-dish")
+        XCTAssertNil(FoodArtworkResolver.match(name: "test dish with butter", in: [dish, fat]))
+        XCTAssertNil(FoodArtworkResolver.match(name: "test dish with lard and eggs", in: [dish]))
+    }
+
+    /// The shipped row seam keeps Variant A precedence and then paints these two
+    /// rows with their resolved study, leaving the logged item untouched.
+    func testIssueRowsPaintTheirStudyInTheRealRowSeam() throws {
+        for (name, identity) in [("Satay skewers with peanut sauce", "satay"),
+                                 ("Olive oil / butter for cooking", "cooking-oil")] {
+            let item = try ArtworkIdentityFixture.item(name: name)
+            let before = item
+            XCTAssertEqual(FoodArtworkResolver.resolve(name: name, in: assets).asset?.id, identity, name)
+            XCTAssertEqual(JournalRowArtwork.resolve(items: [item]),
+                           .library(FoodArtworkResolver.resolve(name: name, in: assets)), name)
+            XCTAssertEqual(item, before, "resolution never rewrites the logged name or its nutrition")
+        }
+    }
+
+    private func isNeutral(_ resolution: FoodArtworkResolution) -> Bool {
+        if case .neutral = resolution { return true }
+        return false
+    }
+}
+
 /// Opt-in private-corpus measurement. No corpus is bundled and no name is printed
-/// or attached. The runner creates/removes the path marker under /tmp.
+/// or attached. The runner creates/removes the path marker under /tmp; the #260
+/// invocation (`/tmp/morsel-260-coverage-path`) and the #288 one both work.
 @MainActor
 final class FoodArtworkPrivateCoverageTests: XCTestCase {
     func testShippedResolverCoverage() throws {
-        let marker = URL(fileURLWithPath: "/tmp/morsel-260-coverage-path")
-        guard FileManager.default.fileExists(atPath: marker.path) else {
+        let markers = ["/tmp/rev288-coverage-path", "/tmp/morsel-260-coverage-path"]
+            .map { URL(fileURLWithPath: $0) }
+        guard let marker = markers.first(where: { FileManager.default.fileExists(atPath: $0.path) }) else {
             throw XCTSkip("Private coverage input is not configured")
         }
         let path = try String(contentsOf: marker, encoding: .utf8).trimmingCharacters(in: .whitespacesAndNewlines)

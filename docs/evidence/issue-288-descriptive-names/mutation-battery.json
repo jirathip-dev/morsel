@@ -1,0 +1,68 @@
+{
+  "battery_log": {
+    "path": "/tmp/rev288-logs/battery-run.log",
+    "sha256": "78765643e1cc62e5a4e6b5117a100e53bc4070974fa11f8848ea15098cfa653d"
+  },
+  "mutations": [
+    {
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":107,\"none\":0,\"specific\":43},\"distinct_names\":151}",
+      "duration_s": 117,
+      "executed_tests": 33,
+      "exists": true,
+      "failing_tests": [
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testClosedSecondaryPhrasesReachTheirHeadIdentity]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testIssueRowsPaintTheirStudyInTheRealRowSeam]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testToleratedPhraseThatNamesASecondIdentityFailsClosed]"
+      ],
+      "failures": 12,
+      "id": "m1",
+      "log": "/tmp/rev288-logs/mut-m1.log",
+      "log_bytes": 135817,
+      "log_sha256": "dc2f2518623b2f6057e38b414ff8472153fbc9dff28101d59866489ce424a758",
+      "mutation": "whole-name/qualifier-only matching again \u2014 FoodArtworkSecondary.head returns nil",
+      "raw_exit": 65,
+      "summary_line": "leg=mut-m1 raw_exit=65 duration_s=117 log=/tmp/rev288-logs/mut-m1.log"
+    },
+    {
+      "coverage_line": "{\"counts\":{\"category\":2,\"neutral\":98,\"none\":0,\"specific\":51},\"distinct_names\":151}",
+      "duration_s": 307,
+      "executed_tests": 33,
+      "exists": true,
+      "failing_tests": [
+        "-[MorselTests.FoodArtworkMatcherClosureTests testLeadingNegativeNamesNeverCrossIdentitiesInEitherDirection]",
+        "-[MorselTests.FoodArtworkMatcherClosureTests testMalformedCrossFoodAndCompositeNamesStayNeutral]",
+        "-[MorselTests.FoodArtworkQualifierTests testCompoundFalseFriendsNeverBecomeTheirHeadFood]",
+        "-[MorselTests.FoodArtworkQualifierTests testUnknownDescriptorsAndUnknownHeadsFailClosed]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testToleratedPhraseThatNamesASecondIdentityFailsClosed]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testVetoedTailsAndHeadsNeverReachAnIdentity]"
+      ],
+      "failures": 28,
+      "id": "m2",
+      "log": "/tmp/rev288-logs/mut-m2.log",
+      "log_bytes": 124146,
+      "log_sha256": "04599d03a18e26d4444a10c4fc6087e2151a45d6c0476a102ab6f9b7b5413b75",
+      "mutation": "unbounded tail \u2014 accept any non-empty phrase, i.e. remove the closed vocabulary",
+      "raw_exit": 65,
+      "summary_line": "leg=mut-m2 raw_exit=65 duration_s=307 log=/tmp/rev288-logs/mut-m2.log"
+    },
+    {
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":104,\"none\":0,\"specific\":46},\"distinct_names\":151}",
+      "duration_s": 188,
+      "executed_tests": 33,
+      "exists": true,
+      "failing_tests": [
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testToleratedPhraseThatNamesASecondIdentityFailsClosed]"
+      ],
+      "failures": 1,
+      "id": "m3",
+      "log": "/tmp/rev288-logs/mut-m3.log",
+      "log_bytes": 130597,
+      "log_sha256": "b06eb82a8a7790e70ab64735d117ec1e01fcdfba8e4b985ba25a404487da8914",
+      "mutation": "remove the catalog-derived veto \u2014 a tolerated phrase may name a second identity",
+      "raw_exit": 65,
+      "summary_line": "leg=mut-m3 raw_exit=65 duration_s=188 log=/tmp/rev288-logs/mut-m3.log"
+    }
+  ],
+  "note": "Each leg is the same focused 5-class set on the mutated source; the source is restored byte-identically afterwards.",
+  "pristine_policy_sha256": "e62ddad4f43f7a244e034be331166a683a9e0b793823f949e79869a2da4d6752"
+}

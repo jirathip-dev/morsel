@@ -1,0 +1,130 @@
+{
+  "gates": [
+    {
+      "command": "cd app && swiftlint lint --strict",
+      "exists": true,
+      "failing_tests": [],
+      "gate": "swiftlint --strict",
+      "log": "/tmp/rev288-logs/swiftlint-final.log",
+      "log_bytes": 8369,
+      "log_sha256": "9bff23bcad80f82a9381c1c0cc8b960ec566f4bda4c30db200f1fef77374912e",
+      "raw_exit": 0,
+      "summary_line": "swiftlint raw_exit=0"
+    },
+    {
+      "command": "cd app && xcodegen generate  # cmp before/after",
+      "exists": true,
+      "failing_tests": [],
+      "gate": "xcodegen generate \u2014 regeneration is byte-identical (project is generated, not hand-edited)",
+      "log": "/tmp/rev288-logs/pbxproj.idempotence.log",
+      "log_bytes": 374,
+      "log_sha256": "1302d526693bed34b614ed50c7fc21a85ebc61b26767e5555c604d73b8a59bd0",
+      "raw_exit": 0,
+      "summary_line": "xcodegen raw_exit=0"
+    },
+    {
+      "command": "git diff --cached --check",
+      "exists": true,
+      "failing_tests": [],
+      "gate": "git diff --check (staged)",
+      "log": "/tmp/rev288-logs/git-diff-check.log",
+      "log_bytes": 26,
+      "log_sha256": "41ae44aa1f8ed086e2f2c9a64b88155241168f1ed2d7f5e51af9a809bef86c7b",
+      "raw_exit": 0,
+      "summary_line": "git-diff-check raw_exit=0"
+    },
+    {
+      "command": "npm run typecheck",
+      "exists": true,
+      "failing_tests": [],
+      "gate": "npm run typecheck",
+      "log": "/tmp/rev288-logs/typecheck.log",
+      "log_bytes": 63,
+      "log_sha256": "4a6d158fee8aa7e7f8d3aa29ca797a3bb28ad8fe514471929d9338dc17778074",
+      "raw_exit": 0,
+      "summary_line": "typecheck raw_exit=0"
+    },
+    {
+      "command": "npm test",
+      "exists": true,
+      "failing_tests": [],
+      "gate": "npm test (full JS suite)",
+      "log": "/tmp/rev288-logs/npm-test.log",
+      "log_bytes": 48450,
+      "log_sha256": "c3a8e9f0072232d3025f2d2847f7e3606a0c3cea1c6709a405a5b695e5e0536f",
+      "raw_exit": 1,
+      "summary_line": "npm-test raw_exit=1"
+    },
+    {
+      "command": "see README 'Repro/prove first'",
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":191,\"none\":0,\"specific\":58},\"distinct_names\":250}",
+      "duration_s": 410,
+      "executed_tests": 54,
+      "exists": true,
+      "failing_tests": [
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testClosedSecondaryPhrasesReachTheirHeadIdentity]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testIssueRowsPaintTheirStudyInTheRealRowSeam]",
+        "-[MorselTests.FoodArtworkSecondaryPhraseTests testToleratedPhraseThatNamesASecondIdentityFailsClosed]"
+      ],
+      "failures": 14,
+      "gate": "native focused matcher set \u2014 base resolver (RED)",
+      "log": "/tmp/rev288-logs/red-288-focused.log",
+      "log_bytes": 1037906,
+      "log_sha256": "1208ef270c0611094ae8de5c204354f3d2861f021766a5243ce9b90342ec4a40",
+      "raw_exit": 65,
+      "summary_line": "leg=red-288-focused raw_exit=65 duration_s=410 log=/tmp/rev288-logs/red-288-focused.log"
+    },
+    {
+      "command": "see README 'Repro/prove first'",
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":186,\"none\":0,\"specific\":63},\"distinct_names\":250}",
+      "duration_s": 218,
+      "executed_tests": 54,
+      "exists": true,
+      "failing_tests": [],
+      "failures": 0,
+      "gate": "native focused matcher set \u2014 head (GREEN)",
+      "log": "/tmp/rev288-logs/green-288-focused.log",
+      "log_bytes": 154420,
+      "log_sha256": "65f768f6b5a263dfd388121218988451da8aeeb6153ebbe92539cf4716c8b2c3",
+      "raw_exit": 0,
+      "summary_line": "leg=green-288-focused raw_exit=0 duration_s=218 log=/tmp/rev288-logs/green-288-focused.log"
+    },
+    {
+      "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh cov151-288-secondary -only-testing:MorselTests/FoodArtworkPrivateCoverageTests",
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":104,\"none\":0,\"specific\":46},\"distinct_names\":151}",
+      "duration_s": 158,
+      "executed_tests": 1,
+      "exists": true,
+      "failing_tests": [],
+      "failures": 0,
+      "gate": "native coverage leg \u2014 newer snapshot, head",
+      "log": "/tmp/rev288-logs/cov151-288-secondary.log",
+      "log_bytes": 63759,
+      "log_sha256": "3542da3bb7d96e0c8508a2aadbb66e206d866da63a75910499c724cedfce0fab",
+      "raw_exit": 0,
+      "summary_line": "leg=cov151-288-secondary raw_exit=0 duration_s=158 log=/tmp/rev288-logs/cov151-288-secondary.log"
+    },
+    {
+      "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh cov151-base-288 -only-testing:MorselTests/FoodArtworkPrivateCoverageTests",
+      "coverage_line": "{\"counts\":{\"category\":1,\"neutral\":107,\"none\":0,\"specific\":43},\"distinct_names\":151}",
+      "duration_s": 214,
+      "executed_tests": 1,
+      "exists": true,
+      "failing_tests": [],
+      "failures": 0,
+      "gate": "native coverage leg \u2014 newer snapshot, base resolver",
+      "log": "/tmp/rev288-logs/cov151-base-288.log",
+      "log_bytes": 127088,
+      "log_sha256": "6bb875ff979bdebaf77e14bd972336653d5f831da9c727aca124bd9cc8ea7fec",
+      "raw_exit": 0,
+      "summary_line": "leg=cov151-base-288 raw_exit=0 duration_s=214 log=/tmp/rev288-logs/cov151-base-288.log"
+    },
+    {
+      "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh full-288",
+      "exists": false,
+      "gate": "native full suite (unfiltered)",
+      "log": "/tmp/rev288-logs/full-288.log"
+    }
+  ],
+  "generated_at_ns": 1789636819977190000
+}
