@@ -5,7 +5,8 @@ import { describe, expect, it } from 'vitest'
 import { createMorselApp } from './app.js'
 import type { Authenticate } from './auth.js'
 import { InMemoryRepository } from './in-memory-repository.js'
-import { ArtworkIdSchema, GetDayOutputSchema, ListMenusOutputSchema } from '../packages/schema/food-types.ts'
+import { ArtworkIdSchema, ContractVersionSchema, contractVersionStamp, GetDayOutputSchema, ListMenusOutputSchema, ARTWORK_ID_INSTRUCTION, MCP_CONTRACT_VERSION } from '../packages/schema/food-types.ts'
+import bundledCatalog from '../app/Resources/FoodArt/catalog.json'
 
 // This file pins the client-visible tool contract as it is EMITTED by the real
 // MCP registration/inspection path (server registerTool -> SDK -> tools/list
@@ -54,7 +55,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'log_meal',
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented.',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented. When an item matches a published artwork identity, set artwork_id to that exact published ID from this tool\'s artwork_id enum — allowed IDs are the enum and the shipped catalog is the canonical set. Omit artwork_id only when genuinely uncertain; never invent an ID and never upload illustration files.',
     annotations: UNCLAIMED,
     // Issue #152: items optional only when menu_name names an existing menu.
     inputRequired: ['meal_type'],
@@ -74,7 +75,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     description: 'Read meals, nutrition totals, and the effective goal for one calendar day.',
     annotations: READ_ONLY,
     inputRequired: ['date'],
-    outputRequired: ['date', 'timezone', 'meals', 'totals', 'render'],
+    outputRequired: ['date', 'timezone', 'contract', 'meals', 'totals', 'render'],
   },
   {
     name: 'search_food',
@@ -145,7 +146,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'update_meal_item',
     title: 'Update one meal item',
-    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.',
+    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required. When replacing an item\'s illustration identity, set artwork_id to that exact published ID from this tool\'s artwork_id enum; omitting artwork_id preserves the stored identity. Never invent an ID and never upload illustration files.',
     annotations: UNCLAIMED,
     inputRequired: ['item_id'],
     outputRequired: ['ok', 'updated'],
@@ -187,6 +188,20 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isSchemaObject(value: unknown): value is { type?: string; required?: string[] } {
   return isRecord(value)
+}
+
+// Issue #294: the size of the artwork_id enum as the client holds it in its
+// own tool list — the value a stale client compares against the served
+// published_identity_count.
+function listedArtworkEnumSize(tool: unknown): number | undefined {
+  const inputSchema = isRecord(tool) ? tool.inputSchema : undefined
+  const properties = isRecord(inputSchema) ? inputSchema.properties : undefined
+  const arraySchema = isRecord(properties) ? properties.items : undefined
+  const itemSchema = isRecord(arraySchema) ? arraySchema.items : undefined
+  const itemProperties = isRecord(itemSchema) ? itemSchema.properties : undefined
+  const artworkId = isRecord(itemProperties) ? itemProperties.artwork_id : undefined
+  const values = isRecord(artworkId) ? artworkId.enum : undefined
+  return Array.isArray(values) ? values.length : undefined
 }
 
 async function connectClient(repository: InMemoryRepository): Promise<Client> {
@@ -345,6 +360,50 @@ describe('MCP tool registration metadata (tools/list)', () => {
       await client.close()
     }
   }, 30_000)
+
+  // Issue #294 part A — the agent-visible description must carry the explicit
+  // instruction to set artwork_id, phrased as an instruction rather than as a
+  // description of the field (asserted against the registered metadata).
+  it('carries the explicit artwork_id instruction on the registered descriptions (issue #294)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const listed = await client.listTools()
+      const log = listed.tools.find((tool) => tool.name === 'log_meal')
+      const update = listed.tools.find((tool) => tool.name === 'update_meal_item')
+      expect(log?.description).toContain(ARTWORK_ID_INSTRUCTION)
+      expect(log?.description).toMatch(/\bset artwork_id\b/i)
+      expect(log?.description).toMatch(/never invent/i)
+      expect(update?.description).toContain('set artwork_id')
+      expect(update?.description).toMatch(/never invent/i)
+    } finally {
+      await client.close()
+    }
+  })
+
+  // Issue #294 part B — the read-only staleness stamp. The values are asserted
+  // against their canonical sources through the real MCP surface: the shipped
+  // catalog.json, the enum the client holds in its own tool list, and the
+  // server version the client records when it connects.
+  it('serves the read-only contract stamp on get_day and it matches the enum the client holds (issue #294)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const listed = await client.listTools()
+      const day = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-03' } })
+      expect(day.isError).not.toBe(true)
+      const parsed = GetDayOutputSchema.parse(day.structuredContent)
+      const stamp = ContractVersionSchema.parse(parsed.contract)
+      expect(stamp).toEqual(contractVersionStamp())
+      expect(stamp.artwork_catalog_version).toBe(bundledCatalog.library_version)
+      expect(stamp.published_identity_count).toBe(ArtworkIdSchema.options.length)
+      expect(listedArtworkEnumSize(listed.tools.find((tool) => tool.name === 'log_meal')))
+        .toBe(stamp.published_identity_count)
+      expect(client.getServerVersion()?.version).toBe(stamp.contract_version)
+      expect(MCP_CONTRACT_VERSION).toBe(stamp.contract_version)
+      expect(listed.tools.find((tool) => tool.name === 'get_day')?.annotations?.readOnlyHint).toBe(true)
+    } finally {
+      await client.close()
+    }
+  })
 
   it('emits the metadata a local inspector receives (evidence dump)', async () => {
     const client = await connectClient(new InMemoryRepository())

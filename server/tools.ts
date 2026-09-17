@@ -17,8 +17,10 @@ import {
   GetEnergyBurnedInputSchema,
   GetEnergyBurnedOutputSchema,
   ListMenusOutputSchema,
+  LOG_MEAL_DESCRIPTION,
   LogMealInputSchema,
   LogMealOutputSchema,
+  MCP_CONTRACT_VERSION,
   SearchFoodInputSchema,
   SearchFoodOutputSchema,
   RenderPayloadSchema,
@@ -30,6 +32,7 @@ import {
   SetGoalsOutputSchema,
   SetProfileInputSchema,
   SetProfileOutputSchema,
+  UPDATE_MEAL_ITEM_DESCRIPTION,
   UpdateMealItemInputSchema,
   UpdateMealItemOutputSchema,
 } from '../packages/schema/food-types.ts'
@@ -104,7 +107,7 @@ async function runTool<T extends Record<string, unknown>>(
 
 export function createMcpServer(service: MorselService): McpServer {
   const server = new McpServer(
-    { name: 'morsel', version: '0.1.0' },
+    { name: 'morsel', version: MCP_CONTRACT_VERSION },
     {
       instructions: 'Morsel stores structured food logs. Use search_food for known foods, then log one meal with one or more items.',
     },
@@ -157,7 +160,7 @@ export function createMcpServer(service: MorselService): McpServer {
 
   server.registerTool('log_meal', {
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented.',
+    description: LOG_MEAL_DESCRIPTION,
     inputSchema: LogMealInputSchema,
     outputSchema: LogMealOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
@@ -256,7 +259,7 @@ export function createMcpServer(service: MorselService): McpServer {
 
   server.registerTool('update_meal_item', {
     title: 'Update one meal item',
-    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.',
+    description: UPDATE_MEAL_ITEM_DESCRIPTION,
     inputSchema: UpdateMealItemInputSchema,
     outputSchema: UpdateMealItemOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,

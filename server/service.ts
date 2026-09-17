@@ -3,6 +3,7 @@ import {
   AttachMealImageInputSchema,
   AttachMealImageOutputSchema,
   ComputeTargetsOutputSchema,
+  contractVersionStamp,
   DeleteMealLogInputSchema,
   EmptyInputSchema,
   GetDashboardSummaryInputSchema,
@@ -442,6 +443,10 @@ export class MorselService {
     return parseInput(GetDayOutputSchema, {
       date: parsed.date,
       timezone,
+      // Issue #294: the read-only staleness stamp — a client holding an older
+      // tools/list compares published_identity_count with the artwork_id enum
+      // it holds, and contract_version with the server version it recorded.
+      contract: contractVersionStamp(),
       meals,
       totals: summary.totals,
       ...(datedTarget === undefined ? {} : { dated_target: datedTarget }),
