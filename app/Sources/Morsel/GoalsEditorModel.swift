@@ -1,14 +1,8 @@
 import Combine
 import Foundation
 
-// Issue #113 — Goals page model. Load reads the FULL page context (stored
-// goals row + profile row + newest synced weight via GoalPageContext) so
-// the page mirrors the server's get_goals recency rule: a stale complete
-// manual row (older than the profile) is replaced on screen by the freshly
-// computed targets and reported in the one-line calm note; a current
-// manual row keeps the existing Cut/Maintain/Bulk + manual-edit flow, and
-// saving without edits keeps `source: computed`. Amendment B renders the
-// read-only profile line from the same context.
+// Goals context mirrors get_goals recency; direction requests own only their
+// generation. Accepted targets stay visible until the newest request succeeds.
 
 @MainActor
 final class GoalsEditorViewModel: ObservableObject {
@@ -18,6 +12,7 @@ final class GoalsEditorViewModel: ObservableObject {
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var selectedDirection: GoalDirection?
+    @Published private(set) var pendingDirection: GoalDirection?
     /// Issue #123 — the phase the profile diet goal implies
     /// (lose→cut / maintain→maintain / gain→bulk). While a manual goal is
     /// effective no chip is filled; this lighter "profile" chip tells which
@@ -48,6 +43,8 @@ final class GoalsEditorViewModel: ObservableObject {
     /// empty field is the pre-load state, not an error: validation appears
     /// once the field is edited or carries an invalid value.
     private var editedFields: Set<String> = []
+    private var directionGeneration = 0
+    private var directionTask: Task<DashboardGoal, Error>?
 
     init(
         repository: any DashboardRepository,
@@ -96,14 +93,20 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func load() async {
+        cancelDirectionComputation()
+        let generation = directionGeneration
         isLoading = true
         errorMessage = nil
-        defer { isLoading = false }
+        defer {
+            isLoading = false
+            if Task.isCancelled { dayTotalTask?.cancel() }
+        }
         // Issue #123 — local-first first paint: the cached stored goal row
         // (last known remote snapshot) paints immediately so the page never
         // opens as empty fields with validation errors while the remote
         // round-trip is in flight. The remote refresh below reconciles.
-        if let cached = try? await repository.cachedGoals(userID: userID) {
+        if let cached = try? await repository.cachedGoals(userID: userID),
+           generation == directionGeneration, !Task.isCancelled {
             apply(GoalsPageContext(
                 stored: cached, profile: nil, latestWeight: nil, profileRowRead: false
             ))
@@ -113,13 +116,11 @@ final class GoalsEditorViewModel: ObservableObject {
         startDayTotalRead()
         do {
             let context = try await repository.loadGoalsContext(userID: userID)
+            guard generation == directionGeneration, !Task.isCancelled else { return }
             apply(context)
         } catch {
+            guard generation == directionGeneration, !Task.isCancelled else { return }
             errorMessage = DashboardUserMessage.userMessage(for: error)
-        }
-        // A cancelled load (page turn/teardown) must not leave a late paint.
-        if Task.isCancelled {
-            dayTotalTask?.cancel()
         }
     }
 
@@ -200,18 +201,6 @@ final class GoalsEditorViewModel: ObservableObject {
         }
     }
 
-    func choose(_ direction: GoalDirection) async {
-        do {
-            let computed = try await repository.computeGoals(userID: userID, direction: direction)
-            apply(computed, source: .computed)
-            selectedDirection = direction
-            supersededNote = nil
-            errorMessage = nil
-        } catch {
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-        }
-    }
-
     func edit(_ field: String, value: String) {
         switch field {
         case "calories": calories = value
@@ -220,6 +209,9 @@ final class GoalsEditorViewModel: ObservableObject {
         case "fat": fat = value
         default: return
         }
+        cancelDirectionComputation()
+        selectedDirection = nil
+        errorMessage = nil
         editedFields.insert(field)
         sources[field] = .manual
         didSave = false
@@ -267,6 +259,7 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func save() async -> Bool {
+        guard pendingDirection == nil else { return false }
         guard let calories = Double(calories), calories.isFinite, calories >= 0,
               let protein = Double(protein), protein.isFinite, protein >= 0,
               let carbs = Double(carbs), carbs.isFinite, carbs >= 0,
@@ -337,6 +330,9 @@ final class GoalsEditorViewModel: ObservableObject {
         return String(value)
     }
 
+}
+
+extension GoalsEditorViewModel {
     private func apply(_ goal: DashboardGoal, source: GoalSource) {
         self.goal = goal
         calories = Self.displayValue(goal.calorieTargetKcal)
@@ -344,5 +340,48 @@ final class GoalsEditorViewModel: ObservableObject {
         carbs = Self.displayValue(goal.carbsG)
         fat = Self.displayValue(goal.fatG)
         sources = ["calories": source, "protein": source, "carbs": source, "fat": source]
+    }
+}
+
+extension GoalsEditorViewModel {
+    func cancelDirectionComputation() {
+        directionGeneration &+= 1
+        directionTask?.cancel()
+        directionTask = nil
+        pendingDirection = nil
+    }
+
+    func choose(_ direction: GoalDirection) async {
+        guard !Task.isCancelled, !isSaving, pendingDirection != direction else { return }
+        cancelDirectionComputation()
+        guard selectedDirection != direction || sources.values.contains(.manual)
+                || supersededNote != nil || errorMessage != nil else { return }
+        let generation = directionGeneration
+        pendingDirection = direction
+        errorMessage = nil
+        let task = Task { [repository, userID] in
+            try await repository.computeGoals(userID: userID, direction: direction)
+        }
+        directionTask = task
+        defer {
+            if generation == directionGeneration {
+                pendingDirection = nil
+                directionTask = nil
+            }
+        }
+        do {
+            let computed = try await withTaskCancellationHandler {
+                try await task.value
+            } onCancel: { task.cancel() }
+            guard generation == directionGeneration, !Task.isCancelled, !task.isCancelled else { return }
+            apply(computed, source: .computed)
+            selectedDirection = direction
+            supersededNote = nil
+            didSave = false
+        } catch {
+            guard generation == directionGeneration, !Task.isCancelled, !task.isCancelled,
+                  !(error is CancellationError) else { return }
+            errorMessage = "\(DashboardUserMessage.userMessage(for: error)) Tap \(direction.title) to retry."
+        }
     }
 }

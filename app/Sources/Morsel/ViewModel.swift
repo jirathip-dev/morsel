@@ -16,11 +16,9 @@ final class DashboardViewModel: ObservableObject {
     private let healthStore: LocalHealthStore?
     private let syncEngine: LocalSyncEngine?
     private let dateProvider: () -> Date
-    private var reloadAfterLoad = false
+    private lazy var refreshOwner = TodayRefreshOwner(repository: repository, userID: userID)
     private var observersStarted = false
     @Published private var diaryDate: Date?
-    private var loadGeneration = 0
-    private var loadingDate: Date?
 
     var selectedDate: Date { DashboardMath.startOfLocalDay(diaryDate ?? dateProvider()) }
     var today: Date { DashboardMath.startOfLocalDay(dateProvider()) }
@@ -82,7 +80,7 @@ final class DashboardViewModel: ObservableObject {
                 onSuccess: { [weak self] in
                     Task { @MainActor in
                         self?.syncEngine?.syncNow()
-                        await self?.load()
+                        await self?.invalidateDay()
                     }
                 },
                 onError: { [weak self] error in
@@ -117,53 +115,52 @@ final class DashboardViewModel: ObservableObject {
             bodyImported: bodyImported, energyImported: energyImported
         )
         syncEngine?.syncNow()
+        if bodyImported > 0 || energyImported > 0 { await invalidateDay() }
     }
 
-    func load() async {
+    func load(superseding: Bool = false) async {
+        guard !Task.isCancelled else { return }
+        await refreshOwner.wait(for: startRefresh(superseding: superseding))
+    }
+
+    func invalidateDay() async {
+        await refreshOwner.wait(for: startRefresh(invalidating: true))
+    }
+
+    func cancelRefresh() {
+        refreshOwner.cancel()
+        isLoading = false
+    }
+
+    private func startRefresh(invalidating: Bool = false, superseding: Bool = false,
+                              keepsAlive: Bool = false) -> TodayRefreshOwner.Flight {
         let date = selectedDate
-        if isLoading, loadingDate == date {
-            reloadAfterLoad = true
-            return
-        }
-        loadGeneration &+= 1
-        let generation = loadGeneration
-        loadingDate = date
-        isLoading = true
-        errorMessage = nil
         if snapshot?.date != date { snapshot = nil }
-        defer {
-            if generation == loadGeneration {
-                isLoading = false
-                loadingDate = nil
-                if reloadAfterLoad {
-                    reloadAfterLoad = false
-                    Task { await load() }
-                }
+        let flight = refreshOwner.start(date: date, needsCache: snapshot == nil,
+                                        invalidating: invalidating, superseding: superseding,
+                                        keepsAlive: keepsAlive) { [weak self] event in
+            guard let self else { return }
+            if case .finished = event { self.isLoading = false; return }
+            guard date == self.selectedDate else { return }
+            switch event {
+            case .cached(let cached): self.snapshot = cached.cachedCopy
+            case .loaded(let loaded): self.publishDay(loaded)
+            case .failed(let error):
+                self.snapshot = self.snapshot?.cachedCopy
+                self.errorMessage = DashboardUserMessage.userMessage(for: error)
+            case .finished: break
             }
         }
-        if snapshot == nil, let cached = try? await repository.cachedToday(userID: userID, date: date) {
-            guard generation == loadGeneration, date == selectedDate else { return }
-            snapshot = cached.cachedCopy
-        }
-        do {
-            let loaded = try await repository.loadToday(userID: userID, date: date)
-            guard generation == loadGeneration, date == selectedDate else { return }
-            publishDay(loaded)
-        } catch is CancellationError {
-            return
-        } catch {
-            guard generation == loadGeneration, date == selectedDate else { return }
-            snapshot = snapshot?.cachedCopy
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-        }
+        isLoading = true
+        errorMessage = nil
+        return flight
     }
 
     private func refreshSelectedDay() async throws {
-        let date = selectedDate
-        let generation = loadGeneration
-        let loaded = try await repository.loadToday(userID: userID, date: date)
-        guard date == selectedDate, generation == loadGeneration else { return }
-        publishDay(loaded)
+        let flight = startRefresh(invalidating: true)
+        await refreshOwner.wait(for: flight)
+        try Task.checkCancellation()
+        if let error = flight.error { throw error }
     }
 
     /// Commits locally before closing; queued rows retain their pending marker.
@@ -173,6 +170,7 @@ final class DashboardViewModel: ObservableObject {
         defer { isSaving = false }
         do {
             let mealID = try await repository.logMeal(userID: userID, draft: draft, photo: photo)
+            _ = startRefresh(invalidating: true, keepsAlive: true)
             await showQueuedMealIfNeeded(localMealID: mealID)
             syncEngine?.syncNow()
             return true
@@ -186,12 +184,10 @@ final class DashboardViewModel: ObservableObject {
 
     /// Paint the locally committed row without waiting for a remote read.
     private func showQueuedMealIfNeeded(localMealID: UUID) async {
+        let date = selectedDate
         guard let record = try? await repository.localMealRecord(
             userID: userID, localMealID: localMealID
-        ) else {
-            try? await refreshSelectedDay()
-            return
-        }
+        ), date == selectedDate else { return }
         let calendar = Calendar.autoupdatingCurrent
         let today = selectedDate
         if let snapshot,
@@ -288,12 +284,9 @@ extension DashboardViewModel {
         let day = DashboardMath.startOfLocalDay(date)
         guard day != selectedDate, day <= today else { return }
         diaryDate = day == today ? nil : day
-        loadGeneration &+= 1
+        cancelRefresh()
         snapshot = nil
         errorMessage = nil
-        isLoading = false
-        loadingDate = nil
-        reloadAfterLoad = false
     }
 
     /// Anchor-bounded body-mass import, independently throwing.

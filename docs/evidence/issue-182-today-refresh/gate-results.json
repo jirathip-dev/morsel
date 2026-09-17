@@ -1,0 +1,482 @@
+{
+  "tested_source_head": "ef22daba5eb3f6316d5c4293b5abeb46d71e38d9",
+  "receipts": [
+    {
+      "name": "npm-ci",
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 28.6
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 12.56
+    },
+    {
+      "name": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 20.26
+    },
+    {
+      "name": "swiftlint-fixed",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 0.99
+    },
+    {
+      "name": "npm-test",
+      "command": [
+        "npm",
+        "test"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 1,
+      "duration_s": 85.26
+    },
+    {
+      "name": "xcodegen-stability",
+      "command": [
+        "xcodegen",
+        "generate"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 5.99
+    },
+    {
+      "name": "xcodegen-regenerate",
+      "command": [
+        "xcodegen",
+        "generate"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 1.44
+    },
+    {
+      "name": "xcodegen-drift",
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "--",
+        "app/Morsel.xcodeproj/project.pbxproj"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 0.23
+    },
+    {
+      "name": "native-focused",
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=F1C5A0BF-0EAF-4EA5-A279-555E9EE6846B",
+        "-derivedDataPath",
+        "/tmp/morsel-182-dd",
+        "-resultBundlePath",
+        "/tmp/morsel-182-native-focused.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/TodayRefreshRegressionTests",
+        "-only-testing:MorselTests/TodayRefreshLifecycleTests",
+        "-only-testing:MorselTests/JournalDiaryLoadTests",
+        "-only-testing:MorselTests/MealCorrectionsTests",
+        "-only-testing:MorselTests/DayReadCompositionTests",
+        "-only-testing:MorselTests/DayReadDegradeTests",
+        "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 470.47
+    },
+    {
+      "name": "native-admission",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-refresh",
+        "--",
+        "python3",
+        ".lane-tools/native.py",
+        "native-focused"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 503.19
+    },
+    {
+      "name": "npm-timeout-isolation",
+      "command": [
+        "npx",
+        "vitest",
+        "run",
+        "server/http.test.ts",
+        "server/render-png.test.ts",
+        "server/tool-classification.test.ts"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 1,
+      "duration_s": 124.26
+    },
+    {
+      "name": "swiftlint-final",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 0.64
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 0.1
+    },
+    {
+      "name": "final-native-admission",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-final",
+        "--",
+        "python3",
+        ".lane-tools/native-and-proof.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 143,
+      "duration_s": 69.06
+    },
+    {
+      "name": "swiftlint-final-tests",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 0.62
+    },
+    {
+      "name": "native-final",
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=3D26801F-3DF9-43C2-8464-BE9EC11AD853",
+        "-derivedDataPath",
+        "/tmp/morsel-182-dd",
+        "-resultBundlePath",
+        "/tmp/morsel-182-native-final.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/TodayRefreshRegressionTests",
+        "-only-testing:MorselTests/TodayRefreshLifecycleTests",
+        "-only-testing:MorselTests/JournalDiaryLoadTests",
+        "-only-testing:MorselTests/MealCorrectionsTests",
+        "-only-testing:MorselTests/DayReadCompositionTests",
+        "-only-testing:MorselTests/DayReadDegradeTests",
+        "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": -15,
+      "duration_s": 199.73
+    },
+    {
+      "name": "final-native-admission-r2",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-final",
+        "--",
+        "python3",
+        ".lane-tools/native-and-proof.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 1,
+      "duration_s": 289.84
+    },
+    {
+      "name": "swiftlint-r3",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 2.56
+    },
+    {
+      "name": "native-final-r3",
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=1B32B5C7-5D99-4CEE-B97E-AC12D8BFC516",
+        "-derivedDataPath",
+        "/tmp/morsel-182-dd",
+        "-resultBundlePath",
+        "/tmp/morsel-182-native-final-r3.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/TodayRefreshRegressionTests",
+        "-only-testing:MorselTests/TodayRefreshLifecycleTests",
+        "-only-testing:MorselTests/JournalDiaryLoadTests",
+        "-only-testing:MorselTests/MealCorrectionsTests",
+        "-only-testing:MorselTests/DayReadCompositionTests",
+        "-only-testing:MorselTests/DayReadDegradeTests",
+        "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 65,
+      "duration_s": 106.76
+    },
+    {
+      "name": "final-native-admission-r3",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-final-r3",
+        "--",
+        "python3",
+        ".lane-tools/native-and-proof.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 1,
+      "duration_s": 319.13
+    },
+    {
+      "name": "swiftlint-r4",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 0.47
+    },
+    {
+      "name": "native-final-r4",
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=016FEE63-E929-4C08-8FCC-173CB7DEF0F4",
+        "-derivedDataPath",
+        "/tmp/morsel-182-dd",
+        "-resultBundlePath",
+        "/tmp/morsel-182-native-final-r4.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/TodayRefreshRegressionTests",
+        "-only-testing:MorselTests/TodayRefreshLifecycleTests",
+        "-only-testing:MorselTests/JournalDiaryLoadTests",
+        "-only-testing:MorselTests/MealCorrectionsTests",
+        "-only-testing:MorselTests/DayReadCompositionTests",
+        "-only-testing:MorselTests/DayReadDegradeTests",
+        "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 65,
+      "duration_s": 91.95
+    },
+    {
+      "name": "final-native-admission-r4",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-final-r4",
+        "--",
+        "python3",
+        ".lane-tools/native-and-proof.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 1,
+      "duration_s": 728.06
+    },
+    {
+      "name": "swiftlint-r5",
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 0.38
+    },
+    {
+      "name": "structural-read-owner",
+      "command": [
+        "ast-grep",
+        "run",
+        "-l",
+        "swift",
+        "-p",
+        "$OBJ.loadToday($$$)",
+        "app/Sources/Morsel/ViewModel.swift",
+        "app/Sources/Morsel/TodayRefreshOwner.swift"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 0.1
+    },
+    {
+      "name": "native-final-r5",
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925",
+        "-derivedDataPath",
+        "/tmp/morsel-182-dd",
+        "-resultBundlePath",
+        "/tmp/morsel-182-native-final-r5.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/TodayRefreshRegressionTests",
+        "-only-testing:MorselTests/TodayRefreshLifecycleTests",
+        "-only-testing:MorselTests/JournalDiaryLoadTests",
+        "-only-testing:MorselTests/MealCorrectionsTests",
+        "-only-testing:MorselTests/DayReadCompositionTests",
+        "-only-testing:MorselTests/DayReadDegradeTests",
+        "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app",
+      "raw_exit": 0,
+      "duration_s": 109.84
+    },
+    {
+      "name": "final-native-admission-r5",
+      "command": [
+        "flock",
+        "/tmp/n.lock",
+        "hermes-sim-task",
+        "--name",
+        "Morsel182-final-r5",
+        "--",
+        "python3",
+        ".lane-tools/native-and-proof.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh",
+      "raw_exit": 0,
+      "duration_s": 766.22
+    }
+  ],
+  "native": {
+    "tests": 29,
+    "failures": 0
+  },
+  "npm_test": {
+    "tests": 669,
+    "passed": 663,
+    "failed": 6,
+    "app_files": 18,
+    "app_tests": 136
+  },
+  "attachments": [
+    {
+      "file": "today-refresh-control.png",
+      "sha256": "8221d30d0ea7069a36fb7415e041c29c70f4c2717b2b37d2acedf60b28069b49",
+      "bytes": 571387,
+      "device": "7348988F-F518-40A4-B226-4E91D33D5925",
+      "test": "TodayRefreshLifecycleTests/testCachedContentAndPresentationsRemainAvailableDuringRefreshAndError()"
+    },
+    {
+      "file": "today-refresh-idle.png",
+      "sha256": "bff464e63208ce31de5eb5cfcc1dbe9c815a46379398877d3bbd1651c355e3ef",
+      "bytes": 635774,
+      "device": "7348988F-F518-40A4-B226-4E91D33D5925",
+      "test": "TodayRefreshLifecycleTests/testCachedContentAndPresentationsRemainAvailableDuringRefreshAndError()"
+    },
+    {
+      "file": "today-refresh-cached.png",
+      "sha256": "bff464e63208ce31de5eb5cfcc1dbe9c815a46379398877d3bbd1651c355e3ef",
+      "bytes": 635774,
+      "device": "7348988F-F518-40A4-B226-4E91D33D5925",
+      "test": "TodayRefreshLifecycleTests/testCachedContentAndPresentationsRemainAvailableDuringRefreshAndError()"
+    }
+  ]
+}

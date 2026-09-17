@@ -1,0 +1,316 @@
+[
+  {
+    "name": "native-disk",
+    "command": [
+      "df",
+      "-h",
+      "/"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 0.179,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/native-disk.log"
+  },
+  {
+    "name": "native-focused",
+    "command": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=004A8DFA-5F3D-40F6-87D2-F9ED9B65392E",
+      "-derivedDataPath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/DerivedData",
+      "-resultBundlePath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/native-focused.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-jobs",
+      "2",
+      "-test-timeouts-enabled",
+      "YES",
+      "-maximum-test-execution-time-allowance",
+      "30",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/GoalsContextLazyLoadTests",
+      "-only-testing:MorselTests/GoalsDirectionProfileTests",
+      "-only-testing:MorselTests/GoalsEditorTests",
+      "-only-testing:MorselTests/GoalsEditorPrecisionTests",
+      "-only-testing:MorselTests/GoalsPageTests",
+      "-only-testing:MorselTests/GoalsPolishTests",
+      "-only-testing:MorselTests/GoalsRestoreTests",
+      "-only-testing:MorselTests/GoalsRestoreRenderingTests",
+      "-only-testing:MorselTests/GoalsDirectionRaceTests",
+      "-only-testing:MorselTests/GoalsDirectionOwnershipTests"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/app",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 288.49,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/native-focused.log"
+  },
+  {
+    "name": "base-xcodegen",
+    "command": [
+      "xcodegen",
+      "generate"
+    ],
+    "cwd": "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 0.123,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/base-xcodegen.log"
+  },
+  {
+    "name": "base-red",
+    "command": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=004A8DFA-5F3D-40F6-87D2-F9ED9B65392E",
+      "-derivedDataPath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/DerivedData",
+      "-resultBundlePath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/base-red.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-jobs",
+      "2",
+      "-test-timeouts-enabled",
+      "YES",
+      "-maximum-test-execution-time-allowance",
+      "30",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/GoalsDirectionRaceTests"
+    ],
+    "cwd": "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app",
+    "raw_exit": 65,
+    "timed_out": false,
+    "seconds": 100.602,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/base-red.log"
+  },
+  {
+    "name": "archive-green",
+    "command": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=004A8DFA-5F3D-40F6-87D2-F9ED9B65392E",
+      "-derivedDataPath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/DerivedData",
+      "-resultBundlePath",
+      "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/archive-green.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-jobs",
+      "2",
+      "-test-timeouts-enabled",
+      "YES",
+      "-maximum-test-execution-time-allowance",
+      "30",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/GoalsDirectionRaceTests",
+      "-only-testing:MorselTests/GoalsDirectionOwnershipTests"
+    ],
+    "cwd": "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 24.847,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/archive-green.log"
+  },
+  {
+    "name": "wiring-red",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "app/issue-185-goals-direction-contract.test.ts"
+    ],
+    "cwd": "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals",
+    "raw_exit": 1,
+    "timed_out": false,
+    "seconds": 1.558,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/wiring-red.log"
+  },
+  {
+    "name": "wiring-green",
+    "command": [
+      "npx",
+      "vitest",
+      "run",
+      "app/issue-185-goals-direction-contract.test.ts"
+    ],
+    "cwd": "/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 0.952,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/wiring-green.log"
+  },
+  {
+    "name": "disk",
+    "command": [
+      "df",
+      "-h",
+      "/"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 0.047,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/disk.log"
+  },
+  {
+    "name": "native-final",
+    "command": [
+      "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild",
+      "test",
+      "-project",
+      "Morsel.xcodeproj",
+      "-scheme",
+      "Morsel",
+      "-destination",
+      "platform=iOS Simulator,id=1D513073-D02E-4921-91A1-E232069E2927",
+      "-derivedDataPath",
+      "/tmp/morsel-185-isorat8t/DerivedData",
+      "-resultBundlePath",
+      "/tmp/morsel-185-isorat8t/native-final.xcresult",
+      "-parallel-testing-enabled",
+      "NO",
+      "-jobs",
+      "2",
+      "-test-timeouts-enabled",
+      "YES",
+      "-maximum-test-execution-time-allowance",
+      "30",
+      "CODE_SIGNING_ALLOWED=NO",
+      "-only-testing:MorselTests/GoalsContextLazyLoadTests",
+      "-only-testing:MorselTests/GoalsDirectionProfileTests",
+      "-only-testing:MorselTests/GoalsEditorTests",
+      "-only-testing:MorselTests/GoalsEditorPrecisionTests",
+      "-only-testing:MorselTests/GoalsEditorRecencyTests",
+      "-only-testing:MorselTests/GoalsPageCopyTests",
+      "-only-testing:MorselTests/GoalsPolishTests",
+      "-only-testing:MorselTests/GoalsRestoreTests",
+      "-only-testing:MorselTests/GoalsRestoreRenderingTests",
+      "-only-testing:MorselTests/GoalsDirectionRaceTests",
+      "-only-testing:MorselTests/GoalsDirectionOwnershipTests"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/app",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 158.818,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/native-final.log"
+  },
+  {
+    "name": "node-version",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "node",
+      "--version"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 0.234,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/node-version.log"
+  },
+  {
+    "name": "npm-ci",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npm",
+      "ci"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 2.398,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/npm-ci.log"
+  },
+  {
+    "name": "typecheck",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 2.32,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/typecheck.log"
+  },
+  {
+    "name": "lint",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 0,
+    "timed_out": false,
+    "seconds": 6.33,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/lint.log"
+  },
+  {
+    "name": "npm-test",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npm",
+      "test"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 1,
+    "timed_out": false,
+    "seconds": 54.455,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/npm-test.log"
+  },
+  {
+    "name": "focused-timeout-diagnostic",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npx",
+      "vitest",
+      "run",
+      "server/http.test.ts",
+      "server/tool-classification.test.ts"
+    ],
+    "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals",
+    "raw_exit": 1,
+    "timed_out": false,
+    "log": "/Users/jirathip/.herdr/worktrees/morsel/issue-185-goals/.lane-logs/final/focused-timeout-diagnostic.log"
+  }
+]
