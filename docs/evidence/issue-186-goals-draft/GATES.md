@@ -25,6 +25,19 @@ head `AC30356C-7535-4F47-9F34-F20028253F21`, suite `CFF9CBE8-1DEC-40A4-B92E-EF4B
 (each a `hermes-sim-task` private simulator, deleted after the run). Receipts
 with argv, exits and counts: `native/run.json`, `hosted/run.json`.
 
+## Generated project note
+
+`app/Morsel.xcodeproj/project.pbxproj` is xcodegen output. Besides the two new
+test files, the regenerated diff renames the group that represents the `..`
+resource path (`../docs/evidence/issue-241-artwork-native/fixtures`): xcodegen
+names that group after the **checkout directory**, so the committed base carried
+`issue-183-cache-ordering` (the lane that last regenerated it) and this lane's
+regeneration carries `issue-186-goals-draft`. Nothing under that group changed —
+its only referenced files are the unchanged `issue-241-artwork-native/fixtures`
+PNGs — and the stability gate above re-ran `xcodegen generate` in this checkout
+with `git diff --exit-code` = 0, which is the reproducible condition the repo
+uses (any checkout regenerates its own directory name).
+
 ## Disclosures
 
 - **Infrastructure retry.** The first native attempt (19:41) died before any
