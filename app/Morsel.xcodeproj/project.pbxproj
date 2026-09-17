@@ -343,6 +343,7 @@
 		C10EC03BEB756D923331B5FB /* ParallelReadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */; };
 		C163814BADD93E586713B97D /* tofu-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A1BE1858FD36D1BC8CAEF /* tofu-night-64.png */; };
 		C172B62E6C5691AE7A1B6009 /* minced-pork-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = BE833E2E7EF67B4C39289964 /* minced-pork-paper-64.png */; };
+		C1952B27B2432EF6A03BE84B /* FoodArtworkSecondary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815DD2CD863B895B077F4FB3 /* FoodArtworkSecondary.swift */; };
 		C19AA3AFF290D5D969BEE66F /* NativeImageSigningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A309C33AF7B206A0D33B6D49 /* NativeImageSigningTests.swift */; };
 		C1AF60D319B5E7D48426D4B7 /* fallback-produce-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D21896711A44BE300141DE6 /* fallback-produce-night-64.png */; };
 		C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */; };
@@ -721,6 +722,7 @@
 		7F6275BEFAD3BF4251919EEE /* noodle-soup-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "noodle-soup-night-64.png"; sourceTree = "<group>"; };
 		80BF398265DAB1FEA8495028 /* fallback-sweets-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-sweets-paper-64.png"; sourceTree = "<group>"; };
 		8133FB839EB9862765091F51 /* gravy-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gravy-night-64.png"; sourceTree = "<group>"; };
+		815DD2CD863B895B077F4FB3 /* FoodArtworkSecondary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodArtworkSecondary.swift; sourceTree = "<group>"; };
 		8210E5558B4B804F5EBEE03D /* a-paper-unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-paper-unknown.png"; sourceTree = "<group>"; };
 		823AC808350E875340320AB4 /* cooking-oil-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cooking-oil-night-64.png"; sourceTree = "<group>"; };
 		83740FC2643ECBDBD65B4C97 /* MealCaptureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureTests.swift; sourceTree = "<group>"; };
@@ -1018,6 +1020,7 @@
 				258D803C82D335C385893E20 /* DeviceTimezoneSync.swift */,
 				2BFA05BA7087ECE70600B5D3 /* EndpointCopyPill.swift */,
 				B9E01B24F024537309677918 /* FoodArtwork.swift */,
+				815DD2CD863B895B077F4FB3 /* FoodArtworkSecondary.swift */,
 				78283BF7519E5FD810AEC31A /* FoodArtworkView.swift */,
 				894368A6A65AC2A0C36A007B /* GoalPageContext.swift */,
 				7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */,
@@ -1967,6 +1970,7 @@
 				70C65E14F48CCD78E1A7DFE2 /* DeviceTimezoneSync.swift in Sources */,
 				FE0BF55F3F7B93B6BB22FA86 /* EndpointCopyPill.swift in Sources */,
 				939D5A5835F98E2A52DF8558 /* FoodArtwork.swift in Sources */,
+				C1952B27B2432EF6A03BE84B /* FoodArtworkSecondary.swift in Sources */,
 				1F700AD542A3D56A4BA1747A /* FoodArtworkView.swift in Sources */,
 				026DD14633A14EFD8CB2297B /* GoalPageContext.swift in Sources */,
 				775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */,
