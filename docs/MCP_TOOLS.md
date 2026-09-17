@@ -28,6 +28,46 @@ identical parameters; new intent uses a new UUID. No caller may supply or
 backfill a baseline. Baseline changes apply today, preserving any confirmed
 addition. Chart value is eaten − (dated baseline + confirmed addition).
 
+## Agent artwork guidance and the staleness stamp (issue #294)
+
+**Ask for the identity.** The registered `log_meal` description carries this
+instruction verbatim (the server registers the schema constant, so the agent
+sees it on every session): *When an item matches a published artwork identity,
+set `artwork_id` to that exact published ID from this tool's `artwork_id` enum —
+allowed IDs are the enum and the shipped catalog is the canonical set. Omit
+`artwork_id` only when genuinely uncertain; never invent an ID and never upload
+illustration files.* `update_meal_item` carries the same instruction for
+identity replacement (omitting `artwork_id` there preserves the stored
+identity). It is guidance only: `artwork_id` stays optional, omitting it still
+resolves a published identity from the logged name (issue #284), and no stored
+row is changed by this contract.
+
+**Self-detect staleness.** A client fetches `tools/list` once per connection and
+holds it for the whole conversation, so a chat opened before a server change
+keeps the old schema. `get_day` therefore returns a read-only `contract` stamp:
+
+```json
+{
+  "contract_version": "0.2.0",
+  "artwork_catalog_version": "2.2.0-candidate-b5",
+  "published_identity_count": 130
+}
+```
+
+`contract_version` is the MCP server version the client recorded at connect (the
+server advertises the same canonical constant as its `serverInfo.version`),
+`artwork_catalog_version` is the shipped catalog's `library_version`, and
+`published_identity_count` is the published identity union's size — the same
+number as the `artwork_id` enum the client holds in its own `tools/list`. A
+stale client compares the two: a count that differs from the `artwork_id` enum
+it holds (or a `contract_version` that differs from the server version it
+recorded) means its tool list is stale — say so and ask the user to reconnect,
+instead of silently logging without `artwork_id`. The stamp is read-only
+metadata on an existing read-only surface: no new tool, no new write surface,
+and nothing user-scoped. Both the version and the count derive from the
+generated schema snapshot of the shipped catalog
+(`packages/schema/artwork-ids.ts`), never from hand-typed literals.
+
 ## Tool list
 
 Every registered tool carries a client-visible `title`, the existing

@@ -1,5 +1,9 @@
 // Generated from app/Resources/FoodArt/catalog.json; do not edit by hand.
 // Regenerate: node packages/schema/generate-artwork-ids.mjs
+//
+// Issue #294 — the shipped catalog's version and the published identity union
+// (the count is ArtworkIdValues.length, never a literal).
+export const ArtworkCatalogVersion = "2.2.0-candidate-b5"
 export const ArtworkIdValues = [
   'apple',
   'avocado',

@@ -14,7 +14,12 @@ const catalog = JSON.parse(readFileSync(new URL('../../app/Resources/FoodArt/cat
 const ids = catalog.assets.map((asset) => asset.id).sort()
 assert(ids.length > 0 && new Set(ids).size === ids.length)
 assert(ids.every((id) => /^[a-z][a-z0-9-]*$/.test(id)))
-const output = `// Generated from app/Resources/FoodArt/catalog.json; do not edit by hand.\n// Regenerate: node packages/schema/generate-artwork-ids.mjs\nexport const ArtworkIdValues = [\n${ids.map((id) => `  '${id}',`).join('\n')}\n] as const\n`
+// Issue #294: the same pass records the shipped catalog's own version, so the
+// server's read-only contract stamp reports the artwork-catalog version from
+// this generated source instead of a hand-typed second copy.
+const libraryVersion = catalog.library_version
+assert(typeof libraryVersion === 'string' && libraryVersion.trim().length > 0, 'catalog library_version must be a non-empty string')
+const output = `// Generated from app/Resources/FoodArt/catalog.json; do not edit by hand.\n// Regenerate: node packages/schema/generate-artwork-ids.mjs\n//\n// Issue #294 — the shipped catalog's version and the published identity union\n// (the count is ArtworkIdValues.length, never a literal).\nexport const ArtworkCatalogVersion = ${JSON.stringify(libraryVersion)}\nexport const ArtworkIdValues = [\n${ids.map((id) => `  '${id}',`).join('\n')}\n] as const\n`
 const target = new URL('./artwork-ids.ts', import.meta.url)
 
 // Matching key: trimmed, lowercased, inner whitespace collapsed. Locale

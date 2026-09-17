@@ -146,3 +146,38 @@ describe('food-logging skill — correction-flow guidance (issue #171, pinned by
     ).toBe(true)
   })
 })
+
+// ---- Artwork instruction + staleness stamp (issue #294) ----
+// Same rationale as the #206 pins above: guidance that only lives in a markdown
+// file can be deleted while every gate stays green, so the agent-visible rule
+// and the read-only stamp it depends on are pinned here.
+describe('food-logging skill — artwork instruction and the staleness stamp (issue #294)', () => {
+  it('instructs the agent to set artwork_id when an item matches a published identity', () => {
+    const flat = flatten(skill)
+    expect(flat).toMatch(/when an item matches a published artwork identity[\s\S]{0,80}?set\s+`artwork_id`/i)
+    expect(flat).toMatch(/never invent an ID and never upload illustration files/i)
+    expect(flat).toMatch(/shipped catalog is the\s+canonical set/i)
+  })
+
+  it('documents the get_day contract stamp and the stale-tool-list comparison in the skill', () => {
+    const start = skill.indexOf('### `get_day`')
+    expect(start, 'the skill must document get_day').toBeGreaterThanOrEqual(0)
+    const next = skill.indexOf('\n### ', start + 1)
+    const section = flatten(skill.slice(start, next === -1 ? undefined : next))
+    expect(section).toMatch(/`contract`/)
+    expect(section).toMatch(/contract_version/)
+    expect(section).toMatch(/artwork_catalog_version/)
+    expect(section).toMatch(/published_identity_count/)
+    expect(section).toMatch(/stale/i)
+    expect(section).toMatch(/reconnect/i)
+  })
+
+  it('documents both parts in docs/MCP_TOOLS.md against the same canonical text', () => {
+    const flatDocs = flatten(mcpToolsSource)
+    expect(flatDocs).toMatch(/set `artwork_id` to that exact published ID/i)
+    expect(flatDocs).toMatch(/never invent an ID and never upload illustration files/i)
+    expect(flatDocs).toMatch(/contract_version/)
+    expect(flatDocs).toMatch(/artwork_catalog_version/)
+    expect(flatDocs).toMatch(/published_identity_count/)
+  })
+})

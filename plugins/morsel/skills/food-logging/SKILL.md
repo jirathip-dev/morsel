@@ -60,12 +60,16 @@ fit it, or asks to fix an entry.
 Always follow these rules:
 
 - Keep the user's descriptive food name verbatim. Never rename a food to get
-  artwork. An optional per-item `artwork_id` may select only an existing
-  published identifier from the connected tool's `tools/list` enum. Never
-  invent an ID, never upload illustration files, and never use real-photo
-  inputs for artwork. Omit identity if uncertain or the connected older server
-  does not advertise the field. Unknown IDs (including case/whitespace variants
-  and explicit null) are rejected before writes; omission remains compatible.
+  artwork. **When an item matches a published artwork identity, set
+  `artwork_id`** to that exact published ID from the connected tool's
+  `tools/list` enum — allowed IDs are that enum and the shipped catalog is the
+  canonical set. Never invent an ID and never upload illustration files, and
+  never use real-photo inputs for artwork. Set it on `log_meal`; `update_meal_item`
+  can replace an identity with another published ID, and omitting the field
+  there preserves the stored one. Omit it only when genuinely uncertain, or
+  when the connected older server does not advertise the field. Unknown IDs
+  (including case/whitespace variants and explicit null) are rejected before
+  writes; omission remains compatible.
   When you omit it, `log_meal` resolves a published identity from the item name
   while it writes (issue #284), so a descriptive name kept verbatim is enough —
   a name that reaches no published identity stays without one and the renderer
@@ -80,6 +84,14 @@ Always follow these rules:
   Native consumption follows supported explicit ID → conservative name/alias
   → unambiguous category → neutral (part 2; do not claim rendered success from
   a contract write alone). Unsupported IDs in older bundles must fall back.
+- Check for a **stale tool list** before logging with identity. `get_day`
+  returns `contract` = `{ contract_version, artwork_catalog_version,
+  published_identity_count }`. Compare `published_identity_count` with the
+  number of `artwork_id` enum values in the tool list you hold, and
+  `contract_version` with the server version you recorded when this session
+  connected. If either differs — or the stamp is absent — the server and your
+  tool list disagree: your tools are stale. Say so and ask the user to reconnect
+  the Morsel connection, instead of silently logging without `artwork_id`.
 - Do not invent precise macros. Call `search_food` for exact catalog values when
   possible; otherwise make an honest estimate, use a lower `confidence`, and
   explain the uncertainty in the item's `notes`.
@@ -193,7 +205,7 @@ log_meal({
   menu_name?: string,   // named-menu log (issue #152) — see below
   items: [{
     name: string,                         // required, non-blank, preserved verbatim
-    artwork_id?: published enum ID,        // optional; never invent one
+    artwork_id?: published enum ID,        // optional; set it when the item matches one
     quantity?: positive number,            // default 1
     unit?: "g" | "ml" | "serving" | "piece" | "cup", // default "serving"
     calories_kcal?: non-negative number,
@@ -362,6 +374,11 @@ Output:
 {
   date: valid YYYY-MM-DD,
   timezone: IANA zone used (e.g. "Asia/Bangkok" or "UTC"),
+  contract: {                            // issue #294 read-only staleness stamp
+    contract_version: string,            // also the server version seen at connect
+    artwork_catalog_version: string,     // shipped catalog.json library_version
+    published_identity_count: positive integer  // the artwork_id enum's size
+  },
   meals: [{
     meal_log_id: UUID,
     meal_type: "breakfast" | "lunch" | "dinner" | "snack",
@@ -414,6 +431,13 @@ deleted, and read the day again instead of reporting the short totals as final.
 `goal` and `remaining_kcal` are omitted only when there is neither a profile nor
 a complete manual goal. A complete manual goal works without a profile. A
 negative `remaining_kcal` means the calorie target has been exceeded.
+
+`contract` is the read-only staleness stamp (issue #294) and never changes
+within a deployment. Compare it against the tool list you hold: a
+`published_identity_count` that differs from your `artwork_id` enum's size — or
+a `contract_version` that differs from the server version reported when this
+session connected — means your tools are stale. Say so and ask the user to
+reconnect rather than logging without `artwork_id`.
 
 ### `get_weight_trend`
 
