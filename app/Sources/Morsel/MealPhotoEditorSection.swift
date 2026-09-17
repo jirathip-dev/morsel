@@ -98,7 +98,7 @@ struct MealPhotoEditorSection: View {
 
             if !UIImagePickerController.isSourceTypeAvailable(.camera) {
                 Text("Camera is unavailable in this simulator.")
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
             }
 
@@ -150,7 +150,7 @@ struct MealPhotoEditorSection: View {
                     pickerItem = nil
                     cancelPreparation()
                 }
-                .font(.morselData)
+                .font(.morselValue)
                 .foregroundStyle(Color.morselForest)
                 .disabled(isDisabled)
             }
@@ -309,7 +309,7 @@ private extension MealPhotoEditorSection {
                     .font(.morselBodyStrong)
                     .foregroundStyle(Color.morselInk)
                 Text(illustrationCopy(artwork))
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
             }
             Spacer(minLength: 0)

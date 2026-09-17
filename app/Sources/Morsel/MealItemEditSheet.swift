@@ -144,7 +144,7 @@ struct MealItemEditSheet: View {
                     )
                 }
                 Text("Corrections are saved as a manual edit; macros you change stay as you typed them.")
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkTwo)
                     .padding(.top, 10)
 
@@ -346,14 +346,14 @@ private struct MealItemDetails: View {
                     .font(.morselSerif(size: 16))
                     .foregroundStyle(Color.morselInk)
                 Text(MorselFormat.confidence(item.confidence))
-                    .font(.morselMono(size: 12))
+                    .font(.morselNumber(size: 12))
                     .monospacedDigit()
                     .foregroundStyle(Color.morselInk)
                 Spacer(minLength: 0)
             }
             if let confidenceNote {
                 Text(confidenceNote)
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselReview)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)

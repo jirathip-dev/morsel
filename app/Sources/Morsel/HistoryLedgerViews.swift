@@ -31,7 +31,7 @@ struct HistoryBarRow: View {
                         .frame(width: labelWidth, alignment: .leading)
                 } else if showsCompactLabel(for: day) {
                     Text(day.date.formatted(.dateTime.day().month(.abbreviated)))
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(Color.morselInkThree)
                         .frame(width: labelWidth, alignment: .leading)
                 } else {
@@ -131,7 +131,7 @@ struct HistoryBarRow: View {
         } else if day.logged {
             VStack(alignment: .trailing, spacing: 0) {
                 Text(MorselFormat.number(day.eatenKcal))
-                    .font(.morselDataMedium)
+                    .font(.morselValueMedium)
                     .foregroundStyle(isToday ? Color.morselLeaf : Color.morselInk)
                 if isToday {
                     Text("· partial")
@@ -187,7 +187,7 @@ struct HistorySummaryStrip: View {
         .padding(.bottom, 10)
         HStack {
             Text("\(viewModel.streak)-day logging streak")
-                .font(.morselData)
+                .font(.morselValue)
                 .foregroundStyle(Color.morselInkTwo)
             Spacer()
             if viewModel.isTodayLogged {
@@ -209,7 +209,7 @@ struct SummaryMetric: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(value)
-                .font(.morselGauge)
+                .font(.morselNumber(size: 30, weight: 500))
                 .monospacedDigit()
                 .foregroundStyle(Color.morselInk)
             Text(label)
@@ -253,11 +253,11 @@ struct HistoryListRow: View {
                         "\(MorselFormat.number(day.eatenKcal)) vs "
                             + "\(MorselFormat.number(viewModel.goal?.calorieTargetKcal))"
                     )
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(Color.morselInkThree)
                     Spacer(minLength: 4)
                     Text(deltaText)
-                        .font(.morselDataMedium)
+                        .font(.morselValueMedium)
                         .foregroundStyle(Color.morselInk)
                     Text(comparison.word)
                         .font(.morselFootnote)

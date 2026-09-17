@@ -62,15 +62,15 @@ struct DayDrillDown: View {
             dayCardHeader(snapshot)
             HStack(spacing: 6) {
                 Text("\(MorselFormat.number(totals.caloriesKcal)) kcal")
-                    .font(.morselDataMedium)
+                    .font(.morselValueMedium)
                     .foregroundStyle(Color.morselInk)
                 if let goal {
                     Text("vs \(MorselFormat.number(goal))")
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(Color.morselInkThree)
                     let delta = DashboardMath.eatenMinusGoal(eaten: totals.caloriesKcal, goal: goal) ?? 0
                     Text(delta > 0 ? "· +\(MorselFormat.number(delta)) over" : "· on target")
-                        .font(.morselData)
+                        .font(.morselValue)
                         .foregroundStyle(delta > 0 ? Color.morselOver : Color.morselForest)
                 }
             }

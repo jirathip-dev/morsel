@@ -1,0 +1,122 @@
+[
+  {
+    "file": "alignment/263-alignment-night-14-400.png",
+    "sha256": "006c6f3cb9d41c06b989b72bdb258201ff5c1a41f2e128e0e58d91d8326032e4",
+    "pixels": [
+      684,
+      849
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "787F7A43-8AEF-4F82-813E-FC901DE6E891.png"
+  },
+  {
+    "file": "alignment/263-alignment-night-14-500.png",
+    "sha256": "08b375f8b7481abd19e00b0be4e8b56adaa10555705381e522ca77bff255f9be",
+    "pixels": [
+      684,
+      849
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "3C214AA3-E9A4-4CB1-8B87-4E2F97E05DD8.png"
+  },
+  {
+    "file": "alignment/263-alignment-night-22-400.png",
+    "sha256": "d99bc8169bd67e24ffdfefe41e3f9e7ceb5879c9d7ad9d44a6315aa833d0d1c6",
+    "pixels": [
+      714,
+      1169
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "91BCB3F8-0939-468D-863E-32AC11BE2D3D.png"
+  },
+  {
+    "file": "alignment/263-alignment-night-22-500.png",
+    "sha256": "e399f6fe5bcecc9d6b4c68fdb1fbe99f6d9e06f0003524562945264ba3030aea",
+    "pixels": [
+      720,
+      1169
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "A14AB8C5-3B56-45CB-B01D-FF054F59A34C.png"
+  },
+  {
+    "file": "alignment/263-alignment-night-32-400.png",
+    "sha256": "c0b011d57916cc6b76514799851e487b350f630dd7b48ed3d28a8f149ceaf271",
+    "pixels": [
+      786,
+      1559
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "70037B51-170B-426B-993C-31504346ABD8.png"
+  },
+  {
+    "file": "alignment/263-alignment-night-32-500.png",
+    "sha256": "25285a37843fe527945ae212a8dd29b252167f57b9a94494f456dc4d86683bcc",
+    "pixels": [
+      794,
+      1559
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "C8F8DCE0-D122-44E6-BDDB-50BEC6E74735.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-14-400.png",
+    "sha256": "532b494a734e2fbeb297ac53586e7b4f4e6bb8c992fe049f83fa00d899490730",
+    "pixels": [
+      684,
+      849
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "D3308384-B6F6-42C6-918F-B17B47731AF3.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-14-500.png",
+    "sha256": "2699110152a6bf30834b59478cef9ad120253d82543b205a6b37d0cc504d7ffd",
+    "pixels": [
+      684,
+      849
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "22493324-6635-4324-8B99-3762C387552F.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-22-400.png",
+    "sha256": "107dcc3bd1ef7c49fc33cc69bfdb29b3da2f5395e8534af2a6eab7858a0a29a8",
+    "pixels": [
+      714,
+      1169
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "10AC6A35-1EBD-46AD-AA93-2CD357973695.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-22-500.png",
+    "sha256": "6af2178b1503e846e81857b64addc49a044426051f01b7719f606425733e04f2",
+    "pixels": [
+      720,
+      1169
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "44CDB978-31F3-4392-A0F3-DD9C7884D5A4.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-32-400.png",
+    "sha256": "59f28701c2ee81860a4c2affd00065e0b030d4d866cc3e437d317dfe24e28645",
+    "pixels": [
+      786,
+      1559
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "B5DDE990-04D8-40BC-8490-8F897F08321B.png"
+  },
+  {
+    "file": "alignment/263-alignment-paper-32-500.png",
+    "sha256": "d32ebd693fe8e956df0dd5ea54ae5a49d89ffd1ed5f6e7ce5c15fcda909273ec",
+    "pixels": [
+      794,
+      1559
+    ],
+    "device": "D43C386F-9322-4CF3-9F29-30279AEDB4D0",
+    "exported": "A628EC8E-A415-4EC9-A489-F220EF18820B.png"
+  }
+]

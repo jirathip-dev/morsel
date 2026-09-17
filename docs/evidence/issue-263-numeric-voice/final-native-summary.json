@@ -1,0 +1,61 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "9E5B8345-2E06-4A8D-84C3-4A9518A4EA5F",
+        "deviceName" : "morsel-263-full",
+        "modelName" : "iPhone 16",
+        "osBuildNumber" : "23F77",
+        "osVersion" : "26.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 2,
+      "passedTests" : 485,
+      "skippedTests" : 1,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "Morsel · Built with macOS 26.6.2",
+  "expectedFailures" : 0,
+  "failedTests" : 2,
+  "finishTime" : 1789608678.299,
+  "passedTests" : 485,
+  "result" : "Failed",
+  "skippedTests" : 1,
+  "startTime" : 1789608276.411,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+    {
+      "failureText" : "XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target",
+      "targetName" : "MorselTests",
+      "testIdentifier" : 446,
+      "testIdentifierString" : "SharedButtonTargetTests/testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()",
+      "testIdentifierURL" : "test://com.apple.xcode/Morsel/MorselTests/SharedButtonTargetTests/testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping",
+      "testName" : "testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()"
+    },
+    {
+      "failureText" : "XCTUnwrap failed: expected non-nil value of type \"HistoryDay\" - the seed exposes a drill-down day",
+      "targetName" : "MorselTests",
+      "testIdentifier" : 396,
+      "testIdentifierString" : "PageIdentityTests/testRevisitKeepsHistoryRangeExpandedDayAndScroll()",
+      "testIdentifierURL" : "test://com.apple.xcode/Morsel/MorselTests/PageIdentityTests/testRevisitKeepsHistoryRangeExpandedDayAndScroll",
+      "testName" : "testRevisitKeepsHistoryRangeExpandedDayAndScroll()"
+    }
+  ],
+  "title" : "Test - Morsel",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "75% of duration",
+      "text" : "5 longest test runs with outlier durations exceeding 16.14s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 488
+}

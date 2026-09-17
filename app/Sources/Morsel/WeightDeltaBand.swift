@@ -19,7 +19,7 @@ struct WeightDeltaBand: View {
                 Spacer(minLength: 4)
                 Text("±\(MorselFormat.number(timeline.deltaLimit))")
             }
-            .font(Font.morselMono(size: 10))
+            .font(Font.morselNumber(size: 10))
             .foregroundStyle(Color.morselInkTwo)
             chart
             VStack(alignment: .leading, spacing: 3) {
@@ -55,7 +55,7 @@ struct WeightDeltaBand: View {
                     PointMark(x: .value("Date", day.date), y: .value("Status", 0))
                         .symbol {
                             Text(day.symbol)
-                                .font(Font.morselMono(size: 12))
+                                .font(Font.morselNumber(size: 12))
                                 .foregroundStyle(Color.morselInk)
                                 .padding(2)
                                 .background(Color.morselBackground)
@@ -73,7 +73,7 @@ struct WeightDeltaBand: View {
                 AxisValueLabel {
                     if let date = value.as(Date.self) {
                         Text(date.formatted(.dateTime.day().month(.abbreviated)))
-                            .font(Font.morselMono(size: 9))
+                            .font(Font.morselNumber(size: 9))
                             .foregroundStyle(Color.morselInkThree)
                     }
                 }
@@ -144,7 +144,7 @@ struct WeightDeltaBand: View {
         HStack(alignment: .firstTextBaseline) {
             Text(title).font(.morselBody)
             Spacer(minLength: 8)
-            Text(value).font(Font.morselMono(size: 11)).multilineTextAlignment(.trailing)
+            Text(value).font(Font.morselNumber(size: 11)).multilineTextAlignment(.trailing)
         }
     }
 }

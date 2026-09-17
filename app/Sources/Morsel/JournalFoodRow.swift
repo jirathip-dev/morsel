@@ -59,7 +59,7 @@ struct JournalFoodRow: View {
                         .lineLimit(2)
                         .frame(height: nameLine, alignment: .leading)
                     Text(MorselFormat.portion(quantity: item.quantity, unit: item.unit))
-                        .font(.morselMono(size: 11))
+                        .font(.morselNumber(size: 11))
                         .foregroundStyle(Color.morselInkTwo)
                         .frame(height: portionLine, alignment: .leading)
                 }
@@ -67,7 +67,7 @@ struct JournalFoodRow: View {
                 energyColumn
             }
             Text(MorselFormat.macroLine(for: item))
-                .font(.morselMono(size: 12))
+                .font(.morselNumber(size: 12))
                 .foregroundStyle(Color.morselInkTwo)
             if let confirmation {
                 Text(confirmation)
@@ -97,12 +97,12 @@ struct JournalFoodRow: View {
     private var energyColumn: some View {
         VStack(alignment: .trailing, spacing: 0) {
             Text(MorselFormat.number(item.caloriesKcal))
-                .font(.morselMono(size: 14))
+                .font(.morselNumber(size: 14))
                 .monospacedDigit()
                 .foregroundStyle(Color.morselInk)
                 .frame(height: energyValueLine, alignment: .trailing)
             Text("kcal")
-                .font(.morselMono(size: 10))
+                .font(.morselNumber(size: 10))
                 .foregroundStyle(Color.morselInkTwo)
                 .frame(height: energyUnitLine, alignment: .trailing)
             Text("›")
