@@ -66,9 +66,17 @@ closed before the new step, and no catalog/asset byte, alias or schema changed.
   labelled 1 → 1, neutral 191 → **186 (74.4%)**; every changed name moved
   `neutral → a specific study`, none to a different identity. A newer owner
   snapshot (N=151, includes both issue rows) moves specific 43 → 46.
-- Gates: `swiftlint lint --strict` 0 violations; `xcodegen generate` byte-stable;
-  `git diff --check` clean; `npm run typecheck` exit 0; full native suite and
-  `npm test` results in `docs/evidence/issue-288-descriptive-names/`.
+- **One complete unfiltered native suite**: `Executed 530 tests, with 2 tests
+  skipped and 4 failures` (raw exit 65) — zero failures in any artwork/
+  matcher/library suite; the 4 failures are the same three test cases that
+  already fail at the base commit `b5e64f3` in a clean scratch worktree
+  (`PageIdentityTests`, `ParallelReadsTests`, `SharedButtonTargetTests`),
+  i.e. pre-existing on `origin/staging` and outside this fence.
+- Gates: `swiftlint lint --strict` 0 violations; `xcodegen generate`
+  byte-identical; `git diff --check` clean; `npm run typecheck` exit 0;
+  `npm test` exit 1 with three 5000 ms timeouts (`AssertionError` count 0)
+  whose files pass 12/12 on the diagnostic rerun. Logs and raw exits in
+  `docs/evidence/issue-288-descriptive-names/`.
 
 ## Files
 

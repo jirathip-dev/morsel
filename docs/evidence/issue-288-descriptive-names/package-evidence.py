@@ -72,7 +72,7 @@ def log_facts(logs: Path, leg: str) -> dict:
     duration = re.findall(r"duration_s=(\d+)", text)
     if duration:
         facts["duration_s"] = int(duration[-1])
-    summary = re.findall(r"Executed (\d+) tests?, with (\d+) failures?", text)
+    summary = re.findall(r"Executed (\d+) tests?, with (?:\d+ tests skipped and )?(\d+) failures?", text)
     if summary:
         executed, failures = summary[-1]
         facts["executed_tests"] = int(executed)
@@ -153,6 +153,7 @@ def main() -> int:
         "red-288-focused", "green-288-focused", "cov151-288-secondary", "cov151-base-288",
         "full-288", "mut-m1", "mut-m2", "mut-m3",
         "swiftlint-final", "pbxproj.idempotence", "git-diff-check", "typecheck", "npm-test",
+        "base-verify-288",
     )}
 
     def aggregate(leg: str) -> dict | None:
@@ -223,6 +224,7 @@ def main() -> int:
         {"gate": "native coverage leg — newer snapshot, head", "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh cov151-288-secondary -only-testing:MorselTests/FoodArtworkPrivateCoverageTests", **legs["cov151-288-secondary"]},
         {"gate": "native coverage leg — newer snapshot, base resolver", "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh cov151-base-288 -only-testing:MorselTests/FoodArtworkPrivateCoverageTests", **legs["cov151-base-288"]},
         {"gate": "native full suite (unfiltered)", "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh full-288", **legs["full-288"]},
+        {"gate": "native baseline check for the full-suite failures (base b5e64f3)", "command": "hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate-base.sh base-verify-288 -only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/SharedButtonTargetTests", **legs["base-verify-288"]},
     ]
     (HERE / "gates.json").write_text(json.dumps({"generated_at_ns": time.time_ns(), "gates": gates}, indent=2, sort_keys=True) + "\n")
     for name in ("coverage-aggregate.json", "named-results.json", "mutation-battery.json", "gates.json"):

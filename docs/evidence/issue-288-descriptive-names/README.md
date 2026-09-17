@@ -123,7 +123,23 @@ retried once — the retry is the row above.
 | native (base resolver) | 11-class focused leg | 65 | `/tmp/rev288-logs/red-288-focused.log` |
 | native (head) | same 11-class focused leg | 0 | `/tmp/rev288-logs/green-288-focused.log` |
 
-Not run: the ONE unfiltered native suite. At the time the machine's load average
-was 73–190 with CoreSimulator runtime processes saturating the host; the brief's
-required native scope (focused RED/GREEN plus the whole #260 matcher set in the
-same run) is covered by the legs above.
+### Unfiltered native suite (one complete invocation)
+
+`hermes-sim-task --name Morsel288-iPhone16 -- bash /tmp/rev288-native-gate.sh full-288`
+→ `Executed 530 tests, with 2 tests skipped and 4 failures (0 unexpected)`,
+**raw exit 65**, 912 s, log `/tmp/rev288-logs/full-288.log`. **Zero failures in any
+artwork/matcher/library suite this diff touches.** The 4 failures are the SAME
+three test cases that already fail at the base commit `b5e64f3`, reproduced in a
+clean scratch worktree (`/tmp/rev288-base`, none of this lane's changes) with
+`/tmp/rev288-native-gate-base.sh base-verify-288` → `Executed 17 tests, with 4
+failures (0 unexpected)`, **raw exit 65**, 293 s, log
+`/tmp/rev288-logs/base-verify-288.log` — identical assertion signature:
+
+| test case | assertion (identical at base and at head) |
+|---|---|
+| `PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll` | `XCTUnwrap failed: … the seed exposes a drill-down day` |
+| `ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts` | `("7") is not equal to ("6") … goals, profiles, weight, energy, logs, items` |
+| `SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping` | `GoalsEditor.swift: compensate outside the Button…` + `("14") is not equal to ("13") action inventory` |
+
+So the unfiltered suite is RED at `origin/staging` itself (pre-existing, outside
+this lane's fence); this diff neither causes nor fixes it.
