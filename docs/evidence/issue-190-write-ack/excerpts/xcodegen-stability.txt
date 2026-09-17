@@ -1,0 +1,2 @@
+xcodegen_exit=0
+git_diff_exit=0

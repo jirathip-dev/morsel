@@ -258,7 +258,7 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func save() async -> Bool {
-        guard pendingDirection == nil else { return false }
+        guard pendingDirection == nil, !isSaving else { return false }
         guard let calories = Double(calories), calories.isFinite, calories >= 0,
               let protein = Double(protein), protein.isFinite, protein >= 0,
               let carbs = Double(carbs), carbs.isFinite, carbs >= 0,

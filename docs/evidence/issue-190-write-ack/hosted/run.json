@@ -1,0 +1,33 @@
+[
+  {
+    "name": "hosted-app-contracts",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npx",
+      "vitest",
+      "run",
+      "app"
+    ],
+    "node": "v22.23.2",
+    "raw_exit": 0,
+    "files": 21,
+    "tests": 153,
+    "log": ".lane-logs/hosted-app-contracts.log"
+  },
+  {
+    "name": "npm-ci",
+    "command": [
+      "mise",
+      "exec",
+      "node@22",
+      "--",
+      "npm",
+      "ci"
+    ],
+    "raw_exit": 0,
+    "log": ".lane-logs/npm-ci.log"
+  }
+]

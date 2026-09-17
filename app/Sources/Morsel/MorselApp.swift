@@ -392,7 +392,7 @@ private struct AuthenticatedDashboardView: View {
                 GoalsView(repository: viewModel.repository,
                           userID: viewModel.userID,
                           reloadKey: activation,
-                          onSaved: { await viewModel.invalidateDay() },
+                          onSaved: { viewModel.invalidateDayAfterConfirmedGoals() },
                           seeToday: { pager.select(.today) })
             }
         }

@@ -88,7 +88,7 @@ final class JournalCalendarTests: XCTestCase {
         XCTAssertFalse(model.isLoading)
     }
 
-    func testPastDateAddAndConfirmationReloadThatDate() async {
+    func testPastDateAddAndConfirmationReloadThatDate() async throws {
         let repository = DiaryReadRepository()
         let model = DashboardViewModel(repository: repository, userID: userID, dateProvider: { self.date(10) })
         model.selectDate(date(5))
@@ -101,6 +101,11 @@ final class JournalCalendarTests: XCTestCase {
         let confirmed = await model.markReviewed(itemID)
         XCTAssertTrue(confirmed)
         XCTAssertEqual(repository.confirmedItem, itemID)
+        // Issue #190 — the confirmation no longer waits for the reload: the
+        // invalidated pass still relists the SAME selected day (bounded wait).
+        for _ in 0..<200 where repository.requestedDates.count < 2 {
+            try await Task.sleep(for: .milliseconds(5))
+        }
         XCTAssertEqual(repository.requestedDates, [date(5), date(5)])
         let label = stamp.formatted(.dateTime.day().month(.abbreviated))
         XCTAssertEqual(JournalDiaryDraft.title(for: stamp), "Add to " + label)
