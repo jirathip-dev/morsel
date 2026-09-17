@@ -1,0 +1,12 @@
+# npm-test
+# command: npm ci && npm test   (repo root, node v26.7.0)
+# full raw log: .lane-logs/issue-189/npm-test-r2.log  sha256=8a81b4d01a43cbae9dca41725531fef604f31bcbc752101997a783a6c41eca44
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ Test Files  2 failed | 61 passed (63)
+      Tests  2 failed | 693 passed (695)
+RAW_EXIT=1

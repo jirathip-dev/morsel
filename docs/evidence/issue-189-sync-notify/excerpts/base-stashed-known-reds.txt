@@ -1,0 +1,16 @@
+# base-stashed-known-reds
+# command: SAME command with -only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/SharedButtonTargetTests, run at the lane base (fix reverted).
+# full raw log: .lane-logs/issue-189/base-known-reds.log  sha256=be5b7b8518eb99ade41571e09b66c2c5eecea1cd4089021a9e4bf2bbd6f4dc61
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+	 Executed 7 tests, with 1 failure (0 unexpected) in 5.063 (5.065) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.528 (0.530) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+	 Executed 3 tests, with 2 failures (0 unexpected) in 3.516 (3.516) seconds
+	 Executed 17 tests, with 4 failures (0 unexpected) in 9.106 (9.112) seconds
+	 Executed 17 tests, with 4 failures (0 unexpected) in 9.106 (9.113) seconds
+** TEST FAILED **
+RAW_EXIT=65
