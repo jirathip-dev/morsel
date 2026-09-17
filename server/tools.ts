@@ -157,7 +157,7 @@ export function createMcpServer(service: MorselService): McpServer {
 
   server.registerTool('log_meal', {
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented.',
     inputSchema: LogMealInputSchema,
     outputSchema: LogMealOutputSchema,
     annotations: UNCLAIMED_ANNOTATIONS,
