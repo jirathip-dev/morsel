@@ -225,7 +225,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             goal: snapshot.goal,
             weightTrend: try mergedWeightTrend(snapshot.weightTrend, from: trendStart, to: trendEnd),
             activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart),
-            readProvenance: snapshot.readProvenance
+            readProvenance: snapshot.readProvenance, datedTarget: snapshot.datedTarget
         )
     }
 

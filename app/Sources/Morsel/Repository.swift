@@ -87,10 +87,13 @@ struct SupabaseDashboardRepository: DashboardRepository {
             stored: storedGoal, profile: profile,
             latestWeightKg: weightRows.compactMap(parseWeight).last?.kilograms
         )
+        let datedTarget = calendar.isDateInToday(start) ? nil : try? await loadDatedTargets(
+            userID: authenticatedUserID, start: start, end: start, calendar: calendar
+        ).first
         return DashboardSnapshot(
             date: start, meals: meals, goal: goal,
             weightTrend: DashboardMath.dedupeWeightTrendByWholeSecond(weightRows.compactMap(parseWeight)),
-            activeEnergyBurned: energyRows.reduce(0) { $0 + $1.activeKilocalories }
+            activeEnergyBurned: energyRows.reduce(0) { $0 + $1.activeKilocalories }, datedTarget: datedTarget
         )
     }
 

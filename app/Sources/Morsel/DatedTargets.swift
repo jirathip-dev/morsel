@@ -33,6 +33,13 @@ struct DatedTarget: Codable, Equatable, Sendable {
         return totalTargetKcal
     }
 
+    func attributableGoal(on day: Date, calendar: Calendar = .autoupdatingCurrent) -> DashboardGoal? {
+        guard let total = attributableTotal(on: day, calendar: calendar), let goal = baseline?.goal,
+              [goal.proteinG, goal.carbsG, goal.fatG].allSatisfy({ $0.isFinite && $0 >= 0 }) else { return nil }
+        return DashboardGoal(calorieTargetKcal: total, proteinG: goal.proteinG,
+                             carbsG: goal.carbsG, fatG: goal.fatG, source: goal.source)
+    }
+
     private var hasValidAddition: Bool {
         guard let additionRevision else { return confirmedAdditionKcal == 0 }
         return UUID(uuidString: additionRevision.revisionID) != nil

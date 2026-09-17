@@ -1,0 +1,8 @@
+COMMAND=["flock", "/tmp/n.lock", "hermes-sim-task", "--name", "Morsel286-repro-red", "--device-type", "com.apple.CoreSimulator.SimDeviceType.iPhone-16", "--", "/Users/jirathip/.local/bin/python3", "/Users/jirathip/.herdr/worktrees/morsel/issue-286-hero/.lane-tools/native.py", "repro-red", "/tmp/morsel-286-repro-first/issue-286-hero", "-only-testing:MorselTests/HeroPastDayReproTests"]
+flock[5216]: format=dir owner=5216 wait=0s decision=acquired
+hermes-sim-task: running on 194D58EF-6EDE-4803-B6A2-B2BECEE837FF (Morsel286-repro-red)
+SIMULATOR_UDID=194D58EF-6EDE-4803-B6A2-B2BECEE837FF
+repro-red-xcode: RAW_EXIT=65 LOG=/Users/jirathip/.herdr/worktrees/morsel/issue-286-hero/.lane-logs/repro-red-xcode.log
+
+RAW_EXIT=65
+DURATION_SECONDS=270.502

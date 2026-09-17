@@ -141,9 +141,10 @@ private struct JournalHeroView: View {
     @EnvironmentObject private var trainingFuel: TrainingFuelModel
 
     private var isToday: Bool { viewModel.selectedDate == viewModel.today }
-    private var goal: DashboardGoal? { isToday && trainingFuel.isCurrentDay ? trainingFuel.baseline : nil }
-    private var target: Double? { isToday ? trainingFuel.target : nil }
-
+    private var goal: DashboardGoal? {
+        isToday ? trainingFuel.baseline : viewModel.snapshot?.datedTarget?.attributableGoal(on: viewModel.selectedDate)
+    }
+    private var target: Double? { isToday ? trainingFuel.target : goal?.calorieTargetKcal }
     private var status: GoalStatus {
         DashboardMath.goalStatus(eaten: viewModel.totals.caloriesKcal, goal: target)
     }
@@ -185,8 +186,12 @@ private struct JournalHeroView: View {
 
             if isToday {
                 TrainingFuelSection(model: trainingFuel)
+            } else {
+                Text(target.map { "Saved target · \(MorselFormat.number($0)) kcal" }
+                     ?? "Target unavailable for this day")
+                    .font(.morselBody).foregroundStyle(Color.morselInkTwo)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-
             VStack(alignment: .leading, spacing: 11) {
                 MacroWashStrip(
                     label: "Protein",

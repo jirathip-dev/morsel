@@ -13,8 +13,9 @@ const hero = read('Views').split('private struct JournalHeroView')[1]?.split('//
 describe('P1 native production wiring', () => {
   it('routes the Today denominator and ring through confirmed day-only state, never Movement', () => {
     expect(hero).toContain('private var isToday: Bool { viewModel.selectedDate == viewModel.today }')
-    expect(hero).toContain('private var target: Double? { isToday ? trainingFuel.target : nil }')
-    expect(hero).toContain('isToday && trainingFuel.isCurrentDay ? trainingFuel.baseline : nil')
+    expect(hero).toContain('private var target: Double? { isToday ? trainingFuel.target : goal?.calorieTargetKcal }')
+    expect(hero).toContain('isToday ? trainingFuel.baseline : viewModel.snapshot?.datedTarget?.attributableGoal(on: viewModel.selectedDate)')
+    expect(hero).toContain('Target unavailable for this day')
     expect(hero).toMatch(/if isToday\s*\{\s*TrainingFuelSection\(model: trainingFuel\)/)
     expect(hero).toContain('goal: hasCalories ? target : nil,')
     expect(hero).not.toContain('MorselFormat.number(target)')

@@ -1,0 +1,30 @@
+{
+  "base": "6ae782e8a606111de26b1171d48c3a96115d4b85",
+  "repro_test": "HeroPastDayReproTests.swift",
+  "repro_test_sha256": "22af848d734359b4f3a743f6984be75cf5acbffb2565a4b4330d15a68ccd3c1a",
+  "archive": "/tmp/morsel-286-repro-first/issue-286-hero (git archive paths: app, fastlane, docs/evidence/issue-241-artwork-native, docs/design)",
+  "mount": "XCTest attachment of a scene-backed UIHostingController rendering the real TodayView, 393x852 pt, iPhone-16-class simulator",
+  "mode": "unsigned Debug simulator; behavioral assertion RED after a successful compile",
+  "raw_exit": 65,
+  "executed": "1 test, with 2 failures (0 unexpected)",
+  "failing_assertion": "HeroPastDayReproTests.swift:48 XCTAssertTrue failed - Past-day target silently disappears despite correct totals",
+  "attachments": {
+    "286-repro-night.png": "cfaf9bc29345e5aefb3b6bb7391e1cdab2b65968ad009c7b6fb0054394cc6b80",
+    "286-repro-paper.png": "ef0c6d59c6ca9fa652a693743369937f5670b6b94caf7b0b43ecac3856d81e86",
+    "failure-issue-description-1.txt": "0fbcc78cf552be2385c7a1567b1560fa387ddf121241fbeeaed486a0edfe2932",
+    "failure-issue-description-2.txt": "099f246c4b8e8825379c58b5d0218a51fc75662731a86021bf14f0a739191dc5"
+  },
+  "logs": {
+    "repro-red-admission.log": "cb607c6a4c881b44cd9466c4e8cfaad94cafc78ced655502592ee11dea6bc1df",
+    "repro-red-xcodebuild.log": "6e3aebe4d217167c916f12dff5e919c577b48dd3a55d6ab7b8352db6ac1cf55f"
+  },
+  "sizes": {
+    "286-repro-night.png": 613744,
+    "286-repro-paper.png": 619813,
+    "failure-issue-description-1.txt": 335,
+    "failure-issue-description-2.txt": 334,
+    "repro-red-admission.log": 744,
+    "repro-red-xcodebuild.log": 148752
+  },
+  "note": "trailing whitespace stripped from repro-red-xcodebuild.log for git diff --check; content otherwise untouched"
+}
