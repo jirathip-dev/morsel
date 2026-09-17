@@ -1,1 +1,4 @@
-[missing: diff-check.log]
+$ git diff --check   # worktree at 0060a6e
+worktree_exit=0
+$ git diff --check origin/staging..HEAD   # final head
+range_exit=0

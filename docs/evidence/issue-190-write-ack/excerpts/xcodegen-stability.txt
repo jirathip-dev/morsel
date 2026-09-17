@@ -1,8 +1,2 @@
-⚙️  Generating plists...
-⚙️  Generating project...
-⚙️  Writing project...
-Created project at /Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack/app/Morsel.xcodeproj
 xcodegen_exit=0
- app/Morsel.xcodeproj/project.pbxproj | 90 ++++++++++++++++++++----------------
- 1 file changed, 51 insertions(+), 39 deletions(-)
-git_diff_exit=1
+git_diff_exit=0
