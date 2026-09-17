@@ -42,7 +42,6 @@ BUILD = [
     ("base-red-diagnostic.txt", ["base-red-focused.log"]),
     ("head-lane-suites.txt", ["head-lane-suites.log"]),
     ("head-canonical.txt", ["head-canonical.log"]),
-    ("head-matrix.txt", ["head-matrix.log"]),
     ("head-full-native.txt", ["head-full-native.log"]),
     ("hosted-app-contracts.txt", ["hosted-app-contracts.log"]),
     ("mutation-battery.txt", ["mutation-battery.log"]),

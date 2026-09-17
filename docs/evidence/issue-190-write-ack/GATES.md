@@ -56,6 +56,17 @@ its only referenced files are the unchanged `issue-241-artwork-native/fixtures`
 PNGs — and the stability gate above re-ran `xcodegen generate` in this checkout
 with `git diff --exit-code` = 0.
 
+## Superseded intermediate legs (not evidence)
+
+While the lane was converging, earlier head legs ran on intermediate bytes
+(`head-focused1` compile error, `head-focused2` the regressions that rewrote
+`confirmedWrite` and two retargets, `head-focused3` / `head-focused-final` /
+`head-matrix` green on pre-split test bytes) and `red1-base-focused` was killed
+mid-build on purpose. Their logs stay in the gitignored `.lane-logs/`; none of
+them is cited by `native/run.json` or packaged here. The five cited runs — and
+only those — are `base-red-final`, `base-red-focused`, `head-lane-suites`,
+`head-canonical`, `head-full-native`.
+
 ## Evidence-recovery invocation (disclosed)
 
 The first base leg (`excerpts/base-red-diagnostic.txt`) used the pre-split test
