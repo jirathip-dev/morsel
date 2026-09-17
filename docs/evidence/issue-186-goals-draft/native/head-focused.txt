@@ -1,0 +1,25 @@
+# Head: the same seven tests against the fix. raw exit 0.
+# complete log: .lane-logs/head-focused.log
+
+hermes-sim-task: running on AC30356C-7535-4F47-9F34-F20028253F21 (Hermes task 32785-4ce744b1a6a4)
+Test Case '-[MorselTests.GoalsDraftRevisionTests testAccountChangeStartsAPristineDraftAndLateReadsStayWithTheirAccount]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testAccountChangeStartsAPristineDraftAndLateReadsStayWithTheirAccount]' passed (0.007 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testEditingAgainDuringSaveLeavesTheNewRevisionUnsaved]' passed (0.003 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateCachedPaintCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateComputeCannotOverwriteAnEditedDraft]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateComputeCannotOverwriteAnEditedDraft]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testLateRemoteContextCannotOverwriteAnEditedFieldAndStillFillsPristineOnes]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testPagerRevisitRefreshCannotOverwriteTheDraftAndStillFillsPristineFields]' passed (0.026 seconds).
+Test Case '-[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues]' started.
+Test Case '-[MorselTests.GoalsDraftRevisionTests testRefreshDuringASaveCannotRewriteTheSubmittedValues]' passed (0.001 seconds).
+Test Suite 'GoalsDraftRevisionTests' passed at 2569-09-17 8:16:21.936 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.041 (0.044) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.041 (0.045) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.041 (0.046) seconds
+2026-09-17 20:16:22.337 xcodebuild[35020:16968923] [MT] IDETestOperationsObserverDebug: 9.493 elapsed -- Testing started completed.
+** TEST SUCCEEDED **
+Testing started

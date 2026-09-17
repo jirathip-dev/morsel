@@ -1,0 +1,33 @@
+# One invocation, twelve Goals suites (the #186 class included). raw exit 0.
+# complete log: .lane-logs/head-goals-suite.log
+
+hermes-sim-task: running on CFF9CBE8-1DEC-40A4-B92E-EF4BB0849A6C (Hermes task 42562-a937fa573254)
+Test Suite 'GoalsContextLazyLoadTests' passed at 2569-09-17 8:19:20.791 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.025 (0.030) seconds
+Test Suite 'GoalsDirectionOwnershipTests' passed at 2569-09-17 8:19:20.819 PM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.025 (0.028) seconds
+Test Suite 'GoalsDirectionProfileTests' passed at 2569-09-17 8:19:20.831 PM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.008 (0.012) seconds
+Test Suite 'GoalsDirectionRaceTests' passed at 2569-09-17 8:19:20.854 PM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.016 (0.023) seconds
+Test Suite 'GoalsDraftRevisionTests' passed at 2569-09-17 8:19:20.874 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.016 (0.020) seconds
+Test Suite 'GoalsEditorPrecisionTests' passed at 2569-09-17 8:19:20.896 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.006 (0.022) seconds
+Test Suite 'GoalsEditorRecencyTests' passed at 2569-09-17 8:19:20.916 PM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.018 (0.020) seconds
+Test Suite 'GoalsEditorTests' passed at 2569-09-17 8:19:20.944 PM.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.017 (0.027) seconds
+Test Suite 'GoalsPageCopyTests' passed at 2569-09-17 8:19:20.973 PM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.016 (0.029) seconds
+Test Suite 'GoalsPolishTests' passed at 2569-09-17 8:19:20.997 PM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.021 (0.023) seconds
+Test Suite 'GoalsRestoreRenderingTests' passed at 2569-09-17 8:19:31.129 PM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 10.131 (10.132) seconds
+Test Suite 'GoalsRestoreTests' passed at 2569-09-17 8:19:31.175 PM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.043 (0.045) seconds
+	 Executed 75 tests, with 0 failures (0 unexpected) in 10.341 (10.415) seconds
+	 Executed 75 tests, with 0 failures (0 unexpected) in 10.341 (10.416) seconds
+2026-09-17 20:19:31.636 xcodebuild[45506:16996933] [MT] IDETestOperationsObserverDebug: 22.725 elapsed -- Testing started completed.
+** TEST SUCCEEDED **
+Testing started
