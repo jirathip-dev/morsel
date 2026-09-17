@@ -1,4 +1,1 @@
-$ git diff --check   # worktree at 0060a6e
-worktree_exit=0
-$ git diff --check origin/staging..HEAD   # final head
-range_exit=0
+DIFFCHECK-RAW-FINAL-HEAD: 0 (range origin/staging..7e6727c)
