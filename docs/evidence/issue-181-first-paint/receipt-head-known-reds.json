@@ -1,0 +1,24 @@
+{
+  "label": "head-known-reds",
+  "command": [
+    "/Users/jirathip/.local/bin/xcodebuild",
+    "test",
+    "-project",
+    "app/Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,name=iPhone 16,OS=latest",
+    "-only-testing:MorselTests/MealReliabilityTests",
+    "-only-testing:MorselTests/PageIdentityTests",
+    "-only-testing:MorselTests/ParallelReadsTests",
+    "-only-testing:MorselTests/SharedButtonTargetTests",
+    "-derivedDataPath",
+    "/tmp/morsel-181-dd",
+    "CODE_SIGNING_ALLOWED=NO"
+  ],
+  "exit_status": 65,
+  "seconds": 222.9,
+  "log": ".lane-logs/head-known-reds.txt",
+  "log_sha256": "3b4fa71eb82f9ad77b368664186236a0dff25d5114a84d0b8397e2fa033b6099"
+}

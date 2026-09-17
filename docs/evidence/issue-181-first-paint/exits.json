@@ -1,0 +1,89 @@
+{
+  "issue": 181,
+  "title": "Merge durable queued meals and Health rows into cached Today first paint",
+  "base_sha": "b5e64f3059c3bc7de31d28e58a58b0914c80b477",
+  "base_ref": "origin/staging",
+  "worktree": "/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint",
+  "branch": "issue/181-today-firstpaint",
+  "device_zone": "Asia/Bangkok (+07)",
+  "simulator": "private temporary iPhone 16 created/deleted per run by hermes-sim-task (xcodebuild shim under HERDR_ENV=1)",
+  "signing": "CODE_SIGNING_ALLOWED=NO (simulator, unsigned Debug) — not a physical device",
+  "native_command_template": "xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' -derivedDataPath /tmp/morsel-181-dd CODE_SIGNING_ALLOWED=NO",
+  "runs": [
+    {
+      "label": "red-base-final-tests",
+      "role": "RED — audited mechanism, fix stashed (git stash push -- app/Sources/Morsel/DayReadState.swift app/Sources/Morsel/LocalFirstRepository.swift), base b5e64f3",
+      "only_testing": [
+        "MorselTests/TodayFirstPaintOverlayTests",
+        "MorselTests/TodayFirstPaintBoundaryTests",
+        "MorselTests/MealReliabilityTests",
+        "MorselTests/PageIdentityTests",
+        "MorselTests/ParallelReadsTests",
+        "MorselTests/SharedButtonTargetTests"
+      ],
+      "raw_exit": 65,
+      "executed_tests": 38,
+      "failures": 22,
+      "new_class_failures": {
+        "TodayFirstPaintOverlayTests": {"tests": 4, "failures": 12},
+        "TodayFirstPaintBoundaryTests": {"tests": 4, "failures": 6}
+      },
+      "raw_log": ".lane-logs/base-red-final-tests.txt",
+      "raw_log_sha256": "54e54965d0a6803b",
+      "excerpt": "red-base-focused.txt",
+      "receipt": "receipt-base-red-final-tests.json"
+    },
+    {
+      "label": "green-focused",
+      "role": "GREEN — same two new classes at head",
+      "only_testing": ["MorselTests/TodayFirstPaintOverlayTests", "MorselTests/TodayFirstPaintBoundaryTests"],
+      "raw_exit": 0,
+      "executed_tests": 8,
+      "failures": 0,
+      "raw_log": ".lane-logs/green-focused.txt",
+      "raw_log_sha256": "8cabcf644f305053",
+      "excerpt": "green-focused.txt",
+      "receipt": "receipt-green-focused.json"
+    },
+    {
+      "label": "green-full",
+      "role": "FULL native suite at head (no -only-testing)",
+      "raw_exit": 65,
+      "executed_tests": 534,
+      "skipped": 3,
+      "failures": 5,
+      "pre_existing_at_base": [
+        "SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping (2 assertions)",
+        "ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts",
+        "PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll"
+      ],
+      "flake_observed_once_under_full_load": "MealReliabilityTests.testOfflineAddMealCommitsLocallyAndPaintsPendingRow (green in focused reruns at base and at head)",
+      "raw_log": ".lane-logs/green-full.txt",
+      "raw_log_sha256": "e5b61b8b74591079",
+      "excerpt": "green-full-suite.txt",
+      "receipt": "receipt-green-full.json"
+    },
+    {
+      "label": "head-known-reds",
+      "role": "focused rerun at head of the three classes that are red at base",
+      "raw_exit": 65,
+      "executed_tests": 30,
+      "failures": 4,
+      "note": "same three classes; every MealReliabilityTests case green",
+      "raw_log": ".lane-logs/head-known-reds.txt",
+      "raw_log_sha256": "3b4fa71eb82f9ad7",
+      "excerpt": "head-known-reds.txt",
+      "receipt": "receipt-head-known-reds.json"
+    }
+  ],
+  "gates": [
+    {"gate": "npm ci", "command": "npm ci --no-audit --no-fund", "raw_exit": 0, "log": ".lane-logs/npm-ci.txt"},
+    {"gate": "hosted app contracts", "command": "npx vitest run app", "raw_exit": 0, "detail": "21 files / 153 tests passed", "log": ".lane-logs/app-contracts.txt"},
+    {"gate": "typecheck", "command": "npm run typecheck", "raw_exit": 0, "log": ".lane-logs/app-contracts.txt"},
+    {"gate": "full JS suite", "command": "npm test", "raw_exit": 1, "detail": "2 x 'Test timed out in 5000ms' (server/http.test.ts, server/tool-classification.test.ts), 0 AssertionError - documented host-load timeout class; no JS touched by this lane", "diagnostic": {"command": "npx vitest run server/http.test.ts server/tool-classification.test.ts --testTimeout=60000", "raw_exit": 0, "detail": "2 files / 10 tests passed", "log": ".lane-logs/npm-test-diagnostic.txt"}, "log": ".lane-logs/npm-test.txt"},
+    {"gate": "swiftlint", "command": "swiftlint lint --strict", "raw_exit": 0, "detail": "0 violations, 184 files", "log": ".lane-logs/swiftlint.txt"},
+    {"gate": "xcodegen stability", "command": "cd app && xcodegen generate && git diff (from repo root)", "raw_exit": 0, "detail": "no diff after re-generating the committed project.pbxproj"},
+    {"gate": "whitespace", "command": "git diff --check", "raw_exit": 0}
+  ],
+  "evidence_dir": "docs/evidence/issue-181-first-paint"
+}

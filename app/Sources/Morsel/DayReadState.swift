@@ -54,8 +54,22 @@ extension DashboardSnapshot {
 }
 
 extension LocalFirstDashboardRepository {
+    /// Issue #181 — the cached FIRST paint honours the same durable local
+    /// overlays an authoritative refresh does: queued meals (each exactly
+    /// once, with their own pending/needs-attention state) plus unsynced
+    /// weight/energy under the existing whole-second + trailing-window rules.
+    /// A queued-only startup with no dashboard cache still paints those rows
+    /// locally — no goal, no remote value, and never a claim that pending
+    /// rows are synced. Nothing to overlay and nothing cached means nil.
     func cachedToday(userID: UUID, date: Date) async throws -> DashboardSnapshot? {
-        try cachedSnapshot(dayKey: Self.dayKey(date))
+        if let cached = try cachedSnapshot(dayKey: Self.dayKey(date)) {
+            return try merged(cached, userID: userID, date: date)
+        }
+        let localOnly = try merged(
+            DashboardSnapshot(date: DashboardMath.startOfLocalDay(date), meals: [], goal: nil),
+            userID: userID, date: date
+        )
+        return localOnly.meals.isEmpty ? nil : localOnly
     }
 
     func cachedSnapshot(dayKey: String) throws -> DashboardSnapshot? {
