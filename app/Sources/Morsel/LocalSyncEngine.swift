@@ -85,13 +85,13 @@ struct SyncPassChange: Equatable {
 
 /// Issue #189 — the journal-visible refusal identity of one outbox row: a
 /// still-retrying pending row has no refusal to render; a needs-attention row
-/// renders the category that caused it. Two passes that leave the SAME
-/// identity changed nothing the journal can see (no reload storm).
+/// renders the category that caused it (metadata-only read, issue #191). Two
+/// passes that leave the SAME identity changed nothing the journal can see.
 struct MealRefusal: Equatable {
     let needsAttention: Bool
     let category: OutboxErrorCategory?
 
-    init(_ row: QueuedMeal?) {
+    init(_ row: QueuedMealSummary?) {
         needsAttention = row?.state == .needsAttention
         category = needsAttention ? row?.lastErrorCategory : nil
     }
@@ -213,9 +213,9 @@ final class LocalSyncEngine {
     private func deliverMeals(attemptNeedsAttentionAuth: Bool) async -> SyncPassChange {
         var change = SyncPassChange()
         guard let mealRemote else { return change }
-        let rows: [QueuedMeal]
+        let summaries: [QueuedMealSummary]
         do {
-            rows = try store.queuedMeals().filter { row in
+            summaries = try store.queuedMealSummaries().filter { row in
                 row.state == .pending
                     || (row.state == .needsAttention
                         && attemptNeedsAttentionAuth && row.lastErrorCategory == .auth)
@@ -224,8 +224,9 @@ final class LocalSyncEngine {
             return change
         }
         var remainingTransient = 0
-        for row in rows where !Task.isCancelled {
-            let refusal = MealRefusal(try? store.queuedMeal(mealID: row.mealID))
+        for summary in summaries where !Task.isCancelled {
+            let refusal = MealRefusal(try? store.queuedMealSummary(mealID: summary.mealID))
+            guard let row = try? store.queuedMeal(mealID: summary.mealID) else { continue }
             do {
                 try await deliverOne(row, remote: mealRemote)
                 try store.removeMeal(mealID: row.mealID)
@@ -266,7 +267,7 @@ final class LocalSyncEngine {
     private func noteRefusalChange(
         mealID: UUID, from refusal: MealRefusal, into change: inout SyncPassChange
     ) {
-        guard MealRefusal(try? store.queuedMeal(mealID: mealID)) != refusal else { return }
+        guard MealRefusal(try? store.queuedMealSummary(mealID: mealID)) != refusal else { return }
         change.refusalChanged(mealID: mealID)
     }
 

@@ -1,0 +1,42 @@
+BASE known-red leg: base sources + byte-instrumentation overlay ONLY (base-overlay.patch, no behavior change)
+command: xcodebuild test -only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/SharedButtonTargetTests -only-testing:MorselTests/MealReliabilityTests
+raw log: .lane-logs/issue-191/base-known-reds.log  RAW_EXIT=65
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.034 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.035 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.018 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.027 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.013 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.017 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.009 seconds).
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.209 (2.214) seconds
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' passed (0.459 seconds).
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' passed (0.213 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' passed (0.771 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' passed (2.349 seconds).
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' passed (0.211 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' passed (0.720 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.314 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 5.037 (5.038) seconds
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.033 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-191-targeted-reads/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.442 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.011 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.016 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.009 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.007 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.005 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.523 (0.525) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-191-targeted-reads/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-191-targeted-reads/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.023 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' passed (0.028 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' passed (3.169 seconds).
+	 Executed 3 tests, with 2 failures (0 unexpected) in 3.220 (3.220) seconds
+	 Executed 30 tests, with 4 failures (0 unexpected) in 10.988 (10.998) seconds
+	 Executed 30 tests, with 4 failures (0 unexpected) in 10.988 (10.999) seconds

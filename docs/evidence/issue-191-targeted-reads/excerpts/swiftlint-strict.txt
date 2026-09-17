@@ -1,0 +1,2 @@
+swiftlint lint --strict (fix head) — raw log: .lane-logs/issue-191/swiftlint-full.log
+Done linting! Found 0 violations, 0 serious in 194 files.
