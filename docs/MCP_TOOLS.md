@@ -175,7 +175,7 @@ required for plain logs and for creating a brand-new menu.
         "required": ["name"],
         "properties": {
           "name":        { "type": "string" },
-          "artwork_id":  { "type": "string", "description": "Optional exact published ID from the tools/list enum; see Artwork identity. Invalid IDs are rejected." },
+          "artwork_id":  { "type": "string", "description": "Optional exact published ID from the tools/list enum; see Artwork identity. Invalid IDs are rejected. Omit to let the server resolve a published identity from the logged name." },
           "quantity":    { "type": "number", "default": 1 },
           "unit":        { "type": "string", "enum": ["g", "ml", "serving", "piece", "cup"] },
           "calories_kcal": { "type": "number" },
@@ -285,6 +285,19 @@ blank names are rejected), never replaced with a catalog name.
   `0013_artwork_identity.sql` before running the new server's projections;
   this contract is not a claim of compatibility with an unmigrated database.
   No owner relogging, production migration, or backfill is part of this work.
+- **Write-time resolution (issue #284):** `log_meal` resolves an item's
+  **omitted** `artwork_id` from the logged name while it writes, using the
+  shipped catalog — so the identity does not depend on the model remembering a
+  published ID, and the renderer stops having to re-derive it from the name.
+  The vocabulary is generated (`packages/schema/artwork-catalog.ts` projects
+  each asset's normalized published name/alias terms), not a hand-kept alias
+  table, and the rule is the native precedence chain of the "Native precedence
+  contract" bullet below. It is fail-closed: an ambiguous match, or a name that
+  reaches no published identity, leaves the field absent (the renderer keeps its
+  documented name path, the approved native studies included) — nothing is
+  invented, and no fallback identity is forced onto an unknown name. An explicit
+  ID always wins; `update_meal_item` keeps its omitting-preserves semantics and
+  does not resolve.
 - **Native precedence contract (next lane, not implemented here):** first a
   valid explicit ID supported by the local bundle; otherwise a conservative,
   unambiguous full name/alias match (including approved descriptive Americano
@@ -301,7 +314,9 @@ Example: `{ "name": "Americano (black, no sugar, homemade)", "artwork_id": "coff
 The illustration is not portion/nutrition evidence and needs no network generation.
 
 For catalog updates, run `node packages/schema/generate-artwork-ids.mjs` to
-regenerate `packages/schema/artwork-ids.ts`; `--check` verifies byte stability.
+regenerate `packages/schema/artwork-ids.ts` and the write-time matching
+projection `packages/schema/artwork-catalog.ts`; `--check` verifies both
+snapshots are byte-stable.
 `--sql` prints catalog-derived constraints for a **new forward-only migration**;
 never rewrite an applied migration. Schema tests compare the generated enum to
 the bundled catalog (and ensure every design-catalog ID is published); the real

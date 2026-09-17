@@ -60,6 +60,7 @@ import type {
   UpdateMealItemOutput,
 } from '../packages/schema/food-types.ts'
 import { MorselError } from './errors.ts'
+import { resolveArtworkIdentity } from './artwork.ts'
 import { LOW_CONFIDENCE_THRESHOLD, renderDashboardSummary, type DashboardRenderSummary } from './render.ts'
 import {
   decodeMealImageBase64,
@@ -280,6 +281,17 @@ export class MorselService {
         items = menu.items.map(menuItemToMealInput)
       }
     }
+    // Issue #284 — identity is resolved once, at WRITE time: an item logged
+    // without an artwork_id gets the published identity its name resolves to,
+    // so the guarantee never depends on the model remembering to pass one and
+    // the renderer no longer has to re-derive it from the name. An explicit
+    // (schema-validated) id always wins; a name the published catalog cannot
+    // identify keeps the field absent and is left to the renderer.
+    items = (items ?? []).map((item) => {
+      if (item.artwork_id !== undefined) return item
+      const artwork_id = resolveArtworkIdentity(item.name)
+      return artwork_id === null ? item : { ...item, artwork_id }
+    })
     const menuGroupID = parsed.menu_name === undefined
       ? undefined
       : crypto.randomUUID()
@@ -288,11 +300,11 @@ export class MorselService {
       meal_type: parsed.meal_type,
       source: hasPhoto
         ? 'photo_vision'
-        : (items ?? []).some((item) => item.barcode !== undefined)
+        : items.some((item) => item.barcode !== undefined)
           ? 'barcode'
           : 'manual',
       notes: parsed.notes,
-      items: items ?? [],
+      items,
       menu_name: parsed.menu_name,
       menu_group_id: menuGroupID,
     })
