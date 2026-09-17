@@ -179,14 +179,14 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     }
 
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? {
-        try store.queuedMeal(mealID: localMealID).map { journalRecord(for: $0, userID: userID) }
+        try store.queuedMealSummary(mealID: localMealID).map { journalRecord(for: $0, userID: userID) }
     }
 
     /// Deleting a never-synced queued meal cancels the outbox row locally
     /// (the server never saw it); synced meals delete remotely as before.
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {
         invalidateReadPublications(userID: userID)
-        if try store.queuedMeal(mealID: mealLogID) != nil {
+        if try store.queuedMealSummary(mealID: mealLogID) != nil {
             try store.removeMeal(mealID: mealLogID)
             return
         }
@@ -224,7 +224,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         let dayStart = calendar.startOfDay(for: date)
         var meals = snapshot.meals
         var remoteIDs = Set(meals.map(\.mealLogID))
-        let queued = try store.queuedMeals()
+        // Issue #191 — the merge names queued rows as metadata; payloads stay row-durable.
+        let queued = try store.queuedMealSummaries()
         for row in queued where calendar.startOfDay(for: row.eatenAt) == dayStart {
             guard !remoteIDs.contains(row.mealID) else { continue }
             meals.append(journalRecord(for: row, userID: userID))
@@ -278,11 +279,11 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         return max(remote, dayRow.activeKilocalories)
     }
 
-    private func queuedMeal(containingItem itemID: UUID) throws -> QueuedMeal? {
-        try store.queuedMeals().first { meal in meal.items.contains { $0.itemID == itemID } }
+    private func queuedMeal(containingItem itemID: UUID) throws -> QueuedMealSummary? {
+        try store.queuedMealSummaries().first { meal in meal.items.contains { $0.itemID == itemID } }
     }
 
-    private func updatedItems(_ queued: QueuedMeal, _ update: MealItemUpdate) -> [QueuedMealItem] {
+    private func updatedItems(_ queued: QueuedMealSummary, _ update: MealItemUpdate) -> [QueuedMealItem] {
         queued.items.map { item in
             guard item.itemID == update.itemID else { return item }
             return QueuedMealItem(
@@ -375,7 +376,8 @@ extension LocalFirstDashboardRepository {
     /// pipeline serves the LOCAL photo bytes until the remote object exists
     /// (issue #135). Items carry the photo context so the Edit-item sheet
     /// renders it for pending rows too (issue #153).
-    private func journalRecord(for row: QueuedMeal, userID: UUID) -> MealRecord {
+    /// Issue #191 — the row arrives as metadata: `row.photo` NAMES the durable payload.
+    private func journalRecord(for row: QueuedMealSummary, userID: UUID) -> MealRecord {
         let storedPath = row.imagePath
             ?? (row.photo == nil ? nil : FoodImageStore.objectPath(userID: userID, imageID: row.mealID))
         let image = storedPath.map { MealImage(path: $0) }
