@@ -26,7 +26,8 @@ enum ArtworkIdentityFixture {
     static func item(
         name: String, identity: String? = nil, photo: Bool = false, id: String = itemID
     ) throws -> MealItem {
-        let response = try JSONDecoder().decode(MealItemResponse.self, from: data(name: name, identity: identity, id: id))
+        let bytes = try data(name: name, identity: identity, id: id)
+        let response = try JSONDecoder().decode(MealItemResponse.self, from: bytes)
         let item = try SupabaseDashboardRepository(client: nil).parseItem(response, source: .photoVision)
         return item.withMealImage(photo ? MealImage(path: photoPath) : nil)
     }
