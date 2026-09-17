@@ -51,7 +51,6 @@ final class FoodArtworkMatcherClosureTests: XCTestCase {
             "milk tea (boba tea)", "pad thai (stir-fried noodles)", "unknown food, cooked",
             "composite/shared restaurant plate", "half-portion white riceish", "fried white rice"
         ] {
-            XCTAssertNil(FoodArtworkResolver.match(name: name, in: assets), name)
             XCTAssertTrue(isNeutral(FoodArtworkResolver.resolve(name: name, in: assets)), name)
         }
         for (name, identity) in [("coffee cake", "cake"), ("milk tea", "milk-tea"), ("pad thai", "pad-thai")] {

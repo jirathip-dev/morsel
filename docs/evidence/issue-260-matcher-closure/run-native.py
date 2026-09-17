@@ -102,8 +102,8 @@ def main():
     LOGS.mkdir(exist_ok=True)
     if args.inside:
         return inside(args)
-    run("native-process-preflight", ["pgrep", "-fl", "xcodebuild|xctest"], 20)
-    run("disk-preflight", ["df", "-h", "/"], 20)
+    run(args.label + "-process-preflight", ["pgrep", "-fl", "xcodebuild|xctest"], 20)
+    run(args.label + "-disk-preflight", ["df", "-h", "/"], 20)
     lock = Path("/tmp/n.lock")
     deadline = time.monotonic() + 900
     while True:
@@ -135,7 +135,7 @@ def main():
             command += ["--corpus", args.corpus]
         if args.mutation:
             command.append("--mutation")
-        return run("native-wrapper", command, 3000)
+        return run(args.label + "-wrapper", command, 3000)
     finally:
         if owner.read_text().strip() == str(os.getpid()):
             owner.unlink()

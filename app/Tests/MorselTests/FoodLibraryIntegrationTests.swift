@@ -53,7 +53,10 @@ final class FoodLibraryIntegrationTests: XCTestCase {
     }
 
     private func capture(_ fixture: Fixture, window: UIWindow, theme: String, scheme: ColorScheme) async throws {
-        let items = try fixture.names.map { try ArtworkIdentityFixture.item(name: $0) }
+        let items = try fixture.names.enumerated().map { index, name in
+            try ArtworkIdentityFixture.item(name: name, id: String(format: "22222222-2222-4222-8222-%012d", index + 1))
+        }
+        XCTAssertEqual(Set(items.map(\.itemID)).count, items.count)
         let resolution = FoodArtworkResolver.resolve(items: items, in: FoodArtworkCatalog.bundled)
         let rowResolution = JournalRowArtwork.resolve(items: items)
         let actual = resolution.asset?.id ?? "none"

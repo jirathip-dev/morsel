@@ -13,9 +13,9 @@ enum ArtworkIdentityFixture {
     static let itemID = "22222222-2222-4222-8222-222222222222"
     static let photoPath = "33333333-3333-4333-8333-333333333333/11111111-1111-4111-8111-111111111111.jpg"
 
-    static func data(name: String, identity: String? = nil) throws -> Data {
+    static func data(name: String, identity: String? = nil, id: String = itemID) throws -> Data {
         var object: [String: Any] = [
-            "id": itemID, "meal_log_id": mealID, "name": name, "quantity": 1.5, "unit": "cup",
+            "id": id, "meal_log_id": mealID, "name": name, "quantity": 1.5, "unit": "cup",
             "calories_kcal": 23, "protein_g": 2, "carbs_g": 3, "fat_g": 1,
             "fiber_g": 0.5, "sugar_g": 0.25, "confidence": 0.9, "source_notes": "Synthetic fixture"
         ]
@@ -23,8 +23,10 @@ enum ArtworkIdentityFixture {
         return try JSONSerialization.data(withJSONObject: object, options: [.sortedKeys])
     }
 
-    static func item(name: String, identity: String? = nil, photo: Bool = false) throws -> MealItem {
-        let response = try JSONDecoder().decode(MealItemResponse.self, from: data(name: name, identity: identity))
+    static func item(
+        name: String, identity: String? = nil, photo: Bool = false, id: String = itemID
+    ) throws -> MealItem {
+        let response = try JSONDecoder().decode(MealItemResponse.self, from: data(name: name, identity: identity, id: id))
         let item = try SupabaseDashboardRepository(client: nil).parseItem(response, source: .photoVision)
         return item.withMealImage(photo ? MealImage(path: photoPath) : nil)
     }
