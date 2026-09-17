@@ -1,0 +1,55 @@
+# Issue #193 hosted app contracts (mise node@22 -- npx vitest run app)
+
+# mise exec node@22 -- npx vitest run app (node v22.23.2)
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow
+
+ ✓ app/issue-111-hinged-turn-contract.test.ts (11 tests) 2ms
+ ✓ app/unauth-action-tint.test.ts (7 tests) 2ms
+ ✓ app/version-metadata.test.ts (4 tests) 3ms
+ ✓ app/native-journal-provenance.test.ts (11 tests) 7ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 3ms
+ ✓ app/warm-palette.test.ts (14 tests) 17ms
+ ✓ app/hotfix-89-contract.test.ts (9 tests) 18ms
+ ✓ app/v1-journal-contract.test.ts (12 tests) 20ms
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-khSbvS/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+ ✓ app/photo-edit-contract.test.ts (9 tests) 2ms
+ ✓ app/photo-pipeline-contract.test.ts (8 tests) 3ms
+ ✓ app/onboarding-contract.test.ts (6 tests) 2ms
+ ✓ app/issue-113-goals-contract.test.ts (8 tests) 5ms
+ ✓ app/issue-123-goals-polish-contract.test.ts (8 tests) 3ms
+ ✓ app/training-fuel-contract.test.ts (6 tests) 3ms
+ ✓ app/issue-110-settings-theme-contract.test.ts (3 tests) 2ms
+ ✓ app/issue-164-goals-restore-contract.test.ts (3 tests) 2ms
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-khSbvS/remote.git
+ * [new branch]      main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-khSbvS/writer'...
+done.
+ ✓ app/issue-125-apple-signin-contract.test.ts (2 tests) 1ms
+ ✓ app/training-day-row-contract.test.ts (3 tests) 2ms
+ ✓ app/issue-185-goals-direction-contract.test.ts (2 tests) 1ms
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-khSbvS/remote.git
+   d2c811a..7858939  main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-q5BKtl/checkout'...
+warning: You appear to have cloned an empty repository.
+done.
+Switched to a new branch 'main'
+ ✓ app/numeric-voice-contract.test.ts (4 tests) 189ms
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-q5BKtl/remote.git
+ * [new branch]      main -> main
+Cloning into '/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-q5BKtl/writer'...
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-q5BKtl/remote.git
+   918c52e..8da2107  main -> main
+ ✓ scripts/apply-migrations.test.mjs (11 tests) 844ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > returns usage exit 2 for missing ref before stale-checkout exit 1  544ms
+
+ Test Files  21 passed (21)
+      Tests  153 passed (153)
+   Start at  06:28:19
+   Duration  1.14s (transform 298ms, setup 208ms, collect 560ms, tests 1.13s, environment 3ms, prepare 1.48s)
+
+vitest_app_exit=0
