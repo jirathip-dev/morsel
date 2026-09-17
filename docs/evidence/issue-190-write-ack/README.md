@@ -2,9 +2,11 @@
 
 Lane checkout: `/Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack`.
 Base: `83010c8f4288b6c7f636fd287920dd06b1d62d59` (`origin/staging`).
-Code + test commit and evidence commit: recorded in `.report.md` and in the
-branch log; every gate receipt is in `GATES.md`, run receipts in `native/run.json`
-and `hosted/run.json`, raw logs in the checkout's gitignored `.lane-logs/`.
+Code + test commit: `c4077e3` (`fix(writes): finish a confirmed mutation on its
+own acknowledgement (Refs #190)`); the evidence lands in the `test(evidence):`
+commits on this branch (`0060a6e..HEAD`). Every gate receipt is in `GATES.md`, run
+receipts in `native/run.json` and `hosted/run.json`, raw logs in the checkout's
+gitignored `.lane-logs/`.
 
 ## Mechanism
 
