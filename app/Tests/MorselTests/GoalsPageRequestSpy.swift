@@ -35,6 +35,7 @@ final class GoalsPageRequestSpy: DashboardRepository {
     private(set) var savedGoal: DashboardGoal?
     /// Full Today dashboard reads: must stay 0 on the goals-open path.
     private(set) var fullDashboardReads = 0
+    var compute: ((GoalDirection) async throws -> DashboardGoal)?
 
     func releaseStorage() {
         holdsStorage = false
@@ -113,7 +114,8 @@ final class GoalsPageRequestSpy: DashboardRepository {
     }
 
     func computeGoals(userID: UUID, direction: GoalDirection) async throws -> DashboardGoal {
-        DashboardGoal(calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .computed)
+        if let compute { return try await compute(direction) }
+        return DashboardGoal(calorieTargetKcal: 2_000, proteinG: 150, carbsG: 200, fatG: 70, source: .computed)
     }
 
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {

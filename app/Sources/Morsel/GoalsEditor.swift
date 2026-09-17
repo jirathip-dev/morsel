@@ -141,7 +141,7 @@ struct GoalsView: View {
                     .buttonStyle(MorselPrimaryButtonStyle())
                     .padding(.vertical, -2)
                     .frame(maxWidth: .infinity)
-                    .disabled(!viewModel.isValid || viewModel.isSaving)
+                    .disabled(!viewModel.isValid || viewModel.isSaving || viewModel.pendingDirection != nil)
                     Text("What changes").morselSectionLabel()
                     Text(viewModel.whatChangesText)
                         .font(.morselBody)
@@ -164,6 +164,7 @@ struct GoalsView: View {
         }
         .morselNumericDoneBar(focused: $focusedField) { _ in .numbersAndPunctuation }
         .task(id: reloadKey) { await viewModel.load() }
+        .onDisappear { viewModel.cancelDirectionComputation() }
     }
 
     private var header: some View {
@@ -211,7 +212,7 @@ struct GoalsView: View {
                                     : Color.clear,
                                 in: RoundedRectangle(cornerRadius: 6)
                             )
-                        Text(direction.subtitle)
+                        Text(viewModel.pendingDirection == direction ? "Calculating…" : direction.subtitle)
                             .font(.morselFootnote)
                             .foregroundStyle(Color.morselInkTwo)
                     }

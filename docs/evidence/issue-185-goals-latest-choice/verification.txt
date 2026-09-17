@@ -1,0 +1,361 @@
+Selected raw log excerpts; trailing whitespace removed. Full logs remain under .lane-logs/.
+
+native-disk: raw_exit=0 timed_out=False
+
+
+native-focused: raw_exit=0 timed_out=False
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/jirathip/.config/nvm/versions/node/v22.23.2/bin:/Users/jirathip/.local/share/mise/installs/node/24.19.0/bin:/Users/jirathip/.local/share/mise/installs/terraform/latest:/Users/jirathip/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/jirathip/.cargo/bin:/Users/jirathip/.hermes/hermes-agent/venv/bin
+Test Suite 'Selected tests' started at 2569-09-17 6:07:13.460 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-17 6:07:13.460 AM.
+Test Suite 'GoalsContextLazyLoadTests' started at 2569-09-17 6:07:13.460 AM.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testCancelledLoadNeverPaintsItsLateTotal]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testDayTotalArrivingAfterMidnightIsDropped]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testHeldLocalReadStillPaintsTargetsAndProfileWithTheTotalPending]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testLateTotalLeavesTheSupersededManualOutcomeUntouched]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testOpeningGoalsReadsTheNarrowLocalDayTotalAndNoFullDashboard]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testSupersededLoadCannotPaintItsStaleTotal]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testUnreadableDayTotalLeavesTheLinePendingAndGoalsEditable]' passed (0.002 seconds).
+Test Suite 'GoalsContextLazyLoadTests' passed at 2569-09-17 6:07:13.477 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.012 (0.017) seconds
+Test Suite 'GoalsDirectionOwnershipTests' started at 2569-09-17 6:07:13.477 AM.
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testObsoleteCompletionCannotClearNewPendingChoice]' passed (0.003 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testOlderContextRefreshCannotOverwriteChoice]' passed (0.028 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testPendingChoiceDoesNotClaimAcceptedValuesOrPermitSave]' passed (0.001 seconds).
+ISSUE-185 equivalent-choices taps=41 requests-before-edit=1 requests-after-edit=2
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testRepeatedEquivalentChoicesCoalesceWhilePendingAndAfterAcceptance]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testReturningToAcceptedDirectionCancelsPendingChoiceWithoutAnotherRead]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testTeardownDiscardsLateSuccessAndErrorAndAllowsNewGeneration]' passed (0.004 seconds).
+Test Suite 'GoalsDirectionOwnershipTests' passed at 2569-09-17 6:07:13.516 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.038 (0.039) seconds
+Test Suite 'GoalsDirectionProfileTests' started at 2569-09-17 6:07:13.516 AM.
+Test Case '-[MorselTests.GoalsDirectionProfileTests testCurrentManualGoalFillsNoChipAndExposesTheProfileDirectionHint]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testGoalDirectionMapsProfileDietGoals]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testMaintainProfileHintMapsManualGoalToMaintainChip]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testManualGoalWithoutProfileShowsNoDirectionAtAll]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testProfileOnlyShowsHintChipWithNoGoalYet]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testStaleManualSupersededByProfileFillsTheDerivedChip]' passed (0.001 seconds).
+Test Suite 'GoalsDirectionProfileTests' passed at 2569-09-17 6:07:13.522 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'GoalsDirectionRaceTests' started at 2569-09-17 6:07:13.522 AM.
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCutBulkCutUsesGenerationNotDirectionEquality]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testObsoleteErrorCannotOverwriteNewerSuccess]' passed (0.001 seconds).
+ISSUE-185 reversed-success requests=2
+Test Case '-[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection]' passed (0.001 seconds).
+Test Suite 'GoalsDirectionRaceTests' passed at 2569-09-17 6:07:13.529 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.007 (0.008) seconds
+Test Suite 'GoalsEditorPrecisionTests' started at 2569-09-17 6:07:13.530 AM.
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testLegacyOffGridStoredValueDisplaysExactlyAndIsRejectedByValidation]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testMoreThanOneDecimalCalorieInputIsRejectedWithFieldCopy]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testNormalizedGoalMatchesRoundedResponseGuardLikeForLike]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testOffGridExponentSpellingIsRejectedByValidation]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testOnGridExponentSpellingIsValid]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testSaveRejectsOffGridExponentCaloriesWithoutWrite]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testSaveRejectsOrdinaryOffGridCaloriesWithoutWrite]' passed (0.000 seconds).
+Test Suite 'GoalsEditorPrecisionTests' passed at 2569-09-17 6:07:13.533 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+Test Suite 'GoalsEditorTests' started at 2569-09-17 6:07:13.533 AM.
+Test Case '-[MorselTests.GoalsEditorTests testComputedDirectionSaveKeepsComputedSource]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testDirectionPrefillsComputedValuesAndManualEditFlipsOneSource]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testEditingComputedDirectionSaveFlipsSourceToManual]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testEmptyAndNegativeGoalsDisableSave]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testFractionalStoredGoalLoadsAndResavesWithoutRounding]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testGoalsRepositoryEncodesRPCEnvelopeAndGuardsEverySavedField]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testInvalidFieldProvidesSpecificValidationMessage]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testRequiredUIConstraintAllowsOneDecimalValues]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testSaveWritesManualGoalAndDashboardReloadReflectsIt]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testV3QuantitativeConsequenceCoversUnderAndOver]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testV3RenderContractsCoverAgentPanelSourceConsequenceAndSavedBanner]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testZeroGoalsMatchSetGoalsNonNegativeContract]' passed (0.000 seconds).
+Test Suite 'GoalsEditorTests' passed at 2569-09-17 6:07:13.544 AM.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.008 (0.011) seconds
+Test Suite 'GoalsPolishTests' started at 2569-09-17 6:07:13.544 AM.
+Test Case '-[MorselTests.GoalsPolishTests testCachedGoalPaintsAllFourFieldsBeforeRemoteResolves]' passed (0.017 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testComputedEffectiveGoalDerivesTheProfileDirectionChip]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testFirstLoadWithoutCacheStaysCalmWhileRemoteIsInFlight]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testLoadThatFindsNothingKeepsPristineFieldsCalm]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testPristineEmptyFieldsReportNoErrorUntilEdited]' passed (0.000 seconds).
+Test Suite 'GoalsPolishTests' passed at 2569-09-17 6:07:13.569 AM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.023 (0.024) seconds
+Test Suite 'GoalsRestoreRenderingTests' started at 2569-09-17 6:07:13.569 AM.
+Test Case '-[MorselTests.GoalsRestoreRenderingTests testRestoreAffordanceInPaperAndNightBeforeAndAfterSave]' passed (8.384 seconds).
+Test Suite 'GoalsRestoreRenderingTests' passed at 2569-09-17 6:07:21.953 AM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 8.384 (8.385) seconds
+Test Suite 'GoalsRestoreTests' started at 2569-09-17 6:07:21.954 AM.
+Test Case '-[MorselTests.GoalsRestoreTests testAbsentSupersededRowNeverWritesOrFillsStaleValues]' passed (0.015 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testDirectionChoiceClearsShortcutAndPreservesComputedSave]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testLegacyPrecisionIsNotSilentlyRoundedOrWritten]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testMissingIncompleteOrUndatedRowsNeverRestore]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testNormalEditDoesNotRestoreAndStillUsesOrdinarySave]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testRestoreFillsExactFieldsSavesManualAndReloadsCurrent]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testSaveFailureDoesNotClaimSuccessOrRemoveShortcut]' passed (0.005 seconds).
+Test Suite 'GoalsRestoreTests' passed at 2569-09-17 6:07:21.991 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.032 (0.037) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-17 6:07:21.991 AM.
+	 Executed 57 tests, with 0 failures (0 unexpected) in 8.511 (8.531) seconds
+Test Suite 'Selected tests' passed at 2569-09-17 6:07:21.991 AM.
+	 Executed 57 tests, with 0 failures (0 unexpected) in 8.511 (8.531) seconds
+** TEST SUCCEEDED **
+
+base-xcodegen: raw_exit=0 timed_out=False
+
+
+base-red: raw_exit=65 timed_out=False
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/jirathip/.config/nvm/versions/node/v22.23.2/bin:/Users/jirathip/.local/share/mise/installs/node/24.19.0/bin:/Users/jirathip/.local/share/mise/installs/terraform/latest:/Users/jirathip/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/jirathip/.cargo/bin:/Users/jirathip/.hermes/hermes-agent/venv/bin
+Test Suite 'Selected tests' started at 2569-09-17 6:08:42.778 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-17 6:08:42.779 AM.
+Test Suite 'GoalsDirectionRaceTests' started at 2569-09-17 6:08:42.779 AM.
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:82: error: -[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError] : XCTAssertEqual failed: ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 2600.0, proteinG: 160.0, carbsG: 310.0, fatG: 80.0, source: Morsel.GoalSource.computed))") is not equal to ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 2200.0, proteinG: 140.0, carbsG: 230.0, fatG: 80.0, source: Morsel.GoalSource.computed))")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:82: error: -[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError] : XCTAssertEqual failed: ("["2600.0", "160.0", "310.0", "80.0"]") is not equal to ("["2200.0", "140.0", "230.0", "80.0"]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:82: error: -[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError] : XCTAssertEqual failed: ("Optional(Morsel.GoalDirection.bulk)") is not equal to ("Optional(Morsel.GoalDirection.maintain)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:83: error: -[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError] : XCTAssertNil failed: "The request could not be completed. Try again."
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:100: error: -[MorselTests.GoalsDirectionRaceTests testCutBulkCutUsesGenerationNotDirectionEquality] : XCTAssertEqual failed: ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 2200.0, proteinG: 140.0, carbsG: 230.0, fatG: 80.0, source: Morsel.GoalSource.computed))") is not equal to ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 1800.0, proteinG: 120.0, carbsG: 195.0, fatG: 60.0, source: Morsel.GoalSource.computed))")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:100: error: -[MorselTests.GoalsDirectionRaceTests testCutBulkCutUsesGenerationNotDirectionEquality] : XCTAssertEqual failed: ("["2200.0", "140.0", "230.0", "80.0"]") is not equal to ("["1800.0", "120.0", "195.0", "60.0"]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:42: error: -[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess] : XCTAssertTrue failed
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:45: error: -[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess] : XCTAssertEqual failed: ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 1800.0, proteinG: 120.0, carbsG: 195.0, fatG: 60.0, source: Morsel.GoalSource.computed))") is not equal to ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 2200.0, proteinG: 140.0, carbsG: 230.0, fatG: 80.0, source: Morsel.GoalSource.computed))")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:45: error: -[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess] : XCTAssertEqual failed: ("["1800.0", "120.0", "195.0", "60.0"]") is not equal to ("["2200.0", "140.0", "230.0", "80.0"]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:45: error: -[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess] : XCTAssertEqual failed: ("Optional(Morsel.GoalDirection.cut)") is not equal to ("Optional(Morsel.GoalDirection.maintain)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:46: error: -[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess] : XCTAssertEqual failed: ("nil") is not equal to ("Optional("The request could not be completed. Try again.")")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:65: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertEqual failed: ("["2600.0", "160.0", "310.0", "80.0"]") is not equal to ("["2200.0", "155.5", "230.0", "80.0"]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:66: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertEqual failed: ("["fat": Morsel.GoalSource.computed, "calories": Morsel.GoalSource.computed, "protein": Morsel.GoalSource.computed, "carbs": Morsel.GoalSource.computed]") is not equal to ("["fat": Morsel.GoalSource.computed, "calories": Morsel.GoalSource.computed, "protein": Morsel.GoalSource.manual, "carbs": Morsel.GoalSource.computed]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:67: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertEqual failed: ("Optional(Morsel.GoalSource.computed)") is not equal to ("Optional(Morsel.GoalSource.manual)")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:68: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertNil failed: "bulk"
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:68: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertNil failed: "maintain"
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:69: error: -[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError] : XCTAssertNil failed: "The request could not be completed. Try again."
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:30: error: -[MorselTests.GoalsDirectionRaceTests testObsoleteErrorCannotOverwriteNewerSuccess] : XCTAssertNil failed: "The request could not be completed. Try again."
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:15: error: -[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection] : XCTAssertEqual failed: ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 1800.0, proteinG: 120.0, carbsG: 195.0, fatG: 60.0, source: Morsel.GoalSource.computed))") is not equal to ("Optional(Morsel.DashboardGoal(calorieTargetKcal: 2600.0, proteinG: 160.0, carbsG: 310.0, fatG: 80.0, source: Morsel.GoalSource.computed))")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:15: error: -[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection] : XCTAssertEqual failed: ("["1800.0", "120.0", "195.0", "60.0"]") is not equal to ("["2600.0", "160.0", "310.0", "80.0"]")
+/var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-185-pws6cibt/issue-185-goals/app/Tests/MorselTests/GoalsDirectionRaceTests.swift:15: error: -[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection] : XCTAssertEqual failed: ("Optional(Morsel.GoalDirection.cut)") is not equal to ("Optional(Morsel.GoalDirection.bulk)")
+ISSUE-185 reversed-success requests=2
+Test Suite 'GoalsDirectionRaceTests' failed at 2569-09-17 6:08:43.306 AM.
+	 Executed 6 tests, with 21 failures (0 unexpected) in 0.525 (0.527) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-17 6:08:43.306 AM.
+	 Executed 6 tests, with 21 failures (0 unexpected) in 0.525 (0.527) seconds
+Test Suite 'Selected tests' failed at 2569-09-17 6:08:43.306 AM.
+	 Executed 6 tests, with 21 failures (0 unexpected) in 0.525 (0.528) seconds
+** TEST FAILED **
+
+archive-green: raw_exit=0 timed_out=False
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/jirathip/.config/nvm/versions/node/v22.23.2/bin:/Users/jirathip/.local/share/mise/installs/node/24.19.0/bin:/Users/jirathip/.local/share/mise/installs/terraform/latest:/Users/jirathip/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/jirathip/.cargo/bin:/Users/jirathip/.hermes/hermes-agent/venv/bin
+Test Suite 'Selected tests' started at 2569-09-17 6:09:30.814 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-17 6:09:30.815 AM.
+Test Suite 'GoalsDirectionOwnershipTests' started at 2569-09-17 6:09:30.815 AM.
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testObsoleteCompletionCannotClearNewPendingChoice]' passed (0.006 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testOlderContextRefreshCannotOverwriteChoice]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testPendingChoiceDoesNotClaimAcceptedValuesOrPermitSave]' passed (0.002 seconds).
+ISSUE-185 equivalent-choices taps=41 requests-before-edit=1 requests-after-edit=2
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testRepeatedEquivalentChoicesCoalesceWhilePendingAndAfterAcceptance]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testReturningToAcceptedDirectionCancelsPendingChoiceWithoutAnotherRead]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testTeardownDiscardsLateSuccessAndErrorAndAllowsNewGeneration]' passed (0.002 seconds).
+Test Suite 'GoalsDirectionOwnershipTests' passed at 2569-09-17 6:09:30.831 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.014 (0.016) seconds
+Test Suite 'GoalsDirectionRaceTests' started at 2569-09-17 6:09:30.831 AM.
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCutBulkCutUsesGenerationNotDirectionEquality]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testObsoleteErrorCannotOverwriteNewerSuccess]' passed (0.001 seconds).
+ISSUE-185 reversed-success requests=2
+Test Case '-[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection]' passed (0.001 seconds).
+Test Suite 'GoalsDirectionRaceTests' passed at 2569-09-17 6:09:30.839 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.006 (0.009) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-17 6:09:30.840 AM.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.020 (0.025) seconds
+Test Suite 'Selected tests' passed at 2569-09-17 6:09:30.840 AM.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.020 (0.025) seconds
+** TEST SUCCEEDED **
+
+wiring-red: raw_exit=1 timed_out=False
+ FAIL  app/issue-185-goals-direction-contract.test.ts > issue #185 native direction ownership wiring > invalidates computations at the page disappearance boundary
+ FAIL  app/issue-185-goals-direction-contract.test.ts > issue #185 native direction ownership wiring > shows pending separately from accepted selection and prevents saving old values while pending
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+
+wiring-green: raw_exit=0 timed_out=False
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+
+disk: raw_exit=0 timed_out=False
+
+
+native-final: raw_exit=0 timed_out=False
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/jirathip/.config/nvm/versions/node/v22.23.2/bin:/Users/jirathip/.local/share/mise/installs/node/24.19.0/bin:/Users/jirathip/.local/share/mise/installs/terraform/latest:/Users/jirathip/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/jirathip/.cargo/bin:/Users/jirathip/.hermes/hermes-agent/venv/bin
+Test Suite 'Selected tests' started at 2569-09-17 6:17:22.464 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-17 6:17:22.464 AM.
+Test Suite 'GoalsContextLazyLoadTests' started at 2569-09-17 6:17:22.464 AM.
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testCancelledLoadNeverPaintsItsLateTotal]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testDayTotalArrivingAfterMidnightIsDropped]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testHeldLocalReadStillPaintsTargetsAndProfileWithTheTotalPending]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testLateTotalLeavesTheSupersededManualOutcomeUntouched]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testOpeningGoalsReadsTheNarrowLocalDayTotalAndNoFullDashboard]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testSupersededLoadCannotPaintItsStaleTotal]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsContextLazyLoadTests testUnreadableDayTotalLeavesTheLinePendingAndGoalsEditable]' passed (0.003 seconds).
+Test Suite 'GoalsContextLazyLoadTests' passed at 2569-09-17 6:17:22.481 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.015 (0.017) seconds
+Test Suite 'GoalsDirectionOwnershipTests' started at 2569-09-17 6:17:22.503 AM.
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testObsoleteCompletionCannotClearNewPendingChoice]' passed (0.003 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testOlderContextRefreshCannotOverwriteChoice]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testPendingChoiceDoesNotClaimAcceptedValuesOrPermitSave]' passed (0.001 seconds).
+ISSUE-185 equivalent-choices taps=41 requests-before-edit=1 requests-after-edit=2
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testRepeatedEquivalentChoicesCoalesceWhilePendingAndAfterAcceptance]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testReturningToAcceptedDirectionCancelsPendingChoiceWithoutAnotherRead]' passed (0.005 seconds).
+Test Case '-[MorselTests.GoalsDirectionOwnershipTests testTeardownDiscardsLateSuccessAndErrorAndAllowsNewGeneration]' passed (0.002 seconds).
+Test Suite 'GoalsDirectionOwnershipTests' passed at 2569-09-17 6:17:22.518 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.013 (0.014) seconds
+Test Suite 'GoalsDirectionProfileTests' started at 2569-09-17 6:17:22.518 AM.
+Test Case '-[MorselTests.GoalsDirectionProfileTests testCurrentManualGoalFillsNoChipAndExposesTheProfileDirectionHint]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testGoalDirectionMapsProfileDietGoals]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testMaintainProfileHintMapsManualGoalToMaintainChip]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testManualGoalWithoutProfileShowsNoDirectionAtAll]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testProfileOnlyShowsHintChipWithNoGoalYet]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionProfileTests testStaleManualSupersededByProfileFillsTheDerivedChip]' passed (0.001 seconds).
+Test Suite 'GoalsDirectionProfileTests' passed at 2569-09-17 6:17:22.524 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.004 (0.006) seconds
+Test Suite 'GoalsDirectionRaceTests' started at 2569-09-17 6:17:22.524 AM.
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCallerCancellationDiscardsNoncooperativeSuccessAndError]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testCutBulkCutUsesGenerationNotDirectionEquality]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testLatestFailurePreservesAcceptedValuesAndRetrySurvivesOldSuccess]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testManualEditInvalidatesBothLateSuccessAndError]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsDirectionRaceTests testObsoleteErrorCannotOverwriteNewerSuccess]' passed (0.001 seconds).
+ISSUE-185 reversed-success requests=2
+Test Case '-[MorselTests.GoalsDirectionRaceTests testReversedSuccessesKeepBulkValuesSourcesAndSelection]' passed (0.001 seconds).
+Test Suite 'GoalsDirectionRaceTests' passed at 2569-09-17 6:17:22.534 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.007 (0.010) seconds
+Test Suite 'GoalsEditorPrecisionTests' started at 2569-09-17 6:17:22.534 AM.
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testLegacyOffGridStoredValueDisplaysExactlyAndIsRejectedByValidation]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testMoreThanOneDecimalCalorieInputIsRejectedWithFieldCopy]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testNormalizedGoalMatchesRoundedResponseGuardLikeForLike]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testOffGridExponentSpellingIsRejectedByValidation]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testOnGridExponentSpellingIsValid]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testSaveRejectsOffGridExponentCaloriesWithoutWrite]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorPrecisionTests testSaveRejectsOrdinaryOffGridCaloriesWithoutWrite]' passed (0.000 seconds).
+Test Suite 'GoalsEditorPrecisionTests' passed at 2569-09-17 6:17:22.541 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.003 (0.007) seconds
+Test Suite 'GoalsEditorRecencyTests' started at 2569-09-17 6:17:22.541 AM.
+Test Case '-[MorselTests.GoalsEditorRecencyTests testCurrentManualGoalKeepsItsNumbersAndHidesNote]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorRecencyTests testEditingOrChoosingClearsTheSupersededNote]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorRecencyTests testNoProfileYetCopyRendersWithoutStoredRow]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsEditorRecencyTests testProfileUpdateSupersedesStaleManualWithComputedPrefillAndNote]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorRecencyTests testUneditedSaveAfterSupersedeKeepsComputedSource]' passed (0.001 seconds).
+Test Suite 'GoalsEditorRecencyTests' passed at 2569-09-17 6:17:22.547 AM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.005 (0.006) seconds
+Test Suite 'GoalsEditorTests' started at 2569-09-17 6:17:22.548 AM.
+Test Case '-[MorselTests.GoalsEditorTests testComputedDirectionSaveKeepsComputedSource]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testDirectionPrefillsComputedValuesAndManualEditFlipsOneSource]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testEditingComputedDirectionSaveFlipsSourceToManual]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testEmptyAndNegativeGoalsDisableSave]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testFractionalStoredGoalLoadsAndResavesWithoutRounding]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testGoalsRepositoryEncodesRPCEnvelopeAndGuardsEverySavedField]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testInvalidFieldProvidesSpecificValidationMessage]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testRequiredUIConstraintAllowsOneDecimalValues]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testSaveWritesManualGoalAndDashboardReloadReflectsIt]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testV3QuantitativeConsequenceCoversUnderAndOver]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testV3RenderContractsCoverAgentPanelSourceConsequenceAndSavedBanner]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsEditorTests testZeroGoalsMatchSetGoalsNonNegativeContract]' passed (0.000 seconds).
+Test Suite 'GoalsEditorTests' passed at 2569-09-17 6:17:22.560 AM.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.008 (0.012) seconds
+Test Suite 'GoalsPageCopyTests' started at 2569-09-17 6:17:22.560 AM.
+Test Case '-[MorselTests.GoalsPageCopyTests testMarginNoteShowsAppleHealthSourceAndLastImportTime]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsPageCopyTests testMarginNoteStaysHiddenAtZeroAndKeepsLegacyCopyWithoutStamp]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsPageCopyTests testProfileLineFallsBackToTypedWeightWithoutHealthSample]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsPageCopyTests testProfileLineNoProfileCopyOnlyWhenProfileTableWasRead]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsPageCopyTests testProfileLineShowsHealthWeightSourceAndProfileFacts]' passed (0.000 seconds).
+Test Case '-[MorselTests.GoalsPageCopyTests testViewModelExposesTheCalmStatusStampForTheMarginNote]' passed (0.010 seconds).
+Test Suite 'GoalsPageCopyTests' passed at 2569-09-17 6:17:22.575 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.014 (0.015) seconds
+Test Suite 'GoalsPolishTests' started at 2569-09-17 6:17:22.575 AM.
+Test Case '-[MorselTests.GoalsPolishTests testCachedGoalPaintsAllFourFieldsBeforeRemoteResolves]' passed (0.007 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testComputedEffectiveGoalDerivesTheProfileDirectionChip]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testFirstLoadWithoutCacheStaysCalmWhileRemoteIsInFlight]' passed (0.003 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testLoadThatFindsNothingKeepsPristineFieldsCalm]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsPolishTests testPristineEmptyFieldsReportNoErrorUntilEdited]' passed (0.000 seconds).
+Test Suite 'GoalsPolishTests' passed at 2569-09-17 6:17:22.588 AM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.012 (0.013) seconds
+Test Suite 'GoalsRestoreRenderingTests' started at 2569-09-17 6:17:22.589 AM.
+Test Case '-[MorselTests.GoalsRestoreRenderingTests testRestoreAffordanceInPaperAndNightBeforeAndAfterSave]' passed (8.365 seconds).
+Test Suite 'GoalsRestoreRenderingTests' passed at 2569-09-17 6:17:30.954 AM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 8.365 (8.365) seconds
+Test Suite 'GoalsRestoreTests' started at 2569-09-17 6:17:30.954 AM.
+Test Case '-[MorselTests.GoalsRestoreTests testAbsentSupersededRowNeverWritesOrFillsStaleValues]' passed (0.017 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testDirectionChoiceClearsShortcutAndPreservesComputedSave]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testLegacyPrecisionIsNotSilentlyRoundedOrWritten]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testMissingIncompleteOrUndatedRowsNeverRestore]' passed (0.001 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testNormalEditDoesNotRestoreAndStillUsesOrdinarySave]' passed (0.002 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testRestoreFillsExactFieldsSavesManualAndReloadsCurrent]' passed (0.004 seconds).
+Test Case '-[MorselTests.GoalsRestoreTests testSaveFailureDoesNotClaimSuccessOrRemoveShortcut]' passed (0.005 seconds).
+Test Suite 'GoalsRestoreTests' passed at 2569-09-17 6:17:30.992 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.032 (0.038) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-17 6:17:30.992 AM.
+	 Executed 68 tests, with 0 failures (0 unexpected) in 8.478 (8.528) seconds
+Test Suite 'Selected tests' passed at 2569-09-17 6:17:30.993 AM.
+	 Executed 68 tests, with 0 failures (0 unexpected) in 8.478 (8.529) seconds
+** TEST SUCCEEDED **
+
+node-version: raw_exit=0 timed_out=False
+v22.23.2
+
+npm-ci: raw_exit=0 timed_out=False
+5 vulnerabilities (4 moderate, 1 high)
+
+typecheck: raw_exit=0 timed_out=False
+
+
+lint: raw_exit=0 timed_out=False
+
+
+npm-test: raw_exit=1 timed_out=False
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ Test Files  2 failed | 58 passed (60)
+      Tests  2 failed | 669 passed (671)
+
+focused-timeout-diagnostic: raw_exit=1 timed_out=False
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ Test Files  2 failed (2)
+      Tests  2 failed | 8 passed (10)
+
+Ambient Node 26 npm test: raw_exit=1
+ FAIL  scripts/fly-revision-watchdog.e2e.test.mjs > the watchdog reads the RUNNING revision and reports IN_SYNC / BEHIND / UNKNOWN > IN_SYNC, silent, exit 0 when the deployed revision IS main
+Error: Test timed out in 5000ms.
+ FAIL  server/chatgpt-tool-oauth.test.ts > ChatGPT per-tool OAuth metadata and auth-challenge compatibility (issue #96) > answers an auth-failing read-only tool call on an established session with the _meta["mcp/www_authenticate"] challenge result
+Error: Test timed out in 5000ms.
+ FAIL  server/dated-targets.test.ts > dated target attribution > never uses the current target as past truth, including a legacy reader
+Error: Test timed out in 5000ms.
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the single-day dashboard SVG at 2x to a deterministic PNG with the paper palette and ring
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the week dashboard SVG with the trend at 1440x940 deterministically
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > cross-user operations stay rejected and annotations cannot widen access
+Error: Test timed out in 5000ms.
+Error: [vitest-worker]: Timeout calling "onTaskUpdate"
+ Test Files  6 failed | 54 passed (60)
+      Tests  8 failed | 663 passed (671)
+     Errors  1 error
+   Duration  186.89s (transform 3.18s, setup 1.63s, collect 33.15s, tests 430.55s, environment 33ms, prepare 26.37s)
+
+Focused hosted diagnostic: focused hosted raw_exit=0
+ Test Files  10 passed (10)
+      Tests  49 passed (49)
+   Duration  8.04s (transform 453ms, setup 121ms, collect 2.11s, tests 21.94s, environment 1ms, prepare 621ms)
+
+swiftlint --strict raw_exit=2
+
+swiftlint raw_exit=0
+
+xcodegen raw_exit=0
+xcodegen drift raw_exit=0
+
+git diff --check raw_exit=0
+
+committed diff check raw_exit=0
