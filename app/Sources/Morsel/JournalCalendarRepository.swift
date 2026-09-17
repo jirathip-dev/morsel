@@ -48,7 +48,8 @@ extension LocalFirstDashboardRepository: JournalCalendarReading {
     func cachedCalendarDates(userID: UUID) throws -> [Date]? {
         guard let payload = try snapshotCache.loadHistoryCache(cacheKey: calendarCacheKey(userID)) else { return nil }
         let cached = try JSONDecoder().decode(HistoryOverview.self, from: payload)
-        let queued = try store.queuedMeals().map { DashboardMath.startOfLocalDay($0.eatenAt) }
+        // Issue #191 — the diary index wants the queued DAYS, never their photos.
+        let queued = try store.queuedMealSummaries().map { DashboardMath.startOfLocalDay($0.eatenAt) }
         return Array(Set(cached.days.map(\.date) + queued)).sorted()
     }
 
@@ -67,7 +68,7 @@ extension LocalFirstDashboardRepository: JournalCalendarReading {
             guard let cached = try cachedCalendarDates(userID: userID) else { throw error }
             dates = cached
         }
-        dates += try store.queuedMeals().map { DashboardMath.startOfLocalDay($0.eatenAt) }
+        dates += try store.queuedMealSummaries().map { DashboardMath.startOfLocalDay($0.eatenAt) }
         return Array(Set(dates)).sorted()
     }
 }

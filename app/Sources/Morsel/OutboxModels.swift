@@ -225,6 +225,45 @@ struct QueuedMeal: Equatable, Sendable {
     }
 }
 
+/// Issue #191 — the durable photo payload a metadata read can NAME without
+/// reading: a summary read never materializes the BLOB, so it carries the
+/// payload's mime type instead of its bytes. `nil` on a summary means the row
+/// holds no photo at all. The bytes come from the keyed full read
+/// (`LocalDataStore.queuedMeal(mealID:)`) when a photo is actually requested or
+/// uploaded — the payload itself always stays durable in the row.
+struct QueuedPhotoDescriptor: Equatable, Sendable {
+    let mimeType: String
+}
+
+/// Issue #191 — one outbox row WITHOUT its photo bytes: everything the read,
+/// merge, existence and status paths need, so none of them has to materialize
+/// a whole queue of photo payloads. `photo` is the row's durable payload
+/// descriptor (see above), never the payload.
+struct QueuedMealSummary: Equatable, Sendable {
+    let mealID: UUID
+    let mealType: MealType
+    let eatenAt: Date
+    let source: MealSource
+    let notes: String?
+    let items: [QueuedMealItem]
+    let photo: QueuedPhotoDescriptor?
+    let state: MealOutboxState
+    let attempts: Int
+    let lastError: String?
+    let lastErrorCategory: OutboxErrorCategory?
+    /// Remote storage path once the photo upload succeeded (retries reuse it).
+    let imagePath: String?
+    let createdAt: Date
+    let updatedAt: Date
+
+    var syncState: MealSyncState {
+        switch state {
+        case .pending: return .pending
+        case .needsAttention: return .needsAttention
+        }
+    }
+}
+
 /// Builds the durable outbox payload for a validated draft. The meal row
 /// identity is the client-generated idempotency key: the same UUID is sent to
 /// the server as the meal_logs primary key, so a retried delivery can never

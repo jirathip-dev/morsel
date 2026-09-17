@@ -28,16 +28,26 @@ extension LocalFirstDashboardRepository {
     /// The outbox payload serving one object path, when a queued photo meal
     /// still holds it — the #135 local-first read and the issue #188 revision
     /// share this one truth about which bytes are authoritative.
+    ///
+    /// Issue #191 — the canonical object path NAMES the meal it belongs to, so
+    /// this is a keyed read of exactly that one row: only the requested photo's
+    /// payload is ever materialized, never every queued photo's bytes (the
+    /// pre-#191 scan). The canonical-form equality below is the SAME match the
+    /// scan performed, so which paths resolve is unchanged.
     func queuedPhoto(userID: UUID, path: String) throws -> QueuedMealPhoto? {
-        guard let objectPath = try? FoodImageStore.validate(bucketPath: path, for: userID) else {
+        guard let objectPath = try? FoodImageStore.validate(bucketPath: path, for: userID),
+              let mealID = Self.queuedMealID(inObjectPath: objectPath),
+              FoodImageStore.objectPath(userID: userID, imageID: mealID) == objectPath else {
             return nil
         }
-        for row in try store.queuedMeals() {
-            guard let photo = row.photo else { continue }
-            if FoodImageStore.objectPath(userID: userID, imageID: row.mealID) == objectPath {
-                return photo
-            }
-        }
-        return nil
+        return try store.queuedMeal(mealID: mealID)?.photo
+    }
+
+    /// The meal id a canonical object path names (`{user}/{meal}.jpg`); nil
+    /// when the file name is not a meal id, so the caller falls through to the
+    /// same canonical-form comparison as before.
+    private static func queuedMealID(inObjectPath path: String) -> UUID? {
+        guard let name = path.split(separator: "/").last, name.hasSuffix(".jpg") else { return nil }
+        return UUID(uuidString: String(name.dropLast(4)))
     }
 }

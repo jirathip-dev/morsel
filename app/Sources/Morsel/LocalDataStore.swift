@@ -6,6 +6,24 @@ import SQLite3
 // construction, cleared at logout. Cache + durable outbox only: RLS, the
 // security-invoker meal transaction and friendly boundaries stay
 // authoritative on the server. Tokens/secrets are NEVER written here.
+//
+// Issue #191 — connection and lock ownership (what a caller may assume):
+//
+//  * This class owns ONE connection per account file (`SQLITE_OPEN_FULLMUTEX`)
+//    and ONE `NSRecursiveLock`; every helper holds that lock for the whole
+//    statement, so statements never interleave and a caller never manages
+//    SQLite locks itself. The sibling stores over the same account file
+//    (`LocalSnapshotCache`, `LocalHealthStore`) each own their own connection;
+//    WAL plus the 2 s busy timeout arbitrate between instances, not this lock.
+//  * A synchronous read therefore holds the lock only for the ONE statement it
+//    issued, and the read paths are sized for that: the photo payload is
+//    materialized only for a requested photo (`queuedMeal(mealID:)`) or an
+//    actual upload, while existence/status/merge reads use the metadata
+//    projection (`queuedMealSummary(mealID:)` / `queuedMealSummaries()`),
+//    which never reads `photo_data`. No background path performs a queue-wide
+//    BLOB scan, so the UI-facing photo lookup cannot be parked behind one
+//    (see docs/evidence/issue-191-targeted-reads/README.md).
+
 enum LocalStoreError: LocalizedError, Equatable {
     case sqlite(String)
 
@@ -148,7 +166,9 @@ final class LocalDataStore {
         permanent: Bool = false,
         now: Date = Date()
     ) throws {
-        let existing = try queuedMeal(mealID: mealID)
+        // Issue #191 — the attempt bookkeeping needs a row's metadata only:
+        // the durable photo payload is never read on a status path.
+        let existing = try queuedMealSummary(mealID: mealID)
         let attempts = (existing?.attempts ?? 0) + 1
         let needsAttention = permanent || error == .auth || error == .validation
         let state: MealOutboxState = needsAttention ? .needsAttention : .pending

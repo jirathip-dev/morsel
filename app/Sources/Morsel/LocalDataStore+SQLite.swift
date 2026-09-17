@@ -137,7 +137,68 @@ extension LocalDataStore {
         try drain(statement)
     }
 
+    /// Issue #191 — the metadata projection: every outbox column EXCEPT the
+    /// photo payload, plus the payload's existence and mime type.
+    /// `typeof(photo_data) = 'blob'` reads the record header, never the bytes.
+    static let summaryColumns = """
+    local_meal_id, meal_type, eaten_at, source, notes, items_json,
+    (typeof(photo_data) = 'blob' AND photo_mime IS NOT NULL) AS has_photo,
+    photo_mime, state, attempts, last_error, last_error_category, image_path,
+    created_at, updated_at
+    """
+
+    /// Issue #191 — the queue as metadata: existence, status and journal-merge
+    /// reads use this instead of `queuedMeals()`, so no queued photo payload is
+    /// materialized for a row nobody asked to see.
+    func queuedMealSummaries() throws -> [QueuedMealSummary] {
+        try query("""
+        SELECT \(Self.summaryColumns)
+        FROM meal_outbox ORDER BY created_at ASC
+        """).map { try Self.summaryRow($0) }
+    }
+
+    /// Issue #191 — the keyed metadata read of ONE row: the status/existence
+    /// answer without the durable payload.
+    func queuedMealSummary(mealID: UUID) throws -> QueuedMealSummary? {
+        try query("""
+        SELECT \(Self.summaryColumns)
+        FROM meal_outbox WHERE local_meal_id = ?
+        """, .text(mealID.uuidString)).first.map { try Self.summaryRow($0) }
+    }
+
     static func row(_ values: [String: SQLiteValue]) throws -> QueuedMeal {
+        let summary = try summaryRow(values)
+        return QueuedMeal(
+            mealID: summary.mealID,
+            mealType: summary.mealType,
+            eatenAt: summary.eatenAt,
+            source: summary.source,
+            notes: summary.notes,
+            items: summary.items,
+            photo: photo(from: values),
+            state: summary.state,
+            attempts: summary.attempts,
+            lastError: summary.lastError,
+            lastErrorCategory: summary.lastErrorCategory,
+            imagePath: summary.imagePath,
+            createdAt: summary.createdAt,
+            updatedAt: summary.updatedAt
+        )
+    }
+
+    /// Issue #191 — the durable photo payload, present only when the read's
+    /// projection carried `photo_data` (a full row read).
+    private static func photo(from values: [String: SQLiteValue]) -> QueuedMealPhoto? {
+        if case let .blob(data)? = values["photo_data"],
+           let mimeType = string(values, "photo_mime") {
+            return QueuedMealPhoto(data: data, mimeType: mimeType)
+        }
+        return nil
+    }
+
+    /// Issue #191 — one projection parser for BOTH reads, so a full row and a
+    /// metadata row can never disagree about any field.
+    static func summaryRow(_ values: [String: SQLiteValue]) throws -> QueuedMealSummary {
         let string = { (key: String) -> String? in
             if case let .text(value)? = values[key] { return value }
             return nil
@@ -155,29 +216,37 @@ extension LocalDataStore {
               let createdAt = number("created_at"), let updatedAt = number("updated_at") else {
             throw LocalStoreError.sqlite("malformed outbox row")
         }
-        let category = string("last_error_category").flatMap(OutboxErrorCategory.init(rawValue:))
-        return QueuedMeal(
+        return QueuedMealSummary(
             mealID: mealID,
             mealType: mealType,
             eatenAt: Date(timeIntervalSince1970: eatenAt),
             source: source,
             notes: string("notes"),
             items: try Self.items(fromJSON: itemsJSON),
-            photo: {
-                if case let .blob(data)? = values["photo_data"],
-                   let mimeType = string("photo_mime") {
-                    return QueuedMealPhoto(data: data, mimeType: mimeType)
-                }
-                return nil
-            }(),
+            photo: photoDescriptor(from: values),
             state: state,
             attempts: Int(number("attempts") ?? 0),
             lastError: string("last_error"),
-            lastErrorCategory: category,
+            lastErrorCategory: string("last_error_category").flatMap(OutboxErrorCategory.init(rawValue:)),
             imagePath: string("image_path"),
             createdAt: Date(timeIntervalSince1970: createdAt),
             updatedAt: Date(timeIntervalSince1970: updatedAt)
         )
+    }
+
+    /// The photo's existence + mime as EITHER projection reports it: a full
+    /// read carries the payload itself, a metadata read carries `has_photo`.
+    private static func photoDescriptor(from values: [String: SQLiteValue]) -> QueuedPhotoDescriptor? {
+        if case let .int(present)? = values["has_photo"] {
+            guard present != 0, case let .text(mime)? = values["photo_mime"] else { return nil }
+            return QueuedPhotoDescriptor(mimeType: mime)
+        }
+        return photo(from: values).map { QueuedPhotoDescriptor(mimeType: $0.mimeType) }
+    }
+
+    static func string(_ values: [String: SQLiteValue], _ key: String) -> String? {
+        if case let .text(value)? = values[key] { return value }
+        return nil
     }
 
     static func itemsJSON(_ items: [QueuedMealItem]) -> String {
