@@ -93,18 +93,22 @@ struct TodayReadRepository: DashboardRepository {
 class TodayRefreshTestCase: XCTestCase {
     let date = DashboardMath.startOfLocalDay(Date(timeIntervalSince1970: 1_789_300_800))
     var harness = TodayReadHarness()
-    var model: DashboardViewModel!
+    private var storedModel: DashboardViewModel?
+    var model: DashboardViewModel {
+        guard let storedModel else { preconditionFailure("setUp must initialize the Today refresh model") }
+        return storedModel
+    }
 
     override func setUp() {
         super.setUp()
         harness = TodayReadHarness()
-        model = DashboardViewModel(repository: TodayReadRepository(harness: harness),
-                                   userID: UUID(), dateProvider: { self.date })
+        storedModel = DashboardViewModel(repository: TodayReadRepository(harness: harness),
+                                         userID: UUID(), dateProvider: { self.date })
     }
 
     override func tearDown() {
         harness.drain()
-        model = nil
+        storedModel = nil
         super.tearDown()
     }
 
