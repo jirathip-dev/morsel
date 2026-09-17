@@ -94,13 +94,24 @@ async function verifyArtworkRoundTrip(postgres: LocalPostgres, userId: string, o
   const service = new MorselService({ repository, userId })
   const names = ['Coffee', 'black coffee', 'กาแฟ', 'Americano', '  Americano (black, no sugar, homemade)  ']
   const items = names.map((name) => ({ name, artwork_id: 'coffee', quantity: 1, unit: 'cup', calories_kcal: 3, protein_g: 0, carbs_g: 0, fat_g: 0 }))
-  const legacy = ['coffee cake', 'ambiguous mixed dish', 'unknown food'].map((name) => ({ name, quantity: 1, unit: 'serving' }))
+  // Issue #284 — a name-only log now stores the published identity its name
+  // resolves to ('coffee cake' is a published `cake` alias), while a name that
+  // reaches no published identity (or one an approved native study owns) still
+  // reads back WITHOUT one: the SQL NULL round trip below is unchanged.
+  const legacy = [
+    { input: { name: 'coffee cake', quantity: 1, unit: 'serving' }, stored: { artwork_id: 'cake' } },
+    { input: { name: 'ambiguous mixed dish', quantity: 1, unit: 'serving' }, stored: {} },
+    { input: { name: 'unknown food', quantity: 1, unit: 'serving' }, stored: {} },
+  ]
   await repository.withAccessToken('local-fixture', async () => {
-    const logged = await service.logMeal({ meal_type: 'breakfast', eaten_at: '2026-09-01T08:00:00Z', items: [...items, ...legacy] })
+    const logged = await service.logMeal({ meal_type: 'breakfast', eaten_at: '2026-09-01T08:00:00Z', items: [...items, ...legacy.map((entry) => entry.input)] })
     const day = await service.getDay({ date: '2026-09-01' })
     const meal = day.meals.find((candidate) => candidate.meal_log_id === logged.meal_log_id)
     expect(meal?.items).toEqual(expect.arrayContaining(items.map((item) => expect.objectContaining(item))))
-    for (const item of legacy) expect(meal?.items.find((candidate) => candidate.name === item.name)).toEqual({ ...item, item_id: expect.any(String) })
+    for (const entry of legacy) {
+      expect(meal?.items.find((candidate) => candidate.name === entry.input.name))
+        .toEqual({ ...entry.input, ...entry.stored, item_id: expect.any(String) })
+    }
     const itemId = meal?.items.find((item) => item.name === names[0])?.item_id
     expect(itemId).toBeDefined()
     await service.updateMealItem({ item_id: itemId, artwork_id: 'banana' })

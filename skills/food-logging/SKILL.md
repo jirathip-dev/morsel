@@ -66,6 +66,10 @@ Always follow these rules:
   inputs for artwork. Omit identity if uncertain or the connected older server
   does not advertise the field. Unknown IDs (including case/whitespace variants
   and explicit null) are rejected before writes; omission remains compatible.
+  When you omit it, `log_meal` resolves a published identity from the item name
+  while it writes (issue #284), so a descriptive name kept verbatim is enough —
+  a name that reaches no published identity stays without one and the renderer
+  keeps its documented fallback, and an explicit published ID always wins.
   For example, descriptive Americano may use the published `coffee` ID without
   changing its name, macros, or photo. Coffee cake and ambiguous mixed dishes
   are not coffee; do not use substring guessing. Illustrations are bundled,
