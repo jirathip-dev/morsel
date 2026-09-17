@@ -36,7 +36,13 @@ final class TodayRefreshOwner {
                keepsAlive: Bool = false, publish: @escaping (Event) -> Void) -> Flight {
         if superseding || active?.date != date { cancel() }
         if let active {
-            if invalidating { active.revision &+= 1 }
+            if invalidating {
+                active.revision &+= 1
+                // Issue #183 — the write that invalidated this pass also
+                // supersedes its in-flight cache publication: that read
+                // predates the write and must not publish.
+                (repository as? any ReadPublicationFencing)?.invalidateReadPublications(userID: userID)
+            }
             active.keepsAlive = active.keepsAlive || keepsAlive
             return active
         }

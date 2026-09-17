@@ -1,0 +1,21 @@
+# raw log: .lane-logs/mutation-battery-summary.log (1313 bytes, sha256 033941513873da216451a2eccc15126c5d465b0ee4f039a800804a15ee133a21)
+# six mutations on the fixed tree; each must RED its named test
+
+each mutation is applied to the committed head, the focused suite is rerun, then the
+source is restored and `git diff --exit-code -- app/Sources/Morsel` must be empty.
+
+=== battery start 16:50:56 ===
+mutated LocalFirstRepository.swift occurrences: 1
+MUTATION read-guard-removed raw_exit=65 failing_tests=4 expected_test_failed=1 | Executed 8 tests, with 4 failures (0 unexpected) in 0.142 (0.146) seconds
+mutated LocalSnapshotCache.swift occurrences: 1
+MUTATION teardown-fence-removed raw_exit=65 failing_tests=1 expected_test_failed=1 | Executed 8 tests, with 3 failures (0 unexpected) in 0.163 (0.167) seconds
+mutated LocalFirstRepository.swift occurrences: 1
+MUTATION mutation-fence-removed raw_exit=65 failing_tests=1 expected_test_failed=1 | Executed 8 tests, with 2 failures (0 unexpected) in 0.141 (0.144) seconds
+mutated TodayRefreshOwner.swift occurrences: 1
+MUTATION owner-hook-removed raw_exit=65 failing_tests=1 expected_test_failed=1 | Executed 8 tests, with 3 failures (0 unexpected) in 0.146 (0.149) seconds
+mutated LocalFirstRepository.swift occurrences: 2
+MUTATION savedat-wallclock raw_exit=65 failing_tests=1 expected_test_failed=1 | Executed 8 tests, with 1 failure (0 unexpected) in 0.139 (0.142) seconds
+mutated LocalFirstRepository.swift occurrences: 1
+MUTATION write-not-best-effort raw_exit=65 failing_tests=1 expected_test_failed=1 | Executed 8 tests, with 1 failure (1 unexpected) in 0.146 (0.149) seconds
+=== battery end 16:53:07 ===
+TREE-RESTORED-CLEAN

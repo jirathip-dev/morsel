@@ -9,6 +9,12 @@ import SQLite3
 final class LocalSnapshotCache {
     private let database: OpaquePointer
     private let lock = NSRecursiveLock()
+    /// Issue #183 — publication generations: one counter per account+resource+day/range
+    /// scope plus one invalidation epoch per account (see the extension at the end).
+    private var publicationGenerations: [String: Int] = [:]
+    private var publicationInvalidations: [UUID: Int] = [:]
+    /// Teardowns clear the whole file, so they supersede every account's reads.
+    private var publicationTeardowns = 0
 
     init(databaseURL: URL) throws {
         try FileManager.default.createDirectory(
@@ -63,23 +69,11 @@ final class LocalSnapshotCache {
 
     deinit { sqlite3_close(database) }
 
-    func saveDashboardCache(dayKey: String, payload: Data, savedAt: Date = Date()) throws {
-        try run("""
-        INSERT INTO dashboard_cache(day_key, payload, saved_at) VALUES (?, ?, ?)
-        ON CONFLICT(day_key) DO UPDATE SET payload = excluded.payload, saved_at = excluded.saved_at
-        """, .text(dayKey), .text(Self.text(payload)), .double(savedAt.timeIntervalSince1970))
-    }
+    // MARK: - Reads
 
     func loadDashboardCache(dayKey: String) throws -> Data? {
         try firstColumn("SELECT payload FROM dashboard_cache WHERE day_key = ?", .text(dayKey))
             .flatMap { $0.data(using: .utf8) }
-    }
-
-    func saveHistoryCache(cacheKey: String, payload: Data, savedAt: Date = Date()) throws {
-        try run("""
-        INSERT INTO history_cache(cache_key, payload, saved_at) VALUES (?, ?, ?)
-        ON CONFLICT(cache_key) DO UPDATE SET payload = excluded.payload, saved_at = excluded.saved_at
-        """, .text(cacheKey), .text(Self.text(payload)), .double(savedAt.timeIntervalSince1970))
     }
 
     func loadHistoryCache(cacheKey: String) throws -> Data? {
@@ -100,6 +94,10 @@ final class LocalSnapshotCache {
     }
 
     func clearAccountData() throws {
+        // Issue #183 — teardown supersedes every read already in flight.
+        lock.lock()
+        publicationTeardowns += 1
+        lock.unlock()
         try run("DELETE FROM dashboard_cache")
         try run("DELETE FROM history_cache")
         try run("DELETE FROM goals_cache")
@@ -300,5 +298,103 @@ extension LocalSnapshotCache {
     func loadMenusCache(userKey: String) throws -> Data? {
         try firstColumn("SELECT payload FROM menus_cache WHERE user_key = ?", .text(userKey))
             .flatMap { $0.data(using: .utf8) }
+    }
+}
+
+// Issue #183 — generation-scoped publication: a read's write-through lands
+// only while that read is the newest for its own account + resource +
+// day-or-range scope and no write has invalidated the account. Ordering is a
+// monotone generation, never a comparison of `saved_at` values.
+extension LocalSnapshotCache {
+    /// One read's claim on one cache scope.
+    struct Publication: Hashable {
+        let account: UUID
+        let scope: String
+        let generation: Int
+        let invalidation: Int
+    }
+
+    /// Begins a read for `scope` (resource + day/range key) and returns the token
+    /// it must publish with; every later `begin` for the same scope supersedes it.
+    func beginPublication(account: UUID, scope: String) -> Publication {
+        lock.lock()
+        defer { lock.unlock() }
+        let key = Self.publicationKey(account: account, scope: scope)
+        let generation = (publicationGenerations[key] ?? 0) + 1
+        publicationGenerations[key] = generation
+        return Publication(
+            account: account, scope: scope, generation: generation,
+            invalidation: (publicationInvalidations[account] ?? 0) + publicationTeardowns
+        )
+    }
+
+    /// True while no newer same-scope read and no invalidation superseded it.
+    func isPublicationCurrent(_ publication: Publication) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        return allows(publication)
+    }
+
+    /// Mutation: every read in flight for the account now predates a write.
+    func invalidatePublications(account: UUID) {
+        lock.lock()
+        defer { lock.unlock() }
+        publicationInvalidations[account, default: 0] += 1
+    }
+
+    /// The generation-scoped write-through: it lands only while `publication` still
+    /// owns its scope (`nil` = unconditional); refusing is not an error here.
+    @discardableResult
+    func saveDashboardCache(
+        dayKey: String, payload: Data, savedAt: Date = Date(), publication: Publication? = nil
+    ) throws -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        guard allows(publication) else { return false }
+        try run("""
+        INSERT INTO dashboard_cache(day_key, payload, saved_at) VALUES (?, ?, ?)
+        ON CONFLICT(day_key) DO UPDATE SET payload = excluded.payload, saved_at = excluded.saved_at
+        """, .text(dayKey), .text(Self.text(payload)), .double(savedAt.timeIntervalSince1970))
+        return true
+    }
+
+    @discardableResult
+    func saveHistoryCache(
+        cacheKey: String, payload: Data, savedAt: Date = Date(), publication: Publication? = nil
+    ) throws -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        guard allows(publication) else { return false }
+        try run("""
+        INSERT INTO history_cache(cache_key, payload, saved_at) VALUES (?, ?, ?)
+        ON CONFLICT(cache_key) DO UPDATE SET payload = excluded.payload, saved_at = excluded.saved_at
+        """, .text(cacheKey), .text(Self.text(payload)), .double(savedAt.timeIntervalSince1970))
+        return true
+    }
+
+    private static func publicationKey(account: UUID, scope: String) -> String {
+        "\(account.uuidString)/\(scope)"
+    }
+
+    /// `nil` is the unconditional write: no read owns it.
+    private func allows(_ publication: Publication?) -> Bool {
+        guard let publication else { return true }
+        let key = Self.publicationKey(account: publication.account, scope: publication.scope)
+        let current = (publicationInvalidations[publication.account] ?? 0) + publicationTeardowns
+        return publicationGenerations[key] == publication.generation && current == publication.invalidation
+    }
+}
+
+/// Issue #183 — a read graph that can be told that a write landed: every read
+/// already in flight for that account is superseded. `TodayRefreshOwner` calls
+/// this when a write invalidates the pass it is showing; read graphs that never
+/// publish to the snapshot cache do not implement it.
+protocol ReadPublicationFencing {
+    func invalidateReadPublications(userID: UUID)
+}
+
+extension LocalFirstDashboardRepository: ReadPublicationFencing {
+    func invalidateReadPublications(userID: UUID) {
+        snapshotCache.invalidatePublications(account: userID)
     }
 }
