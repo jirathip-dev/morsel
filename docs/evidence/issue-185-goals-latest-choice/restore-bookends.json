@@ -1,0 +1,25 @@
+{
+  "head": "a6c679dfd2094bfb69e8d07e1a13821fa9c4f4eb",
+  "base": "2ddba7e0443c3d05f1345a4ce178738426144781",
+  "before": {
+    "app/Sources/Morsel/GoalsEditorModel.swift": "4bdd4f32bd78e809f5fb191709501ff552919b6d4641cfc4376324d5cd5637b4",
+    "app/Sources/Morsel/GoalsEditor.swift": "fd7e4e230d9734c2e6cb36eca0a5f6d69d42973d6eb8b751fe4c5bc98971877d",
+    "app/Tests/MorselTests/GoalsDirectionOwnershipTests.swift": "17129728b2329dd6922022700e305c294157a468c1acfb6acd2dde28e873901b",
+    "app/Morsel.xcodeproj/project.pbxproj": "256868a26b3591bea53d9524b049c455b450835dcbbc2bb25c93222505a91c98",
+    "app/Tests/MorselTests/GoalsDirectionRaceTests.swift": "aa18a9929f41415c9af859b8ac7246125a8ab248b9982be2f60a059ff67adba1",
+    "app/Tests/MorselTests/GoalsPageRequestSpy.swift": "d23e12e7e0558002648d19a891fc25f782acb59e6f6bf7c4b6879d2a818bb1dc"
+  },
+  "base_sources": {
+    "app/Sources/Morsel/GoalsEditorModel.swift": "ee156239123ca3141da464417bbc74c8e861f71cfb3f115f33492b3b3544619b",
+    "app/Sources/Morsel/GoalsEditor.swift": "272d2a58716fafaf6061fd9def1477893748ca33fa24a0b47e1fe0552ad50d23"
+  },
+  "after": {
+    "app/Sources/Morsel/GoalsEditorModel.swift": "4bdd4f32bd78e809f5fb191709501ff552919b6d4641cfc4376324d5cd5637b4",
+    "app/Sources/Morsel/GoalsEditor.swift": "fd7e4e230d9734c2e6cb36eca0a5f6d69d42973d6eb8b751fe4c5bc98971877d",
+    "app/Tests/MorselTests/GoalsDirectionOwnershipTests.swift": "17129728b2329dd6922022700e305c294157a468c1acfb6acd2dde28e873901b",
+    "app/Morsel.xcodeproj/project.pbxproj": "256868a26b3591bea53d9524b049c455b450835dcbbc2bb25c93222505a91c98",
+    "app/Tests/MorselTests/GoalsDirectionRaceTests.swift": "aa18a9929f41415c9af859b8ac7246125a8ab248b9982be2f60a059ff67adba1",
+    "app/Tests/MorselTests/GoalsPageRequestSpy.swift": "d23e12e7e0558002648d19a891fc25f782acb59e6f6bf7c4b6879d2a818bb1dc"
+  },
+  "restored_byte_exact": true
+}
