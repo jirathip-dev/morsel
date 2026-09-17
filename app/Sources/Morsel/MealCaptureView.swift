@@ -351,7 +351,7 @@ private extension AddMealView {
                     .font(.morselBodyStrong)
                     .foregroundStyle(Color.morselInk)
                 Text(menu.summaryLine)
-                    .font(.morselData)
+                    .font(.morselValue)
                     .foregroundStyle(Color.morselInkThree)
             }
             Spacer(minLength: 8)

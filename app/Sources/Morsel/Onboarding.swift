@@ -202,7 +202,7 @@ struct OnboardingView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Set up later", action: onSkip)
-                        .font(.morselData).foregroundStyle(Color.morselInkTwo)
+                        .font(.morselValue).foregroundStyle(Color.morselInkTwo)
                 }
             }
         }
@@ -253,7 +253,7 @@ struct OnboardingView: View {
 
     private var signInContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("agent").font(.morselValue).foregroundStyle(Color.morselInkThree)
             Text("Hi — I'll be your food logger. Morsel is where I write what you eat; you never fill in forms.")
                 .font(.morselBody).foregroundStyle(Color.morselInk)
             Text("First, prove it's you:").font(.morselBody).foregroundStyle(Color.morselInk)
@@ -268,7 +268,7 @@ struct OnboardingView: View {
 
     private var signedInContent: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("agent").font(.morselValue).foregroundStyle(Color.morselInkThree)
             Text("Signed in ✓ — that's the account I'll write to. Now connect me in your chat app.")
                 .font(.morselBody).foregroundStyle(Color.morselInk)
             Text("Pick where you talk to me:").font(.morselBody).foregroundStyle(Color.morselInk)
@@ -280,7 +280,7 @@ struct OnboardingView: View {
     @ViewBuilder private var connectContent: some View {
         let endpointValue = OnboardingEndpoint(configuredValue: endpoint)?.value
         VStack(alignment: .leading, spacing: 16) {
-            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("agent").font(.morselValue).foregroundStyle(Color.morselInkThree)
             Text("Paste this endpoint into any MCP client's custom connector field, then verify with get_profile.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
             Text("MCP ENDPOINT").morselSectionLabel()
@@ -370,7 +370,7 @@ struct OnboardingView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("When your connector is ready, confirm here to finish setup.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)
-            Text("you").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("you").font(.morselValue).foregroundStyle(Color.morselInkThree)
             Button("I'm connected") { _ = state.confirmConnection() }
                 .buttonStyle(MorselPrimaryButtonStyle())
                 .padding(.vertical, -2).frame(maxWidth: .infinity)
@@ -379,7 +379,7 @@ struct OnboardingView: View {
 
     private var doneContent: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("agent").font(.morselData).foregroundStyle(Color.morselInkThree)
+            Text("agent").font(.morselValue).foregroundStyle(Color.morselInkThree)
             Text("Agent connected ✓").font(.morselTitle).foregroundStyle(Color.morselAccent)
             Text("Your next meal is ready to log.")
                 .font(.morselBody).foregroundStyle(Color.morselInkTwo)

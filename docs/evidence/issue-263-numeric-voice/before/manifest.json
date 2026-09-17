@@ -1,0 +1,262 @@
+[
+  {
+    "file": "before/263-b-night-calendar.png",
+    "sha256": "adecaa3d8e78fffaedb0ec545dfc83e2fe4ed6872e1c15a9804538e7daa5453a",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "AC3D9C00-E8FD-4028-B126-3BBD3AD18EEF.png"
+  },
+  {
+    "file": "before/263-b-night-day-drill-down.png",
+    "sha256": "5826f4b00e9cba65004d87e963f49b93c8fe5e160cc468f230847c706db9027d",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "16DCA90F-4135-476D-BD4A-35EE50324798.png"
+  },
+  {
+    "file": "before/263-b-night-goals-filled.png",
+    "sha256": "6dc7431cd9fe9a84be3fa78c068954897fb507fcad445895b0f06ca555def7b6",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "A24CEF33-33C8-44CA-893A-D3FD4AE23BA8.png"
+  },
+  {
+    "file": "before/263-b-night-goals-invalid.png",
+    "sha256": "09bd68f8ee76c723be539c28851cb17ba905514e7766db336bfc23db8c706e6e",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "74ABBE27-BC02-423F-AE0F-6553366BF531.png"
+  },
+  {
+    "file": "before/263-b-night-history-ledger-gauge.png",
+    "sha256": "c2d5d4498d90017384f1c33153a53694efb507137394f60c743a52e2fb51ff62",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "17E80533-1B98-47FC-BB4B-AF97E78F5DAD.png"
+  },
+  {
+    "file": "before/263-b-night-meal-capture-bottom.png",
+    "sha256": "1749ed8169b4a4817d4d3136edeff6365f4e1035a33ceaad0fb022a5d33e48fa",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "C86BDD56-05C3-48A9-AA79-AB1FCD736247.png"
+  },
+  {
+    "file": "before/263-b-night-meal-capture.png",
+    "sha256": "40d673869c781cc8ed1c03e859ff385fc57c3e8a7d62b8fb6bd42fde8070d85b",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "11833DC7-64ED-4627-B994-AD894CFE0541.png"
+  },
+  {
+    "file": "before/263-b-night-meal-edit-bottom.png",
+    "sha256": "d4b59af9e65a36457671f7bc79d619a3aae1f5eb021e2da8c4c1b7a66c9f25c5",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "9BBF9799-0302-4802-8F72-F00463512F51.png"
+  },
+  {
+    "file": "before/263-b-night-meal-edit.png",
+    "sha256": "64860c99955df11c5b093fb5496ffde2164949090583f5c310c276157a132834",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "0CC8AC0C-AFEB-4EC2-B370-E0910DB05038.png"
+  },
+  {
+    "file": "before/263-b-night-menu-editor.png",
+    "sha256": "455479b2ea1c50b8b8fe808cbaee619e054ab5898e1b897b423a5c49f572cde2",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "0487C32A-7CE4-41E0-9BF9-82D3F1049DC9.png"
+  },
+  {
+    "file": "before/263-b-night-photo-metadata.png",
+    "sha256": "7e530b63bcbc7d9c2053a084046a0f1f42df892c1e9c721f8e243cd110d8c576",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "4B4E5FD9-E4A8-491B-A219-3E7B884FB220.png"
+  },
+  {
+    "file": "before/263-b-night-today.png",
+    "sha256": "b02e49108ad5b6e6b9f2149c36f7a2c07c038a6ac139f07755cc37132802228b",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "FC026A64-255A-4E36-B138-C2BB1B34938F.png"
+  },
+  {
+    "file": "before/263-b-night-weight-chart.png",
+    "sha256": "aa6b37d897e272e62d932298ce61f2293e7d64503b77d6d005f74aa845bf9a53",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "AA2EA177-F704-4EC6-A09B-9A4347E3FFE6.png"
+  },
+  {
+    "file": "before/263-b-paper-calendar.png",
+    "sha256": "19c3bfddf832c724b49395a95882bac59862854edb8d25d17ea26b644e785720",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "637E5945-A050-403B-AA8F-E7F08E28C844.png"
+  },
+  {
+    "file": "before/263-b-paper-day-drill-down.png",
+    "sha256": "badf0cfc9ae852e379da2668525d6c438fb5b1bd2655083926053aae9f369e71",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "D72D4D27-6ED2-4AE3-87B1-981CF8C51E03.png"
+  },
+  {
+    "file": "before/263-b-paper-goals-filled.png",
+    "sha256": "770cf53004cf2bfb17e0e536f89122d57424c0e258823b5fa7f0338797f33b61",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "61D4CC4B-21FC-446F-8CAF-A4892700DE84.png"
+  },
+  {
+    "file": "before/263-b-paper-goals-invalid.png",
+    "sha256": "f479442cf8c2f049ee9828c668114b95e917f0334b533c33ab479b441872f8a9",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "F10AE76C-C72B-4704-86A2-75D223F9963D.png"
+  },
+  {
+    "file": "before/263-b-paper-history-ledger-gauge.png",
+    "sha256": "4f9457545bb286d661e3c9b6de5fa8b0711f1292daf6c42fdd9ac6447a4fa9c7",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "CC5297E5-084C-443B-BB9E-2AA4C141D56E.png"
+  },
+  {
+    "file": "before/263-b-paper-meal-capture-bottom.png",
+    "sha256": "a5e68ec02eeb7debc5ca3bab0bc797ae39ccb2ef9f808ab77ce0e5f49189f20f",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "6A36F96F-4867-49B3-AAE6-ECC46CEB644F.png"
+  },
+  {
+    "file": "before/263-b-paper-meal-capture.png",
+    "sha256": "303179144c1bd395fe099719a8795b301cdd1a8f27f5befae25266a3ecc2502e",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "8C051516-3704-407C-9AFE-C212BA136B26.png"
+  },
+  {
+    "file": "before/263-b-paper-meal-edit-bottom.png",
+    "sha256": "1e64c676b902bab6439fada56ec5cb30acf0a4887914e0f9475dc266142f674b",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "2CF07E34-4723-47F7-A85C-EC53F9520B6C.png"
+  },
+  {
+    "file": "before/263-b-paper-meal-edit.png",
+    "sha256": "eaf0ac7427361d5b412094728a4a541ec4e62a2ab8bfc234023918dac80e26aa",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "8352D699-479E-471A-AEAF-CFDD3CE346F6.png"
+  },
+  {
+    "file": "before/263-b-paper-menu-editor.png",
+    "sha256": "38c2d56574e2e2c6caa97926ad319a002f74beb7a8295dfc2d923e85679dbfc6",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "3EBA1418-DAEA-4A02-80BF-C9E21431C37E.png"
+  },
+  {
+    "file": "before/263-b-paper-photo-metadata.png",
+    "sha256": "e39d78a8d665d3ddcc449d319be62152f1b6f8111290a789408f5343137fc9fa",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "FEEAD324-4910-4D7E-BC30-1350BBBF8958.png"
+  },
+  {
+    "file": "before/263-b-paper-today.png",
+    "sha256": "5bfc450af8cff3e9456bf7e85ecae358f02a60d8b47ebcaa099e1d41eb38add8",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "69218C45-13E7-4E9F-B9DE-B87076FB18A0.png"
+  },
+  {
+    "file": "before/263-b-paper-weight-chart.png",
+    "sha256": "264666758acff77c5516e24f589187eae190ca6928436a44548aee88fd50a5b7",
+    "pixels": [
+      1179,
+      2556
+    ],
+    "device": "8B8BAE9D-2DD2-480D-A6CF-5116A1DC804B",
+    "exported": "0E994FAB-C8A9-4F98-9146-C522A947C1EB.png"
+  }
+]
