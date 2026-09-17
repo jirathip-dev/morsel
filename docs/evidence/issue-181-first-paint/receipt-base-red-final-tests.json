@@ -1,0 +1,26 @@
+{
+  "label": "base-red-final-tests",
+  "command": [
+    "/Users/jirathip/.local/bin/xcodebuild",
+    "test",
+    "-project",
+    "app/Morsel.xcodeproj",
+    "-scheme",
+    "Morsel",
+    "-destination",
+    "platform=iOS Simulator,name=iPhone 16,OS=latest",
+    "-only-testing:MorselTests/TodayFirstPaintOverlayTests",
+    "-only-testing:MorselTests/TodayFirstPaintBoundaryTests",
+    "-only-testing:MorselTests/MealReliabilityTests",
+    "-only-testing:MorselTests/PageIdentityTests",
+    "-only-testing:MorselTests/ParallelReadsTests",
+    "-only-testing:MorselTests/SharedButtonTargetTests",
+    "-derivedDataPath",
+    "/tmp/morsel-181-dd",
+    "CODE_SIGNING_ALLOWED=NO"
+  ],
+  "exit_status": 65,
+  "seconds": 234.7,
+  "log": ".lane-logs/base-red-final-tests.txt",
+  "log_sha256": "54e54965d0a6803bd69a714ce40f434ecc4f5614fa25caa8b698a6db98615152"
+}

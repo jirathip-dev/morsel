@@ -1,0 +1,37 @@
+Issue #181 — focused rerun at head b6401f5 of the three classes that are red at base
+Full raw log SHA-256: 3b4fa71eb82f9ad77b368664186236a0dff25d5114a84d0b8397e2fa033b6099
+raw exit: 65   full log: .lane-logs/head-known-reds.txt (untracked)
+
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.038 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.123 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' started.
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.020 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' started.
+2026-09-17 14:36:33.Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.029 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.015 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.013 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' started.
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.012 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-181-today-firstpaint/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+	 Executed 30 tests, with 4 failures (0 unexpected) in 11.799 (11.810) seconds
+	 Executed 30 tests, with 4 failures (0 unexpected) in 11.799 (11.811) seconds
+Failing tests:
