@@ -1,0 +1,16 @@
+# raw log: .lane-logs/gate-full-native.log (338790 bytes, sha256 0993d63c38d17e75b9a7bf03f13ebe7c3181c6bab1847bf5795c7c89d760a855)
+# ONE complete unfiltered native invocation at the fix head
+
+Executed 542 tests, with 3 tests skipped and 5 failures (0 unexpected) in 329.937 (330.224) seconds
+LEG head raw_exit=65  Executed 4 tests, with 4 failures (0 unexpected) in 0.697 (0.700) seconds
+
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' failed 
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed 
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed 
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed 
+
+known pre-existing reds (see pre-existing-native-base.txt / -head.txt): 
+  MealReliabilityTests.testOfflineAddMealCommitsLocallyAndPaintsPendingRow
+  PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll
+  ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts
+  SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping

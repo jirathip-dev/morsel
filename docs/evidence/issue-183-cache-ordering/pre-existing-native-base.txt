@@ -1,0 +1,9 @@
+# raw log: .lane-logs/pre-existing-base.log (199690 bytes, sha256 0e5fd9881acb66b7415541a10697c2db48f8f2ff5cebc2d7373b6478d3b13a59)
+# focused rerun of the four full-suite failing tests at BASE 163830a (fix reverted, tests unchanged)
+
+Executed 4 tests, with 4 failures (0 unexpected) in 0.715 (0.718) seconds
+LEG base raw_exit=65  Executed 4 tests, with 4 failures (0 unexpected) in 0.715 (0.718) seconds
+
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed 
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed 
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed 

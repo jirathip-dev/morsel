@@ -1,0 +1,21 @@
+# raw log: .lane-logs/hosted-app-contracts.log (1410 bytes, sha256 c8e91f3b980bf76898c6d1b5812c12deeb534b9a077ee46fc35c98f4d557b9cc)
+# hosted app-contract probes (`npx vitest run app/`) at the fix head
+
+raw exit: 0
+Test Files  20 passed (20)
+Tests  142 passed (142)
+
+# raw log: .lane-logs/hosted-full-npm-test.log (48250 bytes, sha256 187294e4a347033ff4ca00a7cec3b9fad00f2255a64f4c667a06ffb35154fb38)
+# full hosted suite (`npm test`, vitest run) at the fix head
+RAW_EXIT=1
+Test Files  3 failed | 58 passed (61)
+Tests  4 failed | 671 passed (675)
+AssertionError count: 0
+`Test timed out in 5000ms` occurrences: 8
+all four full-suite failures are 5000 ms timeouts in server suites (http, render-png x2,
+tool-classification): this diff is Swift-only and no server file was touched.
+
+# raw log: .lane-logs/hosted-timeout-diagnostic.log (1538 bytes, sha256 100908ee587172ab49026c1bbf308c00e2ddfba50d5c2443677dc23ceef67ab3)
+# DIAGNOSTIC ONLY (60 s budget, never a gate): the three timed-out files alone
+Test Files  3 passed (3)
+Tests  12 passed (12)

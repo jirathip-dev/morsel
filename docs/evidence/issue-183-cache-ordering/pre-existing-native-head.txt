@@ -1,0 +1,9 @@
+# raw log: .lane-logs/pre-existing-head.log (193409 bytes, sha256 6e123b8d1df1a8a4fcf91b0bdd183e3e272679c9960a2600c57daed566ae012d)
+# the same focused rerun at the fix head
+
+Executed 4 tests, with 4 failures (0 unexpected) in 0.697 (0.700) seconds
+LEG head raw_exit=65  Executed 4 tests, with 4 failures (0 unexpected) in 0.697 (0.700) seconds
+
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed 
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed 
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed 

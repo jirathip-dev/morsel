@@ -1,0 +1,81 @@
+{
+  "base_sha": "163830a2e343a59a72935fc45936391372ebe534",
+  "full_native_head": {
+    "failures": 5,
+    "known_pre_existing": [
+      "MealReliabilityTests.testOfflineAddMealCommitsLocallyAndPaintsPendingRow",
+      "PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll",
+      "ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts",
+      "SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping"
+    ],
+    "skipped": 3,
+    "tests": 542
+  },
+  "head_sha": "802e9cd4a4eeca2ebb0f7aa3fbe72a6c6b209108",
+  "issue": 183,
+  "logs": {
+    "app_contracts": {
+      "bytes": 1410,
+      "log": ".lane-logs/hosted-app-contracts.log",
+      "sha256": "c8e91f3b980bf76898c6d1b5812c12deeb534b9a077ee46fc35c98f4d557b9cc"
+    },
+    "base_leg": {
+      "bytes": 199690,
+      "log": ".lane-logs/pre-existing-base.log",
+      "sha256": "0e5fd9881acb66b7415541a10697c2db48f8f2ff5cebc2d7373b6478d3b13a59"
+    },
+    "full_native": {
+      "bytes": 338790,
+      "log": ".lane-logs/gate-full-native.log",
+      "sha256": "0993d63c38d17e75b9a7bf03f13ebe7c3181c6bab1847bf5795c7c89d760a855"
+    },
+    "green": {
+      "bytes": 142753,
+      "log": ".lane-logs/green2-focused.log",
+      "sha256": "ca7d652df911a68f071f63f76a7ff0c0da2a4cdc40f2440d5600f46a52d18ec1"
+    },
+    "head_leg": {
+      "bytes": 193409,
+      "log": ".lane-logs/pre-existing-head.log",
+      "sha256": "6e123b8d1df1a8a4fcf91b0bdd183e3e272679c9960a2600c57daed566ae012d"
+    },
+    "mutations": {
+      "bytes": 1313,
+      "log": ".lane-logs/mutation-battery-summary.log",
+      "sha256": "033941513873da216451a2eccc15126c5d465b0ee4f039a800804a15ee133a21"
+    },
+    "npm_diagnostic": {
+      "bytes": 1538,
+      "log": ".lane-logs/hosted-timeout-diagnostic.log",
+      "sha256": "100908ee587172ab49026c1bbf308c00e2ddfba50d5c2443677dc23ceef67ab3"
+    },
+    "npm_full": {
+      "bytes": 48250,
+      "log": ".lane-logs/hosted-full-npm-test.log",
+      "sha256": "187294e4a347033ff4ca00a7cec3b9fad00f2255a64f4c667a06ffb35154fb38"
+    },
+    "red": {
+      "bytes": 103253,
+      "log": ".lane-logs/red3-base-focused.log",
+      "sha256": "092ed2d790a2e30dd550c95ad50e81a843416ee3b09ff3654343cb5bbd05bee7"
+    },
+    "swiftlint": {
+      "bytes": 8535,
+      "log": ".lane-logs/swiftlint-strict.log",
+      "sha256": "ef3ede813b16ec1a5a918839f7a1c33338bfe678848b768202c4138e30125832"
+    }
+  },
+  "raw_exits": {
+    "focused_native_base_leg_of_full_suite_failures": 65,
+    "focused_native_base_red": 65,
+    "focused_native_head_green": 0,
+    "focused_native_head_leg_of_full_suite_failures": 65,
+    "full_native_head": 65,
+    "git_diff_check": 0,
+    "hosted_app_contracts": 0,
+    "hosted_full_npm_test": 1,
+    "hosted_timeout_diagnostic_only": 0,
+    "swiftlint_strict": 0,
+    "xcodegen_generate_git_diff_empty": 0
+  }
+}
