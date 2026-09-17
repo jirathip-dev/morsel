@@ -19,7 +19,7 @@
         },
         "timezone": "UTC",
         "recorded_at": "2026-09-16T19:00:00+07:00",
-        "revision_id": "7e18e6ba-a7fa-49a5-95c6-726c6eefff3f",
+        "revision_id": "4d307163-2910-4188-903f-c1635f835f88",
         "effective_date": "2026-09-16",
         "source_version": "targets-v1",
         "goals_updated_at": "2026-09-16T19:00:00+07:00"
@@ -28,7 +28,7 @@
       "addition_revision": {
         "timezone": "Asia/Bangkok",
         "recorded_at": "2026-09-16T19:00:00+07:00",
-        "revision_id": "0136bbea-a979-463e-bd2c-f587c8f29964",
+        "revision_id": "5e531742-8411-4624-b687-9262fed8985f",
         "historical_confirmation": false,
         "manual_goal_acknowledged": true
       },
@@ -47,7 +47,7 @@
         },
         "timezone": "UTC",
         "recorded_at": "2026-09-17T19:00:00+07:00",
-        "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+        "revision_id": "0354dca4-f84c-48ca-b330-82aced7713d5",
         "effective_date": "2026-09-17",
         "source_version": "targets-v1",
         "goals_updated_at": "2026-09-17T19:00:00+07:00"
@@ -68,7 +68,7 @@
         },
         "timezone": "UTC",
         "recorded_at": "2026-09-17T19:00:00+07:00",
-        "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+        "revision_id": "0354dca4-f84c-48ca-b330-82aced7713d5",
         "effective_date": "2026-09-17",
         "source_version": "targets-v1",
         "goals_updated_at": "2026-09-17T19:00:00+07:00"
@@ -84,7 +84,7 @@
       "user_id": "00000000-0000-4000-8000-000000000286",
       "timezone": "UTC",
       "recorded_at": "2026-09-16T19:00:00+07:00",
-      "revision_id": "6c0ea9df-bae8-4792-86c0-73241372a35a",
+      "revision_id": "0cd61148-0dda-44ab-90fc-d87ffa2375e2",
       "source_inputs": {
         "goals": {
           "fat_g": null,
@@ -133,7 +133,7 @@
       "user_id": "00000000-0000-4000-8000-000000000286",
       "timezone": "UTC",
       "recorded_at": "2026-09-16T19:00:00+07:00",
-      "revision_id": "7e18e6ba-a7fa-49a5-95c6-726c6eefff3f",
+      "revision_id": "4d307163-2910-4188-903f-c1635f835f88",
       "source_inputs": {
         "goals": {
           "fat_g": 90,
@@ -182,7 +182,7 @@
       "user_id": "00000000-0000-4000-8000-000000000286",
       "timezone": "UTC",
       "recorded_at": "2026-09-17T19:00:00+07:00",
-      "revision_id": "4b1af9c6-71a7-4220-b511-56258d416f53",
+      "revision_id": "0354dca4-f84c-48ca-b330-82aced7713d5",
       "source_inputs": {
         "goals": {
           "fat_g": 100,
@@ -226,15 +226,15 @@
     "POST /rest/v1/rpc/set_dated_target_addition",
     "POST /advance-day",
     "POST /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource",
-    "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
     "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
-    "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000286&eaten_at=gte.2026-09-15T17%3A00%3A00.000Z&eaten_at=lt.2026-09-16T17%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
-    "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000286&measured_at=gte.2026-08-17T17%3A00%3A00.000Z&measured_at=lt.2026-09-16T17%3A00%3A00.000Z&order=measured_at.asc.nullslast",
-    "GET /rest/v1/meal_items?select=id%2Cmeal_log_id%2Cname%2Cquantity%2Cunit%2Ccalories_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Cfiber_g%2Csugar_g%2Cconfidence%2Csource_notes%2Cmenu_group_id%2Cmenu_name%2Cartwork_id&meal_log_id=in.%2800000000-0000-4000-8000-000000002816%29&order=created_at.asc.nullslast",
+    "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
     "GET /rest/v1/energy_burned_logs?select=burned_at%2Cactive_kcal&user_id=eq.00000000-0000-4000-8000-000000000286&burned_at=gte.2026-09-15T17%3A00%3A00.000Z&burned_at=lt.2026-09-16T17%3A00%3A00.000Z",
+    "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000286&measured_at=gte.2026-08-17T17%3A00%3A00.000Z&measured_at=lt.2026-09-16T17%3A00%3A00.000Z&order=measured_at.asc.nullslast",
+    "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000286&eaten_at=gte.2026-09-15T17%3A00%3A00.000Z&eaten_at=lt.2026-09-16T17%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
+    "GET /rest/v1/meal_items?select=id%2Cmeal_log_id%2Cname%2Cquantity%2Cunit%2Ccalories_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Cfiber_g%2Csugar_g%2Cconfidence%2Csource_notes%2Cmenu_group_id%2Cmenu_name%2Cartwork_id&meal_log_id=in.%2800000000-0000-4000-8000-000000002816%29&order=created_at.asc.nullslast",
     "POST /rest/v1/rpc/get_dated_targets",
-    "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
     "GET /rest/v1/goals?select=calorie_target_kcal%2Cprotein_g%2Ccarbs_g%2Cfat_g%2Csource%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
+    "GET /rest/v1/profiles?select=sex%2Cage_years%2Cheight_cm%2Cweight_kg%2Cactivity_level%2Cdiet_goal%2Cgoal_weight_kg%2Cupdated_at&user_id=eq.00000000-0000-4000-8000-000000000286&limit=1",
     "GET /rest/v1/meal_logs?select=id%2Ceaten_at%2Cmeal_type%2Csource%2Cimage_path&user_id=eq.00000000-0000-4000-8000-000000000286&eaten_at=gte.2026-09-14T17%3A00%3A00.000Z&eaten_at=lt.2026-09-15T17%3A00%3A00.000Z&order=eaten_at.asc.nullslast",
     "GET /rest/v1/weight_logs?select=measured_at%2Ckg&user_id=eq.00000000-0000-4000-8000-000000000286&measured_at=gte.2026-08-16T17%3A00%3A00.000Z&measured_at=lt.2026-09-15T17%3A00%3A00.000Z&order=measured_at.asc.nullslast",
     "GET /rest/v1/energy_burned_logs?select=burned_at%2Cactive_kcal&user_id=eq.00000000-0000-4000-8000-000000000286&burned_at=gte.2026-09-14T17%3A00%3A00.000Z&burned_at=lt.2026-09-15T17%3A00%3A00.000Z",

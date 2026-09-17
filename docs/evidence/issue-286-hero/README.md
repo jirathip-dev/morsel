@@ -79,9 +79,20 @@ Live proof, from the repo root (own simulator, serialized native admission):
 Wait for `.lane-logs/hero-native/ready.json`, then run the native
 `HeroNativeRoundTripTests` class on the admitted simulator. The bridge is
 loopback-only, uses a synthetic account, requires the fixture bearer token,
-executes owner-scoped SQL for each API request, and has a bounded deadline.
-Only database clock expressions are changed in the disposable cluster; original
-routine definitions are restored. `readback.json` contains actual stored rows.
+executes owner-scoped SQL for each API request, and waits up to 45 minutes for
+the native acknowledgment — a shorter window expired while this lane queued for
+the contended shared simulator-admission lock (`.lane-logs/hero-bridge-merged.log`
+retains that earlier failed wait). Only database clock expressions are changed
+in the disposable cluster; original routine definitions are restored.
+`readback.json` contains actual stored rows.
+
+All eight after-images and the readback were re-taken at the merged head
+(`0e75413`, which merges `origin/staging` `a002234` / PR #287) rather than
+kept from the pre-merge tree, because #287 changed the hero's numeral font.
+The six-state captures show the saved past day filled from 2,520 with
+124/140 g, 162/280 g and 80/90 g; the unavailable past day showing the explicit
+copy with no denominators; and today on the 3,000 baseline with the confirmed
+200 kcal addition at 3,200 — in Paper and Night.
 
 Mutation proof, after committing the code under test:
 

@@ -1,90 +1,90 @@
 [
   {
     "file": "286-night-past-unavailable.png",
-    "sha256": "183b81d8b2415e87cf9b549d3df7a43a5ae9f171c7f2511d78b4971b39244497",
+    "sha256": "d74d51c5ada6c9597944febc73cbdf7b66ab615c036058cd2271e2c2a5ed573f",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testMissingOrUnattributableTargetIsExplicitAndNeverBorrows()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "364E8B97-5773-432D-919E-85A6F8EA71BC.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "3D02E316-55AD-48DB-9C20-28042C304FC0.png"
   },
   {
     "file": "286-paper-past-unavailable.png",
-    "sha256": "47d5378cc9e80369843003a5d81ea6cef4c7057b996b20bc26638d5747cba495",
+    "sha256": "553aefff2e192259b5bbdf7b6ede7676a209bd89bbd2c9351528f42e3ac2fbda",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testMissingOrUnattributableTargetIsExplicitAndNeverBorrows()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "7AC2492C-418F-484D-8399-6B543DFF906B.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "5D82AA26-04E8-472B-8A20-B828C21D02D1.png"
   },
   {
     "file": "286-night-past-saved.png",
-    "sha256": "aa362afc0fac84d1fb6a02f6559cd29fa3330352403106309274f162718ea076",
+    "sha256": "5425ee056dc844af5dd071aef79a88842d7d69e025bd3a179ef4790c44553fb0",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testPastUsesSavedCaloriesAndMacrosNotTodaysGoal()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "AF9D65FF-AA48-4FFD-8110-D40CAA3BC897.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "4AFD7C7A-0153-4A75-9F54-EE0F4D1A319D.png"
   },
   {
     "file": "286-paper-past-saved.png",
-    "sha256": "e7fd9e310e1d69b4be3f40820cb33dea91da051a8e84c2aeb339744f197a6331",
+    "sha256": "fe191f57fa4d105630227d0aa27d4689ba23ad1eba0eb14d924ee92906e9235f",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testPastUsesSavedCaloriesAndMacrosNotTodaysGoal()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "9B3E0E92-F517-4737-AB41-8F20859D0036.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "B31A1DDE-4716-46DD-98BA-113EBAA79F8C.png"
   },
   {
     "file": "286-night-today.png",
-    "sha256": "1197c83ad0102f87a880224138384820f9f259705e79b4776425b14d18cd2bb1",
+    "sha256": "ca0e87620a10f069d3b268849be301fe0ef7767536cdb763eb1861db31f7151e",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testTodayKeepsBaselineAndConfirmedDayOnlyAddition()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "D2F89AB1-8EEC-4148-A53D-27283A25CCB5.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "A2CD7423-F330-4F91-876A-626D5F8FAA74.png"
   },
   {
     "file": "286-paper-today.png",
-    "sha256": "d78f62f19ab65937b53295dc29ac376ea5550d458fb6eb269464d3b6ad15ccad",
+    "sha256": "b13c3a8add81db8f40cd48cad8bcec4c2e33462bcc9b9dde046b576fc31662b1",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroDatedTargetTests/testTodayKeepsBaselineAndConfirmedDayOnlyAddition()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "55827AFE-B406-4CE5-8ABF-6242A61AC063.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "60C1B707-A4F0-403E-A44A-D7F2FA5D27A1.png"
   },
   {
     "file": "286-live-night-past-saved.png",
-    "sha256": "aa362afc0fac84d1fb6a02f6559cd29fa3330352403106309274f162718ea076",
+    "sha256": "5425ee056dc844af5dd071aef79a88842d7d69e025bd3a179ef4790c44553fb0",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroNativeRoundTripTests/testNativeWriteTriggerReadAndRenderedHero()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "34498EE4-7E17-4088-BDB1-B2902E6EB4E4.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "160E35EB-8B48-466E-8B07-BE14BC559EC5.png"
   },
   {
     "file": "286-live-paper-past-saved.png",
-    "sha256": "e7fd9e310e1d69b4be3f40820cb33dea91da051a8e84c2aeb339744f197a6331",
+    "sha256": "fe191f57fa4d105630227d0aa27d4689ba23ad1eba0eb14d924ee92906e9235f",
     "pixels": [
       1179,
       2556
     ],
     "test": "HeroNativeRoundTripTests/testNativeWriteTriggerReadAndRenderedHero()",
-    "udid": "A456AC97-7E44-42C4-977F-7B9E0A354901",
-    "original_attachment": "AE2CDFA4-F9B7-4BCD-A564-173A7FECFD88.png"
+    "udid": "B0A822DA-EBAE-4FB6-BBC8-8F872EDC94B6",
+    "original_attachment": "305F6859-D955-4BC9-B0C5-D37387916B17.png"
   }
 ]
