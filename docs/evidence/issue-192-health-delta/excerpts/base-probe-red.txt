@@ -1,0 +1,28 @@
+# Issue #192 base probe — raw xcodebuild excerpt (trailing whitespace stripped).
+# Full raw log: the lane checkout's .lane-logs/base-probe-red.log (gitignored).
+# RAW_EXIT=65
+
+Test Suite 'BoundedObserverProbeTests' started at 2569-09-18 3:37:06.172 AM.
+Test Case '-[MorselTests.BoundedObserverProbeTests testNoChangeObserverNotificationDoesNotRescanFullHistory]' started.
+/tmp/morsel-192-base/app/Tests/MorselTests/BoundedObserverProbeTests.swift:38: error: -[MorselTests.BoundedObserverProbeTests testNoChangeObserverNotificationDoesNotRescanFullHistory] : XCTAssertNotNil failed - ISSUE192-REPRO: a no-change observer pass must be bounded by the durable cursor, not an unbounded full-history query
+/tmp/morsel-192-base/app/Tests/MorselTests/BoundedObserverProbeTests.swift:42: error: -[MorselTests.BoundedObserverProbeTests testNoChangeObserverNotificationDoesNotRescanFullHistory] : XCTAssertEqual failed: ("Optional(1)") is not equal to ("Optional(0)") - ISSUE192-REPRO: a no-change observer pass must process zero rows, not the full history
+ISSUE192-PROBE windows=["nil", "nil"] rows=[1, 1]
+Test Case '-[MorselTests.BoundedObserverProbeTests testNoChangeObserverNotificationDoesNotRescanFullHistory]' failed (0.321 seconds).
+Test Suite 'BoundedObserverProbeTests' failed at 2569-09-18 3:37:06.494 AM.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.321 (0.321) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-18 3:37:06.494 AM.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.321 (0.321) seconds
+Test Suite 'Selected tests' failed at 2569-09-18 3:37:06.494 AM.
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.321 (0.322) seconds
+2026-09-18 03:37:29.144 xcodebuild[86225:21665162] [MT] IDETestOperationsObserverDebug: 31.267 elapsed -- Testing started completed.
+2026-09-18 03:37:29.145 xcodebuild[86225:21665162] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-09-18 03:37:29.145 xcodebuild[86225:21665162] [MT] IDETestOperationsObserverDebug: 31.267 sec, +31.267 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/morsel-192-base-probe.xcresult
+
+Failing tests:
+	BoundedObserverProbeTests.testNoChangeObserverNotificationDoesNotRescanFullHistory()
+	BoundedObserverProbeTests.testNoChangeObserverNotificationDoesNotRescanFullHistory()
+
+** TEST FAILED **

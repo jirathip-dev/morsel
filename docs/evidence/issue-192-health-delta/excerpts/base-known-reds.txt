@@ -1,0 +1,85 @@
+# Issue #192 base-pin known-reds leg (pristine archive of origin/staging, no fix).
+# Suites: MealReliabilityTests PageIdentityTests ParallelReadsTests SharedButtonTargetTests
+# Full raw log: .lane-logs/base-known-reds.log (gitignored). RAW_EXIT=65
+
+Test Suite 'MealReliabilityTests' started at 2569-09-18 4:06:53.314 AM.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.025 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.051 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' started.
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.015 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' started.
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.026 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.006 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.006 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.005 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.006 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.006 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' started.
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.005 seconds).
+Test Suite 'MealReliabilityTests' passed at 2569-09-18 4:06:55.493 AM.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.175 (2.180) seconds
+Test Suite 'PageIdentityTests' started at 2569-09-18 4:06:55.494 AM.
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' started.
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' passed (0.798 seconds).
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' started.
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' passed (0.290 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' started.
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' passed (0.973 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' started.
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' passed (2.850 seconds).
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' started.
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' passed (0.252 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' started.
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' failed (1.474 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' started.
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.141 seconds).
+Test Suite 'PageIdentityTests' failed at 2569-09-18 4:07:02.276 AM.
+	 Executed 7 tests, with 2 failures (0 unexpected) in 6.778 (6.783) seconds
+Test Suite 'ParallelReadsTests' started at 2569-09-18 4:07:02.277 AM.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.056 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.434 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.016 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.019 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.013 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.012 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.008 seconds).
+Test Suite 'ParallelReadsTests' failed at 2569-09-18 4:07:02.837 AM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.557 (0.560) seconds
+Test Suite 'SharedButtonTargetTests' started at 2569-09-18 4:07:02.838 AM.
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.034 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' passed (0.050 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' passed (8.016 seconds).
+Test Suite 'SharedButtonTargetTests' failed at 2569-09-18 4:07:10.940 AM.
+	 Executed 3 tests, with 2 failures (0 unexpected) in 8.100 (8.102) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-18 4:07:10.940 AM.
+	 Executed 30 tests, with 5 failures (0 unexpected) in 17.611 (17.626) seconds
+Test Suite 'Selected tests' failed at 2569-09-18 4:07:10.940 AM.
+	 Executed 30 tests, with 5 failures (0 unexpected) in 17.611 (17.627) seconds
+	PageIdentityTests.testRetargetMidSwingKeepsOnePagePerTab()
+	PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll()
+	ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts()
+	SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()
+	SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()
