@@ -49,7 +49,11 @@ extension LocalDataStore {
                 var row: [String: SQLiteValue] = [:]
                 for index in 0..<count {
                     let name = String(cString: sqlite3_column_name(statement, index))
-                    row[name] = value(statement, column: index)
+                    let column = value(statement, column: index)
+                    if case let .blob(data) = column {
+                        blobBytesByColumn[name, default: 0] += data.count
+                    }
+                    row[name] = column
                 }
                 rows.append(row)
             } else if step == SQLITE_DONE {

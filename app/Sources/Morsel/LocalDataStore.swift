@@ -21,6 +21,11 @@ enum LocalStoreError: LocalizedError, Equatable {
 final class LocalDataStore {
     let database: OpaquePointer
     let lock = NSRecursiveLock()
+    /// Issue #191 — bytes this store has actually materialized per BLOB column,
+    /// so a read path can be held to the payload budget it claims. Real reads
+    /// on real rows, never estimates: counted at the SQLite read seam (see the
+    /// `query` loop) and mutated only under `lock`.
+    var blobBytesByColumn: [String: Int] = [:]
 
     static func storeDirectory(root: URL, accountID: UUID) -> URL {
         root.appendingPathComponent("Morsel", isDirectory: true)
@@ -212,6 +217,18 @@ final class LocalDataStore {
     func clearAccountData() throws {
         try run("DELETE FROM meal_outbox")
         try run("DELETE FROM meta")
+    }
+
+    // MARK: - Read instrumentation
+
+    /// Issue #191 — bytes of `column` this store has materialized so far. The
+    /// targeted-read proofs use it to hold every read path to its budget (a
+    /// metadata/status/existence read is 0 for `photo_data`; a single-photo
+    /// read is exactly that photo's byte count).
+    func blobBytes(column: String) -> Int {
+        lock.lock()
+        defer { lock.unlock() }
+        return blobBytesByColumn[column] ?? 0
     }
 
     // MARK: - SQLite helpers
