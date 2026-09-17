@@ -15,7 +15,9 @@ final class FoodArtworkMatcherClosureTests: XCTestCase {
                     XCTAssertEqual(FoodArtworkResolver.match(name: input, in: assets)?.id, identity, input)
                 }
             }
-            for suffix in [" (half-portion)", ", half-portion", " half-portion", ", sugar-free", ", low-fat"] {
+            let suffixes = [" (half-portion)", ", half-portion", " half-portion", ", sugar-free", ", low-fat",
+                            " (small-portion)", ", cooked half portion"]
+            for suffix in suffixes {
                 XCTAssertEqual(FoodArtworkResolver.match(name: name + suffix, in: assets)?.id, identity)
             }
         }

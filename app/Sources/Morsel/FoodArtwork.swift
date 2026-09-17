@@ -199,8 +199,9 @@ enum FoodArtworkResolver {
         let parts = text.split(separator: ",", omittingEmptySubsequences: false)
         return parts.allSatisfy { part in
             let token = FoodArtworkCatalog.normalize(String(part).replacingOccurrences(of: "-", with: " "))
+            let descriptors = token.split(separator: " ").allSatisfy { trailingDescriptors.contains(String($0)) }
             return !token.isEmpty
-                && (trailingDescriptors.contains(token) || isQuantity(token))
+                && (trailingDescriptors.contains(token) || descriptors || isQuantity(token))
         }
     }
 
