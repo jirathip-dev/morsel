@@ -1,0 +1,18 @@
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.061 (0.102) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.014 (0.030) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+	 Executed 7 tests, with 1 failure (0 unexpected) in 6.583 (6.587) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.583 (0.588) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.097 (0.100) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-190-write-ack/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+	 Executed 3 tests, with 2 failures (0 unexpected) in 7.731 (7.733) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 3.122 (3.127) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.036 (0.038) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.117 (0.119) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.105 (0.111) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.028 (0.031) seconds
+	 Executed 67 tests, with 4 failures (0 unexpected) in 18.477 (18.570) seconds
+	 Executed 67 tests, with 4 failures (0 unexpected) in 18.477 (18.572) seconds
+** TEST FAILED **

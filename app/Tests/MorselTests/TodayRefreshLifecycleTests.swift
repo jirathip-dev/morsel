@@ -97,14 +97,18 @@ final class TodayRefreshLifecycleTests: TodayRefreshTestCase {
         XCTAssertFalse(model.isLoading)
     }
 
-    func testFailedPostWriteRefreshKeepsExistingFailureContractAndClearsFlags() async {
+    func testConfirmedWriteSurvivesAFailedPostWriteRefreshAndClearsFlags() async {
         var saved: Bool?
         let write = Task { saved = await model.deleteMeal(UUID()) }
         await until("post-write read entered") { harness.reads.count == 1 }
+        await until("the confirmed delete finishes with the read parked") { saved != nil }
+        XCTAssertEqual(saved, true, "issue #190 — the write is acknowledged before any read answers")
         harness.finish(0, error: MorselError.configurationMissing)
         await write.value
-        XCTAssertEqual(saved, false)
-        XCTAssertNotNil(model.errorMessage)
+        await until("the failed read settles") { !model.isLoading }
+        XCTAssertEqual(saved, true, "a later refresh failure never reports the confirmed write as not saved")
+        XCTAssertEqual(model.errorMessage, MorselError.configurationMissing.errorDescription,
+                       "the honest error belongs to the read, never to the acknowledged write")
         XCTAssertFalse(model.isLoading)
         XCTAssertFalse(model.isSaving)
     }
