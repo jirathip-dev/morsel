@@ -9,6 +9,12 @@ import Foundation
 // row to a durable needs-attention state that preserves the payload; only
 // transient failures are retried with bounded backoff. Secrets are never
 // persisted — the store holds data rows only.
+// Issue #189 — a pass reports what it ACTUALLY changed (released rows, visible
+// refusal transitions, per-type Health uploads), never how much work is left:
+// a successful drain EMPTIES the queue and must still reconcile, while a pass
+// that changed nothing must not. The owner's hook is awaited before the pass
+// completes, and a pass that ended before the hook existed is delivered on
+// installation (the startup order loses nothing).
 protocol RemoteMealWriting {
     /// Uploads (idempotently) or reuses the deterministic photo object for a
     /// queued meal; returns the storage bucket path.
@@ -37,6 +43,60 @@ enum MealDeliveryError: LocalizedError {
     }
 }
 
+/// Issue #189 — what ONE pass ACTUALLY changed, kept separate from the queue
+/// depth the old `storeHasQueuedOrDirtyWork()` reported: a successful final
+/// drain empties the queue (depth "no change") and still must reconcile, and a
+/// row that fails again the same way leaves it non-empty without moving
+/// anything visible. Only identities and counts travel — never payloads.
+struct SyncPassChange: Equatable {
+    /// Meals the server accepted and the local row released.
+    private(set) var releasedMealIDs: [UUID] = []
+    /// Rows whose journal-visible refusal state changed in this pass.
+    private(set) var refusalChangedMealIDs: [UUID] = []
+    /// Rows of each Health type that uploaded in this pass (0 = none).
+    private(set) var syncedWeightCount = 0
+    private(set) var syncedEnergyCount = 0
+
+    /// The journal's merged day needs one authoritative re-read.
+    var changesJournal: Bool { !releasedMealIDs.isEmpty || !refusalChangedMealIDs.isEmpty }
+    /// The calm Health status must re-derive its per-type kinds.
+    var changesHealthStatus: Bool { syncedWeightCount > 0 || syncedEnergyCount > 0 }
+    var isEmpty: Bool { !changesJournal && !changesHealthStatus }
+
+    /// The server accepted this row and the durable outbox released it.
+    mutating func released(mealID: UUID) { releasedMealIDs.append(mealID) }
+
+    /// A refusal whose journal-visible identity actually moved.
+    mutating func refusalChanged(mealID: UUID) { refusalChangedMealIDs.append(mealID) }
+
+    /// The per-type Health rows THIS pass uploaded.
+    mutating func synced(weightCount: Int, energyCount: Int) {
+        syncedWeightCount = weightCount
+        syncedEnergyCount = energyCount
+    }
+
+    mutating func merge(_ other: SyncPassChange) {
+        releasedMealIDs += other.releasedMealIDs
+        refusalChangedMealIDs += other.refusalChangedMealIDs
+        syncedWeightCount += other.syncedWeightCount
+        syncedEnergyCount += other.syncedEnergyCount
+    }
+}
+
+/// Issue #189 — the journal-visible refusal identity of one outbox row: a
+/// still-retrying pending row has no refusal to render; a needs-attention row
+/// renders the category that caused it (metadata-only read, issue #191). Two
+/// passes that leave the SAME identity changed nothing the journal can see.
+struct MealRefusal: Equatable {
+    let needsAttention: Bool
+    let category: OutboxErrorCategory?
+
+    init(_ row: QueuedMealSummary?) {
+        needsAttention = row?.state == .needsAttention
+        category = needsAttention ? row?.lastErrorCategory : nil
+    }
+}
+
 final class LocalSyncEngine {
     private let userID: UUID
     private let mealRemote: RemoteMealWriting?
@@ -45,9 +105,14 @@ final class LocalSyncEngine {
     private let healthRemote: WeightLogStore?
     private let now: () -> Date
     private let healthUploader: HealthRemoteUploading?
-    /// Called (on the main actor) after a pass changed sync state, so the
-    /// journal can converge with the authoritative server result.
-    var onSyncCompleted: (() -> Void)?
+    /// Issue #189 — the owner's reconciliation hook, awaited on the main actor
+    /// BEFORE a pass completes (the owner converges with the authoritative
+    /// result instead of racing it); install it before work starts. A pass
+    /// that already finished is delivered on installation.
+    private var onSyncChanged: (@MainActor (SyncPassChange) async -> Void)?
+    /// A change that finished before a hook existed (startup order), buffered
+    /// as ONE merged value and delivered exactly once.
+    private var pendingChange: SyncPassChange?
 
     private var passRunning = false
     private var rerunRequested = false
@@ -79,7 +144,20 @@ final class LocalSyncEngine {
             workTask?.cancel()
             workTask = nil
             passRunning = false
+            pendingChange = nil
+            onSyncChanged = nil
         }
+    }
+
+    /// Installs the owner's hook and delivers a change that finished before
+    /// installation (issue #189: an immediate startup drain cannot beat it).
+    func startReconciling(_ handler: @escaping @MainActor (SyncPassChange) async -> Void) async {
+        let buffered: SyncPassChange? = queue.sync {
+            onSyncChanged = handler
+            defer { pendingChange = nil }
+            return pendingChange
+        }
+        if let buffered { await handler(buffered) }
     }
 
     /// Requests a pass. Safe to call from any thread; never overlaps.
@@ -106,37 +184,55 @@ final class LocalSyncEngine {
         }
     }
 
-    /// Deterministic single pass (tests drive this directly).
+    /// Deterministic single pass (tests drive this directly). Reconciliation is
+    /// awaited here, so no pass completes before its owner knows what changed.
     func runPass() async {
-        await deliverMeals(attemptNeedsAttentionAuth: true)
-        await deliverHealth()
-        let changed = storeHasQueuedOrDirtyWork()
-        if changed {
-            await MainActor.run { onSyncCompleted?() }
+        var change = await deliverMeals(attemptNeedsAttentionAuth: true)
+        change.merge(await deliverHealth())
+        await deliver(change)
+    }
+
+    /// Hands ONE bounded change to the owner (awaited on the main actor), or
+    /// buffers it until a hook is installed. An empty change is never an event.
+    private func deliver(_ change: SyncPassChange) async {
+        guard !change.isEmpty else { return }
+        let handler: (@MainActor (SyncPassChange) async -> Void)? = queue.sync {
+            guard let installed = onSyncChanged else {
+                var buffered = pendingChange ?? SyncPassChange()
+                buffered.merge(change)
+                pendingChange = buffered
+                return nil
+            }
+            return installed
         }
+        if let handler { await handler(change) }
     }
 
     // MARK: - Meal outbox
 
-    private func deliverMeals(attemptNeedsAttentionAuth: Bool) async {
-        guard let mealRemote else { return }
-        let rows: [QueuedMeal]
+    private func deliverMeals(attemptNeedsAttentionAuth: Bool) async -> SyncPassChange {
+        var change = SyncPassChange()
+        guard let mealRemote else { return change }
+        let summaries: [QueuedMealSummary]
         do {
-            rows = try store.queuedMeals().filter { row in
+            summaries = try store.queuedMealSummaries().filter { row in
                 row.state == .pending
                     || (row.state == .needsAttention
                         && attemptNeedsAttentionAuth && row.lastErrorCategory == .auth)
             }
         } catch {
-            return
+            return change
         }
         var remainingTransient = 0
-        for row in rows where !Task.isCancelled {
+        for summary in summaries where !Task.isCancelled {
+            let refusal = MealRefusal(try? store.queuedMealSummary(mealID: summary.mealID))
+            guard let row = try? store.queuedMeal(mealID: summary.mealID) else { continue }
             do {
                 try await deliverOne(row, remote: mealRemote)
                 try store.removeMeal(mealID: row.mealID)
+                change.released(mealID: row.mealID)
             } catch is CancellationError {
-                return
+                return change
             } catch let error as MealDeliveryError {
                 if case let .permanent(category) = error {
                     // Preserve recoverable data; visible `needs attention`.
@@ -152,14 +248,27 @@ final class LocalSyncEngine {
                     )
                     remainingTransient += 1
                 }
+                noteRefusalChange(mealID: row.mealID, from: refusal, into: &change)
             } catch {
                 try? store.recordMealAttempt(
                     mealID: row.mealID, error: .network, now: now()
                 )
                 remainingTransient += 1
+                noteRefusalChange(mealID: row.mealID, from: refusal, into: &change)
             }
         }
         scheduleRetryIfNeeded(transientCount: remainingTransient)
+        return change
+    }
+
+    /// Issue #189 — a refusal only counts as a change when the row's
+    /// journal-visible identity moved: failing the same way again is not news
+    /// (no reload storm), and it is never a delivery success either.
+    private func noteRefusalChange(
+        mealID: UUID, from refusal: MealRefusal, into change: inout SyncPassChange
+    ) {
+        guard MealRefusal(try? store.queuedMealSummary(mealID: mealID)) != refusal else { return }
+        change.refusalChanged(mealID: mealID)
     }
 
     private func deliverOne(_ row: QueuedMeal, remote: RemoteMealWriting) async throws {
@@ -224,52 +333,49 @@ final class LocalSyncEngine {
 
     // MARK: - Health rows (bodyMass + activeEnergyBurned only)
 
-    private func deliverHealth() async {
-        guard let healthStore, let healthUploader else { return }
+    private func deliverHealth() async -> SyncPassChange {
+        var change = SyncPassChange()
+        guard let healthStore, let healthUploader else { return change }
         let unsynced: [WeightLog]
         let dirtyDays: [EnergyBurnedLog]
         do {
             unsynced = try healthStore.unsyncedWeightSamples()
             dirtyDays = try healthStore.dirtyEnergyDays()
         } catch {
-            return
+            return change
         }
-        guard !unsynced.isEmpty || !dirtyDays.isEmpty else { return }
+        guard !unsynced.isEmpty || !dirtyDays.isEmpty else { return change }
         do {
             try await healthUploader.upsert(unsynced)
             try await healthUploader.upsertEnergyBurned(dirtyDays)
-            var uploadedWeight = false
             for sample in unsynced {
                 try? healthStore.markWeightSynced(measuredAt: sample.measuredAt)
-                uploadedWeight = true
             }
-            var uploadedEnergy = false
             for day in dirtyDays {
                 try? healthStore.markEnergyDaySynced(day: day.burnedAt)
-                uploadedEnergy = true
             }
             // Issue #112 — the calm status names ONLY the types that actually
             // uploaded ≥1 row in this pass: each per-type mark shares the
             // pass stamp, and a type with zero rows gets no mark at all (an
             // energy-only drain must never read as a weight sync).
             let stamp = now()
+            var uploadedWeightCount = 0
+            var uploadedEnergyCount = 0
             try? healthStore.setLastSuccessfulUpload(stamp)
-            if uploadedWeight { try? healthStore.setLastWeightUpload(stamp) }
-            if uploadedEnergy { try? healthStore.setLastEnergyUpload(stamp) }
+            if !unsynced.isEmpty {
+                try? healthStore.setLastWeightUpload(stamp)
+                uploadedWeightCount = unsynced.count
+            }
+            if !dirtyDays.isEmpty {
+                try? healthStore.setLastEnergyUpload(stamp)
+                uploadedEnergyCount = dirtyDays.count
+            }
+            change.synced(weightCount: uploadedWeightCount, energyCount: uploadedEnergyCount)
         } catch {
             // Rows stay dirty — next pass retries the same idempotent upserts.
+            // Nothing was uploaded: no event, and never a fake sync success.
         }
-    }
-
-    private func storeHasQueuedOrDirtyWork() -> Bool {
-        let hasMeals = (try? store.queuedMeals().isEmpty) == false
-        let hasHealth: Bool = {
-            guard let healthStore else { return false }
-            let hasWeights = (try? healthStore.unsyncedWeightSamples().isEmpty) == false
-            let hasDays = (try? healthStore.dirtyEnergyDays().isEmpty) == false
-            return hasWeights || hasDays
-        }()
-        return hasMeals || hasHealth
+        return change
     }
 }
 

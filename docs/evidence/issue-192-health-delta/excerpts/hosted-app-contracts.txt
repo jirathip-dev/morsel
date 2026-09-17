@@ -1,0 +1,20 @@
+# Issue #192 — mise exec node@22 -- npx vitest run app (hosted app contracts).
+# RAW_EXIT=0
+
+
+ RUN  v3.2.7 /Users/jirathip/.herdr/worktrees/morsel/issue-192-health-delta
+
+ ✓ app/version-metadata.test.ts (4 tests) 2ms
+ ✓ app/issue-105-journal-contract.test.ts (12 tests) 2ms
+done.
+To /var/folders/4k/fbv06j2j5bbd3h4wgbwk1ccm0000gn/T/morsel-stale-cli-L7NnKX/remote.git
+   ac9eeb0..478593e  main -> main
+ ✓ scripts/apply-migrations.test.mjs (11 tests) 934ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > returns usage exit 2 for missing ref before stale-checkout exit 1  600ms
+   ✓ migration deployment safety (issue #76: no blind adoption, atomic appends) > rejects --adopt (exit 2) and issues zero write statements  315ms
+
+ Test Files  21 passed (21)
+      Tests  153 passed (153)
+   Start at  04:20:47
+   Duration  1.20s (transform 216ms, setup 235ms, collect 527ms, tests 1.06s, environment 2ms, prepare 1.01s)
+

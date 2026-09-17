@@ -1,0 +1,35 @@
+# Issue #192 mutation battery — one structural mutation per defended mechanism,
+# focused run of HealthDeltaImportTests + HealthEnergyDeltaTests each, every file
+# restored byte-identically (sha256 verified before and after).
+# Driver: docs/evidence/issue-192-health-delta/mutation-battery.py
+# Full raw logs: .lane-logs/mutation/*.log (gitignored).
+
+MUTATION body-cursor-never-advances
+  failed: -[MorselTests.HealthDeltaImportTests testBodyAndEnergyCursorsAdvanceIndependentlyAndOnlyAfterSuccess]
+  failed: -[MorselTests.HealthDeltaImportTests testCancelledPassLeavesResumableDurableCursorState]
+  failed: -[MorselTests.HealthDeltaImportTests testNoChangeObserverNotificationsDoNotRescanOrRewriteHistory]
+  error: XCTAssertNotNil failed
+  error: XCTAssertNotNil failed
+  error: XCTAssertNotNil failed
+  Executed 12 tests, with 4 failures (0 unexpected) in 1.025 (1.032) seconds
+
+MUTATION energy-legacy-baseline-skipped
+  failed: -[MorselTests.HealthEnergyDeltaTests testBackdatedAndRepeatedEnergySamplesPreservePriorDayContributions]
+  error: XCTAssertEqual failed: ("Optional(300.0)") is not equal to ("Optional(620.0)") - prior contributions are preserved, not overwritten by the delta total
+  error: XCTAssertEqual failed: ("Optional(300.0)") is not equal to ("Optional(620.0)") - a repeated delivery of one sample is not double-counted
+  Executed 12 tests, with 2 failures (0 unexpected) in 0.968 (0.973) seconds
+
+MUTATION energy-removals-ignored
+  failed: -[MorselTests.HealthEnergyDeltaTests testRemovalAndCorrectionAdjustExactlyOneContribution]
+  error: XCTAssertEqual failed: ("Optional(500.0)") is not equal to ("Optional(200.0)") - a removal drops exactly its own contribution
+  error: XCTAssertEqual failed: ("Optional(550.0)") is not equal to ("Optional(250.0)") - a corrected value replaces its sample's contribution
+  Executed 12 tests, with 2 failures (0 unexpected) in 0.881 (0.887) seconds
+
+MUTATION energy-key-is-timestamp-only
+  failed: -[MorselTests.HealthEnergyDeltaTests testDistinctSamplesAtOneInstantStayTwoContributions]
+  failed: -[MorselTests.HealthEnergyDeltaTests testRemovalAndCorrectionAdjustExactlyOneContribution]
+  error: XCTAssertEqual failed: ("Optional(420.0)") is not equal to ("Optional(720.0)")
+  error: XCTAssertEqual failed: ("Optional(500.0)") is not equal to ("Optional(200.0)") - a removal drops exactly its own contribution
+  error: XCTAssertEqual failed: ("Optional(550.0)") is not equal to ("Optional(250.0)") - a corrected value replaces its sample's contribution
+  Executed 12 tests, with 3 failures (0 unexpected) in 0.876 (0.884) seconds
+

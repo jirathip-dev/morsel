@@ -1,0 +1,14 @@
+# raw log: .lane-logs/green2-focused.log (142753 bytes, sha256 ca7d652df911a68f071f63f76a7ff0c0da2a4cdc40f2440d5600f46a52d18ec1)
+# focused native run at the fix head (same two test classes)
+
+raw exit: 0
+Executed 8 tests, with 0 failures (0 unexpected) in 0.118 (0.121) seconds
+
+Test Case '-[MorselTests.CachePublicationFenceTests testAccountTeardownFencesInFlightWritesAndServesLaterReads]' passed (0.030 seconds).
+Test Case '-[MorselTests.CachePublicationFenceTests testCacheWriteFailureStillReturnsTheFreshRemoteRead]' passed (0.009 seconds).
+Test Case '-[MorselTests.CachePublicationFenceTests testCancellationIsCancellationAndOfflineKeepsTheCachedDay]' passed (0.019 seconds).
+Test Case '-[MorselTests.CachePublicationFenceTests testIndependentDaysAndAccountsAreNotBlockedByAHeldRead]' passed (0.010 seconds).
+Test Case '-[MorselTests.CachePublicationOrderingTests testEqualTimestampsCannotBypassOrdering]' passed (0.014 seconds).
+Test Case '-[MorselTests.CachePublicationOrderingTests testMutationInvalidationCannotPublishAnInFlightRead]' passed (0.010 seconds).
+Test Case '-[MorselTests.CachePublicationOrderingTests testRefreshOwnerInvalidationCannotPublishTheInvalidatedPass]' passed (0.012 seconds).
+Test Case '-[MorselTests.CachePublicationOrderingTests testReversedCompletionPublishesOnlyTheNewerReadAndSurvivesWarmRestart]' passed (0.014 seconds).

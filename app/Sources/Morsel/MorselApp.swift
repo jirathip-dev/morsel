@@ -283,11 +283,11 @@ private struct AuthenticatedDashboardView: View {
                    value: routeModel.isPresentingAddMeal)
         .task {
             if let timezoneSync { Task { await timezoneSync.syncIfChanged() } }
-            reliability?.engine.onSyncCompleted = { [weak viewModel] in
-                Task { @MainActor in
-                    await viewModel?.invalidateDay()
-                    await viewModel?.refreshHealthCalmStatus()
-                }
+            // Issue #189 — hook installed and awaited before any load/import pass
+            await reliability?.engine.startReconciling { [weak viewModel] change in
+                guard let viewModel else { return }
+                if change.changesJournal { await viewModel.invalidateDay() }
+                if change.changesHealthStatus { await viewModel.refreshHealthCalmStatus() }
             }
             async let health: Void = viewModel.importWeights()
             await viewModel.load()
@@ -392,7 +392,7 @@ private struct AuthenticatedDashboardView: View {
                 GoalsView(repository: viewModel.repository,
                           userID: viewModel.userID,
                           reloadKey: activation,
-                          onSaved: { await viewModel.invalidateDay() },
+                          onSaved: { viewModel.invalidateDayAfterConfirmedGoals() },
                           seeToday: { pager.select(.today) })
             }
         }

@@ -123,6 +123,20 @@ RPCs and privileges remain unchanged. Existing rows gain NULL without a backfill
 no data is relogged or migrated by this lane. The migration must precede new
 server projections; an unmigrated database is not supported by the new server.
 
+Write-time resolution (issue #284): `log_meal` resolves an item's **omitted**
+`artwork_id` from the logged name while it writes, so the identity no longer
+depends on the model remembering to send one or on render-time name matching.
+The vocabulary is the same published catalog, projected by the generator into
+`packages/schema/artwork-catalog.ts` (each asset's normalized published
+name/alias terms) — generated, never a hand-kept alias table, and no new
+column, RPC or migration. The rule is the native precedence chain (whole
+name/alias, recognized qualifiers, a closed trailing accompaniment/purpose
+phrase, unambiguous category fallback), refuses ambiguous matches, and leaves a
+name that reaches no published identity **without** an ID: nothing is invented,
+and the names the approved native studies own are left to the renderer. An
+explicit ID still wins and `update_meal_item` keeps its omission-preserves
+semantics.
+
 Native consumption is **deferred to part 2**. Its deterministic contract is:
 supported explicit ID → conservative unambiguous full name/alias match →
 unambiguous catalog category fallback → neutral. Unsupported IDs in an older

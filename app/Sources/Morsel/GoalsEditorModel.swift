@@ -39,12 +39,18 @@ final class GoalsEditorViewModel: ObservableObject {
     private var dayTotalGeneration = 0
     private let onSaved: () async -> Void
     private let onSeeToday: () -> Void
-    /// Issue #123 — fields the user has edited (even to empty). A pristine
-    /// empty field is the pre-load state, not an error: validation appears
-    /// once the field is edited or carries an invalid value.
+    /// Issue #123 — fields the user has edited (even to empty): a pristine
+    /// empty field is the pre-load state, not an error. Issue #186 — the same
+    /// set is the draft's ownership, which hydration never overwrites.
     private var editedFields: Set<String> = []
     private var directionGeneration = 0
     private var directionTask: Task<DashboardGoal, Error>?
+    /// Issue #186 — the draft revision: each local write bumps it; a save acks only its own.
+    private var draftRevision = 0
+    private static let goalFields: [String: (read: KeyPath<DashboardGoal, Double>,
+                                             write: ReferenceWritableKeyPath<GoalsEditorViewModel, String>)] = [
+        "calories": (\.calorieTargetKcal, \.calories), "protein": (\.proteinG, \.protein),
+        "carbs": (\.carbsG, \.carbs), "fat": (\.fatG, \.fat)]
 
     init(
         repository: any DashboardRepository,
@@ -102,9 +108,8 @@ final class GoalsEditorViewModel: ObservableObject {
             if Task.isCancelled { dayTotalTask?.cancel() }
         }
         // Issue #123 — local-first first paint: the cached stored goal row
-        // (last known remote snapshot) paints immediately so the page never
-        // opens as empty fields with validation errors while the remote
-        // round-trip is in flight. The remote refresh below reconciles.
+        // paints immediately, so the page never opens as empty fields with
+        // validation errors; the remote refresh reconciles field by field (#186).
         if let cached = try? await repository.cachedGoals(userID: userID),
            generation == directionGeneration, !Task.isCancelled {
             apply(GoalsPageContext(
@@ -202,14 +207,14 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func edit(_ field: String, value: String) {
-        switch field {
-        case "calories": calories = value
-        case "protein": protein = value
-        case "carbs": carbs = value
-        case "fat": fat = value
-        default: return
-        }
-        cancelDirectionComputation()
+        guard let seam = Self.goalFields[field] else { return }
+        self[keyPath: seam.write] = value
+        // Issue #186 — an edit owns its field, not the page's hydration: only
+        // the pending direction request is dropped.
+        directionTask?.cancel()
+        directionTask = nil
+        pendingDirection = nil
+        draftRevision &+= 1
         selectedDirection = nil
         errorMessage = nil
         editedFields.insert(field)
@@ -219,14 +224,8 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func fieldError(_ field: String) -> String? {
-        let value: String
-        switch field {
-        case "calories": value = calories
-        case "protein": value = protein
-        case "carbs": value = carbs
-        case "fat": value = fat
-        default: return nil
-        }
+        guard let seam = Self.goalFields[field] else { return nil }
+        let value = self[keyPath: seam.write]
         // Issue #123 — a pristine empty field is the pre-load state, not an
         // error: validation appears once the user edits the field (even to
         // empty) or the field carries an invalid value.
@@ -259,7 +258,7 @@ final class GoalsEditorViewModel: ObservableObject {
     }
 
     func save() async -> Bool {
-        guard pendingDirection == nil else { return false }
+        guard pendingDirection == nil, !isSaving else { return false }
         guard let calories = Double(calories), calories.isFinite, calories >= 0,
               let protein = Double(protein), protein.isFinite, protein >= 0,
               let carbs = Double(carbs), carbs.isFinite, carbs >= 0,
@@ -270,29 +269,35 @@ final class GoalsEditorViewModel: ObservableObject {
               Self.isOnTenthGrid(fat) else {
             return false
         }
+        let submittedRevision = draftRevision
         isSaving = true
         errorMessage = nil
         defer { isSaving = false }
-        let source: GoalSource = ["calories", "protein", "carbs", "fat"]
+        let source: GoalSource = Self.goalFields.keys
             .allSatisfy { sources[$0] == .computed } ? .computed : .manual
-        // Reject-before-normalize contract: off-grid values never reach the
-        // repository. Only values already on the 0.1 grid pass the guard above,
-        // so normalization below is identity for every write and exists purely
-        // as defense-in-depth for the persistence boundary. Store the value in
-        // view-model state so the fields show exactly what was saved.
+        // Reject-before-normalize: only on-grid values pass the guard above, so
+        // this normalization is identity for every write (defense-in-depth at
+        // the persistence boundary); the fields show exactly what was saved.
         let savedGoal = SupabaseDashboardRepository.normalizedGoal(DashboardGoal(
             calorieTargetKcal: calories, proteinG: protein, carbsG: carbs, fatG: fat, source: source
         ))
-        self.calories = Self.displayValue(savedGoal.calorieTargetKcal)
-        self.protein = Self.displayValue(savedGoal.proteinG)
-        self.carbs = Self.displayValue(savedGoal.carbsG)
-        self.fat = Self.displayValue(savedGoal.fatG)
+        for seam in Self.goalFields.values {
+            self[keyPath: seam.write] = Self.displayValue(savedGoal[keyPath: seam.read])
+        }
         do {
             try await repository.saveGoals(userID: userID, goal: savedGoal)
             goal = savedGoal
+            // The stored row moved: the day view is stale whatever the draft does.
+            await onSaved()
+            // Issue #186 — only the revision actually submitted may be acked;
+            // an edit during the write is a newer revision and stays unsaved.
+            guard submittedRevision == draftRevision else { return false }
             didSave = true
             supersededNote = nil
-            await onSaved()
+            // Hydrations requested before this save carry pre-save rows: stale.
+            directionGeneration &+= 1
+            editedFields.removeAll()
+            draftRevision &+= 1
             return true
         } catch {
             errorMessage = DashboardUserMessage.userMessage(for: error)
@@ -333,13 +338,15 @@ final class GoalsEditorViewModel: ObservableObject {
 }
 
 extension GoalsEditorViewModel {
+    /// Issue #186 — hydration fills only the fields the draft does not own; a
+    /// drafted field keeps its local text (even emptied or invalid) and source.
     private func apply(_ goal: DashboardGoal, source: GoalSource) {
         self.goal = goal
-        calories = Self.displayValue(goal.calorieTargetKcal)
-        protein = Self.displayValue(goal.proteinG)
-        carbs = Self.displayValue(goal.carbsG)
-        fat = Self.displayValue(goal.fatG)
-        sources = ["calories": source, "protein": source, "carbs": source, "fat": source]
+        // Issue #186 — nothing writes a field while a save is in flight.
+        for (field, seam) in Self.goalFields where !editedFields.contains(field) && !isSaving {
+            self[keyPath: seam.write] = Self.displayValue(goal[keyPath: seam.read])
+            sources[field] = source
+        }
     }
 }
 
@@ -357,6 +364,7 @@ extension GoalsEditorViewModel {
         guard selectedDirection != direction || sources.values.contains(.manual)
                 || supersededNote != nil || errorMessage != nil else { return }
         let generation = directionGeneration
+        let revision = draftRevision
         pendingDirection = direction
         errorMessage = nil
         let task = Task { [repository, userID] in
@@ -373,13 +381,17 @@ extension GoalsEditorViewModel {
             let computed = try await withTaskCancellationHandler {
                 try await task.value
             } onCancel: { task.cancel() }
-            guard generation == directionGeneration, !Task.isCancelled, !task.isCancelled else { return }
+            guard generation == directionGeneration, revision == draftRevision,
+                  !Task.isCancelled, !task.isCancelled else { return }
+            editedFields.removeAll()
+            draftRevision &+= 1
             apply(computed, source: .computed)
             selectedDirection = direction
             supersededNote = nil
             didSave = false
         } catch {
-            guard generation == directionGeneration, !Task.isCancelled, !task.isCancelled,
+            guard generation == directionGeneration, revision == draftRevision,
+                  !Task.isCancelled, !task.isCancelled,
                   !(error is CancellationError) else { return }
             errorMessage = "\(DashboardUserMessage.userMessage(for: error)) Tap \(direction.title) to retry."
         }

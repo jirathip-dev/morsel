@@ -5,7 +5,8 @@ import { describe, expect, it } from 'vitest'
 import { createMorselApp } from './app.js'
 import type { Authenticate } from './auth.js'
 import { InMemoryRepository } from './in-memory-repository.js'
-import { ArtworkIdSchema, GetDayOutputSchema, ListMenusOutputSchema } from '../packages/schema/food-types.ts'
+import { ArtworkIdSchema, ContractVersionSchema, contractVersionStamp, GetDayOutputSchema, ListMenusOutputSchema, ARTWORK_ID_INSTRUCTION, MCP_CONTRACT_VERSION } from '../packages/schema/food-types.ts'
+import bundledCatalog from '../app/Resources/FoodArt/catalog.json'
 
 // This file pins the client-visible tool contract as it is EMITTED by the real
 // MCP registration/inspection path (server registerTool -> SDK -> tools/list
@@ -54,7 +55,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'log_meal',
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented. When an item matches a published artwork identity, set artwork_id to that exact published ID from this tool\'s artwork_id enum — allowed IDs are the enum and the shipped catalog is the canonical set. Omit artwork_id only when genuinely uncertain; never invent an ID and never upload illustration files.',
     annotations: UNCLAIMED,
     // Issue #152: items optional only when menu_name names an existing menu.
     inputRequired: ['meal_type'],
@@ -74,7 +75,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
     description: 'Read meals, nutrition totals, and the effective goal for one calendar day.',
     annotations: READ_ONLY,
     inputRequired: ['date'],
-    outputRequired: ['date', 'timezone', 'meals', 'totals', 'render'],
+    outputRequired: ['date', 'timezone', 'contract', 'meals', 'totals', 'render'],
   },
   {
     name: 'search_food',
@@ -145,7 +146,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'update_meal_item',
     title: 'Update one meal item',
-    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required.',
+    description: 'Correct the name, quantity, or macros for one meal item owned by the caller. At least one field besides item_id is required. When replacing an item\'s illustration identity, set artwork_id to that exact published ID from this tool\'s artwork_id enum; omitting artwork_id preserves the stored identity. Never invent an ID and never upload illustration files.',
     annotations: UNCLAIMED,
     inputRequired: ['item_id'],
     outputRequired: ['ok', 'updated'],
@@ -187,6 +188,20 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isSchemaObject(value: unknown): value is { type?: string; required?: string[] } {
   return isRecord(value)
+}
+
+// Issue #294: the size of the artwork_id enum as the client holds it in its
+// own tool list — the value a stale client compares against the served
+// published_identity_count.
+function listedArtworkEnumSize(tool: unknown): number | undefined {
+  const inputSchema = isRecord(tool) ? tool.inputSchema : undefined
+  const properties = isRecord(inputSchema) ? inputSchema.properties : undefined
+  const arraySchema = isRecord(properties) ? properties.items : undefined
+  const itemSchema = isRecord(arraySchema) ? arraySchema.items : undefined
+  const itemProperties = isRecord(itemSchema) ? itemSchema.properties : undefined
+  const artworkId = isRecord(itemProperties) ? itemProperties.artwork_id : undefined
+  const values = isRecord(artworkId) ? artworkId.enum : undefined
+  return Array.isArray(values) ? values.length : undefined
 }
 
 async function connectClient(repository: InMemoryRepository): Promise<Client> {
@@ -289,6 +304,106 @@ describe('MCP tool registration metadata (tools/list)', () => {
       await client.close()
     }
   }, 30_000)
+
+  // Issue #284 — the normal agent path logs name-only items. The WRITE then
+  // carries a validated identity resolved from the name, so rendering stops
+  // depending on render-time name matching (and on the model remembering to
+  // send an ID). Asserted through the real MCP surface: log_meal -> get_day.
+  it('stores a validated artwork identity resolved from a name-only log (issue #284)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const descriptive = 'Iced americano (black, no sugar)'
+      const secondary = 'Satay skewers with peanut sauce'
+      const unknown = 'Uncatalogued lunar stew'
+      const explicit = '  Americano (black, no sugar, homemade)  '
+      const logged = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'breakfast', eaten_at: '2026-09-02T08:00:00Z',
+        items: [
+          { name: descriptive, calories_kcal: 3 },
+          { name: secondary, calories_kcal: 120 },
+          { name: unknown, calories_kcal: 200 },
+          { name: explicit, artwork_id: 'banana', calories_kcal: 4 },
+        ],
+      } })
+      expect(logged.isError).not.toBe(true)
+      const read = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-02' } })
+      const items = GetDayOutputSchema.parse(read.structuredContent).meals[0]?.items ?? []
+      expect(items[0]).toMatchObject({ name: descriptive, artwork_id: 'coffee' })
+      expect(items[1]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      // A name the published catalog cannot identify stays absent — never guessed.
+      expect(items[2]?.name).toBe(unknown)
+      expect(items[2]?.artwork_id).toBeUndefined()
+      // An explicit published ID still wins, and the logged name is verbatim.
+      expect(items[3]).toMatchObject({ name: explicit, artwork_id: 'banana' })
+      for (const item of items) {
+        if (item.artwork_id !== undefined) {
+          expect(ArtworkIdSchema.options).toContain(item.artwork_id)
+        }
+      }
+      // The named-menu path (issue #152) snapshots the same resolved identity
+      // into both the meal and the menu template.
+      const menuLog = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'lunch', eaten_at: '2026-09-02T12:00:00Z', menu_name: 'Synthetic identity menu',
+        items: [{ name: secondary, calories_kcal: 120 }, { name: unknown, calories_kcal: 10 }],
+      } })
+      expect(menuLog.isError).not.toBe(true)
+      const menuRead = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-02' } })
+      const menuItems = GetDayOutputSchema.parse(menuRead.structuredContent).meals[1]?.items ?? []
+      expect(menuItems[0]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      expect(menuItems[1]?.artwork_id).toBeUndefined()
+      const menus = await client.callTool({ name: 'list_menus', arguments: {} })
+      const template = ListMenusOutputSchema.parse(menus.structuredContent).menus
+        .find((menu) => menu.name === 'Synthetic identity menu')
+      expect(template?.items[0]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      expect(template?.items[1]?.artwork_id).toBeUndefined()
+    } finally {
+      await client.close()
+    }
+  }, 30_000)
+
+  // Issue #294 part A — the agent-visible description must carry the explicit
+  // instruction to set artwork_id, phrased as an instruction rather than as a
+  // description of the field (asserted against the registered metadata).
+  it('carries the explicit artwork_id instruction on the registered descriptions (issue #294)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const listed = await client.listTools()
+      const log = listed.tools.find((tool) => tool.name === 'log_meal')
+      const update = listed.tools.find((tool) => tool.name === 'update_meal_item')
+      expect(log?.description).toContain(ARTWORK_ID_INSTRUCTION)
+      expect(log?.description).toMatch(/\bset artwork_id\b/i)
+      expect(log?.description).toMatch(/never invent/i)
+      expect(update?.description).toContain('set artwork_id')
+      expect(update?.description).toMatch(/never invent/i)
+    } finally {
+      await client.close()
+    }
+  })
+
+  // Issue #294 part B — the read-only staleness stamp. The values are asserted
+  // against their canonical sources through the real MCP surface: the shipped
+  // catalog.json, the enum the client holds in its own tool list, and the
+  // server version the client records when it connects.
+  it('serves the read-only contract stamp on get_day and it matches the enum the client holds (issue #294)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const listed = await client.listTools()
+      const day = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-03' } })
+      expect(day.isError).not.toBe(true)
+      const parsed = GetDayOutputSchema.parse(day.structuredContent)
+      const stamp = ContractVersionSchema.parse(parsed.contract)
+      expect(stamp).toEqual(contractVersionStamp())
+      expect(stamp.artwork_catalog_version).toBe(bundledCatalog.library_version)
+      expect(stamp.published_identity_count).toBe(ArtworkIdSchema.options.length)
+      expect(listedArtworkEnumSize(listed.tools.find((tool) => tool.name === 'log_meal')))
+        .toBe(stamp.published_identity_count)
+      expect(client.getServerVersion()?.version).toBe(stamp.contract_version)
+      expect(MCP_CONTRACT_VERSION).toBe(stamp.contract_version)
+      expect(listed.tools.find((tool) => tool.name === 'get_day')?.annotations?.readOnlyHint).toBe(true)
+    } finally {
+      await client.close()
+    }
+  })
 
   it('emits the metadata a local inspector receives (evidence dump)', async () => {
     const client = await connectClient(new InMemoryRepository())

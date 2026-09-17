@@ -1,0 +1,171 @@
+# Issue #192 head focused leg (final bytes) — raw xcodebuild excerpt.
+# Classes: HealthDeltaImportTests HealthEnergyDeltaTests WeightImportTests
+#          HealthReliabilityTests HealthStatusAsyncTests HealthTruthfulnessTests
+#          HealthSyncCopyTests LocalStoreTests MealReliabilityTests
+# Full raw log: .lane-logs/head-focused5.log (gitignored). RAW_EXIT=0
+
+Test Suite 'HealthDeltaImportTests' started at 2569-09-18 4:10:58.156 AM.
+Test Case '-[MorselTests.HealthDeltaImportTests testBodyAndEnergyCursorsAdvanceIndependentlyAndOnlyAfterSuccess]' started.
+Test Case '-[MorselTests.HealthDeltaImportTests testBodyAndEnergyCursorsAdvanceIndependentlyAndOnlyAfterSuccess]' passed (0.021 seconds).
+Test Case '-[MorselTests.HealthDeltaImportTests testCancelledPassLeavesResumableDurableCursorState]' started.
+Test Case '-[MorselTests.HealthDeltaImportTests testCancelledPassLeavesResumableDurableCursorState]' passed (0.064 seconds).
+Test Case '-[MorselTests.HealthDeltaImportTests testCoalescedCallbacksNeverOverlapPerTypeOrSuppressTheOther]' started.
+Test Case '-[MorselTests.HealthDeltaImportTests testCoalescedCallbacksNeverOverlapPerTypeOrSuppressTheOther]' passed (0.275 seconds).
+Test Case '-[MorselTests.HealthDeltaImportTests testCursorAdvancesOnlyAfterTheStorePersistsTheWindow]' started.
+Test Case '-[MorselTests.HealthDeltaImportTests testCursorAdvancesOnlyAfterTheStorePersistsTheWindow]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthDeltaImportTests testNoChangeObserverNotificationsDoNotRescanOrRewriteHistory]' started.
+ISSUE192-TRACE ac1 bodyAnchors=["full", "anchored", "anchored"] bodyRows=[1, 0, 0] energyRows=[1, 0]
+Test Case '-[MorselTests.HealthDeltaImportTests testNoChangeObserverNotificationsDoNotRescanOrRewriteHistory]' passed (0.012 seconds).
+Test Case '-[MorselTests.HealthDeltaImportTests testReplayedWindowLandsOnceWithoutLossOrDuplication]' started.
+Test Case '-[MorselTests.HealthDeltaImportTests testReplayedWindowLandsOnceWithoutLossOrDuplication]' passed (0.008 seconds).
+Test Suite 'HealthDeltaImportTests' passed at 2569-09-18 4:10:58.541 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.381 (0.385) seconds
+Test Suite 'HealthEnergyDeltaTests' started at 2569-09-18 4:10:58.541 AM.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testBackdatedAndRepeatedEnergySamplesPreservePriorDayContributions]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testBackdatedAndRepeatedEnergySamplesPreservePriorDayContributions]' passed (0.009 seconds).
+Test Case '-[MorselTests.HealthEnergyDeltaTests testDistinctSamplesAtOneInstantStayTwoContributions]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testDistinctSamplesAtOneInstantStayTwoContributions]' passed (0.007 seconds).
+Test Case '-[MorselTests.HealthEnergyDeltaTests testLocalDayBucketingAcrossADSTFallBack]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testLocalDayBucketingAcrossADSTFallBack]' passed (0.010 seconds).
+Test Case '-[MorselTests.HealthEnergyDeltaTests testRemovalAndCorrectionAdjustExactlyOneContribution]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testRemovalAndCorrectionAdjustExactlyOneContribution]' passed (0.007 seconds).
+Test Case '-[MorselTests.HealthEnergyDeltaTests testRemovedWeightSampleDropsItsLocalRow]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testRemovedWeightSampleDropsItsLocalRow]' passed (0.006 seconds).
+Test Case '-[MorselTests.HealthEnergyDeltaTests testWarmRestartKeepsCursorsAndContributionLedger]' started.
+Test Case '-[MorselTests.HealthEnergyDeltaTests testWarmRestartKeepsCursorsAndContributionLedger]' passed (0.007 seconds).
+Test Suite 'HealthEnergyDeltaTests' passed at 2569-09-18 4:10:58.589 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.046 (0.048) seconds
+Test Suite 'HealthReliabilityTests' started at 2569-09-18 4:10:58.589 AM.
+Test Case '-[MorselTests.HealthReliabilityTests testBodyMassDenialDoesNotSuppressActiveEnergyImport]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testBodyMassDenialDoesNotSuppressActiveEnergyImport]' passed (0.006 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testDuplicateSampleReimportStaysDeduplicatedAndClean]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testDuplicateSampleReimportStaysDeduplicatedAndClean]' passed (0.006 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testEngineDrainsWeightAndEnergyRowsThroughIdempotentRemoteUpserts]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testEngineDrainsWeightAndEnergyRowsThroughIdempotentRemoteUpserts]' passed (0.011 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testImportFailuresSurfaceOnlyMappedCopyThroughViewModel]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testImportFailuresSurfaceOnlyMappedCopyThroughViewModel]' passed (0.015 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testObserversRegisterForBothKindsAndEachHandlerImportsOnlyItsKind]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testObserversRegisterForBothKindsAndEachHandlerImportsOnlyItsKind]' passed (0.007 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testOverlappingObserverCallbacksCoalesceIntoOneImport]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testOverlappingObserverCallbacksCoalesceIntoOneImport]' passed (0.219 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testPermissionDeniedMapsToPermissionRequiredCalmStatus]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testPermissionDeniedMapsToPermissionRequiredCalmStatus]' passed (0.010 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testRemoteUploadFailureKeepsRowsDurableForNextPass]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testRemoteUploadFailureKeepsRowsDurableForNextPass]' passed (0.010 seconds).
+Test Case '-[MorselTests.HealthReliabilityTests testWatermarkAdvancesOnlyOnSuccessAndBoundsNextQuery]' started.
+Test Case '-[MorselTests.HealthReliabilityTests testWatermarkAdvancesOnlyOnSuccessAndBoundsNextQuery]' passed (0.009 seconds).
+Test Suite 'HealthReliabilityTests' passed at 2569-09-18 4:10:58.885 AM.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.292 (0.295) seconds
+Test Suite 'HealthStatusAsyncTests' started at 2569-09-18 4:10:58.885 AM.
+Test Case '-[MorselTests.HealthStatusAsyncTests testCanceledStatusAwaitResolvesOnceOnLateCallback]' started.
+Test Case '-[MorselTests.HealthStatusAsyncTests testCanceledStatusAwaitResolvesOnceOnLateCallback]' passed (0.008 seconds).
+Test Case '-[MorselTests.HealthStatusAsyncTests testDelayedStatusCallbackKeepsMainActorHeartbeatAlive]' started.
+Test Case '-[MorselTests.HealthStatusAsyncTests testDelayedStatusCallbackKeepsMainActorHeartbeatAlive]' passed (0.812 seconds).
+Test Case '-[MorselTests.HealthStatusAsyncTests testLateCallbackAfterCanceledRefreshCompletesCleanly]' started.
+Test Case '-[MorselTests.HealthStatusAsyncTests testLateCallbackAfterCanceledRefreshCompletesCleanly]' passed (0.009 seconds).
+Test Case '-[MorselTests.HealthStatusAsyncTests testPerTypePromptStatusStaysIndependent]' started.
+Test Case '-[MorselTests.HealthStatusAsyncTests testPerTypePromptStatusStaysIndependent]' passed (0.002 seconds).
+Test Case '-[MorselTests.HealthStatusAsyncTests testStatusQueryErrorMeansUnknownNeverClaimsAnsweredOrSynced]' started.
+Test Case '-[MorselTests.HealthStatusAsyncTests testStatusQueryErrorMeansUnknownNeverClaimsAnsweredOrSynced]' passed (0.001 seconds).
+Test Suite 'HealthStatusAsyncTests' passed at 2569-09-18 4:10:59.721 AM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.832 (0.836) seconds
+Test Suite 'HealthSyncCopyTests' started at 2569-09-18 4:10:59.722 AM.
+Test Case '-[MorselTests.HealthSyncCopyTests testAnyOtherErrorStillMapsToHumanCopy]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testAnyOtherErrorStillMapsToHumanCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthSyncCopyTests testEntitlementShapedSystemErrorMapsToHumanBackgroundCopy]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testEntitlementShapedSystemErrorMapsToHumanBackgroundCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthSyncCopyTests testHealthKitDomainDescriptionNeverLeaksToUserFacingCopy]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testHealthKitDomainDescriptionNeverLeaksToUserFacingCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthSyncCopyTests testImporterAuthoredErrorKeepsItsOwnHumanCopy]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testImporterAuthoredErrorKeepsItsOwnHumanCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthSyncCopyTests testObserverCallbackErrorSurfacesOnlyMappedHumanCopy]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testObserverCallbackErrorSurfacesOnlyMappedHumanCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.HealthSyncCopyTests testViewModelSurfacesOnlyMappedCopyWhenImporterThrowsRawSystemError]' started.
+Test Case '-[MorselTests.HealthSyncCopyTests testViewModelSurfacesOnlyMappedCopyWhenImporterThrowsRawSystemError]' passed (0.001 seconds).
+Test Suite 'HealthSyncCopyTests' passed at 2569-09-18 4:10:59.730 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.006 (0.008) seconds
+Test Suite 'HealthTruthfulnessTests' started at 2569-09-18 4:10:59.730 AM.
+Test Case '-[MorselTests.HealthTruthfulnessTests testEnergyOnlyUploadNamesEnergyAndNeverClaimsWeight]' started.
+Test Case '-[MorselTests.HealthTruthfulnessTests testEnergyOnlyUploadNamesEnergyAndNeverClaimsWeight]' passed (0.015 seconds).
+Test Case '-[MorselTests.HealthTruthfulnessTests testReadDeniedImportShowsPermissionRequiredNeverSynced]' started.
+Test Case '-[MorselTests.HealthTruthfulnessTests testReadDeniedImportShowsPermissionRequiredNeverSynced]' passed (0.008 seconds).
+Test Case '-[MorselTests.HealthTruthfulnessTests testRemoteWholeSecondAndLocalSubSecondSameSampleIsOnePoint]' started.
+Test Case '-[MorselTests.HealthTruthfulnessTests testRemoteWholeSecondAndLocalSubSecondSameSampleIsOnePoint]' passed (0.013 seconds).
+Test Case '-[MorselTests.HealthTruthfulnessTests testThirtyDailySamplesYieldThirtyTrendPointsInWindow]' started.
+Test Case '-[MorselTests.HealthTruthfulnessTests testThirtyDailySamplesYieldThirtyTrendPointsInWindow]' passed (0.011 seconds).
+Test Suite 'HealthTruthfulnessTests' passed at 2569-09-18 4:10:59.778 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.047 (0.048) seconds
+Test Suite 'LocalStoreTests' started at 2569-09-18 4:10:59.779 AM.
+Test Case '-[MorselTests.LocalStoreTests testAccountIsolationAndClear]' started.
+Test Case '-[MorselTests.LocalStoreTests testAccountIsolationAndClear]' passed (0.024 seconds).
+Test Case '-[MorselTests.LocalStoreTests testAttemptBookkeepingAndNeedsAttentionPreservesPayload]' started.
+Test Case '-[MorselTests.LocalStoreTests testAttemptBookkeepingAndNeedsAttentionPreservesPayload]' passed (0.008 seconds).
+Test Case '-[MorselTests.LocalStoreTests testEnergyDayTotalsDirtyOnlyWhenChanged]' started.
+Test Case '-[MorselTests.LocalStoreTests testEnergyDayTotalsDirtyOnlyWhenChanged]' passed (0.008 seconds).
+Test Case '-[MorselTests.LocalStoreTests testEnqueueCommitsMealItemsAndPhotoInOneRow]' started.
+Test Case '-[MorselTests.LocalStoreTests testEnqueueCommitsMealItemsAndPhotoInOneRow]' passed (0.009 seconds).
+Test Case '-[MorselTests.LocalStoreTests testInvalidWeightAndEnergyRowsAreRejectedAtTheStore]' started.
+Test Case '-[MorselTests.LocalStoreTests testInvalidWeightAndEnergyRowsAreRejectedAtTheStore]' passed (0.008 seconds).
+Test Case '-[MorselTests.LocalStoreTests testQueuedMealEditMutatesDurableDraft]' started.
+Test Case '-[MorselTests.LocalStoreTests testQueuedMealEditMutatesDurableDraft]' passed (0.007 seconds).
+Test Case '-[MorselTests.LocalStoreTests testRelaunchReopensTheSameDurableRows]' started.
+Test Case '-[MorselTests.LocalStoreTests testRelaunchReopensTheSameDurableRows]' passed (0.008 seconds).
+Test Case '-[MorselTests.LocalStoreTests testSnapshotCacheRoundTripAndClear]' started.
+Test Case '-[MorselTests.LocalStoreTests testSnapshotCacheRoundTripAndClear]' passed (0.007 seconds).
+Test Case '-[MorselTests.LocalStoreTests testWatermarksAndPendingDetection]' started.
+Test Case '-[MorselTests.LocalStoreTests testWatermarksAndPendingDetection]' passed (0.006 seconds).
+Test Case '-[MorselTests.LocalStoreTests testWeightSampleDedupeAndUploadFlagRules]' started.
+Test Case '-[MorselTests.LocalStoreTests testWeightSampleDedupeAndUploadFlagRules]' passed (0.007 seconds).
+Test Suite 'LocalStoreTests' passed at 2569-09-18 4:10:59.873 AM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.091 (0.095) seconds
+Test Suite 'MealReliabilityTests' started at 2569-09-18 4:10:59.874 AM.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.040 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' started.
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.016 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' started.
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.058 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' started.
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.008 seconds).
+Test Suite 'MealReliabilityTests' passed at 2569-09-18 4:11:02.084 AM.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.205 (2.210) seconds
+Test Suite 'WeightImportTests' started at 2569-09-18 4:11:02.084 AM.
+Test Case '-[MorselTests.WeightImportTests testActiveEnergyImporterFiltersInvalidAndDeduplicates]' started.
+Test Case '-[MorselTests.WeightImportTests testActiveEnergyImporterFiltersInvalidAndDeduplicates]' passed (0.001 seconds).
+Test Case '-[MorselTests.WeightImportTests testActiveEnergyObserverTriggersImportAndSuccessReload]' started.
+Test Case '-[MorselTests.WeightImportTests testActiveEnergyObserverTriggersImportAndSuccessReload]' passed (0.001 seconds).
+Test Case '-[MorselTests.WeightImportTests testEatenReadoutIgnoresActiveBurn]' started.
+Test Case '-[MorselTests.WeightImportTests testEatenReadoutIgnoresActiveBurn]' passed (0.001 seconds).
+Test Case '-[MorselTests.WeightImportTests testImporterDropsInvalidSamplesAndDeduplicatesValidSamples]' started.
+Test Case '-[MorselTests.WeightImportTests testImporterDropsInvalidSamplesAndDeduplicatesValidSamples]' passed (0.001 seconds).
+Test Case '-[MorselTests.WeightImportTests testImporterReadsThroughReaderAndUpsertsThroughStore]' started.
+Test Case '-[MorselTests.WeightImportTests testImporterReadsThroughReaderAndUpsertsThroughStore]' passed (0.001 seconds).
+Test Case '-[MorselTests.WeightImportTests testMockStoreDeduplicatesMeasuredAtAndDropsInvalidValues]' started.
+Test Case '-[MorselTests.WeightImportTests testMockStoreDeduplicatesMeasuredAtAndDropsInvalidValues]' passed (0.000 seconds).
+Test Suite 'WeightImportTests' passed at 2569-09-18 4:11:02.090 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.004 (0.006) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 4:11:02.090 AM.
+	 Executed 65 tests, with 0 failures (0 unexpected) in 3.904 (3.934) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 4:11:02.090 AM.
+	 Executed 65 tests, with 0 failures (0 unexpected) in 3.904 (3.935) seconds
+Test session results, code coverage, and logs:
+	/tmp/morsel-192-focused5.xcresult
+** TEST SUCCEEDED **

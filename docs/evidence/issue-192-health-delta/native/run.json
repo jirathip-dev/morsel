@@ -1,0 +1,89 @@
+[
+  {
+    "name": "base-probe-red",
+    "log": ".lane-logs/base-probe-red.log",
+    "raw_exit": 65,
+    "main_launch_summary": {
+      "tests": 1,
+      "failures": 2
+    },
+    "last_summary": {
+      "tests": 1,
+      "failures": 2
+    },
+    "assertion_failures": 2,
+    "timeout_restarts": 0,
+    "allowance_exceeded": [],
+    "failing_test_cases": [
+      "-[MorselTests.BoundedObserverProbeTests testNoChangeObserverNotificationDoesNotRescanFullHistory]"
+    ],
+    "invocation": "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Morsel.xcodeproj -scheme Morsel -derivedDataPath /tmp/morsel-192-base-dd -parallel-testing-enabled NO -jobs 2 -test-timeouts-enabled YES -maximum-test-execution-time-allowance 60 CODE_SIGNING_ALLOWED=NO \"-only-testing:MorselTests/BoundedObserverProbeTests\" -resultBundlePath /tmp/morsel-192-base-probe.xcresult -destination \"platform=iOS Simulator,id=2D7C8A19-5D47-4813-A3C8-87D3FF3477BD\""
+  },
+  {
+    "name": "base-known-reds",
+    "log": ".lane-logs/base-known-reds.log",
+    "raw_exit": 65,
+    "main_launch_summary": {
+      "tests": 30,
+      "failures": 5
+    },
+    "last_summary": {
+      "tests": 30,
+      "failures": 5
+    },
+    "assertion_failures": 5,
+    "timeout_restarts": 0,
+    "allowance_exceeded": [],
+    "failing_test_cases": [
+      "-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]",
+      "-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]",
+      "-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]",
+      "-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]"
+    ],
+    "invocation": "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Morsel.xcodeproj -scheme Morsel -derivedDataPath /tmp/morsel-192-base-dd -parallel-testing-enabled NO -jobs 2 -test-timeouts-enabled YES -maximum-test-execution-time-allowance 60 CODE_SIGNING_ALLOWED=NO \"-only-testing:MorselTests/MealReliabilityTests\" \"-only-testing:MorselTests/PageIdentityTests\" \"-only-testing:MorselTests/ParallelReadsTests\" \"-only-testing:MorselTests/SharedButtonTargetTests\" -resultBundlePath /tmp/morsel-192-base-reds.xcresult -destination \"platform=iOS Simulator,id=76D2608B-DABB-4E23-890E-9ED01A4FF068\""
+  },
+  {
+    "name": "head-focused",
+    "log": ".lane-logs/head-focused5.log",
+    "raw_exit": 0,
+    "main_launch_summary": {
+      "tests": 65,
+      "failures": 0
+    },
+    "last_summary": {
+      "tests": 65,
+      "failures": 0
+    },
+    "assertion_failures": 0,
+    "timeout_restarts": 0,
+    "allowance_exceeded": [],
+    "failing_test_cases": [],
+    "invocation": "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Morsel.xcodeproj -scheme Morsel -derivedDataPath /tmp/morsel-192-dd -parallel-testing-enabled NO -jobs 2 -test-timeouts-enabled YES -maximum-test-execution-time-allowance 60 CODE_SIGNING_ALLOWED=NO \"-only-testing:MorselTests/HealthDeltaImportTests\" \"-only-testing:MorselTests/HealthEnergyDeltaTests\" \"-only-testing:MorselTests/WeightImportTests\" \"-only-testing:MorselTests/HealthReliabilityTests\" \"-only-testing:MorselTests/HealthStatusAsyncTests\" \"-only-testing:MorselTests/HealthTruthfulnessTests\" \"-only-testing:MorselTests/HealthSyncCopyTests\" \"-only-testing:MorselTests/LocalStoreTests\" \"-only-testing:MorselTests/MealReliabilityTests\" -resultBundlePath /tmp/morsel-192-focused5.xcresult -destination \"platform=iOS Simulator,id=1F067CE4-2A7E-471B-805F-A67CAD7A46DF\""
+  },
+  {
+    "name": "head-full-native",
+    "log": ".lane-logs/head-full-native2.log",
+    "raw_exit": 65,
+    "main_launch_summary": {
+      "tests": 584,
+      "failures": 5
+    },
+    "last_summary": {
+      "tests": 49,
+      "failures": 0
+    },
+    "assertion_failures": 5,
+    "timeout_restarts": 2,
+    "allowance_exceeded": [
+      "ArtworkIdentitySurfaceTests testRowAndDetailSurfacesInPaperAndNight",
+      "TrainingFuelEvidenceTests testPaperAndNightPolicyStates"
+    ],
+    "failing_test_cases": [
+      "-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]",
+      "-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]",
+      "-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]",
+      "-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]"
+    ],
+    "invocation": "/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -project Morsel.xcodeproj -scheme Morsel -derivedDataPath /tmp/morsel-192-dd -parallel-testing-enabled NO -jobs 2 -test-timeouts-enabled YES -maximum-test-execution-time-allowance 60 CODE_SIGNING_ALLOWED=NO -resultBundlePath /tmp/morsel-192-full2.xcresult -destination \"platform=iOS Simulator,id=84E9FF30-83C0-4938-9FE3-EA697B03E469\""
+  }
+]

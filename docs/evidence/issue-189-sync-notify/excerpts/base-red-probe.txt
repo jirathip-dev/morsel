@@ -1,0 +1,13 @@
+# base-red-probe
+# command: SAME command with -only-testing:MorselTests/SyncNotifyBaseProbeTests, run with app/Sources/Morsel/LocalSyncEngine.swift + MorselApp.swift reverted to the lane base (94a662f) and the durable SyncNotify* test files moved out of the target.
+# full raw log: .lane-logs/issue-189/base-probe.log  sha256=20c5fbe4440ead7efb3300d30e37afdfd6bdac0b80ee45bd7a918779c4cdba74
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/SyncNotifyBaseProbeTests.swift:58: error: -[MorselTests.SyncNotifyBaseProbeTests testProbeSuccessfulDrainReportsOneReconciliation] : XCTAssertEqual failed: ("0") is not equal to ("1") - a successful final drain must emit ONE reconciliation event
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/SyncNotifyBaseProbeTests.swift:88: error: -[MorselTests.SyncNotifyBaseProbeTests testProbeTransientFailureDoesNotReNotify] : XCTAssertEqual failed: ("2") is not equal to ("1") - a still-pending retry changed nothing the journal can see
+/Users/jirathip/.herdr/worktrees/morsel/issue-189-sync-notify/app/Tests/MorselTests/SyncNotifyBaseProbeTests.swift:73: error: -[MorselTests.SyncNotifyBaseProbeTests testProbeUnchangedRefusalDoesNotReNotify] : XCTAssertEqual failed: ("2") is not equal to ("1") - an unchanged refusal must not reload the journal
+	 Executed 3 tests, with 3 failures (0 unexpected) in 0.167 (0.168) seconds
+	 Executed 3 tests, with 3 failures (0 unexpected) in 0.167 (0.168) seconds
+	 Executed 3 tests, with 3 failures (0 unexpected) in 0.167 (0.169) seconds
+** TEST FAILED **
+RAW_EXIT=65

@@ -1,0 +1,17 @@
+# mutation-battery
+# command: python3 .lane-tools/issue-189/mutation-battery.py   (each mutation rewrites ONE defended mechanism, runs the focused command above, then restores the pristine source and re-verifies its sha256)
+# full raw log: .lane-logs/issue-189/mutation-battery.log  sha256=837419e1f698c423bd14a8cae5215d7446351d51352a27cbe0177af5d737d401
+# excerpt: trailing whitespace trimmed; tool colour codes absent
+
+PRISTINE_SHA=b8923fb83378eaceb3fb829fad636ac531baa1f8166466525a0ffe2d2001ff5c
+m1-notify-empty-change: raw_exit=65 executed=('10', '10') restored_identical=True mutated_sha=2ad09e766897 failing=['SyncNotifyPassCoverageTests', 'SyncNotifyReconciliationTests']
+m2-refusal-always-notifies: raw_exit=65 executed=('10', '3') restored_identical=True mutated_sha=12b3dac7dc4c failing=['SyncNotifyReconciliationTests']
+m3-drop-startup-buffer: raw_exit=65 executed=('10', '6') restored_identical=True mutated_sha=80a1979778f2 failing=['SyncNotifyPassCoverageTests']
+m4-drop-release-record: raw_exit=65 executed=('7', '14') restored_identical=True mutated_sha=e794f210561e failing=['SyncNotifyPassCoverageTests', 'SyncNotifyReconciliationTests']
+m5-fake-health-success: raw_exit=65 executed=('10', '3') restored_identical=True mutated_sha=6e69d1b17151 failing=['SyncNotifyReconciliationTests']
+FINAL_SHA=b8923fb83378eaceb3fb829fad636ac531baa1f8166466525a0ffe2d2001ff5c pristine_identical=True
+BATTERY_EXIT=0
+PRISTINE_SHA=b8923fb83378eaceb3fb829fad636ac531baa1f8166466525a0ffe2d2001ff5c
+m4-drop-release-record: raw_exit=65 executed=('10', '20') restored_identical=True mutated_sha=e794f210561e failing=['SyncNotifyPassCoverageTests', 'SyncNotifyReconciliationTests']
+FINAL_SHA=b8923fb83378eaceb3fb829fad636ac531baa1f8166466525a0ffe2d2001ff5c pristine_identical=True
+M4_RERUN_EXIT=0

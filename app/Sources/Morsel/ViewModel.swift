@@ -16,6 +16,10 @@ final class DashboardViewModel: ObservableObject {
     private let healthStore: LocalHealthStore?
     private let syncEngine: LocalSyncEngine?
     private let dateProvider: () -> Date
+    /// Issue #190 — one write per acknowledged record: a repeated tap joins it.
+    /// Internal (like `LocalFirstDashboardRepository`'s cross-file seams) so the
+    /// confirmation extension in `WriteAcknowledgement.swift` can reach it.
+    var writesInFlight: [String: Task<Void, Error>] = [:]
     private lazy var refreshOwner = TodayRefreshOwner(repository: repository, userID: userID)
     private var observersStarted = false
     @Published private var diaryDate: Date?
@@ -39,9 +43,7 @@ final class DashboardViewModel: ObservableObject {
         self.dateProvider = dateProvider
     }
 
-    var totals: DashboardTotals {
-        DashboardMath.totals(for: snapshot?.meals ?? [])
-    }
+    var totals: DashboardTotals { DashboardMath.totals(for: snapshot?.meals ?? []) }
 
     /// The same Health status stamp drives the margin note (nil before first upload).
     var lastHealthImportDate: Date? {
@@ -50,9 +52,7 @@ final class DashboardViewModel: ObservableObject {
     }
 
     var mealGroups: [MealGroup] {
-        guard let meals = snapshot?.meals else {
-            return []
-        }
+        guard let meals = snapshot?.meals else { return [] }
         return MealType.allCases.compactMap { type in
             let matchingMeals = meals.filter { $0.mealType == type }
             return matchingMeals.isEmpty ? nil : MealGroup(type: type, meals: matchingMeals)
@@ -60,9 +60,7 @@ final class DashboardViewModel: ObservableObject {
     }
 
     var reviewItems: [MealItem] {
-        snapshot?.meals
-            .flatMap(\.items)
-            .filter(\.needsReview) ?? []
+        snapshot?.meals.flatMap(\.items).filter(\.needsReview) ?? []
     }
 
     /// Reconnect both Health types independently, then queue the upload pass.
@@ -156,13 +154,6 @@ final class DashboardViewModel: ObservableObject {
         return flight
     }
 
-    private func refreshSelectedDay() async throws {
-        let flight = startRefresh(invalidating: true)
-        await refreshOwner.wait(for: flight)
-        try Task.checkCancellation()
-        if let error = flight.error { throw error }
-    }
-
     /// Commits locally before closing; queued rows retain their pending marker.
     func addMeal(draft: MealDraft, photo: FoodImageUpload?) async -> Bool {
         isSaving = true
@@ -210,14 +201,13 @@ final class DashboardViewModel: ObservableObject {
 
     func markReviewed(_ itemID: UUID) async -> Bool {
         do {
-            try await repository.confirmMealItem(userID: userID, itemID: itemID)
-            try await refreshSelectedDay()
+            try await joinedWrite("review:\(itemID)") {
+                try await self.repository.confirmMealItem(userID: self.userID, itemID: itemID)
+            }
+            confirmedWrite { confirmingItem(itemID, in: $0) { acknowledgedRow($0, confidence: 1.0) } }
             return true
-        } catch is CancellationError {
-            return false
         } catch {
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-            return false
+            return refuse(error)
         }
     }
 
@@ -226,14 +216,13 @@ final class DashboardViewModel: ObservableObject {
         errorMessage = nil
         defer { isSaving = false }
         do {
-            try await repository.updateMealItem(userID: userID, update: update)
-            try await refreshSelectedDay()
+            try await joinedWrite("edit:\(update.itemID)") {
+                try await self.repository.updateMealItem(userID: self.userID, update: update)
+            }
+            confirmedWrite { confirmingItem(update.itemID, in: $0) { acknowledgedRow($0, update) } }
             return true
-        } catch is CancellationError {
-            return false
         } catch {
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-            return false
+            return refuse(error)
         }
     }
 
@@ -242,15 +231,22 @@ final class DashboardViewModel: ObservableObject {
         errorMessage = nil
         defer { isSaving = false }
         do {
-            try await repository.attachMealPhoto(userID: userID, itemID: itemID, photo: photo)
+            try await joinedWrite("photo:\(itemID)") {
+                try await self.repository.attachMealPhoto(userID: self.userID, itemID: itemID, photo: photo)
+            }
             syncEngine?.syncNow()
-            try await refreshSelectedDay()
+            confirmedWrite { day in
+                guard let owner = day.meals.first(where: { $0.items.contains { $0.itemID == itemID } }) else {
+                    return day
+                }
+                let image = MealImage(path: FoodImageStore.objectPath(userID: userID, imageID: owner.mealLogID))
+                return confirming(owner.mealLogID, in: day) {
+                    acknowledgedRow($0, items: $0.items.map { $0.withMealImage(image) }, image: image)
+                }
+            }
             return true
-        } catch is CancellationError {
-            return false
         } catch {
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-            return false
+            return refuse(error)
         }
     }
 
@@ -259,15 +255,22 @@ final class DashboardViewModel: ObservableObject {
         errorMessage = nil
         defer { isSaving = false }
         do {
-            try await repository.deleteMealLog(userID: userID, mealLogID: mealLogID)
-            try await refreshSelectedDay()
+            try await joinedWrite("delete:\(mealLogID)") {
+                try await self.repository.deleteMealLog(userID: self.userID, mealLogID: mealLogID)
+            }
+            confirmedWrite { confirmingMeals($0) { $0.mealLogID == mealLogID ? nil : $0 } }
             return true
-        } catch is CancellationError {
-            return false
         } catch {
-            errorMessage = DashboardUserMessage.userMessage(for: error)
-            return false
+            return refuse(error)
         }
+    }
+
+    /// Issue #190 — the refusal path every confirmed mutation shares: a
+    /// cancelled write stays silent, a refused one carries its honest copy.
+    private func refuse(_ error: Error) -> Bool {
+        guard !(error is CancellationError) else { return false }
+        errorMessage = DashboardUserMessage.userMessage(for: error)
+        return false
     }
 }
 
@@ -289,36 +292,25 @@ extension DashboardViewModel {
         errorMessage = nil
     }
 
-    /// Anchor-bounded body-mass import, independently throwing.
+    /// One independent body-mass delta pass (issue #192): the importer owns the
+    /// durable cursor, which advances only with the persisted window, so the
+    /// foreground path and the observer path share one ownership.
     private func importBodyMassPass() async throws -> Int {
         guard let weightImporter else { return 0 }
-        let anchor = try? healthStore?.bodyMassAnchor()
-        let stored = try await weightImporter.importBodyMass(since: anchor)
-        if let latest = stored.map(\.measuredAt).max(), latest > (anchor ?? .distantPast) {
-            try? healthStore?.setBodyMassAnchor(latest)
-        }
-        return stored.count
+        return try await weightImporter.importBodyMassDelta().count
     }
 
-    /// One independent active-energy pass; returns the number of daily rows
-    /// durably stored.
+    /// One independent active-energy delta pass; returns the number of local
+    /// day rows the window touched.
     private func importEnergyPass() async throws -> Int {
         guard let weightImporter else { return 0 }
-        let anchor = try? healthStore?.energyAnchor()
-        let stored = try await weightImporter.importActiveEnergy(since: anchor)
-        if let latest = stored.map(\.burnedAt).max(), latest > (anchor ?? .distantPast) {
-            try? healthStore?.setEnergyAnchor(latest)
-        }
-        return stored.count
+        return try await weightImporter.importActiveEnergyDelta().count
     }
 
     /// Observer failure: human copy, then derive status with zero imported rows.
     private func handleObserverImportError(_ error: Error) async {
         weightImportError = HealthSyncUserMessage.userMessage(for: error)
-        await updateCalmStatus(
-            bodyMassFailed: true, energyFailed: true,
-            bodyImported: 0, energyImported: 0
-        )
+        await updateCalmStatus(bodyMassFailed: true, energyFailed: true, bodyImported: 0, energyImported: 0)
     }
 
     /// Maps an import failure through the human copy table (never raw text).
@@ -377,9 +369,22 @@ extension DashboardViewModel {
     /// Re-derives the calm status after a sync pass (rows drained → synced
     /// with the last upload time + uploaded kinds; otherwise pending).
     func refreshHealthCalmStatus() async {
-        await updateCalmStatus(
-            bodyMassFailed: false, energyFailed: false,
-            bodyImported: 0, energyImported: 0
-        )
+        await updateCalmStatus(bodyMassFailed: false, energyFailed: false, bodyImported: 0, energyImported: 0)
     }
+}
+
+// MARK: - Issue #190 confirmed writes (the day read is freshness, never the gate)
+
+extension DashboardViewModel {
+    /// Issue #190 — the acknowledged write invalidates the day for a fresh read, then updates
+    /// ONLY the acknowledged record of the day on screen; no caller waits for that read.
+    private func confirmedWrite(_ acknowledged: (DashboardSnapshot) -> DashboardSnapshot) {
+        let day = snapshot
+        _ = startRefresh(invalidating: true, keepsAlive: true)
+        guard let day else { return }
+        self.snapshot = acknowledged(day)
+    }
+
+    /// Issue #190 — an acknowledged Goals save invalidates the day without awaiting it.
+    func invalidateDayAfterConfirmedGoals() { _ = startRefresh(invalidating: true, keepsAlive: true) }
 }

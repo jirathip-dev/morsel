@@ -24,7 +24,7 @@ final class WeightImportTests: XCTestCase {
         let store = MockWeightLogStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: store)
 
-        try await importer.importBodyMass()
+        try await importer.importBodyMassDelta()
 
         XCTAssertTrue(reader.authorizationRequested)
         XCTAssertEqual(store.logs, reader.logs)
@@ -42,7 +42,7 @@ final class WeightImportTests: XCTestCase {
         let store = MockWeightLogStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: store)
 
-        try await importer.importBodyMass()
+        try await importer.importBodyMassDelta()
 
         XCTAssertEqual(store.logs, [WeightLog(measuredAt: date, kilograms: 81)])
     }
@@ -64,7 +64,7 @@ final class WeightImportTests: XCTestCase {
         let store = MockWeightLogStore()
         let importer = try HealthKitWeightImporter(reader: reader, store: store)
 
-        try await importer.importActiveEnergy()
+        try await importer.importActiveEnergyDelta()
 
         XCTAssertEqual(store.energyBurnedLogs, [
             EnergyBurnedLog(burnedAt: day, activeKilocalories: 720),
@@ -129,6 +129,9 @@ private final class MockWeightReader: WeightSampleReading {
     var observerKinds: [HealthKitObserverKind] = []
     var deliveryKinds: [HealthKitObserverKind] = []
     var authorizationRequested = false
+    private(set) var windows: [Data?] = []
+    private(set) var energyWindows: [Data?] = []
+    private var anchorCounter = 0
 
     init(
         logs: [WeightLog] = [WeightLog(measuredAt: Date(timeIntervalSince1970: 2_000), kilograms: 75)],
@@ -142,11 +145,26 @@ private final class MockWeightReader: WeightSampleReading {
         authorizationRequested = true
     }
 
-    func samples(since: Date?) async throws -> [WeightLog] {
-        logs
+    /// Issue #192 — an anchored read: the full scripted history on the first
+    /// (nil-anchor) pass, an empty window afterwards (nothing new arrived).
+    func bodyMassWindow(after anchor: Data?) async throws -> HealthSampleWindow<WeightLog> {
+        windows.append(anchor)
+        return HealthSampleWindow(
+            samples: anchor == nil ? logs : [], removedSampleIDs: [], anchor: nextAnchor()
+        )
     }
 
-    func activeEnergyBurned(since: Date?) async throws -> [EnergyBurnedLog] { energyLogs }
+    func activeEnergyWindow(after anchor: Data?) async throws -> HealthSampleWindow<EnergyBurnedLog> {
+        energyWindows.append(anchor)
+        return HealthSampleWindow(
+            samples: anchor == nil ? energyLogs : [], removedSampleIDs: [], anchor: nextAnchor()
+        )
+    }
+
+    private func nextAnchor() -> Data {
+        anchorCounter += 1
+        return Data("anchor-\(anchorCounter)".utf8)
+    }
 
     func startObserving(
         _ kind: HealthKitObserverKind,

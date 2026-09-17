@@ -2,23 +2,31 @@ import { describe, expect, it } from 'vitest'
 import { execFileSync } from 'node:child_process'
 import catalog from '../../docs/art/food-library/catalog.json'
 import bundledCatalog from '../../app/Resources/FoodArt/catalog.json'
+import { ArtworkCatalog } from './artwork-catalog'
+import { ArtworkCatalogVersion, ArtworkIdValues } from './artwork-ids'
 import {
+  ARTWORK_ID_INSTRUCTION,
   ArtworkIdSchema,
-  UpdateMealItemInputSchema,
-  MenuTemplateItemSchema,
-  AttachMealImageInputSchema,
-  AttachMealImageOutputSchema,
+  ContractVersionSchema,
+  contractVersionStamp,
   GetDashboardSummaryOutputSchema,
   GetDayInputSchema,
   GetDayOutputSchema,
+  LOG_MEAL_DESCRIPTION,
   ListMenusOutputSchema,
   LogMealInputSchema,
   LogMealOutputSchema,
+  MCP_CONTRACT_VERSION,
   MealImageRecordSchema,
   MealItemRecordSchema,
+  MenuTemplateItemSchema,
+  AttachMealImageInputSchema,
+  AttachMealImageOutputSchema,
   RenderPayloadSchema,
   SearchFoodOutputSchema,
   TimezoneSchema,
+  UPDATE_MEAL_ITEM_DESCRIPTION,
+  UpdateMealItemInputSchema,
 } from './food-types'
 
 describe('Morsel tool schemas', () => {
@@ -37,6 +45,51 @@ describe('Morsel tool schemas', () => {
       for (const schema of [MealItemRecordSchema, MenuTemplateItemSchema]) {
         expect(schema.parse({ ...item, item_id: '00000000-0000-4000-8000-000000000241', quantity: 1, unit: 'cup' })).toMatchObject(item)
       }
+    }
+  })
+
+  // Issue #294 — the read-only staleness stamp. Every value derives from its
+  // canonical source: the shipped catalog (generated snapshot) and the
+  // published identity union. Nothing here is a hand-typed second copy.
+  it('derives the contract stamp from the shipped catalog and the identity union (issue #294)', () => {
+    const stamp = contractVersionStamp()
+    expect(ArtworkCatalogVersion).toBe(bundledCatalog.library_version)
+    expect(stamp.artwork_catalog_version).toBe(bundledCatalog.library_version)
+    expect(stamp.published_identity_count).toBe(ArtworkIdValues.length)
+    expect(stamp.published_identity_count).toBe(ArtworkIdSchema.options.length)
+    expect(stamp.published_identity_count).toBe(bundledCatalog.assets.length)
+    expect(stamp.contract_version).toBe(MCP_CONTRACT_VERSION)
+    expect(ContractVersionSchema.parse(stamp)).toEqual(stamp)
+    expect(ContractVersionSchema.safeParse({ ...stamp, extra: 1 }).success).toBe(false)
+    expect(ContractVersionSchema.safeParse({ ...stamp, published_identity_count: 0 }).success).toBe(false)
+    expect(ContractVersionSchema.safeParse({ ...stamp, artwork_catalog_version: '' }).success).toBe(false)
+    // The agent-visible instruction is canonical text on the descriptions the
+    // server registers, phrased as an instruction (never a field description).
+    expect(LOG_MEAL_DESCRIPTION).toContain(ARTWORK_ID_INSTRUCTION)
+    expect(ARTWORK_ID_INSTRUCTION).toMatch(/\bset artwork_id\b/i)
+    expect(ARTWORK_ID_INSTRUCTION).toMatch(/\bnever invent\b/i)
+    expect(UPDATE_MEAL_ITEM_DESCRIPTION).toMatch(/\bset artwork_id\b/i)
+    expect(UPDATE_MEAL_ITEM_DESCRIPTION).toMatch(/\bnever invent\b/i)
+  })
+
+  it('publishes the shipped catalog terms for write-time resolution without drift (issue #284)', () => {
+    const normalize = (text: string): string => text.toLowerCase().split(/\s+/).filter(Boolean).join(' ')
+    const ids = bundledCatalog.assets.map((asset) => asset.id).sort()
+    // The generated projection covers exactly the shipped catalog, and every
+    // term is the normalized published name/alias — never an added alias.
+    expect(ArtworkCatalog.map((asset) => asset.id).sort()).toEqual(ids)
+    for (const asset of ArtworkCatalog) {
+      const shipped = bundledCatalog.assets.find((entry) => entry.id === asset.id)
+      expect(shipped, asset.id).toBeDefined()
+      if (shipped === undefined) continue
+      expect(asset.category).toBe(shipped.category)
+      expect(asset.kind).toBe(shipped.kind)
+      const published = [shipped.name, ...shipped.aliases].map(normalize)
+      expect(asset.terms).toEqual([...new Set(published)])
+      for (const term of asset.terms) {
+        expect(term).toBe(normalize(term))
+      }
+      expect(ArtworkIdSchema.options).toContain(asset.id)
     }
   })
 
@@ -109,6 +162,7 @@ describe('Morsel tool schemas', () => {
     expect(GetDayOutputSchema.parse({
       date: '2026-08-25',
       timezone: 'UTC',
+      contract: contractVersionStamp(),
       meals: [],
       totals: { calories_kcal: 0, protein_g: 0, carbs_g: 0, fat_g: 0 },
       render,
@@ -241,6 +295,7 @@ describe('Morsel tool schemas', () => {
     expect(GetDayOutputSchema.safeParse({
       date: '2026-08-25',
       timezone: 'UTC',
+      contract: contractVersionStamp(),
       meals: [meal, {
         ...meal,
         meal_log_id: '00000000-0000-4000-8000-000000000005',

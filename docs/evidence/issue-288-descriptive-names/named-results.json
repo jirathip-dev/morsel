@@ -1,0 +1,336 @@
+{
+  "cases": {
+    "positives": [
+      {
+        "name": "Satay skewers with peanut sauce",
+        "resolved": "satay",
+        "status": "PASS",
+        "want": "satay"
+      },
+      {
+        "name": "satay skewers",
+        "resolved": "satay",
+        "status": "PASS",
+        "want": "satay"
+      },
+      {
+        "name": "half-portion satay",
+        "resolved": "satay",
+        "status": "PASS",
+        "want": "satay"
+      },
+      {
+        "name": "Olive oil / butter for cooking",
+        "resolved": "cooking-oil",
+        "status": "PASS",
+        "want": "cooking-oil"
+      },
+      {
+        "name": "Olive oil for cooking",
+        "resolved": "cooking-oil",
+        "status": "PASS",
+        "want": "cooking-oil"
+      },
+      {
+        "name": "Mashed potato with gravy",
+        "resolved": "mashed-potato",
+        "status": "PASS",
+        "want": "mashed-potato"
+      },
+      {
+        "name": "Mixed salad with dressing",
+        "resolved": "green-salad",
+        "status": "PASS",
+        "want": "green-salad"
+      },
+      {
+        "name": "Chili oil drizzle",
+        "resolved": "chili-oil",
+        "status": "PASS",
+        "want": "chili-oil"
+      },
+      {
+        "name": "Chili flakes & herbs",
+        "resolved": "chili-oil",
+        "status": "PASS",
+        "want": "chili-oil"
+      },
+      {
+        "name": "Greek yogurt with honey",
+        "resolved": "yogurt",
+        "status": "PASS",
+        "want": "yogurt"
+      }
+    ],
+    "shipped": [
+      {
+        "name": "coffee cake",
+        "resolved": "cake",
+        "status": "PASS",
+        "want": "cake"
+      },
+      {
+        "name": "milk tea",
+        "resolved": "milk-tea",
+        "status": "PASS",
+        "want": "milk-tea"
+      },
+      {
+        "name": "boba tea",
+        "resolved": "boba-tea",
+        "status": "PASS",
+        "want": "boba-tea"
+      },
+      {
+        "name": "pad thai",
+        "resolved": "pad-thai",
+        "status": "PASS",
+        "want": "pad-thai"
+      },
+      {
+        "name": "stir-fried noodles",
+        "resolved": "stir-fried-noodles",
+        "status": "PASS",
+        "want": "stir-fried-noodles"
+      },
+      {
+        "name": "Iced americano (black, no sugar)",
+        "resolved": "coffee",
+        "status": "PASS",
+        "want": "coffee"
+      },
+      {
+        "name": "iced americano",
+        "resolved": "iced-coffee",
+        "status": "PASS",
+        "want": "iced-coffee"
+      },
+      {
+        "name": "Americano (black, no sugar, homemade)",
+        "resolved": "coffee",
+        "status": "PASS",
+        "want": "coffee"
+      },
+      {
+        "name": "white rice",
+        "resolved": "jasmine-rice",
+        "status": "PASS",
+        "want": "jasmine-rice"
+      },
+      {
+        "name": "half-portion white rice",
+        "resolved": "jasmine-rice",
+        "status": "PASS",
+        "want": "jasmine-rice"
+      },
+      {
+        "name": "white rice, cooked (half portion)",
+        "resolved": "jasmine-rice",
+        "status": "PASS",
+        "want": "jasmine-rice"
+      },
+      {
+        "name": "Pasta (linguine), cooked",
+        "resolved": "pasta",
+        "status": "PASS",
+        "want": "pasta"
+      },
+      {
+        "name": "linguine",
+        "resolved": "pasta",
+        "status": "PASS",
+        "want": "pasta"
+      },
+      {
+        "name": "Chinese kale",
+        "resolved": "stir-fried-greens",
+        "status": "PASS",
+        "want": "stir-fried-greens"
+      },
+      {
+        "name": "kana",
+        "resolved": "stir-fried-greens",
+        "status": "PASS",
+        "want": "stir-fried-greens"
+      },
+      {
+        "name": "pork with brown gravy",
+        "resolved": "braised-pork",
+        "status": "PASS",
+        "want": "braised-pork"
+      },
+      {
+        "name": "Dairy",
+        "resolved": "fallback-dairy",
+        "status": "PASS",
+        "want": "fallback-dairy"
+      }
+    ],
+    "vetoes": [
+      {
+        "name": "Coffee with rice and chicken",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Coffee with rice and chicken only",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Cake with coffee",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Americano (black) with toast",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Som tum with peanuts",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "chicken skewers",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "butter for cooking",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "skewers with peanut sauce",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "coffee / tea",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Egg salad / creamy egg spread",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Fish balls / fish tofu / dumpling assortment",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Rice cake",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "banana bread",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "coffee ice cream",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Uncatalogued lunar stew",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "composite/shared restaurant plate",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "half-portion coffee cake with rice",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "pasta (linguine) with chicken",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "milk tea (boba tea)",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "half-portion white riceish",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "pasta (coffee), cooked",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "pasta (linguine",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "rice cake (half-portion)",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "coffee, 1/2 cup",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Americano (black (no sugar))",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "White rice (half portion), cake",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "coffeeish",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "Coffee custard (homemade)",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "pad thai from the corner stall",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      },
+      {
+        "name": "half-portion white rice and pork",
+        "resolved": "fallback-neutral",
+        "status": "NEUTRAL"
+      }
+    ]
+  },
+  "catalog_assets": 130,
+  "command": "swiftc -O -o /tmp/rev288-probe CaseProbe.swift ../../../../app/Sources/Morsel/FoodArtwork.swift ../../../../app/Sources/Morsel/FoodArtworkSecondary.swift && /tmp/rev288-probe ../../../../app/Resources/FoodArt/catalog.json",
+  "harness": "probe/CaseProbe.swift compiled by swiftc against the same sources + bundled catalog",
+  "note": "Simulator-free inventory of the same cases the app-hosted XCTest asserts; the durable assertions are the XCTest suites.",
+  "probe_log": {
+    "exists": true,
+    "path": "/tmp/rev288-logs/probe-cases.log",
+    "sha256": "39e2288e75e306ccc998113cc9eb11c1e5f18dc2efbc369a862c7ca77f89bbe1"
+  },
+  "summaries": {
+    "positives": "POSITIVES missed=0 of 10",
+    "shipped": "SHIPPED missed=0 of 17",
+    "vetoes": "VETOES neutral=30 of 30"
+  }
+}

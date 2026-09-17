@@ -1,0 +1,137 @@
+{
+  "issue": 189,
+  "branch": "issue/189-sync-notify",
+  "lane_base_sha": "94a662fc75a5711d609e5073eb5ed78e2cafedfd",
+  "code_head_sha": "93ab4208432e891c9fa373231568d5030e15c3bd",
+  "source_sha256_at_head": {
+    "app/Sources/Morsel/LocalSyncEngine.swift": "b8923fb83378eaceb3fb829fad636ac531baa1f8166466525a0ffe2d2001ff5c"
+  },
+  "simulator_udid": "A9030A2E-3931-4189-8950-0EF9F2D1B096",
+  "gates": [
+    {
+      "name": "focused-head-witnesses",
+      "command": "xcodebuild test -only-testing:MorselTests/SyncNotifyReconciliationTests -only-testing:MorselTests/SyncNotifyPassCoverageTests",
+      "executed": 10,
+      "failures": 0,
+      "raw_exit": 0,
+      "log": "head-focused-r2.log"
+    },
+    {
+      "name": "base-red-probe",
+      "command": "xcodebuild test -only-testing:MorselTests/SyncNotifyBaseProbeTests (fix reverted to base)",
+      "executed": 3,
+      "failures": 3,
+      "raw_exit": 65,
+      "log": "base-probe.log"
+    },
+    {
+      "name": "full-native-suite",
+      "command": "xcodebuild test",
+      "executed": 563,
+      "skipped": 3,
+      "failures": 4,
+      "raw_exit": 65,
+      "log": "full-head.log",
+      "failures_are_preexisting": true,
+      "preexisting_leg_log": "base-known-reds.log"
+    },
+    {
+      "name": "preexisting-reds-at-base",
+      "command": "-only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/SharedButtonTargetTests (fix reverted)",
+      "executed": 17,
+      "failures": 4,
+      "raw_exit": 65,
+      "log": "base-known-reds.log"
+    },
+    {
+      "name": "hosted-app-contracts",
+      "command": "npm ci && npm test",
+      "tests": 695,
+      "failed": 2,
+      "raw_exit": 1,
+      "log": "npm-test-r2.log",
+      "failures": [
+        "server/http.test.ts: Test timed out in 5000ms",
+        "server/tool-classification.test.ts: Test timed out in 5000ms"
+      ],
+      "assertion_failures": 0,
+      "diagnostic_rerun": {
+        "command": "npx vitest run --testTimeout=60000 server/http.test.ts server/tool-classification.test.ts",
+        "tests": 10,
+        "failed": 0,
+        "raw_exit": 0,
+        "log": "npm-diag-timeouts.log",
+        "note": "diagnostic only, never gate evidence"
+      }
+    },
+    {
+      "name": "swiftlint",
+      "command": "swiftlint lint --strict --quiet",
+      "raw_exit": 0,
+      "log": "swiftlint.log"
+    },
+    {
+      "name": "xcodegen-stability",
+      "command": "xcodegen generate --spec app/project.yml --project app && git diff --exit-code -- app/Morsel.xcodeproj/project.pbxproj",
+      "xcodegen_exit": 0,
+      "git_diff_exit": 0,
+      "log": "xcodegen-stability.log"
+    },
+    {
+      "name": "git-diff-check",
+      "command": "git diff --check / git diff --cached --check",
+      "raw_exit": 0
+    }
+  ],
+  "mutation_battery": [
+    {
+      "mutation": "m1-notify-empty-change",
+      "raw_exit": 65,
+      "restored_identical": true,
+      "log": "mut-m1-notify-empty-change.log"
+    },
+    {
+      "mutation": "m2-refusal-always-notifies",
+      "raw_exit": 65,
+      "restored_identical": true,
+      "log": "mut-m2-refusal-always-notifies.log"
+    },
+    {
+      "mutation": "m3-drop-startup-buffer",
+      "raw_exit": 65,
+      "restored_identical": true,
+      "log": "mut-m3-drop-startup-buffer.log"
+    },
+    {
+      "mutation": "m4-drop-release-record",
+      "raw_exit": 65,
+      "restored_identical": true,
+      "log": "mut-m4-drop-release-record.log"
+    },
+    {
+      "mutation": "m5-fake-health-success",
+      "raw_exit": 65,
+      "restored_identical": true,
+      "log": "mut-m5-fake-health-success.log"
+    }
+  ],
+  "raw_log_sha256": {
+    "head-focused.log": "35d4c96fcadf02008d5de4b3d110eb09ae8d729647d9b5479254893db7a720b4",
+    "head-focused-r2.log": "8a966ffff4c5dc46dcf1fa786e9a230b541a754ea9f4c764cc8385c33e6f97f4",
+    "base-probe.log": "20c5fbe4440ead7efb3300d30e37afdfd6bdac0b80ee45bd7a918779c4cdba74",
+    "base-known-reds.log": "be5b7b8518eb99ade41571e09b66c2c5eecea1cd4089021a9e4bf2bbd6f4dc61",
+    "full-head.log": "28f4909d172832eceac574c3f73b491eff7dc31cc822911e3306a9dbe999cb41",
+    "npm-test.log": "0dd3e1833cb064efefd58c117ec33b17f60a04d8257cef20f6be536af06edcd9",
+    "npm-test-r2.log": "8a81b4d01a43cbae9dca41725531fef604f31bcbc752101997a783a6c41eca44",
+    "npm-ci.log": "e3de06de1ea70413f5bf769e665205fa9bbd61beffb05cfd145d48b2aa5c3d32",
+    "npm-diag-timeouts.log": "83ccdb53eb31d734bd6e3c46cfe546b5f64242f1714a431dcab05525c995ee2f",
+    "swiftlint.log": "439a1b27883d736a5f873c7171c522afbaf32376cb6063030afbf5cb9deb1be0",
+    "xcodegen-stability.log": "71c5da098c2685a78b1676ff6e66bc9db7b399db8622ecd0863db08b84479795",
+    "mutation-battery.log": "837419e1f698c423bd14a8cae5215d7446351d51352a27cbe0177af5d737d401",
+    "mut-m1-notify-empty-change.log": "a8c54bbbc0273e29ade4bc2416a1bbe9a2d82dda6d582184cdf46631916f459c",
+    "mut-m2-refusal-always-notifies.log": "d6a9796051ae9ac2f4897891d526353b66b21fb13bcd63da0ab1b6dd1ff9321a",
+    "mut-m3-drop-startup-buffer.log": "c17f0e8e0fa0a0b7fb92c1fc0fef829af697ceaec255f79dd4f18bfd2fb55b2e",
+    "mut-m4-drop-release-record.log": "378fb7ff03adbc74b97946145c3e1cf44f69eadf454ff7caf4a2371652d49b4d",
+    "mut-m5-fake-health-success.log": "70608a2a639050aa3bf7a906e04e4cef769dac7ceb28dcbddcbdbf6e2667a254"
+  }
+}

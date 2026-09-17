@@ -6,6 +6,24 @@ import SQLite3
 // construction, cleared at logout. Cache + durable outbox only: RLS, the
 // security-invoker meal transaction and friendly boundaries stay
 // authoritative on the server. Tokens/secrets are NEVER written here.
+//
+// Issue #191 — connection and lock ownership (what a caller may assume):
+//
+//  * This class owns ONE connection per account file (`SQLITE_OPEN_FULLMUTEX`)
+//    and ONE `NSRecursiveLock`; every helper holds that lock for the whole
+//    statement, so statements never interleave and a caller never manages
+//    SQLite locks itself. The sibling stores over the same account file
+//    (`LocalSnapshotCache`, `LocalHealthStore`) each own their own connection;
+//    WAL plus the 2 s busy timeout arbitrate between instances, not this lock.
+//  * A synchronous read therefore holds the lock only for the ONE statement it
+//    issued, and the read paths are sized for that: the photo payload is
+//    materialized only for a requested photo (`queuedMeal(mealID:)`) or an
+//    actual upload, while existence/status/merge reads use the metadata
+//    projection (`queuedMealSummary(mealID:)` / `queuedMealSummaries()`),
+//    which never reads `photo_data`. No background path performs a queue-wide
+//    BLOB scan, so the UI-facing photo lookup cannot be parked behind one
+//    (see docs/evidence/issue-191-targeted-reads/README.md).
+
 enum LocalStoreError: LocalizedError, Equatable {
     case sqlite(String)
 
@@ -21,6 +39,11 @@ enum LocalStoreError: LocalizedError, Equatable {
 final class LocalDataStore {
     let database: OpaquePointer
     let lock = NSRecursiveLock()
+    /// Issue #191 — bytes this store has actually materialized per BLOB column,
+    /// so a read path can be held to the payload budget it claims. Real reads
+    /// on real rows, never estimates: counted at the SQLite read seam (see the
+    /// `query` loop) and mutated only under `lock`.
+    var blobBytesByColumn: [String: Int] = [:]
 
     static func storeDirectory(root: URL, accountID: UUID) -> URL {
         root.appendingPathComponent("Morsel", isDirectory: true)
@@ -143,7 +166,9 @@ final class LocalDataStore {
         permanent: Bool = false,
         now: Date = Date()
     ) throws {
-        let existing = try queuedMeal(mealID: mealID)
+        // Issue #191 — the attempt bookkeeping needs a row's metadata only:
+        // the durable photo payload is never read on a status path.
+        let existing = try queuedMealSummary(mealID: mealID)
         let attempts = (existing?.attempts ?? 0) + 1
         let needsAttention = permanent || error == .auth || error == .validation
         let state: MealOutboxState = needsAttention ? .needsAttention : .pending
@@ -212,6 +237,18 @@ final class LocalDataStore {
     func clearAccountData() throws {
         try run("DELETE FROM meal_outbox")
         try run("DELETE FROM meta")
+    }
+
+    // MARK: - Read instrumentation
+
+    /// Issue #191 — bytes of `column` this store has materialized so far. The
+    /// targeted-read proofs use it to hold every read path to its budget (a
+    /// metadata/status/existence read is 0 for `photo_data`; a single-photo
+    /// read is exactly that photo's byte count).
+    func blobBytes(column: String) -> Int {
+        lock.lock()
+        defer { lock.unlock() }
+        return blobBytesByColumn[column] ?? 0
     }
 
     // MARK: - SQLite helpers

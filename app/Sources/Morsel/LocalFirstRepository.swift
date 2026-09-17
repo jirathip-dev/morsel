@@ -2,6 +2,8 @@ import Foundation
 
 // Account-scoped cache/outbox: explicit cached reads paint before remote refresh.
 // Successful reads write through; failures preserve saved data with cached provenance.
+// Issue #183 — a read publishes only while it is the newest for its own
+// account/resource/day-or-range scope and no write has invalidated the account.
 final class LocalFirstDashboardRepository: DashboardRepository {
     // remote/store/snapshotCache are internal (not private) so the cross-file
     // LocalFirstMenus (#152) and #188 revision seams can reach them.
@@ -42,12 +44,20 @@ final class LocalFirstDashboardRepository: DashboardRepository {
 
     func loadToday(userID: UUID, date: Date) async throws -> DashboardSnapshot {
         let dayKey = Self.dayKey(date)
+        // Issue #183 — this read owns the day's cache entry only while it is
+        // the newest read for this account/day and no write invalidates it.
+        let publication = snapshotCache.beginPublication(account: userID, scope: "today/\(dayKey)")
         do {
             var snapshot = try await remote.loadToday(userID: userID, date: date)
             try Task.checkCancellation()
             guard Self.dayKey(date) == dayKey else { throw CancellationError() }
+            guard snapshotCache.isPublicationCurrent(publication) else { throw CancellationError() }
             snapshot.readProvenance = DayReadProvenance(isCached: false, loadedAt: dateProvider())
-            try snapshotCache.saveDashboardCache(dayKey: dayKey, payload: try Self.encode(snapshot))
+            // Best effort: a cache fault must never turn this fresh read into an older answer.
+            try? snapshotCache.saveDashboardCache(
+                dayKey: dayKey, payload: try Self.encode(snapshot),
+                savedAt: dateProvider(), publication: publication
+            )
             return try merged(snapshot, userID: userID, date: date)
         } catch {
             if Task.isCancelled || error is CancellationError || (error as? URLError)?.code == .cancelled {
@@ -64,12 +74,18 @@ final class LocalFirstDashboardRepository: DashboardRepository {
 
     func loadHistory(userID: UUID, end: Date, days: Int) async throws -> HistoryOverview {
         let cacheKey = Self.historyKey(end: end, days: days)
+        let publication = snapshotCache.beginPublication(account: userID, scope: "history/\(cacheKey)")
         do {
             var overview = try await remote.loadHistory(userID: userID, end: end, days: days)
             try Task.checkCancellation()
             guard Self.historyKey(end: end, days: days) == cacheKey else { throw CancellationError() }
+            guard snapshotCache.isPublicationCurrent(publication) else { throw CancellationError() }
             overview.readProvenance = DayReadProvenance(isCached: false, loadedAt: dateProvider())
-            try snapshotCache.saveHistoryCache(cacheKey: cacheKey, payload: try Self.encode(overview))
+            // Best effort: a cache fault must never turn this fresh read into an older answer.
+            try? snapshotCache.saveHistoryCache(
+                cacheKey: cacheKey, payload: try Self.encode(overview),
+                savedAt: dateProvider(), publication: publication
+            )
             return overview
         } catch {
             if Task.isCancelled || error is CancellationError || (error as? URLError)?.code == .cancelled {
@@ -90,9 +106,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             }
             return goal
         } catch {
-            guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else {
-                throw error
-            }
+            guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else { throw error }
             return try Self.decode(StoredDashboardGoal.self, payload)
         }
     }
@@ -113,9 +127,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             }
             return context
         } catch {
-            guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else {
-                throw error
-            }
+            guard let payload = try snapshotCache.loadGoalsCache(userKey: userID.uuidString) else { throw error }
             let stored = try Self.decode(StoredDashboardGoal.self, payload)
             return GoalsPageContext(stored: stored, profile: nil, latestWeight: nil, profileRowRead: false)
         }
@@ -131,23 +143,18 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             }
             return goal
         } catch {
-            guard let payload = try snapshotCache.loadGoalsCache(
-                userKey: "computed.\(direction.rawValue).\(userID.uuidString)"
-            ) else {
-                throw error
-            }
+            let key = "computed.\(direction.rawValue).\(userID.uuidString)"
+            guard let payload = try snapshotCache.loadGoalsCache(userKey: key) else { throw error }
             return try Self.decode(DashboardGoal.self, payload)
         }
     }
 
     func saveGoals(userID: UUID, goal: DashboardGoal) async throws {
+        invalidateReadPublications(userID: userID)
         try await remote.saveGoals(userID: userID, goal: goal)
         let stored = StoredDashboardGoal(
-            calorieTargetKcal: goal.calorieTargetKcal,
-            proteinG: goal.proteinG,
-            carbsG: goal.carbsG,
-            fatG: goal.fatG,
-            source: .manual
+            calorieTargetKcal: goal.calorieTargetKcal, proteinG: goal.proteinG, carbsG: goal.carbsG,
+            fatG: goal.fatG, source: .manual
         )
         if let payload = try? Self.encode(stored) {
             try? snapshotCache.saveGoalsCache(userKey: userID.uuidString, payload: payload)
@@ -165,19 +172,21 @@ final class LocalFirstDashboardRepository: DashboardRepository {
             try FoodImageStore.validate(data: photo.data, mimeType: photo.mimeType)
         }
         let queued = QueuedMealFactory.make(draft: draft, photo: photo)
+        invalidateReadPublications(userID: userID)
         try store.enqueueMeal(queued)
         requestSync()
         return queued.mealID
     }
 
     func localMealRecord(userID: UUID, localMealID: UUID) async throws -> MealRecord? {
-        try store.queuedMeal(mealID: localMealID).map { journalRecord(for: $0, userID: userID) }
+        try store.queuedMealSummary(mealID: localMealID).map { journalRecord(for: $0, userID: userID) }
     }
 
     /// Deleting a never-synced queued meal cancels the outbox row locally
     /// (the server never saw it); synced meals delete remotely as before.
     func deleteMealLog(userID: UUID, mealLogID: UUID) async throws {
-        if try store.queuedMeal(mealID: mealLogID) != nil {
+        invalidateReadPublications(userID: userID)
+        if try store.queuedMealSummary(mealID: mealLogID) != nil {
             try store.removeMeal(mealID: mealLogID)
             return
         }
@@ -187,6 +196,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     /// Item edits on a still-queued meal mutate the durable local draft;
     /// synced meals update remotely as before.
     func updateMealItem(userID: UUID, update: MealItemUpdate) async throws {
+        invalidateReadPublications(userID: userID)
         if let queued = try queuedMeal(containingItem: update.itemID) {
             try store.updateQueuedMealItems(mealID: queued.mealID, items: updatedItems(queued, update))
             return
@@ -198,6 +208,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         if try queuedMeal(containingItem: itemID) != nil {
             return // local manual items never need remote review confirmation
         }
+        invalidateReadPublications(userID: userID)
         try await remote.confirmMealItem(userID: userID, itemID: itemID)
     }
 
@@ -213,7 +224,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         let dayStart = calendar.startOfDay(for: date)
         var meals = snapshot.meals
         var remoteIDs = Set(meals.map(\.mealLogID))
-        let queued = try store.queuedMeals()
+        // Issue #191 — the merge names queued rows as metadata; payloads stay row-durable.
+        let queued = try store.queuedMealSummaries()
         for row in queued where calendar.startOfDay(for: row.eatenAt) == dayStart {
             guard !remoteIDs.contains(row.mealID) else { continue }
             meals.append(journalRecord(for: row, userID: userID))
@@ -223,9 +235,7 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         let trendStart = calendar.date(byAdding: .day, value: -29, to: dayStart)
         let trendEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)
         return DashboardSnapshot(
-            date: snapshot.date,
-            meals: meals,
-            goal: snapshot.goal,
+            date: snapshot.date, meals: meals, goal: snapshot.goal,
             weightTrend: try mergedWeightTrend(snapshot.weightTrend, from: trendStart, to: trendEnd),
             activeEnergyBurned: mergedActiveEnergy(remote: snapshot.activeEnergyBurned, day: dayStart),
             readProvenance: snapshot.readProvenance, datedTarget: snapshot.datedTarget
@@ -269,28 +279,21 @@ final class LocalFirstDashboardRepository: DashboardRepository {
         return max(remote, dayRow.activeKilocalories)
     }
 
-    private func queuedMeal(containingItem itemID: UUID) throws -> QueuedMeal? {
-        try store.queuedMeals().first { meal in meal.items.contains { $0.itemID == itemID } }
+    private func queuedMeal(containingItem itemID: UUID) throws -> QueuedMealSummary? {
+        try store.queuedMealSummaries().first { meal in meal.items.contains { $0.itemID == itemID } }
     }
 
-    private func updatedItems(_ queued: QueuedMeal, _ update: MealItemUpdate) -> [QueuedMealItem] {
+    private func updatedItems(_ queued: QueuedMealSummary, _ update: MealItemUpdate) -> [QueuedMealItem] {
         queued.items.map { item in
             guard item.itemID == update.itemID else { return item }
             return QueuedMealItem(
-                itemID: item.itemID,
-                name: update.name ?? item.name,
-                quantity: update.quantity ?? item.quantity,
-                unit: item.unit,
+                itemID: item.itemID, name: update.name ?? item.name,
+                quantity: update.quantity ?? item.quantity, unit: item.unit,
                 caloriesKcal: update.caloriesKcal ?? item.caloriesKcal,
-                proteinG: update.proteinG ?? item.proteinG,
-                carbsG: update.carbsG ?? item.carbsG,
-                fatG: update.fatG ?? item.fatG,
-                fiberG: item.fiberG,
-                sugarG: item.sugarG,
-                confidence: item.confidence,
-                notes: item.notes,
-                menuGroupID: item.menuGroupID,
-                menuName: item.menuName
+                proteinG: update.proteinG ?? item.proteinG, carbsG: update.carbsG ?? item.carbsG,
+                fatG: update.fatG ?? item.fatG, fiberG: item.fiberG, sugarG: item.sugarG,
+                confidence: item.confidence, notes: item.notes,
+                menuGroupID: item.menuGroupID, menuName: item.menuName
             )
         }
     }
@@ -347,6 +350,7 @@ extension LocalFirstDashboardRepository {
     /// upload + `meal_logs.image_path` update. Never a direct storage write.
     func attachMealPhoto(userID: UUID, itemID: UUID, photo: FoodImageUpload) async throws {
         try FoodImageStore.validate(data: photo.data, mimeType: photo.mimeType)
+        invalidateReadPublications(userID: userID)
         if let queued = try queuedMeal(containingItem: itemID) {
             try store.replaceQueuedMealPhoto(
                 mealID: queued.mealID,
@@ -372,7 +376,8 @@ extension LocalFirstDashboardRepository {
     /// pipeline serves the LOCAL photo bytes until the remote object exists
     /// (issue #135). Items carry the photo context so the Edit-item sheet
     /// renders it for pending rows too (issue #153).
-    private func journalRecord(for row: QueuedMeal, userID: UUID) -> MealRecord {
+    /// Issue #191 — the row arrives as metadata: `row.photo` NAMES the durable payload.
+    private func journalRecord(for row: QueuedMealSummary, userID: UUID) -> MealRecord {
         let storedPath = row.imagePath
             ?? (row.photo == nil ? nil : FoodImageStore.objectPath(userID: userID, imageID: row.mealID))
         let image = storedPath.map { MealImage(path: $0) }
@@ -380,14 +385,8 @@ extension LocalFirstDashboardRepository {
             .compactMap { $0.item(source: row.source) }
             .map { $0.withMealImage(image) }
         return MealRecord(
-            mealLogID: row.mealID,
-            mealType: row.mealType,
-            eatenAt: row.eatenAt,
-            source: row.source,
-            imagePath: storedPath,
-            image: image,
-            items: items,
-            syncState: row.syncState
+            mealLogID: row.mealID, mealType: row.mealType, eatenAt: row.eatenAt, source: row.source,
+            imagePath: storedPath, image: image, items: items, syncState: row.syncState
         )
     }
 

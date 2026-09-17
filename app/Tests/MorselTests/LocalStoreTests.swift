@@ -188,7 +188,8 @@ final class LocalStoreTests: XCTestCase {
     func testWatermarksAndPendingDetection() async throws {
         let health = try health(for: accountA)
         XCTAssertNil(try health.bodyMassAnchor())
-        let anchor = Date(timeIntervalSince1970: 50_000)
+        // Issue #192 — the cursor is the opaque HealthKit query anchor.
+        let anchor = Data("query-anchor-1".utf8)
         try health.setBodyMassAnchor(anchor)
         XCTAssertEqual(try health.bodyMassAnchor(), anchor)
         XCTAssertFalse(try health.hasPendingUploads())
