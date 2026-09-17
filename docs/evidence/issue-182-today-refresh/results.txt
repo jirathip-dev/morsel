@@ -1,0 +1,105 @@
+native-final-r5.log
+COMMAND ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-native-final-r5.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests", "-only-testing:MorselTests/TodayRefreshLifecycleTests", "-only-testing:MorselTests/JournalDiaryLoadTests", "-only-testing:MorselTests/MealCorrectionsTests", "-only-testing:MorselTests/DayReadCompositionTests", "-only-testing:MorselTests/DayReadDegradeTests", "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"]
+CWD /Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.241 (0.243) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.055 (0.059) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.012 (0.024) seconds
+ISSUE182 F5 cached Today refreshing/idle PNG bytes equal: 585020
+	 Executed 8 tests, with 0 failures (0 unexpected) in 3.641 (3.645) seconds
+ISSUE182 F2 writes=3 reads=2 publications=[2400.0]
+ISSUE182 F1 cache=1 reads=1 returned=4
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.036 (0.038) seconds
+	 Executed 29 tests, with 0 failures (0 unexpected) in 4.006 (4.033) seconds
+	 Executed 29 tests, with 0 failures (0 unexpected) in 4.006 (4.035) seconds
+** TEST SUCCEEDED **
+RECEIPT {"name": "native-final-r5", "command": ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-native-final-r5.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests", "-only-testing:MorselTests/TodayRefreshLifecycleTests", "-only-testing:MorselTests/JournalDiaryLoadTests", "-only-testing:MorselTests/MealCorrectionsTests", "-only-testing:MorselTests/DayReadCompositionTests", "-only-testing:MorselTests/DayReadDegradeTests", "-only-testing:MorselTests/TrainingFuelNilGoalRegressionTests"], "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh/app", "raw_exit": 0, "duration_s": 109.84}
+
+proof/base-red.log
+COMMAND ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-proof-1424jgl6/base-red.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests"]
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:93: error: -[MorselTests.TodayRefreshRegressionTests testCancelledNonCooperativeReadDoesNotGateANewLoadOrPublishLate] : XCTAssertTrue failed - cancelled waiter released without repository cooperation
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:94: error: -[MorselTests.TodayRefreshRegressionTests testCancelledNonCooperativeReadDoesNotGateANewLoadOrPublishLate] : XCTAssertFalse failed
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:96: error: -[MorselTests.TodayRefreshRegressionTests testCancelledNonCooperativeReadDoesNotGateANewLoadOrPublishLate] : XCTAssertTrue failed - new activation starts without old completion
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:98: error: -[MorselTests.TodayRefreshRegressionTests testCancelledNonCooperativeReadDoesNotGateANewLoadOrPublishLate] : XCTAssertTrue failed - fresh published
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:102: error: -[MorselTests.TodayRefreshRegressionTests testCancelledNonCooperativeReadDoesNotGateANewLoadOrPublishLate] : XCTAssertEqual failed: ("Optional(999.0)") is not equal to ("Optional(2500.0)")
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:49: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentCommittedMutationsRequireOnlyOneFollowUpAndNeverPublishOldRead] : XCTAssertTrue failed - all committed writes reached refresh ownership
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:50: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentCommittedMutationsRequireOnlyOneFollowUpAndNeverPublishOldRead] : XCTAssertEqual failed: ("4") is not equal to ("1") - writes invalidate the read, not start independent reads
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:56: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentCommittedMutationsRequireOnlyOneFollowUpAndNeverPublishOldRead] : XCTAssertEqual failed: ("4") is not equal to ("2")
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:57: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentCommittedMutationsRequireOnlyOneFollowUpAndNeverPublishOldRead] : XCTAssertEqual failed: ("Optional(2000.0)") is not equal to ("Optional(2400.0)")
+ISSUE182 F2 writes=3 reads=4 publications=[2000.0, 2000.0, 2000.0, 2000.0]
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:21: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentFreshnessJoinsFirstCacheAndOneAuthoritativeRead] : XCTAssertEqual failed: ("3") is not equal to ("0") - duplicates await shared freshness, rather than returning early
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:28: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentFreshnessJoinsFirstCacheAndOneAuthoritativeRead] : XCTAssertEqual failed: ("2") is not equal to ("1") - unchanged duplicates must not schedule serial reloads
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:29: error: -[MorselTests.TodayRefreshRegressionTests testConcurrentFreshnessJoinsFirstCacheAndOneAuthoritativeRead] : XCTAssertFalse failed
+ISSUE182 F1 cache=1 reads=2 returned=4
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:79: error: -[MorselTests.TodayRefreshRegressionTests testQueuedMealPaintCannotBeOverwrittenByReadStartedBeforeCommit] : XCTAssertTrue failed - one follow-up after local commit
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:80: error: -[MorselTests.TodayRefreshRegressionTests testQueuedMealPaintCannotBeOverwrittenByReadStartedBeforeCommit] : XCTAssertEqual failed: ("Optional([])") is not equal to ("Optional([4CFEFF08-5A57-40E2-A6D7-995124D7F0A1])")
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:81: error: -[MorselTests.TodayRefreshRegressionTests testQueuedMealPaintCannotBeOverwrittenByReadStartedBeforeCommit] : XCTAssertNotEqual failed: ("Optional(1000.0)") is equal to ("Optional(1000.0)")
+/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app/Tests/MorselTests/TodayRefreshRegressionTests.swift:84: error: -[MorselTests.TodayRefreshRegressionTests testQueuedMealPaintCannotBeOverwrittenByReadStartedBeforeCommit] : XCTAssertEqual failed: ("1") is not equal to ("2")
+	 Executed 4 tests, with 16 failures (0 unexpected) in 15.345 (15.348) seconds
+	 Executed 4 tests, with 16 failures (0 unexpected) in 15.345 (15.349) seconds
+	 Executed 4 tests, with 16 failures (0 unexpected) in 15.345 (15.350) seconds
+** TEST FAILED **
+RECEIPT {"command": ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-proof-1424jgl6/base-red.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests"], "cwd": "/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app", "raw_exit": 65, "duration_s": 142.6}
+
+proof/head-green.log
+COMMAND ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-proof-1424jgl6/head-green.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests"]
+ISSUE182 F2 writes=3 reads=2 publications=[2400.0]
+ISSUE182 F1 cache=1 reads=1 returned=4
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.035 (0.037) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.035 (0.037) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.035 (0.038) seconds
+** TEST SUCCEEDED **
+RECEIPT {"command": ["xcodebuild", "test", "-project", "Morsel.xcodeproj", "-scheme", "Morsel", "-destination", "platform=iOS Simulator,id=7348988F-F518-40A4-B226-4E91D33D5925", "-derivedDataPath", "/tmp/morsel-182-dd", "-resultBundlePath", "/tmp/morsel-182-proof-1424jgl6/head-green.xcresult", "-parallel-testing-enabled", "NO", "-maximum-concurrent-test-simulator-destinations", "1", "-jobs", "2", "CODE_SIGNING_ALLOWED=NO", "-only-testing:MorselTests/TodayRefreshRegressionTests"], "cwd": "/tmp/morsel-182-proof-1424jgl6/issue-182-refresh/app", "raw_exit": 0, "duration_s": 21.18}
+
+npm-test.log
+COMMAND ["npm", "test"]
+CWD /Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/http.test.ts > MCP HTTP server > refreshes the session repository token before a post-rotation tool call
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the single-day dashboard SVG at 2x to a deterministic PNG with the paper palette and ring
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the week dashboard SVG with the trend at 1440x940 deterministically
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > write tools have their stated effects through the registration path
+Error: Test timed out in 5000ms.
+ Test Files  3 failed | 56 passed (59)
+      Tests  6 failed | 663 passed (669)
+   Duration  83.44s (transform 2.99s, setup 2.69s, collect 29.51s, tests 209.22s, environment 47ms, prepare 27.15s)
+RECEIPT {"name": "npm-test", "command": ["npm", "test"], "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh", "raw_exit": 1, "duration_s": 85.26}
+
+npm-timeout-isolation.log
+COMMAND ["npx", "vitest", "run", "server/http.test.ts", "server/render-png.test.ts", "server/tool-classification.test.ts"]
+CWD /Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/http.test.ts > MCP HTTP server > refreshes the session repository token before a post-rotation tool call
+Error: Test timed out in 5000ms.
+ FAIL  server/http.test.ts > MCP HTTP server > keeps overlapping requests in one session on their own bearer contexts
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the single-day dashboard SVG at 2x to a deterministic PNG with the paper palette and ring
+Error: Test timed out in 5000ms.
+ FAIL  server/render-png.test.ts > render-png rasterizer > rasterizes the week dashboard SVG with the trend at 1440x940 deterministically
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > search_food is not advertised read-only because a provider miss persists shared-cache rows
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > write tools have their stated effects through the registration path
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > delete_meal_log irreversibly removes the owned record and its items
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > cross-user operations stay rejected and annotations cannot widen access
+Error: Test timed out in 5000ms.
+ Test Files  3 failed (3)
+      Tests  10 failed | 2 passed (12)
+   Duration  56.07s (transform 3.89s, setup 311ms, collect 20.05s, tests 101.40s, environment 1ms, prepare 1.79s)
+RECEIPT {"name": "npm-timeout-isolation", "command": ["npx", "vitest", "run", "server/http.test.ts", "server/render-png.test.ts", "server/tool-classification.test.ts"], "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh", "raw_exit": 1, "duration_s": 124.26}
+
+structural-read-owner.log
+COMMAND ["ast-grep", "run", "-l", "swift", "-p", "$OBJ.loadToday($$$)", "app/Sources/Morsel/ViewModel.swift", "app/Sources/Morsel/TodayRefreshOwner.swift"]
+CWD /Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh
+app/Sources/Morsel/TodayRefreshOwner.swift:97:                result = .success(try await repository.loadToday(userID: userID, date: flight.date))
+RECEIPT {"name": "structural-read-owner", "command": ["ast-grep", "run", "-l", "swift", "-p", "$OBJ.loadToday($$$)", "app/Sources/Morsel/ViewModel.swift", "app/Sources/Morsel/TodayRefreshOwner.swift"], "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-182-refresh", "raw_exit": 0, "duration_s": 0.1}
