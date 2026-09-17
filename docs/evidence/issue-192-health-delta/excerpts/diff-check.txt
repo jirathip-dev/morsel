@@ -1,0 +1,7 @@
+# Issue #192 — whitespace gates. Full raw log: .lane-logs/diff-check.log (gitignored).
+
+# Issue #192 — whitespace gate (worktree, then the committed range)
+$ git diff --check
+WORKTREE_EXIT=0
+$ git diff --check f712ce0ed73f2a75bbc2335769c92f53b37e728e..HEAD
+RANGE_EXIT=0

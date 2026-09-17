@@ -1,0 +1,12 @@
+# Issue #192 — XcodeGen stability (run AFTER committing the regenerated project).
+# Full raw log: .lane-logs/xcodegen-stability.log (gitignored).
+
+# Issue #192 — xcodegen stability gate
+$ xcodegen generate
+⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/jirathip/.herdr/worktrees/morsel/issue-192-health-delta/app/Morsel.xcodeproj
+XCODEGEN_EXIT=0
+$ git diff --exit-code
+GIT_DIFF_EXIT=0
