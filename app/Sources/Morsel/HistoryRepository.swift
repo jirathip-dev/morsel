@@ -4,6 +4,33 @@ import Supabase
 // Issue #94 — History range loading for the V1 History ledger tab (kept out of
 // Repository.swift so the shipped files stay inside the repo lint budgets).
 
+// Issue #193 — the ledger's own NARROW projection: meal identity/date and the
+// calorie contribution only. The rich projection in Repository.swift
+// (`mealItemColumns`) stays untouched — the Today/drill-down read still
+// transfers complete items and photos.
+let ledgerMealLogColumns = "id,eaten_at"
+let ledgerMealItemColumns = "meal_log_id,calories_kcal"
+
+struct LedgerMealLogResponse: Decodable {
+    let id: String
+    let eatenAt: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case eatenAt = "eaten_at"
+    }
+}
+
+struct LedgerMealItemResponse: Decodable {
+    let mealLogID: String
+    let caloriesKcal: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case mealLogID = "meal_log_id"
+        case caloriesKcal = "calories_kcal"
+    }
+}
+
 extension SupabaseDashboardRepository {
     // MARK: History (issue #94)
 
@@ -33,8 +60,10 @@ extension SupabaseDashboardRepository {
         async let weightRowsTask = loadWeightTrend(
             client, userID: authenticatedUserID, start: trendStart, end: nextDay
         )
-        let logs = try await loadMealLogs(client, userID: authenticatedUserID, start: start, end: nextDay)
-        let items = try await loadMealItems(client, logs: logs)
+        // Issue #193 — the ledger's own narrow read: identity/date + calorie
+        // contributions only, instead of the shared rich item projection.
+        let logs = try await loadLedgerMealLogs(client, userID: authenticatedUserID, start: start, end: nextDay)
+        let items = try await loadLedgerMealCalories(client, logs: logs)
         let (goalRows, profileRows, weightRows) = try await (goalRowsTask, profileRowsTask, weightRowsTask)
 
         let targets = try await loadDatedTargets(userID: authenticatedUserID, start: start, end: endStart,
@@ -86,5 +115,41 @@ extension SupabaseDashboardRepository {
             stored: stored, profile: profile,
             latestWeightKg: weightRows.compactMap(parseWeight).last?.kilograms
         )
+    }
+
+    // MARK: Narrow ledger read (issue #193)
+
+    /// The History overview's meal read: identity and eaten_at only, on the
+    /// same endpoint, filter and index as the rich `loadMealLogs`.
+    private func loadLedgerMealLogs(
+        _ client: SupabaseClient, userID: UUID, start: Date, end: Date
+    ) async throws -> [LedgerMealLogResponse] {
+        try await client
+            .from("meal_logs")
+            .select(ledgerMealLogColumns)
+            .eq("user_id", value: userID.uuidString)
+            .gte("eaten_at", value: MorselDate.iso8601(start))
+            .lt("eaten_at", value: MorselDate.iso8601(end))
+            .order("eaten_at", ascending: true)
+            .execute()
+            .value
+    }
+
+    /// The History overview's item read: one calorie contribution per row
+    /// (null stays null), in the same created_at order the baseline summed,
+    /// so the per-meal totals are bit-for-bit the baseline's.
+    private func loadLedgerMealCalories(
+        _ client: SupabaseClient, logs: [LedgerMealLogResponse]
+    ) async throws -> [LedgerMealItemResponse] {
+        guard !logs.isEmpty else {
+            return []
+        }
+        return try await client
+            .from("meal_items")
+            .select(ledgerMealItemColumns)
+            .in("meal_log_id", values: logs.map(\.id))
+            .order("created_at", ascending: true)
+            .execute()
+            .value
     }
 }
