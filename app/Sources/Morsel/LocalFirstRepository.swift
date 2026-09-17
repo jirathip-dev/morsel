@@ -206,7 +206,10 @@ final class LocalFirstDashboardRepository: DashboardRepository {
     /// Serves the journal snapshot with durable queued rows merged in. Rows
     /// the server already carries (identical client/server ids after sync)
     /// are replaced by their authoritative remote copy — never duplicated.
-    private func merged(_ snapshot: DashboardSnapshot, userID: UUID, date: Date) throws -> DashboardSnapshot {
+    /// Issue #181 — internal (not private) so the cached/first-paint hydration
+    /// seam in `DayReadState` merges through THIS same account/day rule set
+    /// instead of a second one.
+    func merged(_ snapshot: DashboardSnapshot, userID: UUID, date: Date) throws -> DashboardSnapshot {
         let dayStart = calendar.startOfDay(for: date)
         var meals = snapshot.meals
         var remoteIDs = Set(meals.map(\.mealLogID))
