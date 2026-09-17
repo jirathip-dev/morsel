@@ -54,7 +54,7 @@ const EXPECTED_TOOLS: ExpectedToolContract[] = [
   {
     name: 'log_meal',
     title: 'Log a meal',
-    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored).',
+    description: 'Record one meal and all of its food items. Send the photo bytes with image_base64 when the client exposes the image; the server stores the photo and returns it on reads (image_error reports a photo that could not be stored). An omitted item artwork_id is resolved from the item name to a published identity; nothing is invented.',
     annotations: UNCLAIMED,
     // Issue #152: items optional only when menu_name names an existing menu.
     inputRequired: ['meal_type'],
@@ -285,6 +285,62 @@ describe('MCP tool registration metadata (tools/list)', () => {
       expect(invalid.isError).toBe(true)
       const after = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-01' } })
       expect(GetDayOutputSchema.parse(after.structuredContent).meals).toHaveLength(1)
+    } finally {
+      await client.close()
+    }
+  }, 30_000)
+
+  // Issue #284 — the normal agent path logs name-only items. The WRITE then
+  // carries a validated identity resolved from the name, so rendering stops
+  // depending on render-time name matching (and on the model remembering to
+  // send an ID). Asserted through the real MCP surface: log_meal -> get_day.
+  it('stores a validated artwork identity resolved from a name-only log (issue #284)', async () => {
+    const client = await connectClient(new InMemoryRepository())
+    try {
+      const descriptive = 'Iced americano (black, no sugar)'
+      const secondary = 'Satay skewers with peanut sauce'
+      const unknown = 'Uncatalogued lunar stew'
+      const explicit = '  Americano (black, no sugar, homemade)  '
+      const logged = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'breakfast', eaten_at: '2026-09-02T08:00:00Z',
+        items: [
+          { name: descriptive, calories_kcal: 3 },
+          { name: secondary, calories_kcal: 120 },
+          { name: unknown, calories_kcal: 200 },
+          { name: explicit, artwork_id: 'banana', calories_kcal: 4 },
+        ],
+      } })
+      expect(logged.isError).not.toBe(true)
+      const read = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-02' } })
+      const items = GetDayOutputSchema.parse(read.structuredContent).meals[0]?.items ?? []
+      expect(items[0]).toMatchObject({ name: descriptive, artwork_id: 'coffee' })
+      expect(items[1]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      // A name the published catalog cannot identify stays absent — never guessed.
+      expect(items[2]?.name).toBe(unknown)
+      expect(items[2]?.artwork_id).toBeUndefined()
+      // An explicit published ID still wins, and the logged name is verbatim.
+      expect(items[3]).toMatchObject({ name: explicit, artwork_id: 'banana' })
+      for (const item of items) {
+        if (item.artwork_id !== undefined) {
+          expect(ArtworkIdSchema.options).toContain(item.artwork_id)
+        }
+      }
+      // The named-menu path (issue #152) snapshots the same resolved identity
+      // into both the meal and the menu template.
+      const menuLog = await client.callTool({ name: 'log_meal', arguments: {
+        meal_type: 'lunch', eaten_at: '2026-09-02T12:00:00Z', menu_name: 'Synthetic identity menu',
+        items: [{ name: secondary, calories_kcal: 120 }, { name: unknown, calories_kcal: 10 }],
+      } })
+      expect(menuLog.isError).not.toBe(true)
+      const menuRead = await client.callTool({ name: 'get_day', arguments: { date: '2026-09-02' } })
+      const menuItems = GetDayOutputSchema.parse(menuRead.structuredContent).meals[1]?.items ?? []
+      expect(menuItems[0]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      expect(menuItems[1]?.artwork_id).toBeUndefined()
+      const menus = await client.callTool({ name: 'list_menus', arguments: {} })
+      const template = ListMenusOutputSchema.parse(menus.structuredContent).menus
+        .find((menu) => menu.name === 'Synthetic identity menu')
+      expect(template?.items[0]).toMatchObject({ name: secondary, artwork_id: 'satay' })
+      expect(template?.items[1]?.artwork_id).toBeUndefined()
     } finally {
       await client.close()
     }

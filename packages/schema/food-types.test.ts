@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { execFileSync } from 'node:child_process'
 import catalog from '../../docs/art/food-library/catalog.json'
 import bundledCatalog from '../../app/Resources/FoodArt/catalog.json'
+import { ArtworkCatalog } from './artwork-catalog'
 import {
   ArtworkIdSchema,
   UpdateMealItemInputSchema,
@@ -37,6 +38,27 @@ describe('Morsel tool schemas', () => {
       for (const schema of [MealItemRecordSchema, MenuTemplateItemSchema]) {
         expect(schema.parse({ ...item, item_id: '00000000-0000-4000-8000-000000000241', quantity: 1, unit: 'cup' })).toMatchObject(item)
       }
+    }
+  })
+
+  it('publishes the shipped catalog terms for write-time resolution without drift (issue #284)', () => {
+    const normalize = (text: string): string => text.toLowerCase().split(/\s+/).filter(Boolean).join(' ')
+    const ids = bundledCatalog.assets.map((asset) => asset.id).sort()
+    // The generated projection covers exactly the shipped catalog, and every
+    // term is the normalized published name/alias — never an added alias.
+    expect(ArtworkCatalog.map((asset) => asset.id).sort()).toEqual(ids)
+    for (const asset of ArtworkCatalog) {
+      const shipped = bundledCatalog.assets.find((entry) => entry.id === asset.id)
+      expect(shipped, asset.id).toBeDefined()
+      if (shipped === undefined) continue
+      expect(asset.category).toBe(shipped.category)
+      expect(asset.kind).toBe(shipped.kind)
+      const published = [shipped.name, ...shipped.aliases].map(normalize)
+      expect(asset.terms).toEqual([...new Set(published)])
+      for (const term of asset.terms) {
+        expect(term).toBe(normalize(term))
+      }
+      expect(ArtworkIdSchema.options).toContain(asset.id)
     }
   })
 
