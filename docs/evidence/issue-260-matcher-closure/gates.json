@@ -1,0 +1,360 @@
+{
+  "tested_code_commit": "c63b37fc75180a27a2c02106f67d66b6634be3a5",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "ci"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 1.766,
+      "log": ".lane-logs/npm-ci.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "typecheck"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 3.202,
+      "log": ".lane-logs/closure-typecheck.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 13.321,
+      "log": ".lane-logs/closure-lint.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "npm",
+        "test"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 57.097,
+      "log": ".lane-logs/closure-npm.log",
+      "summary": [
+        "Test Files  59 passed (59)",
+        "Tests  669 passed (669)"
+      ]
+    },
+    {
+      "command": [
+        "xcodegen",
+        "generate"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.089,
+      "log": ".lane-logs/compound-xcodegen.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--exit-code",
+        "--",
+        "app/Morsel.xcodeproj/project.pbxproj"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.025,
+      "log": ".lane-logs/compound-drift.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "swiftlint",
+        "--strict"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.429,
+      "log": ".lane-logs/compound-swiftlint.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=61B0A2F6-1759-4A48-AC36-48F33791161D",
+        "-derivedDataPath",
+        "/tmp/morsel-260-derived",
+        "-resultBundlePath",
+        "/tmp/morsel-260-native-closure.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/FoodArtworkMatcherClosureTests",
+        "-only-testing:MorselTests/FoodArtworkFallbackTests",
+        "-only-testing:MorselTests/FoodArtworkQualifierTests",
+        "-only-testing:MorselTests/ArtworkIdentityTests",
+        "-only-testing:MorselTests/ArtworkIdentitySurfaceTests",
+        "-only-testing:MorselTests/FoodArtworkQualifierSurfaceTests",
+        "-only-testing:MorselTests/RowArtworkRendererTests",
+        "-only-testing:MorselTests/FoodLibraryIntegrationTests",
+        "-only-testing:MorselTests/FoodLibraryCostTests",
+        "-only-testing:MorselTests/FoodArtworkPrivateCoverageTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 190.394,
+      "log": ".lane-logs/native-closure.log",
+      "summary": [
+        "Executed 50 tests, with 0 failures (0 unexpected) in 118.718 (118.770) seconds"
+      ]
+    },
+    {
+      "command": [
+        "xcrun",
+        "xcresulttool",
+        "export",
+        "attachments",
+        "--path",
+        "/tmp/morsel-260-native-closure.xcresult",
+        "--output-path",
+        "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/.lane-logs/native-closure-attachments"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.243,
+      "log": ".lane-logs/native-closure-export-attachments.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=61B0A2F6-1759-4A48-AC36-48F33791161D",
+        "-derivedDataPath",
+        "/tmp/morsel-260-derived",
+        "-resultBundlePath",
+        "/tmp/morsel-260-native-closure-base-grammar-red.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/FoodArtworkMatcherClosureTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 65,
+      "timed_out": false,
+      "duration_seconds": 30.856,
+      "log": ".lane-logs/native-closure-base-grammar-red.log",
+      "summary": [
+        "Executed 8 tests, with 207 failures (0 unexpected) in 0.577 (0.579) seconds"
+      ]
+    },
+    {
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=61B0A2F6-1759-4A48-AC36-48F33791161D",
+        "-derivedDataPath",
+        "/tmp/morsel-260-derived",
+        "-resultBundlePath",
+        "/tmp/morsel-260-native-closure-leading-rule-red.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/FoodArtworkMatcherClosureTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 65,
+      "timed_out": false,
+      "duration_seconds": 23.499,
+      "log": ".lane-logs/native-closure-leading-rule-red.log",
+      "summary": [
+        "Executed 8 tests, with 176 failures (0 unexpected) in 0.334 (0.337) seconds"
+      ]
+    },
+    {
+      "command": [
+        "xcodebuild",
+        "test",
+        "-project",
+        "Morsel.xcodeproj",
+        "-scheme",
+        "Morsel",
+        "-destination",
+        "platform=iOS Simulator,id=61B0A2F6-1759-4A48-AC36-48F33791161D",
+        "-derivedDataPath",
+        "/tmp/morsel-260-derived",
+        "-resultBundlePath",
+        "/tmp/morsel-260-native-closure-restored-green.xcresult",
+        "-parallel-testing-enabled",
+        "NO",
+        "-maximum-concurrent-test-simulator-destinations",
+        "1",
+        "-jobs",
+        "2",
+        "CODE_SIGNING_ALLOWED=NO",
+        "-only-testing:MorselTests/FoodArtworkMatcherClosureTests"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/app",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 8.966,
+      "log": ".lane-logs/native-closure-restored-green.log",
+      "summary": [
+        "Executed 8 tests, with 0 failures (0 unexpected) in 0.325 (0.328) seconds"
+      ]
+    },
+    {
+      "command": [
+        "hermes-sim-task",
+        "--name",
+        "Morsel260-Matcher-iPhone16",
+        "--device-type",
+        "com.apple.CoreSimulator.SimDeviceType.iPhone-16",
+        "--",
+        "python3",
+        "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher/docs/evidence/issue-260-matcher-closure/run-native.py",
+        "--inside",
+        "--label",
+        "native-closure",
+        "--corpus",
+        "/Users/jirathip/.herdr/worktrees/morsel/design-262-library-expansion/.lane-logs/logged-names.json",
+        "--mutation"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 285.809,
+      "log": ".lane-logs/native-closure-wrapper.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "python3",
+        "docs/evidence/issue-266-bundle-library/verify-assets.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 34.518,
+      "log": ".lane-logs/frozen-assets.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "python3",
+        "docs/evidence/issue-260-matcher-closure/package-evidence.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 32.742,
+      "log": ".lane-logs/package-evidence.log",
+      "summary": []
+    },
+    {
+      "command": [
+        "python3",
+        ".lane-logs/verify-delivery.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 1,
+      "timed_out": false,
+      "duration_seconds": 4.168,
+      "log": ".lane-logs/delivery-privacy-scope.log"
+    },
+    {
+      "command": [
+        "python3",
+        ".lane-logs/verify-delivery.py"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.824,
+      "log": ".lane-logs/delivery-privacy-catalog-aware.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.638,
+      "log": ".lane-logs/closure-diff-check.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.258,
+      "log": ".lane-logs/closure-staged-check.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "05e6314"
+      ],
+      "cwd": "/Users/jirathip/.herdr/worktrees/morsel/issue-260-matcher",
+      "raw_exit": 0,
+      "timed_out": false,
+      "duration_seconds": 0.232,
+      "log": ".lane-logs/closure-range-check.log"
+    }
+  ]
+}
