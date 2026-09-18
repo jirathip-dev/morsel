@@ -1,0 +1,92 @@
+# Issue #195 base leg: the suites that failed in the head full run, run at the BASE commit
+# (scratch worktree /tmp/m195-base-leg) to classify them as pre-existing.
+# command: HERDR_XCODEBUILD_DIRECT=1 flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj
+#          -scheme Morsel -destination 'platform=iOS Simulator,id=<lane>' -derivedDataPath /tmp/morsel-195-base-dd
+#          -only-testing:MorselTests/SharedButtonTargetTests -only-testing:MorselTests/ParallelReadsTests
+#          -only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/MealReliabilityTests
+RAW_EXIT=65
+
+Test Suite 'Selected tests' started at 2569-09-18 10:21:43.951 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 10:21:43.952 AM.
+Test Suite 'MealReliabilityTests' started at 2569-09-18 10:21:43.952 AM.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.040 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.017 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.046 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' started.
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.016 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' started.
+2026-09-18 10:21:46.Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.045 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.013 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.019 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.014 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.013 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.012 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' started.
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.011 seconds).
+Test Suite 'MealReliabilityTests' passed at 2569-09-18 10:21:46.240 AM.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.269 (2.289) seconds
+Test Suite 'PageIdentityTests' started at 2569-09-18 10:21:46.241 AM.
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' started.
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' passed (0.672 seconds).
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' started.
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' passed (0.228 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' started.
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' passed (0.830 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' started.
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' passed (2.836 seconds).
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' started.
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' passed (0.255 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' started.
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' passed (0.735 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' started.
+/tmp/m195-base-leg/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (1.085 seconds).
+Test Suite 'PageIdentityTests' failed at 2569-09-18 10:21:52.886 AM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 6.641 (6.645) seconds
+Test Suite 'ParallelReadsTests' started at 2569-09-18 10:21:52.886 AM.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.075 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+/tmp/m195-base-leg/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.434 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.022 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.024 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.015 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.018 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.013 seconds).
+Test Suite 'ParallelReadsTests' failed at 2569-09-18 10:21:53.490 AM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.600 (0.604) seconds
+Test Suite 'SharedButtonTargetTests' started at 2569-09-18 10:21:53.490 AM.
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' started.
+/tmp/m195-base-leg/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/tmp/m195-base-leg/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.037 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' passed (0.053 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' passed (7.826 seconds).
+Test Suite 'SharedButtonTargetTests' failed at 2569-09-18 10:22:01.408 AM.
+	 Executed 3 tests, with 2 failures (0 unexpected) in 7.916 (7.917) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-18 10:22:01.408 AM.
+	 Executed 30 tests, with 4 failures (0 unexpected) in 17.426 (17.456) seconds
+Test Suite 'Selected tests' failed at 2569-09-18 10:22:01.408 AM.
+	 Executed 30 tests, with 4 failures (0 unexpected) in 17.426 (17.457) seconds
+RAW_EXIT=65

@@ -1,0 +1,6 @@
+# Issue #195 — hosted app contracts (the TS suites that pin native sources).
+# command: npx vitest run app/
+ Test Files  20 passed (20)
+      Tests  142 passed (142)
+   Duration  24.06s (transform 7.42s, setup 6.13s, collect 13.66s, tests 4.17s, environment 114ms, prepare 54.19s)
+RAW_EXIT=0

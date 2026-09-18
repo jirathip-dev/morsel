@@ -1,0 +1,36 @@
+# Issue #195: zone-order regression check. HistoryCacheScopeTests pins NSTimeZone.default before
+# this lane's suite runs; that ordering made the zone switch ineffective in the first full run.
+# command: ... -only-testing:MorselTests/HistoryCacheScopeTests -only-testing:MorselTests/RenderDerivedReuseTests
+RAW_EXIT=0
+
+Test Suite 'Selected tests' started at 2569-09-18 10:15:51.077 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 10:15:51.077 AM.
+Test Suite 'HistoryCacheScopeTests' started at 2569-09-18 10:15:51.078 AM.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' passed (0.055 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' passed (0.070 seconds).
+Test Suite 'HistoryCacheScopeTests' passed at 2569-09-18 10:15:51.206 AM.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.127 (0.129) seconds
+Test Suite 'RenderDerivedReuseTests' started at 2569-09-18 10:15:51.207 AM.
+Test Case '-[MorselTests.RenderDerivedReuseTests testDaySelectionClearsAndReloadsTheDerivedValues]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testDaySelectionClearsAndReloadsTheDerivedValues]' passed (0.009 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones]' passed (0.007 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testHistoryWindowFollowsRangeAndZone]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testHistoryWindowFollowsRangeAndZone]' passed (0.019 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce]' passed (0.002 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testMountedTodayReusesTheDerivedScan]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testMountedTodayReusesTheDerivedScan]' passed (1.488 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan]' passed (0.025 seconds).
+Test Suite 'RenderDerivedReuseTests' passed at 2569-09-18 10:15:52.761 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 1.551 (1.554) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 10:15:52.762 AM.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 1.677 (1.685) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 10:15:52.762 AM.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 1.677 (1.686) seconds
+RAW_EXIT=0
