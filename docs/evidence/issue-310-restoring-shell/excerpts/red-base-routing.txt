@@ -1,0 +1,40 @@
+# command
+cd /tmp/morsel-310-base && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-base-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/RestoringShellRoutingTests   # base f1d657b, routing contract only
+# RAW_EXIT=65
+
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' passed (0.005 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:67: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertFalse failed - a failed refresh must not collapse into the same nil as a genuine no-session
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:71: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed - the shell phase must be an explicit state
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:72: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:73: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:74: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:75: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed - the failure must be an explicit state
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:76: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:77: error: -[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry] : XCTAssertTrue failed
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' failed (0.179 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:17: error: -[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar] : failed: caught error: "Error Domain=NSCocoaErrorDomain Code=260 "The file “RestoringShellSkeleton.swift” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/tmp/morsel-310-base/app/Sources/Morsel/RestoringShellSkeleton.swift, NSURL=file:///tmp/morsel-310-base/app/Sources/Morsel/RestoringShellSkeleton.swift, NSUnderlyingError=0x110c3dd10 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}"
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' failed (0.007 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellRoutingTests.swift:32: error: -[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface] : XCTUnwrap failed: expected non-nil value of type "Range<Index>" - the shell must decide the restoring phase before anything else
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' failed (0.015 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' passed (0.002 seconds).
+	 Executed 5 tests, with 10 failures (1 unexpected) in 0.208 (0.210) seconds
+	 Executed 5 tests, with 10 failures (1 unexpected) in 0.208 (0.210) seconds
+	 Executed 5 tests, with 10 failures (1 unexpected) in 0.208 (0.210) seconds
+Failing tests:
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry()
+	RestoringShellRoutingTests.testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar()
+	RestoringShellRoutingTests.testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface()
+** TEST FAILED **
+RAW_EXIT=65

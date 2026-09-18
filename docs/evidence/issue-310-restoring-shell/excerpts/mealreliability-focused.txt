@@ -1,0 +1,35 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/MealReliabilityTests
+# RAW_EXIT=0
+
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testCachedFirstPaintDoesNotTouchNetwork]' passed (0.030 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDeletingPendingMealCancelsOutboxWithoutNetwork]' passed (0.012 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testDoubleSyncNowNeverDuplicates]' passed (2.055 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' started.
+Test Case '-[MorselTests.MealReliabilityTests testEditingQueuedItemMutatesLocalDraftOnly]' passed (0.015 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' started.
+Test Case '-[MorselTests.MealReliabilityTests testOfflineAddMealCommitsLocallyAndPaintsPendingRow]' passed (0.033 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPendingRowsMergeIntoServedSnapshotWithoutDuplication]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPermanentRefusalRemovesOrphanPhotoAndKeepsLocalData]' passed (0.010 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' started.
+Test Case '-[MorselTests.MealReliabilityTests testPhotoUploadFailureRetriesSameDeterministicObject]' passed (0.011 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRelaunchRecoveryKeepsQueuedMealAndShowsNeedsAttentionAfterRefusal]' passed (0.009 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRemoteFailureNeverErasesValidCachedSnapshot]' passed (0.007 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' started.
+Test Case '-[MorselTests.MealReliabilityTests testRepeatedTransientFailuresThenSuccessSingleInsert]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' started.
+Test Case '-[MorselTests.MealReliabilityTests testTimeoutAfterServerCommitRetriesSameClientIDWithoutDuplicates]' passed (0.008 seconds).
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' started.
+Test Case '-[MorselTests.MealReliabilityTests testWarmViewModelPaintUsesCacheBeforeRemote]' passed (0.007 seconds).
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.213 (2.217) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.213 (2.217) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.213 (2.218) seconds
+** TEST SUCCEEDED **
+RAW_EXIT=0
