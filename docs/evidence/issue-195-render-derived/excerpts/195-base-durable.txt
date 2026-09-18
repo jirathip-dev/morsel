@@ -1,0 +1,15 @@
+# Issue #195 base leg: the durable reuse suite at the base commit (scratch worktree /tmp/m195-base-leg).
+# `derivedScanCount` does not exist at base: the suite cannot build (raw exit 65).
+# driver: tools/base-legs.sh
+RAW_EXIT=n/a
+
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:27:32: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:40:30: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:54:30: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:57:30: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:63:30: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:97:29: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+/tmp/m195-base-leg/app/Tests/MorselTests/RenderDerivedReuseTests.swift:102:30: error: value of type 'DashboardViewModel' has no member 'derivedScanCount'
+Testing failed:
+	Testing cancelled because the build failed.
+The following build commands failed:

@@ -1,0 +1,26 @@
+# Issue #195 base leg: the same measurement probe against unmodified base sources.
+# driver: tools/base-legs.sh (scratch worktree at 1cf9ecc)
+RAW_EXIT=n/a
+
+Test Suite 'Selected tests' started at 2569-09-18 10:01:18.611 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 10:01:18.611 AM.
+Test Suite 'RenderDerivedProbeTests' started at 2569-09-18 10:01:18.612 AM.
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' started.
+ISSUE195-MEASURE fixture=small meals=6 items=12 math_totals_us=7.876 view_totals_us=8.358 meal_groups_us=11.691 review_items_us=14.110 gutter_date_us=66.843
+ISSUE195-MEASURE fixture=dense meals=40 items=480 math_totals_us=201.861 view_totals_us=190.777 meal_groups_us=52.575 review_items_us=359.882 gutter_date_us=64.137
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' passed (1.975 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' started.
+ISSUE195-MEASURE history days=30 chart_days_us=12.023 average_us=26.133 days_over_us=25.837 days_logged_us=25.834 streak_us=33.353
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' passed (0.253 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' started.
+ISSUE195-MEASURE model_workload cycles=200 day_reads=201 accesses=1800 total_us=359755.792 per_cycle_us=1798.779
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' passed (0.363 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' started.
+ISSUE195-MEASURE mounted_today fixture=small cycles=40 day_reads=41 body_evals=82 total_us=5337802.500 per_cycle_us=133445.062
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' passed (6.208 seconds).
+Test Suite 'RenderDerivedProbeTests' passed at 2569-09-18 10:01:27.413 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 8.798 (8.801) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 10:01:27.413 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 8.798 (8.802) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 10:01:27.414 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 8.798 (8.803) seconds

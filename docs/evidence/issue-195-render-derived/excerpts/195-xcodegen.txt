@@ -1,0 +1,7 @@
+# Issue #195 — XcodeGen stability: the generated project is byte-stable in this worktree.
+# commands:
+#   (cd app && xcodegen generate)
+#   git diff --exit-code -- app/Morsel.xcodeproj/project.pbxproj
+xcodegen: Created project at .../app/Morsel.xcodeproj
+git diff --exit-code -- app/Morsel.xcodeproj/project.pbxproj -> exit 0 (no diff)
+RAW_EXIT=0

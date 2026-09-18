@@ -3,7 +3,9 @@ import Foundation
 
 @MainActor
 final class DashboardViewModel: ObservableObject {
-    @Published private(set) var snapshot: DashboardSnapshot?
+    @Published private(set) var snapshot: DashboardSnapshot? {
+        didSet { if snapshot?.meals != oldValue?.meals { derivedRevision &+= 1 } }
+    }
     @Published private(set) var isLoading = false
     @Published private(set) var isSaving = false
     @Published private(set) var errorMessage: String?
@@ -43,7 +45,7 @@ final class DashboardViewModel: ObservableObject {
         self.dateProvider = dateProvider
     }
 
-    var totals: DashboardTotals { DashboardMath.totals(for: snapshot?.meals ?? []) }
+    var totals: DashboardTotals { derived().totals }
 
     /// The same Health status stamp drives the margin note (nil before first upload).
     var lastHealthImportDate: Date? {
@@ -51,22 +53,21 @@ final class DashboardViewModel: ObservableObject {
         return try? healthStore.lastSuccessfulUpload()
     }
 
-    var mealGroups: [MealGroup] {
-        guard let meals = snapshot?.meals else { return [] }
-        return MealType.allCases.compactMap { type in
-            let matchingMeals = meals.filter { $0.mealType == type }
-            return matchingMeals.isEmpty ? nil : MealGroup(type: type, meals: matchingMeals)
-        }
-    }
+    var mealGroups: [MealGroup] { derived().groups }
 
-    var reviewItems: [MealItem] {
-        snapshot?.meals.flatMap(\.items).filter(\.needsReview) ?? []
-    }
+    var reviewItems: [MealItem] { derived().review }
+
+    /// Issue #195 — one derived scan per day-data revision: loading, status and
+    /// turn updates that leave the day's meals unchanged reuse the totals,
+    /// groupings and review items instead of rescanning every meal item.
+    private var derivedRevision = 0
+    private var derivedCache: (revision: Int, value: DayDerived)?
+    /// Full derived scans; the reuse regression reads this counter.
+    private(set) var derivedScanCount = 0
 
     /// Reconnect both Health types independently, then queue the upload pass.
     func retryHealthSync() async {
-        healthStatus = .syncing
-        await importWeights(registerObservers: true)
+        healthStatus = .syncing; await importWeights(registerObservers: true)
     }
 
     /// Import each Health type independently and register both observers.
@@ -88,25 +89,21 @@ final class DashboardViewModel: ObservableObject {
                 }
             )
         }
-        var bodyFailed = false
-        var energyFailed = false
-        var bodyImported = 0
-        var energyImported = 0
+        var bodyFailed = false, energyFailed = false
+        var bodyImported = 0, energyImported = 0
         do {
             bodyImported = try await importBodyMassPass()
         } catch is CancellationError {
             return
         } catch {
-            bodyFailed = true
-            surfaceHealthError(error)
+            bodyFailed = true; surfaceHealthError(error)
         }
         do {
             energyImported = try await importEnergyPass()
         } catch is CancellationError {
             return
         } catch {
-            energyFailed = true
-            surfaceHealthError(error)
+            energyFailed = true; surfaceHealthError(error)
         }
         await updateCalmStatus(
             bodyMassFailed: bodyFailed, energyFailed: energyFailed,
@@ -121,14 +118,9 @@ final class DashboardViewModel: ObservableObject {
         await refreshOwner.wait(for: startRefresh(superseding: superseding))
     }
 
-    func invalidateDay() async {
-        await refreshOwner.wait(for: startRefresh(invalidating: true))
-    }
+    func invalidateDay() async { await refreshOwner.wait(for: startRefresh(invalidating: true)) }
 
-    func cancelRefresh() {
-        refreshOwner.cancel()
-        isLoading = false
-    }
+    func cancelRefresh() { refreshOwner.cancel(); isLoading = false }
 
     private func startRefresh(invalidating: Bool = false, superseding: Bool = false,
                               keepsAlive: Bool = false) -> TodayRefreshOwner.Flight {
@@ -158,8 +150,7 @@ final class DashboardViewModel: ObservableObject {
 
     /// Commits locally before closing; queued rows retain their pending marker.
     func addMeal(draft: MealDraft, photo: FoodImageUpload?) async -> Bool {
-        isSaving = true
-        errorMessage = nil
+        isSaving = true; errorMessage = nil
         defer { isSaving = false }
         do {
             let mealID = try await repository.logMeal(userID: userID, draft: draft, photo: photo)
@@ -190,12 +181,8 @@ final class DashboardViewModel: ObservableObject {
             meals.append(record)
             meals.sort { $0.eatenAt < $1.eatenAt }
             self.snapshot = DashboardSnapshot(
-                date: snapshot.date,
-                meals: meals,
-                goal: snapshot.goal,
-                weightTrend: snapshot.weightTrend,
-                activeEnergyBurned: snapshot.activeEnergyBurned, readProvenance: snapshot.readProvenance
-            )
+                date: snapshot.date, meals: meals, goal: snapshot.goal, weightTrend: snapshot.weightTrend,
+                activeEnergyBurned: snapshot.activeEnergyBurned, readProvenance: snapshot.readProvenance)
         } else if snapshot == nil, calendar.startOfDay(for: record.eatenAt) == today {
             self.snapshot = DashboardSnapshot(date: today, meals: [record], goal: nil)
         }
@@ -214,8 +201,7 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func updateMealItem(_ update: MealItemUpdate) async -> Bool {
-        isSaving = true
-        errorMessage = nil
+        isSaving = true; errorMessage = nil
         defer { isSaving = false }
         do {
             try await joinedWrite("edit:\(update.itemID)") {
@@ -229,8 +215,7 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func attachPhoto(_ photo: FoodImageUpload, toItem itemID: UUID) async -> Bool {
-        isSaving = true
-        errorMessage = nil
+        isSaving = true; errorMessage = nil
         defer { isSaving = false }
         do {
             try await joinedWrite("photo:\(itemID)") {
@@ -253,8 +238,7 @@ final class DashboardViewModel: ObservableObject {
     }
 
     func deleteMeal(_ mealLogID: UUID) async -> Bool {
-        isSaving = true
-        errorMessage = nil
+        isSaving = true; errorMessage = nil
         defer { isSaving = false }
         do {
             try await joinedWrite("delete:\(mealLogID)") {
@@ -271,8 +255,7 @@ final class DashboardViewModel: ObservableObject {
     /// cancelled write stays silent, a refused one carries its honest copy.
     private func refuse(_ error: Error) -> Bool {
         guard !(error is CancellationError) else { return false }
-        errorMessage = DashboardUserMessage.userMessage(for: error)
-        return false
+        errorMessage = DashboardUserMessage.userMessage(for: error); return false
     }
 }
 
@@ -289,9 +272,7 @@ extension DashboardViewModel {
         let day = DashboardMath.startOfLocalDay(date)
         guard day != selectedDate, day <= today else { return }
         diaryDate = day == today ? nil : day
-        cancelRefresh()
-        snapshot = nil
-        errorMessage = nil
+        cancelRefresh(); snapshot = nil; errorMessage = nil
     }
 
     /// One independent body-mass delta pass (issue #192): the importer owns the
@@ -346,14 +327,13 @@ extension DashboardViewModel {
                 return
             }
         }
-        let hasPending = (try? healthStore?.hasPendingUploads()) ?? false
-        if hasPending {
+        if (try? healthStore?.hasPendingUploads()) ?? false {
             healthStatus = .pending
             return
         }
         let hasWeightRows = (try? healthStore?.hasWeightSamples()) == true
-        let weightEverUploaded = (try? healthStore?.lastWeightUpload()) != nil
-        if bodyReadDecided, bodyImported == 0, !hasWeightRows, !weightEverUploaded {
+        if bodyReadDecided, bodyImported == 0, !hasWeightRows,
+           (try? healthStore?.lastWeightUpload()) == nil {
             healthStatus = .noWeightData
             return
         }
@@ -389,4 +369,32 @@ extension DashboardViewModel {
 
     /// Issue #190 — an acknowledged Goals save invalidates the day without awaiting it.
     func invalidateDayAfterConfirmedGoals() { _ = startRefresh(invalidating: true, keepsAlive: true) }
+}
+
+// MARK: - Issue #195 derived day work (one scan per day-data revision)
+
+extension DashboardViewModel {
+    /// The day's totals, groupings and review items come from ONE scan that is
+    /// reused until the meals change; the key is the data revision the snapshot
+    /// write path maintains, never the publish count.
+    private func derived() -> DayDerived {
+        if let derivedCache, derivedCache.revision == derivedRevision { return derivedCache.value }
+        derivedScanCount += 1
+        let meals = snapshot?.meals ?? []
+        let groups = MealType.allCases.compactMap { type -> MealGroup? in
+            let matching = meals.filter { $0.mealType == type }
+            return matching.isEmpty ? nil : MealGroup(type: type, meals: matching)
+        }
+        let value = DayDerived(totals: DashboardMath.totals(for: meals), groups: groups,
+                               review: meals.flatMap(\.items).filter(\.needsReview))
+        derivedCache = (derivedRevision, value)
+        return value
+    }
+}
+
+/// Issue #195 — one scan's worth of day-derived values, reused until the meals change.
+struct DayDerived {
+    let totals: DashboardTotals
+    let groups: [MealGroup]
+    let review: [MealItem]
 }

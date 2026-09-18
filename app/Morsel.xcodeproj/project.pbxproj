@@ -13,6 +13,7 @@
 		015286DBE751D3D95FAEA01F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E736D53085F8CAFBC52583 /* Models.swift */; };
 		02194D692AAE768E4EB0CAA6 /* JournalDiaryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488B61EAEAA08402876D5FC7 /* JournalDiaryPage.swift */; };
 		026DD14633A14EFD8CB2297B /* GoalPageContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 894368A6A65AC2A0C36A007B /* GoalPageContext.swift */; };
+		02959B8057BC8B73FEEC4468 /* RenderDerivedReuseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D17716C480A992A710B533C /* RenderDerivedReuseTests.swift */; };
 		02CEF1CFDAB5EC91D4501DBC /* AddMealReliabilityRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2C1F672A7BEB9344B9B7E0 /* AddMealReliabilityRegressionTests.swift */; };
 		02D944456838C9A3F4A88AB6 /* sandwich-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = ECE7837E99331E5D556148A7 /* sandwich-paper-64.png */; };
 		0309A42C1B0C0A7D13AA79C9 /* eggplant-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0346344EF707BA23DE1E76EB /* eggplant-night-64.png */; };
@@ -250,6 +251,7 @@
 		85329BB8654F9247A4CA1339 /* oatmeal-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CB80F24BAAE7625A2D42C39 /* oatmeal-paper-64.png */; };
 		85666E8EABBDD560A61829C2 /* BoundedPagingFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7206415FEB28C59B7CACF9 /* BoundedPagingFixtures.swift */; };
 		85BC950F115D2571B9C3347B /* tea-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 2BA2F5BA17587F9779E6E0E2 /* tea-paper-64.png */; };
+		85C0490EFE0F67A1995EADBD /* RenderDerivedTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC12C98AF83FE21E2E883E97 /* RenderDerivedTestSupport.swift */; };
 		86A60E20FC5299F69F265F81 /* vegetable-soup-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = DC16DE5E6A20F2D7186756A0 /* vegetable-soup-paper-64.png */; };
 		86B20B76C2E1C5200984FE65 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87A0D70887CCCCA564A9B7CC /* Auth.swift */; };
 		86B576221F96FF61D096D70D /* GoalsRestoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BBAC67F5200071231231766 /* GoalsRestoreTests.swift */; };
@@ -356,6 +358,7 @@
 		BDD85DAAC956F1C0744F2454 /* PaperFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DA60553CC8D783AC1B6B5D6 /* PaperFields.swift */; };
 		BDE0DECAAFAD2FA68C4CFBDC /* french-fries-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 888B22DC35ADC2FE45C82CFF /* french-fries-paper-64.png */; };
 		BDE6849FB561256AE7C0FDD5 /* a-night-unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = C200E2BE345BF22C65F55FA2 /* a-night-unknown.png */; };
+		BF65F744E4CF4B57B5B2FD6E /* RenderDerivedProbeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C35B95C239ECAB2AB3FE1C81 /* RenderDerivedProbeTests.swift */; };
 		BFD1D4B757D5140F7B3AC68D /* sausage-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = BF334B5D7221801F111B02F1 /* sausage-night-64.png */; };
 		C10EC03BEB756D923331B5FB /* ParallelReadsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36FAF0F924B4D7D77AFA369 /* ParallelReadsTests.swift */; };
 		C163814BADD93E586713B97D /* tofu-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F8A1BE1858FD36D1BC8CAEF /* tofu-night-64.png */; };
@@ -649,6 +652,7 @@
 		4C3ADE2359772B8FE3DB9C5A /* beef-rice-bowl-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "beef-rice-bowl-night-64.png"; sourceTree = "<group>"; };
 		4CF1CCB8EE3D5AA0535985C1 /* DayReadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayReadState.swift; sourceTree = "<group>"; };
 		4CFFD38210BCBF17852B22D5 /* raw-vegetable-plate-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "raw-vegetable-plate-night-64.png"; sourceTree = "<group>"; };
+		4D17716C480A992A710B533C /* RenderDerivedReuseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderDerivedReuseTests.swift; sourceTree = "<group>"; };
 		4D1B4606D790401E103547DC /* fallback-drinks-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-drinks-paper-64.png"; sourceTree = "<group>"; };
 		4E31C1B481AD03D49D0A23C5 /* a-paper-focaccia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-paper-focaccia.png"; sourceTree = "<group>"; };
 		4E3F0AEDBDA00175FEB984F0 /* meatballs-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meatballs-night-64.png"; sourceTree = "<group>"; };
@@ -891,6 +895,7 @@
 		C2A1E5E679118223BD4F412F /* pad-thai-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pad-thai-paper-64.png"; sourceTree = "<group>"; };
 		C33877E2DDFB14E822EDD566 /* ArtworkIdentitySurfaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkIdentitySurfaceTests.swift; sourceTree = "<group>"; };
 		C3488716663DE743AD4C591D /* kimchi-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kimchi-paper-64.png"; sourceTree = "<group>"; };
+		C35B95C239ECAB2AB3FE1C81 /* RenderDerivedProbeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderDerivedProbeTests.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
 		C48A76F7F4F3B52EA319CC59 /* braised-pork-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "braised-pork-paper-64.png"; sourceTree = "<group>"; };
 		C591525368CD6908A9FE189E /* JournalPaperTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPaperTexture.swift; sourceTree = "<group>"; };
@@ -999,6 +1004,7 @@
 		FAA71511A554B717B4AC4472 /* HeroDatedTargetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroDatedTargetTests.swift; sourceTree = "<group>"; };
 		FB207B50ADE39CD269B395D7 /* fried-chicken-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fried-chicken-paper-64.png"; sourceTree = "<group>"; };
 		FBE7C33C7771046431D76F04 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		FC12C98AF83FE21E2E883E97 /* RenderDerivedTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderDerivedTestSupport.swift; sourceTree = "<group>"; };
 		FC158F912C87F239097416E4 /* MorselAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorselAppearance.swift; sourceTree = "<group>"; };
 		FDBAC8CA471211EA5EDE6C0D /* boiled-egg-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "boiled-egg-night-64.png"; sourceTree = "<group>"; };
 		FE7B3E2BF30663CC4C2B16BF /* instant-noodles-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "instant-noodles-night-64.png"; sourceTree = "<group>"; };
@@ -1555,6 +1561,9 @@
 				D9AE5DD85AF5669483A11B72 /* PhotoPipelineRegressionTests.swift */,
 				7182AE2BC9065E994451E586 /* PhotoPreparationOffMainTests.swift */,
 				F773856F3DDFED041688FCB8 /* PhotoPreparationPublicationTests.swift */,
+				C35B95C239ECAB2AB3FE1C81 /* RenderDerivedProbeTests.swift */,
+				4D17716C480A992A710B533C /* RenderDerivedReuseTests.swift */,
+				FC12C98AF83FE21E2E883E97 /* RenderDerivedTestSupport.swift */,
 				53A618389867CB2745D36C98 /* RowArtworkRendererTests.swift */,
 				39CDB4B3EC371D5158AEB736 /* RowNoiseRegressionTests.swift */,
 				8B8EADEF45FFD027FD56B3B5 /* SharedButtonTargetTests.swift */,
@@ -2219,6 +2228,9 @@
 				EA892D25220EFAFE5AE2DF1C /* PhotoPipelineRegressionTests.swift in Sources */,
 				731028822A76CF2D144F1A96 /* PhotoPreparationOffMainTests.swift in Sources */,
 				62B1DA8ED2135B50BFD6F129 /* PhotoPreparationPublicationTests.swift in Sources */,
+				BF65F744E4CF4B57B5B2FD6E /* RenderDerivedProbeTests.swift in Sources */,
+				02959B8057BC8B73FEEC4468 /* RenderDerivedReuseTests.swift in Sources */,
+				85C0490EFE0F67A1995EADBD /* RenderDerivedTestSupport.swift in Sources */,
 				13A961F39A2C0D9148CC339B /* RowArtworkRendererTests.swift in Sources */,
 				5D8A08F54496DA6FEF572F12 /* RowNoiseRegressionTests.swift in Sources */,
 				EF45BBB96E3DB0604178A785 /* SharedButtonTargetTests.swift in Sources */,

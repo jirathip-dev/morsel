@@ -1,0 +1,4 @@
+# Issue #195 — whitespace gate over the lane's own commits.
+# command: git diff --check 1cf9ecc26b56037b53b34cc611425043bf21a36d..HEAD
+(no output: no whitespace errors)
+RAW_EXIT=0
