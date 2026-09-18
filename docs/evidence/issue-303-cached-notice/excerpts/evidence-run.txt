@@ -1,0 +1,47 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=3B215DFD-EA49-4EE9-A861-9A4A241B8A93' -derivedDataPath /tmp/morsel-303-dd -resultBundlePath /tmp/morsel-303-evidence.xcresult -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/DayReadCompositionTests -only-testing:MorselTests/DayReadDegradeTests -only-testing:MorselTests/DayReadDegradeEvidenceTests
+# RAW_EXIT=0
+
+    export BUILD_STYLE\=
+Test Case '-[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure]' passed (0.094 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' passed (0.038 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' passed (0.035 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' passed (0.015 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyProvenanceWithoutAnOutcomeDecodesAsPending]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyProvenanceWithoutAnOutcomeDecodesAsPending]' passed (0.001 seconds).
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.182 (0.185) seconds
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' started.
+DAYREAD_CAPTURE_READY 258-paper-stale
+DAYREAD_CAPTURE_READY 258-paper-degraded
+DAYREAD_CAPTURE_READY 258-night-stale
+DAYREAD_CAPTURE_READY 258-night-degraded
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' passed (3.668 seconds).
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testHealthyLoadAndFailedRefreshNoticeStatesInPaperAndNight]' started.
+DAYREAD_CAPTURE_READY 303-paper-normal
+DAYREAD_CAPTURE_READY 303-paper-failed
+DAYREAD_CAPTURE_READY 303-night-normal
+DAYREAD_CAPTURE_READY 303-night-failed
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testHealthyLoadAndFailedRefreshNoticeStatesInPaperAndNight]' passed (3.367 seconds).
+	 Executed 2 tests, with 0 failures (0 unexpected) in 7.035 (7.036) seconds
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' passed (0.001 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' passed (0.009 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' passed (0.001 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' passed (0.009 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' passed (0.013 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' passed (0.006 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' passed (0.009 seconds).
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.049 (0.051) seconds
+	 Executed 14 tests, with 0 failures (0 unexpected) in 7.266 (7.274) seconds
+	 Executed 14 tests, with 0 failures (0 unexpected) in 7.266 (7.275) seconds
+RAW_EXIT=0

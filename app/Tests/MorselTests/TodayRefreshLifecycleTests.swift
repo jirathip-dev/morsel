@@ -147,15 +147,25 @@ final class TodayRefreshLifecycleTests: TodayRefreshTestCase {
         XCTAssertFalse(model.isLoading)
         XCTAssertNotNil(model.errorMessage)
         XCTAssertEqual(model.snapshot?.goal?.calorieTargetKcal, 1700)
+        // Issue #303 — the notice appears when the refresh CONCLUDES
+        // unsuccessfully, never during the in-flight window: the captured
+        // failure state must differ from the in-flight cached paint.
+        let failed = try await canvas.capture(in: self, name: "today-refresh-failed")
+        XCTAssertNotEqual(refreshing, failed,
+                          "the cached notice arrives with the concluded failure, not with the cached paint")
         let retry = Task { await model.load() }
         await until("retry entered") { harness.reads.count == 2 }
+        // The retry is parked with the announced cached day on screen (the
+        // read error copy clears at retry start; the snapshot keeps its
+        // concluded-failure provenance).
+        let retrying = try await canvas.capture(in: self, name: "today-refresh-retrying")
         harness.finish(1, error: CancellationError())
         await retry.value
         XCTAssertFalse(model.isLoading)
         XCTAssertNil(model.errorMessage, "cancellation is not a user-facing error")
         let idle = try await canvas.capture(in: self, name: "today-refresh-idle")
         XCTAssertFalse(model.isLoading)
-        XCTAssertEqual(refreshing, idle, "cached Today paints unchanged, without a blocking skeleton/overlay")
+        XCTAssertEqual(retrying, idle, "cached Today paints unchanged, without a blocking skeleton/overlay")
         let control = DashboardViewModel(
             repository: MockDashboardRepository(snapshot: harness.value(date: date, marker: 2600)),
             userID: UUID(), dateProvider: { self.date })
@@ -165,7 +175,8 @@ final class TodayRefreshLifecycleTests: TodayRefreshTestCase {
         defer { controlCanvas.close() }
         let updated = try await controlCanvas.capture(in: self, name: "today-refresh-control")
         XCTAssertNotEqual(idle, updated, "control: the renderer must actually observe Today state")
-        print("ISSUE182 F5 cached Today refreshing/idle PNG bytes equal: \(idle.count)")
+        print("ISSUE182 F5 cached Today retrying/idle bytes equal: \(retrying.count)")
+        print("ISSUE303 F5 in-flight/failed renders differ: \(refreshing.count)/\(failed.count)")
     }
 }
 

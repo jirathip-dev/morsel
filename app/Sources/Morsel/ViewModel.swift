@@ -144,7 +144,9 @@ final class DashboardViewModel: ObservableObject {
             case .cached(let cached): self.snapshot = cached.cachedCopy
             case .loaded(let loaded): self.publishDay(loaded)
             case .failed(let error):
-                self.snapshot = self.snapshot?.cachedCopy
+                // Issue #303 — the refresh concluded unsuccessfully: this is
+                // the announced cached state, not a silent first paint.
+                self.snapshot = self.snapshot?.failedRefreshCopy
                 self.errorMessage = DashboardUserMessage.userMessage(for: error)
             case .finished: break
             }
