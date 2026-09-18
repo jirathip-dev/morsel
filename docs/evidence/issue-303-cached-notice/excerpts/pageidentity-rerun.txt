@@ -1,0 +1,24 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=3B215DFD-EA49-4EE9-A861-9A4A241B8A93' -derivedDataPath /tmp/morsel-303-dd -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/PageIdentityTests  # load-sensitive pager witness classified
+# RAW_EXIT=65
+
+    export BUILD_STYLE\=
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' started.
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' passed (0.744 seconds).
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' started.
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' passed (0.224 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' started.
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' passed (0.926 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' started.
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' passed (2.871 seconds).
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' started.
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' passed (0.271 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' started.
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' passed (0.760 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.314 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 6.111 (6.116) seconds
+	 Executed 7 tests, with 1 failure (0 unexpected) in 6.111 (6.117) seconds
+	 Executed 7 tests, with 1 failure (0 unexpected) in 6.111 (6.118) seconds
+RAW_EXIT=65

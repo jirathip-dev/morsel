@@ -1,0 +1,77 @@
+# command
+git stash push -m 'issue-303 head' -- app/  # then the focused invocation:
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=3B215DFD-EA49-4EE9-A861-9A4A241B8A93' -derivedDataPath /tmp/morsel-303-dd -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/PageIdentityTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/SharedButtonTargetTests -only-testing:MorselTests/HistoryCacheStateTests -only-testing:MorselTests/TodayRefreshLifecycleTests
+# RAW_EXIT=65
+
+    export BUILD_STYLE\=
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' passed (0.090 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' passed (0.028 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' passed (0.027 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' passed (0.020 seconds).
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.165 (0.168) seconds
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' started.
+Test Case '-[MorselTests.PageIdentityTests testAbandonedPreviewsNeverCreateOrReadAndTheReentryCommitsOnce]' passed (0.532 seconds).
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' started.
+Test Case '-[MorselTests.PageIdentityTests testCommittedTurnKeepsTheHistoryPageAndNeverReReadsAtSettlement]' passed (0.215 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' started.
+Test Case '-[MorselTests.PageIdentityTests testPagesAreBoundedToThePrimaryTabsAndReleasedWithTheShell]' passed (0.789 seconds).
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' started.
+Test Case '-[MorselTests.PageIdentityTests testPhoneSizedSettledAndRevisitCaptures]' passed (2.404 seconds).
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' started.
+Test Case '-[MorselTests.PageIdentityTests testReduceMotionSharesTheSamePageOwnership]' passed (0.211 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' started.
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' passed (0.719 seconds).
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.357 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 5.227 (5.230) seconds
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.043 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.454 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.011 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.017 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.009 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.007 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.004 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.546 (0.548) seconds
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.021 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testEverySharedActionMeasuresAtLeast44Points]' passed (0.029 seconds).
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' started.
+Test Case '-[MorselTests.SharedButtonTargetTests testPaintAndSurroundingLayoutMatchTheOriginal40PointStyles]' passed (4.081 seconds).
+	 Executed 3 tests, with 2 failures (0 unexpected) in 4.131 (4.132) seconds
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testCachedContentAndPresentationsRemainAvailableDuringRefreshAndError]' started.
+ISSUE182 F5 cached Today refreshing/idle PNG bytes equal: 583002
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testCachedContentAndPresentationsRemainAvailableDuringRefreshAndError]' passed (2.495 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testCancellingOneDuplicateDoesNotCancelOtherWaiter]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testCancellingOneDuplicateDoesNotCancelOtherWaiter]' passed (0.010 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testConfirmedWriteSurvivesAFailedPostWriteRefreshAndClearsFlags]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testConfirmedWriteSurvivesAFailedPostWriteRefreshAndClearsFlags]' passed (0.005 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testDateAndAccountOwnersAreIndependentAndOldCompletionsCannotPublish]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testDateAndAccountOwnersAreIndependentAndOldCompletionsCannotPublish]' passed (0.006 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testInvalidationWhileCacheIsParkedSkipsStaleCacheAndLoadsOnce]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testInvalidationWhileCacheIsParkedSkipsStaleCacheAndLoadsOnce]' passed (0.005 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testLateErrorAfterLeavingTodayCannotFinishOrFailANewActivation]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testLateErrorAfterLeavingTodayCannotFinishOrFailANewActivation]' passed (0.005 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testSupersessionPublishesNewBeforeNonCooperativeOldCompletion]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testSupersessionPublishesNewBeforeNonCooperativeOldCompletion]' passed (0.005 seconds).
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testTeardownDuringFirstCacheReleasesFlagsAndRejectsLateCacheWithoutRemoteRead]' started.
+Test Case '-[MorselTests.TodayRefreshLifecycleTests testTeardownDuringFirstCacheReleasesFlagsAndRejectsLateCacheWithoutRemoteRead]' passed (0.002 seconds).
+	 Executed 8 tests, with 0 failures (0 unexpected) in 2.532 (2.534) seconds
+	 Executed 29 tests, with 4 failures (0 unexpected) in 12.601 (12.613) seconds
+	 Executed 29 tests, with 4 failures (0 unexpected) in 12.601 (12.614) seconds
+RAW_EXIT=65

@@ -64,7 +64,8 @@ final class LocalFirstDashboardRepository: DashboardRepository {
                 throw CancellationError()
             }
             if let cached = try cachedSnapshot(dayKey: dayKey) {
-                return try merged(cached, userID: userID, date: date)
+                // Issue #303 — the refresh concluded unsuccessfully: announce it.
+                return try merged(cached.failedRefreshCopy, userID: userID, date: date)
             }
             throw error
         }
