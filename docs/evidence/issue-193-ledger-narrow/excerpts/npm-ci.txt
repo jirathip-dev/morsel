@@ -1,0 +1,19 @@
+# Issue #193 npm ci (mise node@22, committed lockfile)
+
+npm warn deprecated eslint@9.39.5: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 256 packages, and audited 257 packages in 3s
+
+85 packages are looking for funding
+  run `npm fund` for details
+
+5 vulnerabilities (4 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+NPM_CI_EXIT=0

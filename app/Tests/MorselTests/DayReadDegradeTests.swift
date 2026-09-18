@@ -132,6 +132,7 @@ final class DayReadDegradeTests: XCTestCase {
         await viewModel.load()
         XCTAssertEqual(viewModel.snapshot?.meals.count, 1, "the cached day is still shown")
         XCTAssertTrue(viewModel.isShowingCachedDay)
+        XCTAssertEqual(viewModel.snapshot?.readProvenance?.outcome, .failed, "the concluded failure is announced")
         XCTAssertNil(viewModel.lastLoadedAt)
         XCTAssertNotNil(viewModel.errorMessage)
 
@@ -140,6 +141,7 @@ final class DayReadDegradeTests: XCTestCase {
         now = clock.addingTimeInterval(3_600)
         await viewModel.load()
         XCTAssertFalse(viewModel.isShowingCachedDay)
+        XCTAssertEqual(viewModel.snapshot?.readProvenance?.outcome, .fresh)
         XCTAssertEqual(viewModel.lastLoadedAt, now)
         XCTAssertNil(viewModel.errorMessage)
 
@@ -149,6 +151,7 @@ final class DayReadDegradeTests: XCTestCase {
         await viewModel.load()
         XCTAssertEqual(viewModel.snapshot?.meals.count, 1)
         XCTAssertTrue(viewModel.isShowingCachedDay)
+        XCTAssertEqual(viewModel.snapshot?.readProvenance?.outcome, .failed)
         XCTAssertEqual(viewModel.lastLoadedAt, now)
 
         // The retry affordance recovers the current state.
@@ -168,6 +171,7 @@ final class DayReadDegradeTests: XCTestCase {
 
         XCTAssertEqual(viewModel.incompleteMealCount, 2, "the notice counts the unread meals")
         XCTAssertFalse(viewModel.isShowingCachedDay, "a degraded read is not a cached day")
+        XCTAssertFalse(viewModel.isRefreshingCachedDay, "a degraded read is not a pending cached day either")
     }
 
     // MARK: - Fixtures

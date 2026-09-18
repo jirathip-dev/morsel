@@ -223,8 +223,11 @@ describe('issue #94: V1 journal hierarchy is implemented natively', () => {
     // Friendly-boundary copy: never raw Supabase text in UI. Issue #106:
     // MealRepository.swift classifies the SDK's PostgrestError SQLSTATE
     // codes into retry categories (permanent auth/validation vs transient)
-    // — the type name is backend plumbing, never user-facing copy.
-    const rawTokenAllowlist = new Set(['MealRepository.swift'])
+    // — the type name is backend plumbing, never user-facing copy. Issue #194:
+    // BoundedReadPaging.swift names the SDK's builder/response types to read a
+    // ranged response's Content-Range header while paging a collection — the
+    // same backend plumbing, never user-facing copy.
+    const rawTokenAllowlist = new Set(['MealRepository.swift', 'BoundedReadPaging.swift'])
     for (const [text, where] of shippedSwiftSources) {
       const banned = rawTokenAllowlist.has(where)
         ? /status_code|connection refused|Network request failed/i

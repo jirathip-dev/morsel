@@ -1,0 +1,43 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/RestoringShellRoutingTests -only-testing:MorselTests/RestoringShellRenderTests   # MUTATION: the restoring branch removed (route on the session alone)
+# RAW_EXIT=65
+
+FIXED_SHA256_BEFORE=cd900bd48e2f8b8a1855382f0610656c93debeafcac520aa70434d9eebe23924
+MUTATED_SHA256=aa3b5d30d72b55292e9d7f8c8a5639acd15fc0e41dcf3f50fa858e39a566cf52
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRenderTests.swift:107: error: -[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface] : XCTAssertEqual failed: ("378714 bytes") is not equal to ("225701 bytes") - the rendered surface IS the paper skeleton
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRenderTests.swift:109: error: -[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface] : XCTAssertNotEqual failed: ("378714 bytes") is equal to ("378714 bytes") - the onboarding surface must not be on screen
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' failed (3.275 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' passed (4.308 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRenderTests.swift:131: error: -[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow] : XCTAssertEqual failed: ("378714 bytes") is not equal to ("225701 bytes") - sample 1 is the skeleton — the placeholder is the whole window, not a maybe-frame
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRenderTests.swift:131: error: -[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow] : XCTAssertEqual failed: ("378319 bytes") is not equal to ("225701 bytes") - sample 2 is the skeleton — the placeholder is the whole window, not a maybe-frame
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRenderTests.swift:131: error: -[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow] : XCTAssertEqual failed: ("378319 bytes") is not equal to ("225701 bytes") - sample 3 is the skeleton — the placeholder is the whole window, not a maybe-frame
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' failed (4.108 seconds).
+	 Executed 3 tests, with 5 failures (0 unexpected) in 11.691 (11.693) seconds
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' passed (0.002 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' passed (0.001 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' passed (0.001 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-310-restoring-shell/app/Tests/MorselTests/RestoringShellRoutingTests.swift:32: error: -[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface] : XCTUnwrap failed: expected non-nil value of type "Range<Index>" - the shell must decide the restoring phase before anything else
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' failed (0.015 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' passed (0.003 seconds).
+	 Executed 5 tests, with 1 failure (0 unexpected) in 0.023 (0.024) seconds
+	 Executed 8 tests, with 6 failures (0 unexpected) in 11.714 (11.718) seconds
+	 Executed 8 tests, with 6 failures (0 unexpected) in 11.714 (11.718) seconds
+Failing tests:
+	RestoringShellRenderTests.testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface()
+	RestoringShellRenderTests.testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface()
+	RestoringShellRenderTests.testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow()
+	RestoringShellRenderTests.testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow()
+	RestoringShellRenderTests.testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow()
+	RestoringShellRoutingTests.testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface()
+** TEST FAILED **
+FIXED_SHA256_AFTER=cd900bd48e2f8b8a1855382f0610656c93debeafcac520aa70434d9eebe23924
+RESTORE=byte-identical
+RAW_EXIT=65

@@ -1,0 +1,30 @@
+# Issue #195 baseline (pre-change) measurement probe.
+# command: HERDR_XCODEBUILD_DIRECT=1 flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj
+#          -scheme Morsel -destination 'platform=iOS Simulator,id=<lane>' -derivedDataPath /tmp/morsel-195-dd
+#          -only-testing:MorselTests/RenderDerivedProbeTests
+# worktree state: base sources (no production edit yet)
+RAW_EXIT=0
+
+Test Suite 'Selected tests' started at 2569-09-18 9:26:41.763 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 9:26:41.763 AM.
+Test Suite 'RenderDerivedProbeTests' started at 2569-09-18 9:26:41.763 AM.
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' started.
+ISSUE195-BASELINE fixture=small meals=6 items=12 math_totals_us=6.265 view_totals_us=6.847 meal_groups_us=9.730 review_items_us=11.030 gutter_date_us=41.132
+ISSUE195-BASELINE fixture=dense meals=40 items=480 math_totals_us=166.316 view_totals_us=174.456 meal_groups_us=48.503 review_items_us=288.689 gutter_date_us=41.506
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' passed (1.603 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' started.
+ISSUE195-BASELINE history days=30 chart_days_us=8.992 average_us=20.543 days_over_us=22.114 days_logged_us=20.223 streak_us=27.142
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' passed (0.202 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' started.
+ISSUE195-BASELINE model_workload cycles=200 day_reads=201 accesses=1800 total_us=292106.167 per_cycle_us=1460.531
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' passed (0.294 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' started.
+ISSUE195-BASELINE mounted_today fixture=small cycles=40 day_reads=41 body_evals=82 total_us=4681352.916 per_cycle_us=117033.823
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' passed (5.413 seconds).
+Test Suite 'RenderDerivedProbeTests' passed at 2569-09-18 9:26:49.278 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 7.512 (7.515) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 9:26:49.279 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 7.512 (7.515) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 9:26:49.279 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 7.512 (7.516) seconds
+RAW_EXIT=0

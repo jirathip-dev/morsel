@@ -1,0 +1,342 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessShellCycleTests -derivedDataPath /tmp/morsel-196-dd
+ISSUE196-MEASURE tap-to-first-response ms=20.494
+ISSUE196-MEASURE tap-to-settled ms=581.581
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=45.560
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=5.652
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=goals
+ISSUE196-MEASURE paint-settle ms=60.734
+ISSUE196-MEASURE tap-to-first-response ms=6.957
+ISSUE196-MEASURE tap-to-settled ms=564.617
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=52.561
+ISSUE196-MEASURE retarget-to-settled ms=569.394
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=41.309
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=46.143
+ISSUE196-MEASURE tap-to-first-response ms=5.105
+ISSUE196-MEASURE tap-to-settled ms=561.193
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=60.903
+ISSUE196-MEASURE tap-to-first-response ms=5.293
+ISSUE196-MEASURE tap-to-settled ms=561.744
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=54.756
+ISSUE196-MEASURE tap-to-first-response ms=5.690
+ISSUE196-MEASURE tap-to-settled ms=562.606
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=61.334
+ISSUE196-MEASURE tap-to-first-response ms=5.260
+ISSUE196-MEASURE tap-to-settled ms=563.704
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=60.339
+ISSUE196-MEASURE rollback-to-settled ms=68.845
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=62.084
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=625.857
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=39.488
+ISSUE196-MEASURE rollback-to-settled ms=0.756
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=71.341
+ISSUE196-MEASURE tap-to-first-response ms=5.175
+ISSUE196-MEASURE tap-to-settled ms=561.169
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=67.501
+ISSUE196-MEASURE retarget-to-settled ms=566.337
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=65.096
+ISSUE196-MEASURE rollback-to-settled ms=65.702
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=43.639
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=34.510
+ISSUE196-MEASURE retarget-to-settled ms=566.528
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=68.151
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=8.377
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=today selection=history
+ISSUE196-MEASURE paint-settle ms=74.754
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=5.512
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=today selection=goals
+ISSUE196-MEASURE paint-settle ms=74.943
+ISSUE196-MEASURE tap-to-first-response ms=5.145
+ISSUE196-MEASURE tap-to-settled ms=566.626
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=44.148
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=66.198
+ISSUE196-MEASURE retarget-to-settled ms=564.234
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=64.601
+ISSUE196-MEASURE rollback-to-settled ms=0.079
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=44.771
+ISSUE196-MEASURE tap-to-first-response ms=5.161
+ISSUE196-MEASURE tap-to-settled ms=560.467
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=49.726
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=48.093
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=35.306
+ISSUE196-MEASURE rollback-to-settled ms=67.875
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=45.796
+ISSUE196-MEASURE tap-to-first-response ms=5.686
+ISSUE196-MEASURE tap-to-settled ms=559.088
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=48.361
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=1.484
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=44.540
+ISSUE196-MEASURE tap-to-first-response ms=5.245
+ISSUE196-MEASURE tap-to-settled ms=563.393
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=52.864
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=602.574
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=63.749
+ISSUE196-MEASURE tap-to-first-response ms=5.149
+ISSUE196-MEASURE tap-to-settled ms=564.323
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=50.009
+ISSUE196-MEASURE rollback-to-settled ms=66.949
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=44.251
+ISSUE196-MEASURE rollback-to-settled ms=65.725
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=72.669
+ISSUE196-MEASURE retarget-to-settled ms=566.199
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=52.445
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=45.541
+ISSUE196-MEASURE tap-to-first-response ms=5.509
+ISSUE196-MEASURE tap-to-settled ms=561.004
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=76.253
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=62.363
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=8.490
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=today selection=history
+ISSUE196-MEASURE paint-settle ms=49.305
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=2.816
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=76.918
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=74.760
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=7.724
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=goals
+ISSUE196-MEASURE paint-settle ms=68.780
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=52.531
+ISSUE196-MEASURE retarget-to-settled ms=566.302
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=53.864
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=53.802
+ISSUE196-MEASURE rollback-to-settled ms=67.666
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=54.116
+ISSUE196-MEASURE tap-to-first-response ms=5.364
+ISSUE196-MEASURE tap-to-settled ms=560.708
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=57.167
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=71.323
+ISSUE196-MEASURE tap-to-first-response ms=5.246
+ISSUE196-MEASURE tap-to-settled ms=561.650
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=79.114
+ISSUE196-MEASURE rollback-to-settled ms=64.535
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=76.897
+ISSUE196-MEASURE rollback-to-settled ms=0.062
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=77.130
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=4.569
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=history
+ISSUE196-MEASURE paint-settle ms=77.893
+ISSUE196-MEASURE tap-to-first-response ms=5.223
+ISSUE196-MEASURE tap-to-settled ms=565.909
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=77.695
+ISSUE196-MEASURE retarget-to-settled ms=564.115
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=53.964
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=76.540
+ISSUE196-MEASURE rollback-to-settled ms=0.091
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=78.120
+ISSUE196-MEASURE tap-to-first-response ms=5.341
+ISSUE196-MEASURE tap-to-settled ms=564.759
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=80.214
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=601.279
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=34.809
+ISSUE196-MEASURE tap-to-first-response ms=5.493
+ISSUE196-MEASURE tap-to-settled ms=562.543
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=70.696
+ISSUE196-MEASURE rollback-to-settled ms=66.880
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=47.256
+ISSUE196-MEASURE tap-to-first-response ms=5.250
+ISSUE196-MEASURE tap-to-settled ms=561.722
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=46.974
+ISSUE196-MEASURE tap-to-first-response ms=5.113
+ISSUE196-MEASURE tap-to-settled ms=558.939
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=73.753
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=72.061
+ISSUE196-MEASURE tap-to-first-response ms=5.247
+ISSUE196-MEASURE tap-to-settled ms=561.351
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=68.997
+ISSUE196-MEASURE retarget-to-settled ms=566.165
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=77.486
+ISSUE196-MEASURE retarget-to-settled ms=568.603
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=45.422
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=78.481
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=55.199
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=595.671
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=58.090
+ISSUE196-MEASURE retarget-to-settled ms=566.080
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=64.790
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=64.142
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=61.557
+ISSUE196-MEASURE rollback-to-settled ms=65.556
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=43.862
+ISSUE196-MEASURE tap-to-first-response ms=5.495
+ISSUE196-MEASURE tap-to-settled ms=560.200
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=69.559
+ISSUE196-MEASURE rollback-to-settled ms=64.651
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=78.354
+ISSUE196-MEASURE retarget-to-settled ms=562.392
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=68.105
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=70.851
+ISSUE196-MEASURE rollback-to-settled ms=67.070
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=50.099
+ISSUE196-MEASURE tap-to-first-response ms=5.342
+ISSUE196-MEASURE tap-to-settled ms=562.094
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=54.241
+ISSUE196-MEASURE tap-to-first-response ms=5.162
+ISSUE196-MEASURE tap-to-settled ms=560.979
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=55.840
+ISSUE196-MEASURE retarget-to-settled ms=567.538
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=62.693
+ISSUE196-MEASURE tap-to-first-response ms=5.240
+ISSUE196-MEASURE tap-to-settled ms=566.792
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=64.157
+ISSUE196-MEASURE retarget-to-settled ms=569.032
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=59.724
+ISSUE196-MEASURE tap-to-first-response ms=5.310
+ISSUE196-MEASURE tap-to-settled ms=559.310
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=70.941
+ISSUE196-MEASURE tap-to-first-response ms=5.173
+ISSUE196-MEASURE tap-to-settled ms=565.041
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.history, Morsel.JournalTab.today] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=48.439
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=602.757
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=43.091
+ISSUE196-MEASURE retarget-to-settled ms=561.384
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=46.821
+ISSUE196-MEASURE tap-to-first-response ms=5.655
+ISSUE196-MEASURE tap-to-settled ms=562.387
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=49.750
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=7.254
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=goals
+ISSUE196-MEASURE paint-settle ms=57.992
+ISSUE196-MEASURE tap-to-first-response ms=5.300
+ISSUE196-MEASURE tap-to-settled ms=561.273
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=72.433
+ISSUE196-MEASURE tap-to-first-response ms=5.364
+ISSUE196-MEASURE tap-to-settled ms=565.144
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=64.673
+ISSUE196-MEASURE rollback-to-settled ms=66.978
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=61.424
+ISSUE196-MEASURE rollback-to-settled ms=0.072
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=73.135
+ISSUE196-MEASURE rollback-to-settled ms=67.365
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=76.558
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.goals, Morsel.JournalTab.today] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=50.913
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=49.037
+ISSUE196-MEASURE rollback-to-settled ms=0.049
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.history, Morsel.JournalTab.today, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=53.747
+ISSUE196-MEASURE rollback-to-settled ms=67.603
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals, Morsel.JournalTab.today, Morsel.JournalTab.history] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=68.668
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:365: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - Reduce Motion selects the page without a hinge
+ISSUE196-MEASURE rm-tap-to-settled ms=2.463
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.goals, Morsel.JournalTab.history] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=74.101
+ISSUE196-MEASURE retarget-to-settled ms=564.729
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.today, Morsel.JournalTab.history, Morsel.JournalTab.goals] base=goals selection=goals
+ISSUE196-MEASURE paint-settle ms=50.864
+ISSUE196-SUMMARY id=keyboard-dismiss-to-settled n=5 p50=602.574 p95=625.857 max=625.857
+ISSUE196-SUMMARY id=paint-settle n=100 p50=60.903 p95=78.120 max=80.214
+ISSUE196-SUMMARY id=retarget-to-settled n=15 p50=566.199 p95=569.394 max=569.394
+ISSUE196-SUMMARY id=rm-tap-to-settled n=10 p50=5.652 p95=8.490 max=8.490
+ISSUE196-SUMMARY id=rollback-to-settled n=20 p50=65.725 p95=68.845 max=68.845
+ISSUE196-SUMMARY id=tap-to-first-response n=30 p50=5.293 p95=6.957 max=20.494
+ISSUE196-SUMMARY id=tap-to-settled n=30 p50=562.094 p95=566.792 max=581.581
+ISSUE196-COUNT id=backgroundings value=5
+ISSUE196-COUNT id=cycles value=100
+ISSUE196-COUNT id=page-activation-events value=81
+ISSUE196-COUNT id=taps value=85
+ISSUE196-COUNT id=vertical-drags value=10
+ISSUE196-METRICS /tmp/morsel-196-evidence/shell-cycles-hundred-cycles.json bytes=4158
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab]' failed (593.849 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:164: error: -[MorselTests.ResponsivenessShellCycleTests testPaintedGroundDiscriminatesTheSettledTab] : XCTAssertTrue failed
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testPaintedGroundDiscriminatesTheSettledTab]' failed (5.529 seconds).
+	 Executed 2 tests, with 111 failures (0 unexpected) in 599.378 (599.379) seconds
+	 Executed 2 tests, with 111 failures (0 unexpected) in 599.378 (599.379) seconds
+	 Executed 2 tests, with 111 failures (0 unexpected) in 599.378 (599.380) seconds
+RAW_EXIT=65
+# full log: /tmp/morsel-196-raw-ResponsivenessShellCycleTests.txt

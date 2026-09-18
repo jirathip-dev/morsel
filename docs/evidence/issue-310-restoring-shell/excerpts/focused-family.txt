@@ -1,0 +1,64 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/RestoringShellRoutingTests -only-testing:MorselTests/RestoringShellPhaseTests -only-testing:MorselTests/RestoringShellRenderTests -only-testing:MorselTests/RestoringShellSkeletonPaintTests -only-testing:MorselTests/RestoringShellEvidenceTests
+# RAW_EXIT=0
+
+Test Case '-[MorselTests.RestoringShellEvidenceTests testColdLaunchCasesRenderInPaperAndNight]' started.
+RESTORING_SHELL_CAPTURE_READY 310-paper-stored-session-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-stored-session-settled
+RESTORING_SHELL_CAPTURE_READY 310-paper-fresh-install-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-fresh-install-settled
+RESTORING_SHELL_CAPTURE_READY 310-paper-expired-refresh-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-expired-refresh-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-stored-session-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-stored-session-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-fresh-install-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-fresh-install-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-expired-refresh-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-expired-refresh-settled
+Test Case '-[MorselTests.RestoringShellEvidenceTests testColdLaunchCasesRenderInPaperAndNight]' passed (16.635 seconds).
+	 Executed 1 test, with 0 failures (0 unexpected) in 16.635 (16.636) seconds
+Test Case '-[MorselTests.RestoringShellPhaseTests testAFailedRefreshIsAnExplicitStateDistinctFromAGenuineNoSession]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testAFailedRefreshIsAnExplicitStateDistinctFromAGenuineNoSession]' passed (0.057 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testAHungRefreshResolvesToSignInWithinTheBound]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testAHungRefreshResolvesToSignInWithinTheBound]' passed (0.166 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testASettledDeferredRouteStaysOnSignInWithoutReOpeningTheSkeleton]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testASettledDeferredRouteStaysOnSignInWithoutReOpeningTheSkeleton]' passed (0.002 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testColdLaunchStartsUnresolvedAndADeferredRestoreKeepsItThere]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testColdLaunchStartsUnresolvedAndADeferredRestoreKeepsItThere]' passed (0.029 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testGenuineNoSessionReachesOnboardingAndNeverStaysRestoring]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testGenuineNoSessionReachesOnboardingAndNeverStaysRestoring]' passed (0.029 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testPreviouslyDeferredSetupReachesSignInOnceTheAttemptResolves]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testPreviouslyDeferredSetupReachesSignInOnceTheAttemptResolves]' passed (0.029 seconds).
+Test Case '-[MorselTests.RestoringShellPhaseTests testTheRestoringPhaseHoldsForTheWholeRestoreWindow]' started.
+Test Case '-[MorselTests.RestoringShellPhaseTests testTheRestoringPhaseHoldsForTheWholeRestoreWindow]' passed (0.781 seconds).
+	 Executed 7 tests, with 0 failures (0 unexpected) in 1.093 (1.097) seconds
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' passed (3.283 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' passed (4.262 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' passed (3.973 seconds).
+	 Executed 3 tests, with 0 failures (0 unexpected) in 11.518 (11.520) seconds
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' passed (0.003 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' passed (0.002 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' passed (0.002 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' passed (0.001 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' passed (0.004 seconds).
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.013 (0.016) seconds
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testPixelProbeReadsTheTopRowFirst]' started.
+RESTORING_SHELL_PIXEL_CONTROL top=255,56,60 bottom=0,136,255 size=1170x2532
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testPixelProbeReadsTheTopRowFirst]' passed (0.836 seconds).
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testTheSkeletonPaintsThePaperGroundInBothThemesWithoutATabBar]' started.
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testTheSkeletonPaintsThePaperGroundInBothThemesWithoutATabBar]' passed (1.541 seconds).
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testTheTabBarOracleBitesOnARealBar]' started.
+Test Case '-[MorselTests.RestoringShellSkeletonPaintTests testTheTabBarOracleBitesOnARealBar]' passed (0.866 seconds).
+	 Executed 3 tests, with 0 failures (0 unexpected) in 3.244 (3.247) seconds
+	 Executed 19 tests, with 0 failures (0 unexpected) in 32.502 (32.518) seconds
+	 Executed 19 tests, with 0 failures (0 unexpected) in 32.502 (32.519) seconds
+** TEST SUCCEEDED **
+RAW_EXIT=0

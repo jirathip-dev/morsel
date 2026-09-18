@@ -1,0 +1,26 @@
+# command
+cd /tmp/morsel-310-base && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-base-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/PageIdentityTests/testRevisitKeepsHistoryRangeExpandedDayAndScroll -only-testing:MorselTests/ParallelReadsTests/testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts -only-testing:MorselTests/SharedButtonTargetTests/testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping   # base f1d657b, fix absent
+# RAW_EXIT=65
+
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.263 seconds).
+	 Executed 1 test, with 1 failure (0 unexpected) in 0.263 (0.264) seconds
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.470 seconds).
+	 Executed 1 test, with 1 failure (0 unexpected) in 0.470 (0.470) seconds
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' started.
+/tmp/morsel-310-base/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/tmp/morsel-310-base/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.029 seconds).
+	 Executed 1 test, with 2 failures (0 unexpected) in 0.029 (0.029) seconds
+	 Executed 3 tests, with 4 failures (0 unexpected) in 0.762 (0.764) seconds
+	 Executed 3 tests, with 4 failures (0 unexpected) in 0.762 (0.764) seconds
+Failing tests:
+	PageIdentityTests.testRevisitKeepsHistoryRangeExpandedDayAndScroll()
+	ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts()
+	SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()
+	SharedButtonTargetTests.testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping()
+** TEST FAILED **
+RAW_EXIT=65

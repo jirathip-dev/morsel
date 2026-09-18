@@ -118,28 +118,42 @@ private let menuItemColumns = [
 ].joined(separator: ",")
 
 extension SupabaseDashboardRepository {
+    /// Issue #194 — menus are read to completion in bounded pages over the
+    /// `name,id` order, and their items in bounded id chunks over
+    /// `menu_id,id`, so a large menu library is never truncated.
     func listMenus(userID: UUID) async throws -> [NamedMenu] {
         guard let client else {
             throw MorselError.configurationMissing
         }
         let authenticatedUserID = try await requireSession(client, userID: userID)
-        let menuRows: [MealMenuRow] = try await client
-            .from("meal_menus")
-            .select("id,name")
-            .eq("user_id", value: authenticatedUserID.uuidString)
-            .order("name", ascending: true)
-            .execute()
-            .value
+        let menuRows: [MealMenuRow] = try await pagedRows(
+            identity: { $0.id },
+            fetch: { offset, limit in
+                try await client
+                    .from("meal_menus")
+                    .select("id,name")
+                    .eq("user_id", value: authenticatedUserID.uuidString)
+                    .order("name", ascending: true).order("id", ascending: true)
+                    .range(from: offset, to: offset + limit - 1)
+                    .boundedPage()
+            }
+        )
         guard !menuRows.isEmpty else {
             return []
         }
-        let menuIDs = menuRows.map(\.id)
-        let itemRows: [MenuItemRow] = try await client
-            .from("menu_items")
-            .select(menuItemColumns)
-            .in("menu_id", values: menuIDs)
-            .execute()
-            .value
+        let itemRows: [MenuItemRow] = try await chunkedRows(
+            ids: menuRows.map(\.id),
+            identity: { $0.id },
+            fetch: { ids, offset, limit in
+                try await client
+                    .from("menu_items")
+                    .select(menuItemColumns)
+                    .in("menu_id", values: ids)
+                    .order("menu_id", ascending: true).order("id", ascending: true)
+                    .range(from: offset, to: offset + limit - 1)
+                    .boundedPage()
+            }
+        )
         let itemsByMenu = Self.itemsByMenu(itemRows)
         return menuRows.compactMap { row in
             guard let menuID = UUID(uuidString: row.id) else {

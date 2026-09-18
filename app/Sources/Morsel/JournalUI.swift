@@ -71,12 +71,20 @@ struct JournalPageFurniture: View {
         .accessibilityHidden(true)
     }
 
-    /// "03.SEP.2026" — mono folio used in the prototype gutter.
-    static func gutterDate(_ date: Date) -> String {
+    /// Issue #195 — the folio is locale-pinned and fixed-format, so one shared
+    /// formatter serves every page. It assigns no time zone, exactly like the
+    /// per-call instance it replaces, so the device zone still decides the
+    /// rendered day.
+    private static let gutterFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "dd.MMM.yyyy"
-        return formatter.string(from: date).uppercased()
+        return formatter
+    }()
+
+    /// "03.SEP.2026" — mono folio used in the prototype gutter.
+    static func gutterDate(_ date: Date) -> String {
+        gutterFormatter.string(from: date).uppercased()
     }
 }
 

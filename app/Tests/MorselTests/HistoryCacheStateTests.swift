@@ -26,7 +26,11 @@ final class HistoryCacheStateTests: HistoryCacheTestCase {
         XCTAssertNotNil(viewModel.expandedError)
         XCTAssertNotNil(saved?.readProvenance?.loadedAt)
         XCTAssertEqual(viewModel.overview?.readProvenance, saved?.readProvenance)
-        XCTAssertEqual(viewModel.daySnapshot?.readProvenance, savedDay?.readProvenance)
+        // Issue #303 — the failed day refresh is NAMED (announced), not
+        // silently pending; freshness (cached flag + success time) is kept.
+        XCTAssertEqual(viewModel.daySnapshot?.readProvenance?.isCached, savedDay?.readProvenance?.isCached)
+        XCTAssertEqual(viewModel.daySnapshot?.readProvenance?.loadedAt, savedDay?.readProvenance?.loadedAt)
+        XCTAssertEqual(viewModel.daySnapshot?.readProvenance?.outcome, .failed)
 
         let retry = Task { await viewModel.load() }
         await waitFor("history-7")

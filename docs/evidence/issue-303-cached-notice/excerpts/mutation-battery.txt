@@ -1,0 +1,48 @@
+# command
+bash .lane-logs/mutation-battery.sh
+# BATTERY_RAW_EXIT=0
+
+PRISTINE:
+--- M1: gate back to any cached snapshot (AC6) ---
+  mutated app/Sources/Morsel/DayReadState.swift
+== M1-gate-back-to-cache-ness RAW_EXIT=65 | 	 Executed 12 tests, with 2 failures (0 unexpected) in 0.397 (0.401) seconds
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertFalse failed - the in-flight window stays silent
+  FAILED: -[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow] : XCTAssertFalse failed - a cached copy with its refresh still in flight must not announce a failure
+  restore: app/Sources/Morsel/DayReadState.swift: OK
+  restore: app/Sources/Morsel/LocalFirstRepository.swift: OK
+  restore: app/Sources/Morsel/ViewModel.swift: OK
+--- M2: facade catch serves the cache unannounced ---
+  mutated app/Sources/Morsel/LocalFirstRepository.swift
+== M2-catch-unannounced RAW_EXIT=65 | 	 Executed 12 tests, with 8 failures (0 unexpected) in 0.167 (0.171) seconds
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertEqual failed: ("Optional(Morsel.DayReadOutcome.pending)") is not equal to ("Optional(Morsel.DayReadOutcome.failed)")
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertFalse failed
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertTrue failed - cached-after-failure is announced
+  FAILED: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertEqual failed: ("Optional(Morsel.DayReadOutcome.pending)") is not equal to ("Optional(Morsel.DayReadOutcome.failed)") - the concluded failure is announced
+  FAILED: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertTrue failed
+  FAILED: -[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers] : XCTAssertTrue failed - cache fallback must be visible through the real facade
+  restore: app/Sources/Morsel/DayReadState.swift: OK
+  restore: app/Sources/Morsel/LocalFirstRepository.swift: OK
+  restore: app/Sources/Morsel/ViewModel.swift: OK
+--- M3: view-model failure stays pending (no announcement) ---
+  mutated app/Sources/Morsel/ViewModel.swift
+== M3-failed-stays-pending RAW_EXIT=65 | 	 Executed 12 tests, with 4 failures (0 unexpected) in 0.201 (0.206) seconds
+  FAILED: -[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt] : XCTAssertEqual failed: ("Optional(Morsel.DayReadOutcome.pending)") is not equal to ("Optional(Morsel.DayReadOutcome.failed)")
+  FAILED: -[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt] : XCTAssertEqual failed: ("Optional(Morsel.DayReadOutcome.pending)") is not equal to ("Optional(Morsel.DayReadOutcome.failed)") - the concluded failure is announced
+  FAILED: -[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt] : XCTAssertTrue failed
+  restore: app/Sources/Morsel/DayReadState.swift: OK
+  restore: app/Sources/Morsel/LocalFirstRepository.swift: OK
+  restore: app/Sources/Morsel/ViewModel.swift: OK
+--- M4: cached pre-paint marks failed (announce during the window) ---
+  mutated app/Sources/Morsel/DayReadState.swift
+== M4-prepaint-announces RAW_EXIT=65 | 	 Executed 12 tests, with 5 failures (0 unexpected) in 0.215 (0.220) seconds
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertEqual failed: ("Optional(Morsel.DayReadOutcome.failed)") is not equal to ("Optional(Morsel.DayReadOutcome.pending)")
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertFalse failed - the in-flight window stays silent
+  FAILED: -[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure] : XCTAssertTrue failed - cached-with-pending-refresh
+  FAILED: -[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow] : XCTAssertFalse failed - a cached copy with its refresh still in flight must not announce a failure
+  FAILED: -[MorselTests.DayReadCompositionTests testLegacyProvenanceWithoutAnOutcomeDecodesAsPending] : XCTAssertFalse failed
+  restore: app/Sources/Morsel/DayReadState.swift: OK
+  restore: app/Sources/Morsel/LocalFirstRepository.swift: OK
+  restore: app/Sources/Morsel/ViewModel.swift: OK
+--- final verification ---
+BATTERY_DONE
+BATTERY_RAW_EXIT=0

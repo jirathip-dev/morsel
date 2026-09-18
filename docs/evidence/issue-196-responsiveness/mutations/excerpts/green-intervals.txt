@@ -1,0 +1,23 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessIntervalsTests -derivedDataPath /tmp/morsel-196-dd
+ISSUE196-MEASURE cache-publish-to-paint ms=30.331
+ISSUE196-SUMMARY id=cache-publish-to-paint n=1 p50=30.331 p95=30.331 max=30.331
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-cached-paint.json bytes=139
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testCachedUsefulPaintIntervalOnAWarmCache]' passed (0.098 seconds).
+ISSUE196-MEASURE health-observer-callback ms=0.972
+ISSUE196-SUMMARY id=health-observer-callback n=1 p50=0.972 p95=0.972 max=0.972
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-health-callback.json bytes=142
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testHealthObserverCallbackInterval]' passed (0.009 seconds).
+ISSUE196-MEASURE image-preparation ms=10.548
+ISSUE196-SUMMARY id=image-preparation n=1 p50=10.548 p95=10.548 max=10.548
+ISSUE196-COUNT id=image-source-bytes value=2149
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-image-prep.json bytes=150
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testImagePreparationInterval]' passed (0.015 seconds).
+ISSUE196-MEASURE refresh-release-to-fresh-paint ms=65.026
+ISSUE196-SUMMARY id=refresh-release-to-fresh-paint n=1 p50=65.026 p95=65.026 max=65.026
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-refresh.json bytes=147
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testRemoteRefreshIntervalFromReleaseToFreshPaint]' passed (0.189 seconds).
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.311 (0.313) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.311 (0.313) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.311 (0.314) seconds
+RAW_EXIT=0
+# full log: /tmp/morsel-196-raw-ResponsivenessIntervalsTests.txt

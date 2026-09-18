@@ -1,0 +1,74 @@
+# Issue #193 mutation battery — one structural mutation per defended mechanism.
+# Each leg: the head test bytes against the mutated production file; the file is then
+# restored byte-identically and sha256-verified (restore checks below).
+# Full raw logs: .lane-logs/mutation-m1-rich-item-projection.txt, .lane-logs/mutation-m2-dropped-calorie-column.txt
+
+## M1 — ledgerMealItemColumns = mealItemColumns (the audited mechanism: rich item projection again)
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' passed (0.057 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' passed (0.025 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' passed (0.009 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' passed (0.043 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:20: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertEqual failed: ("["id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes", "menu_group_id", "menu_name", "artwork_id"]") is not equal to ("["meal_log_id", "calories_kcal"]") - the ledger needs the calorie contribution only
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:28: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertTrue failed - descriptive/nutrition/menu/photo fields must not be transferred: ["carbs_g", "id", "sugar_g", "source_notes", "menu_group_id", "fat_g", "calories_kcal", "quantity", "confidence", "name", "protein_g", "eaten_at", "artwork_id", "fiber_g", "menu_name", "meal_log_id", "unit"]
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' failed (0.754 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' started.
+ISSUE193-BYTES fixture=multiple meals meal_logs narrow=337 baseline=561 meal_items narrow=1763 baseline=1763
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:65: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("1763") is not less than ("1763") - multiple meals
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:68: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - multiple meals
+ISSUE193-BYTES fixture=named-menu snapshot meal_logs narrow=85 baseline=141 meal_items narrow=863 baseline=863
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:65: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("863") is not less than ("863") - named-menu snapshot
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:68: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - named-menu snapshot
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' failed (0.026 seconds).
+	 Executed 6 tests, with 6 failures (0 unexpected) in 0.915 (0.918) seconds
+	 Executed 6 tests, with 6 failures (0 unexpected) in 0.915 (0.919) seconds
+	 Executed 6 tests, with 6 failures (0 unexpected) in 0.915 (0.919) seconds
+Failing tests:
+** TEST FAILED **
+MUTATION_m1-rich-item-projection_RAW_EXIT=65
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' failed (0.754 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' failed (0.026 seconds).
+	 Executed 6 tests, with 6 failures (0 unexpected) in 0.915 (0.919) seconds
+
+## M2 — ledgerMealItemColumns = "meal_log_id" (narrow read drops the calorie column)
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' passed (0.070 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:124: error: -[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions] : XCTAssertEqual failed: ("[MorselTests.LedgerDayValue(date: 2026-03-07 5:00:00 AM +0000, kcal: 0.0, logged: true), MorselTests.LedgerDayValue(date: 2026-03-08 5:00:00 AM +0000, kcal: 0.0, logged: true)]") is not equal to ("[MorselTests.LedgerDayValue(date: 2026-03-07 5:00:00 AM +0000, kcal: 300.0, logged: true), MorselTests.LedgerDayValue(date: 2026-03-08 5:00:00 AM +0000, kcal: 540.0, logged: true)]")
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:130: error: -[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions] : XCTAssertEqual failed: ("[0.0, 0.0]") is not equal to ("[300.0, 540.0]") - 01:30 EST and 03:30 EDT are one 23-hour day
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' failed (1.208 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' passed (0.012 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:79: error: -[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture] : XCTAssertEqual failed: ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 0.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") is not equal to ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 120.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") - narrow and baseline aggregation must match: null calories
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:79: error: -[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture] : XCTAssertEqual failed: ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 0.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 0.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") is not equal to ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 695.5, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 300.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") - narrow and baseline aggregation must match: multiple meals
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:79: error: -[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture] : XCTAssertEqual failed: ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 0.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") is not equal to ("[MorselTests.LedgerDayValue(date: 2026-08-29 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-30 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-08-31 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-01 5:00:00 PM +0000, kcal: 800.0, logged: true), MorselTests.LedgerDayValue(date: 2026-09-02 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-03 5:00:00 PM +0000, kcal: 0.0, logged: false), MorselTests.LedgerDayValue(date: 2026-09-04 5:00:00 PM +0000, kcal: 0.0, logged: false)]") - narrow and baseline aggregation must match: named-menu snapshot
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:95: error: -[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture] : XCTAssertEqualWithAccuracy failed: ("0.0") is not equal to ("995.5") +/- ("0.001")
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' failed (0.050 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:20: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertEqual failed: ("["meal_log_id"]") is not equal to ("["meal_log_id", "calories_kcal"]") - the ledger needs the calorie contribution only
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:35: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertTrue failed
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' failed (0.011 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' started.
+ISSUE193-BYTES fixture=multiple meals meal_logs narrow=337 baseline=561 meal_items narrow=276 baseline=1763
+ISSUE193-BYTES fixture=named-menu snapshot meal_logs narrow=85 baseline=141 meal_items narrow=111 baseline=863
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' passed (0.014 seconds).
+	 Executed 6 tests, with 8 failures (0 unexpected) in 1.365 (1.368) seconds
+	 Executed 6 tests, with 8 failures (0 unexpected) in 1.365 (1.369) seconds
+	 Executed 6 tests, with 8 failures (0 unexpected) in 1.365 (1.370) seconds
+Failing tests:
+** TEST FAILED **
+MUTATION_m2-dropped-calorie-column_RAW_EXIT=65
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' failed (1.208 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' failed (0.050 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' failed (0.011 seconds).
+	 Executed 6 tests, with 8 failures (0 unexpected) in 1.365 (1.370) seconds
+
+## Restore checks
+/tmp/morsel-193-mut-orig.swift: OK
+/tmp/morsel-193-mut-orig.swift: OK
+BATTERY_EXIT=0

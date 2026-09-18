@@ -1,0 +1,44 @@
+# Issue #195 head: measurement probe + durable reuse suite (fixed sources).
+# command: HERDR_XCODEBUILD_DIRECT=1 flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj
+#          -scheme Morsel -destination 'platform=iOS Simulator,id=<lane>' -derivedDataPath /tmp/morsel-195-dd
+#          -only-testing:MorselTests/RenderDerivedProbeTests -only-testing:MorselTests/RenderDerivedReuseTests
+RAW_EXIT=0
+
+Test Suite 'Selected tests' started at 2569-09-18 9:46:13.681 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 9:46:13.682 AM.
+Test Suite 'RenderDerivedProbeTests' started at 2569-09-18 9:46:13.683 AM.
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' started.
+ISSUE195-MEASURE fixture=small meals=6 items=12 math_totals_us=7.572 view_totals_us=0.541 meal_groups_us=0.288 review_items_us=0.291 gutter_date_us=1.664
+ISSUE195-MEASURE fixture=dense meals=40 items=480 math_totals_us=188.739 view_totals_us=0.625 meal_groups_us=0.293 review_items_us=0.292 gutter_date_us=1.495
+Test Case '-[MorselTests.RenderDerivedProbeTests testDerivedWorkCostsSmallAndDense]' passed (0.420 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' started.
+ISSUE195-MEASURE history days=30 chart_days_us=10.311 average_us=24.046 days_over_us=24.910 days_logged_us=22.667 streak_us=30.563
+Test Case '-[MorselTests.RenderDerivedProbeTests testHistoryDerivedWorkCosts]' passed (0.232 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' started.
+ISSUE195-MEASURE model_workload cycles=200 day_reads=201 accesses=1800 total_us=144653.667 per_cycle_us=723.268
+Test Case '-[MorselTests.RenderDerivedProbeTests testModelWorkloadDenseUnchangedUpdates]' passed (0.147 seconds).
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' started.
+ISSUE195-MEASURE mounted_today fixture=small cycles=40 day_reads=41 body_evals=82 total_us=4894944.333 per_cycle_us=122373.608
+Test Case '-[MorselTests.RenderDerivedProbeTests testMountedTodayRepeatedUnchangedUpdates]' passed (5.684 seconds).
+Test Suite 'RenderDerivedProbeTests' passed at 2569-09-18 9:46:20.169 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 6.483 (6.486) seconds
+Test Suite 'RenderDerivedReuseTests' started at 2569-09-18 9:46:20.169 AM.
+Test Case '-[MorselTests.RenderDerivedReuseTests testDaySelectionClearsAndReloadsTheDerivedValues]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testDaySelectionClearsAndReloadsTheDerivedValues]' passed (0.006 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones]' passed (0.009 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testHistoryWindowFollowsRangeAndZone]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testHistoryWindowFollowsRangeAndZone]' passed (0.007 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce]' passed (0.002 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testMountedTodayReusesTheDerivedScan]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testMountedTodayReusesTheDerivedScan]' passed (0.930 seconds).
+Test Case '-[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan]' started.
+Test Case '-[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan]' passed (0.023 seconds).
+Test Suite 'RenderDerivedReuseTests' passed at 2569-09-18 9:46:21.149 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.977 (0.980) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 9:46:21.150 AM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 7.460 (7.468) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 9:46:21.151 AM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 7.460 (7.469) seconds
+RAW_EXIT=0

@@ -1,0 +1,26 @@
+# Issue #195 — bounded Time Profiler attempt (AC1 wording: 'SwiftUI/Time Profiler baseline').
+# driver: tools/xctrace-attempt.sh (starts the probe run, waits for the simulator test host,
+#         then attaches xctrace; two attempts, the second with retries).
+# command: xcrun xctrace record --attach <test-host pid> --template 'Time Profiler' --time-limit 15s --output /tmp/m195-baseline.trace
+
+## attempt 1 (.lane-logs/195-xctrace.log)
+host pid: 60269
+Cannot find process for provided pid: 60269
+XCTRACE_RECORD_EXIT=21
+XCTRACE_EXPORT_EXIT=0
+PROBE_RAW_EXIT=0
+XCTRACE_SCRIPT_EXIT=0
+
+## attempt 2 (.lane-logs/195-xctrace2.log)
+host pid: 16980
+Cannot find process for provided pid: 16980
+attempt 1 XCTRACE_RECORD_EXIT=21
+attempt 2: host pid exited before attach
+XCTRACE_EXPORT_EXIT=0
+PROBE_RAW_EXIT=0
+XCTRACE_SCRIPT_EXIT=0
+
+# Outcome: xctrace could not attach to the simulator test host (exit 21, 'Cannot find process
+# for provided pid'); no trace was produced, so this lane reports work counts and per-call costs
+# only and makes NO frame-rate claim.
+RAW_EXIT=21

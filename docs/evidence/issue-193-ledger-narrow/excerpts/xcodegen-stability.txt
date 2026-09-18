@@ -1,0 +1,9 @@
+# Issue #193 XcodeGen stability gate
+
+# cd app && xcodegen generate (xcodegen Version: 2.45.4)
+⚙️  Generating plists...
+⚙️  Generating project...
+⚙️  Writing project...
+Created project at /Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Morsel.xcodeproj
+xcodegen_exit=0
+pbxproj_diff_exit=0

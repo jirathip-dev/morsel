@@ -1,0 +1,16 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=3B215DFD-EA49-4EE9-A861-9A4A241B8A93' -derivedDataPath /tmp/morsel-303-dd -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/DayReadCompositionTests
+# RAW_EXIT=65
+
+    export BUILD_STYLE\=
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' passed (0.088 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/DayReadCompositionTests.swift:103: error: -[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow] : XCTAssertFalse failed - a cached copy with its refresh still in flight must not announce a failure
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' failed (0.641 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' passed (0.016 seconds).
+	 Executed 3 tests, with 1 failure (0 unexpected) in 0.745 (0.746) seconds
+	 Executed 3 tests, with 1 failure (0 unexpected) in 0.745 (0.747) seconds
+	 Executed 3 tests, with 1 failure (0 unexpected) in 0.745 (0.747) seconds
+RAW_EXIT=65

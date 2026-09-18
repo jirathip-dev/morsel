@@ -1,0 +1,23 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-dd -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO -resultBundlePath /tmp/morsel-310-evidence.xcresult -only-testing:MorselTests/RestoringShellEvidenceTests
+# RAW_EXIT=0
+
+Test Case '-[MorselTests.RestoringShellEvidenceTests testColdLaunchCasesRenderInPaperAndNight]' started.
+RESTORING_SHELL_CAPTURE_READY 310-paper-stored-session-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-stored-session-settled
+RESTORING_SHELL_CAPTURE_READY 310-paper-fresh-install-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-fresh-install-settled
+RESTORING_SHELL_CAPTURE_READY 310-paper-expired-refresh-restoring
+RESTORING_SHELL_CAPTURE_READY 310-paper-expired-refresh-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-stored-session-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-stored-session-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-fresh-install-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-fresh-install-settled
+RESTORING_SHELL_CAPTURE_READY 310-night-expired-refresh-restoring
+RESTORING_SHELL_CAPTURE_READY 310-night-expired-refresh-settled
+Test Case '-[MorselTests.RestoringShellEvidenceTests testColdLaunchCasesRenderInPaperAndNight]' passed (16.713 seconds).
+	 Executed 1 test, with 0 failures (0 unexpected) in 16.713 (16.714) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 16.713 (16.715) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 16.713 (16.716) seconds
+** TEST SUCCEEDED **
+RAW_EXIT=0

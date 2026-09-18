@@ -1,0 +1,25 @@
+# commands (worktree root, after the lane's commits)
+#   swiftlint lint --strict
+#   cd app && xcodegen generate ; cd .. ; git diff --exit-code -- app/Morsel.xcodeproj
+#   git diff --check f1d657b..HEAD
+#   npm run lint ; npm run typecheck
+# RAW_EXIT=0 (all of them)
+#
+# swiftlint lint --strict
+SWIFTLINT_STRICT_RAW_EXIT=0
+# (no findings: the lane's new files respect file_length 400 / line_length 120 /
+#  type_body_length / identifier_name / large_tuple / function_body_length)
+
+# cd app && xcodegen generate ; git diff --exit-code -- app/Morsel.xcodeproj
+XCODEGEN_RAW_EXIT=0
+XCODEGEN_DIFF_RAW_EXIT=0
+
+# git diff --check f1d657b..HEAD   (also 5197ec6^..HEAD)
+DIFF_CHECK_RAW_EXIT=0
+
+# npm run lint ; npm run typecheck
+LINT_RAW_EXIT=0
+TYPECHECK_RAW_EXIT=0
+
+# Evidence hygiene: the committed excerpts are byte-rstripped and the capture
+# PNGs carried no trailing-whitespace/EOF damage (see DIFF_CHECK_RAW_EXIT).
