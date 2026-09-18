@@ -88,6 +88,62 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
         }
     }
 
+    /// Issue #303 — rendered evidence for the cached-notice gate: a healthy
+    /// load that went through the cached pre-paint shows NO notice in Paper and
+    /// Night; a failed refresh still shows the announced cached day (last
+    /// successful load time + Try again). Same composition and fixtures as the
+    /// #258 states, and the captured state is asserted, so a wrong-state image
+    /// fails the test instead of shipping.
+    func testHealthyLoadAndFailedRefreshNoticeStatesInPaperAndNight() async throws {
+        MorselFontCatalog.register()
+        let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
+        let window = UIWindow(windowScene: scene)
+        window.frame = scene.coordinateSpace.bounds
+        defer {
+            window.isHidden = true
+            window.rootViewController = nil
+        }
+        for (theme, scheme) in [("paper", ColorScheme.light), ("night", ColorScheme.dark)] {
+            for state in ["normal", "failed"] {
+                StubTransport.reset()
+                let fixture = try await fixture(state == "normal" ? "normal" : "stale")
+                let page = AnyView(VStack(spacing: 0) {
+                    TodayView(viewModel: fixture.viewModel, showSettings: {}, addMeal: {})
+                    JournalTabBar(pager: JournalPagerModel())
+                }
+                .environmentObject(fixture.fuel)
+                .environment(\.trainingFuelHosted, true))
+                window.overrideUserInterfaceStyle = scheme == .dark ? .dark : .light
+                window.rootViewController = UIHostingController(rootView: page.preferredColorScheme(scheme))
+                window.makeKeyAndVisible()
+                try await Task.sleep(for: .milliseconds(400))
+                window.layoutIfNeeded()
+                let name = "303-\(theme)-\(state)"
+                let image = UIGraphicsImageRenderer(bounds: window.bounds).image { _ in
+                    window.drawHierarchy(in: window.bounds, afterScreenUpdates: true)
+                }
+                let attachment = XCTAttachment(image: image)
+                attachment.name = name
+                attachment.lifetime = .keepAlways
+                add(attachment)
+                print("DAYREAD_CAPTURE_READY \(name)")
+                switch state {
+                case "normal":
+                    XCTAssertFalse(fixture.viewModel.isShowingCachedDay, "a healthy load shows no cached notice")
+                    XCTAssertFalse(fixture.viewModel.isRefreshingCachedDay)
+                    XCTAssertEqual(fixture.viewModel.snapshot?.readProvenance?.isCached, false)
+                    XCTAssertEqual(fixture.viewModel.incompleteMealCount, 0)
+                default:
+                    XCTAssertTrue(fixture.viewModel.isShowingCachedDay, "the failed refresh announces the cached day")
+                    XCTAssertEqual(fixture.viewModel.snapshot?.readProvenance?.outcome, .failed)
+                    XCTAssertEqual(fixture.viewModel.lastLoadedAt, referenceInstant)
+                    XCTAssertEqual(fixture.viewModel.incompleteMealCount, 0)
+                }
+                XCTAssertEqual(fixture.viewModel.snapshot?.meals.count, 2)
+            }
+        }
+    }
+
     // MARK: - Fixtures
 
     private func fixture(_ state: String) async throws -> (viewModel: DashboardViewModel, fuel: TrainingFuelModel) {
@@ -107,6 +163,14 @@ final class DayReadDegradeEvidenceTests: XCTestCase {
         let fuel = TrainingFuelModel(now: { self.referenceInstant })
         if let snapshot = viewModel.snapshot {
             fuel.synchronize(snapshot)
+        }
+        if state == "normal" {
+            // Issue #303 — a healthy re-open over the same cache: the cached
+            // pre-paint is followed by a successful refresh, so the settled
+            // page must show NO notice.
+            let restarted = DashboardViewModel(repository: repository, userID: account, dateProvider: { now })
+            await restarted.load()
+            return (restarted, fuel)
         }
         if state == "stale" {
             // The refresh now fails outright (the day read itself): the day on
