@@ -120,36 +120,58 @@ extension SupabaseDashboardRepository {
     // MARK: Narrow ledger read (issue #193)
 
     /// The History overview's meal read: identity and eaten_at only, on the
-    /// same endpoint, filter and index as the rich `loadMealLogs`.
+    /// same endpoint, filter and index as the rich `loadMealLogs`. Issue #194
+    /// — read to completion in bounded pages over the `eaten_at,id` order.
     private func loadLedgerMealLogs(
         _ client: SupabaseClient, userID: UUID, start: Date, end: Date
     ) async throws -> [LedgerMealLogResponse] {
-        try await client
-            .from("meal_logs")
-            .select(ledgerMealLogColumns)
-            .eq("user_id", value: userID.uuidString)
-            .gte("eaten_at", value: MorselDate.iso8601(start))
-            .lt("eaten_at", value: MorselDate.iso8601(end))
-            .order("eaten_at", ascending: true)
-            .execute()
-            .value
+        try await pagedRows(
+            identity: { $0.id },
+            fetch: { offset, limit in
+                try await client
+                    .from("meal_logs")
+                    .select(ledgerMealLogColumns)
+                    .eq("user_id", value: userID.uuidString)
+                    .gte("eaten_at", value: MorselDate.iso8601(start))
+                    .lt("eaten_at", value: MorselDate.iso8601(end))
+                    .order("eaten_at", ascending: true).order("id", ascending: true)
+                    .range(from: offset, to: offset + limit - 1)
+                    .boundedPage()
+            }
+        )
     }
 
     /// The History overview's item read: one calorie contribution per row
     /// (null stays null), in the same created_at order the baseline summed,
-    /// so the per-meal totals are bit-for-bit the baseline's.
+    /// so the per-meal totals are bit-for-bit the baseline's. Issue #194 — the
+    /// meal ids go out in bounded chunks and each chunk pages to completion on
+    /// `created_at,id`; both keys are immutable, so no row can migrate across
+    /// a page boundary and the #193 narrow projection needs no identity
+    /// column (see `ledgerItemIdentity`).
     private func loadLedgerMealCalories(
         _ client: SupabaseClient, logs: [LedgerMealLogResponse]
     ) async throws -> [LedgerMealItemResponse] {
-        guard !logs.isEmpty else {
-            return []
-        }
-        return try await client
-            .from("meal_items")
-            .select(ledgerMealItemColumns)
-            .in("meal_log_id", values: logs.map(\.id))
-            .order("created_at", ascending: true)
-            .execute()
-            .value
+        try await chunkedRows(
+            ids: logs.map(\.id),
+            identity: ledgerItemIdentity,
+            fetch: { ids, offset, limit in
+                try await client
+                    .from("meal_items")
+                    .select(ledgerMealItemColumns)
+                    .in("meal_log_id", values: ids)
+                    .order("created_at", ascending: true).order("id", ascending: true)
+                    .range(from: offset, to: offset + limit - 1)
+                    .boundedPage()
+            }
+        )
     }
+}
+
+/// The narrow ledger item projection carries no primary key (#193 keeps it to
+/// `meal_log_id,calories_kcal`), and its ordering keys are immutable, so a row
+/// cannot move across a page boundary: there is nothing to dedupe by and
+/// nothing that could arrive twice. Distinct rows that share a calorie value
+/// must both count, so no value-based identity is invented here.
+private func ledgerItemIdentity(_ row: LedgerMealItemResponse) -> String? {
+    nil
 }

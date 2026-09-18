@@ -97,38 +97,25 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
+    /// Issue #194 — meal logs, paged over the `eaten_at,id` total order; the
+    /// paged body lives in `BoundedReadPaging.swift` (this file is at the
+    /// 400-line lint cap).
     func loadMealLogs(
         _ client: SupabaseClient,
         userID: UUID,
         start: Date,
         end: Date
     ) async throws -> [MealLogResponse] {
-        try await client
-            .from("meal_logs")
-            .select("id,eaten_at,meal_type,source,image_path")
-            .eq("user_id", value: userID.uuidString)
-            .gte("eaten_at", value: MorselDate.iso8601(start))
-            .lt("eaten_at", value: MorselDate.iso8601(end))
-            .order("eaten_at", ascending: true)
-            .execute()
-            .value
+        try await pagedMealLogs(client, userID: userID, start: start, end: end)
     }
 
+    /// Issue #194 — the day's items: bounded id chunks, each paged on
+    /// `created_at,id`; the paged body lives in `BoundedReadPaging.swift`.
     func loadMealItems(
         _ client: SupabaseClient,
         logs: [MealLogResponse]
     ) async throws -> [MealItemResponse] {
-        guard !logs.isEmpty else {
-            return []
-        }
-        let mealIDs = logs.map(\.id)
-        return try await client
-            .from("meal_items")
-            .select(mealItemColumns)
-            .in("meal_log_id", values: mealIDs)
-            .order("created_at", ascending: true)
-            .execute()
-            .value
+        try await pagedMealItems(client, logs: logs)
     }
 
     func loadGoals(_ client: SupabaseClient, userID: UUID) async throws -> [GoalResponse] {
@@ -151,16 +138,12 @@ struct SupabaseDashboardRepository: DashboardRepository {
             .value
     }
 
+    /// Issue #194 — weight samples, paged on `measured_at,kg`; the paged body
+    /// lives in `BoundedReadPaging.swift` with `weightSampleIdentity`.
     func loadWeightTrend(
         _ client: SupabaseClient, userID: UUID, start: Date, end: Date
     ) async throws -> [WeightResponse] {
-        try await client.from("weight_logs")
-            .select("measured_at,kg")
-            .eq("user_id", value: userID.uuidString)
-            .gte("measured_at", value: MorselDate.iso8601(start))
-            .lt("measured_at", value: MorselDate.iso8601(end))
-            .order("measured_at", ascending: true)
-            .execute().value
+        try await pagedWeightTrend(client, userID: userID, start: start, end: end)
     }
 
     func parseWeight(_ response: WeightResponse) -> WeightTrendPoint? {
@@ -245,12 +228,7 @@ struct SupabaseDashboardRepository: DashboardRepository {
         )
     }
 
-    private func validGoalWeight(_ value: Double?) -> Bool {
-        guard let value else {
-            return true
-        }
-        return value.isFinite && value > 0
-    }
+    private func validGoalWeight(_ value: Double?) -> Bool { value.map { $0.isFinite && $0 > 0 } ?? true }
 
     private func nonNegative(_ value: Double?, field: String, maximum: Double? = nil) throws -> Double? {
         guard let value else {

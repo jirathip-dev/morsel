@@ -1,0 +1,6 @@
+# Issue #194 lane worktree dependency install.
+# Full raw log: the lane checkout's .lane-logs/npm-ci.txt (gitignored).
+# Command: npm ci
+# RAW_EXIT=0
+
+RAW_EXIT=0
