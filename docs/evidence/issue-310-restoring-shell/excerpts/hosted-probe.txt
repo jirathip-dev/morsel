@@ -1,0 +1,32 @@
+# commands
+npx eslint app/unauth-action-tint.test.ts ; npx vitest run app/unauth-action-tint.test.ts
+npm test
+npx vitest run --testTimeout=60000 server/http.test.ts server/tool-classification.test.ts
+# RAW_EXIT=0 (probe) / 1 (full suite, timeout class only) / 0 (diagnostic)
+
+ESLINT_FOCUSED_RAW_EXIT=0
+ ✓ app/unauth-action-tint.test.ts (7 tests) 5ms
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+VITEST_PROBE_RAW_EXIT=0
+
+# npm test (full suite)
+
+15:14  up 1 day, 23:28, 3 users, load averages: 4.47 4.92 7.90
+     → Test timed out in 5000ms.
+     → Test timed out in 5000ms.
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  server/http.test.ts > MCP HTTP server > registers all tools and routes log_meal through the repository without Supabase
+Error: Test timed out in 5000ms.
+ FAIL  server/tool-classification.test.ts > annotation classification vs real behavior > read-only annotated tools never write: every read-only call leaves the full user state untouched
+Error: Test timed out in 5000ms.
+ Test Files  2 failed | 61 passed (63)
+      Tests  2 failed | 699 passed (701)
+NPM_TEST_RAW_EXIT=1
+15:15  up 1 day, 23:29, 3 users, load averages: 6.39 5.77 8.02
+
+# diagnostic rerun of the two timed-out files (60s budget; NOT gate evidence)
+
+ Test Files  2 passed (2)
+      Tests  10 passed (10)
+VITEST_DIAGNOSTIC_RAW_EXIT=0

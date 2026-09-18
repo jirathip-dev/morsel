@@ -1,0 +1,8 @@
+# command
+cd /tmp/morsel-310-base && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-base-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/RestoringShellRoutingTests   # base f1d657b + ALL new test files
+# RAW_EXIT=65
+
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellEvidenceTests.swift:199:41: error: 'Phase' is not a member type of class 'Morsel.SessionStore'
+/tmp/morsel-310-base/app/Tests/MorselTests/RestoringShellEvidenceTests.swift:212:31: error: 'Phase' is not a member type of class 'Morsel.SessionStore'
+** TEST FAILED **
+RAW_EXIT=65

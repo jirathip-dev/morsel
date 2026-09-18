@@ -28,6 +28,7 @@
 		07172B3271E4208E22736457 /* JournalCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2FE8C66978887A6E89CD26 /* JournalCalendarTests.swift */; };
 		07B444C7E3A96A369CB8A4E4 /* DayReadCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */; };
 		086B3A61512495E2A1B16DBD /* MealThumbnailKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46118488FDFBDD113CB9E7DA /* MealThumbnailKey.swift */; };
+		0873F75ABDFF67046F219F8C /* RestoringShellRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */; };
 		08A89AB285664F8B4F378190 /* TodayFirstPaintOverlayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B3248DD14131FEA972258E /* TodayFirstPaintOverlayTests.swift */; };
 		0A3FE48881FB11BE338345A4 /* a-paper-unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210E5558B4B804F5EBEE03D /* a-paper-unknown.png */; };
 		0AA0E3BE156E3997A9178740 /* tomato-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 12FA2AFF34646EF99D7AE005 /* tomato-night-64.png */; };
@@ -103,6 +104,7 @@
 		34945FF67A68C7A64C6210BA /* orange-juice-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DB9CF1039021DCACEB093F /* orange-juice-paper-64.png */; };
 		35323DDF0A1D0EAA87FDAD9B /* cookie-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF86948BA18AFCB8F3B798B /* cookie-paper-64.png */; };
 		35BE9784E8DF2A5133E48474 /* shabu-slices-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DEC1E6437810ED5E003DFCE /* shabu-slices-night-64.png */; };
+		366410BC842F36AB46DA4430 /* RestoringShellPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */; };
 		370DDFE210F365641DDC4D17 /* braised-pork-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C48A76F7F4F3B52EA319CC59 /* braised-pork-paper-64.png */; };
 		37161EEB054B0EC5322B63C6 /* MealCorrections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E934A83609248C24192AB339 /* MealCorrections.swift */; };
 		37BB0BB4F99951C97172B805 /* french-fries-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 74D86B2099A3A3D68D848533 /* french-fries-night-64.png */; };
@@ -154,13 +156,13 @@
 		4DFB3096C6C434BF3B043216 /* GoalsPolishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B480DB8B97754277CA3369 /* GoalsPolishTests.swift */; };
 		4EFA9D1EC8DAD51CEEE60B88 /* satay-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CE9D56707288C912CD9386 /* satay-paper-64.png */; };
 		4F2C0C0BB247B2C47806C6A0 /* MealThumbnailPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2CE97ABBBE7B4DACC5AE5A /* MealThumbnailPreparer.swift */; };
+		4FD6764C6423260A229FA275 /* RestoringShellRoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */; };
 		50C321E91AD6F4F41319D35A /* chocolate-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3213AA2F06DE6E9D109A7132 /* chocolate-night-64.png */; };
 		50F844A70E76E4D837043E44 /* fallback-neutral-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A8F682FF6A89CA4258F6202B /* fallback-neutral-paper-64.png */; };
 		520621D573B3BA74B3C258E1 /* TrainingDayEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8E12C50F979B71F909550 /* TrainingDayEvidenceTests.swift */; };
 		53C10044A1E1064987EC4C0E /* pancake-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = EB3F1A996B775E2CDCA58F5A /* pancake-night-64.png */; };
 		53C32E4048A7B343A4CDB450 /* wrap-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AC5D16F823445F705B11AFD /* wrap-night-64.png */; };
 		564B130073F003615823DE4F /* iced-coffee-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 6150529785583E6D83E6711E /* iced-coffee-paper-64.png */; };
-		56D46D5724AB9388A6D7224E /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = D700099783827165893FCB27 /* coffee-photo.png */; };
 		56DE4D2CA160936251216C1E /* chicken-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 054BF93A800C64E8EB43D60A /* chicken-rice-night-64.png */; };
 		584ECCF5EF0963E29C8B50DF /* curry-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E82F01A4D013D80145EC5F02 /* curry-paper-64.png */; };
 		5867D1417B9084986FA45CA4 /* beer-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 35F3FF1789D2F4308411A844 /* beer-paper-64.png */; };
@@ -297,6 +299,7 @@
 		9885331F4DDFCE5B5D4D93BC /* gravy-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 8133FB839EB9862765091F51 /* gravy-night-64.png */; };
 		9895D4D3513389971947736C /* focaccia-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 04998C00C639CD4F3F7FE1E1 /* focaccia-night-64.png */; };
 		98C6A9E7A2DB6F0C4B3D6CB2 /* fried-chicken-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F27EE044AB58E28E3E0D068 /* fried-chicken-night-64.png */; };
+		990C58F0BE9447E9313FC47D /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = C47BD117AD934E5873BF04AF /* coffee-photo.png */; };
 		996615A871473C9501DAB382 /* MealThumbnailIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3569EB0E0F0074916597AD /* MealThumbnailIntegrationTests.swift */; };
 		99923848E2256FBFEC54AA7A /* TodayRefreshRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E4B9236E3E5E9B2316F85C /* TodayRefreshRegressionTests.swift */; };
 		99BDF69AD05758C535E26685 /* FoodArtworkFallbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C80CA1DB8CA7D85EA72B11 /* FoodArtworkFallbackTests.swift */; };
@@ -317,6 +320,7 @@
 		A0B322BC362350B67285EFE8 /* purple-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7562F85896A8ED284939ED0F /* purple-rice-night-64.png */; };
 		A0FF22BB598957982FCCC7B6 /* toast-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C0F1AF1ABCCE4B3F31178D76 /* toast-night-64.png */; };
 		A2A79C4866A57FD486FB3A37 /* khanom-jeen-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F57E6AEE01D7BC015BB702 /* khanom-jeen-night-64.png */; };
+		A4529EE5653E05846ABB2FC4 /* RestoringShellSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */; };
 		A4C2B49326C650BCA227C591 /* HealthDeltaTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF4CC98910EC9DF92DDDD5C /* HealthDeltaTestSupport.swift */; };
 		A585BD73DFFBC9B2D24BFCA9 /* grilled-beef-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A6281EED323305F2C57B8 /* grilled-beef-paper-64.png */; };
 		A5A5A15023FAFBC5CEB62399 /* AddMealPhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */; };
@@ -396,6 +400,7 @@
 		CE0F6E8680E2039517EA1421 /* fried-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B61182ACD53EB280579846 /* fried-rice-night-64.png */; };
 		CE13203FC3B35CC07E4028AF /* egg-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1529864179391D77892C9695 /* egg-night-64.png */; };
 		CE16E9D1A6B3A387E5673CF3 /* cookie-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E764910603E3674307B9948E /* cookie-night-64.png */; };
+		CE82AD97A5139C1EA23198A0 /* RestoringShellEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */; };
 		CFAFC18B593711A0365DB47C /* cake-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 683E8D0263F5936B413AF1A7 /* cake-paper-64.png */; };
 		CFB6A3D4AB37D0793BB42F3A /* MealThumbnailPreparationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D114C563B4AF938F7DEB7A /* MealThumbnailPreparationTests.swift */; };
 		D142119609CBC4B43FFE9432 /* peanuts-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 2021CC1B9B4CEA90C74DD0AC /* peanuts-night-64.png */; };
@@ -417,6 +422,7 @@
 		DDD1B3A9EE1C4B2F54D5C0AA /* donut-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C88407BB572902B107DA4CD5 /* donut-night-64.png */; };
 		DE47F7E03DBD748AB4FE2B79 /* a-night-focaccia.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC1E6CF7DEBFDA558572115 /* a-night-focaccia.png */; };
 		DE54A311622C37A881FD37E7 /* cooking-oil-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 69002A73481DE4564F500A2B /* cooking-oil-paper-64.png */; };
+		DED5450F2376AE517513AB8C /* RestoringShellTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */; };
 		DF32FFD0C77114792C712BD1 /* hot-pot-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 794D3B24A25CB3A1723F650B /* hot-pot-paper-64.png */; };
 		DF925CD1DFC9941C9AEB427C /* jasmine-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BC43B64D0F6F75128497DA /* jasmine-rice-night-64.png */; };
 		DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300178E9A1C65132F9460803 /* MorselApp.swift */; };
@@ -536,6 +542,7 @@
 		062D5DDE6D872015E20D470E /* corn-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corn-paper-64.png"; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		07707EDC7EC2534BC388BC4D /* GoalsRestoreTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRestoreTransport.swift; sourceTree = "<group>"; };
+		079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellTestSupport.swift; sourceTree = "<group>"; };
 		07D5886C5CA7CBA1812CC72B /* HistoryCacheScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCacheScopeTests.swift; sourceTree = "<group>"; };
 		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
 		0919CF260EC13E0B8F8964F9 /* MealThumbnailReuseEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailReuseEvidenceTests.swift; sourceTree = "<group>"; };
@@ -575,8 +582,10 @@
 		1A192420781A6B91DC925BFC /* ResponsivenessHealthProbes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsivenessHealthProbes.swift; sourceTree = "<group>"; };
 		1AC1E6CF7DEBFDA558572115 /* a-night-focaccia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-night-focaccia.png"; sourceTree = "<group>"; };
 		1BEC84904306790FCC724B03 /* HistoryLedgerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryLedgerViews.swift; sourceTree = "<group>"; };
+		1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellRenderTests.swift; sourceTree = "<group>"; };
 		1D21896711A44BE300141DE6 /* fallback-produce-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-produce-night-64.png"; sourceTree = "<group>"; };
 		1D39BF1E84BF2CBC07A46AD4 /* dragon-fruit-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragon-fruit-paper-64.png"; sourceTree = "<group>"; };
+		1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellRoutingTests.swift; sourceTree = "<group>"; };
 		1E327C1F23B1ABD604D1DDF2 /* ice-cream-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-night-64.png"; sourceTree = "<group>"; };
 		1E40FE4C31061078594347CD /* grilled-pork-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-pork-paper-64.png"; sourceTree = "<group>"; };
 		1FE733B05C704523AC24E5D2 /* pasta-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pasta-paper-64.png"; sourceTree = "<group>"; };
@@ -800,6 +809,7 @@
 		8B8EADEF45FFD027FD56B3B5 /* SharedButtonTargetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedButtonTargetTests.swift; sourceTree = "<group>"; };
 		8B945E15B916830A85CE5BA3 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		8BF86948BA18AFCB8F3B798B /* cookie-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cookie-paper-64.png"; sourceTree = "<group>"; };
+		8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellPhaseTests.swift; sourceTree = "<group>"; };
 		8C8DE3063690A2364CFEE975 /* purple-rice-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple-rice-paper-64.png"; sourceTree = "<group>"; };
 		8DA60553CC8D783AC1B6B5D6 /* PaperFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperFields.swift; sourceTree = "<group>"; };
 		8E7E3F4CF3D488346B6CC436 /* steamed-bun-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "steamed-bun-paper-64.png"; sourceTree = "<group>"; };
@@ -906,6 +916,7 @@
 		C3488716663DE743AD4C591D /* kimchi-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "kimchi-paper-64.png"; sourceTree = "<group>"; };
 		C35B95C239ECAB2AB3FE1C81 /* RenderDerivedProbeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderDerivedProbeTests.swift; sourceTree = "<group>"; };
 		C40F0A63087EBF082CDEA835 /* MealCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCaptureView.swift; sourceTree = "<group>"; };
+		C47BD117AD934E5873BF04AF /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		C48A76F7F4F3B52EA319CC59 /* braised-pork-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "braised-pork-paper-64.png"; sourceTree = "<group>"; };
 		C5271F43E497D2671B13F580 /* ResponsivenessShellProbes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponsivenessShellProbes.swift; sourceTree = "<group>"; };
 		C591525368CD6908A9FE189E /* JournalPaperTexture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalPaperTexture.swift; sourceTree = "<group>"; };
@@ -935,9 +946,9 @@
 		D60B3FB49959B57B16985C72 /* LocalHealthStore+Delta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalHealthStore+Delta.swift"; sourceTree = "<group>"; };
 		D691F54878E87B7E048871A2 /* GoalsEditorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsEditorTests.swift; sourceTree = "<group>"; };
 		D6D797778BA1664F9C8F97F4 /* fallback-grains-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-grains-night-64.png"; sourceTree = "<group>"; };
-		D700099783827165893FCB27 /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		D71C79A394BD3AF107F8638B /* milk-tea-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milk-tea-paper-64.png"; sourceTree = "<group>"; };
 		D731897702EDD24050F51582 /* GoalsRestoreRenderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRestoreRenderingTests.swift; sourceTree = "<group>"; };
+		D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellSkeleton.swift; sourceTree = "<group>"; };
 		D791C45979DCFA0FA73BBF1D /* guava-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guava-night-64.png"; sourceTree = "<group>"; };
 		D7B369E3DF6CC682019AE172 /* GoalsPageCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsPageCopy.swift; sourceTree = "<group>"; };
 		D7BBAA0806AC4D9DD264DC89 /* soy-milk-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "soy-milk-night-64.png"; sourceTree = "<group>"; };
@@ -1007,6 +1018,7 @@
 		F5C1508E0A84C6910048A9A9 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		F683556CF837C4BF2E53E667 /* fallback-drinks-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-drinks-night-64.png"; sourceTree = "<group>"; };
 		F72C811EF35FB93153E88842 /* stewed-duck-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stewed-duck-paper-64.png"; sourceTree = "<group>"; };
+		F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellEvidenceTests.swift; sourceTree = "<group>"; };
 		F773856F3DDFED041688FCB8 /* PhotoPreparationPublicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreparationPublicationTests.swift; sourceTree = "<group>"; };
 		F7C7FEA82741BFDC95C1AF26 /* chocolate-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chocolate-paper-64.png"; sourceTree = "<group>"; };
 		F876D199CFE0A8C2507DE5CF /* strawberry-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strawberry-night-64.png"; sourceTree = "<group>"; };
@@ -1036,21 +1048,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		176958F52085A2BA4063A4CF /* evidence */ = {
+		15B66F8E70032CBAD8537245 /* fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				57F0375C24C1BFA8C41EA9EA /* issue-241-artwork-native */,
+				C47BD117AD934E5873BF04AF /* coffee-photo.png */,
 			);
-			path = evidence;
-			sourceTree = "<group>";
-		};
-		1905ECF40E68E9B4FDFD16E1 /* issue-196-responsiveness */ = {
-			isa = PBXGroup;
-			children = (
-				5404C34908D6A321218CD676 /* docs */,
-			);
-			name = "issue-196-responsiveness";
-			path = ..;
+			path = fixtures;
 			sourceTree = "<group>";
 		};
 		1AFDA4B412B398A53D28BA2A = {
@@ -1058,7 +1061,7 @@
 			children = (
 				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				1C625302EE592BC774CC3FA7 /* Fonts */,
-				1905ECF40E68E9B4FDFD16E1 /* issue-196-responsiveness */,
+				C4BCE805844DADDB90D78CAD /* refresh-196 */,
 				441456F0892E00AAF3B9BAFD /* Resources */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
@@ -1170,6 +1173,7 @@
 				9507E44AD8780775C30E2891 /* PreviewData.swift */,
 				E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */,
 				1096DD7210666ACB8358567E /* Repository.swift */,
+				D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */,
 				212A00520565B422FCE6413D /* SessionStore.swift */,
 				603058D2235FEAF8B5DA6463 /* SettingsView.swift */,
 				DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */,
@@ -1469,28 +1473,12 @@
 			path = FoodArt;
 			sourceTree = "<group>";
 		};
-		5404C34908D6A321218CD676 /* docs */ = {
+		71B9E8E575BDA97E42EBA537 /* docs */ = {
 			isa = PBXGroup;
 			children = (
-				176958F52085A2BA4063A4CF /* evidence */,
+				A0CF6301649E5BCF7DE3D195 /* evidence */,
 			);
 			path = docs;
-			sourceTree = "<group>";
-		};
-		57F0375C24C1BFA8C41EA9EA /* issue-241-artwork-native */ = {
-			isa = PBXGroup;
-			children = (
-				7101E23FCF4C550A25C42791 /* fixtures */,
-			);
-			path = "issue-241-artwork-native";
-			sourceTree = "<group>";
-		};
-		7101E23FCF4C550A25C42791 /* fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				D700099783827165893FCB27 /* coffee-photo.png */,
-			);
-			path = fixtures;
 			sourceTree = "<group>";
 		};
 		72FA8734899AB1DF14045A55 /* Tests */ = {
@@ -1508,6 +1496,14 @@
 				7A85C2813FC9527332F6200F /* MorselTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A0CF6301649E5BCF7DE3D195 /* evidence */ = {
+			isa = PBXGroup;
+			children = (
+				DEF95CA1DDC2D60C61383AC3 /* issue-241-artwork-native */,
+			);
+			path = evidence;
 			sourceTree = "<group>";
 		};
 		BB77CBB642C5C90A5C95394E /* MorselTests */ = {
@@ -1607,6 +1603,11 @@
 				449A5166870F129F17907172 /* ResponsivenessShellCycleTests.swift */,
 				C5271F43E497D2671B13F580 /* ResponsivenessShellProbes.swift */,
 				FE7B75362FE18460736343ED /* ResponsivenessTestSupport.swift */,
+				F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */,
+				8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */,
+				1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */,
+				1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */,
+				079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */,
 				53A618389867CB2745D36C98 /* RowArtworkRendererTests.swift */,
 				39CDB4B3EC371D5158AEB736 /* RowNoiseRegressionTests.swift */,
 				8B8EADEF45FFD027FD56B3B5 /* SharedButtonTargetTests.swift */,
@@ -1640,6 +1641,15 @@
 			path = MorselTests;
 			sourceTree = "<group>";
 		};
+		C4BCE805844DADDB90D78CAD /* refresh-196 */ = {
+			isa = PBXGroup;
+			children = (
+				71B9E8E575BDA97E42EBA537 /* docs */,
+			);
+			name = "refresh-196";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		CBAD6484E6C141A6B0F32E72 /* JournalArt */ = {
 			isa = PBXGroup;
 			children = (
@@ -1655,6 +1665,14 @@
 				D417EF818CCA426C7F37AFFC /* a-paper-vegetables.png */,
 			);
 			path = JournalArt;
+			sourceTree = "<group>";
+		};
+		DEF95CA1DDC2D60C61383AC3 /* issue-241-artwork-native */ = {
+			isa = PBXGroup;
+			children = (
+				15B66F8E70032CBAD8537245 /* fixtures */,
+			);
+			path = "issue-241-artwork-native";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1739,7 +1757,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56D46D5724AB9388A6D7224E /* coffee-photo.png in Resources */,
+				990C58F0BE9447E9313FC47D /* coffee-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2136,6 +2154,7 @@
 				EFADB9757DE22C7C88F697FB /* PreviewData.swift in Sources */,
 				643B174E5FB6DBFF4158DC42 /* ReliabilityServices.swift in Sources */,
 				0587A79CF555FEB145A5F89E /* Repository.swift in Sources */,
+				A4529EE5653E05846ABB2FC4 /* RestoringShellSkeleton.swift in Sources */,
 				F33D5341291D488663F545DC /* SessionStore.swift in Sources */,
 				71A41B9518BD81078A6E61DB /* SettingsView.swift in Sources */,
 				C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */,
@@ -2255,6 +2274,11 @@
 				5DCDEE7DA8185492CFFAA10D /* ResponsivenessShellCycleTests.swift in Sources */,
 				91E9850006263C4D56954643 /* ResponsivenessShellProbes.swift in Sources */,
 				8E6F2EE5D6214C950E947060 /* ResponsivenessTestSupport.swift in Sources */,
+				CE82AD97A5139C1EA23198A0 /* RestoringShellEvidenceTests.swift in Sources */,
+				366410BC842F36AB46DA4430 /* RestoringShellPhaseTests.swift in Sources */,
+				0873F75ABDFF67046F219F8C /* RestoringShellRenderTests.swift in Sources */,
+				4FD6764C6423260A229FA275 /* RestoringShellRoutingTests.swift in Sources */,
+				DED5450F2376AE517513AB8C /* RestoringShellTestSupport.swift in Sources */,
 				13A961F39A2C0D9148CC339B /* RowArtworkRendererTests.swift in Sources */,
 				5D8A08F54496DA6FEF572F12 /* RowNoiseRegressionTests.swift in Sources */,
 				EF45BBB96E3DB0604178A785 /* SharedButtonTargetTests.swift in Sources */,

@@ -59,7 +59,8 @@ struct MorselConfiguration {
     }
 }
 
-private struct MorselRootView: View {
+// Issue #310 — internal so the shell's restoring witnesses mount this routing.
+struct MorselRootView: View {
     @ObservedObject var sessionStore: SessionStore
     let auth: any SupabaseAuthenticating
     let supabaseClient: SupabaseClient?
@@ -68,7 +69,10 @@ private struct MorselRootView: View {
 
     var body: some View {
         Group {
-            if let session = sessionStore.session {
+            // Issue #310 — the unresolved restore phase owns the first frame.
+            if sessionStore.isRestoring {
+                RestoringShellSkeleton()
+            } else if let session = sessionStore.session {
                 AuthenticatedDashboardView(
                     supabaseClient: supabaseClient, session: session, mcpEndpoint: mcpEndpoint,
                     auth: auth, onSignOut: { Task { await sessionStore.signOut(using: auth) } }
@@ -93,9 +97,7 @@ private struct MorselRootView: View {
                 }
             }
         }
-        .task {
-            await sessionStore.restore(using: auth)
-        }
+        .task { await sessionStore.restore(using: auth) }
     }
 }
 
@@ -346,8 +348,7 @@ private struct AuthenticatedDashboardView: View {
     }
 
     private func closeAddMeal() { routeModel.closeAddMeal() }
-    @ViewBuilder
-    private var pageContent: some View {
+    @ViewBuilder private var pageContent: some View {
         if reduceMotion {
             journalPage(for: pager.selection)
                 .transition(.opacity)
@@ -364,8 +365,7 @@ private struct AuthenticatedDashboardView: View {
             journalPrimaryPage(for: pageTab, activation: activation)
         }
     }
-    @ViewBuilder
-    private func journalPrimaryPage(for tab: JournalTab, activation: Int) -> some View {
+    @ViewBuilder private func journalPrimaryPage(for tab: JournalTab, activation: Int) -> some View {
         switch tab {
         case .today:
             MorselActionTint {

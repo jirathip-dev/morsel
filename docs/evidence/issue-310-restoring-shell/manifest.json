@@ -1,0 +1,90 @@
+{
+  "kind": "simulator fixture evidence",
+  "issue": 310,
+  "title": "Cold-launch auth flash: route the restoring state to the loading skeleton",
+  "base_sha": "f1d657b276ba7b4c2ab3ebd2ba6fc42b16347fa5",
+  "base_ref": "origin/staging",
+  "head_sha": "the issue/310-restoring-shell commit that adds this directory (recorded in .report.md)",
+  "device": "Morsel310-iPhone17",
+  "udid": "04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "derived_data": "/tmp/morsel-310-dd",
+  "mount": "MorselRootView (the shipped shell root) in a scene-backed UIWindow, 390x844 pt, preferredColorScheme plus the device appearance",
+  "restore_double": "DeferredRestoreAuth — restoreSession() parks until the test releases a session / releases no session / throws, i.e. the slow and the failed token refresh",
+  "cases": [
+    {
+      "id": "stored-session",
+      "attempt": "parks, then releases a stored session",
+      "settled_surface": "dashboard (stub-transport populated day) with the tab bar",
+      "phase_sequence": [".restoring", ".signedIn"],
+      "auth_surface": "none"
+    },
+    {
+      "id": "fresh-install",
+      "attempt": "parks, then releases no session",
+      "settled_surface": "onboarding",
+      "phase_sequence": [".restoring", ".needsSetup"],
+      "auth_surface": "onboarding (expected)"
+    },
+    {
+      "id": "expired-refresh",
+      "attempt": "parks, then throws (the stored refresh token no longer works)",
+      "settled_surface": "sign-in",
+      "phase_sequence": [".restoring", ".needsSignIn"],
+      "restore_failure": ".refreshFailed",
+      "auth_surface": "sign-in (expected)",
+      "onboarding_flash": "none — the published phase sequence never contains .needsSetup"
+    }
+  ],
+  "captures": [
+    "captures/310-paper-stored-session-restoring.png",
+    "captures/310-paper-stored-session-settled.png",
+    "captures/310-paper-fresh-install-restoring.png",
+    "captures/310-paper-fresh-install-settled.png",
+    "captures/310-paper-expired-refresh-restoring.png",
+    "captures/310-paper-expired-refresh-settled.png",
+    "captures/310-night-stored-session-restoring.png",
+    "captures/310-night-stored-session-settled.png",
+    "captures/310-night-fresh-install-restoring.png",
+    "captures/310-night-fresh-install-settled.png",
+    "captures/310-night-expired-refresh-restoring.png",
+    "captures/310-night-expired-refresh-settled.png"
+  ],
+  "capture_run": {
+    "log": ".lane-logs/310-evidence-run.log",
+    "raw_exit": 0,
+    "tests": 1,
+    "failures": 0,
+    "result_bundle": "/tmp/morsel-310-evidence.xcresult",
+    "export": "xcrun xcresulttool export attachments --path /tmp/morsel-310-evidence.xcresult --output-path /tmp/morsel-310-attachments"
+  },
+  "theme_grounds_measured_pillow": {
+    "paper": [254, 248, 234],
+    "night": [41, 38, 31],
+    "tokens": { "paper": "#FFF7E8", "night": "#2A261F" },
+    "note": "the renderer emits Display P3; colour-managed sRGB reads the documented #FFF7E8 / #2A261F within one 8-bit level"
+  },
+  "gates": {
+    "focused_family_raw_exit": 0,
+    "focused_family_tests": 19,
+    "full_native_raw_exit": 65,
+    "full_native_tests": 643,
+    "full_native_failures": 5,
+    "full_native_failure_classification": "MealReliabilityTests (load-sensitive; 13/0 focused) + 3 documented pre-existing reds, all reproduced with the fix absent at the base",
+    "swiftlint_strict_raw_exit": 0,
+    "xcodegen_generate_raw_exit": 0,
+    "npm_test_raw_exit": 1,
+    "npm_test_classification": "2 x Test timed out in 5000ms, 0 AssertionError, both files 10/10 with --testTimeout=60000 (diagnostic)",
+    "lint_raw_exit": 0,
+    "typecheck_raw_exit": 0,
+    "git_diff_check_raw_exit": 0
+  },
+  "mutation_proof": {
+    "mutation": "the restoring branch removed from MorselRootView (the shell routes on the session alone)",
+    "mutated_shell_sha256": "aa3b5d30d72b55292e9d7f8c8a5639acd15fc0e41dcf3f50fa858e39a566cf52",
+    "fixed_shell_sha256": "cd900bd48e2f8b8a1855382f0610656c93debeafcac520aa70434d9eebe23924",
+    "mutation_raw_exit": 65,
+    "restore": "byte-identical (sha256 before == after)",
+    "restored_raw_exit": 0
+  }
+}
