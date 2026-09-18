@@ -1,0 +1,27 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=04F4ADE0-E1E8-4536-A16C-1D5D870C8EF4' -derivedDataPath /tmp/morsel-310-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/RestoringShellRoutingTests -only-testing:MorselTests/RestoringShellRenderTests   # fixed file restored (sha256-verified byte-identical)
+# RAW_EXIT=0
+
+FIXED_SHA256=cd900bd48e2f8b8a1855382f0610656c93debeafcac520aa70434d9eebe23924
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testDeferredRestoreRendersTheSkeletonAndNeverAnAuthSurface]' passed (3.218 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testFreshInstallReachesOnboardingAndDeferredSetupReachesSignIn]' passed (4.212 seconds).
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' started.
+Test Case '-[MorselTests.RestoringShellRenderTests testTheSkeletonIsTheRenderedSurfaceForTheWholeRestoreWindow]' passed (4.078 seconds).
+	 Executed 3 tests, with 0 failures (0 unexpected) in 11.508 (11.511) seconds
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testAuthSurfacesStayReachableOnlyAfterThePhaseResolves]' passed (0.008 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestorePathRecordsAnExplicitFailureInsteadOfASilentTry]' passed (0.008 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testRestoringSurfaceReusesThePaperSkeletonWithoutDataOrTabBar]' passed (0.004 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testShellDecidesTheRestoringPhaseBeforeAnySessionOrAuthSurface]' passed (0.001 seconds).
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' started.
+Test Case '-[MorselTests.RestoringShellRoutingTests testTheRestoringWindowIsNeverAVIewLevelTimer]' passed (0.007 seconds).
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.028 (0.111) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 11.536 (11.622) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 11.536 (11.623) seconds
+** TEST SUCCEEDED **
+RAW_EXIT=0

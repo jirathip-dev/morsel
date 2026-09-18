@@ -176,7 +176,7 @@ final class OnboardingTests: XCTestCase {
             "Expected the SessionStore declaration in SessionStore.swift"
         )
         let rootStart = try XCTUnwrap(
-            shellSource.range(of: "private struct MorselRootView"),
+            shellSource.range(of: "struct MorselRootView"),
             "Expected MorselRootView in MorselApp.swift"
         )
         let initialCallStart = try XCTUnwrap(
