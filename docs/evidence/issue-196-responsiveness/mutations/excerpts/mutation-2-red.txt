@@ -1,0 +1,263 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessShellCycleTests -derivedDataPath /tmp/morsel-196-dd
+ISSUE196-MEASURE tap-to-first-response ms=7.856
+ISSUE196-MEASURE tap-to-settled ms=566.419
+ISSUE196-MEASURE paint-settle ms=58.197
+ISSUE196-MEASURE rm-tap-to-settled ms=7.012
+ISSUE196-MEASURE paint-settle ms=38.441
+ISSUE196-MEASURE tap-to-first-response ms=5.599
+ISSUE196-MEASURE tap-to-settled ms=564.355
+ISSUE196-MEASURE paint-settle ms=56.931
+ISSUE196-MEASURE retarget-to-settled ms=563.973
+ISSUE196-MEASURE paint-settle ms=54.540
+ISSUE196-MEASURE paint-settle ms=29.047
+ISSUE196-MEASURE tap-to-first-response ms=5.526
+ISSUE196-MEASURE tap-to-settled ms=561.448
+ISSUE196-MEASURE paint-settle ms=57.380
+ISSUE196-MEASURE tap-to-first-response ms=5.461
+ISSUE196-MEASURE tap-to-settled ms=564.583
+ISSUE196-MEASURE paint-settle ms=51.744
+ISSUE196-MEASURE tap-to-first-response ms=5.359
+ISSUE196-MEASURE tap-to-settled ms=564.749
+ISSUE196-MEASURE paint-settle ms=40.021
+ISSUE196-MEASURE tap-to-first-response ms=5.312
+ISSUE196-MEASURE tap-to-settled ms=564.323
+ISSUE196-MEASURE paint-settle ms=49.922
+ISSUE196-MEASURE rollback-to-settled ms=62.307
+ISSUE196-MEASURE paint-settle ms=40.397
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=630.517
+ISSUE196-MEASURE paint-settle ms=56.821
+ISSUE196-MEASURE rollback-to-settled ms=0.258
+ISSUE196-MEASURE paint-settle ms=24.416
+ISSUE196-MEASURE tap-to-first-response ms=5.531
+ISSUE196-MEASURE tap-to-settled ms=564.472
+ISSUE196-MEASURE paint-settle ms=57.657
+ISSUE196-MEASURE retarget-to-settled ms=564.729
+ISSUE196-MEASURE paint-settle ms=27.987
+ISSUE196-MEASURE rollback-to-settled ms=66.116
+ISSUE196-MEASURE paint-settle ms=28.627
+ISSUE196-MEASURE paint-settle ms=41.367
+ISSUE196-MEASURE retarget-to-settled ms=567.951
+ISSUE196-MEASURE paint-settle ms=42.277
+ISSUE196-MEASURE rm-tap-to-settled ms=5.168
+ISSUE196-MEASURE paint-settle ms=33.590
+ISSUE196-MEASURE rm-tap-to-settled ms=5.670
+ISSUE196-MEASURE paint-settle ms=34.971
+ISSUE196-MEASURE tap-to-first-response ms=5.458
+ISSUE196-MEASURE tap-to-settled ms=562.845
+ISSUE196-MEASURE paint-settle ms=59.588
+ISSUE196-MEASURE paint-settle ms=26.780
+ISSUE196-MEASURE retarget-to-settled ms=568.782
+ISSUE196-MEASURE paint-settle ms=62.303
+ISSUE196-MEASURE rollback-to-settled ms=0.080
+ISSUE196-MEASURE paint-settle ms=27.864
+ISSUE196-MEASURE tap-to-first-response ms=5.488
+ISSUE196-MEASURE tap-to-settled ms=560.362
+ISSUE196-MEASURE paint-settle ms=56.364
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:303: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertNil failed: "Effect(operation: 29, targetProgress: 1.0, duration: 0.49358974358974367, completion: Morsel.JournalTurnCompletion.promote, swipesModel: true)" - a scroll-owned gesture never turns a page
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:305: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=82.108
+ISSUE196-MEASURE paint-settle ms=50.861
+ISSUE196-MEASURE rollback-to-settled ms=67.313
+ISSUE196-MEASURE paint-settle ms=40.176
+ISSUE196-MEASURE tap-to-first-response ms=5.507
+ISSUE196-MEASURE tap-to-settled ms=561.806
+ISSUE196-MEASURE paint-settle ms=51.978
+ISSUE196-MEASURE rm-tap-to-settled ms=5.357
+ISSUE196-MEASURE paint-settle ms=54.821
+ISSUE196-MEASURE tap-to-first-response ms=5.484
+ISSUE196-MEASURE tap-to-settled ms=559.908
+ISSUE196-MEASURE paint-settle ms=62.610
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=608.338
+ISSUE196-MEASURE paint-settle ms=71.258
+ISSUE196-MEASURE tap-to-first-response ms=5.174
+ISSUE196-MEASURE tap-to-settled ms=563.381
+ISSUE196-MEASURE paint-settle ms=42.167
+ISSUE196-MEASURE rollback-to-settled ms=68.226
+ISSUE196-MEASURE paint-settle ms=35.979
+ISSUE196-MEASURE rollback-to-settled ms=66.129
+ISSUE196-MEASURE paint-settle ms=56.876
+ISSUE196-MEASURE retarget-to-settled ms=568.889
+ISSUE196-MEASURE paint-settle ms=66.379
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:303: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertNil failed: "Effect(operation: 47, targetProgress: 1.0, duration: 0.49358974358974367, completion: Morsel.JournalTurnCompletion.promote, swipesModel: true)" - a scroll-owned gesture never turns a page
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:305: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=50.930
+ISSUE196-MEASURE tap-to-first-response ms=0.058
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:258: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+ISSUE196-MEASURE tap-to-settled ms=8.159
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:260: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("0") is not equal to ("1") - one turn operation per tap
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals] base=history selection=goals
+ISSUE196-MEASURE paint-settle ms=116.019
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("history") is not equal to ("goals") - the painted page must match the tab
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:343: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("2") is not equal to ("1") - one turn operation per tap
+ISSUE196-MEASURE paint-settle ms=43.751
+ISSUE196-MEASURE rm-tap-to-settled ms=5.445
+ISSUE196-MEASURE paint-settle ms=36.909
+ISSUE196-MEASURE rm-tap-to-settled ms=5.603
+ISSUE196-MEASURE paint-settle ms=32.128
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:303: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertNil failed: "Effect(operation: 51, targetProgress: 1.0, duration: 0.49358974358974367, completion: Morsel.JournalTurnCompletion.promote, swipesModel: true)" - a scroll-owned gesture never turns a page
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:305: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history] base=history selection=history
+ISSUE196-MEASURE paint-settle ms=79.609
+ISSUE196-MEASURE rm-tap-to-settled ms=5.226
+ISSUE196-MEASURE paint-settle ms=45.619
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:338: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:343: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("0") is not equal to ("1") - one turn operation per tap
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals] base=history selection=goals
+ISSUE196-MEASURE paint-settle ms=87.959
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("history") is not equal to ("goals") - the painted page must match the tab
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:289: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - the retarget must settle
+ISSUE196-MEASURE retarget-to-settled ms=2.821
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on goals; activatable=[Morsel.JournalTab.goals] base=history selection=goals
+ISSUE196-MEASURE paint-settle ms=95.464
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("history") is not equal to ("goals") - the painted page must match the tab
+ISSUE196-MEASURE paint-settle ms=43.209
+ISSUE196-MEASURE rollback-to-settled ms=66.791
+ISSUE196-MEASURE paint-settle ms=44.629
+ISSUE196-MEASURE tap-to-first-response ms=5.454
+ISSUE196-MEASURE tap-to-settled ms=560.334
+ISSUE196-MEASURE paint-settle ms=61.734
+ISSUE196-MEASURE paint-settle ms=50.870
+ISSUE196-MEASURE tap-to-first-response ms=5.395
+ISSUE196-MEASURE tap-to-settled ms=562.842
+ISSUE196-MEASURE paint-settle ms=52.972
+ISSUE196-MEASURE rollback-to-settled ms=61.890
+ISSUE196-MEASURE paint-settle ms=48.959
+ISSUE196-MEASURE rollback-to-settled ms=0.049
+ISSUE196-MEASURE paint-settle ms=23.472
+ISSUE196-MEASURE rm-tap-to-settled ms=5.589
+ISSUE196-MEASURE paint-settle ms=41.934
+ISSUE196-MEASURE tap-to-first-response ms=5.250
+ISSUE196-MEASURE tap-to-settled ms=560.191
+ISSUE196-MEASURE paint-settle ms=74.179
+ISSUE196-MEASURE retarget-to-settled ms=566.736
+ISSUE196-MEASURE paint-settle ms=72.818
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:303: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertNil failed: "Effect(operation: 67, targetProgress: 1.0, duration: 0.49358974358974367, completion: Morsel.JournalTurnCompletion.promote, swipesModel: true)" - a scroll-owned gesture never turns a page
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:305: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=84.070
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:271: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("Optional(Morsel.JournalTab.history)") is not equal to ("nil") - the short drag must preview the adjacent tab (or nothing at a boundary)
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:275: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - the rollback must settle
+ISSUE196-MEASURE rollback-to-settled ms=10.038
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on today; activatable=[Morsel.JournalTab.today] base=today selection=today
+ISSUE196-MEASURE paint-settle ms=74.745
+ISSUE196-MEASURE tap-to-first-response ms=0.072
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:258: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed
+ISSUE196-MEASURE tap-to-settled ms=7.893
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:260: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("0") is not equal to ("1") - one turn operation per tap
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertTrue failed - one settled page on history; activatable=[Morsel.JournalTab.history] base=today selection=history
+ISSUE196-MEASURE paint-settle ms=75.802
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:83: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("today") is not equal to ("history") - the painted page must match the tab
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=609.203
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessShellCycleTests.swift:326: error: -[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab] : XCTAssertEqual failed: ("2") is not equal to ("1") - one turn operation per tap
+ISSUE196-MEASURE paint-settle ms=58.503
+ISSUE196-MEASURE tap-to-first-response ms=5.292
+ISSUE196-MEASURE tap-to-settled ms=560.708
+ISSUE196-MEASURE paint-settle ms=43.536
+ISSUE196-MEASURE rollback-to-settled ms=59.728
+ISSUE196-MEASURE paint-settle ms=35.198
+ISSUE196-MEASURE tap-to-first-response ms=5.413
+ISSUE196-MEASURE tap-to-settled ms=561.028
+ISSUE196-MEASURE paint-settle ms=44.303
+ISSUE196-MEASURE tap-to-first-response ms=5.476
+ISSUE196-MEASURE tap-to-settled ms=562.099
+ISSUE196-MEASURE paint-settle ms=40.668
+ISSUE196-MEASURE paint-settle ms=36.025
+ISSUE196-MEASURE tap-to-first-response ms=5.409
+ISSUE196-MEASURE tap-to-settled ms=561.760
+ISSUE196-MEASURE paint-settle ms=51.926
+ISSUE196-MEASURE retarget-to-settled ms=565.501
+ISSUE196-MEASURE paint-settle ms=41.772
+ISSUE196-MEASURE retarget-to-settled ms=566.965
+ISSUE196-MEASURE paint-settle ms=45.137
+ISSUE196-MEASURE paint-settle ms=21.232
+ISSUE196-MEASURE paint-settle ms=20.915
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=611.436
+ISSUE196-MEASURE paint-settle ms=47.329
+ISSUE196-MEASURE retarget-to-settled ms=564.508
+ISSUE196-MEASURE paint-settle ms=61.029
+ISSUE196-MEASURE paint-settle ms=53.073
+ISSUE196-MEASURE paint-settle ms=45.967
+ISSUE196-MEASURE rollback-to-settled ms=66.026
+ISSUE196-MEASURE paint-settle ms=44.384
+ISSUE196-MEASURE tap-to-first-response ms=5.189
+ISSUE196-MEASURE tap-to-settled ms=559.749
+ISSUE196-MEASURE paint-settle ms=59.023
+ISSUE196-MEASURE rollback-to-settled ms=66.754
+ISSUE196-MEASURE paint-settle ms=48.982
+ISSUE196-MEASURE retarget-to-settled ms=565.765
+ISSUE196-MEASURE paint-settle ms=57.870
+ISSUE196-MEASURE paint-settle ms=44.723
+ISSUE196-MEASURE rollback-to-settled ms=66.294
+ISSUE196-MEASURE paint-settle ms=43.673
+ISSUE196-MEASURE tap-to-first-response ms=5.412
+ISSUE196-MEASURE tap-to-settled ms=565.266
+ISSUE196-MEASURE paint-settle ms=59.681
+ISSUE196-MEASURE tap-to-first-response ms=5.295
+ISSUE196-MEASURE tap-to-settled ms=560.502
+ISSUE196-MEASURE paint-settle ms=64.526
+ISSUE196-MEASURE retarget-to-settled ms=567.498
+ISSUE196-MEASURE paint-settle ms=72.832
+ISSUE196-MEASURE tap-to-first-response ms=5.227
+ISSUE196-MEASURE tap-to-settled ms=562.912
+ISSUE196-MEASURE paint-settle ms=65.583
+ISSUE196-MEASURE retarget-to-settled ms=566.746
+ISSUE196-MEASURE paint-settle ms=62.877
+ISSUE196-MEASURE tap-to-first-response ms=5.300
+ISSUE196-MEASURE tap-to-settled ms=561.774
+ISSUE196-MEASURE paint-settle ms=59.440
+ISSUE196-MEASURE tap-to-first-response ms=5.368
+ISSUE196-MEASURE tap-to-settled ms=560.658
+ISSUE196-MEASURE paint-settle ms=61.490
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=607.225
+ISSUE196-MEASURE paint-settle ms=33.719
+ISSUE196-MEASURE retarget-to-settled ms=565.396
+ISSUE196-MEASURE paint-settle ms=59.011
+ISSUE196-MEASURE tap-to-first-response ms=5.388
+ISSUE196-MEASURE tap-to-settled ms=560.846
+ISSUE196-MEASURE paint-settle ms=55.052
+ISSUE196-MEASURE rm-tap-to-settled ms=5.395
+ISSUE196-MEASURE paint-settle ms=39.021
+ISSUE196-MEASURE tap-to-first-response ms=5.194
+ISSUE196-MEASURE tap-to-settled ms=562.560
+ISSUE196-MEASURE paint-settle ms=61.578
+ISSUE196-MEASURE tap-to-first-response ms=5.247
+ISSUE196-MEASURE tap-to-settled ms=562.601
+ISSUE196-MEASURE paint-settle ms=64.298
+ISSUE196-MEASURE rollback-to-settled ms=65.639
+ISSUE196-MEASURE paint-settle ms=52.892
+ISSUE196-MEASURE rollback-to-settled ms=0.051
+ISSUE196-MEASURE paint-settle ms=26.324
+ISSUE196-MEASURE rollback-to-settled ms=67.131
+ISSUE196-MEASURE paint-settle ms=47.745
+ISSUE196-MEASURE paint-settle ms=24.808
+ISSUE196-MEASURE paint-settle ms=21.142
+ISSUE196-MEASURE rollback-to-settled ms=0.037
+ISSUE196-MEASURE paint-settle ms=23.216
+ISSUE196-MEASURE rollback-to-settled ms=66.607
+ISSUE196-MEASURE paint-settle ms=44.903
+ISSUE196-MEASURE rm-tap-to-settled ms=5.543
+ISSUE196-MEASURE paint-settle ms=43.720
+ISSUE196-MEASURE retarget-to-settled ms=566.746
+ISSUE196-MEASURE paint-settle ms=34.569
+ISSUE196-SUMMARY id=keyboard-dismiss-to-settled n=5 p50=609.203 p95=630.517 max=630.517
+ISSUE196-SUMMARY id=paint-settle n=100 p50=49.922 p95=82.108 max=116.019
+ISSUE196-SUMMARY id=retarget-to-settled n=15 p50=566.736 p95=568.889 max=568.889
+ISSUE196-SUMMARY id=rm-tap-to-settled n=10 p50=5.543 p95=7.012 max=7.012
+ISSUE196-SUMMARY id=rollback-to-settled n=20 p50=66.026 p95=68.226 max=68.226
+ISSUE196-SUMMARY id=tap-to-first-response n=30 p50=5.395 p95=5.599 max=7.856
+ISSUE196-SUMMARY id=tap-to-settled n=30 p50=561.806 p95=565.266 max=566.419
+ISSUE196-COUNT id=backgroundings value=5
+ISSUE196-COUNT id=cycles value=100
+ISSUE196-COUNT id=page-activation-events value=79
+ISSUE196-COUNT id=taps value=85
+ISSUE196-COUNT id=vertical-drags value=10
+ISSUE196-METRICS /tmp/morsel-196-evidence/shell-cycles-hundred-cycles.json bytes=4149
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab]' failed (138.113 seconds).
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testPaintedGroundDiscriminatesTheSettledTab]' passed (1.101 seconds).
+	 Executed 2 tests, with 32 failures (0 unexpected) in 139.213 (139.214) seconds
+	 Executed 2 tests, with 32 failures (0 unexpected) in 139.213 (139.215) seconds
+	 Executed 2 tests, with 32 failures (0 unexpected) in 139.213 (139.215) seconds
+RAW_EXIT=65
+# full log: /tmp/morsel-196-raw-ResponsivenessShellCycleTests.txt

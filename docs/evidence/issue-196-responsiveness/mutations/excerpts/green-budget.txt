@@ -1,0 +1,21 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessBudgetTests -derivedDataPath /tmp/morsel-196-dd
+Test Case '-[MorselTests.ResponsivenessBudgetTests testHarnessTriggersMatchTheShellSource]' passed (0.004 seconds).
+ISSUE196-COUNT id=parked-health-body-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-lifecycle.json bytes=119
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedHealthLeavesTheDayReadAndNavigationUsable]' passed (0.092 seconds).
+ISSUE196-COUNT id=parked-network-reads value=2
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-storage.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable]' passed (0.740 seconds).
+ISSUE196-COUNT id=parked-storage-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-health.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedStorageLeavesTheDayReadAndNavigationUsable]' passed (0.086 seconds).
+ISSUE196-COUNT id=cold-mount-day-reads value=1
+ISSUE196-COUNT id=foreground-return-day-reads value=1
+ISSUE196-COUNT id=tab-return-day-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-network.json bytes=172
+Test Case '-[MorselTests.ResponsivenessBudgetTests testShellLifecycleRequestBudgetFromRecordedCounts]' passed (0.081 seconds).
+	 Executed 5 tests, with 0 failures (0 unexpected) in 1.004 (1.006) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 1.004 (1.006) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 1.004 (1.007) seconds
+RAW_EXIT=0
+# full log: /tmp/morsel-196-raw-ResponsivenessBudgetTests.txt

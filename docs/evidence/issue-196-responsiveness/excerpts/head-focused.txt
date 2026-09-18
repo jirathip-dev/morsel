@@ -1,0 +1,270 @@
+# command: HERDR_XCODEBUILD_DIRECT=1 flock /tmp/n.lock xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=DACB0B66-9BE1-458E-8ABF-FC74BA1C9942' -derivedDataPath /tmp/morsel-196-dd CODE_SIGNING_ALLOWED=NO -only-testing:MorselTests/ResponsivenessShellCycleTests -only-testing:MorselTests/ResponsivenessBudgetTests -only-testing:MorselTests/ResponsivenessIntervalsTests
+# date: 2026-09-18T12:01:22Z  revision: lane head c5f935e  sim: iOS 26.5 (23F77)
+Test Case '-[MorselTests.ResponsivenessBudgetTests testHarnessTriggersMatchTheShellSource]' passed (0.003 seconds).
+ISSUE196-COUNT id=parked-health-body-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-lifecycle.json bytes=119
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedHealthLeavesTheDayReadAndNavigationUsable]' passed (0.091 seconds).
+ISSUE196-COUNT id=parked-network-reads value=2
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-storage.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable]' passed (0.696 seconds).
+ISSUE196-COUNT id=parked-storage-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-health.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedStorageLeavesTheDayReadAndNavigationUsable]' passed (0.083 seconds).
+ISSUE196-COUNT id=cold-mount-day-reads value=1
+ISSUE196-COUNT id=foreground-return-day-reads value=1
+ISSUE196-COUNT id=tab-return-day-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-network.json bytes=172
+Test Case '-[MorselTests.ResponsivenessBudgetTests testShellLifecycleRequestBudgetFromRecordedCounts]' passed (0.080 seconds).
+Test Suite 'ResponsivenessBudgetTests' passed at 2569-09-18 6:38:53.995 PM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.953 (0.954) seconds
+ISSUE196-MEASURE cache-publish-to-paint ms=29.161
+ISSUE196-SUMMARY id=cache-publish-to-paint n=1 p50=29.161 p95=29.161 max=29.161
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-cached-paint.json bytes=130
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testCachedUsefulPaintIntervalOnAWarmCache]' passed (0.067 seconds).
+ISSUE196-MEASURE health-observer-callback ms=0.098
+ISSUE196-SUMMARY id=health-observer-callback n=1 p50=0.098 p95=0.098 max=0.098
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-health-callback.json bytes=143
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testHealthObserverCallbackInterval]' passed (0.006 seconds).
+ISSUE196-MEASURE image-preparation ms=9.971
+ISSUE196-SUMMARY id=image-preparation n=1 p50=9.971 p95=9.971 max=9.971
+ISSUE196-COUNT id=image-source-bytes value=2149
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-image-prep.json bytes=149
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testImagePreparationInterval]' passed (0.013 seconds).
+ISSUE196-MEASURE refresh-release-to-fresh-paint ms=56.557
+ISSUE196-SUMMARY id=refresh-release-to-fresh-paint n=1 p50=56.557 p95=56.557 max=56.557
+ISSUE196-METRICS /tmp/morsel-196-evidence/intervals-refresh.json bytes=147
+Test Case '-[MorselTests.ResponsivenessIntervalsTests testRemoteRefreshIntervalFromReleaseToFreshPaint]' passed (0.166 seconds).
+Test Suite 'ResponsivenessIntervalsTests' passed at 2569-09-18 6:38:54.248 PM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.252 (0.253) seconds
+ISSUE196-MEASURE tap-to-first-response ms=5.592
+ISSUE196-MEASURE tap-to-settled ms=562.376
+ISSUE196-MEASURE paint-settle ms=55.445
+ISSUE196-MEASURE rm-tap-to-settled ms=8.001
+ISSUE196-MEASURE paint-settle ms=38.220
+ISSUE196-MEASURE tap-to-first-response ms=5.878
+ISSUE196-MEASURE tap-to-settled ms=566.551
+ISSUE196-MEASURE paint-settle ms=53.245
+ISSUE196-MEASURE retarget-to-settled ms=566.437
+ISSUE196-MEASURE paint-settle ms=52.839
+ISSUE196-MEASURE paint-settle ms=31.522
+ISSUE196-MEASURE tap-to-first-response ms=5.506
+ISSUE196-MEASURE tap-to-settled ms=559.589
+ISSUE196-MEASURE paint-settle ms=54.539
+ISSUE196-MEASURE tap-to-first-response ms=5.359
+ISSUE196-MEASURE tap-to-settled ms=566.979
+ISSUE196-MEASURE paint-settle ms=45.675
+ISSUE196-MEASURE tap-to-first-response ms=5.346
+ISSUE196-MEASURE tap-to-settled ms=563.416
+ISSUE196-MEASURE paint-settle ms=49.741
+ISSUE196-MEASURE tap-to-first-response ms=5.352
+ISSUE196-MEASURE tap-to-settled ms=566.455
+ISSUE196-MEASURE paint-settle ms=46.505
+ISSUE196-MEASURE rollback-to-settled ms=67.715
+ISSUE196-MEASURE paint-settle ms=48.390
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=633.432
+ISSUE196-MEASURE paint-settle ms=63.121
+ISSUE196-MEASURE rollback-to-settled ms=0.225
+ISSUE196-MEASURE paint-settle ms=27.385
+ISSUE196-MEASURE tap-to-first-response ms=5.483
+ISSUE196-MEASURE tap-to-settled ms=564.683
+ISSUE196-MEASURE paint-settle ms=61.456
+ISSUE196-MEASURE retarget-to-settled ms=568.317
+ISSUE196-MEASURE paint-settle ms=55.207
+ISSUE196-MEASURE rollback-to-settled ms=67.067
+ISSUE196-MEASURE paint-settle ms=40.172
+ISSUE196-MEASURE paint-settle ms=56.588
+ISSUE196-MEASURE retarget-to-settled ms=565.570
+ISSUE196-MEASURE paint-settle ms=59.598
+ISSUE196-MEASURE rm-tap-to-settled ms=6.758
+ISSUE196-MEASURE paint-settle ms=43.505
+ISSUE196-MEASURE rm-tap-to-settled ms=5.480
+ISSUE196-MEASURE paint-settle ms=37.687
+ISSUE196-MEASURE tap-to-first-response ms=5.525
+ISSUE196-MEASURE tap-to-settled ms=560.874
+ISSUE196-MEASURE paint-settle ms=52.472
+ISSUE196-MEASURE paint-settle ms=25.995
+ISSUE196-MEASURE retarget-to-settled ms=567.254
+ISSUE196-MEASURE paint-settle ms=55.926
+ISSUE196-MEASURE rollback-to-settled ms=0.076
+ISSUE196-MEASURE paint-settle ms=25.309
+ISSUE196-MEASURE tap-to-first-response ms=5.474
+ISSUE196-MEASURE tap-to-settled ms=563.928
+ISSUE196-MEASURE paint-settle ms=57.914
+ISSUE196-MEASURE paint-settle ms=27.524
+ISSUE196-MEASURE paint-settle ms=38.803
+ISSUE196-MEASURE rollback-to-settled ms=66.435
+ISSUE196-MEASURE paint-settle ms=41.085
+ISSUE196-MEASURE tap-to-first-response ms=5.521
+ISSUE196-MEASURE tap-to-settled ms=564.246
+ISSUE196-MEASURE paint-settle ms=55.753
+ISSUE196-MEASURE rm-tap-to-settled ms=5.317
+ISSUE196-MEASURE paint-settle ms=44.053
+ISSUE196-MEASURE tap-to-first-response ms=5.427
+ISSUE196-MEASURE tap-to-settled ms=562.304
+ISSUE196-MEASURE paint-settle ms=53.715
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=599.637
+ISSUE196-MEASURE paint-settle ms=41.791
+ISSUE196-MEASURE tap-to-first-response ms=5.571
+ISSUE196-MEASURE tap-to-settled ms=562.468
+ISSUE196-MEASURE paint-settle ms=59.514
+ISSUE196-MEASURE rollback-to-settled ms=59.742
+ISSUE196-MEASURE paint-settle ms=40.756
+ISSUE196-MEASURE rollback-to-settled ms=67.195
+ISSUE196-MEASURE paint-settle ms=44.263
+ISSUE196-MEASURE retarget-to-settled ms=568.107
+ISSUE196-MEASURE paint-settle ms=57.504
+ISSUE196-MEASURE paint-settle ms=27.044
+ISSUE196-MEASURE tap-to-first-response ms=5.443
+ISSUE196-MEASURE tap-to-settled ms=560.109
+ISSUE196-MEASURE paint-settle ms=63.387
+ISSUE196-MEASURE paint-settle ms=49.438
+ISSUE196-MEASURE rm-tap-to-settled ms=5.455
+ISSUE196-MEASURE paint-settle ms=41.387
+ISSUE196-MEASURE rm-tap-to-settled ms=5.564
+ISSUE196-MEASURE paint-settle ms=33.047
+ISSUE196-MEASURE paint-settle ms=19.579
+ISSUE196-MEASURE rm-tap-to-settled ms=5.553
+ISSUE196-MEASURE paint-settle ms=35.778
+ISSUE196-MEASURE paint-settle ms=47.683
+ISSUE196-MEASURE retarget-to-settled ms=564.398
+ISSUE196-MEASURE paint-settle ms=58.740
+ISSUE196-MEASURE paint-settle ms=47.972
+ISSUE196-MEASURE rollback-to-settled ms=66.441
+ISSUE196-MEASURE paint-settle ms=46.291
+ISSUE196-MEASURE tap-to-first-response ms=5.321
+ISSUE196-MEASURE tap-to-settled ms=564.263
+ISSUE196-MEASURE paint-settle ms=55.568
+ISSUE196-MEASURE paint-settle ms=35.243
+ISSUE196-MEASURE tap-to-first-response ms=5.317
+ISSUE196-MEASURE tap-to-settled ms=564.303
+ISSUE196-MEASURE paint-settle ms=66.349
+ISSUE196-MEASURE rollback-to-settled ms=67.488
+ISSUE196-MEASURE paint-settle ms=49.887
+ISSUE196-MEASURE rollback-to-settled ms=0.068
+ISSUE196-MEASURE paint-settle ms=25.434
+ISSUE196-MEASURE rm-tap-to-settled ms=5.582
+ISSUE196-MEASURE paint-settle ms=39.112
+ISSUE196-MEASURE tap-to-first-response ms=5.181
+ISSUE196-MEASURE tap-to-settled ms=564.517
+ISSUE196-MEASURE paint-settle ms=50.906
+ISSUE196-MEASURE retarget-to-settled ms=566.537
+ISSUE196-MEASURE paint-settle ms=56.488
+ISSUE196-MEASURE paint-settle ms=26.936
+ISSUE196-MEASURE rollback-to-settled ms=0.062
+ISSUE196-MEASURE paint-settle ms=22.829
+ISSUE196-MEASURE tap-to-first-response ms=5.500
+ISSUE196-MEASURE tap-to-settled ms=561.044
+ISSUE196-MEASURE paint-settle ms=55.607
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=601.974
+ISSUE196-MEASURE paint-settle ms=55.145
+ISSUE196-MEASURE tap-to-first-response ms=5.251
+ISSUE196-MEASURE tap-to-settled ms=565.176
+ISSUE196-MEASURE paint-settle ms=57.238
+ISSUE196-MEASURE rollback-to-settled ms=66.032
+ISSUE196-MEASURE paint-settle ms=42.175
+ISSUE196-MEASURE tap-to-first-response ms=5.341
+ISSUE196-MEASURE tap-to-settled ms=563.548
+ISSUE196-MEASURE paint-settle ms=61.357
+ISSUE196-MEASURE tap-to-first-response ms=5.240
+ISSUE196-MEASURE tap-to-settled ms=565.096
+ISSUE196-MEASURE paint-settle ms=56.155
+ISSUE196-MEASURE paint-settle ms=49.075
+ISSUE196-MEASURE tap-to-first-response ms=5.201
+ISSUE196-MEASURE tap-to-settled ms=560.384
+ISSUE196-MEASURE paint-settle ms=62.046
+ISSUE196-MEASURE retarget-to-settled ms=566.696
+ISSUE196-MEASURE paint-settle ms=57.316
+ISSUE196-MEASURE retarget-to-settled ms=566.112
+ISSUE196-MEASURE paint-settle ms=44.317
+ISSUE196-MEASURE paint-settle ms=26.145
+ISSUE196-MEASURE paint-settle ms=23.530
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=597.693
+ISSUE196-MEASURE paint-settle ms=60.310
+ISSUE196-MEASURE retarget-to-settled ms=563.981
+ISSUE196-MEASURE paint-settle ms=65.414
+ISSUE196-MEASURE paint-settle ms=50.146
+ISSUE196-MEASURE paint-settle ms=33.029
+ISSUE196-MEASURE rollback-to-settled ms=64.637
+ISSUE196-MEASURE paint-settle ms=32.965
+ISSUE196-MEASURE tap-to-first-response ms=5.089
+ISSUE196-MEASURE tap-to-settled ms=564.530
+ISSUE196-MEASURE paint-settle ms=58.495
+ISSUE196-MEASURE rollback-to-settled ms=68.007
+ISSUE196-MEASURE paint-settle ms=44.229
+ISSUE196-MEASURE retarget-to-settled ms=568.500
+ISSUE196-MEASURE paint-settle ms=61.131
+ISSUE196-MEASURE paint-settle ms=47.323
+ISSUE196-MEASURE rollback-to-settled ms=65.215
+ISSUE196-MEASURE paint-settle ms=38.934
+ISSUE196-MEASURE tap-to-first-response ms=5.429
+ISSUE196-MEASURE tap-to-settled ms=559.470
+ISSUE196-MEASURE paint-settle ms=44.832
+ISSUE196-MEASURE tap-to-first-response ms=5.277
+ISSUE196-MEASURE tap-to-settled ms=563.534
+ISSUE196-MEASURE paint-settle ms=57.341
+ISSUE196-MEASURE retarget-to-settled ms=566.452
+ISSUE196-MEASURE paint-settle ms=57.784
+ISSUE196-MEASURE tap-to-first-response ms=5.259
+ISSUE196-MEASURE tap-to-settled ms=561.879
+ISSUE196-MEASURE paint-settle ms=53.691
+ISSUE196-MEASURE retarget-to-settled ms=570.546
+ISSUE196-MEASURE paint-settle ms=56.303
+ISSUE196-MEASURE tap-to-first-response ms=5.300
+ISSUE196-MEASURE tap-to-settled ms=561.297
+ISSUE196-MEASURE paint-settle ms=54.553
+ISSUE196-MEASURE tap-to-first-response ms=5.380
+ISSUE196-MEASURE tap-to-settled ms=562.973
+ISSUE196-MEASURE paint-settle ms=49.253
+ISSUE196-MEASURE keyboard-dismiss-to-settled ms=604.179
+ISSUE196-MEASURE paint-settle ms=56.740
+ISSUE196-MEASURE retarget-to-settled ms=569.003
+ISSUE196-MEASURE paint-settle ms=52.605
+ISSUE196-MEASURE tap-to-first-response ms=5.232
+ISSUE196-MEASURE tap-to-settled ms=562.754
+ISSUE196-MEASURE paint-settle ms=59.181
+ISSUE196-MEASURE rm-tap-to-settled ms=5.120
+ISSUE196-MEASURE paint-settle ms=49.181
+ISSUE196-MEASURE tap-to-first-response ms=5.342
+ISSUE196-MEASURE tap-to-settled ms=561.065
+ISSUE196-MEASURE paint-settle ms=43.953
+ISSUE196-MEASURE tap-to-first-response ms=5.682
+ISSUE196-MEASURE tap-to-settled ms=562.384
+ISSUE196-MEASURE paint-settle ms=75.281
+ISSUE196-MEASURE rollback-to-settled ms=64.704
+ISSUE196-MEASURE paint-settle ms=55.706
+ISSUE196-MEASURE rollback-to-settled ms=0.054
+ISSUE196-MEASURE paint-settle ms=24.503
+ISSUE196-MEASURE rollback-to-settled ms=65.234
+ISSUE196-MEASURE paint-settle ms=37.534
+ISSUE196-MEASURE paint-settle ms=20.775
+ISSUE196-MEASURE paint-settle ms=19.554
+ISSUE196-MEASURE rollback-to-settled ms=0.042
+ISSUE196-MEASURE paint-settle ms=21.927
+ISSUE196-MEASURE rollback-to-settled ms=64.032
+ISSUE196-MEASURE paint-settle ms=41.700
+ISSUE196-MEASURE rm-tap-to-settled ms=5.400
+ISSUE196-MEASURE paint-settle ms=32.742
+ISSUE196-MEASURE retarget-to-settled ms=560.604
+ISSUE196-MEASURE paint-settle ms=29.367
+ISSUE196-SUMMARY id=keyboard-dismiss-to-settled n=5 p50=601.974 p95=633.432 max=633.432
+ISSUE196-SUMMARY id=paint-settle n=100 p50=49.075 p95=63.121 max=75.281
+ISSUE196-SUMMARY id=retarget-to-settled n=15 p50=566.537 p95=570.546 max=570.546
+ISSUE196-SUMMARY id=rm-tap-to-settled n=10 p50=5.553 p95=8.001 max=8.001
+ISSUE196-SUMMARY id=rollback-to-settled n=20 p50=65.215 p95=68.007 max=68.007
+ISSUE196-SUMMARY id=tap-to-first-response n=30 p50=5.359 p95=5.682 max=5.878
+ISSUE196-SUMMARY id=tap-to-settled n=30 p50=563.416 p95=566.551 max=566.979
+ISSUE196-COUNT id=backgroundings value=5
+ISSUE196-COUNT id=cycles value=100
+ISSUE196-COUNT id=page-activation-events value=81
+ISSUE196-COUNT id=taps value=85
+ISSUE196-COUNT id=vertical-drags value=10
+ISSUE196-METRICS /tmp/morsel-196-evidence/shell-cycles-hundred-cycles.json bytes=4037
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testHundredMixedShellCyclesKeepOneSettledPageAndMatchingTab]' passed (41.774 seconds).
+Test Case '-[MorselTests.ResponsivenessShellCycleTests testPaintedGroundDiscriminatesTheSettledTab]' passed (1.065 seconds).
+Test Suite 'ResponsivenessShellCycleTests' passed at 2569-09-18 6:39:37.087 PM.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 42.839 (42.839) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 6:39:37.088 PM.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 44.043 (44.047) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 6:39:37.088 PM.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 44.043 (44.048) seconds
+RAW_EXIT=0

@@ -1,0 +1,25 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessBudgetTests -derivedDataPath /tmp/morsel-196-dd
+Test Case '-[MorselTests.ResponsivenessBudgetTests testHarnessTriggersMatchTheShellSource]' passed (0.003 seconds).
+ISSUE196-COUNT id=parked-health-body-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-lifecycle.json bytes=119
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedHealthLeavesTheDayReadAndNavigationUsable]' passed (0.092 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:111: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("2") is not equal to ("1") - an activation during a parked read joins it
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:112: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("2") is not equal to ("1") - the joined read never overlaps itself
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:135: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("3") is not equal to ("2") - one parked read per activation, never more
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:136: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("2") is not equal to ("1") - reads never overlap
+ISSUE196-COUNT id=parked-network-reads value=3
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-storage.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable]' failed (0.724 seconds).
+ISSUE196-COUNT id=parked-storage-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-health.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedStorageLeavesTheDayReadAndNavigationUsable]' passed (0.100 seconds).
+ISSUE196-COUNT id=cold-mount-day-reads value=1
+ISSUE196-COUNT id=foreground-return-day-reads value=1
+ISSUE196-COUNT id=tab-return-day-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-network.json bytes=172
+Test Case '-[MorselTests.ResponsivenessBudgetTests testShellLifecycleRequestBudgetFromRecordedCounts]' passed (0.080 seconds).
+	 Executed 5 tests, with 4 failures (0 unexpected) in 0.999 (1.001) seconds
+	 Executed 5 tests, with 4 failures (0 unexpected) in 0.999 (1.001) seconds
+	 Executed 5 tests, with 4 failures (0 unexpected) in 0.999 (1.002) seconds
+RAW_EXIT=65
+# full log: /tmp/morsel-196-raw-ResponsivenessBudgetTests.txt
