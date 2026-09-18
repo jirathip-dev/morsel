@@ -1,0 +1,23 @@
+# command: xcodebuild test -only-testing:MorselTests/ResponsivenessBudgetTests -derivedDataPath /tmp/morsel-196-dd
+Test Case '-[MorselTests.ResponsivenessBudgetTests testHarnessTriggersMatchTheShellSource]' passed (0.003 seconds).
+ISSUE196-COUNT id=parked-health-body-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-lifecycle.json bytes=119
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedHealthLeavesTheDayReadAndNavigationUsable]' passed (0.095 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:120: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("fresh") is not equal to ("cached") - a cancelled read must not publish while the user is away
+/Users/jirathip/.herdr/worktrees/morsel/issue-196-responsiveness/app/Tests/MorselTests/ResponsivenessBudgetTests.swift:128: error: -[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable] : XCTAssertEqual failed: ("fresh") is not equal to ("cached") - navigation must not lose the painted cached day
+ISSUE196-COUNT id=parked-network-reads value=2
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-storage.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedNetworkKeepsCachedContentAndNavigationUsable]' failed (0.684 seconds).
+ISSUE196-COUNT id=parked-storage-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-health.json bytes=115
+Test Case '-[MorselTests.ResponsivenessBudgetTests testParkedStorageLeavesTheDayReadAndNavigationUsable]' passed (0.091 seconds).
+ISSUE196-COUNT id=cold-mount-day-reads value=1
+ISSUE196-COUNT id=foreground-return-day-reads value=1
+ISSUE196-COUNT id=tab-return-day-reads value=1
+ISSUE196-METRICS /tmp/morsel-196-evidence/budget-parked-network.json bytes=172
+Test Case '-[MorselTests.ResponsivenessBudgetTests testShellLifecycleRequestBudgetFromRecordedCounts]' passed (0.077 seconds).
+	 Executed 5 tests, with 2 failures (0 unexpected) in 0.950 (0.951) seconds
+	 Executed 5 tests, with 2 failures (0 unexpected) in 0.950 (0.951) seconds
+	 Executed 5 tests, with 2 failures (0 unexpected) in 0.950 (0.952) seconds
+RAW_EXIT=65
+# full log: /tmp/morsel-196-raw-ResponsivenessBudgetTests.txt
