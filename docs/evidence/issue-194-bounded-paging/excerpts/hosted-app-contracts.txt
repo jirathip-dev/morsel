@@ -1,0 +1,6 @@
+# Issue #194 hosted app contracts (npx vitest run app, head).
+# Full raw log: the lane checkout's .lane-logs/hosted-app-contracts.txt (gitignored).
+# Command: npx vitest run app
+# RAW_EXIT=0
+
+RAW_EXIT=0

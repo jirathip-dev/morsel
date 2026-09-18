@@ -1,0 +1,6 @@
+# Issue #194 XcodeGen stability (head, committed project).
+# Full raw log: the lane checkout's .lane-logs/xcodegen-stability.txt (gitignored).
+# Command: cd app && xcodegen generate && git diff --exit-code -- app/Morsel.xcodeproj/project.pbxproj
+# RAW_EXIT=0
+
+RAW_EXIT=0
