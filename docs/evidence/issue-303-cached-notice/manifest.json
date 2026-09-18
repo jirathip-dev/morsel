@@ -1,0 +1,87 @@
+{
+  "kind": "simulator fixture evidence",
+  "issue": 303,
+  "base_sha": "7a7e5388542c8f55bfa712126ba05f33a1991646",
+  "head_sha": "the issue/303-cached-notice commit that adds this directory (recorded in .report.md)",
+  "device": "Morsel303-iPhone16",
+  "udid": "3B215DFD-EA49-4EE9-A861-9A4A241B8A93",
+  "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+  "fixture_clock_utc": "2026-09-05T04:00:00+00:00",
+  "failed_refresh_clock_utc": "2026-09-05T06:00:00+00:00",
+  "fixture_read_path": "DashboardViewModel -> LocalFirstDashboardRepository (temporary account-scoped SQLite) -> SupabaseDashboardRepository -> StubTransport; no external network",
+  "evidence_run_log": ".lane-logs/evidence-run.log",
+  "evidence_run_raw_exit": 0,
+  "evidence_run_tests": 14,
+  "evidence_run_failures": 0,
+  "evidence_run_result_bundle": "/tmp/morsel-303-evidence.xcresult",
+  "unfiltered_native_run": "The one complete unfiltered native invocation for this lane is .lane-logs/native-full.log (raw exit recorded there); the focused invocation above is the evidence run.",
+  "state_assertions": {
+    "normal": "isShowingCachedDay == false, isRefreshingCachedDay == false, readProvenance.isCached == false, incompleteMealCount == 0, 2 meals (healthy re-open: cached pre-paint then successful refresh)",
+    "failed": "isShowingCachedDay == true, readProvenance.outcome == .failed, lastLoadedAt == fixture instant (not the failed refresh clock), incompleteMealCount == 0, 2 meals"
+  },
+  "captures": [
+    {
+      "file": "303-night-failed.png",
+      "theme": "night",
+      "state": "failed",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 667304,
+      "sha256": "58775fbece650c0271affe8c9e2c24a2d709ba66130f69ee8474df5f8b232cdb",
+      "corner_rgb": [
+        41,
+        38,
+        31
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "303-night-normal.png",
+      "theme": "night",
+      "state": "normal",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 679886,
+      "sha256": "9beaac124d0bdeb5bee3a53d36b84b4165436d876c5e1145d14884558761e1d4",
+      "corner_rgb": [
+        41,
+        38,
+        31
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "303-paper-failed.png",
+      "theme": "paper",
+      "state": "failed",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 667755,
+      "sha256": "f020189bc0fd495bec8f079c8a35d70ac0154db69e807e12582809320b3c426b",
+      "corner_rgb": [
+        254,
+        248,
+        234
+      ],
+      "visually_inspected": true
+    },
+    {
+      "file": "303-paper-normal.png",
+      "theme": "paper",
+      "state": "normal",
+      "width": 1179,
+      "height": 2556,
+      "bytes": 677543,
+      "sha256": "6bdc730b1b3f2d336956e55ff5258dfbd1c17477300e0368c17d5fb191db6ead",
+      "corner_rgb": [
+        254,
+        248,
+        234
+      ],
+      "visually_inspected": true
+    }
+  ],
+  "inspection": "Both failed images show Cached — last updated 11:00 AM, the saved-copy wording and Try again over 1,180 kcal. Both normal images show the same day with NO notice between the header and the calorie ring, in the same two themes. All four are byte-distinct. Meal rows are below the captured viewport; per-meal identity/count is tested natively.",
+  "color_note": "corner_rgb is the raw RGB sample in the exported PNG color profile (Display P3), not a color-managed sRGB token measurement.",
+  "in_flight_window_note": "A screenshot cannot capture the in-flight window: after the fix it renders no notice. The window is asserted in state by DayReadCompositionTests.testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow (refresh parked; notice flag false throughout) and by mutating the gate back to cache-ness, which fails that test (see .lane-logs/mutations/M1-gate-back-to-cache-ness.log)."
+}

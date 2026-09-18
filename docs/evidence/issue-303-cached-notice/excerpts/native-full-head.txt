@@ -1,0 +1,118 @@
+# command
+cd app && HERDR_XCODEBUILD_DIRECT=1 xcodebuild test -project Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,id=3B215DFD-EA49-4EE9-A861-9A4A241B8A93' -derivedDataPath /tmp/morsel-303-dd -parallel-testing-enabled NO CODE_SIGNING_ALLOWED=NO
+# RAW_EXIT=65
+
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.035 (0.036) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.721 (0.723) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.054 (0.055) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.044 (0.045) seconds
+	 Executed 16 tests, with 0 failures (0 unexpected) in 0.006 (0.016) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 4.433 (4.433) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.113 (0.114) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 6.546 (6.547) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.035 (0.037) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.028 (0.029) seconds
+	 Executed 14 tests, with 0 failures (0 unexpected) in 0.039 (0.042) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.317 (0.318) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.090 (0.092) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.046 (0.047) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 21.433 (21.435) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.017 (0.057) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.009 (0.010) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.007 (0.008) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.005 (0.006) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.003 (0.005) seconds
+	 Executed 12 tests, with 0 failures (0 unexpected) in 0.008 (0.011) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.012 (0.016) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.010 (0.011) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.029 (0.031) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.371 (0.373) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.060 (0.063) seconds
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.299 (0.303) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.822 (0.825) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 6.137 (6.139) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.007 (0.009) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.035 (0.036) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 9.604 (9.605) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.044 (0.045) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.029 (0.029) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.044 (0.045) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.027 (0.031) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.002 (0.004) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.004) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.007 (0.008) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 2.097 (2.098) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 8.745 (8.748) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.005 (0.006) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.034 (0.034) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 3.067 (3.069) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.026) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.004 (0.010) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.005 (0.006) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 0.079 (0.082) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.048 (0.049) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.025 (0.026) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.057 (0.059) seconds
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.008 (0.009) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.007 (0.016) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.008 (0.012) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 0.124 (0.124) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 2.121 (2.123) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.063 (0.064) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.080 (0.081) seconds
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.029 (0.029) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.131 (0.132) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.008 (0.010) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.028 (0.044) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.005 (0.007) seconds
+	 Executed 13 tests, with 0 failures (0 unexpected) in 0.016 (0.085) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/PageIdentityTests.swift:210: error: -[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab] : XCTAssertEqual failed: ("[Morsel.JournalTab.history: 1]") is not equal to ("[:]") - the retarget releases nothing
+Test Case '-[MorselTests.PageIdentityTests testRetargetMidSwingKeepsOnePagePerTab]' failed (1.083 seconds).
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/PageIdentityTests.swift:224: error: -[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll] : XCTUnwrap failed: expected non-nil value of type "HistoryDay" - the seed exposes a drill-down day
+Test Case '-[MorselTests.PageIdentityTests testRevisitKeepsHistoryRangeExpandedDayAndScroll]' failed (0.131 seconds).
+	 Executed 7 tests, with 2 failures (0 unexpected) in 5.328 (5.330) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.018 (0.020) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.435 seconds).
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.518 (0.520) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.061 (0.123) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.057 (0.060) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.630 (0.632) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.010) seconds
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.181 (0.184) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 8.817 (8.819) seconds
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/SharedButtonTargetTests.swift:98: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertTrue failed - GoalsEditor.swift: compensate outside the Button, never clip its 44pt target
+/Users/jirathip/.herdr/worktrees/morsel/issue-303-cached-notice/app/Tests/MorselTests/SharedButtonTargetTests.swift:103: error: -[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping] : XCTAssertEqual failed: ("14") is not equal to ("13") - update the current action inventory when adding or removing a call site
+Test Case '-[MorselTests.SharedButtonTargetTests testAllProductionCallSitesPreserveTheVisualFootprintWithoutClipping]' failed (0.009 seconds).
+	 Executed 3 tests, with 2 failures (0 unexpected) in 5.460 (5.460) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.166 (0.168) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.048 (0.050) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.123 (0.125) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.143 (0.145) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.045 (0.046) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.049 (0.050) seconds
+	 Executed 8 tests, with 0 failures (0 unexpected) in 4.125 (4.127) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.032 (0.033) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 69.011 (69.013) seconds
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.126 (0.128) seconds
+	 Executed 11 tests, with 0 failures (0 unexpected) in 0.017 (0.056) seconds
+	 Executed 2 tests, with 0 failures (0 unexpected) in 7.989 (7.990) seconds
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.003 (0.005) seconds
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.010 (0.013) seconds
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.113 (0.114) seconds
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.090 (0.092) seconds
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.019 (0.021) seconds
+	 Executed 608 tests, with 3 tests skipped and 5 failures (0 unexpected) in 343.899 (344.387) seconds
+	 Executed 608 tests, with 3 tests skipped and 5 failures (0 unexpected) in 343.899 (344.389) seconds
+RAW_EXIT=65
