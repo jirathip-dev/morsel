@@ -1,7 +1,9 @@
 # Issue #195 — profile and bound repeated view-body totals, grouping and formatting
 
-Measurement-first lane. Base `1cf9ecc26b56037b53b34cc611425043bf21a36d` (`origin/staging`),
-head `<HEAD_SHA_PLACEHOLDER>`. Worktree `/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived`.
+Measurement-first lane. Base `1cf9ecc26b56037b53b34cc611425043bf21a36d` (`origin/staging`).
+Measured code+tests revision `9591466` (`perf`/`test` commits); the evidence commits add these
+documents and logs only, and the delivered head is the tip of `issue/195-render-derived`.
+Worktree `/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived`.
 
 ## 1. Baseline before any production change (AC1)
 
