@@ -1,0 +1,125 @@
+{
+  "issue": 193,
+  "lane": "issue-193-ledger-narrow",
+  "base": "a79491186f29e44de7adb1a447d9dee254d3379a",
+  "test_commit": "e3130003e98edfc15f6917875374a6fe16880fff",
+  "fix_commit": "04bef2e12d6efdb53ac3f26de7138d5e663be7ae",
+  "head": "see .report.md (evidence commits follow the fix commit)",
+  "runs": [
+    {
+      "leg": "red-base-narrow-tests",
+      "raw_exit": 65,
+      "tests": 6,
+      "failures": 8,
+      "failing_cases": [
+        "LedgerNarrowReadTests.testOverviewRequestsOnlyTheNarrowLedgerColumns",
+        "LedgerNarrowReadTests.testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection"
+      ],
+      "log": ".lane-logs/red-base-narrow-tests.txt"
+    },
+    {
+      "leg": "green-head-narrow-tests",
+      "raw_exit": 0,
+      "tests": 6,
+      "failures": 0,
+      "log": ".lane-logs/green-head-narrow-tests.txt",
+      "bytes": {
+        "multiple meals": {
+          "meal_logs": {
+            "narrow": 337,
+            "baseline": 561
+          },
+          "meal_items": {
+            "narrow": 378,
+            "baseline": 1763
+          }
+        },
+        "named-menu snapshot": {
+          "meal_logs": {
+            "narrow": 85,
+            "baseline": 141
+          },
+          "meal_items": {
+            "narrow": 151,
+            "baseline": 863
+          }
+        }
+      }
+    },
+    {
+      "leg": "head-focused-history-ledger",
+      "raw_exit": 65,
+      "tests": 32,
+      "failures": 1,
+      "failing_cases": [
+        "ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts"
+      ],
+      "note": "pre-existing red; also red at base (base-known-reds leg)",
+      "log": ".lane-logs/head-focused-history-ledger.txt"
+    },
+    {
+      "leg": "base-known-reds",
+      "raw_exit": 65,
+      "tests": 32,
+      "failures": 14,
+      "failing_cases": [
+        "LedgerNarrowReadTests.testOverviewRequestsOnlyTheNarrowLedgerColumns",
+        "LedgerNarrowReadTests.testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection",
+        "ParallelReadsTests.testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts"
+      ],
+      "log": ".lane-logs/base-known-reds.txt"
+    },
+    {
+      "leg": "swiftlint",
+      "raw_exit": 0,
+      "violations": 0,
+      "log": ".lane-logs/swiftlint.txt"
+    },
+    {
+      "leg": "xcodegen-stability",
+      "raw_exit": 0,
+      "pbxproj_diff_exit": 0,
+      "log": ".lane-logs/xcodegen-stability.txt"
+    },
+    {
+      "leg": "diff-check",
+      "raw_exit": 0,
+      "log": ".lane-logs/diff-check.txt"
+    },
+    {
+      "leg": "npm-ci",
+      "raw_exit": 0,
+      "log": ".lane-logs/npm-ci.txt"
+    },
+    {
+      "leg": "hosted-app-contracts",
+      "raw_exit": 0,
+      "files": 21,
+      "tests": 153,
+      "log": ".lane-logs/hosted-app-contracts.txt"
+    },
+    {
+      "leg": "mutation-m1-rich-item-projection",
+      "raw_exit": 65,
+      "tests": 6,
+      "failures": 6,
+      "failing_cases": [
+        "LedgerNarrowReadTests.testOverviewRequestsOnlyTheNarrowLedgerColumns",
+        "LedgerNarrowReadTests.testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection"
+      ],
+      "log": ".lane-logs/mutation-m1-rich-item-projection.txt"
+    },
+    {
+      "leg": "mutation-m2-dropped-calorie-column",
+      "raw_exit": 65,
+      "tests": 6,
+      "failures": 8,
+      "failing_cases": [
+        "LedgerNarrowReadTests.testNarrowAndBaselineAggregationMatchForEveryFixture",
+        "LedgerNarrowReadTests.testLocalDayBucketingAcrossDSTTransitions",
+        "LedgerNarrowReadTests.testOverviewRequestsOnlyTheNarrowLedgerColumns"
+      ],
+      "log": ".lane-logs/mutation-m2-dropped-calorie-column.txt"
+    }
+  ]
+}

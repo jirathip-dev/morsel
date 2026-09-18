@@ -1,0 +1,29 @@
+# Issue #193 GREEN (head) — raw xcodebuild excerpt.
+# Full raw log: the lane checkout's .lane-logs/green-head-narrow-tests.txt (gitignored).
+# Command: flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/morsel-193-dd -only-testing:MorselTests/LedgerNarrowReadTests
+# RAW_EXIT=0
+
+Test Suite 'Selected tests' started at 2569-09-18 6:18:43.127 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 6:18:43.128 AM.
+Test Suite 'LedgerNarrowReadTests' started at 2569-09-18 6:18:43.128 AM.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' passed (0.032 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' passed (0.013 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' passed (0.004 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' passed (0.019 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' passed (0.004 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' started.
+ISSUE193-BYTES fixture=multiple meals meal_logs narrow=337 baseline=561 meal_items narrow=378 baseline=1763
+ISSUE193-BYTES fixture=named-menu snapshot meal_logs narrow=85 baseline=141 meal_items narrow=151 baseline=863
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' passed (0.007 seconds).
+Test Suite 'LedgerNarrowReadTests' passed at 2569-09-18 6:18:43.208 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.079 (0.081) seconds
+Test Suite 'MorselTests.xctest' passed at 2569-09-18 6:18:43.209 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.079 (0.081) seconds
+Test Suite 'Selected tests' passed at 2569-09-18 6:18:43.209 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.079 (0.081) seconds
+** TEST SUCCEEDED **

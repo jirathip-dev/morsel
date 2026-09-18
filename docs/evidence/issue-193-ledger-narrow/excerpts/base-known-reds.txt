@@ -1,0 +1,116 @@
+# Issue #193 base-with-fix-out leg (same classes, base HistoryRepository.swift restored, sha256 verified)
+# — raw xcodebuild excerpt.
+# Full raw log: the lane checkout's .lane-logs/base-known-reds.txt (gitignored).
+# Command: flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/morsel-193-base-dd -only-testing:MorselTests/LedgerNarrowReadTests -only-testing:MorselTests/ParallelReadsTests -only-testing:MorselTests/HistoryCachePaintTests -only-testing:MorselTests/HistoryCacheScopeTests -only-testing:MorselTests/HistoryCacheStateTests -only-testing:MorselTests/HistoryFreezeRegressionTests -only-testing:MorselTests/LocalDayBucketTests
+# RAW_EXIT=65 (the two RED transfer cases + the pre-existing ParallelReads fixture red)
+
+Test Suite 'Selected tests' started at 2569-09-18 6:27:09.063 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 6:27:09.064 AM.
+Test Suite 'HistoryCachePaintTests' started at 2569-09-18 6:27:09.064 AM.
+Test Case '-[MorselTests.HistoryCachePaintTests testCachedOverviewAndMealsPublishWhileRemoteIsHeld]' started.
+Test Case '-[MorselTests.HistoryCachePaintTests testCachedOverviewAndMealsPublishWhileRemoteIsHeld]' passed (0.037 seconds).
+Test Suite 'HistoryCachePaintTests' passed at 2569-09-18 6:27:09.103 AM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.037 (0.039) seconds
+Test Suite 'HistoryCacheScopeTests' started at 2569-09-18 6:27:09.103 AM.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' passed (0.025 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' passed (0.066 seconds).
+Test Suite 'HistoryCacheScopeTests' passed at 2569-09-18 6:27:09.197 AM.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.092 (0.094) seconds
+Test Suite 'HistoryCacheStateTests' started at 2569-09-18 6:27:09.198 AM.
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' passed (0.022 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' passed (0.022 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' passed (0.023 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' passed (0.017 seconds).
+Test Suite 'HistoryCacheStateTests' passed at 2569-09-18 6:27:09.284 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.084 (0.086) seconds
+Test Suite 'HistoryFreezeRegressionTests' started at 2569-09-18 6:27:09.285 AM.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCancelledLedgerReadIsSupersededWithinTwoSeconds]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCancelledLedgerReadIsSupersededWithinTwoSeconds]' passed (0.003 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCollapseSupersedesInFlightDayRead]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCollapseSupersedesInFlightDayRead]' passed (0.002 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testStaleDayReadCannotOverwriteNewerDaySelection]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testStaleDayReadCannotOverwriteNewerDaySelection]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testTenFastTabSwitchesNeverStickOnLoadingState]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testTenFastTabSwitchesNeverStickOnLoadingState]' passed (0.002 seconds).
+Test Suite 'HistoryFreezeRegressionTests' passed at 2569-09-18 6:27:09.295 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.008 (0.010) seconds
+Test Suite 'LedgerNarrowReadTests' started at 2569-09-18 6:27:09.295 AM.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' passed (0.057 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' passed (0.027 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' passed (0.010 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' passed (0.051 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:19: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertEqual failed: ("["id", "eaten_at", "meal_type", "source", "image_path"]") is not equal to ("["id", "eaten_at"]") - the ledger needs meal identity and date only
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:20: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertEqual failed: ("["id", "meal_log_id", "name", "quantity", "unit", "calories_kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "confidence", "source_notes", "menu_group_id", "menu_name", "artwork_id"]") is not equal to ("["meal_log_id", "calories_kcal"]") - the ledger needs the calorie contribution only
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:28: error: -[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns] : XCTAssertTrue failed - descriptive/nutrition/menu/photo fields must not be transferred: ["id", "quantity", "protein_g", "eaten_at", "image_path", "fiber_g", "source", "carbs_g", "meal_log_id", "sugar_g", "source_notes", "menu_group_id", "artwork_id", "confidence", "fat_g", "unit", "calories_kcal", "meal_type", "menu_name", "name"]
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' failed (0.785 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' started.
+ISSUE193-BYTES fixture=multiple meals meal_logs narrow=561 baseline=561 meal_items narrow=1763 baseline=1763
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:51: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertEqual failed: ("[{"id":"11111111-1111-4111-8111-111111111111","eaten_at":"2026-09-01T20:00:00.000Z","meal_type":"lunch","source":"manual","image_path":null},{"id":"11111112-1111-4111-8111-111111111111","eaten_at":"2026-09-02T02:00:00.000Z","meal_type":"lunch","source":"manual","image_path":null},{"id":"11111113-1111-4111-8111-111111111111","eaten_at":"2026-09-02T03:00:00.000Z","meal_type":"lunch","source":"manual","image_path":null},{"id":"11111114-1111-4111-8111-111111111111","eaten_at":"2026-09-03T06:00:00.000Z","meal_type":"lunch","source":"manual","image_path":null}]") is not equal to ("[{"id":"11111111-1111-4111-8111-111111111111","eaten_at":"2026-09-01T20:00:00.000Z"},{"id":"11111112-1111-4111-8111-111111111111","eaten_at":"2026-09-02T02:00:00.000Z"},{"id":"11111113-1111-4111-8111-111111111111","eaten_at":"2026-09-02T03:00:00.000Z"},{"id":"11111114-1111-4111-8111-111111111111","eaten_at":"2026-09-03T06:00:00.000Z"}]")
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:64: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("561") is not less than ("561") - multiple meals
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:65: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("1763") is not less than ("1763") - multiple meals
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:66: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - multiple meals
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:68: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - multiple meals
+ISSUE193-BYTES fixture=named-menu snapshot meal_logs narrow=141 baseline=141 meal_items narrow=863 baseline=863
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:51: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertEqual failed: ("[{"id":"11111111-1111-4111-8111-111111111111","eaten_at":"2026-09-02T02:00:00.000Z","meal_type":"lunch","source":"manual","image_path":null}]") is not equal to ("[{"id":"11111111-1111-4111-8111-111111111111","eaten_at":"2026-09-02T02:00:00.000Z"}]")
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:64: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("141") is not less than ("141") - named-menu snapshot
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:65: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertLessThan failed: ("863") is not less than ("863") - named-menu snapshot
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:66: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - named-menu snapshot
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/LedgerNarrowReadTests.swift:68: error: -[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection] : XCTAssertFalse failed - named-menu snapshot
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' failed (0.030 seconds).
+Test Suite 'LedgerNarrowReadTests' failed at 2569-09-18 6:27:10.260 AM.
+	 Executed 6 tests, with 13 failures (0 unexpected) in 0.961 (0.965) seconds
+Test Suite 'LocalDayBucketTests' started at 2569-09-18 6:27:10.261 AM.
+Test Case '-[MorselTests.LocalDayBucketTests testDirtyLocalEnergyDayFeedsTodaySnapshot]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testDirtyLocalEnergyDayFeedsTodaySnapshot]' passed (0.015 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testEarlyBreakfastPlus07LandsOnSep1RowNotAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testEarlyBreakfastPlus07LandsOnSep1RowNotAug31]' passed (0.013 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testEnergyLogJustAfterPlus07MidnightBucketsToLocalSep1Row]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testEnergyLogJustAfterPlus07MidnightBucketsToLocalSep1Row]' passed (0.010 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryCompletedDaysTreatBoundaryInstantsAsLocalDays]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryCompletedDaysTreatBoundaryInstantsAsLocalDays]' passed (0.004 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryViewModelWindowIsSevenLocalDays]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryViewModelWindowIsSevenLocalDays]' passed (0.005 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testLateDinnerFullyInsideAug31LocalDayStaysOnAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testLateDinnerFullyInsideAug31LocalDayStaysOnAug31]' passed (0.013 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testMealJustAfterPlus07MidnightLandsOnSep1RowNotAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testMealJustAfterPlus07MidnightLandsOnSep1RowNotAug31]' passed (0.011 seconds).
+Test Suite 'LocalDayBucketTests' passed at 2569-09-18 6:27:10.335 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.072 (0.075) seconds
+Test Suite 'ParallelReadsTests' started at 2569-09-18 6:27:10.336 AM.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.012 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-193-ledger-narrow/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (0.416 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.017 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.022 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.010 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.008 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.005 seconds).
+Test Suite 'ParallelReadsTests' failed at 2569-09-18 6:27:10.828 AM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 0.489 (0.492) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-18 6:27:10.828 AM.
+	 Executed 32 tests, with 14 failures (0 unexpected) in 1.743 (1.764) seconds
+Test Suite 'Selected tests' failed at 2569-09-18 6:27:10.828 AM.
+	 Executed 32 tests, with 14 failures (0 unexpected) in 1.743 (1.765) seconds
+Failing tests:
+** TEST FAILED **
+BASE_RAW_EXIT=65

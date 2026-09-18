@@ -1,0 +1,6 @@
+# Issue #193 git diff --check (worktree and base..HEAD)
+
+# git diff --check (worktree)
+worktree_exit=0
+# git diff --check a794911..HEAD
+range_exit=0
