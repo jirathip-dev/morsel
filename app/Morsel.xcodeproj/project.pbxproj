@@ -21,7 +21,6 @@
 		03B0FD00404298F8E09D1AD5 /* JournalPaperTexture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C591525368CD6908A9FE189E /* JournalPaperTexture.swift */; };
 		03CDBDB0849DA91BC445616B /* sticky-rice-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 870C95B065CDA59E73C6F8D6 /* sticky-rice-paper-64.png */; };
 		04986F44AEAF7D1DCC66E178 /* sticky-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3AC8A315E9E700CBFAD48A65 /* sticky-rice-night-64.png */; };
-		0502377A4A224B3F2ECADDAC /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 59AB3C2BD9BCC1F1E0487319 /* coffee-photo.png */; };
 		0587A79CF555FEB145A5F89E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1096DD7210666ACB8358567E /* Repository.swift */; };
 		05A1226B278E0A123C377BC3 /* burger-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 28ED6D26F5FE6EB729061364 /* burger-paper-64.png */; };
 		063D145FB418A8F40B09164C /* HistoryFreezeRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3831705084A25885D3664C7E /* HistoryFreezeRegressionTests.swift */; };
@@ -29,6 +28,7 @@
 		07172B3271E4208E22736457 /* JournalCalendarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2FE8C66978887A6E89CD26 /* JournalCalendarTests.swift */; };
 		07B444C7E3A96A369CB8A4E4 /* DayReadCompositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180282C9EE85BF5F2428099E /* DayReadCompositionTests.swift */; };
 		086B3A61512495E2A1B16DBD /* MealThumbnailKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46118488FDFBDD113CB9E7DA /* MealThumbnailKey.swift */; };
+		0873F75ABDFF67046F219F8C /* RestoringShellRenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */; };
 		08A89AB285664F8B4F378190 /* TodayFirstPaintOverlayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64B3248DD14131FEA972258E /* TodayFirstPaintOverlayTests.swift */; };
 		0A3FE48881FB11BE338345A4 /* a-paper-unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210E5558B4B804F5EBEE03D /* a-paper-unknown.png */; };
 		0AA0E3BE156E3997A9178740 /* tomato-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 12FA2AFF34646EF99D7AE005 /* tomato-night-64.png */; };
@@ -103,6 +103,7 @@
 		34945FF67A68C7A64C6210BA /* orange-juice-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 31DB9CF1039021DCACEB093F /* orange-juice-paper-64.png */; };
 		35323DDF0A1D0EAA87FDAD9B /* cookie-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BF86948BA18AFCB8F3B798B /* cookie-paper-64.png */; };
 		35BE9784E8DF2A5133E48474 /* shabu-slices-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DEC1E6437810ED5E003DFCE /* shabu-slices-night-64.png */; };
+		366410BC842F36AB46DA4430 /* RestoringShellPhaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */; };
 		370DDFE210F365641DDC4D17 /* braised-pork-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C48A76F7F4F3B52EA319CC59 /* braised-pork-paper-64.png */; };
 		37161EEB054B0EC5322B63C6 /* MealCorrections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E934A83609248C24192AB339 /* MealCorrections.swift */; };
 		37BB0BB4F99951C97172B805 /* french-fries-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 74D86B2099A3A3D68D848533 /* french-fries-night-64.png */; };
@@ -152,6 +153,7 @@
 		4DFB3096C6C434BF3B043216 /* GoalsPolishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B480DB8B97754277CA3369 /* GoalsPolishTests.swift */; };
 		4EFA9D1EC8DAD51CEEE60B88 /* satay-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CE9D56707288C912CD9386 /* satay-paper-64.png */; };
 		4F2C0C0BB247B2C47806C6A0 /* MealThumbnailPreparer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2CE97ABBBE7B4DACC5AE5A /* MealThumbnailPreparer.swift */; };
+		4FD6764C6423260A229FA275 /* RestoringShellRoutingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */; };
 		50C321E91AD6F4F41319D35A /* chocolate-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3213AA2F06DE6E9D109A7132 /* chocolate-night-64.png */; };
 		50F844A70E76E4D837043E44 /* fallback-neutral-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A8F682FF6A89CA4258F6202B /* fallback-neutral-paper-64.png */; };
 		520621D573B3BA74B3C258E1 /* TrainingDayEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C8E12C50F979B71F909550 /* TrainingDayEvidenceTests.swift */; };
@@ -226,6 +228,7 @@
 		775C98C48668A4362BBA0C99 /* GoalsEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7257214EBD9D6CD630B89A07 /* GoalsEditor.swift */; };
 		77668796664A5E6769E4D26F /* sushi-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = A553800628C23A00AA4D9786 /* sushi-night-64.png */; };
 		77D182A4CB1C48B6B8336540 /* stir-fried-noodles-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E9CE8E65C6216A1D34D681B7 /* stir-fried-noodles-paper-64.png */; };
+		7800EEBB0E8C4A966455CC28 /* coffee-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AF7F8B673AC99E40ECFA247 /* coffee-photo.png */; };
 		78C7940CF5673B7AB4325604 /* HealthCalmStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E16F551240CA0698041E83 /* HealthCalmStatus.swift */; };
 		78D51AF17D0512CFA3E7E050 /* SupabaseMealReadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0D158665E5F1AF65CD855E /* SupabaseMealReadModel.swift */; };
 		79566A324080409AB6D8EE88 /* cold-cuts-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 93463F357EE9551EAB8A8D23 /* cold-cuts-night-64.png */; };
@@ -309,6 +312,7 @@
 		A0B322BC362350B67285EFE8 /* purple-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 7562F85896A8ED284939ED0F /* purple-rice-night-64.png */; };
 		A0FF22BB598957982FCCC7B6 /* toast-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C0F1AF1ABCCE4B3F31178D76 /* toast-night-64.png */; };
 		A2A79C4866A57FD486FB3A37 /* khanom-jeen-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 33F57E6AEE01D7BC015BB702 /* khanom-jeen-night-64.png */; };
+		A4529EE5653E05846ABB2FC4 /* RestoringShellSkeleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */; };
 		A4C2B49326C650BCA227C591 /* HealthDeltaTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF4CC98910EC9DF92DDDD5C /* HealthDeltaTestSupport.swift */; };
 		A585BD73DFFBC9B2D24BFCA9 /* grilled-beef-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = D58A6281EED323305F2C57B8 /* grilled-beef-paper-64.png */; };
 		A5A5A15023FAFBC5CEB62399 /* AddMealPhotoSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04729311B72F7B3B79B1DFAE /* AddMealPhotoSection.swift */; };
@@ -388,6 +392,7 @@
 		CE0F6E8680E2039517EA1421 /* fried-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 75B61182ACD53EB280579846 /* fried-rice-night-64.png */; };
 		CE13203FC3B35CC07E4028AF /* egg-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 1529864179391D77892C9695 /* egg-night-64.png */; };
 		CE16E9D1A6B3A387E5673CF3 /* cookie-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = E764910603E3674307B9948E /* cookie-night-64.png */; };
+		CE82AD97A5139C1EA23198A0 /* RestoringShellEvidenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */; };
 		CFAFC18B593711A0365DB47C /* cake-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 683E8D0263F5936B413AF1A7 /* cake-paper-64.png */; };
 		CFB6A3D4AB37D0793BB42F3A /* MealThumbnailPreparationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D114C563B4AF938F7DEB7A /* MealThumbnailPreparationTests.swift */; };
 		D142119609CBC4B43FFE9432 /* peanuts-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 2021CC1B9B4CEA90C74DD0AC /* peanuts-night-64.png */; };
@@ -408,6 +413,7 @@
 		DDD1B3A9EE1C4B2F54D5C0AA /* donut-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = C88407BB572902B107DA4CD5 /* donut-night-64.png */; };
 		DE47F7E03DBD748AB4FE2B79 /* a-night-focaccia.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC1E6CF7DEBFDA558572115 /* a-night-focaccia.png */; };
 		DE54A311622C37A881FD37E7 /* cooking-oil-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 69002A73481DE4564F500A2B /* cooking-oil-paper-64.png */; };
+		DED5450F2376AE517513AB8C /* RestoringShellTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */; };
 		DF32FFD0C77114792C712BD1 /* hot-pot-paper-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 794D3B24A25CB3A1723F650B /* hot-pot-paper-64.png */; };
 		DF925CD1DFC9941C9AEB427C /* jasmine-rice-night-64.png in Resources */ = {isa = PBXBuildFile; fileRef = 33BC43B64D0F6F75128497DA /* jasmine-rice-night-64.png */; };
 		DFD768D76068CF6D95A420BC /* MorselApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300178E9A1C65132F9460803 /* MorselApp.swift */; };
@@ -525,6 +531,7 @@
 		062D5DDE6D872015E20D470E /* corn-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "corn-paper-64.png"; sourceTree = "<group>"; };
 		06D55E778D089F2D3B7F3EA4 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
 		07707EDC7EC2534BC388BC4D /* GoalsRestoreTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRestoreTransport.swift; sourceTree = "<group>"; };
+		079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellTestSupport.swift; sourceTree = "<group>"; };
 		07D5886C5CA7CBA1812CC72B /* HistoryCacheScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCacheScopeTests.swift; sourceTree = "<group>"; };
 		08201D3AD7F67FFED6D57073 /* HealthTruthfulnessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTruthfulnessTests.swift; sourceTree = "<group>"; };
 		0919CF260EC13E0B8F8964F9 /* MealThumbnailReuseEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealThumbnailReuseEvidenceTests.swift; sourceTree = "<group>"; };
@@ -563,8 +570,10 @@
 		19C1C0258B7A800F46DCEDFB /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		1AC1E6CF7DEBFDA558572115 /* a-night-focaccia.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-night-focaccia.png"; sourceTree = "<group>"; };
 		1BEC84904306790FCC724B03 /* HistoryLedgerViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryLedgerViews.swift; sourceTree = "<group>"; };
+		1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellRenderTests.swift; sourceTree = "<group>"; };
 		1D21896711A44BE300141DE6 /* fallback-produce-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-produce-night-64.png"; sourceTree = "<group>"; };
 		1D39BF1E84BF2CBC07A46AD4 /* dragon-fruit-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dragon-fruit-paper-64.png"; sourceTree = "<group>"; };
+		1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellRoutingTests.swift; sourceTree = "<group>"; };
 		1E327C1F23B1ABD604D1DDF2 /* ice-cream-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ice-cream-night-64.png"; sourceTree = "<group>"; };
 		1E40FE4C31061078594347CD /* grilled-pork-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-pork-paper-64.png"; sourceTree = "<group>"; };
 		1FE733B05C704523AC24E5D2 /* pasta-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pasta-paper-64.png"; sourceTree = "<group>"; };
@@ -665,7 +674,6 @@
 		572F80F8F993993EFABA6613 /* mashed-potato-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mashed-potato-night-64.png"; sourceTree = "<group>"; };
 		58C80CA1DB8CA7D85EA72B11 /* FoodArtworkFallbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodArtworkFallbackTests.swift; sourceTree = "<group>"; };
 		58C85D1BA4132A99285E4465 /* fallback-protein-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-protein-night-64.png"; sourceTree = "<group>"; };
-		59AB3C2BD9BCC1F1E0487319 /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		59B901BF4621B0E88E843FAD /* fallback-prepared-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-prepared-paper-64.png"; sourceTree = "<group>"; };
 		5A1C3FFEC146EFA98ED7AAF9 /* grilled-chicken-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grilled-chicken-paper-64.png"; sourceTree = "<group>"; };
 		5A97968CFB8F765570DB035C /* JournalDiaryLoadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDiaryLoadTests.swift; sourceTree = "<group>"; };
@@ -779,11 +787,13 @@
 		8A2DAAEC85CD0B377D1B036A /* EndpointCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointCopyTests.swift; sourceTree = "<group>"; };
 		8A4156A89475744AA7705D13 /* TargetedOutboxReadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetedOutboxReadTests.swift; sourceTree = "<group>"; };
 		8A48B137154BF3A85E92C071 /* DatedTargets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatedTargets.swift; sourceTree = "<group>"; };
+		8AF7F8B673AC99E40ECFA247 /* coffee-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coffee-photo.png"; sourceTree = "<group>"; };
 		8B1884BBAD92FF3F6AEF1D66 /* HealthSyncCopyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSyncCopyTests.swift; sourceTree = "<group>"; };
 		8B33C369482B9831805E3329 /* pasta-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pasta-night-64.png"; sourceTree = "<group>"; };
 		8B8EADEF45FFD027FD56B3B5 /* SharedButtonTargetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedButtonTargetTests.swift; sourceTree = "<group>"; };
 		8B945E15B916830A85CE5BA3 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		8BF86948BA18AFCB8F3B798B /* cookie-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cookie-paper-64.png"; sourceTree = "<group>"; };
+		8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellPhaseTests.swift; sourceTree = "<group>"; };
 		8C8DE3063690A2364CFEE975 /* purple-rice-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purple-rice-paper-64.png"; sourceTree = "<group>"; };
 		8DA60553CC8D783AC1B6B5D6 /* PaperFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperFields.swift; sourceTree = "<group>"; };
 		8E7E3F4CF3D488346B6CC436 /* steamed-bun-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "steamed-bun-paper-64.png"; sourceTree = "<group>"; };
@@ -918,6 +928,7 @@
 		D6D797778BA1664F9C8F97F4 /* fallback-grains-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-grains-night-64.png"; sourceTree = "<group>"; };
 		D71C79A394BD3AF107F8638B /* milk-tea-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "milk-tea-paper-64.png"; sourceTree = "<group>"; };
 		D731897702EDD24050F51582 /* GoalsRestoreRenderingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsRestoreRenderingTests.swift; sourceTree = "<group>"; };
+		D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellSkeleton.swift; sourceTree = "<group>"; };
 		D791C45979DCFA0FA73BBF1D /* guava-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guava-night-64.png"; sourceTree = "<group>"; };
 		D7B369E3DF6CC682019AE172 /* GoalsPageCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsPageCopy.swift; sourceTree = "<group>"; };
 		D7BBAA0806AC4D9DD264DC89 /* soy-milk-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "soy-milk-night-64.png"; sourceTree = "<group>"; };
@@ -986,6 +997,7 @@
 		F5C1508E0A84C6910048A9A9 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		F683556CF837C4BF2E53E667 /* fallback-drinks-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fallback-drinks-night-64.png"; sourceTree = "<group>"; };
 		F72C811EF35FB93153E88842 /* stewed-duck-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stewed-duck-paper-64.png"; sourceTree = "<group>"; };
+		F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoringShellEvidenceTests.swift; sourceTree = "<group>"; };
 		F773856F3DDFED041688FCB8 /* PhotoPreparationPublicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreparationPublicationTests.swift; sourceTree = "<group>"; };
 		F7C7FEA82741BFDC95C1AF26 /* chocolate-paper-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chocolate-paper-64.png"; sourceTree = "<group>"; };
 		F876D199CFE0A8C2507DE5CF /* strawberry-night-64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "strawberry-night-64.png"; sourceTree = "<group>"; };
@@ -1014,12 +1026,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09AC665BBD575748FEB4CE6A /* issue-241-artwork-native */ = {
+			isa = PBXGroup;
+			children = (
+				55B3AC1B943F7B60D2F1E2B9 /* fixtures */,
+			);
+			path = "issue-241-artwork-native";
+			sourceTree = "<group>";
+		};
 		1AFDA4B412B398A53D28BA2A = {
 			isa = PBXGroup;
 			children = (
 				62826381660BDBE9BBB4CA2F /* Assets.xcassets */,
 				1C625302EE592BC774CC3FA7 /* Fonts */,
-				AE9D5A193607D593FEAE0623 /* issue-195-render-derived */,
+				DE04A6298D4E650DCF61CB2E /* issue-310-restoring-shell */,
 				441456F0892E00AAF3B9BAFD /* Resources */,
 				3621CE8D3C7CB6FA69427469 /* Sources */,
 				72FA8734899AB1DF14045A55 /* Tests */,
@@ -1040,14 +1060,6 @@
 				A150627731DE571725CD76C7 /* OFL-IBMPlexMono.txt */,
 			);
 			path = Fonts;
-			sourceTree = "<group>";
-		};
-		2C8234776384D7DA33363711 /* evidence */ = {
-			isa = PBXGroup;
-			children = (
-				FC9D7EF6B6A26BCDEBFBC8F0 /* issue-241-artwork-native */,
-			);
-			path = evidence;
 			sourceTree = "<group>";
 		};
 		3621CE8D3C7CB6FA69427469 /* Sources */ = {
@@ -1138,6 +1150,7 @@
 				9507E44AD8780775C30E2891 /* PreviewData.swift */,
 				E43170EE22A8A5F180C21399 /* ReliabilityServices.swift */,
 				1096DD7210666ACB8358567E /* Repository.swift */,
+				D77D5508A1FE8A306CC5DA09 /* RestoringShellSkeleton.swift */,
 				212A00520565B422FCE6413D /* SessionStore.swift */,
 				603058D2235FEAF8B5DA6463 /* SettingsView.swift */,
 				DD5819494BC9632C4038DD62 /* SupabaseMealMutations.swift */,
@@ -1437,6 +1450,22 @@
 			path = FoodArt;
 			sourceTree = "<group>";
 		};
+		55B3AC1B943F7B60D2F1E2B9 /* fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				8AF7F8B673AC99E40ECFA247 /* coffee-photo.png */,
+			);
+			path = fixtures;
+			sourceTree = "<group>";
+		};
+		5F767657285AEBA421236C5B /* evidence */ = {
+			isa = PBXGroup;
+			children = (
+				09AC665BBD575748FEB4CE6A /* issue-241-artwork-native */,
+			);
+			path = evidence;
+			sourceTree = "<group>";
+		};
 		72FA8734899AB1DF14045A55 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1452,23 +1481,6 @@
 				7A85C2813FC9527332F6200F /* MorselTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		AC3E8FF70F4301F46F653B70 /* fixtures */ = {
-			isa = PBXGroup;
-			children = (
-				59AB3C2BD9BCC1F1E0487319 /* coffee-photo.png */,
-			);
-			path = fixtures;
-			sourceTree = "<group>";
-		};
-		AE9D5A193607D593FEAE0623 /* issue-195-render-derived */ = {
-			isa = PBXGroup;
-			children = (
-				C11156663F14A5D30224975C /* docs */,
-			);
-			name = "issue-195-render-derived";
-			path = ..;
 			sourceTree = "<group>";
 		};
 		BB77CBB642C5C90A5C95394E /* MorselTests */ = {
@@ -1558,6 +1570,11 @@
 				C35B95C239ECAB2AB3FE1C81 /* RenderDerivedProbeTests.swift */,
 				4D17716C480A992A710B533C /* RenderDerivedReuseTests.swift */,
 				FC12C98AF83FE21E2E883E97 /* RenderDerivedTestSupport.swift */,
+				F7372C894F00CE7E64B1CC5B /* RestoringShellEvidenceTests.swift */,
+				8C77EEE56B41727B41E6EC6F /* RestoringShellPhaseTests.swift */,
+				1D206DB2909E8EF52769A5FC /* RestoringShellRenderTests.swift */,
+				1D63FE4350FDB21EAC164C5F /* RestoringShellRoutingTests.swift */,
+				079AF7ADAB4A07C71AC06177 /* RestoringShellTestSupport.swift */,
 				53A618389867CB2745D36C98 /* RowArtworkRendererTests.swift */,
 				39CDB4B3EC371D5158AEB736 /* RowNoiseRegressionTests.swift */,
 				8B8EADEF45FFD027FD56B3B5 /* SharedButtonTargetTests.swift */,
@@ -1591,14 +1608,6 @@
 			path = MorselTests;
 			sourceTree = "<group>";
 		};
-		C11156663F14A5D30224975C /* docs */ = {
-			isa = PBXGroup;
-			children = (
-				2C8234776384D7DA33363711 /* evidence */,
-			);
-			path = docs;
-			sourceTree = "<group>";
-		};
 		CBAD6484E6C141A6B0F32E72 /* JournalArt */ = {
 			isa = PBXGroup;
 			children = (
@@ -1616,12 +1625,21 @@
 			path = JournalArt;
 			sourceTree = "<group>";
 		};
-		FC9D7EF6B6A26BCDEBFBC8F0 /* issue-241-artwork-native */ = {
+		DE04A6298D4E650DCF61CB2E /* issue-310-restoring-shell */ = {
 			isa = PBXGroup;
 			children = (
-				AC3E8FF70F4301F46F653B70 /* fixtures */,
+				FF1BBBF478C1393790D59E81 /* docs */,
 			);
-			path = "issue-241-artwork-native";
+			name = "issue-310-restoring-shell";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		FF1BBBF478C1393790D59E81 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				5F767657285AEBA421236C5B /* evidence */,
+			);
+			path = docs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1706,7 +1724,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0502377A4A224B3F2ECADDAC /* coffee-photo.png in Resources */,
+				7800EEBB0E8C4A966455CC28 /* coffee-photo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2102,6 +2120,7 @@
 				EFADB9757DE22C7C88F697FB /* PreviewData.swift in Sources */,
 				643B174E5FB6DBFF4158DC42 /* ReliabilityServices.swift in Sources */,
 				0587A79CF555FEB145A5F89E /* Repository.swift in Sources */,
+				A4529EE5653E05846ABB2FC4 /* RestoringShellSkeleton.swift in Sources */,
 				F33D5341291D488663F545DC /* SessionStore.swift in Sources */,
 				71A41B9518BD81078A6E61DB /* SettingsView.swift in Sources */,
 				C283D4B4DF36C059960989B1 /* SupabaseMealMutations.swift in Sources */,
@@ -2211,6 +2230,11 @@
 				BF65F744E4CF4B57B5B2FD6E /* RenderDerivedProbeTests.swift in Sources */,
 				02959B8057BC8B73FEEC4468 /* RenderDerivedReuseTests.swift in Sources */,
 				85C0490EFE0F67A1995EADBD /* RenderDerivedTestSupport.swift in Sources */,
+				CE82AD97A5139C1EA23198A0 /* RestoringShellEvidenceTests.swift in Sources */,
+				366410BC842F36AB46DA4430 /* RestoringShellPhaseTests.swift in Sources */,
+				0873F75ABDFF67046F219F8C /* RestoringShellRenderTests.swift in Sources */,
+				4FD6764C6423260A229FA275 /* RestoringShellRoutingTests.swift in Sources */,
+				DED5450F2376AE517513AB8C /* RestoringShellTestSupport.swift in Sources */,
 				13A961F39A2C0D9148CC339B /* RowArtworkRendererTests.swift in Sources */,
 				5D8A08F54496DA6FEF572F12 /* RowNoiseRegressionTests.swift in Sources */,
 				EF45BBB96E3DB0604178A785 /* SharedButtonTargetTests.swift in Sources */,

@@ -58,7 +58,9 @@ function channel(hex: string, i: number): number {
 }
 
 // Bounded slices of the real shell.
-const root = mustSlice(morselApp, 'private struct MorselRootView: View', 'private struct AuthenticatedDashboardView: View')
+// Issue #310 — the shell root is internal (not file-private) so the restoring
+// witnesses can mount the real routing; the slice anchors below are unchanged.
+const root = mustSlice(morselApp, 'struct MorselRootView: View', 'private struct AuthenticatedDashboardView: View')
 const sessionBranch = mustSlice(root, 'if let session = sessionStore.session {', '} else if sessionStore.isSetupDeferred {')
 const deferredSite = mustSlice(root, '} else if sessionStore.isSetupDeferred {', '} else {')
 const initialSite = mustSlice(root, '} else {', '.task {')

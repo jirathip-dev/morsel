@@ -245,7 +245,8 @@ struct PaperSkeletonFill: View {
 
 /// Today's first-load skeleton: journal hero + macro wash + log rows in the
 /// same vertical rhythm as the loaded page (issue #136 — no text spinner).
-private struct TodaySkeleton: View {
+/// Issue #310 — also the shell's restoring surface language (`TodaySkeleton`).
+struct TodaySkeleton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .center, spacing: 16) {
