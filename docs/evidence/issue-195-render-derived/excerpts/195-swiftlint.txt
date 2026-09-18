@@ -1,0 +1,6 @@
+# Issue #195 — SwiftLint strict, whole repo (app/ is the included path).
+# command: swiftlint lint --strict
+Linting 'LocalDayBucketTests.swift' (207/208)
+Linting 'PhotoPipelineRegressionTests.swift' (208/208)
+Done linting! Found 0 violations, 0 serious in 208 files.
+RAW_EXIT=0

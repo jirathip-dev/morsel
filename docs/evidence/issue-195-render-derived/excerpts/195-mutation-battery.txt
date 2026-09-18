@@ -1,0 +1,41 @@
+# Issue #195 mutation battery: each mutation reverts one mechanism of the fix and the
+# durable suite must fail (raw exit 65). Driver: tools/mutation-battery.sh
+RAW_EXIT=65
+
+pristine sha256:
+mutated app/Sources/Morsel/ViewModel.swift
+MUTATION m1-cache-check-inverted RAW_EXIT=65
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:67: error: -[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce] : XCTAssertEqual failed: ("2178.0") is not equal to ("2428.0")
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:102: error: -[MorselTests.RenderDerivedReuseTests testMountedTodayReusesTheDerivedScan] : XCTAssertEqual failed: ("378") is not equal to ("18") - the mounted body path must reuse the derived scan
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:40: error: -[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan] : XCTAssertEqual failed: ("1901") is not equal to ("1") - unchanged updates must not rescan the day
+	 Executed 6 tests, with 12 failures (0 unexpected) in 3.547 (3.550) seconds
+	 Executed 6 tests, with 12 failures (0 unexpected) in 3.547 (3.551) seconds
+	 Executed 6 tests, with 12 failures (0 unexpected) in 3.547 (3.553) seconds
+restored sha256:
+mutated app/Sources/Morsel/ViewModel.swift
+MUTATION m2-totals-bypasses-cache RAW_EXIT=65
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:63: error: -[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce] : XCTAssertEqual failed: ("1") is not equal to ("2") - a real mutation invalidates exactly one scan
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:28: error: -[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan] : XCTAssertGreaterThan failed: ("0") is not greater than ("0") - the first paint must scan once
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:40: error: -[MorselTests.RenderDerivedReuseTests testUnchangedUpdatesReuseTheDerivedScan] : XCTAssertEqual failed: ("1") is not equal to ("0") - unchanged updates must not rescan the day
+	 Executed 6 tests, with 3 failures (0 unexpected) in 2.348 (2.351) seconds
+	 Executed 6 tests, with 3 failures (0 unexpected) in 2.348 (2.352) seconds
+	 Executed 6 tests, with 3 failures (0 unexpected) in 2.348 (2.353) seconds
+restored sha256:
+mutated app/Sources/Morsel/ViewModel.swift
+MUTATION m3-invalidation-removed RAW_EXIT=65
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:65: error: -[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce] : XCTAssertEqual failed: ("6") is not equal to ("7") - the added low-confidence item needs review
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:66: error: -[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce] : XCTAssertTrue failed
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:67: error: -[MorselTests.RenderDerivedReuseTests testMealMutationInvalidatesExactlyOnce] : XCTAssertEqual failed: ("2178.0") is not equal to ("2428.0")
+	 Executed 6 tests, with 10 failures (0 unexpected) in 2.196 (2.200) seconds
+	 Executed 6 tests, with 10 failures (0 unexpected) in 2.196 (2.201) seconds
+	 Executed 6 tests, with 10 failures (0 unexpected) in 2.196 (2.202) seconds
+restored sha256:
+mutated app/Sources/Morsel/JournalUI.swift
+MUTATION m4-formatter-zone-pinned RAW_EXIT=65
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:124: error: -[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones] : XCTAssertEqual failed: ("Optional("02.FEB.2026")") is not equal to ("Optional("01.FEB.2026")") - America/Los_Angeles exact folio
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:123: error: -[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones] : XCTAssertEqual failed: ("02.FEB.2026") is not equal to ("03.FEB.2026") - Asia/Tokyo must match a fresh formatter
+/Users/jirathip/.herdr/worktrees/morsel/issue-195-render-derived/app/Tests/MorselTests/RenderDerivedReuseTests.swift:124: error: -[MorselTests.RenderDerivedReuseTests testGutterDateMatchesAFreshFormatterAcrossTimeZones] : XCTAssertEqual failed: ("Optional("02.FEB.2026")") is not equal to ("Optional("03.FEB.2026")") - Asia/Tokyo exact folio
+	 Executed 6 tests, with 4 failures (0 unexpected) in 1.524 (1.528) seconds
+	 Executed 6 tests, with 4 failures (0 unexpected) in 1.524 (1.529) seconds
+	 Executed 6 tests, with 4 failures (0 unexpected) in 1.524 (1.530) seconds
+restored sha256:
