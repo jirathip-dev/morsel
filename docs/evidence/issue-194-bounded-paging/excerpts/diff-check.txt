@@ -1,0 +1,6 @@
+# Issue #194 whitespace gate over the committed range.
+# Full raw log: the lane checkout's .lane-logs/diff-check.txt (gitignored).
+# Command: git diff --check 1cf9ecc26b56037b53b34cc611425043bf21a36d..HEAD
+# RAW_EXIT=0
+
+RAW_EXIT=0

@@ -1,0 +1,215 @@
+# Issue #194 base leg with the fix stashed — the pre-existing ParallelReads red reproduces.
+# Full raw log: the lane checkout's .lane-logs/base-known-reds.txt (gitignored).
+# Command: the same 17-class command with Repository.swift/HistoryRepository.swift/SupabaseMenus.swift stashed
+# RAW_EXIT=65
+
+Test Suite 'Selected tests' started at 2569-09-18 11:25:39.615 AM.
+Test Suite 'MorselTests.xctest' started at 2569-09-18 11:25:39.615 AM.
+Test Suite 'ArtworkIdentityReadTests' started at 2569-09-18 11:25:39.616 AM.
+Test Case '-[MorselTests.ArtworkIdentityReadTests testAbsentAndNullWireIdentityAndOldCacheDecode]' started.
+Test Case '-[MorselTests.ArtworkIdentityReadTests testAbsentAndNullWireIdentityAndOldCacheDecode]' passed (0.018 seconds).
+Test Case '-[MorselTests.ArtworkIdentityReadTests testAmbiguousAliasesAndCategoriesFailClosed]' started.
+Test Case '-[MorselTests.ArtworkIdentityReadTests testAmbiguousAliasesAndCategoriesFailClosed]' passed (0.001 seconds).
+Test Case '-[MorselTests.ArtworkIdentityReadTests testLiveTodayReadProjectsDecodesHydratesAndCachesIdentity]' started.
+Test Case '-[MorselTests.ArtworkIdentityReadTests testLiveTodayReadProjectsDecodesHydratesAndCachesIdentity]' passed (0.054 seconds).
+Test Suite 'ArtworkIdentityReadTests' passed at 2569-09-18 11:25:39.692 AM.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.074 (0.076) seconds
+Test Suite 'DatedTargetReadRenderTests' started at 2569-09-18 11:25:39.692 AM.
+Test Case '-[MorselTests.DatedTargetReadRenderTests testRealReadContractReachesNativeAdapterAndPaperNightChart]' started.
+Test Case '-[MorselTests.DatedTargetReadRenderTests testRealReadContractReachesNativeAdapterAndPaperNightChart]' passed (7.582 seconds).
+Test Case '-[MorselTests.DatedTargetReadRenderTests testRejectsCurrentOrMisattributedSnapshots]' started.
+Test Case '-[MorselTests.DatedTargetReadRenderTests testRejectsCurrentOrMisattributedSnapshots]' passed (0.010 seconds).
+Test Suite 'DatedTargetReadRenderTests' passed at 2569-09-18 11:25:47.286 AM.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 7.593 (7.594) seconds
+Test Suite 'DayReadCompositionTests' started at 2569-09-18 11:25:47.287 AM.
+Test Case '-[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testCachedDayDistinguishesPendingRefreshFromConcludedFailure]' passed (0.101 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testFailedRefreshThroughLocalFirstKeepsSuccessfulTimeAndRetryRecovers]' passed (0.058 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testHealthyLoadNeverShowsTheCachedNoticeThroughTheInFlightWindow]' passed (0.044 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyCacheHasNoInventedSuccessTimeAndEmptyCacheStillErrors]' passed (0.020 seconds).
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyProvenanceWithoutAnOutcomeDecodesAsPending]' started.
+Test Case '-[MorselTests.DayReadCompositionTests testLegacyProvenanceWithoutAnOutcomeDecodesAsPending]' passed (0.002 seconds).
+Test Suite 'DayReadCompositionTests' passed at 2569-09-18 11:25:47.514 AM.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.225 (0.227) seconds
+Test Suite 'DayReadDegradeEvidenceTests' started at 2569-09-18 11:25:47.514 AM.
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' started.
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testCachedAndIncompleteDayReadStatesInPaperAndNight]' passed (4.393 seconds).
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testHealthyLoadAndFailedRefreshNoticeStatesInPaperAndNight]' started.
+Test Case '-[MorselTests.DayReadDegradeEvidenceTests testHealthyLoadAndFailedRefreshNoticeStatesInPaperAndNight]' passed (3.633 seconds).
+Test Suite 'DayReadDegradeEvidenceTests' passed at 2569-09-18 11:25:55.541 AM.
+	 Executed 2 tests, with 0 failures (0 unexpected) in 8.026 (8.027) seconds
+Test Suite 'DayReadDegradeTests' started at 2569-09-18 11:25:55.542 AM.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testCachedSnapshotsKeepTheMarkerAndOldCachesStillDecode]' passed (0.002 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testDegradedReadReportsTheIncompleteMealCountForTheNotice]' passed (0.010 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailedRefreshLabelsTheCachedDayAndRetryClearsIt]' passed (0.002 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testFailingItemReadDegradesTheDayInsteadOfAbortingIt]' passed (0.007 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testHealthyReadMarksEveryMealComplete]' passed (0.006 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testOneUnreadableItemRowFlagsOnlyItsOwnMeal]' passed (0.006 seconds).
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' started.
+Test Case '-[MorselTests.DayReadDegradeTests testUnattributableItemFlagsEveryMealWithoutLosingReadableRows]' passed (0.006 seconds).
+Test Suite 'DayReadDegradeTests' passed at 2569-09-18 11:25:55.581 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.036 (0.039) seconds
+Test Suite 'HeroNativeRoundTripTests' started at 2569-09-18 11:25:55.581 AM.
+Test Case '-[MorselTests.HeroNativeRoundTripTests testNativeWriteTriggerReadAndRenderedHero]' started.
+Test Case '-[MorselTests.HeroNativeRoundTripTests testNativeWriteTriggerReadAndRenderedHero]' skipped (0.010 seconds).
+Test Suite 'HeroNativeRoundTripTests' passed at 2569-09-18 11:25:55.591 AM.
+	 Executed 1 test, with 1 test skipped and 0 failures (0 unexpected) in 0.010 (0.010) seconds
+Test Suite 'HistoryCachePaintTests' started at 2569-09-18 11:25:55.591 AM.
+Test Case '-[MorselTests.HistoryCachePaintTests testCachedOverviewAndMealsPublishWhileRemoteIsHeld]' started.
+Test Case '-[MorselTests.HistoryCachePaintTests testCachedOverviewAndMealsPublishWhileRemoteIsHeld]' passed (0.021 seconds).
+Test Suite 'HistoryCachePaintTests' passed at 2569-09-18 11:25:55.612 AM.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.021 (0.021) seconds
+Test Suite 'HistoryCacheScopeTests' started at 2569-09-18 11:25:55.612 AM.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testCacheIsScopedByAccountDayAndRange]' passed (0.016 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testLegacyCacheHasNoInventedFreshnessTime]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' started.
+Test Case '-[MorselTests.HistoryCacheScopeTests testTimezoneChangeCannotReuseOrPublishTheOldLocalDay]' passed (0.041 seconds).
+Test Suite 'HistoryCacheScopeTests' passed at 2569-09-18 11:25:55.671 AM.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.057 (0.058) seconds
+Test Suite 'HistoryCacheStateTests' started at 2569-09-18 11:25:55.671 AM.
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testCancellationKeepsCachedContentWithoutMisleadingErrorOrFreshness]' passed (0.015 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testColdCacheKeepsSkeletonThenShowsErrorsNotAnEmptySuccess]' passed (0.019 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testFailedRefreshKeepsCacheAndOriginalFreshnessAcrossReopen]' passed (0.018 seconds).
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' started.
+Test Case '-[MorselTests.HistoryCacheStateTests testTransportCancellationIsNotReportedAsOffline]' passed (0.012 seconds).
+Test Suite 'HistoryCacheStateTests' passed at 2569-09-18 11:25:55.735 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.063 (0.065) seconds
+Test Suite 'HistoryFreezeRegressionTests' started at 2569-09-18 11:25:55.736 AM.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCancelledLedgerReadIsSupersededWithinTwoSeconds]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCancelledLedgerReadIsSupersededWithinTwoSeconds]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCollapseSupersedesInFlightDayRead]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testCollapseSupersedesInFlightDayRead]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testStaleDayReadCannotOverwriteNewerDaySelection]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testStaleDayReadCannotOverwriteNewerDaySelection]' passed (0.001 seconds).
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testTenFastTabSwitchesNeverStickOnLoadingState]' started.
+Test Case '-[MorselTests.HistoryFreezeRegressionTests testTenFastTabSwitchesNeverStickOnLoadingState]' passed (0.001 seconds).
+Test Suite 'HistoryFreezeRegressionTests' passed at 2569-09-18 11:25:55.741 AM.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.004 (0.005) seconds
+Test Suite 'JournalCalendarTests' started at 2569-09-18 11:25:55.741 AM.
+Test Case '-[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal]' started.
+Test Case '-[MorselTests.JournalCalendarTests testAllHistoryCrossesEmptyMonthsAndStopsOneDayBeforeTheFirstMeal]' passed (0.004 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testCachedPastDayPaintsBeforeItsRemoteReadCompletes]' started.
+Test Case '-[MorselTests.JournalCalendarTests testCachedPastDayPaintsBeforeItsRemoteReadCompletes]' passed (0.012 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testDateIdentifiersUseTheLocalCalendarDayInEveryZone]' started.
+Test Case '-[MorselTests.JournalCalendarTests testDateIdentifiersUseTheLocalCalendarDayInEveryZone]' passed (0.005 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testDateStepsUseCalendarDaysAcrossDaylightSavingTime]' started.
+Test Case '-[MorselTests.JournalCalendarTests testDateStepsUseCalendarDaysAcrossDaylightSavingTime]' passed (0.001 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testMonthGridKeepsMondayBlanksLeapDayAndPresence]' started.
+Test Case '-[MorselTests.JournalCalendarTests testMonthGridKeepsMondayBlanksLeapDayAndPresence]' passed (0.001 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testPastDateAddAndConfirmationReloadThatDate]' started.
+Test Case '-[MorselTests.JournalCalendarTests testPastDateAddAndConfirmationReloadThatDate]' passed (0.007 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testSelectedDateLoadAndTrueEmptyPrehistoryPage]' started.
+Test Case '-[MorselTests.JournalCalendarTests testSelectedDateLoadAndTrueEmptyPrehistoryPage]' passed (0.001 seconds).
+Test Case '-[MorselTests.JournalCalendarTests testUncachedFailureDoesNotDisplayThePreviousDatesMeals]' started.
+Test Case '-[MorselTests.JournalCalendarTests testUncachedFailureDoesNotDisplayThePreviousDatesMeals]' passed (0.001 seconds).
+Test Suite 'JournalCalendarTests' passed at 2569-09-18 11:25:55.775 AM.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 0.032 (0.034) seconds
+Test Suite 'LedgerNarrowReadTests' started at 2569-09-18 11:25:55.775 AM.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testDrillDownStillRetrievesCompleteItemsAndImages]' passed (0.006 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLocalDayBucketingAcrossDSTTransitions]' passed (0.013 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testLoggedEmptyAndZeroCalorieDaysStayDistinct]' passed (0.005 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testNarrowAndBaselineAggregationMatchForEveryFixture]' passed (0.027 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testOverviewRequestsOnlyTheNarrowLedgerColumns]' passed (0.006 seconds).
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' started.
+Test Case '-[MorselTests.LedgerNarrowReadTests testPayloadBytesOnIdenticalFixturesAreSmallerThanTheBaselineProjection]' passed (0.010 seconds).
+Test Suite 'LedgerNarrowReadTests' passed at 2569-09-18 11:25:55.845 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.068 (0.069) seconds
+Test Suite 'LocalDayBucketTests' started at 2569-09-18 11:25:55.845 AM.
+Test Case '-[MorselTests.LocalDayBucketTests testDirtyLocalEnergyDayFeedsTodaySnapshot]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testDirtyLocalEnergyDayFeedsTodaySnapshot]' passed (0.013 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testEarlyBreakfastPlus07LandsOnSep1RowNotAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testEarlyBreakfastPlus07LandsOnSep1RowNotAug31]' passed (0.013 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testEnergyLogJustAfterPlus07MidnightBucketsToLocalSep1Row]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testEnergyLogJustAfterPlus07MidnightBucketsToLocalSep1Row]' passed (0.008 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryCompletedDaysTreatBoundaryInstantsAsLocalDays]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryCompletedDaysTreatBoundaryInstantsAsLocalDays]' passed (0.003 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryViewModelWindowIsSevenLocalDays]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testHistoryViewModelWindowIsSevenLocalDays]' passed (0.002 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testLateDinnerFullyInsideAug31LocalDayStaysOnAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testLateDinnerFullyInsideAug31LocalDayStaysOnAug31]' passed (0.009 seconds).
+Test Case '-[MorselTests.LocalDayBucketTests testMealJustAfterPlus07MidnightLandsOnSep1RowNotAug31]' started.
+Test Case '-[MorselTests.LocalDayBucketTests testMealJustAfterPlus07MidnightLandsOnSep1RowNotAug31]' passed (0.011 seconds).
+Test Suite 'LocalDayBucketTests' passed at 2569-09-18 11:25:55.905 AM.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 0.058 (0.061) seconds
+Test Suite 'NamedMenusTests' started at 2569-09-18 11:25:55.906 AM.
+Test Case '-[MorselTests.NamedMenusTests testCreateUpdateDeleteMenuRoundTrip]' started.
+Test Case '-[MorselTests.NamedMenusTests testCreateUpdateDeleteMenuRoundTrip]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testEditingASetMemberKeepsItsGrouping]' started.
+Test Case '-[MorselTests.NamedMenusTests testEditingASetMemberKeepsItsGrouping]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testGroupingKeepsLooseItemsFlatBetweenSets]' started.
+Test Case '-[MorselTests.NamedMenusTests testGroupingKeepsLooseItemsFlatBetweenSets]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testListMenusSortsAlphabetically]' started.
+Test Case '-[MorselTests.NamedMenusTests testListMenusSortsAlphabetically]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testLogFromMenuStampsSharedGroupAndNameCopy]' started.
+Test Case '-[MorselTests.NamedMenusTests testLogFromMenuStampsSharedGroupAndNameCopy]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testMenuEditAfterLogNeverRewritesThePastMeal]' started.
+Test Case '-[MorselTests.NamedMenusTests testMenuEditAfterLogNeverRewritesThePastMeal]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testMenuEditorDraftValidation]' started.
+Test Case '-[MorselTests.NamedMenusTests testMenuEditorDraftValidation]' passed (0.000 seconds).
+Test Case '-[MorselTests.NamedMenusTests testMenuSummaryLine]' started.
+Test Case '-[MorselTests.NamedMenusTests testMenuSummaryLine]' passed (0.001 seconds).
+Test Case '-[MorselTests.NamedMenusTests testRowsFromUntaggedItemsAreAllLoose]' started.
+Test Case '-[MorselTests.NamedMenusTests testRowsFromUntaggedItemsAreAllLoose]' passed (0.000 seconds).
+Test Case '-[MorselTests.NamedMenusTests testSetLabelShowsNameWithSetSuffix]' started.
+Test Case '-[MorselTests.NamedMenusTests testSetLabelShowsNameWithSetSuffix]' passed (0.001 seconds).
+Test Suite 'NamedMenusTests' passed at 2569-09-18 11:25:55.916 AM.
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.007 (0.010) seconds
+Test Suite 'NativeImageSigningTests' started at 2569-09-18 11:25:55.916 AM.
+Test Case '-[MorselTests.NativeImageSigningTests testFirstPaintPublishesTextWhileEveryPhotoRequestIsBlocked]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testFirstPaintPublishesTextWhileEveryPhotoRequestIsBlocked]' passed (0.009 seconds).
+Test Case '-[MorselTests.NativeImageSigningTests testForeignPhotoPathKeepsTextAndRejectsTheDownload]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testForeignPhotoPathKeepsTextAndRejectsTheDownload]' passed (0.007 seconds).
+Test Case '-[MorselTests.NativeImageSigningTests testLazyMintServesAUrlConsumerAndTheReadPathNeverMints]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testLazyMintServesAUrlConsumerAndTheReadPathNeverMints]' passed (0.010 seconds).
+Test Case '-[MorselTests.NativeImageSigningTests testMissingPhotoBytesDegradeWithoutHidingTextOrTotals]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testMissingPhotoBytesDegradeWithoutHidingTextOrTotals]' passed (0.007 seconds).
+Test Case '-[MorselTests.NativeImageSigningTests testPhotoReplacementAtTheCanonicalPathStaysVisibleWithoutAnyUrlCache]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testPhotoReplacementAtTheCanonicalPathStaysVisibleWithoutAnyUrlCache]' passed (0.006 seconds).
+Test Case '-[MorselTests.NativeImageSigningTests testThumbnailAndEditLoadsDownloadThroughTheAuthenticatedPathSeam]' started.
+Test Case '-[MorselTests.NativeImageSigningTests testThumbnailAndEditLoadsDownloadThroughTheAuthenticatedPathSeam]' passed (0.006 seconds).
+Test Suite 'NativeImageSigningTests' passed at 2569-09-18 11:25:55.964 AM.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.046 (0.048) seconds
+Test Suite 'ParallelReadsTests' started at 2569-09-18 11:25:55.965 AM.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testEmptyDayAndAuthExpiryTerminateWithNoOrphanTasks]' passed (0.009 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' started.
+/Users/jirathip/.herdr/worktrees/morsel/issue-194-bounded-paging/app/Tests/MorselTests/ParallelReadsTests.swift:198: error: -[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts] : XCTAssertEqual failed: ("7") is not equal to ("6") - goals, profiles, weight, energy, logs, items
+Test Case '-[MorselTests.ParallelReadsTests testFixtureDelayedEndpointsMeasureTheCriticalPathAndRequestCounts]' failed (1.009 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testHistoryAndGoalsContextOverlapAndKeepBaselineValues]' passed (0.016 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' started.
+Test Case '-[MorselTests.ParallelReadsTests testPartialFailureAndCancellationLeaveNoOrphanTasks]' passed (0.012 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayOverlapsTheIndependentReadsAndKeepsTheLogsItemsChain]' passed (0.010 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodaySnapshotMatchesTheSequentialBaselineValues]' passed (0.010 seconds).
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' started.
+Test Case '-[MorselTests.ParallelReadsTests testTodayWindowFollowsTheDeviceZoneAcrossTheSpringForwardDay]' passed (0.007 seconds).
+Test Suite 'ParallelReadsTests' failed at 2569-09-18 11:25:57.039 AM.
+	 Executed 7 tests, with 1 failure (0 unexpected) in 1.072 (1.075) seconds
+Test Suite 'MorselTests.xctest' failed at 2569-09-18 11:25:57.040 AM.
+	 Executed 76 tests, with 1 test skipped and 1 failure (0 unexpected) in 17.391 (17.424) seconds
+Test Suite 'Selected tests' failed at 2569-09-18 11:25:57.040 AM.
+	 Executed 76 tests, with 1 test skipped and 1 failure (0 unexpected) in 17.391 (17.426) seconds
+2026-09-18 11:26:20.186 xcodebuild[59833:27187074] [MT] IDETestOperationsObserverDebug: 54.647 elapsed -- Testing started completed.
+Testing started
+RAW_EXIT=65

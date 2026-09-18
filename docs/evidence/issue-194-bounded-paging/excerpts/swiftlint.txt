@@ -1,0 +1,6 @@
+# Issue #194 swiftlint (strict).
+# Full raw log: the lane checkout's .lane-logs/swiftlint.txt (gitignored).
+# Command: swiftlint lint --strict --quiet
+# RAW_EXIT=0
+
+RAW_EXIT=0

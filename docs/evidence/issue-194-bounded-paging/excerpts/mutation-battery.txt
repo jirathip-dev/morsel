@@ -1,0 +1,15 @@
+# Issue #194 mutation battery (head, one mutation per defended mechanism).
+# Full raw log: the lane checkout's .lane-logs/mutation-battery.txt (gitignored);
+# per-leg xcodebuild logs: .lane-logs/mutation-<label>.txt.
+# Command: python3 /tmp/morsel-194-mutations.py — each leg runs
+#   flock /tmp/n.lock xcodebuild test -project app/Morsel.xcodeproj -scheme Morsel \
+#     -destination 'platform=iOS Simulator,name=iPhone 17' -derivedDataPath /tmp/morsel-194-dd \
+#     -only-testing:MorselTests/BoundedPagingTests -only-testing:MorselTests/BoundedPagingBoundaryTests
+
+m1-drop-id-tiebreak: RAW_EXIT=65 elapsed=358s executed=('8', '0') failing_cases=['BoundedPagingTests.testPageRequestsCarryStableOrderingAndTieBreakers']
+m1-drop-id-tiebreak: restore byte-identical sha256=b714b11943f945cb
+m2-drop-clamp-adoption: RAW_EXIT=65 elapsed=268s executed=('16', '47') failing_cases=['BoundedPagingBoundaryTests.testAFailedPageNeverReplacesTheCachedSnapshot', 'BoundedPagingBoundaryTests.testAnIntermediatePageFailureFailsTheRead', 'BoundedPagingBoundaryTests.testBoundaryDuplicateIsDeduplicatedAndNotDoubleCounted', 'BoundedPagingBoundaryTests.testCancellationStopsFurtherPages', 'BoundedPagingBoundaryTests.testEmptyLastPageTerminatesAnExactlyFullCollection', 'BoundedPagingBoundaryTests.testEqualTimestampsSplitAcrossPagesStayCompleteAndUnique', 'BoundedPagingBoundaryTests.testLedgerKeepsDistinctRowsThatShareTheirValues', 'BoundedPagingTests.testCappedServerReturnsEveryMealAndItemAcrossPages', 'BoundedPagingTests.testCappedServerReturnsEveryMenuAndItemAcrossPages', 'BoundedPagingTests.testCappedServerReturnsEveryWeightSampleAcrossPages', 'BoundedPagingTests.testChunkAndPageFanoutStaysBounded', 'BoundedPagingTests.testEveryPageAndChunkCarriesTheAccountAndWindowScope', 'BoundedPagingTests.testHistoryTotalsMatchTheUncappedReferenceAcrossPages', 'BoundedPagingTests.testLargeMealIDListsGoOutInBoundedChunks']
+m2-drop-clamp-adoption: restore byte-identical sha256=b714b11943f945cb
+m3-drop-identity-dedupe: RAW_EXIT=65 elapsed=212s executed=('16', '2') failing_cases=['BoundedPagingBoundaryTests.testBoundaryDuplicateIsDeduplicatedAndNotDoubleCounted']
+m3-drop-identity-dedupe: restore byte-identical sha256=b714b11943f945cb
+BATTERY DONE
